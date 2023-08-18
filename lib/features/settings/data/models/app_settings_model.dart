@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_type.dart';
 
 class AppSettingsModel extends Equatable {
   final ServerModel activeServer;
@@ -21,6 +23,9 @@ class AppSettingsModel extends Equatable {
   final int serverTimeout;
   final PlayMetricType statisticsStatType;
   final int statisticsTimeRange;
+  final ThemeType theme;
+  final Color themeCustomColor;
+  final bool themeUseSystemColor;
   final bool useAtkinsonHyperlegible;
   final String usersSort;
   final bool wizardComplete;
@@ -43,6 +48,9 @@ class AppSettingsModel extends Equatable {
     required this.serverTimeout,
     required this.statisticsStatType,
     required this.statisticsTimeRange,
+    required this.theme,
+    required this.themeCustomColor,
+    required this.themeUseSystemColor,
     required this.useAtkinsonHyperlegible,
     required this.usersSort,
     required this.wizardComplete,
@@ -66,6 +74,9 @@ class AppSettingsModel extends Equatable {
     int? serverTimeout,
     PlayMetricType? statisticsStatType,
     int? statisticsTimeRange,
+    ThemeType? theme,
+    Color? themeCustomColor,
+    bool? themeUseSystemColor,
     bool? useAtkinsonHyperlegible,
     String? usersSort,
     bool? wizardComplete,
@@ -78,20 +89,20 @@ class AppSettingsModel extends Equatable {
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
       librariesSort: librariesSort ?? this.librariesSort,
-      libraryMediaFullRefresh:
-          libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
+      libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       multiserverActivity: multiserverActivity ?? this.multiserverActivity,
-      oneSignalBannerDismissed:
-          oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
+      oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
       refreshRate: refreshRate ?? this.refreshRate,
       secret: secret ?? this.secret,
       serverTimeout: serverTimeout ?? this.serverTimeout,
       statisticsStatType: statisticsStatType ?? this.statisticsStatType,
       statisticsTimeRange: statisticsTimeRange ?? this.statisticsTimeRange,
-      useAtkinsonHyperlegible:
-          useAtkinsonHyperlegible ?? this.useAtkinsonHyperlegible,
+      theme: theme ?? this.theme,
+      themeCustomColor: themeCustomColor ?? this.themeCustomColor,
+      themeUseSystemColor: themeUseSystemColor ?? this.themeUseSystemColor,
+      useAtkinsonHyperlegible: useAtkinsonHyperlegible ?? this.useAtkinsonHyperlegible,
       usersSort: usersSort ?? this.usersSort,
       wizardComplete: wizardComplete ?? this.wizardComplete,
     );
@@ -115,6 +126,9 @@ class AppSettingsModel extends Equatable {
       'Server Timeout': serverTimeout.toString(),
       'Statistics Stat Type': statisticsStatType.toString(),
       'Statistics Time Range': statisticsTimeRange.toString(),
+      'Theme': theme.toString(),
+      'Theme Custom Color': themeCustomColor.toString(),
+      'Theme Use System Color': themeUseSystemColor.toString(),
       'Use Atkinson Hyperlegible Font': useAtkinsonHyperlegible.toString(),
       'Users Sort': usersSort,
       'Wizard Complete': wizardComplete.toString(),
@@ -140,6 +154,9 @@ class AppSettingsModel extends Equatable {
         serverTimeout,
         statisticsStatType,
         statisticsTimeRange,
+        theme,
+        themeCustomColor,
+        themeUseSystemColor,
         useAtkinsonHyperlegible,
         usersSort,
         wizardComplete,

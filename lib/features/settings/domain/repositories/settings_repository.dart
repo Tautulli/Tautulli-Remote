@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
@@ -6,6 +7,7 @@ import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dar
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 
@@ -19,8 +21,7 @@ abstract class SettingsRepository {
     String tautulliId,
   );
 
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId);
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId);
 
   Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
     required String connectionProtocol,
@@ -149,6 +150,18 @@ abstract class SettingsRepository {
   // Statistics Time Range
   int getStatisticsTimeRange();
   Future<bool> setStatisticsTimeRange(int value);
+
+  // Theme
+  ThemeType getTheme();
+  Future<bool> setTheme(ThemeType themeType);
+
+  // Theme Custom Color
+  Color getThemeCustomColor();
+  Future<bool> setThemeCustomColor(Color color);
+
+  // Theme Use System Color
+  bool getThemeUseSystemColor();
+  Future<bool> setThemeUseSystemColor(bool value);
 
   // Use Atkinson Hyperlegible Font
   bool getUseAtkinsonHyperlegible();

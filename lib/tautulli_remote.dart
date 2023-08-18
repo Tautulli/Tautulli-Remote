@@ -2,9 +2,11 @@ import 'package:app_version_update/app_version_update.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/f_logs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:system_theme/system_theme.dart';
 
 import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
@@ -13,6 +15,7 @@ import 'core/global_keys/global_keys.dart';
 import 'core/helpers/notification_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/rate_app/rate_app.dart';
+import 'core/types/theme_type.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -243,23 +246,40 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) {
-        if (previous is SettingsSuccess &&
-            current is SettingsSuccess &&
-            previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible) {
-          return true;
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          final bool fontChange = previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible;
+          final bool currentThemeIsDynamic = current.appSettings.theme == ThemeType.dynamic;
+          final bool themeChange = previous.appSettings.theme != current.appSettings.theme;
+          final bool themeSystemColorChange = previous.appSettings.themeUseSystemColor != current.appSettings.themeUseSystemColor;
+          final bool themeCustomColorChange = previous.appSettings.themeCustomColor != current.appSettings.themeCustomColor;
+
+          if (fontChange || themeChange || (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {
+            return true;
+          }
         }
         return false;
       },
       builder: (context, state) {
+        final bool useAtkinsonHyperLegible = di.sl<Settings>().getUseAtkinsonHyperlegible();
+        final ThemeType theme = di.sl<Settings>().getTheme();
+        final bool themeUseSystemColor = di.sl<Settings>().getThemeUseSystemColor();
+        final Color themeCustomColor = di.sl<Settings>().getThemeCustomColor();
+        final Color systemColor = SystemTheme.accentColor.accent;
+
         return MaterialApp(
           navigatorKey: navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Tautulli Remote',
-          theme: ThemeHelper.tautulli(
-            fontName: di.sl<Settings>().getUseAtkinsonHyperlegible() ? 'Atkinson Hyperlegible' : null,
-          ),
+          theme: theme == ThemeType.dynamic
+              ? ThemeHelper.dynamic(
+                  color: (themeUseSystemColor && defaultTargetPlatform.supportsAccentColor) ? systemColor : themeCustomColor,
+                  fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
+                )
+              : ThemeHelper.tautulli(
+                  fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
+                ),
           builder: (context, child) {
             return BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {

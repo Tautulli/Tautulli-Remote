@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
@@ -8,9 +11,11 @@ import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
+import '../../../../core/helpers/theme_helper.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_type.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -158,6 +163,18 @@ abstract class SettingsDataSource {
   bool getUseAtkinsonHyperlegible();
   Future<bool> setUseAtkinsonHyperlegible(bool value);
 
+  // Theme
+  ThemeType getTheme();
+  Future<bool> setTheme(ThemeType themeType);
+
+  // Theme Custom Color
+  Color getThemeCustomColor();
+  Future<bool> setThemeCustomColor(Color color);
+
+  // Theme Use System Color
+  bool getThemeUseSystemColor();
+  Future<bool> setThemeUseSystemColor(bool value);
+
   // Users Sort
   String getUsersSort();
   Future<bool> setUsersSort(String value);
@@ -188,6 +205,9 @@ const secret = 'secret';
 const serverTimeout = 'serverTimeout';
 const statisticsStatType = 'statisticsStatsType';
 const statisticsTimeRange = 'statisticsTimeRange';
+const theme = 'theme';
+const themeCustomColor = 'themeCustomColor';
+const themeUseSystemColor = 'themeUseSystemColor';
 const useAtkinsonHyperlegible = 'userAtkinsonHyperlegible';
 const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
@@ -401,8 +421,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<bool> setCustomCertHashList(List<int> certHashList) {
-    final List<String> stringList =
-        certHashList.map((i) => i.toString()).toList();
+    final List<String> stringList = certHashList.map((i) => i.toString()).toList();
 
     return localStorage.setStringList(customCertHashList, stringList);
   }
@@ -607,6 +626,45 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setStatisticsTimeRange(int value) async {
     return localStorage.setInt(statisticsTimeRange, value);
+  }
+
+  // Theme
+  @override
+  ThemeType getTheme() {
+    final storedTheme = localStorage.getString(theme) ?? 'tautulli';
+
+    return ThemeHelper.mapStringToTheme(storedTheme);
+  }
+
+  @override
+  Future<bool> setTheme(ThemeType themeType) {
+    return localStorage.setString(theme, themeType.themeName());
+  }
+
+  // Theme Custom Color
+  @override
+  Color getThemeCustomColor() {
+    return Color(
+      localStorage.getInt(themeCustomColor) ?? 0xffe5a00d,
+    );
+  }
+
+  @override
+  Future<bool> setThemeCustomColor(Color color) {
+    return localStorage.setInt(themeCustomColor, color.value);
+  }
+
+  // Theme Use System Color
+  @override
+  bool getThemeUseSystemColor() {
+    if (Platform.isIOS) return false;
+
+    return localStorage.getBool(themeUseSystemColor) ?? true;
+  }
+
+  @override
+  Future<bool> setThemeUseSystemColor(bool value) {
+    return localStorage.setBool(themeUseSystemColor, value);
   }
 
   // Use Atkinson Hyperlegible Font

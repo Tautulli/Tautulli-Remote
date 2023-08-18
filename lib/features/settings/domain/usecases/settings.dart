@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
@@ -6,6 +7,7 @@ import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dar
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
@@ -35,8 +37,7 @@ class Settings {
 
   /// Returns `TautulliGeneralSettingsModel` as well as a bool to indicate the
   /// active connection address.
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
     return await repository.getTautulliSettings(tautulliId);
   }
 
@@ -422,6 +423,42 @@ class Settings {
   /// Sets the `PlayMetricType` to use for statistics.
   Future<bool> setStatisticsStatType(PlayMetricType value) async {
     return await repository.setStatisticsStatType(value);
+  }
+
+  /// Returns the `ThemeType` to use in the app.
+  ///
+  /// If no value is stored returns `ThemeType.tautulli`.
+  ThemeType getTheme() {
+    return repository.getTheme();
+  }
+
+  /// Sets the `ThemeType` to use in the app.
+  Future<bool> setTheme(ThemeType themeType) {
+    return repository.setTheme(themeType);
+  }
+
+  /// Returns the custom color set for the dynamic theme.
+  ///
+  /// If no value is stored returns the int value for `PlexColorPalette.gamboge`.
+  Color getThemeCustomColor() {
+    return repository.getThemeCustomColor();
+  }
+
+  /// Sets the custom color for the dynamic theme.
+  Future<bool> setThemeCustomColor(Color color) {
+    return repository.setThemeCustomColor(color);
+  }
+
+  /// Returns if the dynamic theme should use the system color.
+  ///
+  /// If no value is stored and the device is iOS returns `false`, otherwise returns `true`.
+  bool getThemeUseSystemColor() {
+    return repository.getThemeUseSystemColor();
+  }
+
+  /// Sets if the dynamic theme should use the system color.
+  Future<bool> setThemeUseSystemColor(bool value) {
+    return repository.setThemeUseSystemColor(value);
   }
 
   /// Returns if the Atkinson Hyperlegible font should be used

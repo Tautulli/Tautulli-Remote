@@ -33,7 +33,7 @@ class CheckboxSettingsListTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 35,
+              width: 40,
               child: Center(child: leading),
             ),
           ],

@@ -355,6 +355,33 @@ class SettingsUpdateStatisticsTimeRange extends SettingsEvent {
   List<Object> get props => [statisticsTimeRange];
 }
 
+class SettingsUpdateTheme extends SettingsEvent {
+  final ThemeType themeType;
+
+  const SettingsUpdateTheme(this.themeType);
+
+  @override
+  List<Object> get props => [themeType];
+}
+
+class SettingsUpdateThemeCustomColor extends SettingsEvent {
+  final Color color;
+
+  const SettingsUpdateThemeCustomColor(this.color);
+
+  @override
+  List<Object> get props => [color];
+}
+
+class SettingsUpdateThemeUseSystemColor extends SettingsEvent {
+  final bool useSystemColor;
+
+  const SettingsUpdateThemeUseSystemColor(this.useSystemColor);
+
+  @override
+  List<Object> get props => [useSystemColor];
+}
+
 class SettingsUpdateUseAtkinsonHyperlegible extends SettingsEvent {
   final bool useAtkinsonHyperlegible;
 

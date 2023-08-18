@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
@@ -8,6 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_type.dart';
 import '../../../../core/utilities/cast.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
@@ -61,8 +63,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource.getTautulliSettings(tautulliId);
@@ -417,6 +418,39 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setStatisticsTimeRange(int value) async {
     return await dataSource.setStatisticsTimeRange(value);
+  }
+
+  // Theme
+  @override
+  ThemeType getTheme() {
+    return dataSource.getTheme();
+  }
+
+  @override
+  Future<bool> setTheme(ThemeType themeType) {
+    return dataSource.setTheme(themeType);
+  }
+
+  // Theme Custom Collor
+  @override
+  Color getThemeCustomColor() {
+    return dataSource.getThemeCustomColor();
+  }
+
+  @override
+  Future<bool> setThemeCustomColor(Color color) {
+    return dataSource.setThemeCustomColor(color);
+  }
+
+  // Theme Use System Color
+  @override
+  bool getThemeUseSystemColor() {
+    return dataSource.getThemeUseSystemColor();
+  }
+
+  @override
+  Future<bool> setThemeUseSystemColor(bool value) {
+    return dataSource.setThemeUseSystemColor(value);
   }
 
   // Use Atkinson Hyperlegible Font

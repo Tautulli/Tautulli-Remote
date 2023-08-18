@@ -38,6 +38,7 @@ dependencies:
     git: https://github.com/TheMeanCanEHdian/flutter_barcode_scanner.git
   flutter_bloc: ^8.1.2
   flutter_cache_manager: ^3.3.1
+  flutter_colorpicker: ^1.0.3
   flutter_inner_drawer:
     git: https://github.com/TheMeanCanEHdian/flutter_inner_drawer.git
   flutter_platform_widgets: ^3.3.2
@@ -66,6 +67,7 @@ dependencies:
   simple_moment: ^1.1.1
   sqflite: ^2.2.8+4
   stream_transform: ^2.1.0
+  system_theme: ^2.3.1
   url_launcher: ^6.1.11
   validators: ^3.0.0
   version: ^3.0.2
