@@ -11,7 +11,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
             activeStep: 0,
             oneSignalAllowed: false,
             oneSignalSkipped: false,
-            stepCount: 3,
+            stepCount: 5,
             serversSkipped: false,
           ),
         ) {

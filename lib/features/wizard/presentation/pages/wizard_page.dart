@@ -5,10 +5,12 @@ import 'package:gap/gap.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/tautulli_logo_title.dart';
 import '../bloc/wizard_bloc.dart';
+import '../widgets/wizard_accessibility.dart';
 import '../widgets/wizard_closing.dart';
 import '../widgets/wizard_onesignal.dart';
 import '../widgets/wizard_quit_dialog.dart';
 import '../widgets/wizard_servers.dart';
+import '../widgets/wizard_themes.dart';
 
 class WizardPage extends StatelessWidget {
   const WizardPage({super.key});
@@ -72,6 +74,12 @@ class WizardView extends StatelessWidget {
                                   return const WizardOneSignal();
                                 }
                                 if (state.activeStep == 2) {
+                                  return const WizardThemes();
+                                }
+                                if (state.activeStep == 3) {
+                                  return const WizardAccessibility();
+                                }
+                                if (state.activeStep == 4) {
                                   return const WizardClosing();
                                 }
 
