@@ -381,6 +381,8 @@ abstract class  LocaleKeys {
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
   static const view_on_plex_title = 'view_on_plex_title';
   static const wiki_title = 'wiki_title';
+  static const wizard_accessibility_text_1 = 'wizard_accessibility_text_1';
+  static const wizard_accessibility_text_2 = 'wizard_accessibility_text_2';
   static const wizard_closing_announcements = 'wizard_closing_announcements';
   static const wizard_closing_notifications = 'wizard_closing_notifications';
   static const wizard_closing_support = 'wizard_closing_support';
@@ -392,6 +394,8 @@ abstract class  LocaleKeys {
   static const wizard_skip_dialog_message_onesignal = 'wizard_skip_dialog_message_onesignal';
   static const wizard_skip_dialog_message_servers = 'wizard_skip_dialog_message_servers';
   static const wizard_skip_dialog_title = 'wizard_skip_dialog_title';
+  static const wizard_theme_text_1 = 'wizard_theme_text_1';
+  static const wizard_theme_text_2 = 'wizard_theme_text_2';
   static const wizard_quit_dialog_title = 'wizard_quit_dialog_title';
   static const wizard_welcome_text_1 = 'wizard_welcome_text_1';
   static const wizard_welcome_text_2 = 'wizard_welcome_text_2';
