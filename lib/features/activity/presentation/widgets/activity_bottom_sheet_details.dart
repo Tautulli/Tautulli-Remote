@@ -260,6 +260,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                           title: LocaleKeys.audio_title.tr(),
                           item: Builder(
                             builder: (context) {
+                              final bool audioLanguageEmpty = isEmpty(widget.activity.audioLanguage);
+
                               if (widget.activity.streamAudioDecision == StreamDecision.transcode) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,7 +273,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                           if (widget.activity.audioChannelLayout != null)
                                             TextSpan(
                                               text:
-                                                  '${widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
+                                                  '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
                                             ),
                                           WidgetSpan(
                                             child: Padding(
@@ -299,13 +301,13 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               } else if (widget.activity.streamAudioDecision == StreamDecision.copy) {
                                 if (widget.activity.streamAudioChannelLayout != null) {
                                   return Text(
-                                    '${widget.activity.audioLanguage} - ${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                                    '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                                   );
                                 }
                               } else {
                                 if (widget.activity.streamAudioChannelLayout != null) {
                                   return Text(
-                                    '${widget.activity.audioLanguage} - ${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                                    '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                                   );
                                 }
                               }
@@ -320,6 +322,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                           item: Builder(
                             builder: (context) {
                               if (widget.activity.subtitles == true) {
+                                final bool subtitleLanguageEmpty = isEmpty(widget.activity.subtitleLanguage);
+
                                 if (widget.activity.streamSubtitleDecision == SubtitleDecision.transcode) {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +333,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: '${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
+                                              text:
+                                                  '${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
                                             ),
                                             WidgetSpan(
                                               child: Padding(
@@ -354,15 +359,15 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                   );
                                 } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.copy) {
                                   return Text(
-                                    '${LocaleKeys.direct_stream_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.direct_stream_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                                   );
                                 } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.burn) {
                                   return Text(
-                                    '${LocaleKeys.burn_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.burn_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                                   );
                                 } else {
                                   return Text(
-                                    '${LocaleKeys.direct_play_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.streamSubtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.direct_play_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.streamSubtitleCodec?.toUpperCase()})',
                                   );
                                 }
                               } else {
