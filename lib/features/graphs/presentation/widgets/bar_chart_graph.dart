@@ -249,7 +249,7 @@ class BarChartGraph extends StatelessWidget {
           ),
           touchCallback: (event, touchResponse) async {
             if (event is FlLongPressStart) {
-              if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
+              if (di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                 HapticFeedback.vibrate();
               } else {
                 HapticFeedback.heavyImpact();
@@ -262,7 +262,7 @@ class BarChartGraph extends StatelessWidget {
                 lastTouchedIndex = touchResponse?.spot?.touchedBarGroupIndex;
 
                 if (touchResponse?.spot != null) {
-                  if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
+                  if (di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                     HapticFeedback.vibrate();
                   } else {
                     HapticFeedback.selectionClick();

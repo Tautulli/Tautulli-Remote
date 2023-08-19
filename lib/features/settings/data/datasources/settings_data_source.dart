@@ -286,7 +286,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
     final String deviceName = await deviceInfo.model ?? 'unknown';
     final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
-    final String platform = await deviceInfo.platform;
+    final String platform = deviceInfo.platform;
     final String version = await packageInfo.version;
 
     final result = await registerDeviceApi(

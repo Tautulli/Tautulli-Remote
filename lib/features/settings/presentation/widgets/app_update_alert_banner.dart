@@ -34,7 +34,7 @@ class AppUpdateAlertBanner extends StatelessWidget {
             foregroundColor: TautulliColorPalette.notWhite,
           ),
           onPressed: () async {
-            String platform = await di.sl<DeviceInfo>().platform;
+            String platform = di.sl<DeviceInfo>().platform;
 
             if (platform == 'ios') {
               await launchUrlString(
