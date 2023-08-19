@@ -38,19 +38,19 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.1.0):
+  - permission_handler_apple (9.1.1):
     - Flutter
-  - purchases_flutter (5.0.0):
+  - purchases_flutter (5.6.2):
     - Flutter
-    - PurchasesHybridCommon (= 5.0.0)
-  - PurchasesHybridCommon (5.0.0):
-    - RevenueCat (= 4.21.0)
+    - PurchasesHybridCommon (= 5.6.3)
+  - PurchasesHybridCommon (5.6.3):
+    - RevenueCat (= 4.25.6)
   - quick_actions_ios (0.0.1):
     - Flutter
   - rate_my_app (2.0.0):
     - Flutter
   - ReachabilitySwift (5.0.0)
-  - RevenueCat (4.21.0)
+  - RevenueCat (4.25.6)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -151,15 +151,15 @@ SPEC CHECKSUMS:
   OneSignalXCFramework: 087934ab0d4d7445fcf1c015c7c782359e26c020
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
-  permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
-  purchases_flutter: fce6a2e39538100d8637d13217819747ea3e595a
-  PurchasesHybridCommon: 88fc5fef1cb121457b95d286f1738f81cf3ac148
+  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  purchases_flutter: 1fd037093309808e55fd5f30298371ec52a44b51
+  PurchasesHybridCommon: 009e27a22f3fd34924cede31eece27a5c10049e9
   quick_actions_ios: 9e80dcfadfbc5d47d9cf8f47bcf428b11cf383d4
   rate_my_app: 80fba94c4885cd31738231b7b1f51c1ad726f5c7
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  RevenueCat: 465a9dc1fff60b09f29792082e5d5d5aeed01122
+  RevenueCat: 9726d792ed47b41dfe83754c1391fa3d08e1bbdf
   share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
-  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
+  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
