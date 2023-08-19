@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
@@ -270,6 +272,18 @@ class _DeviceDetails extends StatelessWidget {
               builder: (context, snapshot) {
                 return Text(snapshot.data.toString());
               },
+            ),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('System Accent'),
+            const Gap(16),
+            Text(
+              defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent.toString() : 'Unsupported',
+              style: TextStyle(
+                color: defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent : null,
+              ),
             ),
           ],
         ),
