@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 import '../../dependency_injection.dart' as di;
@@ -7,9 +6,9 @@ import '../../features/logging/domain/usecases/logging.dart';
 import '../../translations/locale_keys.g.dart';
 import '../global_keys/global_keys.dart';
 
-void initalizeQuickActions(BuildContext context, QuickActions quickActions) {
+void initalizeQuickActions(QuickActions quickActions) {
   setupQuickActions(quickActions);
-  handleQuickActions(context, quickActions);
+  handleQuickActions(quickActions);
 }
 
 void setupQuickActions(QuickActions quickActions) {
@@ -57,18 +56,12 @@ void setupQuickActions(QuickActions quickActions) {
   ]);
 }
 
-void handleQuickActions(BuildContext context, QuickActions quickActions) {
+void handleQuickActions(QuickActions quickActions) {
   quickActions.initialize((String shortcutType) {
-    final route = ModalRoute.of(context);
-
-    if (route?.settings.name != shortcutType) {
-      try {
-        navigatorKey.currentState?.pushReplacementNamed(shortcutType);
-      } catch (e) {
-        di
-            .sl<Logging>()
-            .error('QuickActions :: Failed to launch route $shortcutType [$e]');
-      }
+    try {
+      navigatorKey.currentState?.pushReplacementNamed(shortcutType);
+    } catch (e) {
+      di.sl<Logging>().error('QuickActions :: Failed to launch route $shortcutType [$e]');
     }
   });
 }

@@ -41,7 +41,7 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
   @override
   void initState() {
     super.initState();
-    initalizeQuickActions(context, quickActions);
+    initalizeQuickActions(quickActions);
   }
 
   @override
