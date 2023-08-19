@@ -68,7 +68,15 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       userHistoryCache[cacheKey] = [];
     }
 
-    if (hasReachedMaxCache[cacheKey] == true) return;
+    if (hasReachedMaxCache[cacheKey] == true) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          history: userHistoryCache[cacheKey],
+          hasReachedMax: true,
+        ),
+      );
+    }
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
