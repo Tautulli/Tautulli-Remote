@@ -1,14 +1,14 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/types/theme_type.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../list_tiles/checkbox_settings_list_tile.dart';
@@ -23,7 +23,7 @@ class DynamicColorGroup extends StatelessWidget {
     return ListTileGroup(
       heading: LocaleKeys.dynamic_color_title.tr(),
       listTiles: [
-        if (!Platform.isIOS)
+        if (di.sl<DeviceInfo>().platform != 'ios')
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;

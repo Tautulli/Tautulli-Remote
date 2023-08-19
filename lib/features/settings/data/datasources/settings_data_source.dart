@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
@@ -695,7 +693,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   // Theme Use System Color
   @override
   bool getThemeUseSystemColor() {
-    if (Platform.isIOS) return false;
+    if (di.sl<DeviceInfo>().platform == 'ios') return false;
 
     return localStorage.getBool(themeUseSystemColor) ?? true;
   }

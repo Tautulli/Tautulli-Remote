@@ -10,6 +10,7 @@ import '../../../../dependency_injection.dart' as di;
 import '../../../../features/logging/domain/usecases/logging.dart';
 import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../../features/settings/data/models/custom_header_model.dart';
+import '../../../device_info/device_info.dart';
 import '../../../error/exception.dart';
 import '../../../utilities/cast.dart';
 import '../models/server_model.dart';
@@ -32,7 +33,7 @@ class DBProvider {
   }
 
   Future initDB() async {
-    Directory? documentsDir = Platform.isIOS
+    Directory? documentsDir = (di.sl<DeviceInfo>().platform == 'ios')
         ? await AppGroupDirectory.getAppGroupDirectory(
             'group.com.tautulli.tautulliRemote.onesignal',
           )

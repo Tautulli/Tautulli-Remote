@@ -227,12 +227,7 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Platform'),
             const Gap(16),
-            FutureBuilder(
-              future: di.sl<DeviceInfo>().platform,
-              builder: (context, snapshot) {
-                return Text(snapshot.data.toString());
-              },
-            ),
+            Text(di.sl<DeviceInfo>().platform),
           ],
         ),
         _DataDumpRow(

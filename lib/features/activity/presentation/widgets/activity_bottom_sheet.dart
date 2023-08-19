@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,10 +9,12 @@ import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/device_info/device_info.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/gesture_pill.dart';
 import '../../../../core/widgets/poster.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
@@ -424,7 +425,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                             ),
                         ],
                       ),
-                      if (Platform.isIOS) const Gap(8),
+                      if (di.sl<DeviceInfo>().platform == 'ios') const Gap(8),
                     ],
                   ),
                 ),

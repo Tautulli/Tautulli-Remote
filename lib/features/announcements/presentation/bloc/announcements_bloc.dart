@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../logging/domain/usecases/logging.dart';
@@ -17,11 +17,13 @@ part 'announcements_state.dart';
 
 class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
   final Announcements announcements;
+  final DeviceInfo deviceInfo;
   final Logging logging;
   final Settings settings;
 
   AnnouncementsBloc({
     required this.announcements,
+    required this.deviceInfo,
     required this.logging,
     required this.settings,
   }) : super(AnnouncementsInitial()) {
@@ -59,11 +61,11 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
       (announcementList) {
         final filteredList = [...announcementList];
 
-        if (!Platform.isAndroid) {
+        if (deviceInfo.platform != 'android') {
           filteredList.removeWhere(
             (announcement) => announcement.platform == DevicePlatform.android,
           );
-        } else if (!Platform.isIOS) {
+        } else if (deviceInfo.platform != 'ios') {
           filteredList.removeWhere(
             (announcement) => announcement.platform == DevicePlatform.ios,
           );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,11 +6,13 @@ import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/device_info/device_info.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../widgets/donate_heading_card.dart';
 
@@ -311,7 +311,7 @@ class _DonateViewState extends State<DonateView> {
                             ],
                           ),
                           const Gap(8),
-                          if (Platform.isIOS)
+                          if (di.sl<DeviceInfo>().platform == 'ios')
                             Center(
                               child: GestureDetector(
                                 onTap: () {
@@ -328,7 +328,7 @@ class _DonateViewState extends State<DonateView> {
                                 ).tr(),
                               ),
                             ),
-                          if (Platform.isIOS) const Gap(4),
+                          if (di.sl<DeviceInfo>().platform == 'ios') const Gap(4),
                           Center(
                             child: GestureDetector(
                               onTap: () {

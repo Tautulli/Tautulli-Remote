@@ -304,6 +304,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => AnnouncementsBloc(
       announcements: sl(),
+      deviceInfo: sl(),
       logging: sl(),
       settings: sl(),
     ),

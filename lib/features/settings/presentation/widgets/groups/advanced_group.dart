@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/helpers/translation_helper.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
@@ -23,7 +22,7 @@ class AdvancedGroup extends StatelessWidget {
     return ListTileGroup(
       heading: LocaleKeys.settings_title.tr(),
       listTiles: [
-        if (Platform.isAndroid)
+        if (di.sl<DeviceInfo>().platform == 'android')
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;

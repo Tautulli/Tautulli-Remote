@@ -9,7 +9,7 @@ abstract class DeviceInfo {
   Future<String?> get model;
 
   /// Returns `'ios'` if platform is iOS, otherwise returns `'android'`
-  Future<String> get platform;
+  String get platform;
 
   /// A unique identifier for the device.
   Future<String?> get uniqueId;
@@ -49,7 +49,7 @@ class DeviceInfoImpl implements DeviceInfo {
   }
 
   @override
-  Future<String> get platform async {
+  String get platform {
     final isIos = Platform.isIOS;
     if (isIos) {
       return 'ios';
