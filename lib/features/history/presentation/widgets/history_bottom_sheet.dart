@@ -92,36 +92,43 @@ class HistoryBottomSheet extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                if (!state.appSettings.disableImageBackgrounds)
-                                  Positioned.fill(
-                                    child: DecoratedBox(
-                                      position: DecorationPosition.foreground,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.2),
-                                      ),
-                                      child: ImageFiltered(
-                                        imageFilter: ImageFilter.blur(
-                                          sigmaX: 25,
-                                          sigmaY: 25,
-                                          tileMode: TileMode.decal,
-                                        ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: history.posterUri.toString(),
-                                          httpHeaders: {
-                                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                                              headerModel.key: headerModel.value,
-                                          },
-                                          placeholder: (context, url) => Image.asset(
-                                            'assets/images/poster_fallback.png',
+                                (state.appSettings.disableImageBackgrounds)
+                                    ? Positioned.fill(
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.2),
                                           ),
-                                          errorWidget: (context, url, error) => Image.asset(
-                                            'assets/images/poster_error.png',
+                                        ),
+                                      )
+                                    : Positioned.fill(
+                                        child: DecoratedBox(
+                                          position: DecorationPosition.foreground,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.2),
                                           ),
-                                          fit: BoxFit.fill,
+                                          child: ImageFiltered(
+                                            imageFilter: ImageFilter.blur(
+                                              sigmaX: 25,
+                                              sigmaY: 25,
+                                              tileMode: TileMode.decal,
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: history.posterUri.toString(),
+                                              httpHeaders: {
+                                                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                                                  headerModel.key: headerModel.value,
+                                              },
+                                              placeholder: (context, url) => Image.asset(
+                                                'assets/images/poster_fallback.png',
+                                              ),
+                                              errorWidget: (context, url, error) => Image.asset(
+                                                'assets/images/poster_error.png',
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
                                 //* Info Section
                                 Positioned.fill(
                                   child: Stack(
