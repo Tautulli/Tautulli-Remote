@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
@@ -694,6 +696,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   bool getThemeUseSystemColor() {
     if (di.sl<DeviceInfo>().platform == 'ios') return false;
+
+    if (!defaultTargetPlatform.supportsAccentColor) return false;
 
     return localStorage.getBool(themeUseSystemColor) ?? true;
   }

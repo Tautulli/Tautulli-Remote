@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:system_theme/system_theme.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/types/theme_type.dart';
@@ -29,15 +31,16 @@ class DynamicColorGroup extends StatelessWidget {
               state as SettingsSuccess;
 
               final bool themeNotDynamic = state.appSettings.theme != ThemeType.dynamic;
+              final bool supportsAccentColor = defaultTargetPlatform.supportsAccentColor;
 
               return CheckboxSettingsListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.wandMagicSparkles,
-                  color: themeNotDynamic ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
+                  color: (themeNotDynamic || !supportsAccentColor) ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
                 ),
                 title: LocaleKeys.system_color_title.tr(),
                 value: state.appSettings.themeUseSystemColor,
-                onChanged: themeNotDynamic
+                onChanged: (themeNotDynamic || !supportsAccentColor)
                     ? null
                     : (value) {
                         if (value != null) {
