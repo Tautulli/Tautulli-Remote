@@ -1,8 +1,8 @@
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:vs_scrollbar/vs_scrollbar.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
@@ -34,6 +34,7 @@ class LibraryDetailsMediaTab extends StatefulWidget {
 }
 
 class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
+  final ScrollController scrollController = ScrollController();
   late SettingsBloc _settingsBloc;
   late bool _libraryMediaFullRefresh;
 
@@ -99,11 +100,15 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                   );
                 }
 
-                return VsScrollbar(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
+                return MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: DraggableScrollbar.arrows(
+                    backgroundColor: Theme.of(context).colorScheme.onSurface,
+                    scrollbarTimeToFade: const Duration(seconds: 1),
+                    controller: scrollController,
                     child: GridView.count(
+                      controller: scrollController,
                       crossAxisCount: screenWidth > 1000
                           ? 9
                           : screenWidth > 580
