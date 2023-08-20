@@ -337,6 +337,7 @@ class Cast {
       case ('transcode'):
         return SubtitleDecision.transcode;
       case (''):
+      case ('ignore'):
         return SubtitleDecision.none;
       default:
         di.sl<Logging>().warning(
