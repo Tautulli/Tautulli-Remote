@@ -3,4 +3,5 @@
     <string name="app_name">Tautulli</string>
     <string name="channel_name">Server notifications</string>
     <string name="channel_description">Notifications sourced from a Tautulli server</string>
+    <string name="onesignal_notification_accent_color">ffe5a00d</string>
 </resources>
