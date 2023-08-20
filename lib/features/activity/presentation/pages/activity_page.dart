@@ -275,7 +275,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
               SliverPadding(
                 padding: const EdgeInsets.all(8),
                 sliver: SliverToBoxAdapter(
-                  child: ServerActivityInfoCard(serverActivity: serverActivityModelList[0]),
+                  child: ServerActivityInfoCard(serverActivity: firstServer),
                 ),
               ),
             SliverPadding(
