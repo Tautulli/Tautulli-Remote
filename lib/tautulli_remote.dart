@@ -101,6 +101,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
       if (data != null) {
         final action = data['action'];
 
+        // Add small delay to help make sure navigatorKey is not null
+        await Future.delayed(const Duration(milliseconds: 10));
+
         switch (action) {
           case ('watched'):
             navigatorKey.currentState?.pushReplacement(
