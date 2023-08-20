@@ -11,12 +11,14 @@ class ActivityFetched extends ActivityEvent {
   final List<ServerModel> serverList;
   final bool multiserver;
   final String activeServerId;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
   const ActivityFetched({
     required this.serverList,
     required this.multiserver,
     required this.activeServerId,
+    this.freshFetch = false,
     required this.settingsBloc,
   });
 

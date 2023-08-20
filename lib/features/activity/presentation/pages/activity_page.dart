@@ -170,6 +170,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
             serverList: _serverList,
             multiserver: _multiserver,
             activeServerId: _activeServerId,
+            freshFetch: true,
             settingsBloc: _settingsBloc,
           ),
         );
@@ -206,6 +207,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                     } else {
                       return _buildSingleServerActivity(
                         serverActivityModelList: state.serverActivityList,
+                        freshFetch: state.freshFetch,
                       );
                     }
                   },
@@ -220,6 +222,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
 
   Widget _buildSingleServerActivity({
     required List<ServerActivityModel> serverActivityModelList,
+    required bool freshFetch,
   }) {
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> serverActivityWidgets = [];
@@ -243,6 +246,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           message: firstServer.failureMessage ?? '',
           suggestion: firstServer.failureSuggestion ?? '',
         );
+      } else if (freshFetch) {
+        return const SizedBox();
       } else if (firstServer.activityList.isEmpty) {
         return StatusPage(
           scrollable: true,
