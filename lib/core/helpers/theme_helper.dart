@@ -106,7 +106,8 @@ class ThemeHelper {
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
-    final FlexTones? flexTones = (enhancement == ThemeEnhancementType.ultraContrastDark) ? FlexTones.ultraContrast(Brightness.dark) : null;
+    final FlexTones flexTones =
+        (enhancement == ThemeEnhancementType.ultraContrastDark) ? FlexTones.ultraContrast(Brightness.dark) : FlexTones.chroma(Brightness.dark);
 
     return ThemeData(
       useMaterial3: true,
