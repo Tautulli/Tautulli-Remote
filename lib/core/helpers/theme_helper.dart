@@ -52,6 +52,7 @@ class ThemeHelper {
         onBackground: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         surface: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.midnight,
         onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        surfaceVariant: const Color(0xff404040),
         onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
       ),
