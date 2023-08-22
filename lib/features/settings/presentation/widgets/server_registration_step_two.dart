@@ -54,7 +54,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
               child: const Text(LocaleKeys.scan_qr_code_title).tr(),
               onPressed: () async {
                 try {
-                  final qrCodeScan = await di.sl<QrCodeScanner>().scan();
+                  final qrCodeScan = await di.sl<QrCodeScanner>().scan(context);
                   if (qrCodeScan != null) {
                     widget.primaryController.text = qrCodeScan.value1;
                     widget.tokenController.text = qrCodeScan.value2;
