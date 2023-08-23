@@ -117,7 +117,7 @@ class GraphCardLegend extends StatelessWidget {
                   FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.direct_stream_title).tr(),
