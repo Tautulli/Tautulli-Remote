@@ -142,7 +142,7 @@ class ServerSettingsView extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                      foregroundColor: Theme.of(context).colorScheme.onSurface,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
                     child: const Text(
                       LocaleKeys.add_custom_http_header_title,

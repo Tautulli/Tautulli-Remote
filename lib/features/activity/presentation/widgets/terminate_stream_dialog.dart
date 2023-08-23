@@ -67,7 +67,7 @@ Future<bool> showTerminateSessionDialog({
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.errorContainer,
-              foregroundColor: Theme.of(context).colorScheme.onSurface,
+              foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
             ),
             onPressed: () {
               Navigator.of(context).pop(true);

@@ -12,7 +12,7 @@ class RegisterServerButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        foregroundColor: Theme.of(context).colorScheme.onSurface,
+        foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       child: const Text(LocaleKeys.register_a_tautulli_server_title).tr(),
       onPressed: () async {

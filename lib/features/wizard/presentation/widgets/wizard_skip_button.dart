@@ -24,7 +24,6 @@ class WizardSkipButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: 'skip',
-      foregroundColor: Theme.of(context).colorScheme.onSurface,
       child: const FaIcon(FontAwesomeIcons.forward),
       onPressed: () async {
         final result = await showDialog(

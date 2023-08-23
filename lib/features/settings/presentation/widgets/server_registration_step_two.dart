@@ -49,7 +49,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: Theme.of(context).colorScheme.onSurface,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
               child: const Text(LocaleKeys.scan_qr_code_title).tr(),
               onPressed: () async {

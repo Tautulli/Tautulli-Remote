@@ -17,7 +17,7 @@ class WizardNextButton extends StatelessWidget {
     return FloatingActionButton(
       heroTag: 'next',
       backgroundColor: isDisabled ? Theme.of(context).disabledColor : null,
-      foregroundColor: isDisabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
+      foregroundColor: isDisabled ? Theme.of(context).disabledColor : null,
       onPressed: isDisabled
           ? null
           : () {

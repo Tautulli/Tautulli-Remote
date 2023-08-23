@@ -11,7 +11,6 @@ class WizardPreviousButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: 'previous',
-      foregroundColor: Theme.of(context).colorScheme.onSurface,
       child: const FaIcon(
         FontAwesomeIcons.arrowLeft,
       ),

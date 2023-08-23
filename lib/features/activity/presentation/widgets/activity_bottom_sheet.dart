@@ -402,7 +402,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                                      foregroundColor: Theme.of(context).colorScheme.onSurface,
+                                      foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
                                     ),
                                     onPressed: () async {
                                       final TextEditingController controller = TextEditingController();
