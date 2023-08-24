@@ -667,7 +667,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Color getThemeCustomColor() {
     return Color(
-      localStorage.getInt(themeCustomColor) ?? 0xffe5a00d,
+      localStorage.getInt(themeCustomColor) ?? 0xffebaf00,
     );
   }
 

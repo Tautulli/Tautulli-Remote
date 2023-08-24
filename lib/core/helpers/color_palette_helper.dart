@@ -4,25 +4,20 @@ import 'package:flutter/material.dart';
 ///
 /// Creates a custom [MaterialColor] swatch with [createSwatch].
 class PlexColorPalette {
-  // Primary Color Palette
-  static const Color gamboge = Color.fromRGBO(229, 160, 13, 1.0);
-  static const Color shark = Color.fromRGBO(40, 42, 45, 1.0);
-  static const Color white = Colors.white;
+  // Primary Palette
+  static const Color primaryGold = Color.fromRGBO(235, 175, 0, 1.0);
+  static const Color black = Color.fromRGBO(25, 25, 25, 1.0);
+  static const Color white = Color.fromRGBO(255, 251, 248, 1.0);
 
-  // Shades of gray
-  // From dark to light
-  static const Color riverBed = Color.fromRGBO(63, 66, 69, 1.0);
-  static const Color shuttleGray = Color.fromRGBO(87, 91, 97, 1.0);
-  static const Color raven = Color.fromRGBO(134, 140, 150, 1.0);
-  static const Color grayChateau = Color.fromRGBO(179, 186, 193, 1.0);
-  static const Color mercury = Color.fromRGBO(224, 227, 230, 1.0);
-  static const Color athensGray = Color.fromRGBO(242, 243, 244, 1.0);
-  static const Color alabaster = Color.fromRGBO(249, 249, 249, 1.0);
-
-  //Secondary Colors Palette
-  static const Color cinnabar = Color.fromRGBO(240, 100, 100, 1.0);
-  static const Color atlantis = Color.fromRGBO(150, 200, 60, 1.0);
-  static const Color curiousBlue = Color.fromRGBO(25, 160, 215, 1.0);
+  // Secondary Palette
+  static const Color secondaryGold = Color.fromRGBO(247, 198, 0, 1.0);
+  static const Color blue = Color.fromRGBO(21, 169, 252, 1.0);
+  static const Color cerise = Color.fromRGBO(247, 67, 102, 1.0);
+  static const Color seaGreen = Color.fromRGBO(105, 221, 88, 1.0);
+  static const Color orange = Color.fromRGBO(193, 79, 24, 1.0);
+  static const Color deepPurple = Color.fromRGBO(50, 45, 91, 1.0);
+  static const Color maroon = Color.fromRGBO(91, 34, 68, 1.0);
+  static const Color forest = Color.fromRGBO(10, 55, 44, 1.0);
 }
 
 /// Provides access to colors used by Tautulli.
@@ -87,7 +82,7 @@ class TautulliColorPalette {
       case 'xbox':
         return const Color.fromRGBO(16, 124, 16, 1.0);
       default:
-        return PlexColorPalette.gamboge;
+        return PlexColorPalette.primaryGold;
     }
   }
 }
