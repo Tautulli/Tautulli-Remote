@@ -39,10 +39,12 @@ class AppUpdateAlertBanner extends StatelessWidget {
             if (platform == 'ios') {
               await launchUrlString(
                 'https://apps.apple.com/us/app/tautulli-remote/id1570909086',
+                mode: LaunchMode.externalApplication,
               );
             } else if (platform == 'android') {
               await launchUrlString(
                 'https://play.google.com/store/apps/details?id=com.tautulli.tautulli_remote',
+                mode: LaunchMode.externalApplication,
               );
             }
           },
