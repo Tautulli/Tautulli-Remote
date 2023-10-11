@@ -57,6 +57,7 @@ abstract class  LocaleKeys {
   static const custom_time_range_title = 'custom_time_range_title';
   static const custom_title = 'custom_title';
   static const custom_http_headers_title = 'custom_http_headers_title';
+  static const daily_concurrent_stream_count_by_stream_type_title = 'daily_concurrent_stream_count_by_stream_type_title';
   static const daily_play_count_by_media_type_title = 'daily_play_count_by_media_type_title';
   static const daily_play_time_by_media_type_title = 'daily_play_time_by_media_type_title';
   static const daily_play_count_by_stream_type_title = 'daily_play_count_by_stream_type_title';
@@ -188,6 +189,7 @@ abstract class  LocaleKeys {
   static const logs_failed_to_load_message = 'logs_failed_to_load_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
+  static const max_concurrent_title = 'max_concurrent_title';
   static const media_title = 'media_title';
   static const media_type_title = 'media_type_title';
   static const min = 'min';

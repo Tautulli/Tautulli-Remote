@@ -121,6 +121,9 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.GetChildrenMetadata>(
     () => tautulli_api.GetChildrenMetadataImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetConcurrentStreamsByStreamType>(
+    () => tautulli_api.GetConcurrentStreamsByStreamTypeImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.GetGeoIpLookup>(
     () => tautulli_api.GetGeoIpLookupImpl(sl()),
   );
@@ -388,6 +391,7 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<GraphsDataSource>(
     () => GraphsDataSourceImpl(
+      getConcurrentStreamsByStreamTypeApi: sl(),
       getPlaysByDateApi: sl(),
       getPlaysByDayOfWeekApi: sl(),
       getPlaysByHourOfDayApi: sl(),

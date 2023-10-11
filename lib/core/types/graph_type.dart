@@ -1,4 +1,5 @@
 enum GraphType {
+  concurrentStreams('Concurrent Streams'),
   playsByDate('Plays by Date'),
   playsByDayOfWeek('Plays by Day of Week'),
   playsByHourOfDay('Plays by Hour of Day'),

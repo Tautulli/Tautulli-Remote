@@ -25,6 +25,10 @@ int? timeRangeCache;
 Map<GraphType, GraphModel> graphsCache = Map.of(defaultGraphs);
 
 Map<GraphType, GraphModel> defaultGraphs = {
+  GraphType.concurrentStreams: GraphModel(
+    graphType: GraphType.concurrentStreams,
+    status: BlocStatus.initial,
+  ),
   GraphType.playsByDate: GraphModel(
     graphType: GraphType.playsByDate,
     status: BlocStatus.initial,
@@ -116,6 +120,22 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
       tautulliIdCache = event.server.tautulliId;
       yAxisCache = event.yAxis;
       timeRangeCache = event.timeRange;
+
+      graphs
+          .getConcurrentStreamsByStreamType(
+            tautulliId: event.server.tautulliId,
+            timeRange: event.timeRange,
+          )
+          .then(
+            (failureOrGetConcurrentStreamsByStreamType) => add(
+              GraphsEmit(
+                graphType: GraphType.concurrentStreams,
+                failureOrGraph: failureOrGetConcurrentStreamsByStreamType,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
 
       graphs
           .getPlaysByDate(

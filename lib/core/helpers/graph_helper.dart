@@ -4,10 +4,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../dependency_injection.dart' as di;
 import '../../features/graphs/data/models/chart_data_model.dart';
 import '../../features/graphs/data/models/graph_data_model.dart';
 import '../../features/graphs/data/models/graph_series_data_model.dart';
+import '../../features/settings/domain/usecases/settings.dart';
 import '../types/tautulli_types.dart';
+import '../types/theme_type.dart';
+import 'color_palette_helper.dart';
 
 class GraphHelper {
   static ChartDataModel buildBarChartDataModel({
@@ -381,9 +385,11 @@ class GraphHelper {
               ? Theme.of(context).colorScheme.primary
               : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
                   ? Theme.of(context).colorScheme.error
-                  : [GraphSeriesType.live].contains(seriesType)
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.onSurface,
+                  : [GraphSeriesType.concurrent].contains(seriesType) && di.sl<Settings>().getTheme() == ThemeType.tautulli
+                      ? PlexColorPalette.seaGreen
+                      : [GraphSeriesType.live, GraphSeriesType.concurrent].contains(seriesType)
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.onSurface,
           dotData: const FlDotData(
             show: false,
           ),

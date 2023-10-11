@@ -5,6 +5,12 @@ import '../../../../core/types/play_metric_type.dart';
 import '../../data/models/graph_data_model.dart';
 
 abstract class GraphsRepository {
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getConcurrentStreamsByStreamType({
+    required String tautulliId,
+    required int timeRange,
+    int? userId,
+  });
+
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
     required PlayMetricType yAxis,

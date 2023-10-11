@@ -34,10 +34,16 @@ class StreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.playsByStreamType]!,
             ),
             const Gap(18),
+            GraphHeading(text: LocaleKeys.daily_concurrent_stream_count_by_stream_type_title.tr()),
+            GraphCard(
+              graphChartType: GraphChartType.line,
+              yAxis: PlayMetricType.plays,
+              graphType: GraphType.concurrentStreams,
+              graph: state.graphs[GraphType.concurrentStreams]!,
+            ),
+            const Gap(18),
             GraphHeading(
-              text: state.yAxis == PlayMetricType.plays
-                  ? LocaleKeys.play_count_by_source_resolution.tr()
-                  : LocaleKeys.play_time_by_source_resolution.tr(),
+              text: state.yAxis == PlayMetricType.plays ? LocaleKeys.play_count_by_source_resolution.tr() : LocaleKeys.play_time_by_source_resolution.tr(),
             ),
             GraphCard(
               graphChartType: GraphChartType.bar,
@@ -47,9 +53,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == PlayMetricType.plays
-                  ? LocaleKeys.play_count_by_stream_resolution.tr()
-                  : LocaleKeys.play_time_by_stream_resolution.tr(),
+              text: state.yAxis == PlayMetricType.plays ? LocaleKeys.play_count_by_stream_resolution.tr() : LocaleKeys.play_time_by_stream_resolution.tr(),
             ),
             GraphCard(
               graphChartType: GraphChartType.bar,
@@ -59,9 +63,8 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == PlayMetricType.plays
-                  ? LocaleKeys.play_count_by_platform_stream_type.tr()
-                  : LocaleKeys.play_time_by_platform_stream_type.tr(),
+              text:
+                  state.yAxis == PlayMetricType.plays ? LocaleKeys.play_count_by_platform_stream_type.tr() : LocaleKeys.play_time_by_platform_stream_type.tr(),
             ),
             GraphCard(
               graphChartType: GraphChartType.bar,
@@ -71,9 +74,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == PlayMetricType.plays
-                  ? LocaleKeys.play_count_by_user_stream_type.tr()
-                  : LocaleKeys.play_time_by_user_stream_type.tr(),
+              text: state.yAxis == PlayMetricType.plays ? LocaleKeys.play_count_by_user_stream_type.tr() : LocaleKeys.play_time_by_user_stream_type.tr(),
             ),
             GraphCard(
               graphChartType: GraphChartType.bar,

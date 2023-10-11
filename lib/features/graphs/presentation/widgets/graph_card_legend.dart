@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
+import '../../../../core/types/theme_type.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../data/models/graph_data_model.dart';
 import '../../data/models/graph_series_data_model.dart';
 
@@ -25,8 +29,8 @@ class GraphCardLegend extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Wrap(
+        runAlignment: WrapAlignment.center,
         children: [
           if (seriesTypes.contains(GraphSeriesType.tv))
             Padding(
@@ -137,6 +141,22 @@ class GraphCardLegend extends StatelessWidget {
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.transcode_title).tr(),
+                ],
+              ),
+            ),
+          if (seriesTypes.contains(GraphSeriesType.concurrent))
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.solidCircle,
+                    size: 12,
+                    color: di.sl<Settings>().getTheme() == ThemeType.tautulli ? PlexColorPalette.seaGreen : Theme.of(context).colorScheme.secondary,
+                  ),
+                  const Gap(4),
+                  const Text(LocaleKeys.max_concurrent_title).tr(),
                 ],
               ),
             ),

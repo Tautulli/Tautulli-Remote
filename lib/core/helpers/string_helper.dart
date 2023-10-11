@@ -37,6 +37,8 @@ class StringHelper {
         return LocaleKeys.direct_stream_title.tr();
       case (GraphSeriesType.transcode):
         return LocaleKeys.transcode_title.tr();
+      case (GraphSeriesType.concurrent):
+        return LocaleKeys.max_concurrent_title.tr();
       default:
         return 'Unknown';
     }

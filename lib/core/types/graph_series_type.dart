@@ -6,5 +6,6 @@ enum GraphSeriesType {
   directPlay,
   directStream,
   transcode,
+  concurrent,
   unknown;
 }

@@ -5,6 +5,12 @@ import '../../../../core/types/play_metric_type.dart';
 import '../models/graph_data_model.dart';
 
 abstract class GraphsDataSource {
+  Future<Tuple2<GraphDataModel, bool>> getConcurrentStreamsByStreamType({
+    required String tautulliId,
+    required int timeRange,
+    int? userId,
+  });
+
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
     required String tautulliId,
     required PlayMetricType yAxis,
@@ -95,6 +101,7 @@ abstract class GraphsDataSource {
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
+  final GetConcurrentStreamsByStreamType getConcurrentStreamsByStreamTypeApi;
   final GetPlaysByDate getPlaysByDateApi;
   final GetPlaysByDayOfWeek getPlaysByDayOfWeekApi;
   final GetPlaysByHourOfDay getPlaysByHourOfDayApi;
@@ -108,6 +115,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   final GetStreamTypeByTop10Users getStreamTypeByTop10UsersApi;
 
   GraphsDataSourceImpl({
+    required this.getConcurrentStreamsByStreamTypeApi,
     required this.getPlaysByDateApi,
     required this.getPlaysByDayOfWeekApi,
     required this.getPlaysByHourOfDayApi,
@@ -120,6 +128,23 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     required this.getStreamTypeByTop10PlatformsApi,
     required this.getStreamTypeByTop10UsersApi,
   });
+
+  @override
+  Future<Tuple2<GraphDataModel, bool>> getConcurrentStreamsByStreamType({
+    required String tautulliId,
+    required int timeRange,
+    int? userId,
+  }) async {
+    final result = await getConcurrentStreamsByStreamTypeApi(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      userId: userId,
+    );
+
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
+
+    return Tuple2(graphDataModel, result.value2);
+  }
 
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({

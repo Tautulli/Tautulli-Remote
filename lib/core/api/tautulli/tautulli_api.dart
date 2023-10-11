@@ -4,6 +4,7 @@ export 'connection_handler.dart';
 export 'endpoints/delete_image_cache.dart';
 export 'endpoints/get_activity.dart';
 export 'endpoints/get_children_metadata.dart';
+export 'endpoints/get_concurrent_streams_by_stream_type.dart';
 export 'endpoints/get_geo_ip_lookup.dart';
 export 'endpoints/get_history.dart';
 export 'endpoints/get_home_stats.dart';

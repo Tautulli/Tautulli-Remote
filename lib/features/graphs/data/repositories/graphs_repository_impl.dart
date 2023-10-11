@@ -18,6 +18,30 @@ class GraphsRepositoryImpl implements GraphsRepository {
   });
 
   @override
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getConcurrentStreamsByStreamType({
+    required String tautulliId,
+    required int timeRange,
+    int? userId,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getConcurrentStreamsByStreamType(
+          tautulliId: tautulliId,
+          timeRange: timeRange,
+          userId: userId,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
     required PlayMetricType yAxis,

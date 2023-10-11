@@ -132,6 +132,8 @@ class Cast {
         return GraphSeriesType.directStream;
       case ('transcode'):
         return GraphSeriesType.transcode;
+      case ('max. concurrent streams'):
+        return GraphSeriesType.concurrent;
       default:
         di.sl<Logging>().warning(
               'Utilities :: Failed to cast $value to GraphSeriesType',

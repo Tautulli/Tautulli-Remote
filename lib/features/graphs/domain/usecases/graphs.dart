@@ -10,6 +10,19 @@ class Graphs {
 
   Graphs({required this.repository});
 
+  /// Returns a `GraphDataModel` containing graph data for Concurrent Streams by Stream Type.
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getConcurrentStreamsByStreamType({
+    required String tautulliId,
+    required int timeRange,
+    int? userId,
+  }) async {
+    return await repository.getConcurrentStreamsByStreamType(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      userId: userId,
+    );
+  }
+
   /// Returns a `GraphDataModel` containing graph data for Plays by Date.
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
