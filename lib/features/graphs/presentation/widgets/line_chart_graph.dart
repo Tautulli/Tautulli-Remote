@@ -184,7 +184,7 @@ class LineChartGraph extends StatelessWidget {
           },
           touchCallback: (event, touchResponse) async {
             if (event is FlLongPressStart) {
-              if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
+              if (di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                 HapticFeedback.vibrate();
               } else {
                 HapticFeedback.heavyImpact();
@@ -197,7 +197,7 @@ class LineChartGraph extends StatelessWidget {
                 lastTouchedIndex = touchResponse?.lineBarSpots?[0].spotIndex;
 
                 if (touchResponse?.lineBarSpots?[0] != null) {
-                  if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
+                  if (di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                     HapticFeedback.vibrate();
                   } else {
                     HapticFeedback.selectionClick();
