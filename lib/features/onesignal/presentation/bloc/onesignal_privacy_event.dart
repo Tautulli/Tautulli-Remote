@@ -20,6 +20,17 @@ class OneSignalPrivacyGrant extends OneSignalPrivacyEvent {
   List<Object> get props => [settingsBloc];
 }
 
+class OneSignalPrivacyReGrant extends OneSignalPrivacyEvent {
+  final SettingsBloc settingsBloc;
+
+  const OneSignalPrivacyReGrant({
+    required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [settingsBloc];
+}
+
 class OneSignalPrivacyRevoke extends OneSignalPrivacyEvent {
   final SettingsBloc settingsBloc;
 

@@ -76,6 +76,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Future<void> initalizeOneSignal() async {
     if (!mounted) return;
 
+    await veryifyOneSignalConsent();
+
     // Enabling console logs for users to troubleshoot OneSignal issues
     await OneSignal.shared.setLogLevel(OSLogLevel.error, OSLogLevel.none);
 
@@ -170,6 +172,20 @@ class TautulliRemoteState extends State<TautulliRemote> {
         }
       }
     });
+  }
+
+  Future<void> veryifyOneSignalConsent() async {
+    if (di.sl<Settings>().getOneSignalConsented() == true && await OneSignal.shared.userProvidedPrivacyConsent() == false) {
+      await Future.delayed(const Duration(seconds: 1)).then((value) {
+        context.read<OneSignalPrivacyBloc>().add(
+              OneSignalPrivacyReGrant(
+                settingsBloc: context.read<SettingsBloc>(),
+              ),
+            );
+      });
+    }
+
+    return Future.value();
   }
 
   void initalizeFLogConfiguration() {

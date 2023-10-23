@@ -86,9 +86,7 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   Future<bool> get isSubscribed async {
     final state = await OneSignal.shared.getDeviceState();
     if (state != null) {
-      return state.pushToken != null &&
-          state.userId != null &&
-          state.pushDisabled == false;
+      return state.pushToken != null && state.userId != null && state.pushDisabled == false;
     } else {
       return false;
     }
