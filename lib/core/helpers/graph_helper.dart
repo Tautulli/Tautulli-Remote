@@ -4,13 +4,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../dependency_injection.dart' as di;
 import '../../features/graphs/data/models/chart_data_model.dart';
 import '../../features/graphs/data/models/graph_data_model.dart';
 import '../../features/graphs/data/models/graph_series_data_model.dart';
-import '../../features/settings/domain/usecases/settings.dart';
 import '../types/tautulli_types.dart';
-import '../types/theme_type.dart';
 import 'color_palette_helper.dart';
 
 class GraphHelper {
@@ -141,7 +138,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.live]! + barStart,
-            Theme.of(context).colorScheme.secondary,
+            // Theme.of(context).colorScheme.secondary,
+            PlexColorPalette.blue,
           ),
         );
 
@@ -153,7 +151,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.music]! + barStart,
-            Theme.of(context).colorScheme.error,
+            // Theme.of(context).colorScheme.error,
+            Colors.red,
           ),
         );
 
@@ -165,7 +164,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.transcode]! + barStart,
-            Theme.of(context).colorScheme.error,
+            // Theme.of(context).colorScheme.error,
+            Colors.red,
           ),
         );
 
@@ -177,7 +177,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.movies]! + barStart,
-            Theme.of(context).colorScheme.onSurface,
+            // Theme.of(context).colorScheme.onSurface,
+            TautulliColorPalette.notWhite,
           ),
         );
 
@@ -189,7 +190,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.directStream]! + barStart,
-            Theme.of(context).colorScheme.onSurface,
+            // Theme.of(context).colorScheme.onSurface,
+            TautulliColorPalette.notWhite,
           ),
         );
 
@@ -201,7 +203,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.tv]! + barStart,
-            Theme.of(context).colorScheme.primary,
+            // Theme.of(context).colorScheme.primary,
+            PlexColorPalette.primaryGold,
           ),
         );
 
@@ -213,7 +216,8 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.directPlay]! + barStart,
-            Theme.of(context).colorScheme.primary,
+            // Theme.of(context).colorScheme.primary,
+            PlexColorPalette.primaryGold,
           ),
         );
 
@@ -381,15 +385,24 @@ class GraphHelper {
           isCurved: true,
           preventCurveOverShooting: true,
           spots: spotListMap[seriesType] ?? [],
+          // color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
+          //     ? Theme.of(context).colorScheme.primary
+          //     : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
+          //         ? Theme.of(context).colorScheme.error
+          //         : [GraphSeriesType.concurrent].contains(seriesType) && di.sl<Settings>().getTheme() == ThemeType.tautulli
+          //             ? PlexColorPalette.seaGreen
+          //             : [GraphSeriesType.live, GraphSeriesType.concurrent].contains(seriesType)
+          //                 ? Theme.of(context).colorScheme.secondary
+          //                 : Theme.of(context).colorScheme.onSurface,
           color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
-              ? Theme.of(context).colorScheme.primary
+              ? PlexColorPalette.primaryGold
               : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
-                  ? Theme.of(context).colorScheme.error
-                  : [GraphSeriesType.concurrent].contains(seriesType) && di.sl<Settings>().getTheme() == ThemeType.tautulli
+                  ? Colors.red
+                  : [GraphSeriesType.concurrent].contains(seriesType)
                       ? PlexColorPalette.seaGreen
                       : [GraphSeriesType.live, GraphSeriesType.concurrent].contains(seriesType)
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.onSurface,
+                          ? PlexColorPalette.blue
+                          : TautulliColorPalette.notWhite,
           dotData: const FlDotData(
             show: false,
           ),

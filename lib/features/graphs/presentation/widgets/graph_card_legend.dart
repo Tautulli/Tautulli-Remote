@@ -5,10 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
-import '../../../../core/types/theme_type.dart';
-import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/domain/usecases/settings.dart';
 import '../../data/models/graph_data_model.dart';
 import '../../data/models/graph_series_data_model.dart';
 
@@ -38,10 +35,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.primary,
+                    // color: Theme.of(context).colorScheme.primary,
+                    color: PlexColorPalette.primaryGold,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.tv_title).tr(),
@@ -54,10 +52,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    // color: Theme.of(context).colorScheme.onSurface,
+                    color: TautulliColorPalette.notWhite,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.movies_title).tr(),
@@ -70,10 +69,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.error,
+                    // color: Theme.of(context).colorScheme.error,
+                    color: Colors.red,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.music_title).tr(),
@@ -86,10 +86,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.secondary,
+                    // color: Theme.of(context).colorScheme.secondary,
+                    color: PlexColorPalette.blue,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.live_tv_title).tr(),
@@ -102,10 +103,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.primary,
+                    // color: Theme.of(context).colorScheme.primary,
+                    color: PlexColorPalette.primaryGold,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.direct_play_title).tr(),
@@ -118,10 +120,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    // color: Theme.of(context).colorScheme.onSurface,
+                    color: TautulliColorPalette.notWhite,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.direct_stream_title).tr(),
@@ -134,10 +137,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: Theme.of(context).colorScheme.error,
+                    // color: Theme.of(context).colorScheme.error,
+                    color: Colors.red,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.transcode_title).tr(),
@@ -150,10 +154,11 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: di.sl<Settings>().getTheme() == ThemeType.tautulli ? PlexColorPalette.seaGreen : Theme.of(context).colorScheme.secondary,
+                    // color: di.sl<Settings>().getTheme() == ThemeType.tautulli ? PlexColorPalette.seaGreen : Theme.of(context).colorScheme.secondary,
+                    color: PlexColorPalette.seaGreen,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.max_concurrent_title).tr(),
