@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../painters/quarter_circle_progress_painter.dart';
 import '../types/tautulli_types.dart';
 
 class IconHelper {
@@ -65,29 +64,44 @@ class IconHelper {
     const double size = 16;
     final Color color = Theme.of(context).colorScheme.onSurface;
 
-    switch (watchedStatus) {
-      case (WatchedStatus.high):
-        return FaIcon(
-          FontAwesomeIcons.solidCircle,
-          color: color,
-          size: size,
-        );
-      case (WatchedStatus.medium):
-        return Transform.rotate(
-          angle: 180 * pi / 180,
-          child: FaIcon(
-            FontAwesomeIcons.circleHalfStroke,
-            color: color,
-            size: size,
+    return Stack(
+      children: [
+        Positioned(
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: ClipRect(
+              child: CustomPaint(
+                painter: QuarterCircleProgressPainter(
+                  quarterCircleProgress: watchedStatus == WatchedStatus.empty
+                      ? QuarterCircleProgress.empty
+                      : watchedStatus == WatchedStatus.quarter
+                          ? QuarterCircleProgress.quarter
+                          : watchedStatus == WatchedStatus.half
+                              ? QuarterCircleProgress.twoquarter
+                              : watchedStatus == WatchedStatus.threeQuarter
+                                  ? QuarterCircleProgress.threequarter
+                                  : QuarterCircleProgress.full,
+                  color: color,
+                ),
+              ),
+            ),
           ),
-        );
-      case (WatchedStatus.low):
-      default:
-        return FaIcon(
-          FontAwesomeIcons.circle,
-          color: color,
-          size: size,
-        );
-    }
+        ),
+        Positioned.fill(
+          child: Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: color,
+                width: 1.5,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,5 +1,7 @@
 enum WatchedStatus {
-  low,
-  medium,
-  high,
+  empty,
+  quarter,
+  half,
+  threeQuarter,
+  full,
 }

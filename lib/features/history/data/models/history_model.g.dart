@@ -149,7 +149,9 @@ const _$StreamDecisionEnumMap = {
 };
 
 const _$WatchedStatusEnumMap = {
-  WatchedStatus.low: 'low',
-  WatchedStatus.medium: 'medium',
-  WatchedStatus.high: 'high',
+  WatchedStatus.empty: 'empty',
+  WatchedStatus.quarter: 'quarter',
+  WatchedStatus.half: 'half',
+  WatchedStatus.threeQuarter: 'threeQuarter',
+  WatchedStatus.full: 'full',
 };

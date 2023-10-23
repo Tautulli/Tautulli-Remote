@@ -28,5 +28,6 @@ const _$GraphSeriesTypeEnumMap = {
   GraphSeriesType.directPlay: 'directPlay',
   GraphSeriesType.directStream: 'directStream',
   GraphSeriesType.transcode: 'transcode',
+  GraphSeriesType.concurrent: 'concurrent',
   GraphSeriesType.unknown: 'unknown',
 };

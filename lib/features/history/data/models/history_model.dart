@@ -262,12 +262,16 @@ class HistoryModel extends Equatable {
   }
 
   static WatchedStatus watchedStatusFromDouble(num value) {
-    if (value < 0.5) {
-      return WatchedStatus.low;
-    } else if (value > 0.5) {
-      return WatchedStatus.high;
+    if (value < 0.25) {
+      return WatchedStatus.empty;
+    } else if (value < 0.5) {
+      return WatchedStatus.quarter;
+    } else if (value < 0.75) {
+      return WatchedStatus.half;
+    } else if (value < 1) {
+      return WatchedStatus.threeQuarter;
     } else {
-      return WatchedStatus.medium;
+      return WatchedStatus.full;
     }
   }
 
