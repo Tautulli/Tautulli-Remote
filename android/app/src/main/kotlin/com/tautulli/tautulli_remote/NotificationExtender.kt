@@ -47,6 +47,8 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 JSONObject(data.getString("plain_text"))
             }
 
+            Log.d("Tautulli Notification Info", "Notification content: $jsonMessage")
+
             val notificationType: Int = jsonMessage.optInt("notification_type", 0)
             val body: String = jsonMessage.getString("body")
             val subject: String = jsonMessage.getString("subject")
@@ -149,19 +151,24 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
     }
 
     private fun getUnencryptedMessage(data: JSONObject?, deviceToken: String): String {
+        Log.d("Tautulli Notification Info", "Encypted notification received...")
         if (data != null) {
             val salt: String = data.optString("salt", "")
             val cipherText: String = data.optString("cipher_text", "")
             val nonce: String = data.optString("nonce", "")
 
             if (salt != "" && cipherText != "" && nonce != "") {
+                Log.d("Tautulli Notification Info", "Decrypting Notification...")
                 return DecryptAESGCM.decrypt(deviceToken, salt, cipherText, nonce)
             }
         }
+        Log.d("Tautulli Notification Info", "Issues decrypting notification, required data missing")
         return ""
     }
 
     private fun getServerInfo(context: Context, serverId: String): Map<String, String> {
+        Log.d("Tautulli Notification Info", "Fetching server info for $serverId")
+
         val documentDir = context.dataDir
         val path = File(documentDir, "app_flutter/tautulli_remote.db")
         val db: SQLiteDatabase = SQLiteDatabase.openDatabase(path.absolutePath, null, 0)
@@ -186,6 +193,8 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
         db.close()
 
         val serverInfoMap = mapOf("primaryConnectionAddress" to primaryConnectionAddress, "secondaryConnectionAddress" to secondaryConnectionAddress, "primaryActive" to primaryActive, "deviceToken" to deviceToken)
+
+        Log.d("Tautulli Notification Info", "Server info found: $serverInfoMap")
         
         return serverInfoMap
     }

@@ -37,6 +37,8 @@ class NotificationService: UNNotificationServiceExtension {
                 } else {
                     jsonMessage = data["plain_text"] as! [String: Any]
                 }
+
+                print("Tautulli Notification Info: Notification content: \(jsonMessage)")
                 
                 bestAttemptContent.body = jsonMessage["body"] as! String
                 bestAttemptContent.title = jsonMessage["subject"] as! String
@@ -89,6 +91,8 @@ class NotificationService: UNNotificationServiceExtension {
     }
     
     private func getServerInfo(serverId: String) -> [String: String] {
+        print("Tautulli Notification Info: Fetching server info for \(serverId)")
+
         let documentDir = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.tautulli.tautulliRemote.onesignal")
         let path = documentDir?.appendingPathComponent("tautulli_remote.db")
         var db: OpaquePointer?
@@ -145,11 +149,15 @@ class NotificationService: UNNotificationServiceExtension {
             "primaryActive": primaryActive,
             "deviceToken": deviceToken
         ]
+
+        print("Tautulli Notification Info: Server info found: \(serverInfoDict)")
         
         return serverInfoDict
     }
     
     private func getUnencryptedMessage(deviceToken: String, salt: String, nonce: String, cipherText: String) -> [String: Any] {
+        print("Tautulli Notification Info: Encypted notification received...")
+
         let password: Array<UInt8> = Array(deviceToken.utf8)
         let salt: Array<UInt8> = Array(Data(base64Encoded: salt)!.bytes)
         let nonce: Array<UInt8> = Array(Data(base64Encoded: nonce)!.bytes)
@@ -162,10 +170,15 @@ class NotificationService: UNNotificationServiceExtension {
             let plainText = try aes.decrypt(cipherText)
 
             let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
+
+            print("Tautulli Notification Info: Decrypting notification...")
             
             return decryptedData
         } catch {
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+
+            print("Tautulli Notification Info: Issues decrypting notification, required data missing")
+            
             return ["ERROR": error]
         }
     }
