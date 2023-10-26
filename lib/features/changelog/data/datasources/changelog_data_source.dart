@@ -1,6 +1,40 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.2.0",
+      "date": "November 1, 2023",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added support for new Concurrent Stream Per Day graph",
+          "additional": "Requires Tautulli v2.13.2+",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added support for new quarter value icons for history watch status",
+          "additional": "Requires Tautulli v2.13.2+",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added new in app check to try and avoid OneSignal consent resets",
+          "additional": "If you continue to see this problem after updating please submit a bug report",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added additional console logging for notification troubleshooting",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for French",
+          "additional": "Thanks @EricG66",
+        },
+        {
+          "type": "fix",
+          "detail": "Reverted graph colors to Tautulli color palette regardless of theme to avoid contrast issues",
+        },
+      ],
+    },
+    {
       "version": "v3.1.0",
       "date": "September 1, 2023",
       "changes": [
