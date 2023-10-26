@@ -140,35 +140,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
         if (changes.to.userId != null) {
-          final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
-          if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
-            di.sl<Logging>().info(
-                  'OneSignal :: OneSignal registration changed, updating server registration',
-                );
-
-            for (ServerModel server in serversWithoutOneSignal) {
-              final failureOrRegisterDevice = await updateServerRegistration(server);
-
-              failureOrRegisterDevice.fold(
-                (failure) {
-                  di.sl<Logging>().error(
-                        'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
-                      );
-                },
-                (results) {
-                  di.sl<Settings>().updateServer(
-                        server.copyWith(oneSignalRegistered: true),
-                      );
-
-                  di.sl<Logging>().info(
-                        'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
-                      );
-
-                  di.sl<Settings>().setRegistrationUpdateNeeded(false);
-                },
-              );
-            }
-          }
+          await oneSignalServerRegistrationChange();
         }
       }
     });
@@ -176,12 +148,16 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   Future<void> veryifyOneSignalConsent() async {
     if (di.sl<Settings>().getOneSignalConsented() == true && await OneSignal.shared.userProvidedPrivacyConsent() == false) {
-      await Future.delayed(const Duration(seconds: 1)).then((value) {
+      await Future.delayed(const Duration(seconds: 1)).then((value) async {
         context.read<OneSignalPrivacyBloc>().add(
               OneSignalPrivacyReGrant(
                 settingsBloc: context.read<SettingsBloc>(),
               ),
             );
+
+        await Future.delayed(const Duration(seconds: 1)).then(
+          (value) async => await oneSignalServerRegistrationChange(),
+        );
       });
     }
 
@@ -240,6 +216,38 @@ class TautulliRemoteState extends State<TautulliRemote> {
             },
           );
         }
+      }
+    }
+  }
+
+  Future<void> oneSignalServerRegistrationChange() async {
+    final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
+    if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
+      di.sl<Logging>().info(
+            'OneSignal :: OneSignal registration changed, updating server registration',
+          );
+
+      for (ServerModel server in serversWithoutOneSignal) {
+        final failureOrRegisterDevice = await updateServerRegistration(server);
+
+        failureOrRegisterDevice.fold(
+          (failure) {
+            di.sl<Logging>().error(
+                  'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+                );
+          },
+          (results) {
+            di.sl<Settings>().updateServer(
+                  server.copyWith(oneSignalRegistered: true),
+                );
+
+            di.sl<Logging>().info(
+                  'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+                );
+
+            di.sl<Settings>().setRegistrationUpdateNeeded(false);
+          },
+        );
       }
     }
   }
