@@ -53,10 +53,11 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
             val body: String = jsonMessage.getString("body")
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
+            var posterThumb = jsonMessage.getString("poster_thumb")
 
             val mutableNotification: OSMutableNotification = notification.mutableCopy()
 
-            if (notificationType == 0) {
+            if (notificationType == 0 || posterThumb.isNullOrEmpty()) {
                 mutableNotification.setExtender { builder ->
                     builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
                     builder.setContentTitle(subject)
@@ -72,27 +73,36 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
             }
             // Fetch/add image and send notification if notification type is 1 or 2 
             else {
-                var posterThumb = jsonMessage.getString("poster_thumb")
+                var connectionAddress: String?
+                if (serverInfoMap["primaryActive"] == "1") {
+                    connectionAddress = serverInfoMap["primaryConnectionAddress"]
+                } else {
+                    connectionAddress = serverInfoMap["secondaryConnectionAddress"]
+                }
 
-                if (!posterThumb.isNullOrEmpty()) {
-                    var connectionAddress: String?
-                    if (serverInfoMap["primaryActive"] == "1") {
-                        connectionAddress = serverInfoMap["primaryConnectionAddress"]
-                    } else {
-                        connectionAddress = serverInfoMap["secondaryConnectionAddress"]
-                    }
+                val urlString = if (notificationType == 1) {
+                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&height=200"
+                } else {
+                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
+                }
 
-                    val urlString = if (notificationType == 1) {
-                        "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&height=200"
-                    } else {
-                        "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
-                    }
-
-                    GlideApp.with(context)
-                        .asBitmap()
-                        .load(urlString)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                GlideApp.with(context)
+                    .asBitmap()
+                    .load(urlString)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            mutableNotification.setExtender { builder ->
+                                builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                                builder.setContentTitle(subject)
+                                builder.setContentText(body)
+                                builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                                builder.setColor(context.resources.getColor(R.color.amber))
+                                builder.setPriority(priority)
+                                builder.setLargeIcon(resource)
+                                builder
+                            }
+                                
+                            if (notificationType == 2) {
                                 mutableNotification.setExtender { builder ->
                                     builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
                                     builder.setContentTitle(subject)
@@ -101,32 +111,19 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                                     builder.setColor(context.resources.getColor(R.color.amber))
                                     builder.setPriority(priority)
                                     builder.setLargeIcon(resource)
+                                    builder.setStyle(NotificationCompat.BigPictureStyle()
+                                        .bigPicture(resource)
+                                        .bigLargeIcon(null as Bitmap?))
                                     builder
                                 }
-                                    
-                                if (notificationType == 2) {
-                                    mutableNotification.setExtender { builder ->
-                                        builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
-                                        builder.setContentTitle(subject)
-                                        builder.setContentText(body)
-                                        builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                                        builder.setColor(context.resources.getColor(R.color.amber))
-                                        builder.setPriority(priority)
-                                        builder.setLargeIcon(resource)
-                                        builder.setStyle(NotificationCompat.BigPictureStyle()
-                                            .bigPicture(resource)
-                                            .bigLargeIcon(null as Bitmap?))
-                                        builder
-                                    }
-                                }
-                                
-                                //* Send notification with image
-                                notificationReceivedEvent.complete(mutableNotification)
                             }
+                            
+                            //* Send notification with image
+                            notificationReceivedEvent.complete(mutableNotification)
+                        }
 
-                            override fun onLoadCleared(placeholder: Drawable?) {}
-                        })
-                }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
             }
         } catch (e: JSONException) {
             e.printStackTrace()
