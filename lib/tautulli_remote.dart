@@ -57,6 +57,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
   @override
   void initState() {
     super.initState();
+    context.read<SettingsBloc>().add(const SettingsLoad());
+
     initalizeOneSignal();
     initalizeFLogConfiguration();
     checkforAppUpdate();
@@ -69,14 +71,11 @@ class TautulliRemoteState extends State<TautulliRemote> {
     Future.delayed(const Duration(seconds: 2), () {
       context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
     });
-    context.read<SettingsBloc>().add(const SettingsLoad());
     context.read<AnnouncementsBloc>().add(AnnouncementsFetch());
   }
 
   Future<void> initalizeOneSignal() async {
     if (!mounted) return;
-
-    await veryifyOneSignalConsent();
 
     // Enabling console logs for users to troubleshoot OneSignal issues
     await OneSignal.shared.setLogLevel(OSLogLevel.error, OSLogLevel.none);
@@ -144,9 +143,16 @@ class TautulliRemoteState extends State<TautulliRemote> {
         }
       }
     });
+
+    // Check if registration update is needed after OneSignal is initalized to avoid sending a blank User ID
+    await veryifyOneSignalConsent();
+    checkIfRegistrationUpdateNeeded();
   }
 
   Future<void> veryifyOneSignalConsent() async {
+    //! Wait for SettingsBloc to be SettingsSuccess
+    await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
+
     if (di.sl<Settings>().getOneSignalConsented() == true && await OneSignal.shared.userProvidedPrivacyConsent() == false) {
       await Future.delayed(const Duration(seconds: 1)).then((value) async {
         context.read<OneSignalPrivacyBloc>().add(
@@ -158,6 +164,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
         await Future.delayed(const Duration(seconds: 1)).then(
           (value) async => await oneSignalServerRegistrationChange(),
         );
+
+        di.sl<Settings>().setRegistrationUpdateNeeded(false);
       });
     }
 
@@ -171,6 +179,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
   }
 
   Future<void> checkforAppUpdate() async {
+    //! Wait for SettingsBloc to be SettingsSuccess
+    await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
+
     await AppVersionUpdate.checkForUpdates(
       appleId: '1570909086',
       playStoreId: 'com.tautulli.tautulli_remote',
@@ -188,6 +199,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
   }
 
   Future<void> checkIfRegistrationUpdateNeeded() async {
+    //! Wait for SettingsBloc to be SettingsSuccess
+    await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
+
     if (di.sl<Settings>().getRegistrationUpdateNeeded()) {
       final servers = await di.sl<Settings>().getAllServers();
 
