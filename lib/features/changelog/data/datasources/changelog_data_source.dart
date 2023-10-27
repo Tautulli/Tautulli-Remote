@@ -1,8 +1,23 @@
 Map changelog = {
   "data": [
     {
-      "version": "v3.2.0",
+      "version": "v3.2.1",
       "date": "November 1, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Adjusted post-update registration to avoid possible race condition that would clear OneSignal Device ID",
+          "additional": "If you continue to see this problem after updating please submit a bug report",
+        },
+        {
+          "type": "fix",
+          "detail": "Notifications on Android no longer fail when images are enabled but no image is provided",
+        },
+      ],
+    },
+    {
+      "version": "v3.2.0",
+      "date": "October 26, 2023",
       "changes": [
         {
           "type": "new",
