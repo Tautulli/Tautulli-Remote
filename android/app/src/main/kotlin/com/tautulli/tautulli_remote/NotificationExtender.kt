@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -86,9 +88,25 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                     "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
                 }
 
+                // Add a delayed notification that will try to send after 22.5s
+                // This notification will only complete successfully if the GlideApp times out
+                Handler(Looper.getMainLooper()).postDelayed({
+                    mutableNotification.setExtender { builder ->
+                        builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                        builder.setContentTitle(subject)
+                        builder.setContentText(body)
+                        builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                        builder.setColor(context.resources.getColor(R.color.amber))
+                        builder.setPriority(priority)
+                        builder
+                    }
+                    notificationReceivedEvent.complete(mutableNotification)
+                }, 22500)
+
                 GlideApp.with(context)
                     .asBitmap()
                     .load(urlString)
+                    .timeout(22000) // OneSignal timesout and sends the original notification after 25s
                     .into(object : CustomTarget<Bitmap>() {
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             mutableNotification.setExtender { builder ->
