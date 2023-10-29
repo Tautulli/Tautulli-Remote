@@ -1,8 +1,18 @@
 Map changelog = {
   "data": [
     {
-      "version": "v3.2.1",
+      "version": "v3.2.2",
       "date": "November 1, 2023",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Unencrypted notification will display on Android if fetching image times out",
+        },
+      ],
+    },
+    {
+      "version": "v3.2.1",
+      "date": "October 27, 2023",
       "changes": [
         {
           "type": "improvement",
