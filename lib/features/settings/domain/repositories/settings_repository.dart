@@ -100,6 +100,10 @@ abstract class SettingsRepository {
   PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
+  // Home Page
+  String getHomePage();
+  Future<bool> setHomePage(String value);
+
   // Last App Version
   String getLastAppVersion();
   Future<bool> setLastAppVersion(String value);

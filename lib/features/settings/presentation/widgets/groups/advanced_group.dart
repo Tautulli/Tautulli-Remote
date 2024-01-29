@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/device_info/device_info.dart';
+import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/translation_helper.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
@@ -11,6 +12,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../translation/presentation/bloc/translation_bloc.dart';
 import '../../bloc/settings_bloc.dart';
+import '../dialogs/home_page_dialog.dart';
 import '../dialogs/language_dialog.dart';
 import '../list_tiles/checkbox_settings_list_tile.dart';
 
@@ -114,6 +116,29 @@ class AdvancedGroup extends StatelessWidget {
                         SettingsUpdateLibraryMediaFullRefresh(value),
                       );
                 }
+              },
+            );
+          },
+        ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+            final homePageSetting = state.appSettings.homePage;
+
+            return CustomListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.house,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              title: LocaleKeys.home_page_title.tr(),
+              subtitle: StringHelper.mapHomePageSettingToTitle(homePageSetting),
+              onTap: () async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => HomePageDialog(
+                    initialValue: homePageSetting,
+                  ),
+                );
               },
             );
           },

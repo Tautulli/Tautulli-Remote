@@ -275,6 +275,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setGraphYAxis(value);
   }
 
+  // Home Page
+  @override
+  String getHomePage() {
+    return dataSource.getHomePage();
+  }
+
+  @override
+  Future<bool> setHomePage(String value) async {
+    return await dataSource.setHomePage(value);
+  }
+
   // Last App Version
   @override
   String getLastAppVersion() {

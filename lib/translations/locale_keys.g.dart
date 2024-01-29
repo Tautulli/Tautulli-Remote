@@ -164,6 +164,7 @@ abstract class  LocaleKeys {
   static const high_contrast_title = 'high_contrast_title';
   static const history_empty_message = 'history_empty_message';
   static const history_title = 'history_title';
+  static const home_page_title = 'home_page_title';
   static const hours_title = 'hours_title';
   static const hrs = 'hrs';
   static const ip_address_title = 'ip_address_title';

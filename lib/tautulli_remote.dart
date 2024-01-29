@@ -12,6 +12,7 @@ import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
 import 'core/global_keys/global_keys.dart';
+import 'core/helpers/home_page_helper.dart';
 import 'core/helpers/notification_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/rate_app/rate_app.dart';
@@ -352,7 +353,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
             WizardPage.routeName: (_) => const WizardPage(),
           },
           initialRoute: widget.initialRoute,
-          home: const ActivityPage(),
+          home: HomePageHelper.get(),
         );
       },
     );

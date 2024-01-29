@@ -67,6 +67,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateCustomHeaders>(
       (event, emit) => _onSettingsUpdateCustomHeaders(event, emit),
     );
+    on<SettingsUpdateDisableImageBackgrounds>(
+      (event, emit) => _onSettingsUpdateDisableImageBackgrounds(event, emit),
+    );
     on<SettingsUpdateDoubleBackToExit>(
       (event, emit) => _onSettingsUpdateDoubleBackToExit(event, emit),
     );
@@ -79,8 +82,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateGraphYAxis>(
       (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
     );
-    on<SettingsUpdateDisableImageBackgrounds>(
-      (event, emit) => _onSettingsUpdateDisableImageBackgrounds(event, emit),
+    on<SettingsUpdateHomePage>(
+      (event, emit) => _onSettingsUpdateHomePage(event, emit),
     );
     on<SettingsUpdateLibrariesSort>(
       (event, emit) => _onSettingsUpdateLibrariesSort(event, emit),
@@ -361,6 +364,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         graphTimeRange: settings.getGraphTimeRange(),
         graphTipsShown: settings.getGraphTipsShown(),
         graphYAxis: settings.getGraphYAxis(),
+        homePage: settings.getHomePage(),
         librariesSort: settings.getLibrariesSort(),
         libraryMediaFullRefresh: settings.getLibraryMediaFullRefresh(),
         maskSensitiveInfo: settings.getMaskSensitiveInfo(),
@@ -669,6 +673,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateHomePage(
+    SettingsUpdateHomePage event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setHomePage(event.homePage);
+    logging.info(
+      'Settings :: Home Page set to ${event.homePage}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(homePage: event.homePage),
       ),
     );
   }

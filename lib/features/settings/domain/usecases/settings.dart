@@ -200,6 +200,18 @@ class Settings {
     return await repository.setCustomCertHashList(certHashList);
   }
 
+  /// Returns if background images should be disabled.
+  ///
+  /// If no value is stored returns `false`.
+  bool getDisableImageBackgrounds() {
+    return repository.getDisableImageBackgrounds();
+  }
+
+  /// Sets if background images should be disabled.
+  Future<bool> setDisableImageBackgrounds(bool value) {
+    return repository.setDisableImageBackgrounds(value);
+  }
+
   /// Returns if exiting the app should require two sequential back actions.
   ///
   /// If no value is stored returns `false`.
@@ -248,16 +260,16 @@ class Settings {
     return await repository.setGraphYAxis(value);
   }
 
-  /// Returns if background images should be disabled.
+  /// Returns the home page to use.
   ///
-  /// If no value is stored returns `false`.
-  bool getDisableImageBackgrounds() {
-    return repository.getDisableImageBackgrounds();
+  /// If no value is stored returns 'activity'.
+  String getHomePage() {
+    return repository.getHomePage();
   }
 
-  /// Sets if background images should be disabled.
-  Future<bool> setDisableImageBackgrounds(bool value) {
-    return repository.setDisableImageBackgrounds(value);
+  /// Sets the home page to be used.
+  Future<bool> setHomePage(String value) {
+    return repository.setHomePage(value);
   }
 
   /// Returns the app version from the last time the app was started.

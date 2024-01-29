@@ -2154,6 +2154,7 @@ static const Map<String,dynamic> en = {
   "high_contrast_title": "High Contrast",
   "history_empty_message": "No history found.",
   "history_title": "History",
+  "home_page_title": "Home Page",
   "hours_title": "Hours",
   "hrs": "hrs",
   "ip_address_title": "IP Address",

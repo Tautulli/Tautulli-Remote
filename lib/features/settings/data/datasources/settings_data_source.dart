@@ -108,6 +108,10 @@ abstract class SettingsDataSource {
   PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
+  // Home Page
+  String getHomePage();
+  Future<bool> setHomePage(String value);
+
   // Last App Version
   String getLastAppVersion();
   Future<bool> setLastAppVersion(String value);
@@ -201,6 +205,7 @@ const doubleBackToExit = 'doubleTapToExit';
 const graphTimeRange = 'graphTimeRange';
 const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
+const homePage = 'homePage';
 const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
 const libraryMediaFullRefresh = 'libraryMediaFullRefresh';
@@ -494,6 +499,18 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setGraphYAxis(PlayMetricType value) async {
     return localStorage.setString(graphYAxis, value.apiValue());
+  }
+
+  // Home Page
+
+  @override
+  String getHomePage() {
+    return localStorage.getString(homePage) ?? 'activity';
+  }
+
+  @override
+  Future<bool> setHomePage(String value) {
+    return localStorage.setString(homePage, value);
   }
 
   // Last App Version

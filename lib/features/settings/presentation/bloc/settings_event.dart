@@ -181,6 +181,15 @@ class SettingsUpdateGraphYAxis extends SettingsEvent {
   List<Object> get props => [graphYAxis];
 }
 
+class SettingsUpdateHomePage extends SettingsEvent {
+  final String homePage;
+
+  const SettingsUpdateHomePage(this.homePage);
+
+  @override
+  List<Object> get props => [homePage];
+}
+
 class SettingsUpdateLibrariesSort extends SettingsEvent {
   final String librariesSort;
 

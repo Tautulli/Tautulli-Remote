@@ -21,6 +21,27 @@ class StringHelper {
     return string.split(" ").map((str) => capitalize(str)).join(" ");
   }
 
+  static String mapHomePageSettingToTitle(String homePageSetting) {
+    switch (homePageSetting) {
+      case ('activity'):
+        return LocaleKeys.activity_title.tr();
+      case ('history'):
+        return LocaleKeys.history_title.tr();
+      case ('recent'):
+        return LocaleKeys.recently_added_title.tr();
+      case ('libraries'):
+        return LocaleKeys.libraries_title.tr();
+      case ('users'):
+        return LocaleKeys.users_title.tr();
+      case ('statistics'):
+        return LocaleKeys.statistics_title.tr();
+      case ('graphs'):
+        return LocaleKeys.graphs_title.tr();
+      default:
+        return 'Unknown';
+    }
+  }
+
   static String mapSeriesTypeToString(GraphSeriesType seriesType) {
     switch (seriesType) {
       case (GraphSeriesType.tv):

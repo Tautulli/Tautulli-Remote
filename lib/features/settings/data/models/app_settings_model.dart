@@ -9,11 +9,12 @@ import '../../../../core/types/theme_type.dart';
 class AppSettingsModel extends Equatable {
   final ServerModel activeServer;
   final bool appUpdateAvailable;
+  final bool disableImageBackgrounds;
   final bool doubleBackToExit;
   final int graphTimeRange;
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
-  final bool disableImageBackgrounds;
+  final String homePage;
   final String librariesSort;
   final bool libraryMediaFullRefresh;
   final bool maskSensitiveInfo;
@@ -41,6 +42,7 @@ class AppSettingsModel extends Equatable {
     required this.graphTimeRange,
     required this.graphTipsShown,
     required this.graphYAxis,
+    required this.homePage,
     required this.librariesSort,
     required this.libraryMediaFullRefresh,
     required this.maskSensitiveInfo,
@@ -69,6 +71,7 @@ class AppSettingsModel extends Equatable {
     int? graphTimeRange,
     bool? graphTipsShown,
     PlayMetricType? graphYAxis,
+    String? homePage,
     String? librariesSort,
     bool? libraryMediaFullRefresh,
     bool? maskSensitiveInfo,
@@ -96,6 +99,7 @@ class AppSettingsModel extends Equatable {
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
+      homePage: homePage ?? this.homePage,
       librariesSort: librariesSort ?? this.librariesSort,
       libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
@@ -126,6 +130,7 @@ class AppSettingsModel extends Equatable {
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
+      'Home Page': homePage,
       'Libraries Sort': librariesSort.toString(),
       'Library Media Full Refresh': libraryMediaFullRefresh.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
@@ -155,6 +160,7 @@ class AppSettingsModel extends Equatable {
         graphTimeRange,
         graphTipsShown,
         graphYAxis,
+        homePage,
         librariesSort,
         libraryMediaFullRefresh,
         maskSensitiveInfo,

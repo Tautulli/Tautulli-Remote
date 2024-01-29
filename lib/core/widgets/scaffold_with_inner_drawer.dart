@@ -11,12 +11,14 @@ import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
+import '../../features/settings/domain/usecases/settings.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import '../helpers/quick_actions_helper.dart';
 import '../helpers/theme_helper.dart';
 import 'double_back_to_exit.dart';
+import '../../dependency_injection.dart' as di;
 import 'tautulli_logo_title.dart';
 
 class ScaffoldWithInnerDrawer extends StatefulWidget {
@@ -165,31 +167,33 @@ class _AppDrawerState extends State<_AppDrawer> {
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       final route = ModalRoute.of(context);
-      if (route?.settings.name == '/activity' || route?.settings.name == '/') {
+      final homePage = di.sl<Settings>().getHomePage();
+
+      if (route?.settings.name == '/activity' || homePage == 'activity') {
         setState(() {
           screenIndex = 0;
         });
-      } else if (route?.settings.name == '/history') {
+      } else if (route?.settings.name == '/history' || homePage == 'history') {
         setState(() {
           screenIndex = 1;
         });
-      } else if (route?.settings.name == '/recent') {
+      } else if (route?.settings.name == '/recent' || homePage == 'recent') {
         setState(() {
           screenIndex = 2;
         });
-      } else if (route?.settings.name == '/libraries') {
+      } else if (route?.settings.name == '/libraries' || homePage == 'libraries') {
         setState(() {
           screenIndex = 3;
         });
-      } else if (route?.settings.name == '/users') {
+      } else if (route?.settings.name == '/users' || homePage == 'users') {
         setState(() {
           screenIndex = 4;
         });
-      } else if (route?.settings.name == '/statistics') {
+      } else if (route?.settings.name == '/statistics' || homePage == 'statistics') {
         setState(() {
           screenIndex = 5;
         });
-      } else if (route?.settings.name == '/graphs') {
+      } else if (route?.settings.name == '/graphs' || homePage == 'graphs') {
         setState(() {
           screenIndex = 6;
         });
