@@ -31,7 +31,7 @@ class HistoryIndividualCard extends StatelessWidget {
     final double height = [MediaType.movie, MediaType.otherVideo].contains(history.mediaType) ? 60 : 100;
 
     return SizedBox(
-      height: MediaQuery.of(context).textScaleFactor > 1 ? height * MediaQuery.of(context).textScaleFactor : height,
+      height: MediaQuery.of(context).textScaler.scale(1) > 1 ? height * MediaQuery.of(context).textScaler.scale(1) : height,
       child: CardWithForcedTint(
         child: Stack(
           children: [

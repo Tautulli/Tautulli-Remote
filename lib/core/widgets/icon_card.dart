@@ -22,7 +22,7 @@ class IconCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
+      height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
       child: CardWithForcedTint(
         color: background != null ? Colors.transparent : null,
         child: BlocBuilder<SettingsBloc, SettingsState>(

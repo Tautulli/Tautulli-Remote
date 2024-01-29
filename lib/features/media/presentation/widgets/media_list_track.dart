@@ -18,7 +18,7 @@ class MediaListTrack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).textScaleFactor > 1 ? 50 * MediaQuery.of(context).textScaleFactor : 50,
+      height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 50 * MediaQuery.of(context).textScaler.scale(1) : 50,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: CardWithForcedTint(

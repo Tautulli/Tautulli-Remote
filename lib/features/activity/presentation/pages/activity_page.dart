@@ -287,7 +287,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) / crossAxisCount,
+                childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) / crossAxisCount,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 children: serverActivityWidgets,
@@ -366,7 +366,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) / crossAxisCount,
+                      childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) / crossAxisCount,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children: serverActivityList,

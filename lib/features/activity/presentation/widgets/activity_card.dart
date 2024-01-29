@@ -55,7 +55,7 @@ class _ActivityCardState extends State<ActivityCard> {
     }
 
     return SizedBox(
-      height: MediaQuery.of(context).textScaleFactor > 1 ? 135 * MediaQuery.of(context).textScaleFactor : 135,
+      height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
       child: CardWithForcedTint(
         child: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {

@@ -26,7 +26,7 @@ class LineChartGraph extends StatelessWidget {
     final ChartDataModel chartData = GraphHelper.buildLineChartDataModel(
       yAxis: yAxis,
       graphData: graphData,
-      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+      textScaleFactor: MediaQuery.of(context).textScaler.scale(1),
     );
     final List<LineChartBarData>? lineBarsData = GraphHelper.buildLineBarsData(
       context: context,

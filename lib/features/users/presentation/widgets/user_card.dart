@@ -66,7 +66,7 @@ class _UserCardState extends State<UserCard> {
 
         return CardWithForcedTint(
           child: SizedBox(
-            height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
+            height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
                 state as SettingsSuccess;

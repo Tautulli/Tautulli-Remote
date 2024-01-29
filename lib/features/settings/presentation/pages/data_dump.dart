@@ -243,7 +243,7 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Text Scale Factor'),
             const Gap(16),
-            Text(mediaQuery.textScaleFactor.toString()),
+            Text(mediaQuery.textScaler.scale(1).toString()),
           ],
         ),
         _DataDumpRow(
