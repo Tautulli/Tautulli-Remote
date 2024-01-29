@@ -119,6 +119,10 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
                         child: const Icon(Icons.menu),
                       ),
                       onPressed: () {
+                        // TODO: Remove this debugging line after source of issue #226 is found
+                        // https://github.com/Tautulli/Tautulli-Remote/issues/226
+                        print('Menu Button Pressed.');
+
                         innerDrawerKey.currentState?.open();
                       },
                     );
