@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
@@ -31,74 +32,79 @@ class WizardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Without the appbar the SystemUiOverlayStyle is not setting the
-      // notification bar icons to white
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: AppBar(),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.background,
       ),
-      body: PopScope(
-        canPop: false,
-        onPopInvoked: (didPop) async {
-          if (didPop) return;
+      child: Scaffold(
+        // Without the appbar the SystemUiOverlayStyle is not setting the
+        // notification bar icons to white
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
+          child: AppBar(),
+        ),
+        body: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) return;
 
-          final NavigatorState navigator = Navigator.of(context);
-          final bool? shouldPop = await showDialog(
-            context: context,
-            builder: (_) {
-              return const WizardQuitDialog();
-            },
-          );
+            final NavigatorState navigator = Navigator.of(context);
+            final bool? shouldPop = await showDialog(
+              context: context,
+              builder: (_) {
+                return const WizardQuitDialog();
+              },
+            );
 
-          if (shouldPop ?? false) {
-            navigator.pop();
-          }
-        },
-        child: PageBody(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const TautulliLogoTitle(),
-                            const Gap(16),
-                            BlocBuilder<WizardBloc, WizardState>(
-                              builder: (context, state) {
-                                state as WizardInitial;
+            if (shouldPop ?? false) {
+              navigator.pop();
+            }
+          },
+          child: PageBody(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const TautulliLogoTitle(),
+                              const Gap(16),
+                              BlocBuilder<WizardBloc, WizardState>(
+                                builder: (context, state) {
+                                  state as WizardInitial;
 
-                                if (state.activeStep == 0) {
-                                  return const WizardServers();
-                                }
-                                if (state.activeStep == 1) {
-                                  return const WizardOneSignal();
-                                }
-                                if (state.activeStep == 2) {
-                                  return const WizardThemes();
-                                }
-                                if (state.activeStep == 3) {
-                                  return const WizardAccessibility();
-                                }
-                                if (state.activeStep == 4) {
-                                  return const WizardClosing();
-                                }
+                                  if (state.activeStep == 0) {
+                                    return const WizardServers();
+                                  }
+                                  if (state.activeStep == 1) {
+                                    return const WizardOneSignal();
+                                  }
+                                  if (state.activeStep == 2) {
+                                    return const WizardThemes();
+                                  }
+                                  if (state.activeStep == 3) {
+                                    return const WizardAccessibility();
+                                  }
+                                  if (state.activeStep == 4) {
+                                    return const WizardClosing();
+                                  }
 
-                                return const SizedBox(height: 0, width: 0);
-                              },
-                            ),
-                          ],
+                                  return const SizedBox(height: 0, width: 0);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
