@@ -7,6 +7,7 @@ import '../../translations/locale_keys.g.dart';
 class TranslationHelper {
   static List<Locale> supportedLocales() {
     return [
+      const Locale('bg'),
       const Locale('ca'),
       const Locale('cs'),
       const Locale('da'),
@@ -35,6 +36,8 @@ class TranslationHelper {
   static String localeToString(Locale locale) {
     if (locale.languageCode == 'ca') {
       return 'Català';
+    } else if (locale.languageCode == 'bg') {
+      return 'Български';
     } else if (locale.languageCode == 'cs') {
       return 'Čeština';
     } else if (locale.languageCode == 'da') {
@@ -85,7 +88,9 @@ class TranslationHelper {
   }
 
   static String localeToEnglishString(Locale locale) {
-    if (locale.languageCode == 'ca') {
+    if (locale.languageCode == 'bg') {
+      return 'Bulgarian';
+    } else if (locale.languageCode == 'ca') {
       return 'Catalan';
     } else if (locale.languageCode == 'cs') {
       return 'Czech';
@@ -106,7 +111,7 @@ class TranslationHelper {
     } else if (locale.languageCode == 'it') {
       return 'Italian';
     } else if (locale.languageCode == 'my') {
-      return 'Mranmaza';
+      return 'Myanmar';
     } else if (locale.languageCode == 'nb') {
       return 'Norwegian Bokmål';
     } else if (locale.languageCode == 'nl') {

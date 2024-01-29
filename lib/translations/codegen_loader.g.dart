@@ -3169,6 +3169,7 @@ static const Map<String,dynamic> el = {
   "view_user_title": "Προβολή χρήστη",
   "y_axis_title": "Άξονας Υ"
 };
+static const Map<String,dynamic> bg = {};
 static const Map<String,dynamic> ca = {
   "about_title": "Quant a",
   "accepted_title": "Acceptat",
@@ -4310,5 +4311,5 @@ static const Map<String,dynamic> nb = {
   "global_stats_title": "Global statistikk",
   "y_axis_title": "Y Akse"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "sk": sk, "en": en, "my": my, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
+static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "sk": sk, "en": en, "my": my, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "bg": bg, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
 }
