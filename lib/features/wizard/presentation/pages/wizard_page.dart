@@ -38,16 +38,22 @@ class WizardView extends StatelessWidget {
         preferredSize: const Size.fromHeight(0),
         child: AppBar(),
       ),
-      body: WillPopScope(
-        onWillPop: () async {
-          final result = await showDialog(
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+
+          final NavigatorState navigator = Navigator.of(context);
+          final bool? shouldPop = await showDialog(
             context: context,
-            barrierDismissible: false,
-            builder: (context) {
+            builder: (_) {
               return const WizardQuitDialog();
             },
           );
-          return Future.value(result);
+
+          if (shouldPop ?? false) {
+            navigator.pop();
+          }
         },
         child: PageBody(
           child: Padding(

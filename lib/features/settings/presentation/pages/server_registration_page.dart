@@ -79,13 +79,23 @@ class ServerRegistrationView extends StatelessWidget {
         },
       ),
       body: PageBody(
-        child: WillPopScope(
-          onWillPop: () async => await showDialog(
-            context: context,
-            builder: (_) {
-              return const RegistrationExitDialog();
-            },
-          ),
+        child: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) async {
+            if (didPop) return;
+
+            final NavigatorState navigator = Navigator.of(context);
+            final bool? shouldPop = await showDialog(
+              context: context,
+              builder: (_) {
+                return const RegistrationExitDialog();
+              },
+            );
+
+            if (shouldPop ?? false) {
+              navigator.pop();
+            }
+          },
           child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
             listener: (context, state) async {
               if (state is RegisterDeviceSuccess) {
