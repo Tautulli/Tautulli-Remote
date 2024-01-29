@@ -118,5 +118,20 @@
     "videos_title": "Videók",
     "view_media_title": "Média megtekintése",
     "view_user_title": "Felhasználó megtekintése",
-    "y_axis_title": "Y tengely"
+    "y_axis_title": "Y tengely",
+    "cancel_title": "Mégse",
+    "app_update_available_message": "Frissítés érhető el a Tautulli Remote-hoz",
+    "cannot_be_blank_message": "Nem lehet üres",
+    "activity_empty_message": "Jelenleg nincs lejátszás.",
+    "active_connection_title": "Aktív kapcsolat",
+    "active_connection_content": "Ez a Tautulli Remote által használt jelenlegi kapcsolati cím.",
+    "accessibility_title": "Kisegítő lehetőségek",
+    "advanced_title": "Haladó",
+    "aired_title": "Sugárzott",
+    "all_users_title": "Összes felhasználó",
+    "add_custom_http_header_title": "Egyéni HTTP-fejléc hozzáadása",
+    "announcements_load_failed_message": "Nem sikerült betölteni a közleményeket.",
+    "certificate_verification_failed_content": "A kiszolgáló tanúsítványát nem lehet hitelesíteni, és lehet önjelölni. Szeretné bízni ezt a tanúsítványt?",
+    "certificate_verification_failed_title": "Tanúsítvány ellenőrzés Hibás",
+    "change_language_title": "Nyelv megváltoztatása"
 }
