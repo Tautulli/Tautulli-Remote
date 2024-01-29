@@ -2395,6 +2395,7 @@ static const Map<String,dynamic> en = {
   "written_by_title": "Written By",
   "y_axis_title": "Y Axis"
 };
+static const Map<String,dynamic> my = {};
 static const Map<String,dynamic> pt_PT = {
   "about_legalese": "Licenciado sob a GNU General Public License v3.0",
   "about_title": "Sobre",
@@ -4309,5 +4310,5 @@ static const Map<String,dynamic> nb = {
   "global_stats_title": "Global statistikk",
   "y_axis_title": "Y Akse"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "sk": sk, "en": en, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
+static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "sk": sk, "en": en, "my": my, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
 }
