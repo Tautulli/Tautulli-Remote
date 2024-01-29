@@ -169,31 +169,68 @@ class _AppDrawerState extends State<_AppDrawer> {
       final route = ModalRoute.of(context);
       final homePage = di.sl<Settings>().getHomePage();
 
-      if (route?.settings.name == '/activity' || homePage == 'activity') {
+      if (route?.settings.name == '/') {
+        switch (homePage) {
+          case ('history'):
+            setState(() {
+              screenIndex = 1;
+            });
+            return;
+          case ('recent'):
+            setState(() {
+              screenIndex = 2;
+            });
+            return;
+          case ('libraries'):
+            setState(() {
+              screenIndex = 3;
+            });
+            return;
+          case ('users'):
+            setState(() {
+              screenIndex = 4;
+            });
+            return;
+          case ('statistics'):
+            setState(() {
+              screenIndex = 5;
+            });
+            return;
+          case ('graphs'):
+            setState(() {
+              screenIndex = 6;
+            });
+            return;
+          default:
+            setState(() {
+              screenIndex = 0;
+            });
+        }
+      } else if (route?.settings.name == '/activity') {
         setState(() {
           screenIndex = 0;
         });
-      } else if (route?.settings.name == '/history' || homePage == 'history') {
+      } else if (route?.settings.name == '/history') {
         setState(() {
           screenIndex = 1;
         });
-      } else if (route?.settings.name == '/recent' || homePage == 'recent') {
+      } else if (route?.settings.name == '/recent') {
         setState(() {
           screenIndex = 2;
         });
-      } else if (route?.settings.name == '/libraries' || homePage == 'libraries') {
+      } else if (route?.settings.name == '/libraries') {
         setState(() {
           screenIndex = 3;
         });
-      } else if (route?.settings.name == '/users' || homePage == 'users') {
+      } else if (route?.settings.name == '/users') {
         setState(() {
           screenIndex = 4;
         });
-      } else if (route?.settings.name == '/statistics' || homePage == 'statistics') {
+      } else if (route?.settings.name == '/statistics') {
         setState(() {
           screenIndex = 5;
         });
-      } else if (route?.settings.name == '/graphs' || homePage == 'graphs') {
+      } else if (route?.settings.name == '/graphs') {
         setState(() {
           screenIndex = 6;
         });
