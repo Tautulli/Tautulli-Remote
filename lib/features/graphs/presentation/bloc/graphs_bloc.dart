@@ -19,6 +19,7 @@ import '../../domain/usecases/graphs.dart';
 part 'graphs_event.dart';
 part 'graphs_state.dart';
 
+int? userIdCache;
 String? tautulliIdCache;
 PlayMetricType? yAxisCache;
 int? timeRangeCache;
@@ -84,6 +85,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     required this.logging,
   }) : super(
           GraphsState(
+            userId: userIdCache,
             yAxis: yAxisCache ?? PlayMetricType.plays,
             timeRange: timeRangeCache ?? 30,
             graphs: graphsCache,
@@ -117,6 +119,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
       }
 
       graphsCache = defaultGraphs;
+      userIdCache = event.userId;
       tautulliIdCache = event.server.tautulliId;
       yAxisCache = event.yAxis;
       timeRangeCache = event.timeRange;
@@ -125,6 +128,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
           .getConcurrentStreamsByStreamType(
             tautulliId: event.server.tautulliId,
             timeRange: event.timeRange,
+            userId: event.userId == -1 ? null : event.userId,
           )
           .then(
             (failureOrGetConcurrentStreamsByStreamType) => add(
@@ -142,7 +146,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -161,7 +165,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -180,7 +184,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -199,7 +203,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -218,7 +222,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -237,7 +241,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -256,7 +260,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: 12,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -275,7 +279,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -294,7 +298,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -313,7 +317,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
@@ -332,7 +336,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             tautulliId: event.server.tautulliId,
             yAxis: event.yAxis,
             timeRange: event.timeRange,
-            userId: event.userId,
+            userId: event.userId == -1 ? null : event.userId,
             grouping: event.grouping,
           )
           .then(
