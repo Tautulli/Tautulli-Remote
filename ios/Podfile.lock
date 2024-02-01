@@ -37,17 +37,17 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.1.1):
     - Flutter
-  - purchases_flutter (5.8.0):
+  - purchases_flutter (6.18.0):
     - Flutter
-    - PurchasesHybridCommon (= 6.3.0)
-  - PurchasesHybridCommon (6.3.0):
-    - RevenueCat (= 4.26.1)
+    - PurchasesHybridCommon (= 9.2.0)
+  - PurchasesHybridCommon (9.2.0):
+    - RevenueCat (= 4.32.2)
   - quick_actions_ios (0.0.1):
     - Flutter
   - rate_my_app (2.0.0):
     - Flutter
   - ReachabilitySwift (5.0.0)
-  - RevenueCat (4.26.1)
+  - RevenueCat (4.32.2)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -147,12 +147,12 @@ SPEC CHECKSUMS:
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
-  purchases_flutter: a23f77000427872e31f770101cd0cd6f4fc60cb3
-  PurchasesHybridCommon: 5ee5e13fe009876850a03f52bb0349b6fa91d976
+  purchases_flutter: d72ff299589418cddae4ccac2d2ce55e0fbd1eba
+  PurchasesHybridCommon: e6c4550d06ecdfc61a228a0e17b2f125b3bd14c2
   quick_actions_ios: d24571db7345d2e48d094db8d077a015a568002d
   rate_my_app: 80fba94c4885cd31738231b7b1f51c1ad726f5c7
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  RevenueCat: 4e8899a69fd57180ef166237d1eb670023be05de
+  RevenueCat: 298f40f434e6675ea51744cfca5945f09f7c5a07
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec

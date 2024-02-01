@@ -1,6 +1,37 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.2.3",
+      "date": "February 1, 2024",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the ability to customize the home page under Settings > Advanced",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added users filter to the graphs page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Upgraded Flutter version and dependencies",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added additional console logging",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Myanmar and Bulgarian languages",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Hungarian and Portuguese (Brazil)",
+          "additional": "Thanks pzsolti92 and RsPlay",
+        },
+      ],
+    },
+    {
       "version": "v3.2.2",
       "date": "November 1, 2023",
       "changes": [
