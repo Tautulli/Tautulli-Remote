@@ -133,5 +133,20 @@
     "announcements_load_failed_message": "Nem sikerült betölteni a közleményeket.",
     "certificate_verification_failed_content": "A kiszolgáló tanúsítványát nem lehet hitelesíteni, és lehet önjelölni. Szeretné bízni ezt a tanúsítványt?",
     "certificate_verification_failed_title": "Tanúsítvány ellenőrzés Hibás",
-    "change_language_title": "Nyelv megváltoztatása"
+    "change_language_title": "Nyelv megváltoztatása",
+    "basic_authentication_title": "alapszintű hitelesítés",
+    "bitrate_title": "Bitráta",
+    "clear_app_image_cache_dialog_content": "Biztosan törölni szeretné a helyi kép-gyorsítótárat?",
+    "clear_app_image_cache_subtitle": "Helyi gyorsítótárban lévő képek törlése",
+    "clear_app_image_cache_title": "Az alkalmazás kép gyorsítótárának törlése",
+    "clear_tautulli_image_cache_dialog_content": "Biztosan törölni akarja a kép gyorsítótárát {}?",
+    "clear_tautulli_image_cache_failure_snackbar_message": "Sikertelen a {} kép gyorsítótár törlése",
+    "clear_tautulli_image_cache_success_snackbar_message": "{} kép gyorsítótár törölve",
+    "clear_tautulli_image_cache_subtitle": "Kiszolgálón gyorsítótárazott képek törlése",
+    "artists_title": "Művész",
+    "audio_title": "Hang",
+    "bandwidth_title": "Sávszélesség",
+    "app_logs_title": "Napló",
+    "check_again_title": "Ellenőrizd újra",
+    "clear_app_image_cache_success_snackbar_message": "Kép-gyorsítótár törölve"
 }
