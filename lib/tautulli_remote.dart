@@ -236,34 +236,33 @@ class TautulliRemoteState extends State<TautulliRemote> {
   }
 
   Future<void> oneSignalServerRegistrationChange() async {
-    final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
-    if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
-      di.sl<Logging>().info(
-            'OneSignal :: OneSignal registration changed, updating server registration',
-          );
+    final servers = await di.sl<Settings>().getAllServers();
 
-      for (ServerModel server in serversWithoutOneSignal) {
-        final failureOrRegisterDevice = await updateServerRegistration(server);
-
-        failureOrRegisterDevice.fold(
-          (failure) {
-            di.sl<Logging>().error(
-                  'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
-                );
-          },
-          (results) {
-            di.sl<Settings>().updateServer(
-                  server.copyWith(oneSignalRegistered: true),
-                );
-
-            di.sl<Logging>().info(
-                  'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
-                );
-
-            di.sl<Settings>().setRegistrationUpdateNeeded(false);
-          },
+    di.sl<Logging>().info(
+          'OneSignal :: OneSignal registration changed, updating server registration',
         );
-      }
+
+    for (ServerModel server in servers) {
+      final failureOrRegisterDevice = await updateServerRegistration(server);
+
+      failureOrRegisterDevice.fold(
+        (failure) {
+          di.sl<Logging>().error(
+                'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+              );
+        },
+        (results) {
+          di.sl<Settings>().updateServer(
+                server.copyWith(oneSignalRegistered: true),
+              );
+
+          di.sl<Logging>().info(
+                'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+              );
+
+          di.sl<Settings>().setRegistrationUpdateNeeded(false);
+        },
+      );
     }
   }
 
