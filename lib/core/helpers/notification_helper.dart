@@ -18,6 +18,7 @@ class NotificationHelper {
         );
 
     if (server != null && data['encrypted'] == true) {
+      int? version = data['version'];
       String? salt = data['salt'];
       String? cipherText = data['cipher_text'];
       String? nonce = data['nonce'];
@@ -28,8 +29,8 @@ class NotificationHelper {
         final Uint8List nonceDecoded = base64Decode(nonce);
 
         final pbkdf2 = Pbkdf2(
-          macAlgorithm: Hmac.sha1(),
-          iterations: 1000,
+          macAlgorithm: version == 2 ? Hmac.sha256() : Hmac.sha1(),
+          iterations: version == 2 ? 600000 : 1000,
           bits: 32 * 8,
         );
 

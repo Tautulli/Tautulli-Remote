@@ -1,4 +1,5 @@
 import CryptoSwift
+import CommonCrypto
 import Foundation
 import OneSignal
 import os.log
@@ -22,6 +23,7 @@ class NotificationService: UNNotificationServiceExtension {
             if let custom = userInfo["custom"] as? [String: AnyObject] {
                 let data = custom["a"]! as! [String: AnyObject]
                 
+                let version = data.keys.contains("version") ? data["version"] as! Int : 1
                 let serverId = data["server_id"] as! String
                 let serverInfoDict = getServerInfo(serverId: serverId)
                 let deviceToken = serverInfoDict["deviceToken"]! as String
@@ -33,7 +35,7 @@ class NotificationService: UNNotificationServiceExtension {
                     let salt = data["salt"] as! String
                     let nonce = data["nonce"] as! String
                     let cipherText = data["cipher_text"] as! String
-                    jsonMessage = getUnencryptedMessage(deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
+                    jsonMessage = getUnencryptedMessage(version: version, deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
                 } else {
                     jsonMessage = data["plain_text"] as! [String: Any]
                 }
@@ -154,32 +156,84 @@ class NotificationService: UNNotificationServiceExtension {
         
         return serverInfoDict
     }
+
+    private func pbkdf2SHA1(password: String, saltData: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        return pbkdf2(password: password, saltData: saltData, keyByteCount: keyByteCount, prf: CCPBKDFAlgorithm(kCCPRFHmacAlgSHA1), rounds: rounds)
+    }
+
+    private func pbkdf2SHA256(password: String, saltData: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        return pbkdf2(password: password, saltData: saltData, keyByteCount: keyByteCount,prf: CCPBKDFAlgorithm(kCCPRFHmacAlgSHA256),  rounds: rounds)
+    }
+
+    private func pbkdf2(password: String, saltData: Data, keyByteCount: Int, prf: CCPseudoRandomAlgorithm, rounds: Int) -> Data? {
+    guard let passwordData = password.data(using: .utf8) else { return nil }
+    var derivedKeyData = Data(repeating: 0, count: keyByteCount)
+    let derivedCount = derivedKeyData.count
+    let derivationStatus: Int32 = derivedKeyData.withUnsafeMutableBytes { derivedKeyBytes in
+        let keyBuffer: UnsafeMutablePointer<UInt8> =
+            derivedKeyBytes.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        return saltData.withUnsafeBytes { saltBytes -> Int32 in
+            let saltBuffer: UnsafePointer<UInt8> = saltBytes.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            return CCKeyDerivationPBKDF(
+                CCPBKDFAlgorithm(kCCPBKDF2),
+                password,
+                passwordData.count,
+                saltBuffer,
+                saltData.count,
+                prf,
+                UInt32(rounds),
+                keyBuffer,
+                derivedCount)
+        }
+    }
+    return derivationStatus == kCCSuccess ? derivedKeyData : nil
+}
     
-    private func getUnencryptedMessage(deviceToken: String, salt: String, nonce: String, cipherText: String) -> [String: Any] {
+    private func getUnencryptedMessage(version: Int, deviceToken: String, salt: String, nonce: String, cipherText: String) -> [String: Any] {
         print("Tautulli Notification Info: Encypted notification received...")
 
-        let password: Array<UInt8> = Array(deviceToken.utf8)
-        let salt: Array<UInt8> = Array(Data(base64Encoded: salt)!.bytes)
+        let saltData: Data = Data(base64Encoded: salt)!
         let nonce: Array<UInt8> = Array(Data(base64Encoded: nonce)!.bytes)
         let cipherText: Array<UInt8> = Array(Data(base64Encoded: cipherText)!.bytes)
-        
-        do {
-            let key = try PKCS5.PBKDF2(password: password, salt: salt, iterations: 1000, keyLength: 32, variant: .sha1).calculate()
-            let gcm = GCM(iv: nonce, mode: .combined)
-            let aes = try AES(key: key, blockMode: gcm, padding: .noPadding)
-            let plainText = try aes.decrypt(cipherText)
 
-            let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
+        if (version == 2) {
+            do {
+                let key = pbkdf2SHA256(password: deviceToken, saltData: saltData, keyByteCount: 32, rounds: 600000)
+                let gcm = GCM(iv: nonce, mode: .combined)
+                let aes = try AES(key: Array(key!), blockMode: gcm, padding: .noPadding)
+                let plainText = try aes.decrypt(cipherText)
 
-            print("Tautulli Notification Info: Decrypting notification...")
-            
-            return decryptedData
-        } catch {
-            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+                let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
 
-            print("Tautulli Notification Info: Issues decrypting notification, required data missing")
-            
-            return ["ERROR": error]
+                print("Tautulli Notification Info: Decrypting v2 notification...")
+                
+                return decryptedData
+            } catch {
+                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+
+                print("Tautulli Notification Info: Issues decrypting notification, required data missing")
+                
+                return ["ERROR": error]
+            }
+        } else {
+            do {
+                let key = pbkdf2SHA1(password: deviceToken, saltData: saltData, keyByteCount: 32, rounds: 1000)
+                let gcm = GCM(iv: nonce, mode: .combined)
+                let aes = try AES(key: Array(key!), blockMode: gcm, padding: .noPadding)
+                let plainText = try aes.decrypt(cipherText)
+
+                let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
+
+                print("Tautulli Notification Info: Decrypting v1 notification...")
+                
+                return decryptedData
+            } catch {
+                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+
+                print("Tautulli Notification Info: Issues decrypting notification, required data missing")
+                
+                return ["ERROR": error]
+            }
         }
     }
 }

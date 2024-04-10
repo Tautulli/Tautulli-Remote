@@ -38,13 +38,15 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
         val notification: OSNotification = notificationReceivedEvent.getNotification()
         val data: JSONObject = notification.getAdditionalData()
         try {
+            val version = data.optInt("version", 1)
             val serverId = data.getString("server_id")
             val serverInfoMap = getServerInfo(context, serverId)
             val deviceToken = serverInfoMap["deviceToken"]!!
 
+
             //* If encrypted decrypt the payload data
             val jsonMessage: JSONObject = if (data.getBoolean("encrypted")) {
-                JSONObject(getUnencryptedMessage(data, deviceToken))
+                JSONObject(getUnencryptedMessage(data, version, deviceToken))
             } else {
                 JSONObject(data.getString("plain_text"))
             }
@@ -165,7 +167,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
         }
     }
 
-    private fun getUnencryptedMessage(data: JSONObject?, deviceToken: String): String {
+    private fun getUnencryptedMessage(data: JSONObject?, version: Int, deviceToken: String): String {
         Log.d("Tautulli Notification Info", "Encypted notification received...")
         if (data != null) {
             val salt: String = data.optString("salt", "")
@@ -174,7 +176,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
 
             if (salt != "" && cipherText != "" && nonce != "") {
                 Log.d("Tautulli Notification Info", "Decrypting Notification...")
-                return DecryptAESGCM.decrypt(deviceToken, salt, cipherText, nonce)
+                return DecryptAESGCM.decrypt(version, deviceToken, salt, cipherText, nonce)
             }
         }
         Log.d("Tautulli Notification Info", "Issues decrypting notification, required data missing")
