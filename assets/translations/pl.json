@@ -376,5 +376,19 @@
     "shows_title": "Seriale",
     "skip_title": "Pomiń",
     "play_time_by_user_stream_type": "Czas odtwarzania według typu strumienia użytkownika",
-    "play_count_by_user_stream_type": "Liczba odtworzeń według typu strumienia użytkownika"
+    "play_count_by_user_stream_type": "Liczba odtworzeń według typu strumienia użytkownika",
+    "dont_ask_again_message": "Nie pytaj ponownie",
+    "later_title": "Później",
+    "review_title": "Recenzja",
+    "custom_color_title": "Niestandardowy kolor",
+    "dynamic_color_title": "Dynamiczny kolor",
+    "dynamic_theme_subtitle": "Wybierz dowolny kolor",
+    "font_title": "Czcionka",
+    "select_title": "Wybierz",
+    "theme_title": "Motyw",
+    "dynamic_title": "Dynamiczne",
+    "enhancements_title": "Usprawnienia",
+    "themes_title": "Motywy",
+    "high_contrast_title": "Wysoki kontrast",
+    "home_page_title": "Strona główna"
 }
