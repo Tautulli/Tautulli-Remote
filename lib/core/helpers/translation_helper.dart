@@ -29,6 +29,7 @@ class TranslationHelper {
       const Locale('sl'),
       const Locale('sq'),
       const Locale('sv'),
+      const Locale('uk'),
       const Locale('zh'),
     ];
   }
@@ -80,6 +81,8 @@ class TranslationHelper {
       return 'Shqip';
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
+    } else if (locale.languageCode == 'uk') {
+      return 'українська мова';
     } else if (locale.languageCode == 'zh') {
       return '简体中文';
     } else {
@@ -134,6 +137,8 @@ class TranslationHelper {
       return 'Albanian';
     } else if (locale.languageCode == 'sv') {
       return 'Swedish';
+    } else if (locale.languageCode == 'uk') {
+      return 'Ukranian';
     } else if (locale.languageCode == 'zh') {
       return 'Chinese (Simplified)';
     } else {

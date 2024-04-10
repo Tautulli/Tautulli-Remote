@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-// ignore_for_file: prefer_single_quotes
+// ignore_for_file: prefer_single_quotes, avoid_renaming_method_parameters
 
 import 'dart:ui';
 
@@ -1826,6 +1826,7 @@ static const Map<String,dynamic> pl = {
   "play_time_by_user_stream_type": "Czas odtwarzania według typu strumienia użytkownika",
   "play_count_by_user_stream_type": "Liczba odtworzeń według typu strumienia użytkownika"
 };
+static const Map<String,dynamic> uk = {};
 static const Map<String,dynamic> sk = {
   "about_legalese": "Licencované podľa všeobecnej verejnej licencie GNU v3.0",
   "about_title": "O nás",
@@ -4312,5 +4313,5 @@ static const Map<String,dynamic> nb = {
   "global_stats_title": "Global statistikk",
   "y_axis_title": "Y Akse"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "sk": sk, "en": en, "my": my, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "bg": bg, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
+static const Map<String, Map<String,dynamic>> mapLocales = {"zh": zh, "sl": sl, "hu": hu, "nl": nl, "de": de, "ru": ru, "pl": pl, "uk": uk, "sk": sk, "en": en, "my": my, "pt_PT": pt_PT, "it": it, "sq": sq, "fr": fr, "el": el, "bg": bg, "ca": ca, "pt_BR": pt_BR, "cs": cs, "da": da, "sv": sv, "es": es, "nb": nb};
 }
