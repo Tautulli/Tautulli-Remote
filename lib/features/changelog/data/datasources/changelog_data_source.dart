@@ -1,6 +1,34 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.2.4",
+      "date": "April 11, 2024",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "After an update OneSignal may need to re-register, please make sure the banner on the Settings page is gone before you attempt to test notifications",
+        },
+        {
+          "type": "improvement",
+          "detail": "Improved the encryption method for notifications",
+        },
+        {
+          "type": "improvement",
+          "detail": "Further improvements to avoid loss of OneSignal ID registered with Tautulli",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Ukranian language",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Burmese, Polish, Spanish, and Hungarian",
+          "additional": "Thanks gnu-ewm, @evoke0, and @novamaxxhu",
+        },
+      ],
+    },
+    {
       "version": "v3.2.3",
       "date": "February 1, 2024",
       "changes": [
