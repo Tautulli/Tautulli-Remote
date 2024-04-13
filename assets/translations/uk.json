@@ -314,5 +314,17 @@
     "play_time_by_stream_resolution": "Час відтворення за роздільною здатністю потоку",
     "play_time_by_top_10_platforms": "Час відтворення на 10 найкращих платформах",
     "player_stats_empty_message": "Немає статистики відтворення.",
-    "player_stats_title": "Статистика програвачів"
+    "player_stats_title": "Статистика програвачів",
+    "accepted_title": "Прийнято",
+    "converting_title": "Конвертування",
+    "custom_http_headers_title": "Спеціальні заголовки HTTP",
+    "directed_by_title": "Режисер",
+    "donate_big_tip_title": "Великі чайові",
+    "double_back_to_exit_toast_message": "Щоб вийти, знову натисніть «Назад»",
+    "double_back_to_exit_title": "Двічі натисніть «Назад», щоб вийти",
+    "error_message_terminate_stream_failed": "Не вдалося завершити трансляцію",
+    "eta_title": "Закінчується о",
+    "started_title": "Розпочато",
+    "dismiss_buttom": "СКАСУВАТИ",
+    "double_back_to_exit_subtitle": "Щоб вийти, двічі натисніть «Назад»"
 }
