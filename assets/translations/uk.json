@@ -192,7 +192,7 @@
     "wizard_theme_text_1": "Ви можете налаштувати вигляд Tautulli Remote.",
     "wizard_quit_dialog_title": "Ви впевнені, що бажаєте вийти з майстра налаштування?",
     "wizard_theme_text_2": "Спробуйте динамічну тему разом з улюбленим кольором!",
-    "wizard_welcome_text_1": "Ласкаво просимо!",
+    "wizard_welcome_text_1": "Вітаємо!",
     "wizard_welcome_text_2": "Tautulli Remote дозволяє переглядати активність, історію, статистику та багато іншого на сервері Plex, підключившись до існуючого сервера Tautulli.",
     "wizard_welcome_text_3": "Перш ніж продовжити роботу з майстром налаштування, переконайтеся, що Tautulli наразі запущено та доступний із цього пристрою.",
     "register_a_tautulli_server_title": "Зареєструйте сервер Tautulli",
@@ -398,5 +398,8 @@
     "user_stats_empty_message": "Статистика користувача не знайдена.",
     "users_title": "Користувачі",
     "video_title": "Відео",
-    "view_media_title": "Переглянути медіа"
+    "view_media_title": "Переглянути медіа",
+    "custom_title": "Власний",
+    "decision_title": "Відтворення",
+    "visuals_title": "Візуально"
 }
