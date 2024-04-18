@@ -12,6 +12,7 @@ Map changelog = {
         {
           "type": "improvement",
           "detail": "Improved the encryption method for notifications",
+          "additional": "Requires Tautulli v2.14.0 or later",
         },
         {
           "type": "improvement",
@@ -23,8 +24,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "New translations for Burmese, Polish, Spanish, and Hungarian",
-          "additional": "Thanks gnu-ewm, @evoke0, and @novamaxxhu",
+          "detail": "New translations for Burmese, Hungarian, Polish, Spanish, and Ukranian",
+          "additional": "Thanks gnu-ewm, @novamaxxhu, @evoke0, and @Michael5564445",
         },
       ],
     },
