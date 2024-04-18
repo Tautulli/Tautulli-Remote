@@ -20,11 +20,11 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Added Ukranian language",
+          "detail": "Added Ukrainian language",
         },
         {
           "type": "improvement",
-          "detail": "New translations for Burmese, Hungarian, Polish, Spanish, and Ukranian",
+          "detail": "New translations for Burmese, Hungarian, Polish, Spanish, and Ukrainian",
           "additional": "Thanks gnu-ewm, @novamaxxhu, @evoke0, and @Michael5564445",
         },
       ],
