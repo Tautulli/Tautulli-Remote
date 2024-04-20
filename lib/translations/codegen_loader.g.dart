@@ -1956,7 +1956,7 @@ static const Map<String,dynamic> uk = {
   "min": "хв",
   "month": "місяць",
   "more_title": "Більше",
-  "media_type_title": "Тип трансляції",
+  "media_type_title": "Тип медіа",
   "onesignal_data_privacy_text_block_1": "Tautulli Remote підтримує %шифрування end-to-end%",
   "onesignal_data_privacy_text_block_3": "Дані сповіщень, надіслані через API OneSignal, будуть %видалені через ~30 днів%.",
   "onesignal_data_privacy_text_block_4": "Після того, як ви приймете, цей пристрій буде зареєстровано в OneSignal. Згоду можна відкликати, щоб запобігти подальшому спілкуванню з OneSignal.",
