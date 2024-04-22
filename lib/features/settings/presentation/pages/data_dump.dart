@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/device_info/device_info.dart';
@@ -309,7 +312,40 @@ class _AppSettings extends StatelessWidget {
           .map(
             (e) => _DataDumpRow(
               children: [
-                _DataDumpRowHeading(e.key),
+                GestureDetector(
+                  onLongPress: e.key == 'Patch'
+                      ? () async {
+                          final shorebirdCodePush = ShorebirdCodePush();
+                          final isUpdateAvailable = await shorebirdCodePush.isNewPatchAvailableForDownload();
+
+                          if (di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
+                            HapticFeedback.vibrate();
+                          } else {
+                            HapticFeedback.heavyImpact();
+                          }
+
+                          if (isUpdateAvailable) {
+                            Fluttertoast.showToast(
+                              toastLength: Toast.LENGTH_LONG,
+                              msg: 'Patch available, please wait...',
+                            );
+
+                            await shorebirdCodePush.downloadUpdateIfAvailable();
+
+                            Fluttertoast.showToast(
+                              toastLength: Toast.LENGTH_LONG,
+                              msg: 'Patch downloaded, restart app to apply',
+                            );
+                          } else {
+                            Fluttertoast.showToast(
+                              toastLength: Toast.LENGTH_SHORT,
+                              msg: 'No patch available',
+                            );
+                          }
+                        }
+                      : null,
+                  child: _DataDumpRowHeading(e.key),
+                ),
                 const Gap(16),
                 Text(
                   e.value,

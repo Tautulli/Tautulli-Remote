@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
@@ -371,6 +372,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         multiserverActivity: settings.getMultiserverActivity(),
         oneSignalBannerDismissed: settings.getOneSignalBannerDismissed(),
         oneSignalConsented: settings.getOneSignalConsented(),
+        patch: await ShorebirdCodePush().currentPatchNumber(),
         refreshRate: settings.getRefreshRate(),
         secret: settings.getSecret(),
         serverTimeout: settings.getServerTimeout(),
