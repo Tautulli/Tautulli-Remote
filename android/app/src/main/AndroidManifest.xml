@@ -24,7 +24,8 @@
         android:name="${applicationName}"
         android:label="Tautulli Remote"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:exported="true"
