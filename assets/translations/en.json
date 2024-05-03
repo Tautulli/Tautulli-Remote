@@ -121,7 +121,7 @@
     "error_message_no_servers": "No servers are configured",
     "error_message_server": "Failed to connect to server",
     "error_message_server_version": "Server version does not meet requirements",
-    "error_message_terminate_stream_failed": "Failured to terminate stream",
+    "error_message_terminate_stream_failed": "Failed to terminate stream",
     "error_snackbar_message": "Something went wrong",
     "error_suggestion_authorization_required": "Server responded with Authorization Required. Verify connection details and headers.",
     "error_suggestion_bad_api_response": "The server response was missing required information. Please contact support.",
