@@ -31,6 +31,7 @@ import 'progress_bar.dart';
 import 'terminate_stream_dialog.dart';
 import 'time_eta.dart';
 import 'time_total.dart';
+import 'progress_percent.dart';
 
 class ActivityBottomSheet extends StatefulWidget {
   final ServerModel server;
@@ -261,9 +262,17 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                             server: widget.server,
                                                             activity: activity,
                                                           ),
-                                                          TimeTotal(
-                                                            viewOffset: activity.viewOffset!,
-                                                            duration: activity.duration!,
+                                                          Row(
+                                                            children: [
+                                                              if (activity.progressPercent != null) ...[
+                                                                ProgressPercent(progressPercent: activity.progressPercent!),
+                                                                const Text(' • '),
+                                                              ],
+                                                              TimeTotal(
+                                                                viewOffset: activity.viewOffset!,
+                                                                duration: activity.duration!,
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
