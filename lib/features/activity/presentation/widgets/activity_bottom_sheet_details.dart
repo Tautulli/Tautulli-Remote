@@ -72,7 +72,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                       _ItemRow(
                         title: LocaleKeys.player_title.tr(),
                         item: Text(
-                          widget.activity.player ?? '',
+                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.activity.player ?? '',
                         ),
                       ),
                       _ItemRow(
