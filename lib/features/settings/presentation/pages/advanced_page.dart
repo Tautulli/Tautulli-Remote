@@ -23,6 +23,7 @@ class AdvancedView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.advanced_title).tr(),
       ),
       body: PageBody(

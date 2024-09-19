@@ -102,6 +102,7 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
         leftChild: _AppDrawer(innerDrawerKey: innerDrawerKey),
         scaffold: Scaffold(
           appBar: AppBar(
+            forceMaterialTransparency: true,
             leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
               builder: (context, announcementsState) {
                 return BlocBuilder<SettingsBloc, SettingsState>(

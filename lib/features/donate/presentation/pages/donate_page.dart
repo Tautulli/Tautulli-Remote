@@ -38,6 +38,7 @@ class DonatePage extends StatelessWidget {
     } else {
       return Scaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           title: const Text(LocaleKeys.donate_title).tr(),
         ),
         body: const PageBody(

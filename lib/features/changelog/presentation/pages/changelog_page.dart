@@ -26,6 +26,7 @@ class ChangelogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.changelog_title).tr(),
         actions: [
           TextButton.icon(

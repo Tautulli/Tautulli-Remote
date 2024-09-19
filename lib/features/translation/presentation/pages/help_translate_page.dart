@@ -28,6 +28,7 @@ class HelpTranslateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.help_translate_title).tr(),
       ),
       body: PageBody(

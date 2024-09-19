@@ -1,4 +1,5 @@
 //! Added custom TextButton styling
+//! Added forceMaterialTransparency: true to every AppBar
 
 // Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -854,6 +855,7 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
     if (widget.scrollController == null) {
       page = Scaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           title: _PackageLicensePageTitle(
             title: title,
             subtitle: subtitle,
@@ -892,6 +894,7 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
         controller: widget.scrollController,
         slivers: <Widget>[
           SliverAppBar(
+            forceMaterialTransparency: true,
             automaticallyImplyLeading: false,
             pinned: true,
             backgroundColor: theme.cardColor,
@@ -1251,6 +1254,7 @@ class _MasterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: title,
         leading: leading,
         actions: const <Widget>[],
@@ -1334,6 +1338,7 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold> implements
         Scaffold(
           floatingActionButtonLocation: floatingActionButtonLocation,
           appBar: AppBar(
+            forceMaterialTransparency: true,
             title: widget.title,
             actions: widget.actionBuilder!(context, _ActionLevel.top),
             bottom: PreferredSize(
@@ -1406,6 +1411,7 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold> implements
       child: needsScaffold
           ? Scaffold(
               appBar: AppBar(
+                forceMaterialTransparency: true,
                 title: widget.title,
                 actions: widget.actionBuilder!(context, _ActionLevel.top),
               ),

@@ -81,6 +81,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: Text(StringHelper.mapStatIdTypeToString(widget.statIdType)),
       ),
       body: PageBody(

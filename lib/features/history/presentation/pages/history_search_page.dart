@@ -73,6 +73,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         titleSpacing: 0,
         title: _appBarTitle(),
         actions: _appBarActions(),

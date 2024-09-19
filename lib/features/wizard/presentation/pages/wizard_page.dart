@@ -41,7 +41,9 @@ class WizardView extends StatelessWidget {
         // notification bar icons to white
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: AppBar(),
+          child: AppBar(
+            forceMaterialTransparency: true,
+          ),
         ),
         body: PopScope(
           canPop: false,

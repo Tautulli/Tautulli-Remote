@@ -70,6 +70,7 @@ class ServerSettingsView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            forceMaterialTransparency: true,
             title: Text(server.plexName),
             actions: [
               DeleteServerButton(

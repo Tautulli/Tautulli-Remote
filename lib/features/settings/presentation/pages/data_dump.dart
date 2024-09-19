@@ -47,6 +47,7 @@ class DataDumpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.data_dump_title).tr(),
       ),
       body: PageBody(

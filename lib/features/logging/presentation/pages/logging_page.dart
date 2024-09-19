@@ -56,6 +56,7 @@ class _LoggingViewState extends State<LoggingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.app_logs_title).tr(),
         actions: _appbarActions(),
       ),

@@ -174,7 +174,7 @@ class BarChartGraph extends StatelessWidget {
             fitInsideHorizontally: true,
             fitInsideVertically: true,
             tooltipRoundedRadius: 12,
-            tooltipBgColor: ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.98),
+            getTooltipColor: (group) => ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.98),
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               List<GraphSeriesDataModel> validItems = List.from(
                 graphData.seriesDataList.where(

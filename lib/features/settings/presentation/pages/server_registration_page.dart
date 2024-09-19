@@ -43,6 +43,7 @@ class ServerRegistrationView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.server_registration_title).tr(),
       ),
       floatingActionButton: BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(

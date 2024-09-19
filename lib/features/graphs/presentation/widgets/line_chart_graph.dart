@@ -127,7 +127,7 @@ class LineChartGraph extends StatelessWidget {
             fitInsideHorizontally: true,
             fitInsideVertically: true,
             tooltipRoundedRadius: 12,
-            tooltipBgColor: ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.98),
+            getTooltipColor: (touchedSpot) => ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.98),
             getTooltipItems: (touchedSpots) {
               touchedSpots.sort(
                 (a, b) => a.barIndex.compareTo(b.barIndex),

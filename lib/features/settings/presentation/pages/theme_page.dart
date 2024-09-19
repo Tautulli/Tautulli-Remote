@@ -24,6 +24,7 @@ class ThemeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text(LocaleKeys.themes_title).tr(),
       ),
       body: PageBody(

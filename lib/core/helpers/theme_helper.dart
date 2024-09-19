@@ -48,11 +48,9 @@ class ThemeHelper {
         onError: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         errorContainer: Colors.red,
         onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
-        background: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
-        onBackground: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         surface: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
         onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
-        surfaceVariant: const Color(0xff404040),
+        surfaceContainerHighest: const Color(0xff404040),
         onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
       ),
@@ -69,6 +67,7 @@ class ThemeHelper {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          backgroundColor: TautulliColorPalette.gunmetal,
           textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -80,7 +79,11 @@ class ThemeHelper {
         ),
       ),
       navigationDrawerTheme: const NavigationDrawerThemeData(
+        backgroundColor: TautulliColorPalette.midnight,
         elevation: 0,
+      ),
+      popupMenuTheme: const PopupMenuThemeData(
+        color: TautulliColorPalette.gunmetal,
       ),
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
