@@ -189,7 +189,7 @@ class HistoryBottomSheet extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
                 child: Column(
                   children: [

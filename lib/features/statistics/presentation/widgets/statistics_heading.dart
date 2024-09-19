@@ -33,7 +33,7 @@ class StatisticsHeading extends StatelessWidget {
                 Expanded(
                   child: Heading(
                     text: StringHelper.mapStatIdTypeToString(stat.statIdType),
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 if (onTap != null)
@@ -45,7 +45,7 @@ class StatisticsHeading extends StatelessWidget {
                       FaIcon(
                         FontAwesomeIcons.angleRight,
                         size: 16,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ],
                   ),

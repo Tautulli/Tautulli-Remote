@@ -16,7 +16,7 @@ class GraphHeading extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Heading(
         text: text,
-        color: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

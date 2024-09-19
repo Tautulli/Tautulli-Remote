@@ -112,7 +112,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                     child: Container(
                                       height: 5,
                                       width: MediaQuery.of(context).size.width,
-                                      color: Theme.of(context).colorScheme.background,
+                                      color: Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                   Positioned.fill(
@@ -121,7 +121,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                       child: DecoratedBox(
                                         position: DecorationPosition.foreground,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.background,
+                                          color: Theme.of(context).colorScheme.surface,
                                         ),
                                       ),
                                     ),
@@ -137,7 +137,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                         height: 100,
                                         width: MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.background,
+                                          color: Theme.of(context).colorScheme.surface,
                                         ),
                                       ),
                                     ),
@@ -198,15 +198,15 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                             ),
                             Container(
                               height: 46,
-                              color: Theme.of(context).colorScheme.background,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                           ],
                         ),
                       ),
                       bottom: TabBar(
-                        overlayColor: MaterialStateProperty.resolveWith(
+                        overlayColor: WidgetStateProperty.resolveWith(
                           (states) {
-                            if (states.contains(MaterialState.pressed)) {
+                            if (states.contains(WidgetState.pressed)) {
                               return Theme.of(context).colorScheme.onSurface.withOpacity(0.12);
                             }
                             return null;
@@ -231,7 +231,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                         builder: (context) {
                           return DecoratedBox(
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.background,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(

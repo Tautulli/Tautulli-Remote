@@ -154,14 +154,14 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                             child: FaIcon(
                                               FontAwesomeIcons.rightLong,
                                               size: 16,
-                                              color: Theme.of(context).colorScheme.onBackground,
+                                              color: Theme.of(context).colorScheme.onSurface,
                                             ),
                                           ),
                                         ),
                                         TextSpan(text: '${widget.activity.streamContainer?.toUpperCase()}'),
                                       ],
                                       style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onBackground,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
                                     ),
                                   ),
@@ -220,7 +220,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                                 child: FaIcon(
                                                   FontAwesomeIcons.rightLong,
                                                   size: 16,
-                                                  color: Theme.of(context).colorScheme.onBackground,
+                                                  color: Theme.of(context).colorScheme.onSurface,
                                                 ),
                                               ),
                                             ),
@@ -230,7 +230,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                             ),
                                           ],
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -281,7 +281,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                               child: FaIcon(
                                                 FontAwesomeIcons.rightLong,
                                                 size: 16,
-                                                color: Theme.of(context).colorScheme.onBackground,
+                                                color: Theme.of(context).colorScheme.onSurface,
                                               ),
                                             ),
                                           ),
@@ -292,7 +292,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                             ),
                                         ],
                                         style: TextStyle(
-                                          color: Theme.of(context).colorScheme.onBackground,
+                                          color: Theme.of(context).colorScheme.onSurface,
                                         ),
                                       ),
                                     ),
@@ -342,7 +342,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                                 child: FaIcon(
                                                   FontAwesomeIcons.rightLong,
                                                   size: 16,
-                                                  color: Theme.of(context).colorScheme.onBackground,
+                                                  color: Theme.of(context).colorScheme.onSurface,
                                                 ),
                                               ),
                                             ),
@@ -351,7 +351,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                             ),
                                           ],
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onBackground,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -386,7 +386,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               child: FaIcon(
                                 widget.activity.secure == true ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
                                 size: 14,
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                             Expanded(
@@ -428,7 +428,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                   child: SizedBox(
                                     width: 130,
                                     child: LinearProgressIndicator(
-                                      color: Theme.of(context).colorScheme.onBackground,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),

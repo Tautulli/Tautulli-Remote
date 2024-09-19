@@ -34,7 +34,7 @@ class WizardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Theme.of(context).colorScheme.background,
+        systemNavigationBarColor: Theme.of(context).colorScheme.surface,
       ),
       child: Scaffold(
         // Without the appbar the SystemUiOverlayStyle is not setting the
@@ -45,7 +45,7 @@ class WizardView extends StatelessWidget {
         ),
         body: PopScope(
           canPop: false,
-          onPopInvoked: (didPop) async {
+          onPopInvokedWithResult: (didPop, result) async {
             if (didPop) return;
 
             final NavigatorState navigator = Navigator.of(context);

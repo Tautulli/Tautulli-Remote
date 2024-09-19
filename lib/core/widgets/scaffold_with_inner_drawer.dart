@@ -78,7 +78,7 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Theme.of(context).colorScheme.background,
+        systemNavigationBarColor: Theme.of(context).colorScheme.surface,
       ),
       child: InnerDrawer(
         key: innerDrawerKey,
@@ -93,7 +93,7 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
             end: Alignment.bottomCenter,
             colors: [
               ThemeHelper.darkenedColor(
-                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.surface,
               ),
               Theme.of(context).colorScheme.surface,
             ],
@@ -306,7 +306,7 @@ class _AppDrawerState extends State<_AppDrawer> {
       context: context,
       removeTop: true,
       child: NavigationDrawer(
-        indicatorColor: Theme.of(context).colorScheme.surfaceVariant,
+        indicatorColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         elevation: 0,
         onDestinationSelected: handleScreenChanged,
         selectedIndex: screenIndex,
@@ -314,7 +314,7 @@ class _AppDrawerState extends State<_AppDrawer> {
           Container(
             height: MediaQuery.of(context).viewPadding.top,
             color: ThemeHelper.darkenedColor(
-              Theme.of(context).colorScheme.background,
+              Theme.of(context).colorScheme.surface,
             ),
           ),
           if (height > 500) const _Logo(),
@@ -326,13 +326,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               child: FaIcon(
                 FontAwesomeIcons.tv,
                 size: 20,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Text(
               LocaleKeys.activity_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -341,13 +341,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.clockRotateLeft,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Text(
               LocaleKeys.history_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -356,13 +356,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.clock,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Text(
               LocaleKeys.recently_added_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -371,14 +371,14 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.photoFilm,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
                 size: 20,
               ),
             ),
             label: Text(
               LocaleKeys.libraries_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -387,14 +387,14 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.users,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
                 size: 20,
               ),
             ),
             label: Text(
               LocaleKeys.users_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -403,13 +403,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.listOl,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Text(
               LocaleKeys.statistics_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -418,13 +418,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.chartColumn,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Text(
               LocaleKeys.graphs_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -437,7 +437,7 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.bullhorn,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Expanded(
@@ -447,7 +447,7 @@ class _AppDrawerState extends State<_AppDrawer> {
                   Text(
                     LocaleKeys.announcements_title,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ).tr(),
                   BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
@@ -480,7 +480,7 @@ class _AppDrawerState extends State<_AppDrawer> {
             label: Text(
               LocaleKeys.donate_title,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ).tr(),
           ),
@@ -490,7 +490,7 @@ class _AppDrawerState extends State<_AppDrawer> {
               child: FaIcon(
                 FontAwesomeIcons.gears,
                 size: 21,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             label: Expanded(
@@ -500,7 +500,7 @@ class _AppDrawerState extends State<_AppDrawer> {
                   Text(
                     LocaleKeys.settings_title,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ).tr(),
                   BlocBuilder<SettingsBloc, SettingsState>(
@@ -537,7 +537,7 @@ class _Logo extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: ThemeHelper.darkenedColor(
-          Theme.of(context).colorScheme.background,
+          Theme.of(context).colorScheme.surface,
         ),
       ),
       child: Column(
@@ -548,7 +548,7 @@ class _Logo extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).padding.top,
             color: ThemeHelper.darkenedColor(
-              Theme.of(context).colorScheme.background,
+              Theme.of(context).colorScheme.surface,
             ),
           ),
           const Gap(8),
@@ -602,14 +602,14 @@ class __ServerSelectorState extends State<_ServerSelector> {
                 isExpanded: isOpen,
                 canTapOnHeader: true,
                 backgroundColor: ThemeHelper.darkenedColor(
-                  Theme.of(context).colorScheme.background,
+                  Theme.of(context).colorScheme.surface,
                 ),
                 headerBuilder: (context, isExpanded) => ListTile(
                   tileColor: Colors.transparent,
                   leading: WebsafeSvg.asset(
                     'assets/logos/logo_flat.svg',
                     colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.onBackground,
+                      Theme.of(context).colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                     height: 30,
@@ -618,7 +618,7 @@ class __ServerSelectorState extends State<_ServerSelector> {
                     state.appSettings.activeServer.plexName,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -628,7 +628,7 @@ class __ServerSelectorState extends State<_ServerSelector> {
                     (server) {
                       return ListTile(
                         tileColor: ThemeHelper.darkenedColor(
-                          Theme.of(context).colorScheme.background,
+                          Theme.of(context).colorScheme.surface,
                         ),
                         leading: const SizedBox(width: 30),
                         title: Text(

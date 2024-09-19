@@ -88,7 +88,7 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                                 child: Container(
                                   height: 5,
                                   width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).colorScheme.background,
+                                  color: Theme.of(context).colorScheme.surface,
                                 ),
                               ),
                               Positioned(
@@ -102,7 +102,7 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                                     height: 60,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.background,
+                                      color: Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                 ),
@@ -140,15 +140,15 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                         ),
                         Container(
                           height: 46,
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       ],
                     ),
                   ),
                   bottom: TabBar(
-                    overlayColor: MaterialStateProperty.resolveWith(
+                    overlayColor: WidgetStateProperty.resolveWith(
                       (states) {
-                        if (states.contains(MaterialState.pressed)) {
+                        if (states.contains(WidgetState.pressed)) {
                           return Theme.of(context).colorScheme.onSurface.withOpacity(0.12);
                         }
                         return null;
@@ -173,7 +173,7 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     builder: (context) {
                       return DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(

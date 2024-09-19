@@ -76,7 +76,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
 
           return Center(
             child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           );
         },

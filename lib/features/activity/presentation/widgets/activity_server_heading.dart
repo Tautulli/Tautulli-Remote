@@ -19,7 +19,7 @@ class ActivityServerHeading extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -30,7 +30,7 @@ class ActivityServerHeading extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(2),
                       child: LinearProgressIndicator(
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                         backgroundColor: Colors.transparent,
                       ),
                     ),

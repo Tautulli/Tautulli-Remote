@@ -384,7 +384,7 @@ class _HistoryViewState extends State<HistoryView> {
                     width: 12,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),

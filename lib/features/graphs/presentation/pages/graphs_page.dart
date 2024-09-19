@@ -309,7 +309,7 @@ class _GraphsViewState extends State<GraphsView> {
                     width: 12,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),

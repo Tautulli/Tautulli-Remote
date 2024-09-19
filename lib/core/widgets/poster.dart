@@ -210,7 +210,7 @@ class _PosterState extends StatelessWidget {
                           ? FontAwesomeIcons.circleExclamation
                           : FontAwesomeIcons.circleQuestion,
               size: 48,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],

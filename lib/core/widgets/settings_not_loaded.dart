@@ -18,7 +18,7 @@ class SettingsNotLoaded extends StatelessWidget {
           return StatusPage(
             message: LocaleKeys.settings_loading_message.tr(),
             action: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           );
         }

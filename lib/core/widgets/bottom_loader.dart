@@ -34,7 +34,7 @@ class BottomLoader extends StatelessWidget {
                   width: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 1.5,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],

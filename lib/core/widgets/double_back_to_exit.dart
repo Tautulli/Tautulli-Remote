@@ -27,7 +27,7 @@ class DoubleBackToExit extends StatelessWidget {
         if (state is SettingsSuccess && state.appSettings.doubleBackToExit) {
           return PopScope(
             canPop: false,
-            onPopInvoked: (didPop) {
+            onPopInvokedWithResult: (didPop, result) {
               if (didPop) return;
 
               final bool shouldPop = shouldPopRoute(

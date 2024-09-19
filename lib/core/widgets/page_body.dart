@@ -18,7 +18,7 @@ class PageBody extends StatelessWidget {
           child,
           if (loading)
             LinearProgressIndicator(
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
               backgroundColor: Colors.transparent,
             ),
         ],

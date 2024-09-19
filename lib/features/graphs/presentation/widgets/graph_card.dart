@@ -116,7 +116,7 @@ class GraphCard extends StatelessWidget {
                 ),
               graph.status == BlocStatus.initial
                   ? LinearProgressIndicator(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                       backgroundColor: Colors.transparent,
                     )
                   : const SizedBox(height: 4),

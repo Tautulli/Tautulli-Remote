@@ -123,7 +123,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                                   child: SizedBox(
                                     width: 130,
                                     child: LinearProgressIndicator(
-                                      color: Theme.of(context).colorScheme.onBackground,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),

@@ -159,7 +159,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
                     ),
                   ],
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
