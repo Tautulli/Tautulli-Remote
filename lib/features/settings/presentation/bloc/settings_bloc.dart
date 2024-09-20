@@ -110,6 +110,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdatePrimaryActive>(
       (event, emit) => _onSettingsUpdatePrimaryActive(event, emit),
     );
+    on<SettingsUpdateRecentlyAddedFilter>(
+      (event, emit) => _onSettingsUpdateRecentlyAddedFilter(event, emit),
+    );
     on<SettingsUpdateRefreshRate>(
       (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
     );
@@ -377,6 +380,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         oneSignalBannerDismissed: settings.getOneSignalBannerDismissed(),
         oneSignalConsented: settings.getOneSignalConsented(),
         patch: await ShorebirdCodePush().currentPatchNumber(),
+        recentlyAddedFilter: settings.getRecentlyAddedFilter(),
         refreshRate: settings.getRefreshRate(),
         secret: settings.getSecret(),
         serverTimeout: settings.getServerTimeout(),
@@ -857,6 +861,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         currentState.copyWith(serverList: updatedList),
       );
     }
+  }
+
+  void _onSettingsUpdateRecentlyAddedFilter(
+    SettingsUpdateRecentlyAddedFilter event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setRecentlyAddedFilter(event.recentlyAddedFilter);
+    logging.info(
+      'Settings :: Recently Added Filter set to ${event.recentlyAddedFilter}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          recentlyAddedFilter: event.recentlyAddedFilter,
+        ),
+      ),
+    );
   }
 
   void _onSettingsUpdateRefreshRate(

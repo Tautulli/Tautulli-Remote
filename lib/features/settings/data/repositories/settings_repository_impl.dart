@@ -385,6 +385,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setOneSignalConsented(value);
   }
 
+  // Recently Added Filter
+  @override
+  String getRecentlyAddedFilter() {
+    return dataSource.getRecentlyAddedFilter();
+  }
+
+  @override
+  Future<bool> setRecentlyAddedFilter(String value) async {
+    return await dataSource.setRecentlyAddedFilter(value);
+  }
+
   // Refresh Rate
   @override
   int getRefreshRate() {

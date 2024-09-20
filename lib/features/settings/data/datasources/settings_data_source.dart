@@ -149,6 +149,10 @@ abstract class SettingsDataSource {
   bool getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);
 
+  // Recently Added Filter
+  String getRecentlyAddedFilter();
+  Future<bool> setRecentlyAddedFilter(String value);
+
   // Refresh Rate
   int getRefreshRate();
   Future<bool> setRefreshRate(int value);
@@ -220,6 +224,7 @@ const maskSensitiveInfo = 'maskSensitiveInfo';
 const multiserverActivity = 'multiserverActivity';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
+const recentlyAddedFilter = 'recentlyAddedFilter';
 const refreshRate = 'refreshRate';
 const registrationUpdateNeeded = 'registrationUpdateNeeded';
 const secret = 'secret';
@@ -617,6 +622,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setOneSignalConsented(bool value) {
     return localStorage.setBool(oneSignalConsented, value);
+  }
+
+  // Recently Added Filter
+  @override
+  String getRecentlyAddedFilter() {
+    return localStorage.getString(recentlyAddedFilter) ?? 'all';
+  }
+
+  @override
+  Future<bool> setRecentlyAddedFilter(String value) {
+    return localStorage.setString(recentlyAddedFilter, value);
   }
 
   // Refresh Rate

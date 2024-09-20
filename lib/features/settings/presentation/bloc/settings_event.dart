@@ -266,6 +266,15 @@ class SettingsUpdatePrimaryActive extends SettingsEvent {
   List<Object> get props => [tautulliId, primaryActive];
 }
 
+class SettingsUpdateRecentlyAddedFilter extends SettingsEvent {
+  final String recentlyAddedFilter;
+
+  const SettingsUpdateRecentlyAddedFilter(this.recentlyAddedFilter);
+
+  @override
+  List<Object> get props => [recentlyAddedFilter];
+}
+
 class SettingsUpdateRefreshRate extends SettingsEvent {
   final int refreshRate;
 

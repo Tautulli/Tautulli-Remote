@@ -22,6 +22,7 @@ class AppSettingsModel extends Equatable {
   final bool multiserverActivity;
   final bool oneSignalBannerDismissed;
   final bool oneSignalConsented;
+  final String recentlyAddedFilter;
   final int? patch;
   final int refreshRate;
   final bool secret;
@@ -53,6 +54,7 @@ class AppSettingsModel extends Equatable {
     required this.oneSignalBannerDismissed,
     required this.oneSignalConsented,
     required this.patch,
+    required this.recentlyAddedFilter,
     required this.refreshRate,
     required this.secret,
     required this.serverTimeout,
@@ -84,6 +86,7 @@ class AppSettingsModel extends Equatable {
     bool? oneSignalBannerDismissed,
     bool? oneSignalConsented,
     int? patch,
+    String? recentlyAddedFilter,
     int? refreshRate,
     bool? secret,
     int? serverTimeout,
@@ -114,6 +117,7 @@ class AppSettingsModel extends Equatable {
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
       patch: patch ?? this.patch,
+      recentlyAddedFilter: recentlyAddedFilter ?? this.recentlyAddedFilter,
       refreshRate: refreshRate ?? this.refreshRate,
       secret: secret ?? this.secret,
       serverTimeout: serverTimeout ?? this.serverTimeout,
@@ -147,6 +151,7 @@ class AppSettingsModel extends Equatable {
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),
       'Patch': patch.toString(),
+      'Recently Added Filter': recentlyAddedFilter,
       'Refresh Rate': refreshRate.toString(),
       'Server Timeout': serverTimeout.toString(),
       'Statistics Stat Type': statisticsStatType.toString(),
@@ -178,6 +183,7 @@ class AppSettingsModel extends Equatable {
         multiserverActivity,
         oneSignalBannerDismissed,
         oneSignalConsented,
+        recentlyAddedFilter,
         refreshRate,
         secret,
         serverTimeout,

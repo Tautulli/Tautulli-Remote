@@ -180,6 +180,8 @@ class Cast {
         return MediaType.episode;
       case ('movie'):
         return MediaType.movie;
+      case ('other_video'):
+        return MediaType.otherVideo;
       case ('photo'):
         return MediaType.photo;
       case ('photo_album'):

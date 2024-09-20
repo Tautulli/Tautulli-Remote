@@ -8,6 +8,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
+import '../../../../core/utilities/cast.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
@@ -67,7 +68,11 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
 
     _server = settingsState.appSettings.activeServer;
 
-    _mediaType = _recentlyAddedBloc.state.mediaType;
+    _mediaType = settingsState.appSettings.recentlyAddedFilter == 'all'
+        ? null
+        : Cast.castStringToMediaType(
+            settingsState.appSettings.recentlyAddedFilter,
+          );
 
     _recentlyAddedBloc.add(
       RecentlyAddedFetched(
@@ -85,7 +90,6 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
       listener: (context, state) {
         if (state is SettingsSuccess) {
           _server = state.appSettings.activeServer;
-          _mediaType = null;
 
           _recentlyAddedBloc.add(
             RecentlyAddedFetched(
@@ -223,29 +227,29 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           bool changed = false;
 
           setState(() {
-            if (value == 'all' && _mediaType != null) {
-              _mediaType = null;
-              changed = true;
-            }
-            if (value == 'movie' && _mediaType != MediaType.movie) {
-              _mediaType = MediaType.movie;
-              changed = true;
-            }
-            if (value == 'show' && _mediaType != MediaType.show) {
-              _mediaType = MediaType.show;
-              changed = true;
-            }
-            if (value == 'artist' && _mediaType != MediaType.artist) {
-              _mediaType = MediaType.artist;
-              changed = true;
-            }
-            if (value == 'other' && _mediaType != MediaType.otherVideo) {
-              _mediaType = MediaType.otherVideo;
+            final selectedMediaType = Cast.castStringToMediaType(value);
+
+            if (selectedMediaType != _mediaType) {
+              if (selectedMediaType == MediaType.unknown) {
+                _mediaType = null;
+              } else {
+                _mediaType = selectedMediaType;
+              }
               changed = true;
             }
           });
 
           if (changed) {
+            if (_mediaType == null) {
+              _settingsBloc.add(
+                const SettingsUpdateRecentlyAddedFilter('all'),
+              );
+            } else {
+              _settingsBloc.add(
+                SettingsUpdateRecentlyAddedFilter(Cast.castToString(_mediaType) ?? 'all'),
+              );
+            }
+
             _recentlyAddedBloc.add(
               RecentlyAddedFetched(
                 server: _server,
@@ -300,7 +304,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               ),
             ),
             PopupMenuItem(
-              value: 'other',
+              value: 'other_video',
               child: Text(
                 'Videos',
                 style: TextStyle(

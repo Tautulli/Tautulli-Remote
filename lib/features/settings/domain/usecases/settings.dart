@@ -391,6 +391,18 @@ class Settings {
     return await repository.setOneSignalConsented(value);
   }
 
+  /// Returns the Recently Added filter value.
+  ///
+  /// If no value is stored returns `all`.
+  String getRecentlyAddedFilter() {
+    return repository.getRecentlyAddedFilter();
+  }
+
+  /// Sets the Recently Added filter value.
+  Future<bool> setRecentlyAddedFilter(String value) async {
+    return await repository.setRecentlyAddedFilter(value);
+  }
+
   /// Returns the refresh rate used for auto refreshing activity.
   ///
   /// If no value is stored returns `0`.

@@ -43,7 +43,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     required this.logging,
   }) : super(
           RecentlyAddedState(
-            mediaType: mediaTypeCache,
             recentlyAdded: tautulliIdCache != null ? recentlyAddedCache[tautulliIdCache]! : [],
             hasReachedMax: hasReachedMaxCache,
           ),
@@ -171,8 +170,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           settingsBloc: event.settingsBloc,
         );
 
-        recentlyAddedCache[event.server.tautulliId] =
-            recentlyAddedCache[event.server.tautulliId]! + recentlyAddedListWithUris;
+        recentlyAddedCache[event.server.tautulliId] = recentlyAddedCache[event.server.tautulliId]! + recentlyAddedListWithUris;
         hasReachedMaxCache = recentlyAddedListWithUris.length < count;
 
         return emit(

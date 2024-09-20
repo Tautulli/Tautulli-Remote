@@ -140,6 +140,10 @@ abstract class SettingsRepository {
   bool getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);
 
+  // Recently Added Filter
+  String getRecentlyAddedFilter();
+  Future<bool> setRecentlyAddedFilter(String value);
+
   // Refresh Rate
   int getRefreshRate();
   Future<bool> setRefreshRate(int value);
