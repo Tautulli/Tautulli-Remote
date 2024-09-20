@@ -64,6 +64,7 @@ class _HistoryViewState extends State<HistoryView> {
   late UsersBloc _usersBloc;
   late SettingsBloc _settingsBloc;
   late int? _userId;
+  late Map<String, bool> _filterMap;
   late bool _movieMediaType;
   late bool _episodeMediaType;
   late bool _trackMediaType;
@@ -85,13 +86,15 @@ class _HistoryViewState extends State<HistoryView> {
     _server = settingsState.appSettings.activeServer;
 
     _userId = _historyBloc.state.userId ?? -1;
-    _movieMediaType = _historyBloc.state.movieMediaType;
-    _episodeMediaType = _historyBloc.state.episodeMediaType;
-    _trackMediaType = _historyBloc.state.trackMediaType;
-    _liveMediaType = _historyBloc.state.liveMediaType;
-    _directPlayDecision = _historyBloc.state.directPlayDecision;
-    _directStreamDecision = _historyBloc.state.directStreamDecision;
-    _transcodeDecision = _historyBloc.state.transcodeDecision;
+
+    _filterMap = settingsState.appSettings.historyFilter;
+    _movieMediaType = _filterMap['movie'] ?? false;
+    _episodeMediaType = _filterMap['episode'] ?? false;
+    _trackMediaType = _filterMap['track'] ?? false;
+    _liveMediaType = _filterMap['live'] ?? false;
+    _directPlayDecision = _filterMap['directPlay'] ?? false;
+    _directStreamDecision = _filterMap['directStream'] ?? false;
+    _transcodeDecision = _filterMap['transcode'] ?? false;
 
     _historyBloc.add(
       HistoryFetched(
@@ -133,13 +136,6 @@ class _HistoryViewState extends State<HistoryView> {
         if (state is SettingsSuccess) {
           _server = state.appSettings.activeServer;
           _userId = null;
-          _movieMediaType = false;
-          _episodeMediaType = false;
-          _trackMediaType = false;
-          _liveMediaType = false;
-          _directPlayDecision = false;
-          _directStreamDecision = false;
-          _transcodeDecision = false;
 
           _historyBloc.add(
             HistoryFetched(
@@ -421,20 +417,12 @@ class _HistoryViewState extends State<HistoryView> {
 
   List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {
     ValueNotifier<bool> movieMediaTypeNotifier = ValueNotifier(_movieMediaType);
-    ValueNotifier<bool> episodeMediaTypeNotifier = ValueNotifier(
-      _episodeMediaType,
-    );
+    ValueNotifier<bool> episodeMediaTypeNotifier = ValueNotifier(_episodeMediaType);
     ValueNotifier<bool> trackMediaTypeNotifier = ValueNotifier(_trackMediaType);
     ValueNotifier<bool> liveMediaTypeNotifier = ValueNotifier(_liveMediaType);
-    ValueNotifier<bool> directPlayDecisionNotifier = ValueNotifier(
-      _directPlayDecision,
-    );
-    ValueNotifier<bool> directStreamDecisionNotifier = ValueNotifier(
-      _directStreamDecision,
-    );
-    ValueNotifier<bool> transcodeDecisionNotifier = ValueNotifier(
-      _transcodeDecision,
-    );
+    ValueNotifier<bool> directPlayDecisionNotifier = ValueNotifier(_directPlayDecision);
+    ValueNotifier<bool> directStreamDecisionNotifier = ValueNotifier(_directStreamDecision);
+    ValueNotifier<bool> transcodeDecisionNotifier = ValueNotifier(_transcodeDecision);
 
     return [
       PopupMenuItem(
@@ -454,6 +442,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _movieMediaType = value;
+                    _filterMap['movie'] = value;
                   });
                   _filterChanged(
                     valueNotifier: movieMediaTypeNotifier,
@@ -482,6 +471,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _episodeMediaType = value;
+                    _filterMap['episode'] = value;
                   });
                   _filterChanged(
                     valueNotifier: episodeMediaTypeNotifier,
@@ -510,6 +500,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _trackMediaType = value;
+                    _filterMap['track'] = value;
                   });
                   _filterChanged(
                     valueNotifier: trackMediaTypeNotifier,
@@ -538,6 +529,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _liveMediaType = value;
+                    _filterMap['live'] = value;
                   });
                   _filterChanged(
                     valueNotifier: liveMediaTypeNotifier,
@@ -569,6 +561,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _directPlayDecision = value;
+                    _filterMap['directPlay'] = value;
                   });
                   _filterChanged(
                     valueNotifier: directPlayDecisionNotifier,
@@ -599,6 +592,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _directStreamDecision = value;
+                    _filterMap['directStream'] = value;
                   });
                   _filterChanged(
                     valueNotifier: directStreamDecisionNotifier,
@@ -629,6 +623,7 @@ class _HistoryViewState extends State<HistoryView> {
                 if (value != null) {
                   setState(() {
                     _transcodeDecision = value;
+                    _filterMap['transcode'] = value;
                   });
                   _filterChanged(
                     valueNotifier: transcodeDecisionNotifier,
@@ -647,6 +642,8 @@ class _HistoryViewState extends State<HistoryView> {
     required ValueNotifier<bool> valueNotifier,
     required bool value,
   }) {
+    _settingsBloc.add(SettingsUpdateHistoryFilter(_filterMap));
+
     valueNotifier.value = value;
     _historyBloc.add(
       HistoryFetched(

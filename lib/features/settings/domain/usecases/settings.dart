@@ -260,6 +260,18 @@ class Settings {
     return await repository.setGraphYAxis(value);
   }
 
+  /// Returns a `Map` of the history filter.
+  ///
+  /// If no value is stored returns an empty map.
+  Map<String, bool> getHistoryFilter() {
+    return repository.getHistoryFilter();
+  }
+
+  /// Sets the history filter values.
+  Future<bool> setHistoryFilter(Map<String, bool> map) {
+    return repository.setHistoryFilter(map);
+  }
+
   /// Returns the home page to use.
   ///
   /// If no value is stored returns 'activity'.

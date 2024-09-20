@@ -14,6 +14,7 @@ class AppSettingsModel extends Equatable {
   final int graphTimeRange;
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
+  final Map<String, bool> historyFilter;
   final String homePage;
   final String librariesSort;
   final bool libraryMediaFullRefresh;
@@ -43,6 +44,7 @@ class AppSettingsModel extends Equatable {
     required this.graphTimeRange,
     required this.graphTipsShown,
     required this.graphYAxis,
+    required this.historyFilter,
     required this.homePage,
     required this.librariesSort,
     required this.libraryMediaFullRefresh,
@@ -73,6 +75,7 @@ class AppSettingsModel extends Equatable {
     int? graphTimeRange,
     bool? graphTipsShown,
     PlayMetricType? graphYAxis,
+    Map<String, bool>? historyFilter,
     String? homePage,
     String? librariesSort,
     bool? libraryMediaFullRefresh,
@@ -102,6 +105,7 @@ class AppSettingsModel extends Equatable {
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
+      historyFilter: historyFilter ?? this.historyFilter,
       homePage: homePage ?? this.homePage,
       librariesSort: librariesSort ?? this.librariesSort,
       libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
@@ -134,6 +138,7 @@ class AppSettingsModel extends Equatable {
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
+      'History Filter': historyFilter.toString(),
       'Home Page': homePage,
       'Libraries Sort': librariesSort.toString(),
       'Library Media Full Refresh': libraryMediaFullRefresh.toString(),
@@ -165,6 +170,7 @@ class AppSettingsModel extends Equatable {
         graphTimeRange,
         graphTipsShown,
         graphYAxis,
+        historyFilter,
         homePage,
         librariesSort,
         libraryMediaFullRefresh,

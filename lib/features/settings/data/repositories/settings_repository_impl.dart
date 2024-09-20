@@ -275,6 +275,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setGraphYAxis(value);
   }
 
+  // History Filter
+  @override
+  Map<String, bool> getHistoryFilter() {
+    return dataSource.getHistoryFilter();
+  }
+
+  @override
+  Future<bool> setHistoryFilter(Map<String, bool> map) async {
+    return await dataSource.setHistoryFilter(map);
+  }
+
   // Home Page
   @override
   String getHomePage() {

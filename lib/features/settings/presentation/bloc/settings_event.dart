@@ -181,6 +181,15 @@ class SettingsUpdateGraphYAxis extends SettingsEvent {
   List<Object> get props => [graphYAxis];
 }
 
+class SettingsUpdateHistoryFilter extends SettingsEvent {
+  final Map<String, bool> map;
+
+  const SettingsUpdateHistoryFilter(this.map);
+
+  @override
+  List<Object> get props => [map];
+}
+
 class SettingsUpdateHomePage extends SettingsEvent {
   final String homePage;
 

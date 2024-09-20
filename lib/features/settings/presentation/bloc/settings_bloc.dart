@@ -83,6 +83,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateGraphYAxis>(
       (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
     );
+    on<SettingsUpdateHistoryFilter>(
+      (event, emit) => _onSettingsUpdateHistoryFilter(event, emit),
+    );
     on<SettingsUpdateHomePage>(
       (event, emit) => _onSettingsUpdateHomePage(event, emit),
     );
@@ -365,6 +368,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         graphTimeRange: settings.getGraphTimeRange(),
         graphTipsShown: settings.getGraphTipsShown(),
         graphYAxis: settings.getGraphYAxis(),
+        historyFilter: settings.getHistoryFilter(),
         homePage: settings.getHomePage(),
         librariesSort: settings.getLibrariesSort(),
         libraryMediaFullRefresh: settings.getLibraryMediaFullRefresh(),
@@ -675,6 +679,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateHistoryFilter(
+    SettingsUpdateHistoryFilter event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setHistoryFilter(event.map);
+    logging.info(
+      'Settings :: History Filter set to ${event.map}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(historyFilter: event.map),
       ),
     );
   }

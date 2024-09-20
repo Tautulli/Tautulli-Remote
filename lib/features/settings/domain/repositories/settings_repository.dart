@@ -100,6 +100,10 @@ abstract class SettingsRepository {
   PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
+  // History Filter
+  Map<String, bool> getHistoryFilter();
+  Future<bool> setHistoryFilter(Map<String, bool> map);
+
   // Home Page
   String getHomePage();
   Future<bool> setHomePage(String value);

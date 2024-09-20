@@ -158,9 +158,12 @@ class _DataDumpRowHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: Text(
+        text,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
@@ -348,13 +351,18 @@ class _AppSettings extends StatelessWidget {
                   child: _DataDumpRowHeading(e.key),
                 ),
                 const Gap(16),
-                Text(
-                  e.value,
-                  style: e.key == 'Theme Custom Color'
-                      ? TextStyle(
-                          color: settingsState.appSettings.themeCustomColor,
-                        )
-                      : null,
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      e.value,
+                      style: e.key == 'Theme Custom Color'
+                          ? TextStyle(
+                              color: settingsState.appSettings.themeCustomColor,
+                            )
+                          : null,
+                    ),
+                  ),
                 ),
               ],
             ),

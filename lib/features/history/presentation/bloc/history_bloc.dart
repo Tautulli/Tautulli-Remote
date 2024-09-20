@@ -51,13 +51,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           HistoryState(
             history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
             userId: userIdCache,
-            movieMediaType: movieMediaTypeCache ?? false,
-            episodeMediaType: episodeMediaTypeCache ?? false,
-            trackMediaType: trackMediaTypeCache ?? false,
-            liveMediaType: movieMediaTypeCache ?? false,
-            directPlayDecision: directPlayDecisionCache ?? false,
-            directStreamDecision: directStreamDecisionCache ?? false,
-            transcodeDecision: transcodeDecisionCache ?? false,
             hasReachedMax: hasReachedMaxCache,
           ),
         ) {

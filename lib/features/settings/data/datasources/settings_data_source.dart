@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
@@ -108,6 +109,10 @@ abstract class SettingsDataSource {
   PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
+  // History Filter
+  Map<String, bool> getHistoryFilter();
+  Future<bool> setHistoryFilter(Map<String, bool> map);
+
   // Home Page
   String getHomePage();
   Future<bool> setHomePage(String value);
@@ -205,6 +210,7 @@ const doubleBackToExit = 'doubleTapToExit';
 const graphTimeRange = 'graphTimeRange';
 const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
+const historyFilter = 'historyFilter';
 const homePage = 'homePage';
 const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
@@ -501,8 +507,20 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return localStorage.setString(graphYAxis, value.apiValue());
   }
 
-  // Home Page
+  // History Filter
+  @override
+  Map<String, bool> getHistoryFilter() {
+    final String? value = localStorage.getString(historyFilter);
 
+    return value != null ? Map.castFrom(json.decode(value)) : {};
+  }
+
+  @override
+  Future<bool> setHistoryFilter(Map<String, bool> map) {
+    return localStorage.setString(historyFilter, json.encode(map));
+  }
+
+  // Home Page
   @override
   String getHomePage() {
     return localStorage.getString(homePage) ?? 'activity';
