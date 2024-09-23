@@ -3,7 +3,7 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - ReachabilitySwift
+    - FlutterMacOS
   - cryptography_flutter (0.2.0):
     - Flutter
   - CryptoSwift (1.4.3)
@@ -37,17 +37,11 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
-  - purchases_flutter (6.25.0):
-    - Flutter
-    - PurchasesHybridCommon (= 10.3.2)
-  - PurchasesHybridCommon (10.3.2):
-    - RevenueCat (= 4.39.1)
   - quick_actions_ios (0.0.1):
     - Flutter
-  - rate_my_app (2.0.0):
+  - rate_my_app (2.2.0):
     - Flutter
-  - ReachabilitySwift (5.2.1)
-  - RevenueCat (4.39.1)
+    - FlutterMacOS
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -56,13 +50,15 @@ PODS:
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - system_theme (0.0.1):
+    - Flutter
   - Toast (4.1.0)
   - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - app_group_directory (from `.symlinks/plugins/app_group_directory/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - cryptography_flutter (from `.symlinks/plugins/cryptography_flutter/ios`)
   - CryptoSwift (~> 1.4.0)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -75,28 +71,25 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
-  - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
-  - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
+  - rate_my_app (from `.symlinks/plugins/rate_my_app/darwin`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
+  - system_theme (from `.symlinks/plugins/system_theme/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
     - CryptoSwift
     - OneSignalXCFramework
-    - PurchasesHybridCommon
-    - ReachabilitySwift
-    - RevenueCat
     - Toast
 
 EXTERNAL SOURCES:
   app_group_directory:
     :path: ".symlinks/plugins/app_group_directory/ios"
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   cryptography_flutter:
     :path: ".symlinks/plugins/cryptography_flutter/ios"
   device_info_plus:
@@ -117,48 +110,45 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
-  purchases_flutter:
-    :path: ".symlinks/plugins/purchases_flutter/ios"
   quick_actions_ios:
     :path: ".symlinks/plugins/quick_actions_ios/ios"
   rate_my_app:
-    :path: ".symlinks/plugins/rate_my_app/ios"
+    :path: ".symlinks/plugins/rate_my_app/darwin"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
+  system_theme:
+    :path: ".symlinks/plugins/system_theme/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   app_group_directory: 7bf9f8f9819ead554de29da7c25fb7a680d6a9a0
-  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   cryptography_flutter: 381bdacc984abcfbe3ca45ef7c76566ff061614c
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
-  device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
+  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
   flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
-  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
+  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   onesignal_flutter: c56e81f5a422b0b1e06820338f299333ca85c171
   OneSignalXCFramework: 3c3ef25ecca5eae1bf80a3272c49fd1dbab96b35
-  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
-  purchases_flutter: e8652efd109c542f1876891d10c53ebb28e0b81c
-  PurchasesHybridCommon: 222e00edaee550b48d8e9388eca9048a053f7c33
-  quick_actions_ios: d24571db7345d2e48d094db8d077a015a568002d
-  rate_my_app: 80fba94c4885cd31738231b7b1f51c1ad726f5c7
-  ReachabilitySwift: 5ae15e16814b5f9ef568963fb2c87aeb49158c66
-  RevenueCat: 237cb14ba0ba0fa07153c801585b42b73be0fe7e
-  share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
-  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  quick_actions_ios: 56f3cbaa71e94f212838d1f9fe354bd0734779bf
+  rate_my_app: cd3e1c44d12f387482698ffaf6ea9bd669a69b94
+  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  system_theme: bfc1b0913d08f38d8c6bbe94b202a58df599d9f7
   Toast: ec33c32b8688982cecc6348adeae667c1b9938da
-  url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
 PODFILE CHECKSUM: 229c234ac277054663f6c4f3924fffe1cdc5a2f9
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
