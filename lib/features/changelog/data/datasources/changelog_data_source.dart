@@ -1,6 +1,48 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.3.0",
+      "date": "September 23, 2024",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "There is currently a compatibility issue between the donation and notification packages used by Tautulli Remote. In order to ensure continued notification functionality, new donations have been temporarily disabled.",
+        },
+        {
+          "type": "new",
+          "detail": "Added the ability for OTA updates for troubleshooting difficult issues",
+        },
+        {
+          "type": "improvement",
+          "detail": "Save filter selection for Recently Added and History",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added playback percent in activity sheet",
+          "additional": "Thanks @micahmo",
+        },
+        {
+          "type": "improvement",
+          "detail": "Consider player name as sensitive when 'Mask Sensitive Info' is enabled",
+          "additional": "Thanks @micahmo",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated Android package requirements",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated Flutter and dependencies",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Italian, Swedish, and Ukrainian",
+          "additional": "Thanks @blackne0n, @MushK87, and @Michael5564445",
+        },
+      ],
+    },
+    {
       "version": "v3.2.4",
       "date": "April 11, 2024",
       "changes": [
