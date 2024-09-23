@@ -220,8 +220,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
                     'Settings :: Failed to update registration for ${server.plexName} with new app version',
                   );
             },
-            (results) {
-              di.sl<Settings>().updateServer(server);
+            (results) async {
+              await di.sl<Settings>().updateServer(server);
 
               di.sl<Logging>().info(
                     'Settings :: Updated registration for ${server.plexName} with new app version',
@@ -239,8 +239,10 @@ class TautulliRemoteState extends State<TautulliRemote> {
     final servers = await di.sl<Settings>().getAllServers();
 
     di.sl<Logging>().info(
-          'OneSignal :: OneSignal registration changed, updating server registration',
+          'OneSignal :: OneSignal registration changed, updating server registration in 5 seconds',
         );
+
+    await Future.delayed(const Duration(seconds: 5));
 
     for (ServerModel server in servers) {
       final failureOrRegisterDevice = await updateServerRegistration(server);
@@ -251,8 +253,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
                 'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
               );
         },
-        (results) {
-          di.sl<Settings>().updateServer(
+        (results) async {
+          await di.sl<Settings>().updateServer(
                 server.copyWith(oneSignalRegistered: true),
               );
 
