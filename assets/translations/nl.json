@@ -180,5 +180,6 @@
     "certificate_verification_failed_content": "Het certificaat van deze server kan niet worden gevalideerd. Wil je dit certificaat vertrouwen?",
     "check_again_title": "Controleer Nogmaals",
     "clear_app_image_cache_dialog_content": "Weet je zeker dat je de afbeelding cache wil wissen?",
-    "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist"
+    "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist",
+    "accessibility_title": "Toegankelijkheid"
 }
