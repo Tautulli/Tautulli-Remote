@@ -10,6 +10,7 @@ import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/device_info/device_info.dart';
+import '../../../../core/package_information/package_information.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/heading.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -92,6 +93,8 @@ class DataDumpView extends StatelessWidget {
             ),
             const Gap(8),
             const _DeviceDetails(),
+            const Gap(8),
+            const _AppDetails(),
             const Gap(8),
             BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
@@ -291,6 +294,43 @@ class _DeviceDetails extends StatelessWidget {
               style: TextStyle(
                 color: defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent : null,
               ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _AppDetails extends StatelessWidget {
+  const _AppDetails();
+
+  @override
+  Widget build(BuildContext context) {
+    return _SettingDumpGroup(
+      title: 'App Details',
+      widgetList: [
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Version'),
+            const Gap(16),
+            FutureBuilder(
+              future: PackageInformationImpl().version,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
+            ),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Build Number'),
+            const Gap(16),
+            FutureBuilder(
+              future: PackageInformationImpl().buildNumber,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
             ),
           ],
         ),

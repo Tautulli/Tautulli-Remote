@@ -81,7 +81,7 @@ class MoreGroup extends StatelessWidget {
                 child: Image.asset('assets/logos/logo.png'),
               ),
               applicationName: 'Tautulli Remote',
-              applicationVersion: await PackageInformationImpl().version,
+              applicationVersion: '${await PackageInformationImpl().version} (${await PackageInformationImpl().buildNumber})',
               applicationLegalese: LocaleKeys.about_legalese.tr(),
             );
           },
