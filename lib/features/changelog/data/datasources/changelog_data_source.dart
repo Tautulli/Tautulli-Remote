@@ -1,6 +1,25 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.3.1",
+      "date": "October 21, 2024",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Added app version and build number to data dump page",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Catalan and Dutch",
+          "additional": "Thanks @dtalens and @jonathan2oo7",
+        },
+        {
+          "type": "fix",
+          "detail": "Temporarily disable in-app update check due to issues with package used providing incorrect results",
+        },
+      ],
+    },
+    {
       "version": "v3.3.0",
       "date": "September 23, 2024",
       "changes": [
