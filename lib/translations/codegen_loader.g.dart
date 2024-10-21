@@ -1031,7 +1031,8 @@ static const Map<String,dynamic> nl = {
   "certificate_verification_failed_content": "Het certificaat van deze server kan niet worden gevalideerd. Wil je dit certificaat vertrouwen?",
   "check_again_title": "Controleer Nogmaals",
   "clear_app_image_cache_dialog_content": "Weet je zeker dat je de afbeelding cache wil wissen?",
-  "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist"
+  "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist",
+  "accessibility_title": "Toegankelijkheid"
 };
 static const Map<String,dynamic> de = {
   "about_legalese": "Lizenziert unter der GNU General Public License v3.0",
@@ -3764,7 +3765,26 @@ static const Map<String,dynamic> ca = {
   "daily_play_time_by_media_type_title": "Temps de reproducció diari per tipus de suport",
   "daily_play_count_by_stream_type_title": "Recompte diari de reproduccions per tipus de reproducció",
   "daily_play_time_by_stream_type_title": "Temps de reproducció diari per tipus de reproducció",
-  "data_dump_warning_line_1": "ADVERTIMENT: Aquesta pàgina inclou dades sensibles."
+  "data_dump_warning_line_1": "ADVERTIMENT: Aquesta pàgina inclou dades sensibles.",
+  "clear_title": "Neteja",
+  "default_title": "Per defecte",
+  "details_title": "Detalls",
+  "device_token_title": "Testimoni de dispositiu",
+  "discord_title": "Discord",
+  "accessibility_title": "Accessibilitat",
+  "directed_by_title": "Dirigit per",
+  "disabled_title": "Desactivat",
+  "app_update_available_message": "Hi ha una actualització disponible per a Tautulli Remot",
+  "custom_color_title": "Color personalitzat",
+  "data_dump_warning_line_2": "Sigui cautelós a l'hora de compartir.",
+  "delete_title": "Elimina",
+  "device_token_edit_snackbar_message": "No es poden editar els testimonis de dispositius",
+  "device_token_validation": "Ha de tenir 32 caràcters (actual: {})",
+  "daily_concurrent_stream_count_by_stream_type_title": "Recompte diari de trasmissions concurrents per tipus de transmissió",
+  "date_title": "Data",
+  "decision_title": "Decisió",
+  "disable_image_backgrounds_title": "Desactiva els fons d'imatge",
+  "dismiss_buttom": "DESCARTA"
 };
 static const Map<String,dynamic> pt_BR = {
   "about_legalese": "Licenciado sob a GNU General Public License v3.0",
