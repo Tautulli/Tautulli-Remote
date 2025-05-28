@@ -93,7 +93,7 @@ class AppSettingsGroup extends StatelessWidget {
             FontAwesomeIcons.universalAccess,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-          title: 'Accessibility',
+          title: LocaleKeys.accessibility_title.tr(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const AccessibilityPage(),
