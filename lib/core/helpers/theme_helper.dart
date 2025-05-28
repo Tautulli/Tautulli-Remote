@@ -1,4 +1,5 @@
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,7 +8,7 @@ import '../types/theme_type.dart';
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
-  static ThemeData themeSelector({
+  static ThemeData materialThemeSelector({
     required ThemeType theme,
     required Color color,
     required ThemeEnhancementType enhancement,
@@ -15,13 +16,29 @@ class ThemeHelper {
   }) {
     switch (theme) {
       case (ThemeType.tautulli):
-        return tautulli(enhancement: enhancement, fontName: fontName);
+        return tautulliMaterial(enhancement: enhancement, fontName: fontName);
       case (ThemeType.dynamic):
-        return dynamic(color: color, enhancement: enhancement, fontName: fontName);
+        return dynamicMaterial(color: color, enhancement: enhancement, fontName: fontName);
     }
   }
 
-  static ThemeData tautulli({
+  static CupertinoThemeData cupertinoThemeSelector({
+    required ThemeType theme,
+    required Color color,
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    switch (theme) {
+      case (ThemeType.tautulli):
+        return tautulliCupertino(enhancement: enhancement, fontName: fontName);
+      case (ThemeType.dynamic):
+        // return dynamicCupertino(color: color, enhancement: enhancement, fontName: fontName);
+        return tautulliCupertino(enhancement: enhancement, fontName: fontName);
+    }
+  }
+
+  //* Material Themes
+  static ThemeData tautulliMaterial({
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
@@ -105,7 +122,7 @@ class ThemeHelper {
     );
   }
 
-  static ThemeData dynamic({
+  static ThemeData dynamicMaterial({
     required Color color,
     required ThemeEnhancementType enhancement,
     String? fontName,
@@ -166,6 +183,21 @@ class ThemeHelper {
     );
   }
 
+  //* Cupertino Themes
+  static CupertinoThemeData tautulliCupertino({
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    return CupertinoThemeData(
+      applyThemeToAll: true,
+      brightness: Brightness.dark,
+      primaryColor: PlexColorPalette.primaryGold,
+      primaryContrastingColor: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
+    );
+  }
+
+  //* Utilities
   static Color darkenedColor(Color color) {
     return HSLColor.fromColor(color).withLightness(0.08).toColor();
   }
