@@ -192,7 +192,8 @@ class ThemeHelper {
       applyThemeToAll: true,
       brightness: Brightness.dark,
       primaryColor: PlexColorPalette.primaryGold,
-      primaryContrastingColor: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+      // primaryContrastingColor: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+      primaryContrastingColor: CupertinoColors.black,
       scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
     );
   }
