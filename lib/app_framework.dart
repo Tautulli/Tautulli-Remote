@@ -90,8 +90,6 @@ class AppFramework extends StatelessWidget {
         final Color systemColor = SystemTheme.accentColor.accent;
         final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
 
-        print('FONT: $useAtkinsonHyperLegible');
-
         if (di.sl<DeviceInfo>().platform == 'ios') {
           return _CupertinoFramework(
             initialRoute: initialRoute,
@@ -222,8 +220,6 @@ class _CupertinoFramework extends StatelessWidget {
                 tabLabelTextStyle: theme.textTheme.tabLabelTextStyle.copyWith(fontFamily: fontFamily),
               ),
             );
-
-            print('CUPERTINO: ${cupertinoTheme.textTheme.textStyle}');
 
             if (state is SettingsSuccess) {
               return CupertinoTheme(
