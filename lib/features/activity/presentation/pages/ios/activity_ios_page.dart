@@ -10,7 +10,7 @@ class ActivityIosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
-      title: Text('Activity'),
+      middle: Text('Activity'),
       child: Center(
         child: Text('activity'),
       ),

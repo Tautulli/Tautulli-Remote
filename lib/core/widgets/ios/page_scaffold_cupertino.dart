@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
 class PageScaffoldCupertino extends StatelessWidget {
-  final Widget title;
+  final Widget? leading;
+  final Widget middle;
   final Widget child;
 
   const PageScaffoldCupertino({
     super.key,
-    required this.title,
+    this.leading,
+    required this.middle,
     required this.child,
   });
 
@@ -14,7 +16,8 @@ class PageScaffoldCupertino extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: title,
+        leading: leading,
+        middle: middle,
       ),
       child: SafeArea(
         child: child,

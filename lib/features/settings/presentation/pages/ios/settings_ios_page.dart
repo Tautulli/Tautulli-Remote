@@ -1,8 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tautulli_remote/features/settings/presentation/widgets/groups/servers_group.dart';
-import 'package:tautulli_remote/features/settings/presentation/widgets/ios/groups/app_settings_ios_group.dart';
 
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../widgets/ios/groups/about_ios_group.dart';
+import '../../widgets/ios/groups/app_settings_ios_group.dart';
+import '../../widgets/ios/groups/help_and_support_ios_group.dart';
+import '../../widgets/ios/groups/more_ios_group.dart';
+import '../../widgets/ios/groups/server_ios_group.dart';
+import '../../widgets/ios/list_tiles/register_server_ios_button.dart';
 
 class SettingsIosPage extends StatelessWidget {
   const SettingsIosPage({super.key});
@@ -26,7 +32,7 @@ class _SettingsIosViewState extends State<SettingsIosView> {
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
-      title: Text('Settings'),
+      middle: const Text(LocaleKeys.settings_title).tr(),
       child: Column(
         children: [
           //TODO: Banners for update and onesignal issues
@@ -34,8 +40,12 @@ class _SettingsIosViewState extends State<SettingsIosView> {
             child: ListView(
               // padding: const EdgeInsets.symmetric(vertical: 8.0),
               children: const [
+                ServersIosGroup(),
+                RegisterServerIosButton(),
                 AppSettingsIosGroup(),
-                // Text('test'),
+                HelpAndSupportIosGroup(),
+                MoreIosGroup(),
+                AboutIosGroup(),
               ],
             ),
           ),
