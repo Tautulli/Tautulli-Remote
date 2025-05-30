@@ -28,31 +28,25 @@ class ThemesIosGroup extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-            trailing: CupertinoRadio(
-              value: ThemeType.tautulli,
-              groupValue: state.appSettings.theme,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                      SettingsUpdateTheme(value as ThemeType),
-                    );
-              },
-            ),
+            trailing: state.appSettings.theme == ThemeType.tautulli ? const Icon(CupertinoIcons.check_mark) : null,
             title: const Text('Tautulli'),
             subtitle: const Text(LocaleKeys.tautulli_theme_subtitle).tr(),
+            onTap: () {
+              context.read<SettingsBloc>().add(
+                    const SettingsUpdateTheme(ThemeType.tautulli),
+                  );
+            },
           ),
           CupertinoListTile.notched(
             leading: const FaIcon(FontAwesomeIcons.swatchbook),
-            trailing: CupertinoRadio(
-              value: ThemeType.dynamic,
-              groupValue: state.appSettings.theme,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                      SettingsUpdateTheme(value as ThemeType),
-                    );
-              },
-            ),
+            trailing: state.appSettings.theme == ThemeType.dynamic ? const Icon(CupertinoIcons.check_mark) : null,
             title: const Text(LocaleKeys.dynamic_title).tr(),
             subtitle: const Text(LocaleKeys.dynamic_theme_subtitle).tr(),
+            onTap: () {
+              context.read<SettingsBloc>().add(
+                    const SettingsUpdateTheme(ThemeType.dynamic),
+                  );
+            },
           ),
         ],
       );
