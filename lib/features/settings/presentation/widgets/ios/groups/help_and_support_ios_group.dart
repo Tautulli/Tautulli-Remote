@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../logging/presentation/pages/ios/logging_ios_page.dart';
 
 class HelpAndSupportIosGroup extends StatelessWidget {
   const HelpAndSupportIosGroup({super.key});
@@ -63,13 +64,11 @@ class HelpAndSupportIosGroup extends StatelessWidget {
           leading: const FaIcon(FontAwesomeIcons.list),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.tautulli_remote_logs_title).tr(),
-          // onTap: () async {
-          //   await Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => const LoggingPage(),
-          //     ),
-          //   );
-          // },
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => const LoggingIosPage(),
+            ),
+          ),
         ),
       ],
     );

@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:system_theme/system_theme.dart';
-import 'core/widgets/ios/tab_scaffold_cupertino.dart';
-import 'features/activity/presentation/pages/ios/activity_ios_page.dart';
-import 'features/settings/presentation/pages/ios/settings_ios_page.dart';
 
 import 'core/device_info/device_info.dart';
 import 'core/global_keys/global_keys.dart';
@@ -15,22 +12,28 @@ import 'core/helpers/home_page_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
+import 'core/widgets/ios/tab_scaffold_cupertino.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
+import 'features/activity/presentation/pages/ios/activity_ios_page.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
+import 'features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
+import 'features/onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
 import 'features/recently_added/presentation/pages/recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/settings/presentation/pages/ios/settings_ios_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
+import 'features/translation/presentation/pages/ios/help_translate_ios_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 
@@ -53,6 +56,9 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
 
 Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   ActivityIosPage.routeName: (_) => const ActivityIosPage(),
+  ChangelogIosPage.routeName: (_) => const ChangelogIosPage(),
+  HelpTranslateIosPage.routeName: (_) => const HelpTranslateIosPage(),
+  OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
 };
 

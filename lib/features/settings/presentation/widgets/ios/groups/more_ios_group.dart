@@ -5,6 +5,9 @@ import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
+import '../../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
+import '../../../../../translation/presentation/pages/ios/help_translate_ios_page.dart';
 
 class MoreIosGroup extends StatelessWidget {
   const MoreIosGroup({super.key});
@@ -24,25 +27,31 @@ class MoreIosGroup extends StatelessWidget {
           ),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),
-          // onTap: () {
-          //   Navigator.of(context).pushNamed('/onesignal_privacy');
-          // },
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => const OneSignalDataPrivacyIosPage(),
+            ),
+          ),
         ),
         CupertinoListTile.notched(
           leading: const FaIcon(FontAwesomeIcons.clipboardList),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.changelog_title).tr(),
-          // onTap: () {
-          //   Navigator.of(context).pushNamed('/changelog');
-          // },
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => const ChangelogIosPage(),
+            ),
+          ),
         ),
         CupertinoListTile.notched(
           leading: const FaIcon(FontAwesomeIcons.globe),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.help_translate_title).tr(),
-          // onTap: () {
-          //   Navigator.of(context).pushNamed('/help_translate');
-          // },
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => const HelpTranslateIosPage(),
+            ),
+          ),
         ),
         CupertinoListTile.notched(
           leading: const FaIcon(FontAwesomeIcons.faucet),
