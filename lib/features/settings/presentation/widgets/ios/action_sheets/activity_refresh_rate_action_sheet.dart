@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class ActivityRefreshRateActionSheet extends StatefulWidget {
+class ActivityRefreshRateActionSheet extends StatelessWidget {
   final int initialValue;
 
   const ActivityRefreshRateActionSheet({
@@ -14,30 +14,14 @@ class ActivityRefreshRateActionSheet extends StatefulWidget {
   });
 
   @override
-  State<ActivityRefreshRateActionSheet> createState() => _ActivityRefreshRateActionSheetState();
-}
-
-class _ActivityRefreshRateActionSheetState extends State<ActivityRefreshRateActionSheet> {
-  late int _refresh;
-
-  @override
-  void initState() {
-    super.initState();
-    _refresh = widget.initialValue;
-  }
-
-  void _refreshValueChanged(int value) {
-    setState(() {
-      _refresh = value;
+  Widget build(BuildContext context) {
+    void refreshValueChanged(int value) {
       context.read<SettingsBloc>().add(
             SettingsUpdateRefreshRate(value),
           );
       Navigator.of(context).pop();
-    });
-  }
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: const Text(LocaleKeys.activity_refresh_rate_title).tr(),
       cancelButton: CupertinoActionSheetAction(
@@ -46,54 +30,54 @@ class _ActivityRefreshRateActionSheetState extends State<ActivityRefreshRateActi
       ),
       actions: [
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 5,
+          isDefaultAction: initialValue == 5,
           onPressed: () {
-            _refreshValueChanged(5);
+            refreshValueChanged(5);
           },
           child: Text(
             '5 ${LocaleKeys.sec.tr()} - ${LocaleKeys.faster_title.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 7,
+          isDefaultAction: initialValue == 7,
           onPressed: () {
-            _refreshValueChanged(7);
+            refreshValueChanged(7);
           },
           child: Text(
             '7 ${LocaleKeys.sec.tr()} - ${LocaleKeys.fast_title.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 10,
+          isDefaultAction: initialValue == 10,
           onPressed: () {
-            _refreshValueChanged(10);
+            refreshValueChanged(10);
           },
           child: Text(
             '10 ${LocaleKeys.sec.tr()} - ${LocaleKeys.normal_title.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 15,
+          isDefaultAction: initialValue == 15,
           onPressed: () {
-            _refreshValueChanged(15);
+            refreshValueChanged(15);
           },
           child: Text(
             '15 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slow_title.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 20,
+          isDefaultAction: initialValue == 20,
           onPressed: () {
-            _refreshValueChanged(20);
+            refreshValueChanged(20);
           },
           child: Text(
             '20 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slower_title.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _refresh == 0,
+          isDefaultAction: initialValue == 0,
           onPressed: () {
-            _refreshValueChanged(0);
+            refreshValueChanged(0);
           },
           child: Text(
             LocaleKeys.disabled_title.tr(),

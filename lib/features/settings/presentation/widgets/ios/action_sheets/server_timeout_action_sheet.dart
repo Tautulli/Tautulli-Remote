@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class ServerTimeoutActionSheet extends StatefulWidget {
+class ServerTimeoutActionSheet extends StatelessWidget {
   final int initialValue;
 
   const ServerTimeoutActionSheet({
@@ -14,30 +14,14 @@ class ServerTimeoutActionSheet extends StatefulWidget {
   });
 
   @override
-  State<ServerTimeoutActionSheet> createState() => _ServerTimeoutActionSheetState();
-}
-
-class _ServerTimeoutActionSheetState extends State<ServerTimeoutActionSheet> {
-  late int _timeout;
-
-  @override
-  void initState() {
-    super.initState();
-    _timeout = widget.initialValue;
-  }
-
-  void _timeoutValueChanged(int value) {
-    setState(() {
-      _timeout = value;
+  Widget build(BuildContext context) {
+    void timeoutValueChanged(int value) {
       context.read<SettingsBloc>().add(
             SettingsUpdateServerTimeout(value),
           );
       Navigator.of(context).pop();
-    });
-  }
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: const Text(LocaleKeys.server_timeout_title).tr(),
       cancelButton: CupertinoActionSheetAction(
@@ -46,45 +30,45 @@ class _ServerTimeoutActionSheetState extends State<ServerTimeoutActionSheet> {
       ),
       actions: [
         CupertinoActionSheetAction(
-          isDefaultAction: _timeout == 3,
+          isDefaultAction: initialValue == 3,
           onPressed: () {
-            _timeoutValueChanged(3);
+            timeoutValueChanged(3);
           },
           child: Text(
             '3 ${LocaleKeys.sec.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _timeout == 5,
+          isDefaultAction: initialValue == 5,
           onPressed: () {
-            _timeoutValueChanged(5);
+            timeoutValueChanged(5);
           },
           child: Text(
             '5 ${LocaleKeys.sec.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _timeout == 8,
+          isDefaultAction: initialValue == 8,
           onPressed: () {
-            _timeoutValueChanged(8);
+            timeoutValueChanged(8);
           },
           child: Text(
             '8 ${LocaleKeys.sec.tr()}',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _timeout == 15,
+          isDefaultAction: initialValue == 15,
           onPressed: () {
-            _timeoutValueChanged(15);
+            timeoutValueChanged(15);
           },
           child: Text(
             '15 ${LocaleKeys.sec.tr()} (${LocaleKeys.default_title.tr()})',
           ),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _timeout == 30,
+          isDefaultAction: initialValue == 30,
           onPressed: () {
-            _timeoutValueChanged(30);
+            timeoutValueChanged(30);
           },
           child: Text(
             '30 ${LocaleKeys.sec.tr()}',

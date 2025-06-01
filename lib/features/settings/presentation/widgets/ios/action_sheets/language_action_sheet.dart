@@ -6,26 +6,13 @@ import '../../../../../../core/helpers/translation_helper.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
 
-class LanguageActionSheet extends StatefulWidget {
+class LanguageActionSheet extends StatelessWidget {
   final Locale initialValue;
 
   const LanguageActionSheet({
     super.key,
     required this.initialValue,
   });
-
-  @override
-  State<LanguageActionSheet> createState() => _LanguageActionSheetState();
-}
-
-class _LanguageActionSheetState extends State<LanguageActionSheet> {
-  late Locale _locale;
-
-  @override
-  void initState() {
-    super.initState();
-    _locale = widget.initialValue;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +32,13 @@ class _LanguageActionSheetState extends State<LanguageActionSheet> {
       actions: locales
           .map(
             (locale) => CupertinoActionSheetAction(
-              isDefaultAction: _locale == locale,
+              isDefaultAction: initialValue == locale,
               onPressed: () {
-                setState(() {
-                  _locale = locale;
-                  context.read<TranslationBloc>().add(
-                        TranslationLocaleUpdated(locale),
-                      );
-                  context.setLocale(locale);
-                  Navigator.of(context).pop();
-                });
+                context.read<TranslationBloc>().add(
+                      TranslationLocaleUpdated(locale),
+                    );
+                context.setLocale(locale);
+                Navigator.of(context).pop();
               },
               child: Column(
                 children: [

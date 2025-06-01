@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class HomePageActionSheet extends StatefulWidget {
+class HomePageActionSheet extends StatelessWidget {
   final String initialValue;
 
   const HomePageActionSheet({
@@ -14,30 +14,14 @@ class HomePageActionSheet extends StatefulWidget {
   });
 
   @override
-  State<HomePageActionSheet> createState() => _HomePageActionSheetState();
-}
-
-class _HomePageActionSheetState extends State<HomePageActionSheet> {
-  late String _homePage;
-
-  @override
-  void initState() {
-    super.initState();
-    _homePage = widget.initialValue;
-  }
-
-  void _homePageChanged(String value) {
-    setState(() {
-      _homePage = value;
+  Widget build(BuildContext context) {
+    void homePageChanged(String value) {
       context.read<SettingsBloc>().add(
             SettingsUpdateHomePage(value),
           );
       Navigator.of(context).pop();
-    });
-  }
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: const Text(LocaleKeys.home_page_title).tr(),
       cancelButton: CupertinoActionSheetAction(
@@ -46,51 +30,51 @@ class _HomePageActionSheetState extends State<HomePageActionSheet> {
       ),
       actions: [
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'activity',
+          isDefaultAction: initialValue == 'activity',
           onPressed: () {
-            _homePageChanged('activity');
+            homePageChanged('activity');
           },
           child: const Text(LocaleKeys.activity_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'history',
+          isDefaultAction: initialValue == 'history',
           onPressed: () {
-            _homePageChanged('history');
+            homePageChanged('history');
           },
           child: const Text(LocaleKeys.history_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'recent',
+          isDefaultAction: initialValue == 'recent',
           onPressed: () {
-            _homePageChanged('recent');
+            homePageChanged('recent');
           },
           child: const Text(LocaleKeys.recently_added_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'libraries',
+          isDefaultAction: initialValue == 'libraries',
           onPressed: () {
-            _homePageChanged('libraries');
+            homePageChanged('libraries');
           },
           child: const Text(LocaleKeys.libraries_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'users',
+          isDefaultAction: initialValue == 'users',
           onPressed: () {
-            _homePageChanged('users');
+            homePageChanged('users');
           },
           child: const Text(LocaleKeys.users_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'statistics',
+          isDefaultAction: initialValue == 'statistics',
           onPressed: () {
-            _homePageChanged('statistics');
+            homePageChanged('statistics');
           },
           child: const Text(LocaleKeys.statistics_title).tr(),
         ),
         CupertinoActionSheetAction(
-          isDefaultAction: _homePage == 'graphs',
+          isDefaultAction: initialValue == 'graphs',
           onPressed: () {
-            _homePageChanged('graphs');
+            homePageChanged('graphs');
           },
           child: const Text(LocaleKeys.graphs_title).tr(),
         ),
