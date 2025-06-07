@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 
 class CupertinoCard extends StatelessWidget {
   final Widget child;
+  final Color? tint;
 
   const CupertinoCard({
     super.key,
     required this.child,
+    this.tint,
   });
 
   @override
@@ -17,7 +19,16 @@ class CupertinoCard extends StatelessWidget {
         child: Container(
           width: double.infinity,
           color: CupertinoColors.systemBackground.darkElevatedColor,
-          child: child,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Container(
+                  color: tint?.withAlpha(175),
+                ),
+              ),
+              child,
+            ],
+          ),
         ),
       ),
     );
