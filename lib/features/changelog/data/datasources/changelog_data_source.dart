@@ -1,6 +1,45 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.4.0",
+      "date": "June 8, 2025",
+      "changes": [
+        {
+          "type": "important",
+          "detail": "Donations have been re-enabled, any support you can provide is appriciated!",
+        },
+        {
+          "type": "improvement",
+          "detail": "Underscores no longer cause connaction address to fail URL validation",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added monochrome icon support on Android",
+        },
+        {
+          "type": "improvement",
+          "detail": "Migrate OneSignal notifications to v5",
+        },
+        {
+          "type": "improvement",
+          "detail": "Update Flutter version/packages and underlying Android/iOS code",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Hungarian, Italian, Swedish, Russian, and Portuguese (Portugal)",
+          "additional": "Thanks @ugyes, @Pantanet96, @burk80, Ivan, Maksim_220 Кабанов, & @SantosSi",
+        },
+        {
+          "type": "fix",
+          "detail": "Re-enabled app version update check",
+        },
+        {
+          "type": "fix",
+          "detail": "Re-enabled donation code as it no longer is conflicting with notification code",
+        },
+      ],
+    },
+    {
       "version": "v3.3.1",
       "date": "October 21, 2024",
       "changes": [
