@@ -8,6 +8,7 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
 import '../../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
 import '../../../../../translation/presentation/pages/ios/help_translate_ios_page.dart';
+import '../../../pages/ios/data_dump_ios_page.dart';
 
 class MoreIosGroup extends StatelessWidget {
   const MoreIosGroup({super.key});
@@ -57,14 +58,11 @@ class MoreIosGroup extends StatelessWidget {
           leading: const FaIcon(FontAwesomeIcons.faucet),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.data_dump_title).tr(),
-          // onTap: () async {
-          //   await Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       fullscreenDialog: true,
-          //       builder: (context) => const DataDumpPage(),
-          //     ),
-          //   );
-          // },
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => const DataDumpIosPage(),
+            ),
+          ),
         ),
       ],
     );
