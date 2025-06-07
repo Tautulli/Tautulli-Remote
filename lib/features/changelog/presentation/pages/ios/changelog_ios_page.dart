@@ -5,6 +5,8 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/datasources/changelog_data_source.dart';
+import '../../widgets/ios/changelog_ios_item.dart';
 
 class ChangelogIosPage extends StatelessWidget {
   const ChangelogIosPage({super.key});
@@ -43,6 +45,7 @@ class ChangelogIosView extends StatelessWidget {
           ],
         ),
         onPressed: () {
+          //TODO: Navigate to donate page
           // Navigator.of(context).push(
           //   CupertinoPageRoute(
           //     builder: (context) => const DonateIosPage(),
@@ -50,7 +53,26 @@ class ChangelogIosView extends StatelessWidget {
           // );
         },
       ),
-      child: Placeholder(),
+      child: CupertinoScrollbar(
+        child: ListView(
+          children: _buildChangelogEntries(changelog['data']),
+        ),
+      ),
     );
+  }
+
+  List<Widget> _buildChangelogEntries(List<Map<String, dynamic>> data) {
+    List<Widget> entries = [];
+
+    for (int i = 0; i < data.length; i++) {
+      entries.add(
+        ChangelogIosItem(
+          data[i],
+          bottomPadding: i < data.length - 1,
+        ),
+      );
+    }
+
+    return entries;
   }
 }
