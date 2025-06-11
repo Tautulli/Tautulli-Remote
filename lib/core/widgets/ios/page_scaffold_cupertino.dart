@@ -18,6 +18,7 @@ class PageScaffoldCupertino extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        padding: const EdgeInsetsDirectional.only(end: 16),
         leading: leading,
         middle: middle,
         trailing: trailing,
