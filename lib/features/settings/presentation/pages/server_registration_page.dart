@@ -64,9 +64,9 @@ class ServerRegistrationView extends StatelessWidget {
                         headers: state is RegistrationHeadersLoaded
                             ? state.headers
                                 .map(
-                                  (widget) => CustomHeaderModel(
-                                    key: widget.title,
-                                    value: widget.subtitle,
+                                  (header) => CustomHeaderModel(
+                                    key: header.key,
+                                    value: header.value,
                                   ),
                                 )
                                 .toList()

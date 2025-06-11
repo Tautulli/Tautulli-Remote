@@ -4,15 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../widgets/list_tiles/custom_header_list_tile.dart';
+import '../../data/models/custom_header_model.dart';
 
 part 'registration_headers_event.dart';
 part 'registration_headers_state.dart';
 
-List<CustomHeaderListTile> headerListCache = [];
+List<CustomHeaderModel> headerListCache = [];
 
-class RegistrationHeadersBloc
-    extends Bloc<RegistrationHeadersEvent, RegistrationHeadersState> {
+class RegistrationHeadersBloc extends Bloc<RegistrationHeadersEvent, RegistrationHeadersState> {
   final Logging logging;
 
   RegistrationHeadersBloc({
@@ -44,9 +43,9 @@ class RegistrationHeadersBloc
     RegistrationHeadersDelete event,
     Emitter<RegistrationHeadersState> emit,
   ) {
-    List<CustomHeaderListTile> newList = [...headerListCache];
+    List<CustomHeaderModel> newList = [...headerListCache];
 
-    newList.removeWhere((header) => header.title == event.title);
+    newList.removeWhere((header) => header.key == event.title);
 
     logging.info("Registration :: Removed '${event.title}' header");
 
@@ -61,13 +60,12 @@ class RegistrationHeadersBloc
     RegistrationHeadersUpdate event,
     Emitter<RegistrationHeadersState> emit,
   ) {
-    String loggingMessage =
-        'Registration :: Header changed but logging missed it';
-    List<CustomHeaderListTile> newList = [...headerListCache];
+    String loggingMessage = 'Registration :: Header changed but logging missed it';
+    List<CustomHeaderModel> newList = [...headerListCache];
 
     if (event.basicAuth) {
       final currentIndex = newList.indexWhere(
-        (header) => header.title == 'Authorization',
+        (header) => header.key == 'Authorization',
       );
 
       final String base64Value = base64Encode(
@@ -76,19 +74,17 @@ class RegistrationHeadersBloc
 
       if (currentIndex == -1) {
         newList.add(
-          CustomHeaderListTile(
-            forRegistration: true,
-            title: 'Authorization',
-            subtitle: 'Basic $base64Value',
+          CustomHeaderModel(
+            key: 'Authorization',
+            value: 'Basic $base64Value',
           ),
         );
 
         loggingMessage = "Registration :: Added 'Authorization' header";
       } else {
-        newList[currentIndex] = CustomHeaderListTile(
-          forRegistration: true,
-          title: 'Authorization',
-          subtitle: 'Basic $base64Value',
+        newList[currentIndex] = CustomHeaderModel(
+          key: 'Authorization',
+          value: 'Basic $base64Value',
         );
 
         loggingMessage = "Registration :: Updated 'Authorization' header";
@@ -96,18 +92,16 @@ class RegistrationHeadersBloc
     } else {
       if (event.previousTitle != null) {
         final oldIndex = newList.indexWhere(
-          (header) => header.title == event.previousTitle,
+          (header) => header.key == event.previousTitle,
         );
 
-        newList[oldIndex] = CustomHeaderListTile(
-          forRegistration: true,
-          title: event.title,
-          subtitle: event.subtitle,
+        newList[oldIndex] = CustomHeaderModel(
+          key: event.title,
+          value: event.subtitle,
         );
 
         if (event.previousTitle != event.title) {
-          loggingMessage =
-              "Registration :: Replaced '${event.previousTitle}' header with '${event.title}'";
+          loggingMessage = "Registration :: Replaced '${event.previousTitle}' header with '${event.title}'";
         } else {
           loggingMessage = "Registration :: Updated '${event.title}' header'";
         }
@@ -116,24 +110,22 @@ class RegistrationHeadersBloc
         // check and make sure we don't end up with headers that have duplicate
         // keys/titles
         final currentIndex = newList.indexWhere(
-          (header) => header.title == event.title,
+          (header) => header.key == event.title,
         );
 
         if (currentIndex == -1) {
           newList.add(
-            CustomHeaderListTile(
-              forRegistration: true,
-              title: event.title,
-              subtitle: event.subtitle,
+            CustomHeaderModel(
+              key: event.title,
+              value: event.subtitle,
             ),
           );
 
           loggingMessage = "Registration :: Added '${event.title}' header";
         } else {
-          newList[currentIndex] = CustomHeaderListTile(
-            forRegistration: true,
-            title: event.title,
-            subtitle: event.subtitle,
+          newList[currentIndex] = CustomHeaderModel(
+            key: event.title,
+            value: event.subtitle,
           );
 
           loggingMessage = "Registration :: Updated '${event.title}' header";
@@ -144,9 +136,9 @@ class RegistrationHeadersBloc
     logging.info(loggingMessage);
 
     // Sort headers and make sure Authorization is first
-    newList.sort((a, b) => a.title.compareTo(b.title));
+    newList.sort((a, b) => a.key.compareTo(b.key));
     final index = newList.indexWhere(
-      (element) => element.title == 'Authorization',
+      (element) => element.key == 'Authorization',
     );
     if (index != -1) {
       final authHeader = newList.removeAt(index);
