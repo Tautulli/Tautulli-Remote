@@ -21,6 +21,7 @@ import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
+import 'features/donate/presentation/pages/ios/donate_ios_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
@@ -57,6 +58,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
 Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   ActivityIosPage.routeName: (_) => const ActivityIosPage(),
   ChangelogIosPage.routeName: (_) => const ChangelogIosPage(),
+  DonateIosPage.routeName: (_) => const DonateIosPage(),
   HelpTranslateIosPage.routeName: (_) => const HelpTranslateIosPage(),
   OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
