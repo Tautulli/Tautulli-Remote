@@ -12,6 +12,7 @@ import 'core/helpers/home_page_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
+import 'core/widgets/ios/settings_not_loaded_ios.dart';
 import 'core/widgets/ios/tab_scaffold_cupertino.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
@@ -239,14 +240,14 @@ class _CupertinoFramework extends StatelessWidget {
             return CupertinoTheme(
               data: cupertinoTheme,
               child: const Scaffold(
-                //TODO: Change to a cupertino themed page
-                body: SettingsNotLoaded(),
+                body: SettingsNotLoadedIos(),
               ),
             );
           },
         );
       },
       routes: cupertinoRoutes,
+      //TODO: Implement inital route behavior
       // initialRoute: initialRoute,
       // home: HomePageHelper.get(),
       home: TabScaffoldCupertino(),
