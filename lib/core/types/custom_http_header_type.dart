@@ -1,0 +1,4 @@
+enum CustomHttpHeaderType {
+  basic,
+  custom;
+}
