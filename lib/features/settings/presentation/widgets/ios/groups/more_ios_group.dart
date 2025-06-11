@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
 import '../../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
@@ -18,49 +20,80 @@ class MoreIosGroup extends StatelessWidget {
     return CustomCupertinoListSection(
       headerText: LocaleKeys.more_title.tr(),
       children: [
-        CupertinoListTile.notched(
+        CustomNotchedCupertinoListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             colorFilter: ColorFilter.mode(
-              CupertinoTheme.of(context).primaryColor,
+              ThemeHelper.cupertinoListTileIconColor(),
               BlendMode.srcIn,
             ),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),
+          title: const Text(
+            LocaleKeys.onesignal_data_privacy_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const OneSignalDataPrivacyIosPage(),
+              builder: (context) => OneSignalDataPrivacyIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.clipboardList),
+        CustomNotchedCupertinoListTile(
+          leading: Icon(
+            CupertinoIcons.square_list_fill,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.changelog_title).tr(),
+          title: const Text(
+            LocaleKeys.changelog_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const ChangelogIosPage(),
+              builder: (context) => ChangelogIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.globe),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.globe,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.help_translate_title).tr(),
+          title: const Text(
+            LocaleKeys.help_translate_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const HelpTranslateIosPage(),
+              builder: (context) => HelpTranslateIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.faucet),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.faucet,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.data_dump_title).tr(),
+          title: const Text(
+            LocaleKeys.data_dump_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const DataDumpIosPage(),
+              builder: (context) => DataDumpIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),

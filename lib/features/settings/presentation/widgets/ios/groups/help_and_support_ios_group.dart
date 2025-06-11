@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../logging/presentation/pages/ios/logging_ios_page.dart';
 
@@ -16,10 +18,17 @@ class HelpAndSupportIosGroup extends StatelessWidget {
     return CustomCupertinoListSection(
       headerText: LocaleKeys.help_and_support_title.tr(),
       children: [
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.github),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.github,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(LocaleKeys.wiki_title).tr(),
+          title: const Text(
+            LocaleKeys.wiki_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -27,10 +36,17 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.discord),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.discord,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 19.2,
+          ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(LocaleKeys.discord_title).tr(),
+          title: const Text(
+            LocaleKeys.discord_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -38,10 +54,17 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.redditAlien),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.redditAlien,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(LocaleKeys.reddit_title).tr(),
+          title: const Text(
+            LocaleKeys.reddit_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -49,10 +72,17 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.github),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.github,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(LocaleKeys.bugs_and_feature_requests_title).tr(),
+          title: const Text(
+            LocaleKeys.bugs_and_feature_requests_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -60,13 +90,21 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.list),
+        CustomNotchedCupertinoListTile(
+          leading: Icon(
+            CupertinoIcons.list_bullet,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.tautulli_remote_logs_title).tr(),
+          title: const Text(
+            LocaleKeys.tautulli_remote_logs_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const LoggingIosPage(),
+              builder: (context) => LoggingIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),

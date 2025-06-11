@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../dialogs/clear_app_image_cache_ios_dialog.dart';
 
@@ -15,8 +17,12 @@ class OperationsIosGroup extends StatelessWidget {
     return CustomCupertinoListSection(
       headerText: LocaleKeys.operations_title.tr(),
       children: [
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.eraser),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.eraser,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 21.3,
+          ),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.clear_app_image_cache_title).tr(),
           subtitle: const Text(LocaleKeys.clear_app_image_cache_subtitle).tr(),

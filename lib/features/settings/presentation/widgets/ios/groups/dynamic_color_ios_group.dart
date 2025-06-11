@@ -8,8 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../../../core/device_info/device_info.dart';
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/theme_type.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -32,10 +34,11 @@ class DynamicColorIosGroup extends StatelessWidget {
               final bool themeNotDynamic = state.appSettings.theme != ThemeType.dynamic;
               final bool supportsAccentColor = defaultTargetPlatform.supportsAccentColor;
 
-              return CupertinoListTile.notched(
+              return CustomNotchedCupertinoListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.wandMagicSparkles,
-                  color: (themeNotDynamic || !supportsAccentColor) ? CupertinoColors.inactiveGray : null,
+                  color: (themeNotDynamic || !supportsAccentColor) ? CupertinoColors.inactiveGray : ThemeHelper.cupertinoListTileIconColor(),
+                  size: 21.3,
                 ),
                 trailing: CupertinoSwitch(
                   value: state.appSettings.themeUseSystemColor,
@@ -51,6 +54,7 @@ class DynamicColorIosGroup extends StatelessWidget {
                   LocaleKeys.system_color_title,
                   style: TextStyle(
                     color: (themeNotDynamic || !supportsAccentColor) ? CupertinoColors.inactiveGray : null,
+                    fontWeight: FontWeight.bold,
                   ),
                 ).tr(),
               );
@@ -64,10 +68,11 @@ class DynamicColorIosGroup extends StatelessWidget {
             final bool useSystemColor = state.appSettings.themeUseSystemColor;
             pickerColor = state.appSettings.themeCustomColor;
 
-            return CupertinoListTile.notched(
+            return CustomNotchedCupertinoListTile(
               leading: FaIcon(
-                FontAwesomeIcons.droplet,
+                FontAwesomeIcons.palette,
                 color: (themeNotDynamic || useSystemColor) ? CupertinoColors.inactiveGray : null,
+                size: 23,
               ),
               additionalInfo: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +88,7 @@ class DynamicColorIosGroup extends StatelessWidget {
                 LocaleKeys.custom_color_title,
                 style: TextStyle(
                   color: (themeNotDynamic || useSystemColor) ? CupertinoColors.inactiveGray : null,
+                  fontWeight: FontWeight.bold,
                 ),
               ).tr(),
               onTap: () => showCupertinoDialog(

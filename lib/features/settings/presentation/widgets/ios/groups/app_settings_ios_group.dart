@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/ios/accessibility_ios_page.dart';
 import '../../../pages/ios/advanced_ios_page.dart';
 import '../../../pages/ios/theme_ios_page.dart';
-import '../action_sheets/activity_refresh_rate_action_sheet.dart';
-import '../action_sheets/server_timeout_action_sheet.dart';
+import '../bottom_sheets/activity_refresh_rate_ios_bottom_sheet.dart';
+import '../bottom_sheets/server_timeout_ios_bottom_sheet.dart';
 
 class AppSettingsIosGroup extends StatelessWidget {
   const AppSettingsIosGroup({super.key});
@@ -25,14 +27,19 @@ class AppSettingsIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final serverTimeout = state.appSettings.serverTimeout;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.stopwatch),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.stopwatch_fill,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: const CupertinoListTileChevron(),
               title: const Text(LocaleKeys.server_timeout_title).tr(),
               subtitle: Text(_serverTimeoutDisplay(serverTimeout)),
-              onTap: () => showCupertinoModalPopup(
+              onTap: () => showCupertinoSheet(
                 context: context,
-                builder: (context) => ServerTimeoutActionSheet(initialValue: serverTimeout),
+                pageBuilder: (context) => ServerTimeoutIosBottomSheet(
+                  initialValue: serverTimeout,
+                ),
               ),
             );
           },
@@ -42,46 +49,76 @@ class AppSettingsIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final refreshRate = state.appSettings.refreshRate;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.solidClock),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.clock_fill,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: const CupertinoListTileChevron(),
               title: const Text(LocaleKeys.activity_refresh_rate_title).tr(),
               subtitle: Text(_activityRefreshRateDisplay(refreshRate)),
-              onTap: () => showCupertinoModalPopup(
+              onTap: () => showCupertinoSheet(
                 context: context,
-                builder: (context) => ActivityRefreshRateActionSheet(initialValue: refreshRate),
+                pageBuilder: (context) => ActivityRefreshRateIosBottomSheet(
+                  initialValue: refreshRate,
+                ),
               ),
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.wrench),
+        CustomNotchedCupertinoListTile(
+          leading: Icon(
+            CupertinoIcons.wrench_fill,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.advanced_title).tr(),
+          title: const Text(
+            LocaleKeys.advanced_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const AdvancedIosPage(),
+              builder: (context) => AdvancedIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),
         //TODO: Remove for cupertino framework
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.palette),
+        CustomNotchedCupertinoListTile(
+          leading: Icon(
+            CupertinoIcons.paintbrush_fill,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.themes_title).tr(),
+          title: const Text(
+            LocaleKeys.themes_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const ThemeIosPage(),
+              builder: (context) => ThemeIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.universalAccess),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.universalAccess,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 23,
+          ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.accessibility_title).tr(),
+          title: const Text(
+            LocaleKeys.accessibility_title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ).tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => const AccessibilityIosPage(),
+              builder: (context) => AccessibilityIosPage(
+                previousPageTitle: LocaleKeys.settings_title.tr(),
+              ),
             ),
           ),
         ),

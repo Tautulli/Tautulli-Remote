@@ -4,33 +4,47 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
+import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/ios/help_translate_heading_ios_card.dart';
 
 class HelpTranslateIosPage extends StatelessWidget {
-  const HelpTranslateIosPage({super.key});
+  final String? previousPageTitle;
+
+  const HelpTranslateIosPage({
+    super.key,
+    this.previousPageTitle,
+  });
 
   static const routeName = '/help_translate';
 
   @override
   Widget build(BuildContext context) {
-    return const HelpTranslateIosView();
+    return HelpTranslateIosView(
+      previousPageTitle: previousPageTitle,
+    );
   }
 }
 
 class HelpTranslateIosView extends StatelessWidget {
-  const HelpTranslateIosView({super.key});
+  final String? previousPageTitle;
+
+  const HelpTranslateIosView({
+    super.key,
+    this.previousPageTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
       middle: const Text(LocaleKeys.help_translate_title).tr(),
-      leading: CupertinoNavigationBarBackButton(
-        //TODO: Eventually remove workaround for https://github.com/flutter/flutter/issues/89888
-        onPressed: () => Navigator.of(context).pop(),
+      leading: CustomCupertinoNavigationBarBackButton(
+        previousPageTitle: previousPageTitle,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -39,16 +53,19 @@ class HelpTranslateIosView extends StatelessWidget {
             const HelpTranslateHeadingIosCard(),
             CustomCupertinoListSection(
               children: [
-                CupertinoListTile.notched(
+                CustomNotchedCupertinoListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     colorFilter: ColorFilter.mode(
-                      CupertinoTheme.of(context).primaryColor,
+                      ThemeHelper.cupertinoListTileIconColor(),
                       BlendMode.srcIn,
                     ),
                   ),
                   trailing: const CupertinoListTileExternal(),
-                  title: const Text(LocaleKeys.translate_tautulli_remote_title).tr(),
+                  title: const Text(
+                    LocaleKeys.translate_tautulli_remote_title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ).tr(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,
@@ -56,10 +73,17 @@ class HelpTranslateIosView extends StatelessWidget {
                     );
                   },
                 ),
-                CupertinoListTile.notched(
-                  leading: const FaIcon(FontAwesomeIcons.github),
+                CustomNotchedCupertinoListTile(
+                  leading: FaIcon(
+                    FontAwesomeIcons.github,
+                    color: ThemeHelper.cupertinoListTileIconColor(),
+                    size: 23,
+                  ),
                   trailing: const CupertinoListTileExternal(),
-                  title: const Text(LocaleKeys.request_a_new_language_title).tr(),
+                  title: const Text(
+                    LocaleKeys.request_a_new_language_title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ).tr(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,

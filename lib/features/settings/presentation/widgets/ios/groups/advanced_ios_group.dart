@@ -5,14 +5,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/string_helper.dart';
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/helpers/translation_helper.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../action_sheets/home_page_action_sheet.dart';
-import '../action_sheets/language_action_sheet.dart';
+import '../bottom_sheets/home_page_ios_bottom_sheet.dart';
+import '../bottom_sheets/language_ios_bottom_sheet.dart';
 
 class AdvancedIosGroup extends StatelessWidget {
   const AdvancedIosGroup({super.key});
@@ -28,8 +30,11 @@ class AdvancedIosGroup extends StatelessWidget {
               state as SettingsSuccess;
               final doubleBackToExit = state.appSettings.doubleBackToExit;
 
-              return CupertinoListTile.notched(
-                leading: const FaIcon(FontAwesomeIcons.anglesLeft),
+              return CustomNotchedCupertinoListTile(
+                leading: Icon(
+                  CupertinoIcons.chevron_left_2,
+                  color: ThemeHelper.cupertinoListTileIconColor(),
+                ),
                 trailing: CupertinoSwitch(
                   value: doubleBackToExit,
                   onChanged: (value) {
@@ -48,8 +53,11 @@ class AdvancedIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.solidEyeSlash),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.eye_slash_fill,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: CupertinoSwitch(
                 value: maskSensitiveInfo,
                 onChanged: (value) {
@@ -68,8 +76,12 @@ class AdvancedIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final multiserverActivity = state.appSettings.multiserverActivity;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.barsStaggered),
+            return CustomNotchedCupertinoListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.barsStaggered,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+                size: 23,
+              ),
               trailing: CupertinoSwitch(
                 value: multiserverActivity,
                 onChanged: (value) {
@@ -88,8 +100,11 @@ class AdvancedIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.arrowRotateRight),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.arrow_clockwise,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: CupertinoSwitch(
                 value: libraryMediaFullRefresh,
                 onChanged: (value) {
@@ -109,26 +124,38 @@ class AdvancedIosGroup extends StatelessWidget {
             state as SettingsSuccess;
             final homePageSetting = state.appSettings.homePage;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.house),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.house_fill,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: const CupertinoListTileChevron(),
               title: const Text(LocaleKeys.home_page_title).tr(),
               subtitle: Text(StringHelper.mapHomePageSettingToTitle(homePageSetting)),
-              onTap: () => showCupertinoModalPopup(
+              onTap: () => showCupertinoSheet(
                 context: context,
-                builder: (context) => HomePageActionSheet(initialValue: homePageSetting),
+                pageBuilder: (context) => HomePageIosBottomSheet(
+                  initialValue: homePageSetting,
+                ),
               ),
             );
           },
         ),
-        CupertinoListTile.notched(
-          leading: const FaIcon(FontAwesomeIcons.language),
+        CustomNotchedCupertinoListTile(
+          leading: FaIcon(
+            FontAwesomeIcons.language,
+            color: ThemeHelper.cupertinoListTileIconColor(),
+            size: 19.2,
+          ),
           trailing: const CupertinoListTileChevron(),
           title: const Text(LocaleKeys.language_title).tr(),
           subtitle: Text(TranslationHelper.localeToString(context.locale)),
-          onTap: () => showCupertinoModalPopup(
+          onTap: () => showCupertinoSheet(
             context: context,
-            builder: (context) => BlocProvider(create: (context) => di.sl<TranslationBloc>(), child: LanguageActionSheet(initialValue: context.locale)),
+            pageBuilder: (context) => BlocProvider(
+              create: (context) => di.sl<TranslationBloc>(),
+              child: LanguageIosBottomSheet(initialValue: context.locale),
+            ),
           ),
         ),
       ],

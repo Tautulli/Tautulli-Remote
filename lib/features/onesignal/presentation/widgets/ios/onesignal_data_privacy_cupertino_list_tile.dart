@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/permission_setting_ios_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -20,7 +21,7 @@ class OneSignalDataPrivacyCupertinoListTile extends StatelessWidget {
 
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
       builder: (context, state) {
-        return CupertinoListTile.notched(
+        return CustomNotchedCupertinoListTile(
           trailing: CupertinoSwitch(
             value: state is OneSignalPrivacySuccess,
             onChanged: (value) async {

@@ -14,6 +14,7 @@ import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -24,7 +25,12 @@ import '../../bloc/settings_bloc.dart';
 import '../../widgets/ios/data_dump_ios_warning_card.dart';
 
 class DataDumpIosPage extends StatelessWidget {
-  const DataDumpIosPage({super.key});
+  final String? previousPageTitle;
+
+  const DataDumpIosPage({
+    super.key,
+    this.previousPageTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +44,27 @@ class DataDumpIosPage extends StatelessWidget {
         ..add(
           OneSignalStatusLoad(),
         ),
-      child: const DataDumpIosView(),
+      child: DataDumpIosView(
+        previousPageTitle: previousPageTitle,
+      ),
     );
   }
 }
 
 class DataDumpIosView extends StatelessWidget {
-  const DataDumpIosView({super.key});
+  final String? previousPageTitle;
+
+  const DataDumpIosView({
+    super.key,
+    this.previousPageTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
       middle: const Text(LocaleKeys.data_dump_title).tr(),
-      leading: CupertinoNavigationBarBackButton(
-        //TODO: Eventually remove workaround for https://github.com/flutter/flutter/issues/89888
-        onPressed: () => Navigator.of(context).pop(),
+      leading: CustomCupertinoNavigationBarBackButton(
+        previousPageTitle: previousPageTitle,
       ),
       child: ListView(
         children: [

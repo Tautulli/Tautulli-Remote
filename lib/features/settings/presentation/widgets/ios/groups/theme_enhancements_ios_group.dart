@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/theme_enhancement_type.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -20,8 +21,11 @@ class ThemeEnhancementsIosGroup extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return CupertinoListTile.notched(
-              leading: const FaIcon(FontAwesomeIcons.circleHalfStroke),
+            return CustomNotchedCupertinoListTile(
+              leading: Icon(
+                CupertinoIcons.circle_lefthalf_fill,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+              ),
               trailing: CupertinoSwitch(
                 value: state.appSettings.themeEnhancement == ThemeEnhancementType.ultraContrastDark,
                 onChanged: (value) {
@@ -32,7 +36,10 @@ class ThemeEnhancementsIosGroup extends StatelessWidget {
                       );
                 },
               ),
-              title: const Text(LocaleKeys.high_contrast_title).tr(),
+              title: const Text(
+                LocaleKeys.high_contrast_title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ).tr(),
             );
           },
         )
