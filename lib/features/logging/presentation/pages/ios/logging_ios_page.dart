@@ -10,17 +10,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
+import '../../widgets/ios/logging_actions_action_sheet.dart';
+import '../../widgets/ios/logging_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/logging_ios_table.dart';
-import 'logging_ios_actions_action_sheet.dart';
-import 'logging_ios_filter_action_sheet.dart';
 
 class LoggingIosPage extends StatelessWidget {
-  const LoggingIosPage({super.key});
+  final String? previousPageTitle;
+
+  const LoggingIosPage({
+    super.key,
+    this.previousPageTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +39,20 @@ class LoggingIosPage extends StatelessWidget {
           create: (context) => di.sl<LoggingExportBloc>(),
         ),
       ],
-      child: const LoggingIosView(),
+      child: LoggingIosView(
+        previousPageTitle: previousPageTitle,
+      ),
     );
   }
 }
 
 class LoggingIosView extends StatefulWidget {
-  const LoggingIosView({super.key});
+  final String? previousPageTitle;
+
+  const LoggingIosView({
+    super.key,
+    this.previousPageTitle,
+  });
 
   @override
   State<LoggingIosView> createState() => _LoggingIosViewState();
@@ -64,9 +77,8 @@ class _LoggingIosViewState extends State<LoggingIosView> {
 
     return PageScaffoldCupertino(
       middle: const Text(LocaleKeys.app_logs_title).tr(),
-      leading: CupertinoNavigationBarBackButton(
-        //TODO: Eventually remove workaround for https://github.com/flutter/flutter/issues/89888
-        onPressed: () => Navigator.of(context).pop(),
+      leading: CustomCupertinoNavigationBarBackButton(
+        previousPageTitle: widget.previousPageTitle,
       ),
       trailing: BlocProvider.value(
         value: context.read<LoggingBloc>(),
@@ -133,9 +145,6 @@ class _LoggingIosViewState extends State<LoggingIosView> {
   }
 
   Widget _navBarActions() {
-    final LoggingBloc loggingBloc = context.read<LoggingBloc>();
-    final LoggingExportBloc loggingExportBloc = context.read<LoggingExportBloc>();
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -144,11 +153,13 @@ class _LoggingIosViewState extends State<LoggingIosView> {
             if (state is LoggingSuccess) {
               return CupertinoButton(
                 padding: const EdgeInsets.all(8),
-                onPressed: () => showCupertinoModalPopup(
+                onPressed: () => showCupertinoSheet(
                   context: context,
-                  builder: (context) => BlocProvider.value(
-                    value: loggingBloc,
-                    child: LoggingIosFilterActionSheet(initialValue: state.level),
+                  pageBuilder: (_) => BlocProvider.value(
+                    value: context.read<LoggingBloc>(),
+                    child: LoggingFilterIosBottomSheet(
+                      initialValue: state.level,
+                    ),
                   ),
                 ),
                 child: const Icon(FontAwesomeIcons.filter),
@@ -165,11 +176,11 @@ class _LoggingIosViewState extends State<LoggingIosView> {
           padding: const EdgeInsets.all(8),
           onPressed: () => showCupertinoModalPopup(
             context: context,
-            builder: (context) => BlocProvider.value(
-              value: loggingBloc,
+            builder: (_) => BlocProvider.value(
+              value: context.read<LoggingBloc>(),
               child: BlocProvider.value(
-                value: loggingExportBloc,
-                child: const LoggingIosActionsActionSheet(),
+                value: context.read<LoggingExportBloc>(),
+                child: const LoggingActionsActionSheet(),
               ),
             ),
           ),

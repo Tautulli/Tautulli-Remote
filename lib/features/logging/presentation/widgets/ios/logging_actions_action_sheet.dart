@@ -2,13 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import '../../widgets/ios/clear_logging_ios_dialog.dart';
+import 'clear_logging_ios_dialog.dart';
 
-class LoggingIosActionsActionSheet extends StatelessWidget {
-  const LoggingIosActionsActionSheet({super.key});
+class LoggingActionsActionSheet extends StatelessWidget {
+  const LoggingActionsActionSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,10 @@ class LoggingIosActionsActionSheet extends StatelessWidget {
     return CupertinoActionSheet(
       cancelButton: CupertinoActionSheetAction(
         onPressed: () => Navigator.of(context).pop(),
-        child: const Text(LocaleKeys.cancel_title).tr(),
+        child: Text(
+          LocaleKeys.cancel_title,
+          style: TextStyle(color: ThemeHelper.cupertinoActionSheetActionColor()),
+        ).tr(),
       ),
       actions: [
         CupertinoActionSheetAction(
@@ -31,7 +35,10 @@ class LoggingIosActionsActionSheet extends StatelessWidget {
                   ),
                 );
           },
-          child: const Text(LocaleKeys.logs_export_menu_item).tr(),
+          child: Text(
+            LocaleKeys.logs_export_menu_item,
+            style: TextStyle(color: ThemeHelper.cupertinoActionSheetActionColor()),
+          ).tr(),
         ),
         CupertinoActionSheetAction(
           onPressed: () {
@@ -45,7 +52,10 @@ class LoggingIosActionsActionSheet extends StatelessWidget {
               ),
             );
           },
-          child: const Text(LocaleKeys.logs_clear_menu_item).tr(),
+          child: Text(
+            LocaleKeys.logs_clear_menu_item,
+            style: TextStyle(color: ThemeHelper.cupertinoActionSheetActionColor()),
+          ).tr(),
         ),
       ],
     );
