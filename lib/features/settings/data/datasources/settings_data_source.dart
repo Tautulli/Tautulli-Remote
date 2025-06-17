@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
@@ -14,6 +15,7 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
+import '../../../../core/types/framework.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -96,6 +98,10 @@ abstract class SettingsDataSource {
   // Double Back To Exit
   bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
+
+  // Framework
+  Framework getFramework();
+  Future<bool> setFramework(Framework value);
 
   // Graph Time Range
   int getGraphTimeRange();
@@ -211,6 +217,7 @@ const appUpdateAvailable = 'appUpdateAvailable';
 const customCertHashList = 'customCertHashList';
 const disableImageBackgrounds = 'disableImageBackgrounds';
 const doubleBackToExit = 'doubleTapToExit';
+const framework = 'framework';
 const graphTimeRange = 'graphTimeRange';
 const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
@@ -421,6 +428,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setActiveServerId(String value) {
     return localStorage.setString(activeServerId, value);
+  }
+
+  // Framework
+  @override
+  Framework getFramework() {
+    String? frameworkString = localStorage.getString(framework) ?? di.sl<DeviceInfo>().platform;
+
+    return Cast.castToFramework(frameworkString);
+  }
+
+  @override
+  Future<bool> setFramework(Framework value) {
+    return localStorage.setString(framework, value.toString());
   }
 
   // App Update Available

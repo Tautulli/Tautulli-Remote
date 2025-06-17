@@ -10,6 +10,7 @@ import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
+import '../../../../core/types/framework.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -58,6 +59,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
     on<SettingsUpdateActiveServer>(
       (event, emit) => _onSettingsUpdateActiveServer(event, emit),
+    );
+    on<SettingsUpdateFramework>(
+      (event, emit) => _onSettingsUpdateFramework(event, emit),
     );
     on<SettingsUpdateAppUpdateAvailable>(
       (event, emit) => _onSettingsUpdateAppUpdateAvailable(event, emit),
@@ -368,6 +372,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         appUpdateAvailable: settings.getAppUpdateAvailable(),
         disableImageBackgrounds: settings.getDisableImageBackgrounds(),
         doubleBackToExit: settings.getDoubleBackToExit(),
+        framework: settings.getFramework(),
         graphTimeRange: settings.getGraphTimeRange(),
         graphTipsShown: settings.getGraphTipsShown(),
         graphYAxis: settings.getGraphYAxis(),
@@ -631,6 +636,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(doubleBackToExit: event.doubleBackToExit),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateFramework(
+    SettingsUpdateFramework event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setFramework(event.framework);
+    logging.debug(
+      "Settings :: Framework changed to '${event.framework}'",
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(framework: event.framework),
       ),
     );
   }

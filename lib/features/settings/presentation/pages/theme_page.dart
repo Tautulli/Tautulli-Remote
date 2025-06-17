@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../widgets/groups/dynamic_color_group.dart';
+import '../widgets/groups/framework_group.dart';
 import '../widgets/groups/theme_enhancements_group.dart';
 import '../widgets/groups/themes_group.dart';
 
@@ -31,6 +32,8 @@ class ThemeView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(8.0),
           children: const [
+            FrameworkGroup(),
+            Gap(8),
             ThemesGroup(),
             Gap(8),
             DynamicColorGroup(),

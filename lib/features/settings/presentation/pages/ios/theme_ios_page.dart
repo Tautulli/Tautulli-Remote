@@ -5,6 +5,7 @@ import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_but
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/ios/groups/dynamic_color_ios_group.dart';
+import '../../widgets/ios/groups/framework_ios_group.dart';
 import '../../widgets/ios/groups/theme_enhancements_ios_group.dart';
 import '../../widgets/ios/groups/themes_ios_group.dart';
 
@@ -41,6 +42,7 @@ class ThemeIosView extends StatelessWidget {
       ),
       child: ListView(
         children: const [
+          FrameworkIosGroup(),
           ThemesIosGroup(),
           DynamicColorIosGroup(),
           ThemeEnhancementsIosGroup(),

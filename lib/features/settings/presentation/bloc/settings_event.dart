@@ -80,6 +80,15 @@ class SettingsLoad extends SettingsEvent {
   List<Object> get props => [updateServerInfo];
 }
 
+class SettingsUpdateFramework extends SettingsEvent {
+  final Framework framework;
+
+  const SettingsUpdateFramework(this.framework);
+
+  @override
+  List<Object> get props => [framework];
+}
+
 class SettingsUpdateActiveServer extends SettingsEvent {
   final ServerModel activeServer;
 

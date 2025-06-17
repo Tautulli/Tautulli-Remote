@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/types/framework.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -11,6 +12,7 @@ class AppSettingsModel extends Equatable {
   final bool appUpdateAvailable;
   final bool disableImageBackgrounds;
   final bool doubleBackToExit;
+  final Framework framework;
   final int graphTimeRange;
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
@@ -42,6 +44,7 @@ class AppSettingsModel extends Equatable {
     required this.appUpdateAvailable,
     required this.disableImageBackgrounds,
     required this.doubleBackToExit,
+    required this.framework,
     required this.graphTimeRange,
     required this.graphTipsShown,
     required this.graphYAxis,
@@ -74,6 +77,7 @@ class AppSettingsModel extends Equatable {
     bool? appUpdateAvailable,
     bool? disableImageBackgrounds,
     bool? doubleBackToExit,
+    Framework? framework,
     int? graphTimeRange,
     bool? graphTipsShown,
     PlayMetricType? graphYAxis,
@@ -105,6 +109,7 @@ class AppSettingsModel extends Equatable {
       appUpdateAvailable: appUpdateAvailable ?? this.appUpdateAvailable,
       disableImageBackgrounds: disableImageBackgrounds ?? this.disableImageBackgrounds,
       doubleBackToExit: doubleBackToExit ?? this.doubleBackToExit,
+      framework: framework ?? this.framework,
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
@@ -139,6 +144,7 @@ class AppSettingsModel extends Equatable {
       'App Update Available': appUpdateAvailable.toString(),
       'Disable Image Backgrounds': disableImageBackgrounds.toString(),
       'Double Back To Exit': doubleBackToExit.toString(),
+      'Framework': framework.toString(),
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
@@ -172,6 +178,7 @@ class AppSettingsModel extends Equatable {
         appUpdateAvailable,
         disableImageBackgrounds,
         doubleBackToExit,
+        framework,
         graphTimeRange,
         graphTipsShown,
         graphYAxis,

@@ -1,0 +1,4 @@
+enum Framework {
+  android,
+  ios,
+}

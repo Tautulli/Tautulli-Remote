@@ -1,5 +1,6 @@
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
+import '../types/framework.dart';
 import '../types/section_type.dart';
 import '../types/tautulli_types.dart';
 import '../types/theme_enhancement_type.dart';
@@ -112,6 +113,18 @@ class Cast {
   }
 
   //* Tautulli Types
+
+  /// Casts `String` to a `Framework`.
+  ///
+  /// Returns `Framework.android` if value is anything but 'ios'.
+  static Framework castToFramework(String value) {
+    switch (value.toLowerCase()) {
+      case ('ios'):
+        return Framework.ios;
+      default:
+        return Framework.android;
+    }
+  }
 
   /// Casts `String` to a `GraphSeriesType`.
   ///

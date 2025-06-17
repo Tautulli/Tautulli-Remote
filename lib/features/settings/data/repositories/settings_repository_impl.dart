@@ -8,6 +8,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
+import '../../../../core/types/framework.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -196,6 +197,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setActiveServerId(String value) async {
     return await dataSource.setActiveServerId(value);
+  }
+
+  // Framework
+  @override
+  Framework getFramework() {
+    return dataSource.getFramework();
+  }
+
+  @override
+  Future<bool> setFramework(Framework value) async {
+    return await dataSource.setFramework(value);
   }
 
   // App Update Available
