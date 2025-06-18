@@ -168,6 +168,8 @@ class Cast {
         return Location.wan;
       case ('cellular'):
         return Location.cellular;
+      case (null):
+        return Location.unknown;
       default:
         di.sl<Logging>().warning(
               'Utilities :: Failed to cast $value to Location',

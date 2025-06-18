@@ -178,15 +178,15 @@ class EpisodeMediaView extends StatelessWidget {
                   value: MediaType.season,
                   child: const Text(LocaleKeys.go_to_season_title).tr(),
                 ),
-                PopupMenuItem(
-                  child: const Text(LocaleKeys.view_on_plex_title).tr(),
-                  onTap: () async {
-                    await di.sl<OpenInPlex>().open(
-                          plexIdentifier: server.plexIdentifier,
-                          ratingKey: media.ratingKey!,
-                        );
-                  },
-                ),
+                // PopupMenuItem(
+                //   child: const Text(LocaleKeys.view_on_plex_title).tr(),
+                //   onTap: () async {
+                //     await di.sl<OpenInPlex>().open(
+                //           plexIdentifier: server.plexIdentifier,
+                //           ratingKey: media.ratingKey!,
+                //         );
+                //   },
+                // ),
               ];
             },
           );

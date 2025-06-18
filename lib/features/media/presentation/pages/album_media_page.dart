@@ -161,15 +161,16 @@ class AlbumMediaView extends StatelessWidget {
                   value: MediaType.artist,
                   child: const Text(LocaleKeys.go_to_artist_title).tr(),
                 ),
-                PopupMenuItem(
-                  child: const Text(LocaleKeys.view_on_plex_title).tr(),
-                  onTap: () async {
-                    await di.sl<OpenInPlex>().open(
-                          plexIdentifier: server.plexIdentifier,
-                          ratingKey: media.ratingKey!,
-                        );
-                  },
-                ),
+                // TODO: Re-enable once new plex app deep links are discovered
+                // PopupMenuItem(
+                //   child: const Text(LocaleKeys.view_on_plex_title).tr(),
+                //   onTap: () async {
+                //     await di.sl<OpenInPlex>().open(
+                //           plexIdentifier: server.plexIdentifier,
+                //           ratingKey: media.ratingKey!,
+                //         );
+                //   },
+                // ),
               ];
             },
           );

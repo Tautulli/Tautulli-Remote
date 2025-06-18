@@ -74,7 +74,8 @@ class ClipMediaView extends StatelessWidget {
             );
           },
         ),
-        appBarActions: _appBarActions(context),
+        // TODO: Re-enable once new plex app deep links are discovered
+        // appBarActions: _appBarActions(context),
         poster: Poster(
           heroTag: media.ratingKey,
           mediaType: media.mediaType,
