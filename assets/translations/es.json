@@ -402,5 +402,6 @@
     "wizard_skip_dialog_message_servers": "Aún no has registrado ningún servidor de Tautulli.",
     "wizard_skip_dialog_title": "¿Seguro que quieres saltar?",
     "wizard_theme_text_2": "¡Pruebe el tema dinámico junto a su color favorito!",
-    "wizard_welcome_text_1": "¡Bienvenido!"
+    "wizard_welcome_text_1": "¡Bienvenido!",
+    "total_title": "Total"
 }
