@@ -118,7 +118,7 @@ class Cast {
   ///
   /// Returns `Framework.android` if value is anything but 'ios'.
   static Framework castToFramework(String value) {
-    switch (value.toLowerCase()) {
+    switch (value) {
       case ('ios'):
         return Framework.ios;
       default:

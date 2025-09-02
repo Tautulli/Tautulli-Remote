@@ -1,4 +1,6 @@
 enum Framework {
   android,
-  ios,
+  ios;
+
+  String toShortString() => toString().split('.').last;
 }

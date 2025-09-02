@@ -440,7 +440,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<bool> setFramework(Framework value) {
-    return localStorage.setString(framework, value.toString());
+    return localStorage.setString(framework, value.toShortString());
   }
 
   // App Update Available
