@@ -17,6 +17,7 @@ class ServerRegistrationIosStepOne extends StatelessWidget {
           headerText: '${LocaleKeys.step_title.tr()} 1',
         ),
         CupertinoCard(
+          horizontalPadding: 20,
           child: Padding(
             padding: const EdgeInsetsGeometry.all(8),
             child: BulletList(

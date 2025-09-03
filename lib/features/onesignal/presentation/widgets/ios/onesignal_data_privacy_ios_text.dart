@@ -17,6 +17,7 @@ class OneSignalDataPrivacyIosText extends StatelessWidget {
     final textBlock4 = LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
 
     return CupertinoCard(
+      horizontalPadding: 20,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: RichText(

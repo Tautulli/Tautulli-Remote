@@ -36,8 +36,8 @@ class DataDumpIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
     context.read<SettingsBloc>().add(
-          const SettingsLoad(updateServerInfo: false),
-        );
+      const SettingsLoad(updateServerInfo: false),
+    );
 
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
@@ -106,6 +106,7 @@ class _SettingsDumpGroup extends StatelessWidget {
       headerText: headerText,
       children: [
         CupertinoCard(
+          horizontalPadding: 20,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
@@ -254,7 +255,9 @@ class _DeviceDetails extends StatelessWidget {
             const _DataDumpRowHeading('System Accent'),
             const Gap(16),
             Text(
-              defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent.toHexString().substring(2, 8) : 'Unsupported',
+              defaultTargetPlatform.supportsAccentColor
+                  ? SystemTheme.accentColor.accent.toHexString().substring(2, 8)
+                  : 'Unsupported',
               // style: TextStyle(
               //   color: defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent : null,
               // ),
@@ -358,16 +361,18 @@ class _AppSettings extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Builder(builder: (context) {
-                      if (e.key == 'Theme Custom Color') {
-                        return Text(
-                          settingsState.appSettings.themeCustomColor.toHexString().substring(2, 8),
-                          style: TextStyle(color: settingsState.appSettings.themeCustomColor),
-                        );
-                      }
+                    child: Builder(
+                      builder: (context) {
+                        if (e.key == 'Theme Custom Color') {
+                          return Text(
+                            settingsState.appSettings.themeCustomColor.toHexString().substring(2, 8),
+                            style: TextStyle(color: settingsState.appSettings.themeCustomColor),
+                          );
+                        }
 
-                      return Text(e.value);
-                    }),
+                        return Text(e.value);
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -460,7 +465,7 @@ class _OneSignalStatus extends StatelessWidget {
               child: Text('Loading OneSignal Status'),
             );
           },
-        )
+        ),
       ],
     );
   }
@@ -663,7 +668,11 @@ class _ServerGroup extends StatelessWidget {
                   ],
                 ),
                 _DataDumpRow(
-                  children: [const _DataDumpRowHeading('Secondary Protocol'), const Gap(16), Text(server.secondaryConnectionProtocol ?? '')],
+                  children: [
+                    const _DataDumpRowHeading('Secondary Protocol'),
+                    const Gap(16),
+                    Text(server.secondaryConnectionProtocol ?? ''),
+                  ],
                 ),
                 _DataDumpRow(
                   children: [

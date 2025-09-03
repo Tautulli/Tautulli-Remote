@@ -69,6 +69,7 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
         const Text('or'),
         const Gap(4),
         CupertinoCard(
+          horizontalPadding: 20,
           child: CupertinoFormSection.insetGrouped(
             margin: const EdgeInsetsGeometry.all(0),
             decoration: const BoxDecoration(color: Colors.transparent),
@@ -132,7 +133,7 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
                         builder: (context) => const SecondaryConnectionAddressInfoIosDialog(),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               CupertinoTextFormFieldRow(

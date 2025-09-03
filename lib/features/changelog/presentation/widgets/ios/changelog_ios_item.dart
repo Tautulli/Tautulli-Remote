@@ -20,6 +20,7 @@ class ChangelogIosItem extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
       child: CupertinoCard(
+        horizontalPadding: 20,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
