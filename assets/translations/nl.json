@@ -181,5 +181,7 @@
     "check_again_title": "Controleer Nogmaals",
     "clear_app_image_cache_dialog_content": "Weet je zeker dat je de afbeelding cache wil wissen?",
     "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist",
-    "accessibility_title": "Toegankelijkheid"
+    "accessibility_title": "Toegankelijkheid",
+    "app_update_available_message": "Een update is beschikbaar voor Tautulli Remote",
+    "clear_app_image_cache_subtitle": "Verwijder afbeeldingen uit de lokale cache"
 }
