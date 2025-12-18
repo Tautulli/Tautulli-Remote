@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
@@ -46,20 +45,20 @@ class ServerConnectionAddressIosBottomSheet extends StatelessWidget {
             if (formKey.currentState != null && formKey.currentState!.validate()) {
               if (isEmpty(controller.text) && server.primaryActive != true) {
                 context.read<SettingsBloc>().add(
-                      SettingsUpdatePrimaryActive(
-                        tautulliId: server.tautulliId,
-                        primaryActive: true,
-                      ),
-                    );
+                  SettingsUpdatePrimaryActive(
+                    tautulliId: server.tautulliId,
+                    primaryActive: true,
+                  ),
+                );
               }
 
               context.read<SettingsBloc>().add(
-                    SettingsUpdateConnectionInfo(
-                      primary: primary,
-                      connectionAddress: controller.text,
-                      server: server,
-                    ),
-                  );
+                SettingsUpdateConnectionInfo(
+                  primary: primary,
+                  connectionAddress: controller.text,
+                  server: server,
+                ),
+              );
               Navigator.of(context).pop();
             }
           },
@@ -67,7 +66,7 @@ class ServerConnectionAddressIosBottomSheet extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: CupertinoFormSection.insetGrouped(
-            backgroundColor: Colors.transparent,
+            backgroundColor: CupertinoColors.transparent,
             children: [
               CupertinoTextFormFieldRow(
                 controller: controller,
@@ -79,14 +78,17 @@ class ServerConnectionAddressIosBottomSheet extends StatelessWidget {
                     requireProtocol: true,
                     allowUnderscore: true,
                   );
-                  if ((primary && validUrl == false) || (!primary && isNotBlank(controller.text) && validUrl == false)) {
+                  if ((primary && validUrl == false) ||
+                      (!primary && isNotBlank(controller.text) && validUrl == false)) {
                     return primary
                         ? LocaleKeys.server_connection_address_dialog_primary_validation.tr()
                         : LocaleKeys.server_connection_address_dialog_secondary_validation.tr();
                   }
                   return null;
                 },
-                placeholder: primary ? LocaleKeys.primary_connection_address_hint.tr() : LocaleKeys.secondary_connection_address_hint.tr(),
+                placeholder: primary
+                    ? LocaleKeys.primary_connection_address_hint.tr()
+                    : LocaleKeys.secondary_connection_address_hint.tr(),
               ),
             ],
           ),
