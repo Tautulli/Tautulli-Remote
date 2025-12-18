@@ -16,7 +16,6 @@ class IosBottomSheetSaveButton extends StatelessWidget {
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(
         vertical: 12,
-        horizontal: 16,
       ),
       onPressed: onPressed,
       child: const Text(LocaleKeys.save_title).tr(),
