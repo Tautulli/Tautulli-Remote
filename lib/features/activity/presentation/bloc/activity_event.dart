@@ -12,6 +12,7 @@ class ActivityFetched extends ActivityEvent {
   final bool multiserver;
   final String activeServerId;
   final bool freshFetch;
+  final bool autoRefresh;
   final SettingsBloc settingsBloc;
 
   const ActivityFetched({
@@ -19,11 +20,12 @@ class ActivityFetched extends ActivityEvent {
     required this.multiserver,
     required this.activeServerId,
     this.freshFetch = false,
+    this.autoRefresh = false,
     required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [serverList, activeServerId, multiserver, settingsBloc];
+  List<Object> get props => [serverList, activeServerId, multiserver, autoRefresh, settingsBloc];
 }
 
 class ActivityLoadServer extends ActivityEvent {
