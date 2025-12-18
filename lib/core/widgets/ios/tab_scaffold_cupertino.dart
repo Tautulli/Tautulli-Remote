@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
 import '../../../features/settings/presentation/pages/ios/settings_ios_page.dart';
 import '../../../translations/locale_keys.g.dart';
+import '../../global_keys/global_keys.dart';
 
 class TabScaffoldCupertino extends StatefulWidget {
   const TabScaffoldCupertino({super.key});
@@ -14,18 +15,16 @@ class TabScaffoldCupertino extends StatefulWidget {
 }
 
 class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
-  final CupertinoTabController controller = CupertinoTabController();
-
   @override
   void initState() {
     super.initState();
-    controller.index = 1;
+    cupertinoTabController.index = 1;
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
-      controller: controller,
+      controller: cupertinoTabController,
       tabBar: CupertinoTabBar(
         iconSize: 20,
         items: [
