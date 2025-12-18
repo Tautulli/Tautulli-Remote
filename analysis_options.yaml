@@ -8,3 +8,7 @@ linter:
     prefer_const_literals_to_create_immutables: true
     depend_on_referenced_packages: false
     use_build_context_synchronously: false
+
+formatter:
+  page_width: 120
+  trailing_commas: preserve
