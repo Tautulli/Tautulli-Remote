@@ -52,23 +52,39 @@ class ThemeHelper {
         primary: PlexColorPalette.primaryGold,
         onPrimary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
         primaryContainer: const Color(0xffd5950c),
-        onPrimaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onPrimaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         secondary: PlexColorPalette.blue,
-        onSecondary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onSecondary: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         secondaryContainer: PlexColorPalette.blue,
-        onSecondaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onSecondaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         tertiary: PlexColorPalette.orange,
-        onTertiary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onTertiary: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         tertiaryContainer: PlexColorPalette.orange,
-        onTertiaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onTertiaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         error: Colors.red,
         onError: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         errorContainer: Colors.red,
-        onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
-        surface: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
+        onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
+        surface: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? PlexColorPalette.black
+            : TautulliColorPalette.midnight,
         onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         surfaceContainerHighest: const Color(0xff404040),
-        onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.smoke,
+        onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.white
+            : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
       ),
       appBarTheme: const AppBarTheme(
@@ -127,8 +143,9 @@ class ThemeHelper {
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
-    final FlexTones flexTones =
-        (enhancement == ThemeEnhancementType.ultraContrastDark) ? FlexTones.ultraContrast(Brightness.dark) : FlexTones.chroma(Brightness.dark);
+    final FlexTones flexTones = (enhancement == ThemeEnhancementType.ultraContrastDark)
+        ? FlexTones.ultraContrast(Brightness.dark)
+        : FlexTones.chroma(Brightness.dark);
 
     return ThemeData(
       useMaterial3: true,
@@ -193,7 +210,9 @@ class ThemeHelper {
       brightness: Brightness.dark,
       primaryColor: PlexColorPalette.primaryGold,
       primaryContrastingColor: CupertinoColors.black,
-      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
+      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark
+          ? PlexColorPalette.black
+          : TautulliColorPalette.midnight,
     );
   }
 
@@ -211,6 +230,18 @@ class ThemeHelper {
 
   static Color cupertinoAlertCardIconColor() {
     return CupertinoColors.white;
+  }
+
+  static Color cupertinoCardIconColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoBottomSheetTextColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoBottomSheetHeadingColor() {
+    return CupertinoColors.systemGrey2;
   }
 
   //* Utilities
