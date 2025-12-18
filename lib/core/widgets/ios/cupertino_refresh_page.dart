@@ -4,13 +4,18 @@ import 'package:flutter/cupertino.dart';
 
 class CupertinoRefreshPage extends StatefulWidget {
   final Future Function()? onRefresh;
-  final Widget sliver;
+  final Widget? sliver;
+  final List<Widget>? slivers;
 
   const CupertinoRefreshPage({
     super.key,
     required this.onRefresh,
-    required this.sliver,
-  });
+    this.sliver,
+    this.slivers,
+  }) : assert(
+         (sliver != null && slivers == null) || (sliver == null && slivers != null),
+         'Exactly one of sliver or slivers must be provided.',
+       );
 
   @override
   State<CupertinoRefreshPage> createState() => _CupertinoRefreshPageState();
@@ -61,7 +66,8 @@ class _CupertinoRefreshPageState extends State<CupertinoRefreshPage> {
             CupertinoSliverRefreshControl(
               onRefresh: widget.onRefresh,
             ),
-          widget.sliver,
+          ?widget.sliver,
+          ...?widget.slivers,
         ],
       ),
     );
