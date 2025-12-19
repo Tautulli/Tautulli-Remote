@@ -8,13 +8,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/failure_cupertino_alert_dialog.dart';
 import '../../../../../core/widgets/ios/ios_gesture_pill.dart';
 import '../../../../../core/widgets/ios/ios_poster.dart';
-import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -310,90 +308,76 @@ class _ActivityIosBottomSheetState extends State<ActivityIosBottomSheet> {
                       activity: activity,
                     ),
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CupertinoButton.filled(
-                              onPressed: () {
-                                //TODO: Navigate to user
-                              },
-                              //TODO: Translation
-                              child: Text('Go to User'),
-                            ),
-                          ),
-                          Gap(6),
-                          Expanded(
-                            child: CupertinoButton.filled(
-                              color: PlexColorPalette.blue,
-                              onPressed: () {
-                                //TODO: Navigate to media
-                              },
-                              //TODO: Translation
-                              child: Text('Go to Media'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Gap(6),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: CupertinoButton.filled(
-                      //         color: PlexColorPalette.blue,
-                      //         onPressed: () {
-                      //           //TODO: Navigate to user
-                      //         },
-                      //         child: Text('Go to Media'),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      const Gap(6),
-                      if (widget.server.plexPass == true && activity.mediaType != MediaType.photo)
+                  SafeArea(
+                    child: Column(
+                      children: [
                         Row(
                           children: [
                             Expanded(
-                              child: BlocBuilder<TerminateStreamBloc, TerminateStreamState>(
-                                builder: (context, state) {
-                                  return CupertinoButton.filled(
-                                    color: CupertinoColors.destructiveRed,
-                                    onPressed: () async {
-                                      final TextEditingController controller = TextEditingController();
-
-                                      final bool? confirm = await showCupertinoSheet(
-                                        context: context,
-                                        builder: (context) => TerminateStreamIosBottomSheet(
-                                          activity: activity,
-                                          controller: controller,
-                                        ),
-                                      );
-
-                                      if (confirm == true) {
-                                        context.read<TerminateStreamBloc>().add(
-                                          TerminateStreamStarted(
-                                            server: widget.server,
-                                            sessionId: activity.sessionId,
-                                            sessionKey: activity.sessionKey,
-                                            message: controller.text,
-                                            settingsBloc: context.read<SettingsBloc>(),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    //TODO: Translation
-                                    child: const Text('Terminate Stream'),
-                                  );
+                              child: CupertinoButton.filled(
+                                onPressed: () {
+                                  //TODO: Navigate to user
                                 },
+                                //TODO: Translation
+                                child: Text('Go to User'),
+                              ),
+                            ),
+                            const Gap(6),
+                            Expanded(
+                              child: CupertinoButton.filled(
+                                color: PlexColorPalette.blue,
+                                onPressed: () {
+                                  //TODO: Navigate to media
+                                },
+                                //TODO: Translation
+                                child: Text('Go to Media'),
                               ),
                             ),
                           ],
                         ),
-                      const Gap(16),
-                    ],
+                        const Gap(6),
+                        if (widget.server.plexPass == true && activity.mediaType != MediaType.photo)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: BlocBuilder<TerminateStreamBloc, TerminateStreamState>(
+                                  builder: (context, state) {
+                                    return CupertinoButton.filled(
+                                      color: CupertinoColors.destructiveRed,
+                                      onPressed: () async {
+                                        final TextEditingController controller = TextEditingController();
+
+                                        final bool? confirm = await showCupertinoSheet(
+                                          context: context,
+                                          builder: (context) => TerminateStreamIosBottomSheet(
+                                            activity: activity,
+                                            controller: controller,
+                                          ),
+                                        );
+
+                                        if (confirm == true) {
+                                          context.read<TerminateStreamBloc>().add(
+                                            TerminateStreamStarted(
+                                              server: widget.server,
+                                              sessionId: activity.sessionId,
+                                              sessionKey: activity.sessionKey,
+                                              message: controller.text,
+                                              settingsBloc: context.read<SettingsBloc>(),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      //TODO: Translation
+                                      child: const Text('Terminate Stream'),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
-                  if (di.sl<DeviceInfo>().platform == 'ios') const Gap(8),
                 ],
               ),
             ),
