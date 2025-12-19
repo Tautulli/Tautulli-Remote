@@ -4,14 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import '../../../../../core/widgets/ios/cupertino_status_card.dart';
-import '../../widgets/ios/activity_ios_server_heading.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/global_keys/global_keys.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/ios/cupertino_status_card.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -20,6 +19,7 @@ import '../../../data/models/activity_model.dart';
 import '../../../data/models/server_activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../widgets/ios/activity_ios_card.dart';
+import '../../widgets/ios/activity_ios_server_heading.dart';
 import '../../widgets/ios/server_activity_ios_info_card.dart';
 
 class ActivityIosPage extends StatelessWidget {
@@ -141,11 +141,11 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
             return false;
           },
           listener: (context, state) {
-            state as SettingsSuccess;
-
-            _serverList = state.serverList;
-            _multiserver = state.appSettings.multiserverActivity;
-            _activeServerId = state.appSettings.activeServer.tautulliId;
+            if (state is SettingsSuccess) {
+              _serverList = state.serverList;
+              _multiserver = state.appSettings.multiserverActivity;
+              _activeServerId = state.appSettings.activeServer.tautulliId;
+            }
           },
         ),
         //* If active server is changed and multiserver is not set then trigger an ActivityFetched
@@ -160,19 +160,19 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
             return false;
           },
           listener: (context, state) {
-            state as SettingsSuccess;
+            if (state is SettingsSuccess) {
+              _activeServerId = state.appSettings.activeServer.tautulliId;
 
-            _activeServerId = state.appSettings.activeServer.tautulliId;
-
-            _activityBloc.add(
-              ActivityFetched(
-                serverList: _serverList,
-                multiserver: _multiserver,
-                activeServerId: _activeServerId,
-                freshFetch: true,
-                settingsBloc: _settingsBloc,
-              ),
-            );
+              _activityBloc.add(
+                ActivityFetched(
+                  serverList: _serverList,
+                  multiserver: _multiserver,
+                  activeServerId: _activeServerId,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
+            }
           },
         ),
       ],
@@ -189,33 +189,31 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
             showServerSelect: multiserverEnabled == false,
             middle: const Text(LocaleKeys.activity_title).tr(),
             child: Center(
-              child: BlocBuilder<ActivityBloc, ActivityState>(
-                builder: (context, state) {
-                  return BlocListener<ActivityBloc, ActivityState>(
-                    listener: (context, state) {
-                      if (state.serverActivityList[0].status != BlocStatus.inProgress) {
-                        _refreshCompleter.complete();
-                        _refreshCompleter = Completer();
-                      }
+              child: BlocConsumer<ActivityBloc, ActivityState>(
+                listener: (context, state) {
+                  if (state.serverActivityList[0].status != BlocStatus.inProgress) {
+                    _refreshCompleter.complete();
+                    _refreshCompleter = Completer();
+                  }
 
-                      if (state.lastAutoRefresh != _lastAutoRefresh) {
-                        _lastAutoRefresh = state.lastAutoRefresh;
+                  if (state.lastAutoRefresh != _lastAutoRefresh) {
+                    _lastAutoRefresh = state.lastAutoRefresh;
+                  }
+                },
+                builder: (context, state) {
+                  return Builder(
+                    builder: (context) {
+                      if (_multiserver && _serverList.length > 1) {
+                        return _buildMultiserverActivity(
+                          serverActivityModelList: state.serverActivityList,
+                        );
+                      } else {
+                        return _buildSingleServerActivity(
+                          serverActivityModelList: state.serverActivityList,
+                          freshFetch: state.freshFetch,
+                        );
                       }
                     },
-                    child: Builder(
-                      builder: (context) {
-                        if (_multiserver && _serverList.length > 1) {
-                          return _buildMultiserverActivity(
-                            serverActivityModelList: state.serverActivityList,
-                          );
-                        } else {
-                          return _buildSingleServerActivity(
-                            serverActivityModelList: state.serverActivityList,
-                            freshFetch: state.freshFetch,
-                          );
-                        }
-                      },
-                    ),
                   );
                 },
               ),
