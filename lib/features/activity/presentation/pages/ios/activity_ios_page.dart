@@ -188,35 +188,33 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
           return PageScaffoldCupertino(
             showServerSelect: multiserverEnabled == false,
             middle: const Text(LocaleKeys.activity_title).tr(),
-            child: Center(
-              child: BlocConsumer<ActivityBloc, ActivityState>(
-                listener: (context, state) {
-                  if (state.serverActivityList[0].status != BlocStatus.inProgress) {
-                    _refreshCompleter.complete();
-                    _refreshCompleter = Completer();
-                  }
+            child: BlocConsumer<ActivityBloc, ActivityState>(
+              listener: (context, state) {
+                if (state.serverActivityList[0].status != BlocStatus.inProgress) {
+                  _refreshCompleter.complete();
+                  _refreshCompleter = Completer();
+                }
 
-                  if (state.lastAutoRefresh != _lastAutoRefresh) {
-                    _lastAutoRefresh = state.lastAutoRefresh;
-                  }
-                },
-                builder: (context, state) {
-                  return Builder(
-                    builder: (context) {
-                      if (_multiserver && _serverList.length > 1) {
-                        return _buildMultiserverActivity(
-                          serverActivityModelList: state.serverActivityList,
-                        );
-                      } else {
-                        return _buildSingleServerActivity(
-                          serverActivityModelList: state.serverActivityList,
-                          freshFetch: state.freshFetch,
-                        );
-                      }
-                    },
-                  );
-                },
-              ),
+                if (state.lastAutoRefresh != _lastAutoRefresh) {
+                  _lastAutoRefresh = state.lastAutoRefresh;
+                }
+              },
+              builder: (context, state) {
+                return Builder(
+                  builder: (context) {
+                    if (_multiserver && _serverList.length > 1) {
+                      return _buildMultiserverActivity(
+                        serverActivityModelList: state.serverActivityList,
+                      );
+                    } else {
+                      return _buildSingleServerActivity(
+                        serverActivityModelList: state.serverActivityList,
+                        freshFetch: state.freshFetch,
+                      );
+                    }
+                  },
+                );
+              },
             ),
           );
         },
