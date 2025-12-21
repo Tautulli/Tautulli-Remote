@@ -23,17 +23,18 @@ class LoggingActionsActionSheet extends StatelessWidget {
           style: TextStyle(color: ThemeHelper.cupertinoActionSheetActionColor()),
         ).tr(),
       ),
+      //TODO: Change translations to capitalize all words
       actions: [
         CupertinoActionSheetAction(
           onPressed: () {
             Navigator.of(context).pop();
 
             context.read<LoggingExportBloc>().add(
-                  LoggingExportStart(
-                    context: context,
-                    loggingBloc: context.read<LoggingBloc>(),
-                  ),
-                );
+              LoggingExportStart(
+                context: context,
+                loggingBloc: context.read<LoggingBloc>(),
+              ),
+            );
           },
           child: Text(
             LocaleKeys.logs_export_menu_item,
