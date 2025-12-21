@@ -25,6 +25,7 @@ import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/donate/presentation/pages/ios/donate_ios_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
+import 'features/history/presentation/pages/ios/history_ios_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
@@ -61,6 +62,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   ChangelogIosPage.routeName: (_) => const ChangelogIosPage(),
   DonateIosPage.routeName: (_) => const DonateIosPage(),
   HelpTranslateIosPage.routeName: (_) => const HelpTranslateIosPage(),
+  HistoryIosPage.routeName: (_) => const HistoryIosPage(),
   OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
 };
@@ -78,14 +80,21 @@ class AppFramework extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          final bool fontChange = previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible;
+          final bool fontChange =
+              previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible;
           final bool currentThemeIsDynamic = current.appSettings.theme == ThemeType.dynamic;
           final bool themeChange = previous.appSettings.theme != current.appSettings.theme;
-          final bool themeSystemColorChange = previous.appSettings.themeUseSystemColor != current.appSettings.themeUseSystemColor;
-          final bool themeCustomColorChange = previous.appSettings.themeCustomColor != current.appSettings.themeCustomColor;
-          final bool themeEnhancementChange = previous.appSettings.themeEnhancement != current.appSettings.themeEnhancement;
+          final bool themeSystemColorChange =
+              previous.appSettings.themeUseSystemColor != current.appSettings.themeUseSystemColor;
+          final bool themeCustomColorChange =
+              previous.appSettings.themeCustomColor != current.appSettings.themeCustomColor;
+          final bool themeEnhancementChange =
+              previous.appSettings.themeEnhancement != current.appSettings.themeEnhancement;
 
-          if (fontChange || themeChange || themeEnhancementChange || (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {
+          if (fontChange ||
+              themeChange ||
+              themeEnhancementChange ||
+              (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {
             return true;
           }
         }
@@ -216,7 +225,9 @@ class _CupertinoFramework extends StatelessWidget {
           builder: (context, state) {
             //TODO: Temporary logic until CupertinoThemeData supports a font option
             CupertinoThemeData theme = CupertinoTheme.of(context);
-            final fontFamily = GoogleFonts.getFont(useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : 'Open Sans').fontFamily;
+            final fontFamily = GoogleFonts.getFont(
+              useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : 'Open Sans',
+            ).fontFamily;
             final cupertinoTheme = theme.copyWith(
               textTheme: theme.textTheme.copyWith(
                 textStyle: theme.textTheme.textStyle.copyWith(fontFamily: fontFamily),

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
+import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
 import '../../../features/settings/presentation/pages/ios/settings_ios_page.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
@@ -18,7 +18,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
   @override
   void initState() {
     super.initState();
-    cupertinoTabController.index = 1;
+    cupertinoTabController.index = 0;
   }
 
   @override
@@ -28,8 +28,27 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
       tabBar: CupertinoTabBar(
         iconSize: 20,
         items: [
-          BottomNavigationBarItem(icon: const FaIcon(FontAwesomeIcons.tv), label: LocaleKeys.activity_title.tr()),
-          BottomNavigationBarItem(icon: const FaIcon(FontAwesomeIcons.gears), label: LocaleKeys.settings_title.tr()),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.tv,
+              size: 24,
+            ),
+            label: LocaleKeys.activity_title.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.gobackward,
+              size: 24,
+            ),
+            label: LocaleKeys.history_title.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.gear_alt_fill,
+              size: 24,
+            ),
+            label: LocaleKeys.settings_title.tr(),
+          ),
         ],
         onTap: (index) {
           // print('Tapped tab $index');
@@ -40,6 +59,8 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
           builder: (context) {
             switch (index) {
               case 1:
+                return HistoryIosPage();
+              case 2:
                 return SettingsIosPage();
               case 0:
               default:
