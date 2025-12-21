@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
@@ -359,7 +360,10 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: const Icon(CupertinoIcons.slider_horizontal_3),
+            child: Icon(
+              CupertinoIcons.slider_horizontal_3,
+              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            ),
           ),
           onPressed: () async {
             String? result = await showCupertinoModalPopup(

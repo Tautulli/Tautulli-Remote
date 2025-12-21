@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../helpers/theme_helper.dart';
 import 'server_select_ios_bottom_sheet.dart';
 
 class PageScaffoldCupertino extends StatelessWidget {
@@ -49,13 +50,17 @@ class PageScaffoldCupertino extends StatelessWidget {
                                   state.appSettings.activeServer.plexName,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                                  ),
                                 ),
                               ),
                               const Gap(4),
-                              const Icon(
+                              Icon(
                                 CupertinoIcons.chevron_down,
                                 size: 18,
+                                color: ThemeHelper.cupertinoNavigationBarItemColor(),
                               ),
                             ],
                           ),

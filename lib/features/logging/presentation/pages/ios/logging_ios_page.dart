@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
@@ -145,6 +146,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
   }
 
   Widget _navBarActions() {
+    //TODO: Should I move all actions into a single button or just update the icons?
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -162,7 +164,10 @@ class _LoggingIosViewState extends State<LoggingIosView> {
                     ),
                   ),
                 ),
-                child: const Icon(FontAwesomeIcons.filter),
+                child: Icon(
+                  FontAwesomeIcons.filter,
+                  color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                ),
               );
             }
             return const CupertinoButton(
@@ -184,7 +189,10 @@ class _LoggingIosViewState extends State<LoggingIosView> {
               ),
             ),
           ),
-          child: const Icon(Icons.more_horiz),
+          child: Icon(
+            Icons.more_horiz,
+            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+          ),
         ),
       ],
     );

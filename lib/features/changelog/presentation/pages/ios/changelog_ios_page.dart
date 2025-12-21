@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -53,7 +54,10 @@ class ChangelogIosView extends StatelessWidget {
               color: CupertinoColors.systemRed,
             ),
             const Gap(8),
-            const Text(LocaleKeys.donate_title).tr(),
+            Text(
+              LocaleKeys.donate_title,
+              style: TextStyle(color: ThemeHelper.cupertinoNavigationBarItemColor()),
+            ).tr(),
           ],
         ),
         onPressed: () {

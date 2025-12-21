@@ -244,6 +244,10 @@ class ThemeHelper {
     return CupertinoColors.systemGrey2;
   }
 
+  static Color cupertinoNavigationBarItemColor() {
+    return CupertinoColors.white;
+  }
+
   //* Utilities
   static Color darkenedColor(Color color) {
     return HSLColor.fromColor(color).withLightness(0.08).toColor();

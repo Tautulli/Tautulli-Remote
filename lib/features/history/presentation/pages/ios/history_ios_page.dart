@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
@@ -364,7 +365,10 @@ class _HistoryIosViewState extends State<HistoryIosView> {
       children: [
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: const Icon(CupertinoIcons.search),
+          child: Icon(
+            CupertinoIcons.search,
+            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+          ),
           onPressed: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (_) => BlocProvider.value(
@@ -388,7 +392,10 @@ class _HistoryIosViewState extends State<HistoryIosView> {
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: const Icon(CupertinoIcons.slider_horizontal_3),
+            child: Icon(
+              CupertinoIcons.slider_horizontal_3,
+              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            ),
           ),
           onPressed: () async {
             String? result = await showCupertinoModalPopup(

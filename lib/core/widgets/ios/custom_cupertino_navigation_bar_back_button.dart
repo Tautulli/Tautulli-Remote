@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../helpers/theme_helper.dart';
+
 class CustomCupertinoNavigationBarBackButton extends StatelessWidget {
   final String? previousPageTitle;
 
@@ -14,6 +16,7 @@ class CustomCupertinoNavigationBarBackButton extends StatelessWidget {
       //TODO: Eventually remove workaround for https://github.com/flutter/flutter/issues/89888
       previousPageTitle: previousPageTitle,
       onPressed: () => Navigator.of(context).pop(),
+      color: ThemeHelper.cupertinoNavigationBarItemColor(),
     );
   }
 }
