@@ -6,12 +6,14 @@ class CupertinoRefreshPage extends StatefulWidget {
   final Future Function()? onRefresh;
   final Widget? sliver;
   final List<Widget>? slivers;
+  final ScrollController? scrollController;
 
   const CupertinoRefreshPage({
     super.key,
     required this.onRefresh,
     this.sliver,
     this.slivers,
+    this.scrollController,
   }) : assert(
          (sliver != null && slivers == null) || (sliver == null && slivers != null),
          'Exactly one of sliver or slivers must be provided.',
@@ -26,8 +28,18 @@ class _CupertinoRefreshPageState extends State<CupertinoRefreshPage> {
   ///
   /// This is used to determine whether to show the refresh indicator.
   var _isAtTop = true;
+  late ScrollController _controller;
 
-  final _controller = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.scrollController != null) {
+      _controller = widget.scrollController!;
+    } else {
+      _controller = ScrollController();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +74,7 @@ class _CupertinoRefreshPageState extends State<CupertinoRefreshPage> {
         controller: _controller,
         slivers: [
           /// Show the refresh indicator only when the scroll view is at the top.
-          if (_isAtTop)
+          if (_isAtTop && widget.onRefresh != null)
             CupertinoSliverRefreshControl(
               onRefresh: widget.onRefresh,
             ),
