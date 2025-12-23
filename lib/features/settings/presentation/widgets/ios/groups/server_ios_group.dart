@@ -32,32 +32,34 @@ class ServersIosGroup extends StatelessWidget {
                   final int movedServerId = state.serverList[oldIndex].id!;
 
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateServerSort(
-                          serverId: movedServerId,
-                          oldIndex: oldIndex,
-                          newIndex: newIndex,
-                        ),
-                      );
+                    SettingsUpdateServerSort(
+                      serverId: movedServerId,
+                      oldIndex: oldIndex,
+                      newIndex: newIndex,
+                    ),
+                  );
                 }
               },
               children: state is SettingsSuccess
                   ? state.serverList
-                      .map(
-                        (server) => CustomNotchedCupertinoListTile(
-                          sensitive: true,
-                          key: ValueKey(server.tautulliId),
-                          leading: WebsafeSvg.asset(
-                            'assets/logos/logo_flat.svg',
-                            colorFilter: ColorFilter.mode(
-                              ThemeHelper.cupertinoListTileIconColor(),
-                              BlendMode.srcIn,
+                        .map(
+                          (server) => CustomNotchedCupertinoListTile(
+                            sensitive: true,
+                            key: ValueKey(server.tautulliId),
+                            leading: WebsafeSvg.asset(
+                              'assets/logos/logo_flat.svg',
+                              colorFilter: ColorFilter.mode(
+                                ThemeHelper.cupertinoListTileIconColor(),
+                                BlendMode.srcIn,
+                              ),
                             ),
-                          ),
-                          title: Text(server.plexName),
-                          subtitle: Text('${server.primaryActive! ? server.primaryConnectionAddress : server.secondaryConnectionAddress}'),
-                          onTap: isWizard
-                              ? null
-                              : () => Navigator.of(context).push(
+                            title: Text(server.plexName),
+                            subtitle: Text(
+                              '${server.primaryActive! ? server.primaryConnectionAddress : server.secondaryConnectionAddress}',
+                            ),
+                            onTap: isWizard
+                                ? null
+                                : () => Navigator.of(context).push(
                                     CupertinoPageRoute(
                                       builder: (context) => ServerSettingsIosPage(
                                         serverId: server.id!,
@@ -65,18 +67,18 @@ class ServersIosGroup extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                          //TODO: Update trailing for wizard
-                          trailing: const CupertinoListTileChevron(),
-                          // trailing: isWizard
-                          //     ? DeleteServerButton(
-                          //         isWizard: isWizard,
-                          //         serverId: server.id!,
-                          //         server: server,
-                          //       )
-                          //     : null,
-                        ),
-                      )
-                      .toList()
+                            //TODO: Update trailing for wizard
+                            trailing: const CupertinoListTileChevron(),
+                            // trailing: isWizard
+                            //     ? DeleteServerButton(
+                            //         isWizard: isWizard,
+                            //         serverId: server.id!,
+                            //         server: server,
+                            //       )
+                            //     : null,
+                          ),
+                        )
+                        .toList()
                   : [],
             );
           },

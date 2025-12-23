@@ -4,11 +4,14 @@ import 'package:gap/gap.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../helpers/theme_helper.dart';
+import 'custom_cupertino_navigation_bar_back_button.dart';
 import 'server_select_ios_bottom_sheet.dart';
 
 class PageScaffoldCupertino extends StatelessWidget {
   final bool showServerSelect;
   final bool loading;
+  final bool showBackButton;
+  final String? previousPageTitle;
   final Widget? leading;
   final Widget middle;
   final Widget? trailing;
@@ -18,6 +21,8 @@ class PageScaffoldCupertino extends StatelessWidget {
     super.key,
     this.showServerSelect = false,
     this.loading = false,
+    this.showBackButton = true,
+    this.previousPageTitle,
     this.leading,
     required this.middle,
     this.trailing,
@@ -32,6 +37,16 @@ class PageScaffoldCupertino extends StatelessWidget {
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (showBackButton)
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  state as SettingsSuccess;
+
+                  return CustomCupertinoNavigationBarBackButton(
+                    previousPageTitle: state.serverList.length > 1 && showServerSelect ? null : previousPageTitle,
+                  );
+                },
+              ),
             if (showServerSelect)
               BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (context, state) {
@@ -41,7 +56,10 @@ class PageScaffoldCupertino extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CupertinoButton(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.only(
+                            left: showBackButton ? 0 : 16,
+                            right: 16,
+                          ),
                           child: Row(
                             children: [
                               ConstrainedBox(
@@ -81,7 +99,7 @@ class PageScaffoldCupertino extends StatelessWidget {
               ),
             const Gap(8),
             if (loading) const CupertinoActivityIndicator(),
-            ?leading,
+            if (showBackButton == false) ?leading,
           ],
         ),
         middle: middle,

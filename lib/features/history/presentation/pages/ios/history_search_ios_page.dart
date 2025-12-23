@@ -12,7 +12,6 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -26,10 +25,12 @@ import '../../widgets/ios/history_ios_card.dart';
 import '../../widgets/ios/history_user_filter_ios_bottom_sheet.dart';
 
 class HistorySearchIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const HistorySearchIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
   });
 
@@ -38,6 +39,7 @@ class HistorySearchIosPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => di.sl<SearchHistoryBloc>(),
       child: HistorySearchIosView(
+        showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
     );
@@ -45,10 +47,12 @@ class HistorySearchIosPage extends StatelessWidget {
 }
 
 class HistorySearchIosView extends StatefulWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const HistorySearchIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
@@ -95,11 +99,10 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
+      showBackButton: widget.showBackButton,
+      previousPageTitle: widget.previousPageTitle,
       //TODO: Translation string
       middle: const Text('Search History'),
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: widget.previousPageTitle,
-      ),
       trailing: _navBarActions(),
       child: BlocConsumer<SearchHistoryBloc, SearchHistoryState>(
         listener: (context, state) {

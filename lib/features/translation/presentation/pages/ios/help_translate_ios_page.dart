@@ -7,17 +7,18 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/ios/help_translate_heading_ios_card.dart';
 
 class HelpTranslateIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const HelpTranslateIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
   });
 
@@ -26,26 +27,28 @@ class HelpTranslateIosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HelpTranslateIosView(
+      showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
 class HelpTranslateIosView extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const HelpTranslateIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
+      showBackButton: showBackButton,
+      previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.help_translate_title).tr(),
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: previousPageTitle,
-      ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

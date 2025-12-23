@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../donate/presentation/pages/ios/donate_ios_page.dart';
@@ -11,10 +10,12 @@ import '../../../data/datasources/changelog_data_source.dart';
 import '../../widgets/ios/changelog_ios_item.dart';
 
 class ChangelogIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const ChangelogIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
   });
 
@@ -23,26 +24,28 @@ class ChangelogIosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangelogIosView(
+      showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
 class ChangelogIosView extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const ChangelogIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
+      showBackButton: showBackButton,
+      previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.changelog_title).tr(),
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: previousPageTitle,
-      ),
       trailing: CupertinoButton(
         padding: const EdgeInsets.all(0),
         child: Row(
@@ -64,6 +67,7 @@ class ChangelogIosView extends StatelessWidget {
           Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => DonateIosPage(
+                showBackButton: true,
                 previousPageTitle: LocaleKeys.changelog_title.tr(),
               ),
             ),

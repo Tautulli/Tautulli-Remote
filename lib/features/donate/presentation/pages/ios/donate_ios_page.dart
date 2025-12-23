@@ -9,17 +9,18 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/ios/donate_heading_ios_card.dart';
 
 class DonateIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const DonateIosPage({
     super.key,
+    this.showBackButton = false,
     this.previousPageTitle,
   });
 
@@ -28,16 +29,19 @@ class DonateIosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DonateIosView(
+      showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
 class DonateIosView extends StatefulWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const DonateIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
@@ -116,9 +120,8 @@ class _DonateIosViewState extends State<DonateIosView> {
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: widget.previousPageTitle,
-      ),
+      showBackButton: widget.showBackButton,
+      previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.donate_title).tr(),
       child: Column(
         children: [
@@ -144,7 +147,9 @@ class _DonateIosViewState extends State<DonateIosView> {
                             ),
                             trailing: const CupertinoListTileChevron(),
                             title: Text(LocaleKeys.donate_cone_title.tr()),
-                            subtitle: Text(_offerings!.getOffering('default')!.getPackage('ice_cream')!.storeProduct.priceString),
+                            subtitle: Text(
+                              _offerings!.getOffering('default')!.getPackage('ice_cream')!.storeProduct.priceString,
+                            ),
                             onTap: () => _buyProduct(
                               _offerings!.getOffering('default')!.getPackage('ice_cream')!,
                             ),
@@ -157,7 +162,9 @@ class _DonateIosViewState extends State<DonateIosView> {
                             ),
                             trailing: const CupertinoListTileChevron(),
                             title: Text(LocaleKeys.donate_slice_title.tr()),
-                            subtitle: Text(_offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString),
+                            subtitle: Text(
+                              _offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString,
+                            ),
                             onTap: () => _buyProduct(
                               _offerings!.getOffering('default')!.getPackage('pizza')!,
                             ),
@@ -170,7 +177,9 @@ class _DonateIosViewState extends State<DonateIosView> {
                             ),
                             trailing: const CupertinoListTileChevron(),
                             title: Text(LocaleKeys.donate_burger_title.tr()),
-                            subtitle: Text(_offerings!.getOffering('default')!.getPackage('hamburger')!.storeProduct.priceString),
+                            subtitle: Text(
+                              _offerings!.getOffering('default')!.getPackage('hamburger')!.storeProduct.priceString,
+                            ),
                             onTap: () => _buyProduct(
                               _offerings!.getOffering('default')!.getPackage('hamburger')!,
                             ),
@@ -182,7 +191,9 @@ class _DonateIosViewState extends State<DonateIosView> {
                             ),
                             trailing: const CupertinoListTileChevron(),
                             title: Text(LocaleKeys.donate_meal_title.tr()),
-                            subtitle: Text(_offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString),
+                            subtitle: Text(
+                              _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,
+                            ),
                             onTap: () => _buyProduct(
                               _offerings!.getOffering('default')!.getPackage('meal')!,
                             ),

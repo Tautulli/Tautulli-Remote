@@ -14,7 +14,6 @@ import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -25,10 +24,12 @@ import '../../bloc/settings_bloc.dart';
 import '../../widgets/ios/data_dump_ios_warning_card.dart';
 
 class DataDumpIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const DataDumpIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
   });
 
@@ -45,6 +46,7 @@ class DataDumpIosPage extends StatelessWidget {
           OneSignalStatusLoad(),
         ),
       child: DataDumpIosView(
+        showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
     );
@@ -52,20 +54,21 @@ class DataDumpIosPage extends StatelessWidget {
 }
 
 class DataDumpIosView extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const DataDumpIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return PageScaffoldCupertino(
+      showBackButton: showBackButton,
+      previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.data_dump_title).tr(),
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: previousPageTitle,
-      ),
       child: ListView(
         children: [
           const DataDumpIosWarningCard(),

@@ -23,7 +23,14 @@ import '../../widgets/ios/activity_ios_server_heading.dart';
 import '../../widgets/ios/server_activity_ios_info_card.dart';
 
 class ActivityIosPage extends StatelessWidget {
-  const ActivityIosPage({super.key});
+  final bool showBackButton;
+  final String? previousPageTitle;
+
+  const ActivityIosPage({
+    super.key,
+    this.showBackButton = true,
+    this.previousPageTitle,
+  });
 
   static const routeName = '/activity';
 
@@ -31,13 +38,23 @@ class ActivityIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<ActivityBloc>(),
-      child: const ActivityIosView(),
+      child: ActivityIosView(
+        showBackButton: showBackButton,
+        previousPageTitle: previousPageTitle,
+      ),
     );
   }
 }
 
 class ActivityIosView extends StatefulWidget {
-  const ActivityIosView({super.key});
+  final bool showBackButton;
+  final String? previousPageTitle;
+
+  const ActivityIosView({
+    super.key,
+    required this.showBackButton,
+    this.previousPageTitle,
+  });
 
   @override
   State<ActivityIosView> createState() => _ActivityIosViewState();
@@ -186,6 +203,8 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
         },
         builder: (context, multiserverEnabled) {
           return PageScaffoldCupertino(
+            showBackButton: widget.showBackButton,
+            previousPageTitle: widget.previousPageTitle,
             showServerSelect: multiserverEnabled == false,
             middle: const Text(LocaleKeys.activity_title).tr(),
             child: BlocConsumer<ActivityBloc, ActivityState>(

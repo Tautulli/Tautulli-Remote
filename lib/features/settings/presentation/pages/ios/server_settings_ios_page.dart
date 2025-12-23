@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -24,11 +23,13 @@ import '../../widgets/ios/list_tiles/server_primary_connection_ios_list_tile.dar
 import '../../widgets/ios/list_tiles/server_secondary_connection_ios_list_tile.dart';
 
 class ServerSettingsIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
   final int serverId;
 
   const ServerSettingsIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
     required this.serverId,
   });
@@ -38,6 +39,7 @@ class ServerSettingsIosPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => di.sl<ClearTautulliImageCacheBloc>(),
       child: ServerSettingsIosView(
+        showBackButton: showBackButton,
         serverId: serverId,
         previousPageTitle: previousPageTitle,
       ),
@@ -46,11 +48,13 @@ class ServerSettingsIosPage extends StatelessWidget {
 }
 
 class ServerSettingsIosView extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
   final int serverId;
 
   const ServerSettingsIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
     required this.serverId,
   });
@@ -76,10 +80,9 @@ class ServerSettingsIosView extends StatelessWidget {
         }
 
         return PageScaffoldCupertino(
+          showBackButton: showBackButton,
+          previousPageTitle: previousPageTitle,
           middle: Text(server.plexName),
-          leading: CustomCupertinoNavigationBarBackButton(
-            previousPageTitle: previousPageTitle,
-          ),
           trailing: DeleteServerIosButton(
             serverId: serverId,
             server: server,
@@ -90,7 +93,9 @@ class ServerSettingsIosView extends StatelessWidget {
                 if (state.status == BlocStatus.success) {
                   Fluttertoast.showToast(
                     toastLength: Toast.LENGTH_LONG,
-                    msg: LocaleKeys.clear_tautulli_image_cache_success_snackbar_message.tr(args: [state.server!.plexName]),
+                    msg: LocaleKeys.clear_tautulli_image_cache_success_snackbar_message.tr(
+                      args: [state.server!.plexName],
+                    ),
                   );
 
                   context.read<SettingsBloc>().add(SettingsClearCache());
@@ -101,7 +106,9 @@ class ServerSettingsIosView extends StatelessWidget {
                     backgroundColor: CupertinoColors.destructiveRed,
                     textColor: CupertinoColors.black,
                     toastLength: Toast.LENGTH_LONG,
-                    msg: LocaleKeys.clear_tautulli_image_cache_failure_snackbar_message.tr(args: [state.server!.plexName]),
+                    msg: LocaleKeys.clear_tautulli_image_cache_failure_snackbar_message.tr(
+                      args: [state.server!.plexName],
+                    ),
                   );
                 }
               }

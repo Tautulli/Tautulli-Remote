@@ -11,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_navigation_bar_back_button.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -22,10 +21,12 @@ import '../../widgets/ios/logging_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/logging_ios_table.dart';
 
 class LoggingIosPage extends StatelessWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const LoggingIosPage({
     super.key,
+    this.showBackButton = true,
     this.previousPageTitle,
   });
 
@@ -41,6 +42,7 @@ class LoggingIosPage extends StatelessWidget {
         ),
       ],
       child: LoggingIosView(
+        showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
     );
@@ -48,10 +50,12 @@ class LoggingIosPage extends StatelessWidget {
 }
 
 class LoggingIosView extends StatefulWidget {
+  final bool showBackButton;
   final String? previousPageTitle;
 
   const LoggingIosView({
     super.key,
+    required this.showBackButton,
     this.previousPageTitle,
   });
 
@@ -77,10 +81,9 @@ class _LoggingIosViewState extends State<LoggingIosView> {
     }
 
     return PageScaffoldCupertino(
+      showBackButton: widget.showBackButton,
+      previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.app_logs_title).tr(),
-      leading: CustomCupertinoNavigationBarBackButton(
-        previousPageTitle: widget.previousPageTitle,
-      ),
       trailing: BlocProvider.value(
         value: context.read<LoggingBloc>(),
         child: BlocProvider.value(

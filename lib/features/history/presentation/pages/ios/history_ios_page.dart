@@ -25,10 +25,14 @@ import '../../widgets/ios/history_user_filter_ios_bottom_sheet.dart';
 import 'history_search_ios_page.dart';
 
 class HistoryIosPage extends StatelessWidget {
+  final bool showBackButton;
+  final String? previousPageTitle;
   final bool refreshOnLoad;
 
   const HistoryIosPage({
     super.key,
+    this.showBackButton = true,
+    this.previousPageTitle,
     this.refreshOnLoad = false,
   });
 
@@ -46,6 +50,8 @@ class HistoryIosPage extends StatelessWidget {
         ),
       ],
       child: HistoryIosView(
+        showBackButton: showBackButton,
+        previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
       ),
     );
@@ -53,10 +59,14 @@ class HistoryIosPage extends StatelessWidget {
 }
 
 class HistoryIosView extends StatefulWidget {
+  final bool showBackButton;
+  final String? previousPageTitle;
   final bool refreshOnLoad;
 
   const HistoryIosView({
     super.key,
+    required this.showBackButton,
+    this.previousPageTitle,
     required this.refreshOnLoad,
   });
 
@@ -172,6 +182,8 @@ class _HistoryIosViewState extends State<HistoryIosView> {
         }
       },
       child: PageScaffoldCupertino(
+        showBackButton: widget.showBackButton,
+        previousPageTitle: widget.previousPageTitle,
         showServerSelect: true,
         trailing: _navBarActions(),
         middle: const Text(LocaleKeys.history_title).tr(),
