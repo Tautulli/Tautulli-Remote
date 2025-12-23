@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
 import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
-import '../../../features/settings/presentation/pages/ios/settings_ios_page.dart';
+import '../../../features/more/presentation/pages/more_ios_page.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
 
@@ -44,10 +44,24 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
           ),
           BottomNavigationBarItem(
             icon: const Icon(
-              CupertinoIcons.gear_alt_fill,
+              CupertinoIcons.clock,
               size: 24,
             ),
-            label: LocaleKeys.settings_title.tr(),
+            label: LocaleKeys.recently_added_title.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.film,
+              size: 24,
+            ),
+            label: LocaleKeys.libraries_title.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.ellipsis,
+              size: 24,
+            ),
+            label: LocaleKeys.more_title.tr(),
           ),
         ],
         onTap: (index) {
@@ -59,12 +73,12 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
           builder: (context) {
             switch (index) {
               case 1:
-                return HistoryIosPage();
-              case 2:
-                return SettingsIosPage();
+                return const HistoryIosPage(showBackButton: false);
+              case 4:
+                return const MoreIosPage();
               case 0:
               default:
-                return ActivityIosPage();
+                return const ActivityIosPage(showBackButton: false);
             }
           },
         );
