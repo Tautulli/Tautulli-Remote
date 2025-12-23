@@ -124,16 +124,17 @@ class HistoryActionsActionSheet extends StatelessWidget {
             ],
           ),
         ),
-        CupertinoActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () {
-            Navigator.of(context).pop('clear');
-          },
-          //TODO: Translation string
-          child: const Text(
-            'Clear Filters',
+        if (userId != -1 || filterApplied)
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.of(context).pop('clear');
+            },
+            //TODO: Translation string
+            child: const Text(
+              'Clear Filters',
+            ),
           ),
-        ),
       ],
     );
   }
