@@ -156,7 +156,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
       listener: (context, state) {
         if (state is SettingsSuccess) {
           _server = state.appSettings.activeServer;
-          _userId = null;
+          _userId = -1;
           _filterRefresh = true;
 
           _historyBloc.add(
