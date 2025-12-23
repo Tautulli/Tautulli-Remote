@@ -25,10 +25,7 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(
-            LocaleKeys.wiki_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.wiki_title.tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -43,10 +40,7 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             size: 19.2,
           ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(
-            LocaleKeys.discord_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.discord_title.tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -61,10 +55,7 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(
-            LocaleKeys.reddit_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.reddit_title.tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -79,10 +70,7 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileExternal(),
-          title: const Text(
-            LocaleKeys.bugs_and_feature_requests_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -96,10 +84,7 @@ class HelpAndSupportIosGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.tautulli_remote_logs_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.tautulli_remote_logs_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => LoggingIosPage(

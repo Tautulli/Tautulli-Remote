@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tautulli_remote/core/widgets/ios/custom_cupertino_list_section.dart';
-import 'package:tautulli_remote/core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import 'package:tautulli_remote/core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import 'package:tautulli_remote/core/widgets/ios/page_scaffold_cupertino.dart';
-import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:tautulli_remote/translations/locale_keys.g.dart';
+
+import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../bloc/settings_bloc.dart';
 
 class ServerTimeoutIosBottomSheet extends StatelessWidget {
   final int initialValue;
@@ -20,8 +21,8 @@ class ServerTimeoutIosBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     void timeoutValueChanged(int value) {
       context.read<SettingsBloc>().add(
-            SettingsUpdateServerTimeout(value),
-          );
+        SettingsUpdateServerTimeout(value),
+      );
       Navigator.of(context).pop();
     }
 
@@ -35,45 +36,40 @@ class ServerTimeoutIosBottomSheet extends StatelessWidget {
             onTap: () {
               timeoutValueChanged(3);
             },
-            title: Text(
-              '3 ${LocaleKeys.sec.tr()}',
-            ),
+            titleText: '3 ${LocaleKeys.sec.tr()}',
+
             trailing: initialValue == 3 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               timeoutValueChanged(5);
             },
-            title: Text(
-              '5 ${LocaleKeys.sec.tr()}',
-            ),
+            titleText: '5 ${LocaleKeys.sec.tr()}',
+
             trailing: initialValue == 5 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               timeoutValueChanged(8);
             },
-            title: Text(
-              '8 ${LocaleKeys.sec.tr()}',
-            ),
+            titleText: '8 ${LocaleKeys.sec.tr()}',
+
             trailing: initialValue == 8 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               timeoutValueChanged(15);
             },
-            title: Text(
-              '15 ${LocaleKeys.sec.tr()} (${LocaleKeys.default_title.tr()})',
-            ),
+            titleText: '15 ${LocaleKeys.sec.tr()} (${LocaleKeys.default_title.tr()})',
+
             trailing: initialValue == 15 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               timeoutValueChanged(30);
             },
-            title: Text(
-              '30 ${LocaleKeys.sec.tr()}',
-            ),
+            titleText: '30 ${LocaleKeys.sec.tr()}',
+
             trailing: initialValue == 30 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
         ],

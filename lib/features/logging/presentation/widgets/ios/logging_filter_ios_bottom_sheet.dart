@@ -22,8 +22,8 @@ class LoggingFilterIosBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     void logLevelChanged(LogLevel value) {
       context.read<LoggingBloc>().add(
-            LoggingSetLevel(value),
-          );
+        LoggingSetLevel(value),
+      );
       Navigator.of(context).pop();
     }
 
@@ -38,35 +38,35 @@ class LoggingFilterIosBottomSheet extends StatelessWidget {
             onTap: () {
               logLevelChanged(LogLevel.ALL);
             },
-            title: const Text(LocaleKeys.all_title).tr(),
+            titleText: LocaleKeys.all_title.tr(),
             trailing: initialValue == LogLevel.ALL ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.DEBUG);
             },
-            title: const Text('Debug'),
+            titleText: 'Debug',
             trailing: initialValue == LogLevel.DEBUG ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.INFO);
             },
-            title: const Text('Info'),
+            titleText: 'Info',
             trailing: initialValue == LogLevel.INFO ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.WARNING);
             },
-            title: const Text('Warning'),
+            titleText: 'Warning',
             trailing: initialValue == LogLevel.WARNING ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.ERROR);
             },
-            title: const Text('Error'),
+            titleText: 'Error',
             trailing: initialValue == LogLevel.ERROR ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
         ],

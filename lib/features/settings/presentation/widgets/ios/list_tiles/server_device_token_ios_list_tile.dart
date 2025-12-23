@@ -19,8 +19,8 @@ class ServerDeviceTokenIosListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomNotchedCupertinoListTile(
       sensitive: true,
-      title: const Text(LocaleKeys.device_token_title).tr(),
-      subtitle: Text(deviceToken),
+      titleText: LocaleKeys.device_token_title.tr(),
+      subtitleText: deviceToken,
       leading: Icon(
         CupertinoIcons.grid_circle_fill,
         color: ThemeHelper.cupertinoListTileIconColor(),

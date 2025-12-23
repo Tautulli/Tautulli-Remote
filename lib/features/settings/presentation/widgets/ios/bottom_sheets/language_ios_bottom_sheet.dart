@@ -39,30 +39,18 @@ class LanguageIosBottomSheet extends StatelessWidget {
                   (locale) => CustomNotchedCupertinoListTile(
                     onTap: () {
                       context.read<TranslationBloc>().add(
-                            TranslationLocaleUpdated(locale),
-                          );
+                        TranslationLocaleUpdated(locale),
+                      );
                       context.setLocale(locale);
                       Navigator.of(context).pop();
                     },
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(TranslationHelper.localeToString(locale)),
-                        if (locale.languageCode != 'en')
-                          Text(
-                            TranslationHelper.localeToEnglishString(locale),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: CupertinoColors.systemGrey,
-                            ),
-                          ),
-                      ],
-                    ),
+                    titleText: TranslationHelper.localeToString(locale),
+                    subtitleText: locale.languageCode != 'en' ? TranslationHelper.localeToEnglishString(locale) : null,
                     trailing: initialValue == locale ? const Icon(CupertinoIcons.checkmark_alt) : null,
                   ),
                 )
                 .toList(),
-          )
+          ),
         ],
       ),
     );

@@ -28,12 +28,14 @@ class FrameworkIosGroup extends StatelessWidget {
                 size: 21.3,
               ),
               //TODO:  Create translation key
-              title: const Text('Android'),
-              trailing: state.appSettings.framework == Framework.android ? const Icon(CupertinoIcons.checkmark_alt) : null,
+              titleText: 'Android',
+              trailing: state.appSettings.framework == Framework.android
+                  ? const Icon(CupertinoIcons.checkmark_alt)
+                  : null,
               onTap: () {
                 context.read<SettingsBloc>().add(
-                      const SettingsUpdateFramework(Framework.android),
-                    );
+                  const SettingsUpdateFramework(Framework.android),
+                );
               },
             ),
             CustomNotchedCupertinoListTile(
@@ -43,12 +45,12 @@ class FrameworkIosGroup extends StatelessWidget {
                 size: 23,
               ),
               //TODO:  Create translation key
-              title: const Text('iOS'),
+              titleText: 'iOS',
               trailing: state.appSettings.framework == Framework.ios ? const Icon(CupertinoIcons.checkmark_alt) : null,
               onTap: () {
                 context.read<SettingsBloc>().add(
-                      const SettingsUpdateFramework(Framework.ios),
-                    );
+                  const SettingsUpdateFramework(Framework.ios),
+                );
               },
             ),
           ],

@@ -35,9 +35,12 @@ class DynamicColorIosGroup extends StatelessWidget {
               final bool supportsAccentColor = defaultTargetPlatform.supportsAccentColor;
 
               return CustomNotchedCupertinoListTile(
+                inactive: themeNotDynamic || !supportsAccentColor,
                 leading: FaIcon(
                   FontAwesomeIcons.wandMagicSparkles,
-                  color: (themeNotDynamic || !supportsAccentColor) ? CupertinoColors.inactiveGray : ThemeHelper.cupertinoListTileIconColor(),
+                  color: (themeNotDynamic || !supportsAccentColor)
+                      ? CupertinoColors.inactiveGray
+                      : ThemeHelper.cupertinoListTileIconColor(),
                   size: 21.3,
                 ),
                 trailing: CupertinoSwitch(
@@ -46,17 +49,11 @@ class DynamicColorIosGroup extends StatelessWidget {
                       ? null
                       : (value) {
                           context.read<SettingsBloc>().add(
-                                SettingsUpdateThemeUseSystemColor(value),
-                              );
+                            SettingsUpdateThemeUseSystemColor(value),
+                          );
                         },
                 ),
-                title: Text(
-                  LocaleKeys.system_color_title,
-                  style: TextStyle(
-                    color: (themeNotDynamic || !supportsAccentColor) ? CupertinoColors.inactiveGray : null,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).tr(),
+                titleText: LocaleKeys.system_color_title.tr(),
               );
             },
           ),
@@ -69,9 +66,12 @@ class DynamicColorIosGroup extends StatelessWidget {
             pickerColor = state.appSettings.themeCustomColor;
 
             return CustomNotchedCupertinoListTile(
+              inactive: themeNotDynamic || useSystemColor,
               leading: FaIcon(
                 FontAwesomeIcons.palette,
-                color: (themeNotDynamic || useSystemColor) ? CupertinoColors.inactiveGray : null,
+                color: (themeNotDynamic || useSystemColor)
+                    ? CupertinoColors.inactiveGray
+                    : ThemeHelper.cupertinoListTileIconColor(),
                 size: 23,
               ),
               additionalInfo: Column(
@@ -79,18 +79,14 @@ class DynamicColorIosGroup extends StatelessWidget {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.solidCircle,
-                    color: themeNotDynamic || useSystemColor ? state.appSettings.themeCustomColor.withValues(alpha: 0.7) : state.appSettings.themeCustomColor,
+                    color: themeNotDynamic || useSystemColor
+                        ? state.appSettings.themeCustomColor.withValues(alpha: 0.7)
+                        : state.appSettings.themeCustomColor,
                   ),
                 ],
               ),
               trailing: const CupertinoListTileChevron(),
-              title: Text(
-                LocaleKeys.custom_color_title,
-                style: TextStyle(
-                  color: (themeNotDynamic || useSystemColor) ? CupertinoColors.inactiveGray : null,
-                  fontWeight: FontWeight.bold,
-                ),
-              ).tr(),
+              titleText: LocaleKeys.custom_color_title.tr(),
               onTap: () => showCupertinoDialog(
                 context: context,
                 builder: (context) => CupertinoAlertDialog(
@@ -127,8 +123,8 @@ class DynamicColorIosGroup extends StatelessWidget {
                     CupertinoDialogAction(
                       onPressed: () {
                         context.read<SettingsBloc>().add(
-                              SettingsUpdateThemeCustomColor(pickerColor),
-                            );
+                          SettingsUpdateThemeCustomColor(pickerColor),
+                        );
                         Navigator.of(context).pop();
                       },
                       child: const Text(LocaleKeys.select_title).tr(),

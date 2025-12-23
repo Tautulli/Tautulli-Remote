@@ -42,7 +42,7 @@ class MoreIosView extends StatelessWidget {
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.users_title).tr(),
+                    titleText: LocaleKeys.users_title.tr(),
                     // onTap: () => showCupertinoSheet(
                     //   context: context,
                     //   builder: (context) => ServerTimeoutIosBottomSheet(
@@ -56,7 +56,7 @@ class MoreIosView extends StatelessWidget {
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.statistics_title).tr(),
+                    titleText: LocaleKeys.statistics_title.tr(),
                     // onTap: () => showCupertinoSheet(
                     //   context: context,
                     //   builder: (context) => ServerTimeoutIosBottomSheet(
@@ -70,7 +70,7 @@ class MoreIosView extends StatelessWidget {
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.graphs_title).tr(),
+                    titleText: LocaleKeys.graphs_title.tr(),
                     // onTap: () => showCupertinoSheet(
                     //   context: context,
                     //   builder: (context) => ServerTimeoutIosBottomSheet(
@@ -88,7 +88,7 @@ class MoreIosView extends StatelessWidget {
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.announcements_title).tr(),
+                    titleText: LocaleKeys.announcements_title.tr(),
                     // subtitle: Text(_serverTimeoutDisplay(serverTimeout)),
                     // onTap: () => showCupertinoSheet(
                     //   context: context,
@@ -103,7 +103,7 @@ class MoreIosView extends StatelessWidget {
                       color: CupertinoColors.systemRed,
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.donate_title).tr(),
+                    titleText: LocaleKeys.donate_title.tr(),
                     onTap: () => Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => DonateIosPage(
@@ -119,7 +119,7 @@ class MoreIosView extends StatelessWidget {
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
                     trailing: const CupertinoListTileChevron(),
-                    title: const Text(LocaleKeys.settings_title).tr(),
+                    titleText: LocaleKeys.settings_title.tr(),
                     onTap: () => Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => SettingsIosPage(

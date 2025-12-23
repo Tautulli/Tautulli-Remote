@@ -52,8 +52,8 @@ class OneSignalDataPrivacyCupertinoListTile extends StatelessWidget {
               }
             },
           ),
-          title: const Text(LocaleKeys.onesignal_consent_switch_title).tr(),
-          subtitle: RichText(
+          titleText: LocaleKeys.onesignal_consent_switch_title.tr(),
+          subtitleWidget: RichText(
             text: TextSpan(
               children: [
                 TextSpan(

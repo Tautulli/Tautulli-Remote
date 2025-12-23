@@ -33,11 +33,11 @@ class AppSettingsIosGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor(),
               ),
               trailing: const CupertinoListTileChevron(),
-              title: const Text(LocaleKeys.server_timeout_title).tr(),
-              subtitle: Text(_serverTimeoutDisplay(serverTimeout)),
+              titleText: LocaleKeys.server_timeout_title.tr(),
+              subtitleText: _serverTimeoutDisplay(serverTimeout),
               onTap: () => showCupertinoSheet(
                 context: context,
-                pageBuilder: (context) => ServerTimeoutIosBottomSheet(
+                builder: (context) => ServerTimeoutIosBottomSheet(
                   initialValue: serverTimeout,
                 ),
               ),
@@ -55,11 +55,11 @@ class AppSettingsIosGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor(),
               ),
               trailing: const CupertinoListTileChevron(),
-              title: const Text(LocaleKeys.activity_refresh_rate_title).tr(),
-              subtitle: Text(_activityRefreshRateDisplay(refreshRate)),
+              titleText: LocaleKeys.activity_refresh_rate_title.tr(),
+              subtitleText: _activityRefreshRateDisplay(refreshRate),
               onTap: () => showCupertinoSheet(
                 context: context,
-                pageBuilder: (context) => ActivityRefreshRateIosBottomSheet(
+                builder: (context) => ActivityRefreshRateIosBottomSheet(
                   initialValue: refreshRate,
                 ),
               ),
@@ -72,10 +72,7 @@ class AppSettingsIosGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.advanced_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.advanced_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => AdvancedIosPage(
@@ -91,10 +88,7 @@ class AppSettingsIosGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.themes_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.themes_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => ThemeIosPage(
@@ -110,10 +104,7 @@ class AppSettingsIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.accessibility_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.accessibility_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => AccessibilityIosPage(

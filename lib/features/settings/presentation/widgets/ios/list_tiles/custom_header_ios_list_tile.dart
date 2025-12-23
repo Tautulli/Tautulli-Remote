@@ -31,10 +31,10 @@ class CustomHeaderIosListTile extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return CustomNotchedCupertinoListTile(
-          title: Text(title),
-          subtitle: Text(
-            sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : subtitle,
-          ),
+          titleText: title,
+          subtitleText: sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
+              ? LocaleKeys.hidden_message.tr()
+              : subtitle,
           leading: Icon(
             CupertinoIcons.tag_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -51,16 +51,16 @@ class CustomHeaderIosListTile extends StatelessWidget {
               if (result) {
                 if (forRegistration) {
                   context.read<RegistrationHeadersBloc>().add(
-                        RegistrationHeadersDelete(title),
-                      );
+                    RegistrationHeadersDelete(title),
+                  );
                 } else {
                   if (tautulliId != null) {
                     context.read<SettingsBloc>().add(
-                          SettingsDeleteCustomHeader(
-                            tautulliId: tautulliId!,
-                            title: title,
-                          ),
-                        );
+                      SettingsDeleteCustomHeader(
+                        tautulliId: tautulliId!,
+                        title: title,
+                      ),
+                    );
                   }
                 }
               }

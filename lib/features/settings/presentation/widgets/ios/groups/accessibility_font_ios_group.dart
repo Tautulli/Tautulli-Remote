@@ -32,17 +32,14 @@ class AccessibilityFontIosGroup extends StatelessWidget {
                 value: useAtkinsonHyperlegible,
                 onChanged: (value) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateUseAtkinsonHyperlegible(value),
-                      );
+                    SettingsUpdateUseAtkinsonHyperlegible(value),
+                  );
                 },
               ),
-              title: const Text(
-                'Atkinson Hyperlegible',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              titleText: 'Atkinson Hyperlegible',
             );
           },
-        )
+        ),
       ],
     );
   }

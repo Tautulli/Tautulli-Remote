@@ -29,20 +29,19 @@ class ThemeEnhancementsIosGroup extends StatelessWidget {
               trailing: CupertinoSwitch(
                 value: state.appSettings.themeEnhancement == ThemeEnhancementType.ultraContrastDark,
                 onChanged: (value) {
-                  final themeEnhancementType = value == true ? ThemeEnhancementType.ultraContrastDark : ThemeEnhancementType.none;
+                  final themeEnhancementType = value == true
+                      ? ThemeEnhancementType.ultraContrastDark
+                      : ThemeEnhancementType.none;
 
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateThemeEnhancement(themeEnhancementType),
-                      );
+                    SettingsUpdateThemeEnhancement(themeEnhancementType),
+                  );
                 },
               ),
-              title: const Text(
-                LocaleKeys.high_contrast_title,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ).tr(),
+              titleText: LocaleKeys.high_contrast_title.tr(),
             );
           },
-        )
+        ),
       ],
     );
   }

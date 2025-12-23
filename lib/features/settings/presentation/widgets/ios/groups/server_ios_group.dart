@@ -53,10 +53,9 @@ class ServersIosGroup extends StatelessWidget {
                                 BlendMode.srcIn,
                               ),
                             ),
-                            title: Text(server.plexName),
-                            subtitle: Text(
-                              '${server.primaryActive! ? server.primaryConnectionAddress : server.secondaryConnectionAddress}',
-                            ),
+                            titleText: server.plexName,
+                            subtitleText:
+                                '${server.primaryActive! ? server.primaryConnectionAddress : server.secondaryConnectionAddress}',
                             onTap: isWizard
                                 ? null
                                 : () => Navigator.of(context).push(

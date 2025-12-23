@@ -21,8 +21,8 @@ class HomePageIosBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     void homePageChanged(String value) {
       context.read<SettingsBloc>().add(
-            SettingsUpdateHomePage(value),
-          );
+        SettingsUpdateHomePage(value),
+      );
       Navigator.of(context).pop();
     }
 
@@ -36,49 +36,49 @@ class HomePageIosBottomSheet extends StatelessWidget {
             onTap: () {
               homePageChanged('activity');
             },
-            title: const Text(LocaleKeys.activity_title).tr(),
+            titleText: LocaleKeys.activity_title.tr(),
             trailing: initialValue == 'activity' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('history');
             },
-            title: const Text(LocaleKeys.history_title).tr(),
+            titleText: LocaleKeys.history_title.tr(),
             trailing: initialValue == 'history' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('recent');
             },
-            title: const Text(LocaleKeys.recently_added_title).tr(),
+            titleText: LocaleKeys.recently_added_title.tr(),
             trailing: initialValue == 'recent' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('libraries');
             },
-            title: const Text(LocaleKeys.libraries_title).tr(),
+            titleText: LocaleKeys.libraries_title.tr(),
             trailing: initialValue == 'libraries' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('users');
             },
-            title: const Text(LocaleKeys.users_title).tr(),
+            titleText: LocaleKeys.users_title.tr(),
             trailing: initialValue == 'users' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('statistics');
             },
-            title: const Text(LocaleKeys.statistics_title).tr(),
+            titleText: LocaleKeys.statistics_title.tr(),
             trailing: initialValue == 'statistics' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               homePageChanged('graphs');
             },
-            title: const Text(LocaleKeys.graphs_title).tr(),
+            titleText: LocaleKeys.graphs_title.tr(),
             trailing: initialValue == 'graphs' ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
         ],

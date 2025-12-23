@@ -24,8 +24,8 @@ class OperationsIosGroup extends StatelessWidget {
             size: 21.3,
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.clear_app_image_cache_title).tr(),
-          subtitle: const Text(LocaleKeys.clear_app_image_cache_subtitle).tr(),
+          titleText: LocaleKeys.clear_app_image_cache_title.tr(),
+          subtitleText: LocaleKeys.clear_app_image_cache_subtitle.tr(),
           onTap: () async {
             final bool cleared = await showCupertinoDialog(
               context: context,

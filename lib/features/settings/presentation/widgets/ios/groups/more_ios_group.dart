@@ -29,10 +29,7 @@ class MoreIosGroup extends StatelessWidget {
             ),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.onesignal_data_privacy_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.onesignal_data_privacy_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => OneSignalDataPrivacyIosPage(
@@ -47,10 +44,7 @@ class MoreIosGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.changelog_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.changelog_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => ChangelogIosPage(
@@ -66,10 +60,7 @@ class MoreIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.help_translate_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.help_translate_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => HelpTranslateIosPage(
@@ -85,10 +76,7 @@ class MoreIosGroup extends StatelessWidget {
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(
-            LocaleKeys.data_dump_title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ).tr(),
+          titleText: LocaleKeys.data_dump_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => DataDumpIosPage(

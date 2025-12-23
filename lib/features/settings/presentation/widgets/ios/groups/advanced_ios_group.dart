@@ -39,12 +39,12 @@ class AdvancedIosGroup extends StatelessWidget {
                   value: doubleBackToExit,
                   onChanged: (value) {
                     context.read<SettingsBloc>().add(
-                          SettingsUpdateDoubleBackToExit(value),
-                        );
+                      SettingsUpdateDoubleBackToExit(value),
+                    );
                   },
                 ),
-                title: const Text(LocaleKeys.double_back_to_exit_title).tr(),
-                subtitle: const Text(LocaleKeys.double_back_to_exit_subtitle).tr(),
+                titleText: LocaleKeys.double_back_to_exit_title.tr(),
+                subtitleText: LocaleKeys.double_back_to_exit_subtitle.tr(),
               );
             },
           ),
@@ -62,12 +62,12 @@ class AdvancedIosGroup extends StatelessWidget {
                 value: maskSensitiveInfo,
                 onChanged: (value) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateMaskSensitiveInfo(value),
-                      );
+                    SettingsUpdateMaskSensitiveInfo(value),
+                  );
                 },
               ),
-              title: const Text(LocaleKeys.mask_senstivie_info_title).tr(),
-              subtitle: const Text(LocaleKeys.mask_senstivie_info_subtitle).tr(),
+              titleText: LocaleKeys.mask_senstivie_info_title.tr(),
+              subtitleText: LocaleKeys.mask_senstivie_info_subtitle.tr(),
             );
           },
         ),
@@ -86,12 +86,12 @@ class AdvancedIosGroup extends StatelessWidget {
                 value: multiserverActivity,
                 onChanged: (value) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateMultiserverActivity(value),
-                      );
+                    SettingsUpdateMultiserverActivity(value),
+                  );
                 },
               ),
-              title: const Text(LocaleKeys.multiserver_activity_page_title).tr(),
-              subtitle: const Text(LocaleKeys.multiserver_activity_page_subtitle).tr(),
+              titleText: LocaleKeys.multiserver_activity_page_title.tr(),
+              subtitleText: LocaleKeys.multiserver_activity_page_subtitle.tr(),
             );
           },
         ),
@@ -109,12 +109,12 @@ class AdvancedIosGroup extends StatelessWidget {
                 value: libraryMediaFullRefresh,
                 onChanged: (value) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateLibraryMediaFullRefresh(value),
-                      );
+                    SettingsUpdateLibraryMediaFullRefresh(value),
+                  );
                 },
               ),
-              title: const Text(LocaleKeys.library_media_full_refresh_title).tr(),
-              subtitle: const Text(LocaleKeys.library_media_full_refresh_subtitle).tr(),
+              titleText: LocaleKeys.library_media_full_refresh_title.tr(),
+              subtitleText: LocaleKeys.library_media_full_refresh_subtitle.tr(),
             );
           },
         ),
@@ -130,11 +130,11 @@ class AdvancedIosGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor(),
               ),
               trailing: const CupertinoListTileChevron(),
-              title: const Text(LocaleKeys.home_page_title).tr(),
-              subtitle: Text(StringHelper.mapHomePageSettingToTitle(homePageSetting)),
+              titleText: LocaleKeys.home_page_title.tr(),
+              subtitleText: StringHelper.mapHomePageSettingToTitle(homePageSetting),
               onTap: () => showCupertinoSheet(
                 context: context,
-                pageBuilder: (context) => HomePageIosBottomSheet(
+                builder: (context) => HomePageIosBottomSheet(
                   initialValue: homePageSetting,
                 ),
               ),
@@ -148,11 +148,11 @@ class AdvancedIosGroup extends StatelessWidget {
             size: 19.2,
           ),
           trailing: const CupertinoListTileChevron(),
-          title: const Text(LocaleKeys.language_title).tr(),
-          subtitle: Text(TranslationHelper.localeToString(context.locale)),
+          titleText: LocaleKeys.language_title.tr(),
+          subtitleText: TranslationHelper.localeToString(context.locale),
           onTap: () => showCupertinoSheet(
             context: context,
-            pageBuilder: (context) => BlocProvider(
+            builder: (context) => BlocProvider(
               create: (context) => di.sl<TranslationBloc>(),
               child: LanguageIosBottomSheet(initialValue: context.locale),
             ),

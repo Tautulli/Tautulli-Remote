@@ -25,8 +25,8 @@ class ServerSecondaryConnectionIosListTile extends StatelessWidget {
 
     return CustomNotchedCupertinoListTile(
       sensitive: true,
-      title: const Text(LocaleKeys.secondary_connection_title).tr(),
-      subtitle: inactive ? const Text(LocaleKeys.not_configured_message).tr() : Text(server.secondaryConnectionAddress!),
+      titleText: LocaleKeys.secondary_connection_title.tr(),
+      subtitleText: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress!,
       leading: Icon(
         CupertinoIcons.square_line_vertical_square_fill,
         color: ThemeHelper.cupertinoListTileIconColor(),

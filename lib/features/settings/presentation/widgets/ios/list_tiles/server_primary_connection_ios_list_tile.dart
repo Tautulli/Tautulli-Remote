@@ -22,8 +22,8 @@ class ServerPrimaryConnectionIosListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomNotchedCupertinoListTile(
       sensitive: true,
-      title: const Text(LocaleKeys.primary_connection_title).tr(),
-      subtitle: Text(server.primaryConnectionAddress),
+      titleText: LocaleKeys.primary_connection_title.tr(),
+      subtitleText: server.primaryConnectionAddress,
       leading: Icon(
         CupertinoIcons.square_fill_line_vertical_square,
         color: ThemeHelper.cupertinoListTileIconColor(),

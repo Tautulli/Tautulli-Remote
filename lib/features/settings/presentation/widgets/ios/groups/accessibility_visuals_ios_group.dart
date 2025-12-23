@@ -29,17 +29,14 @@ class AccessibilityVisualsIosGroup extends StatelessWidget {
                 value: state.appSettings.disableImageBackgrounds,
                 onChanged: (value) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateDisableImageBackgrounds(value),
-                      );
+                    SettingsUpdateDisableImageBackgrounds(value),
+                  );
                 },
               ),
-              title: const Text(
-                LocaleKeys.disable_image_backgrounds_title,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ).tr(),
+              titleText: LocaleKeys.disable_image_backgrounds_title.tr(),
             );
           },
-        )
+        ),
       ],
     );
   }

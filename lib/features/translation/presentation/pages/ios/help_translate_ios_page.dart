@@ -65,10 +65,7 @@ class HelpTranslateIosView extends StatelessWidget {
                     ),
                   ),
                   trailing: const CupertinoListTileExternal(),
-                  title: const Text(
-                    LocaleKeys.translate_tautulli_remote_title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ).tr(),
+                  titleText: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,
@@ -83,10 +80,7 @@ class HelpTranslateIosView extends StatelessWidget {
                     size: 23,
                   ),
                   trailing: const CupertinoListTileExternal(),
-                  title: const Text(
-                    LocaleKeys.request_a_new_language_title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ).tr(),
+                  titleText: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,

@@ -40,7 +40,7 @@ class ServerSelectIosBottomSheet extends StatelessWidget {
         children: servers
             .map(
               (server) => CustomNotchedCupertinoListTile(
-                title: Text(server.plexName),
+                titleText: server.plexName,
                 trailing: server.id == activeServer.id ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 onTap: () => serverChanged(server),
               ),

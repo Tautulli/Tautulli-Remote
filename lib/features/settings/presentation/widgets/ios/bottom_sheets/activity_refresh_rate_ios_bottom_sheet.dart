@@ -21,8 +21,8 @@ class ActivityRefreshRateIosBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     void refreshValueChanged(int value) {
       context.read<SettingsBloc>().add(
-            SettingsUpdateRefreshRate(value),
-          );
+        SettingsUpdateRefreshRate(value),
+      );
       Navigator.of(context).pop();
     }
 
@@ -36,52 +36,47 @@ class ActivityRefreshRateIosBottomSheet extends StatelessWidget {
             onTap: () {
               refreshValueChanged(5);
             },
-            title: Text(
-              '5 ${LocaleKeys.sec.tr()} - ${LocaleKeys.faster_title.tr()}',
-            ),
+            titleText: '5 ${LocaleKeys.sec.tr()} - ${LocaleKeys.faster_title.tr()}',
+
             trailing: initialValue == 5 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               refreshValueChanged(7);
             },
-            title: Text(
-              '7 ${LocaleKeys.sec.tr()} - ${LocaleKeys.fast_title.tr()}',
-            ),
+            titleText: '7 ${LocaleKeys.sec.tr()} - ${LocaleKeys.fast_title.tr()}',
+
             trailing: initialValue == 7 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               refreshValueChanged(10);
             },
-            title: Text(
-              '10 ${LocaleKeys.sec.tr()} - ${LocaleKeys.normal_title.tr()}',
-            ),
+            titleText: '10 ${LocaleKeys.sec.tr()} - ${LocaleKeys.normal_title.tr()}',
+
             trailing: initialValue == 10 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               refreshValueChanged(15);
             },
-            title: Text(
-              '15 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slow_title.tr()}',
-            ),
+            titleText: '15 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slow_title.tr()}',
+
             trailing: initialValue == 15 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               refreshValueChanged(20);
             },
-            title: Text(
-              '20 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slower_title.tr()}',
-            ),
+            titleText: '20 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slower_title.tr()}',
+
             trailing: initialValue == 20 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CustomNotchedCupertinoListTile(
             onTap: () {
               refreshValueChanged(0);
             },
-            title: const Text(LocaleKeys.disabled_title).tr(),
+            titleText: LocaleKeys.disabled_title.tr(),
             trailing: initialValue == 0 ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
         ],

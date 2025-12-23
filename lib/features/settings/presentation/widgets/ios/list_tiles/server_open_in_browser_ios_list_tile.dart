@@ -20,10 +20,7 @@ class ServerOpenInBrowserIosListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomNotchedCupertinoListTile(
-      title: const Text(
-        LocaleKeys.open_server_in_browser_title,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ).tr(args: [server.plexName]),
+      titleText: LocaleKeys.open_server_in_browser_title.tr(args: [server.plexName]),
       leading: Icon(
         CupertinoIcons.macwindow,
         color: ThemeHelper.cupertinoListTileIconColor(),

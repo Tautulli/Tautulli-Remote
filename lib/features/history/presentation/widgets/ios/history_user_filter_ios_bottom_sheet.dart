@@ -37,11 +37,10 @@ class HistoryUserFilterIosBottomSheet extends StatelessWidget {
                       .map(
                         (user) => CustomNotchedCupertinoListTile(
                           onTap: () => Navigator.of(context).pop(user.userId),
-                          title: Text(
-                            settingsState.appSettings.maskSensitiveInfo
-                                ? LocaleKeys.hidden_message.tr()
-                                : user.friendlyName ?? '',
-                          ),
+                          titleText: settingsState.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : user.friendlyName ?? '',
+
                           trailing: initialValue == user.userId ? const Icon(CupertinoIcons.checkmark_alt) : null,
                         ),
                       )

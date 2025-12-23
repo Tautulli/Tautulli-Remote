@@ -70,22 +70,22 @@ class _HistoryFilterIosBottomSheetState extends State<HistoryFilterIosBottomShee
               children: [
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'movie'),
-                  title: const Text(LocaleKeys.movies_title).tr(),
+                  titleText: LocaleKeys.movies_title.tr(),
                   trailing: _filterMap['movie'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'episode'),
-                  title: const Text(LocaleKeys.tv_title).tr(),
+                  titleText: LocaleKeys.tv_title.tr(),
                   trailing: _filterMap['episode'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'track'),
-                  title: const Text(LocaleKeys.music_title).tr(),
+                  titleText: LocaleKeys.music_title.tr(),
                   trailing: _filterMap['track'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'live'),
-                  title: const Text(LocaleKeys.live_tv_title).tr(),
+                  titleText: LocaleKeys.live_tv_title.tr(),
                   trailing: _filterMap['live'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
               ],
@@ -95,17 +95,17 @@ class _HistoryFilterIosBottomSheetState extends State<HistoryFilterIosBottomShee
               children: [
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'directPlay'),
-                  title: const Text(LocaleKeys.direct_play_title).tr(),
+                  titleText: LocaleKeys.direct_play_title.tr(),
                   trailing: _filterMap['directPlay'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'directStream'),
-                  title: const Text(LocaleKeys.direct_stream_title).tr(),
+                  titleText: LocaleKeys.direct_stream_title.tr(),
                   trailing: _filterMap['directStream'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
                 CustomNotchedCupertinoListTile(
                   onTap: () => changeValue(key: 'transcode'),
-                  title: const Text(LocaleKeys.transcode_title).tr(),
+                  titleText: LocaleKeys.transcode_title.tr(),
                   trailing: _filterMap['transcode'] != false ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 ),
               ],

@@ -155,8 +155,8 @@ class ServerSettingsIosView extends StatelessWidget {
                   children: [
                     ServerOpenInBrowserIosListTile(server: server),
                     CustomNotchedCupertinoListTile(
-                      title: const Text(LocaleKeys.clear_tautulli_image_cache_title).tr(args: [server.plexName]),
-                      subtitle: const Text(LocaleKeys.clear_tautulli_image_cache_subtitle).tr(args: [server.plexName]),
+                      titleText: LocaleKeys.clear_tautulli_image_cache_title.tr(args: [server.plexName]),
+                      subtitleText: LocaleKeys.clear_tautulli_image_cache_subtitle.tr(args: [server.plexName]),
                       leading: FaIcon(
                         FontAwesomeIcons.eraser,
                         color: ThemeHelper.cupertinoListTileIconColor(),
