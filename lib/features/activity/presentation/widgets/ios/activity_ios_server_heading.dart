@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gap/gap.dart';
-import 'package:tautulli_remote/core/widgets/ios/heading_ios.dart';
+
+import '../../../../../core/widgets/ios/heading_ios.dart';
 
 class ActivityIosServerHeading extends StatelessWidget {
   final String serverName;
@@ -18,35 +18,20 @@ class ActivityIosServerHeading extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            // color: Theme.of(context).colorScheme.surface,
+            color: CupertinoTheme.of(context).scaffoldBackgroundColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    //TODO: Add heading
                     HeadingIos(text: serverName),
-                    //TODO: Add loading indicator
                     if (loading)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: CupertinoActivityIndicator(radius: 8),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 4.0),
+                        child: CupertinoActivityIndicator(radius: 7),
                       ),
-                    //   Padding(
-                    //     padding: const EdgeInsets.symmetric(vertical: 2),
-                    //     child: ClipRRect(
-                    //       borderRadius: BorderRadius.circular(2),
-                    //       child: LinearProgressIndicator(
-                    //         color: Theme.of(context).colorScheme.onSurface,
-                    //         backgroundColor: Colors.transparent,
-                    //       ),
-                    //     ),
-                    //   ),
                   ],
                 ),
-
-                // if (!loading)
-                const Gap(8),
               ],
             ),
           ),
