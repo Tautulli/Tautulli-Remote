@@ -1,3 +1,4 @@
+//TODO: Add an 'all' type to replace using null throughout the app. This impacts things like canceling the Recently Added filter
 enum MediaType {
   album('album'),
   artist('artist'),
