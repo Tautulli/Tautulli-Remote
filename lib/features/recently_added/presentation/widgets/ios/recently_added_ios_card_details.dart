@@ -1,16 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/media_type_icon.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/recently_added_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/media_type_icon.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/recently_added_model.dart';
 
-class RecentlyAddedCardDetails extends StatelessWidget {
+class RecentlyAddedIosCardDetails extends StatelessWidget {
   final RecentlyAddedModel recentlyAdded;
 
-  const RecentlyAddedCardDetails({
+  const RecentlyAddedIosCardDetails({
     super.key,
     required this.recentlyAdded,
   });
@@ -43,7 +44,10 @@ class RecentlyAddedCardDetails extends StatelessWidget {
               '${LocaleKeys.added_title.tr()} ${TimeHelper.moment(recentlyAdded.addedAt)}',
               overflow: TextOverflow.ellipsis,
             ),
-            MediaTypeIcon(mediaType: recentlyAdded.mediaType),
+            MediaTypeIcon(
+              mediaType: recentlyAdded.mediaType,
+              iconColor: ThemeHelper.cupertinoCardIconColor(),
+            ),
           ],
         ),
       ],

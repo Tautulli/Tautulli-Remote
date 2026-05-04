@@ -29,6 +29,7 @@ import 'features/history/presentation/pages/ios/history_ios_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
+import 'features/recently_added/presentation/pages/ios/recently_added_ios_page.dart';
 import 'features/recently_added/presentation/pages/recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
@@ -64,6 +65,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   HelpTranslateIosPage.routeName: (_) => const HelpTranslateIosPage(),
   HistoryIosPage.routeName: (_) => const HistoryIosPage(),
   OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
+  RecentlyAddedIosPage.routeName: (_) => const RecentlyAddedIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
 };
 
