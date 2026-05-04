@@ -29,6 +29,7 @@ class HistoryUserFilterIosBottomSheet extends StatelessWidget {
             return PageScaffoldCupertino(
               //TODO: Add translation string
               middle: const Text('Filter User'),
+              showBackButton: false,
               leading: const IosBottomSheetCancelButton(),
               child: SingleChildScrollView(
                 child: CustomCupertinoListSection(

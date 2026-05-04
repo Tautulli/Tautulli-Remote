@@ -47,6 +47,7 @@ class _HistoryFilterIosBottomSheetState extends State<HistoryFilterIosBottomShee
     return PageScaffoldCupertino(
       //TODO: Add translation string
       middle: const Text('Filter History'),
+      showBackButton: false,
       leading: const IosBottomSheetCancelButton(),
       trailing: IosBottomSheetSaveButton(
         onPressed: () {
