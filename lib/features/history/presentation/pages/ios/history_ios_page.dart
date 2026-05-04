@@ -422,7 +422,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
             );
 
             if (result == 'user') {
-              int newUserId = await showCupertinoSheet(
+              int? newUserId = await showCupertinoSheet(
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
@@ -432,7 +432,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
                 ),
               );
 
-              if (newUserId != _userId) {
+              if (newUserId != null && newUserId != _userId) {
                 setState(() {
                   _userId = newUserId;
 
