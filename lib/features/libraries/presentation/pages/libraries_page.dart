@@ -141,7 +141,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.libraries.length : state.libraries.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.libraries.length
+                          : state.libraries.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.libraries.length) {
@@ -301,6 +303,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                         ),
                   const Padding(
                     padding: EdgeInsets.only(left: 5),
+                    //TODO: Needs translation string
                     child: Text('Count'),
                   ),
                 ],
@@ -323,6 +326,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                         ),
                   const Padding(
                     padding: EdgeInsets.only(left: 5),
+                    //TODO: Needs translation string
                     child: Text('Time'),
                   ),
                 ],
@@ -345,6 +349,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                         ),
                   const Padding(
                     padding: EdgeInsets.only(left: 5),
+                    //TODO: Needs translation string
                     child: Text('Plays'),
                   ),
                 ],
