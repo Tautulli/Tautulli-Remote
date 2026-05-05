@@ -40,6 +40,7 @@ import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/translation/presentation/pages/ios/help_translate_ios_page.dart';
+import 'features/users/presentation/pages/ios/users_ios_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 
@@ -71,6 +72,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
   RecentlyAddedIosPage.routeName: (_) => const RecentlyAddedIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
+  UsersIosPage.routeName: (_) => const UsersIosPage(),
 };
 
 class AppFramework extends StatelessWidget {

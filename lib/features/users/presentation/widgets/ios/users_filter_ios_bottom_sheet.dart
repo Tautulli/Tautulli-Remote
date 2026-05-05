@@ -1,0 +1,113 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:gap/gap.dart';
+
+import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
+import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../translations/locale_keys.g.dart';
+
+class UsersFilterIosBottomSheet extends StatefulWidget {
+  final String orderColumn;
+  final String orderDir;
+
+  const UsersFilterIosBottomSheet({
+    super.key,
+    required this.orderColumn,
+    required this.orderDir,
+  });
+
+  @override
+  State<UsersFilterIosBottomSheet> createState() => _UsersFilterIosBottomSheetState();
+}
+
+class _UsersFilterIosBottomSheetState extends State<UsersFilterIosBottomSheet> {
+  late String orderColumn;
+  late String orderDir;
+
+  @override
+  void initState() {
+    super.initState();
+    orderColumn = widget.orderColumn;
+    orderDir = widget.orderDir;
+  }
+
+  Widget _inactiveSortIndicators() {
+    return const Row(
+      children: [
+        Icon(
+          CupertinoIcons.arrow_down,
+          color: CupertinoColors.inactiveGray,
+        ),
+        Gap(4),
+        Icon(CupertinoIcons.arrow_up, color: CupertinoColors.inactiveGray),
+      ],
+    );
+  }
+
+  Widget _activeSortIndicators() {
+    return Row(
+      children: [
+        Icon(
+          CupertinoIcons.arrow_down,
+          color: orderDir == 'asc' ? CupertinoTheme.of(context).primaryColor : CupertinoColors.inactiveGray,
+        ),
+        const Gap(4),
+        Icon(
+          CupertinoIcons.arrow_up,
+          color: orderDir == 'desc' ? CupertinoTheme.of(context).primaryColor : CupertinoColors.inactiveGray,
+        ),
+      ],
+    );
+  }
+
+  void changeSort(String currentColumn) {
+    setState(() {
+      if (orderColumn == currentColumn) {
+        if (orderDir == 'asc') {
+          orderDir = 'desc';
+        } else {
+          orderDir = 'asc';
+        }
+      } else {
+        orderColumn = currentColumn;
+        orderDir = 'asc';
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageScaffoldCupertino(
+      //TODO: Add translation string
+      middle: const Text('Sort Users'),
+      showBackButton: false,
+      leading: const IosBottomSheetCancelButton(),
+      trailing: IosBottomSheetSaveButton(
+        onPressed: () => Navigator.of(context).pop({
+          'orderColumn': orderColumn,
+          'orderDir': orderDir,
+        }),
+      ),
+      child: SingleChildScrollView(
+        child: CustomCupertinoListSection(
+          hasLeading: false,
+          children: [
+            CustomNotchedCupertinoListTile(
+              onTap: () => changeSort('friendly_name'),
+              titleText: LocaleKeys.name_title.tr(),
+              trailing: orderColumn == 'friendly_name' ? _activeSortIndicators() : _inactiveSortIndicators(),
+            ),
+            CustomNotchedCupertinoListTile(
+              onTap: () => changeSort('last_seen'),
+              titleText: LocaleKeys.last_streamed_title.tr(),
+              trailing: orderColumn == 'last_seen' ? _activeSortIndicators() : _inactiveSortIndicators(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
