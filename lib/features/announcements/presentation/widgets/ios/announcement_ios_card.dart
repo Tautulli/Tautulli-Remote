@@ -85,7 +85,8 @@ class AnnouncementIosCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Icon(
-                        CupertinoIcons.arrow_up_right_square_fill,
+                        CupertinoIcons.square_arrow_up,
+                        size: 18,
                         color: ThemeHelper.cupertinoCardIconColor(),
                       ),
                     ),
