@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
 import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
+import '../../../features/libraries/presentation/pages/ios/libraries_ios_page.dart';
 import '../../../features/more/presentation/pages/more_ios_page.dart';
 import '../../../features/recently_added/presentation/pages/ios/recently_added_ios_page.dart';
 import '../../../translations/locale_keys.g.dart';
@@ -77,6 +78,8 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
                 return const HistoryIosPage(showBackButton: false);
               case 2:
                 return const RecentlyAddedIosPage(showBackButton: false);
+              case 3:
+                return const LibrariesIosPage(showBackButton: false);
               case 4:
                 return const MoreIosPage();
               case 0:
