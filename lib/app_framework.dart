@@ -19,6 +19,7 @@ import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
 import 'features/activity/presentation/pages/ios/activity_ios_page.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
+import 'features/announcements/presentation/pages/ios/announcements_ios_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
@@ -61,6 +62,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
 
 Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   ActivityIosPage.routeName: (_) => const ActivityIosPage(),
+  AnnouncementsIosPage.routeName: (_) => const AnnouncementsIosPage(),
   ChangelogIosPage.routeName: (_) => const ChangelogIosPage(),
   DonateIosPage.routeName: (_) => const DonateIosPage(),
   HelpTranslateIosPage.routeName: (_) => const HelpTranslateIosPage(),

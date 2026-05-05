@@ -7,6 +7,8 @@ import '../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../translations/locale_keys.g.dart';
+import '../../../announcements/presentation/bloc/announcements_bloc.dart';
+import '../../../announcements/presentation/pages/ios/announcements_ios_page.dart';
 import '../../../donate/presentation/pages/ios/donate_ios_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/ios/settings_ios_page.dart';
@@ -87,15 +89,33 @@ class MoreIosView extends StatelessWidget {
                       CupertinoIcons.bell_fill,
                       color: ThemeHelper.cupertinoListTileIconColor(),
                     ),
-                    trailing: const CupertinoListTileChevron(),
+                    trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            if (state is AnnouncementsSuccess && state.unread)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Icon(
+                                  CupertinoIcons.circle_fill,
+                                  size: 12,
+                                  color: CupertinoTheme.of(context).primaryColor,
+                                ),
+                              ),
+                            const CupertinoListTileChevron(),
+                          ],
+                        );
+                      },
+                    ),
                     titleText: LocaleKeys.announcements_title.tr(),
-                    // subtitle: Text(_serverTimeoutDisplay(serverTimeout)),
-                    // onTap: () => showCupertinoSheet(
-                    //   context: context,
-                    //   builder: (context) => ServerTimeoutIosBottomSheet(
-                    //     initialValue: serverTimeout,
-                    //   ),
-                    // ),
+                    onTap: () => Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => AnnouncementsIosPage(
+                          showBackButton: true,
+                          previousPageTitle: LocaleKeys.more_title.tr(),
+                        ),
+                      ),
+                    ),
                   ),
                   CustomNotchedCupertinoListTile(
                     leading: const Icon(
