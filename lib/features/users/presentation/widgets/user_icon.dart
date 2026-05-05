@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/types/user_icon_size.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
-
-enum UserIconSize {
-  normal,
-  large,
-}
 
 class UserIcon extends StatelessWidget {
   final UserModel user;
@@ -40,7 +36,9 @@ class UserIcon extends StatelessWidget {
                 builder: (context, state) {
                   state as SettingsSuccess;
 
-                  if (!state.appSettings.maskSensitiveInfo && user.userThumb != null && user.userThumb!.startsWith('http')) {
+                  if (!state.appSettings.maskSensitiveInfo &&
+                      user.userThumb != null &&
+                      user.userThumb!.startsWith('http')) {
                     return CachedNetworkImage(
                       fadeInDuration: const Duration(milliseconds: 400),
                       fadeOutDuration: const Duration(milliseconds: 100),

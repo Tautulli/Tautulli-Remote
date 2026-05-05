@@ -1,0 +1,4 @@
+enum UserIconSize {
+  normal,
+  large,
+}
