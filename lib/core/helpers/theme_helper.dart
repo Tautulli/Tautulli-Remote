@@ -248,6 +248,10 @@ class ThemeHelper {
     return CupertinoColors.white;
   }
 
+  static Color cupertinoStandardTextColor() {
+    return CupertinoColors.white;
+  }
+
   //* Utilities
   static Color darkenedColor(Color color) {
     return HSLColor.fromColor(color).withLightness(0.08).toColor();
