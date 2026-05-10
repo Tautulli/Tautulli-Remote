@@ -12,6 +12,7 @@ import '../../../announcements/presentation/pages/ios/announcements_ios_page.dar
 import '../../../donate/presentation/pages/ios/donate_ios_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/ios/settings_ios_page.dart';
+import '../../../statistics/presentation/pages/ios/statistics_ios_page.dart';
 import '../../../users/presentation/pages/ios/users_ios_page.dart';
 
 class MoreIosPage extends StatelessWidget {
@@ -62,12 +63,14 @@ class MoreIosView extends StatelessWidget {
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.statistics_title.tr(),
-                    // onTap: () => showCupertinoSheet(
-                    //   context: context,
-                    //   builder: (context) => ServerTimeoutIosBottomSheet(
-                    //     initialValue: serverTimeout,
-                    //   ),
-                    // ),
+                    onTap: () => Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => StatisticsIosPage(
+                          showBackButton: true,
+                          previousPageTitle: LocaleKeys.more_title.tr(),
+                        ),
+                      ),
+                    ),
                   ),
                   CustomNotchedCupertinoListTile(
                     leading: Icon(
