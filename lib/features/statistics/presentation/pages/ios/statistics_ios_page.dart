@@ -20,6 +20,7 @@ import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_icon_card.dart';
 import '../../../../../core/widgets/ios/ios_poster_card.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/ios/time_range_ios_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
@@ -31,7 +32,6 @@ import '../../../../users/presentation/widgets/ios/user_ios_card.dart';
 import '../../../data/models/statistic_data_model.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
-import '../../widgets/ios/bottom_sheets/statistic_time_range_ios_bottom_sheet.dart';
 import '../../widgets/ios/bottom_sheets/statistic_type_ios_bottom_sheet.dart';
 import '../../widgets/ios/last_watched_statistic_ios_details.dart';
 import '../../widgets/ios/most_concurrent_statistic_ios_details.dart';
@@ -506,7 +506,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               onPressed: () async {
                 final result = await showCupertinoSheet(
                   context: context,
-                  builder: (_) => StatisticTimeRangeIosBottomSheet(
+                  builder: (_) => TimeRangeIosBottomSheet(
                     initialValue: _timeRange,
                   ),
                 );

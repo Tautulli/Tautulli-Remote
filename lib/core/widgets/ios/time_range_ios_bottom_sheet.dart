@@ -1,26 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../../core/widgets/ios/custom_time_range_ios_bottom_sheet.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../../translations/locale_keys.g.dart';
+import 'custom_cupertino_list_section.dart';
+import 'custom_notched_cupertino_list_tile.dart';
+import 'custom_time_range_ios_bottom_sheet.dart';
+import 'ios_bottom_sheet_cancel_button.dart';
+import 'page_scaffold_cupertino.dart';
+import '../../../translations/locale_keys.g.dart';
 
-class StatisticTimeRangeIosBottomSheet extends StatefulWidget {
+class TimeRangeIosBottomSheet extends StatefulWidget {
   final int initialValue;
 
-  const StatisticTimeRangeIosBottomSheet({
+  const TimeRangeIosBottomSheet({
     super.key,
     required this.initialValue,
   });
 
   @override
-  State<StatisticTimeRangeIosBottomSheet> createState() => _StatisticTimeRangeIosBottomSheetState();
+  State<TimeRangeIosBottomSheet> createState() => _TimeRangeIosBottomSheetState();
 }
 
-class _StatisticTimeRangeIosBottomSheetState extends State<StatisticTimeRangeIosBottomSheet> {
+class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
   late int _customValue;
 
   @override
