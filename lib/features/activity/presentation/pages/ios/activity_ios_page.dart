@@ -291,7 +291,9 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
         return BlocBuilder<ActivityBloc, ActivityState>(
           builder: (context, state) {
             if (state.serverActivityList[0].status == BlocStatus.inProgress) {
-              return const CupertinoActivityIndicator();
+              return const Center(
+                child: CupertinoActivityIndicator(),
+              );
             }
 
             return const SizedBox();
