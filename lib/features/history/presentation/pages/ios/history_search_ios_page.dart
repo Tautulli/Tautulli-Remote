@@ -14,6 +14,7 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/ios/user_filter_ios_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -22,7 +23,6 @@ import '../../bloc/search_history_bloc.dart';
 import '../../widgets/ios/history_actions_action_sheet.dart';
 import '../../widgets/ios/history_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/history_ios_card.dart';
-import '../../widgets/ios/history_user_filter_ios_bottom_sheet.dart';
 
 class HistorySearchIosPage extends StatelessWidget {
   final bool showBackButton;
@@ -385,7 +385,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
-                  child: HistoryUserFilterIosBottomSheet(
+                  child: UserFilterIosBottomSheet(
                     initialValue: _userId,
                   ),
                 ),

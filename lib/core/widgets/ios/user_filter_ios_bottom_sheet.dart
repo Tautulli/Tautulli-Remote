@@ -2,18 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../translations/locale_keys.g.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../../users/presentation/bloc/users_bloc.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../features/users/presentation/bloc/users_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
+import 'custom_cupertino_list_section.dart';
+import 'custom_notched_cupertino_list_tile.dart';
+import 'ios_bottom_sheet_cancel_button.dart';
+import 'page_scaffold_cupertino.dart';
 
-class HistoryUserFilterIosBottomSheet extends StatelessWidget {
+class UserFilterIosBottomSheet extends StatelessWidget {
   final int initialValue;
 
-  const HistoryUserFilterIosBottomSheet({
+  const UserFilterIosBottomSheet({
     super.key,
     required this.initialValue,
   });
@@ -38,7 +38,7 @@ class HistoryUserFilterIosBottomSheet extends StatelessWidget {
                       .map(
                         (user) => CustomNotchedCupertinoListTile(
                           onTap: () => Navigator.of(context).pop(user.userId),
-                          titleText: settingsState.appSettings.maskSensitiveInfo
+                          titleText: settingsState.appSettings.maskSensitiveInfo && user.userId != -1
                               ? LocaleKeys.hidden_message.tr()
                               : user.friendlyName ?? '',
 
