@@ -535,23 +535,27 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               },
             ),
             Positioned(
-              bottom: 6,
-              right: 7,
+              bottom: 5,
+              right: 6,
               child: IgnorePointer(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    height: 18,
-                    width: 18,
+                child: Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
                     color: CupertinoTheme.of(context).primaryColor,
-                    child: Center(
-                      child: Text(
-                        _timeRange < 100 ? _timeRange.toString() : '99+',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: _timeRange < 100 ? 10 : 9,
-                          color: CupertinoTheme.of(context).primaryContrastingColor,
-                        ),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+                      width: 2,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      _timeRange < 100 ? _timeRange.toString() : '99+',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _timeRange < 100 ? 10 : 9,
+                        color: CupertinoTheme.of(context).primaryContrastingColor,
                       ),
                     ),
                   ),

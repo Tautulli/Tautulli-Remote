@@ -10,6 +10,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../announcements/presentation/pages/ios/announcements_ios_page.dart';
 import '../../../donate/presentation/pages/ios/donate_ios_page.dart';
+import '../../../graphs/presentation/pages/ios/graphs_ios_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/ios/settings_ios_page.dart';
 import '../../../statistics/presentation/pages/ios/statistics_ios_page.dart';
@@ -79,12 +80,14 @@ class MoreIosView extends StatelessWidget {
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.graphs_title.tr(),
-                    // onTap: () => showCupertinoSheet(
-                    //   context: context,
-                    //   builder: (context) => ServerTimeoutIosBottomSheet(
-                    //     initialValue: serverTimeout,
-                    //   ),
-                    // ),
+                    onTap: () => Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => GraphsIosPage(
+                          showBackButton: true,
+                          previousPageTitle: LocaleKeys.more_title.tr(),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

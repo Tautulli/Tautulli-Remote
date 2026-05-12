@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../helpers/theme_helper.dart';
+
 class CupertinoCard extends StatelessWidget {
   final Widget child;
   final double? horizontalPadding;
   final Color? tint;
+  final bool showLoading;
 
   const CupertinoCard({
     super.key,
     required this.child,
     this.horizontalPadding,
     this.tint,
+    this.showLoading = false,
   });
 
   @override
@@ -29,6 +33,17 @@ class CupertinoCard extends StatelessWidget {
                 ),
               ),
               child,
+              if (showLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: ThemeHelper.darkenedColor(
+                      CupertinoTheme.of(context).scaffoldBackgroundColor,
+                    ).withValues(alpha: 0.40),
+                    child: const Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
