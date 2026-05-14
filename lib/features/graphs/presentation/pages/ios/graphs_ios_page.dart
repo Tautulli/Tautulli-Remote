@@ -167,14 +167,17 @@ class _GraphsIosViewState extends State<GraphsIosView> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: CupertinoSlidingSegmentedControl(
-                groupValue: _selectedIndex,
-                onValueChanged: _onSegmentChanged,
-                children: {
-                  0: const Text(LocaleKeys.media_type_title).tr(),
-                  1: const Text(LocaleKeys.stream_type_title).tr(),
-                  2: const Text(LocaleKeys.play_totals_title).tr(),
-                },
+              child: SizedBox(
+                width: double.infinity,
+                child: CupertinoSlidingSegmentedControl(
+                  groupValue: _selectedIndex,
+                  onValueChanged: _onSegmentChanged,
+                  children: {
+                    0: const Text(LocaleKeys.media_type_title).tr(),
+                    1: const Text(LocaleKeys.stream_type_title).tr(),
+                    2: const Text(LocaleKeys.play_totals_title).tr(),
+                  },
+                ),
               ),
             ),
             Expanded(
