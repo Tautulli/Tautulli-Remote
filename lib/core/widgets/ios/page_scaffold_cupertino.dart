@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../helpers/theme_helper.dart';
+import 'custom_cupertino_nav_bar.dart' as nav;
 import 'custom_cupertino_navigation_bar_back_button.dart';
 import 'server_select_ios_bottom_sheet.dart';
 
@@ -32,7 +33,7 @@ class PageScaffoldCupertino extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: nav.CupertinoNavigationBar(
         padding: const EdgeInsetsDirectional.only(end: 16),
         leading: Row(
           mainAxisSize: MainAxisSize.min,
