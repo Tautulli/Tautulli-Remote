@@ -9,6 +9,7 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/models/user_table_model.dart';
+import '../../pages/ios/user_details_ios_page.dart';
 import 'user_ios_icon.dart';
 
 Map<String, Color?> backgroundColorCache = {};
@@ -65,9 +66,16 @@ class _UserIosCardState extends State<UserIosCard> {
 
         return CupertinoCard(
           child: GestureDetector(
-            onTap: () {
-              //TODO: Navigate to user details page
-            },
+            onTap: () => Navigator.of(context).push(
+              CupertinoPageRoute(
+                builder: (context) => UserDetailsIosPage(
+                  server: widget.server,
+                  user: user,
+                  backgroundColor: color,
+                  fetchUser: widget.fetchUser,
+                ),
+              ),
+            ),
             child: SizedBox(
               height: MediaQuery.of(context).textScaler.scale(1) > 1
                   ? 100 * MediaQuery.of(context).textScaler.scale(1)
