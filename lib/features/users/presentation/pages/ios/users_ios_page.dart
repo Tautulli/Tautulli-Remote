@@ -313,7 +313,7 @@ class _UsersIosViewState extends State<UsersIosView> {
 
             if (changed) {
               _filterRefresh = true;
-              _settingsBloc.add(SettingsUpdateLibrariesSort('$_orderColumn|$_orderDir'));
+              _settingsBloc.add(SettingsUpdateUsersSort('$_orderColumn|$_orderDir'));
               _usersTableBloc.add(
                 UsersTableFetched(
                   server: _server,
