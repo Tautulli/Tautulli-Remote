@@ -126,6 +126,7 @@ class _UserDetailsIosViewState extends State<UserDetailsIosView> {
         settingsState as SettingsSuccess;
 
         return TabbedIconDetailsIosPage(
+          previousPageTitle: LocaleKeys.users_title.tr(),
           sensitive: settingsState.appSettings.maskSensitiveInfo,
           background: Container(
             //TODO: Use this method elsewhere instead of a stack of 2 colors?
