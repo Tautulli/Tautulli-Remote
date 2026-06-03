@@ -8,7 +8,8 @@ import '../../../../../core/widgets/ios/ios_icon_card.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
-import '../library_icon.dart';
+import '../../pages/ios/library_details_ios_page.dart';
+import 'library_ios_icon.dart';
 
 class LibraryIosCard extends StatelessWidget {
   final LibraryTableModel library;
@@ -75,17 +76,15 @@ class LibraryIosCard extends StatelessWidget {
           );
         },
       ),
-      icon: LibraryIcon(library: library),
+      icon: LibraryIosIcon(library: library),
       details: details,
-      onTap: () async {
-        // await Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => LibraryDetailsPage(
-        //       libraryTableModel: library,
-        //     ),
-        //   ),
-        // );
-      },
+      onTap: () => Navigator.of(context).push(
+        CupertinoPageRoute(
+          builder: (context) => LibraryDetailsIosPage(
+            libraryTableModel: library,
+          ),
+        ),
+      ),
     );
   }
 }
