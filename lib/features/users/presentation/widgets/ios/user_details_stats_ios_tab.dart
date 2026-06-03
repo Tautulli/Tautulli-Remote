@@ -91,9 +91,11 @@ class _UserDetailsStatsIosTabState extends State<UserDetailsStatsIosTab> {
 
                   if (state.watchTimeStatsStatus == BlocStatus.failure &&
                       state.playerStatsStatus == BlocStatus.failure) {
-                    return StatusIosPage(
-                      message: state.message ?? 'Unknown failure.',
-                      suggestion: state.suggestion,
+                    return SliverFillRemaining(
+                      child: StatusIosPage(
+                        message: state.message ?? 'Unknown failure.',
+                        suggestion: state.suggestion,
+                      ),
                     );
                   }
 

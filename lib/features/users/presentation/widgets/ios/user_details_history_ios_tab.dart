@@ -85,15 +85,19 @@ class _UserDetailsHistoryIosTabState extends State<UserDetailsHistoryIosTab> {
                   }
 
                   if (state.status == BlocStatus.failure) {
-                    return StatusIosPage(
-                      message: state.message ?? 'Unknown failure.',
-                      suggestion: state.suggestion,
+                    return SliverFillRemaining(
+                      child: StatusIosPage(
+                        message: state.message ?? 'Unknown failure.',
+                        suggestion: state.suggestion,
+                      ),
                     );
                   }
 
                   if (state.history.isEmpty) {
-                    return StatusIosPage(
-                      message: LocaleKeys.history_empty_message.tr(),
+                    return SliverFillRemaining(
+                      child: StatusIosPage(
+                        message: LocaleKeys.history_empty_message.tr(),
+                      ),
                     );
                   }
 
