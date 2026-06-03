@@ -2867,6 +2867,8 @@ class _NavigationBarComponentsTransition {
       child: _wrapWithBackground(
         // Don't update the system status bar color mid-flight.
         updateSystemUiOverlay: false,
+        //! Added to prevent issues with the transparent nav bars on the details pages
+        enableBackgroundFilterBlur: false,
         backgroundColor: bottomBackgroundColor!,
         border: topBorder,
         child: SizedBox(height: bottomNavBarBox.size.height, width: double.infinity),
