@@ -14,8 +14,6 @@ class IosPoster extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
   final PlaybackState? activityState;
-  final Object? heroTag;
-  final bool heroEnabled;
   final bool opaqueBackground;
 
   const IosPoster({
@@ -23,8 +21,6 @@ class IosPoster extends StatelessWidget {
     required this.mediaType,
     required this.uri,
     this.activityState,
-    this.heroTag,
-    this.heroEnabled = true,
     this.opaqueBackground = false,
   });
 
@@ -32,31 +28,28 @@ class IosPoster extends StatelessWidget {
   Widget build(BuildContext context) {
     return HeroMode(
       enabled: true,
-      child: Hero(
-        tag: heroTag ?? UniqueKey(),
-        child: Builder(
-          builder: (context) {
-            if ([
-              MediaType.album,
-              MediaType.artist,
-              MediaType.track,
-              MediaType.playlist,
-              MediaType.photo,
-              MediaType.photoAlbum,
-            ].contains(mediaType)) {
-              return _PosterSquare(
-                uri: uri,
-                activityState: activityState,
-                opaqueBackground: opaqueBackground,
-              );
-            }
-
-            return _PosterRegular(
+      child: Builder(
+        builder: (context) {
+          if ([
+            MediaType.album,
+            MediaType.artist,
+            MediaType.track,
+            MediaType.playlist,
+            MediaType.photo,
+            MediaType.photoAlbum,
+          ].contains(mediaType)) {
+            return _PosterSquare(
               uri: uri,
               activityState: activityState,
+              opaqueBackground: opaqueBackground,
             );
-          },
-        ),
+          }
+
+          return _PosterRegular(
+            uri: uri,
+            activityState: activityState,
+          );
+        },
       ),
     );
   }
