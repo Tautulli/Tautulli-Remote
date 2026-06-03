@@ -26,6 +26,7 @@ class CupertinoCard extends StatelessWidget {
           width: double.infinity,
           color: CupertinoColors.systemBackground.darkElevatedColor,
           child: Stack(
+            alignment: Alignment.center,
             children: [
               Positioned.fill(
                 child: Container(
