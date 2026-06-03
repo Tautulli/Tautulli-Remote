@@ -47,11 +47,10 @@ class _TabbedIconDetailsIosPageState extends State<TabbedIconDetailsIosPage> {
         enableBackgroundFilterBlur: false,
         backgroundColor: CupertinoColors.transparent,
         leading: CupertinoNavigationBarBackButton(
-          previousPageTitle: LocaleKeys.users_title.tr(),
+          previousPageTitle: widget.previousPageTitle,
           color: ThemeHelper.cupertinoNavigationBarItemColor(),
           onPressed: () => Navigator.pop(context),
         ),
-        previousPageTitle: LocaleKeys.users_title.tr(),
       ),
       child: Stack(
         children: [
@@ -60,7 +59,13 @@ class _TabbedIconDetailsIosPageState extends State<TabbedIconDetailsIosPage> {
             children: [
               SizedBox(
                 height: topAreaHeight + 35,
-                child: widget.background,
+                width: double.infinity,
+                child: ClipRect(
+                  child: ColoredBox(
+                    color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+                    child: widget.background,
+                  ),
+                ),
               ),
               Expanded(
                 child: Container(
@@ -84,20 +89,21 @@ class _TabbedIconDetailsIosPageState extends State<TabbedIconDetailsIosPage> {
                       ),
                       const Gap(12),
                       //* User Details
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Center(
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CupertinoSlidingSegmentedControl(
-                              groupValue: _selectedIndex,
-                              onValueChanged: _onSegmentChanged,
-                              children: widget.segments,
+                      if (widget.segments.keys.length >= 2)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Center(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: CupertinoSlidingSegmentedControl(
+                                groupValue: _selectedIndex,
+                                onValueChanged: _onSegmentChanged,
+                                children: widget.segments,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const Gap(8),
+                      if (widget.segments.keys.length >= 2) const Gap(8),
                       Expanded(
                         // Need to remove the top and bottom padding since PageView starts partway down the screen. The scrollbar was offsetting for the top and bottom areas by default.
                         child: MediaQuery.removePadding(
