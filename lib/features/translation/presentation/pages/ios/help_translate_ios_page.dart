@@ -55,6 +55,7 @@ class HelpTranslateIosView extends StatelessWidget {
           children: [
             const HelpTranslateHeadingIosCard(),
             CustomCupertinoListSection(
+              margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
               children: [
                 CustomNotchedCupertinoListTile(
                   leading: WebsafeSvg.asset(
