@@ -17,6 +17,7 @@ class CustomNotchedCupertinoListTile extends StatelessWidget {
   final Function()? onTap;
   final Function()? onLongPress;
   final bool sensitive;
+  final bool isDestructive;
 
   const CustomNotchedCupertinoListTile({
     super.key,
@@ -30,6 +31,7 @@ class CustomNotchedCupertinoListTile extends StatelessWidget {
     this.onTap,
     this.onLongPress,
     this.sensitive = false,
+    this.isDestructive = false,
   });
 
   @override
@@ -44,7 +46,11 @@ class CustomNotchedCupertinoListTile extends StatelessWidget {
             title: Text(
               titleText,
               style: TextStyle(
-                color: inactive ? CupertinoColors.inactiveGray : null,
+                color: inactive
+                    ? CupertinoColors.inactiveGray
+                    : isDestructive
+                    ? CupertinoColors.destructiveRed
+                    : null,
                 fontWeight: FontWeight.bold,
               ),
             ),
