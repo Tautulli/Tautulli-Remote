@@ -70,6 +70,7 @@ class DataDumpIosView extends StatelessWidget {
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.data_dump_title).tr(),
       child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         children: [
           const DataDumpIosWarningCard(),
           const _DeviceDetails(),
@@ -106,12 +107,12 @@ class _SettingsDumpGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCupertinoListSection(
+      margin: EdgeInsets.zero,
       headerText: headerText,
       children: [
         CupertinoCard(
-          horizontalPadding: 20,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: children,
             ),

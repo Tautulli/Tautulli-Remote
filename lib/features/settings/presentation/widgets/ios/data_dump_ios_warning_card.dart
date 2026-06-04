@@ -12,7 +12,6 @@ class DataDumpIosWarningCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoCard(
-      horizontalPadding: 20,
       tint: CupertinoColors.systemRed.darkColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
