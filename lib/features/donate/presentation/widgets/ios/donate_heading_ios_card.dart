@@ -11,7 +11,6 @@ class DonateHeadingIosCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoCard(
-      horizontalPadding: 20,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

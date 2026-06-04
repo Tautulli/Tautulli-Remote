@@ -123,204 +123,225 @@ class _DonateIosViewState extends State<DonateIosView> {
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.donate_title).tr(),
-      child: Column(
-        children: [
-          const DonateHeadingIosCard(),
-          Expanded(
-            child: Builder(
-              builder: (context) {
-                if (_offerings == null) {
-                  return const Center(
-                    child: CupertinoActivityIndicator(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          children: [
+            const DonateHeadingIosCard(),
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                  if (_offerings == null) {
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  } else if (_offerings!.all.isNotEmpty) {
+                    return ListView(
+                      children: [
+                        _heading(LocaleKeys.donate_onetime_title.tr()),
+                        CustomCupertinoListSection(
+                          margin: EdgeInsets.zero,
+                          children: [
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.iceCream,
+                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_cone_title.tr(),
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('ice_cream')!
+                                  .storeProduct
+                                  .priceString,
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('ice_cream')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.pizzaSlice,
+                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_slice_title.tr(),
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('pizza')!
+                                  .storeProduct
+                                  .priceString,
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('pizza')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.burger,
+                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_burger_title.tr(),
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('hamburger')!
+                                  .storeProduct
+                                  .priceString,
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('hamburger')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: Icon(
+                                Icons.fastfood_rounded,
+                                color: ThemeHelper.cupertinoListTileIconColor(),
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_meal_title.tr(),
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('meal')!
+                                  .storeProduct
+                                  .priceString,
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('meal')!,
+                              ),
+                            ),
+                          ],
+                        ),
+                        _heading(LocaleKeys.donate_recurring_title.tr()),
+                        CustomCupertinoListSection(
+                          margin: EdgeInsets.zero,
+                          children: [
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.circleDollarToSlot,
+                                color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
+                                    ? CupertinoColors.activeGreen
+                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_tip_jar_title.tr(),
+                              subtitleText:
+                                  '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.circleDollarToSlot,
+                                color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
+                                    ? CupertinoColors.activeGreen
+                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_big_tip_title.tr(),
+                              subtitleText:
+                                  '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.circleDollarToSlot,
+                                color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
+                                    ? CupertinoColors.activeGreen
+                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_supporter_title.tr(),
+                              subtitleText:
+                                  '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
+                              ),
+                            ),
+                            CustomNotchedCupertinoListTile(
+                              leading: FaIcon(
+                                FontAwesomeIcons.circleDollarToSlot,
+                                color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
+                                    ? CupertinoColors.activeGreen
+                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
+                              ),
+                              trailing: const CupertinoListTileChevron(),
+                              titleText: LocaleKeys.donate_patron_title.tr(),
+                              subtitleText:
+                                  '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+
+                              onTap: () => _buyProduct(
+                                _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
+                              ),
+                            ),
+                          ],
+                        ),
+                        CupertinoButton(
+                          child: const Text(
+                            LocaleKeys.donate_restore_title,
+                            style: TextStyle(color: CupertinoColors.systemGrey2),
+                          ).tr(),
+                          onPressed: () async {
+                            try {
+                              CustomerInfo restoredInfo = await Purchases.restorePurchases();
+                              setState(() {
+                                _customerInfo = restoredInfo;
+                              });
+                              Fluttertoast.showToast(
+                                toastLength: Toast.LENGTH_LONG,
+                                msg: LocaleKeys.donate_restored_snackbar_message.tr(),
+                              );
+                            } on PlatformException catch (_) {
+                              Fluttertoast.showToast(
+                                backgroundColor: CupertinoColors.destructiveRed,
+                                textColor: CupertinoColors.black,
+                                toastLength: Toast.LENGTH_LONG,
+                                msg: LocaleKeys.error_snackbar_message.tr(),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  }
+
+                  return StatusIosPage(
+                    message: LocaleKeys.donate_load_failed_message.tr(),
                   );
-                } else if (_offerings!.all.isNotEmpty) {
-                  return ListView(
-                    children: [
-                      CustomCupertinoListSection(
-                        headerText: LocaleKeys.donate_onetime_title.tr(),
-                        children: [
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.iceCream,
-                              color: ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_cone_title.tr(),
-                            subtitleText: _offerings!
-                                .getOffering('default')!
-                                .getPackage('ice_cream')!
-                                .storeProduct
-                                .priceString,
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('ice_cream')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.pizzaSlice,
-                              color: ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_slice_title.tr(),
-                            subtitleText: _offerings!
-                                .getOffering('default')!
-                                .getPackage('pizza')!
-                                .storeProduct
-                                .priceString,
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('pizza')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.burger,
-                              color: ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_burger_title.tr(),
-                            subtitleText: _offerings!
-                                .getOffering('default')!
-                                .getPackage('hamburger')!
-                                .storeProduct
-                                .priceString,
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('hamburger')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: Icon(
-                              Icons.fastfood_rounded,
-                              color: ThemeHelper.cupertinoListTileIconColor(),
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_meal_title.tr(),
-                            subtitleText: _offerings!
-                                .getOffering('default')!
-                                .getPackage('meal')!
-                                .storeProduct
-                                .priceString,
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('meal')!,
-                            ),
-                          ),
-                        ],
-                      ),
-                      CustomCupertinoListSection(
-                        headerText: LocaleKeys.donate_recurring_title.tr(),
-                        children: [
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.circleDollarToSlot,
-                              color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
-                                  ? CupertinoColors.activeGreen
-                                  : ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_tip_jar_title.tr(),
-                            subtitleText:
-                                '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.circleDollarToSlot,
-                              color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
-                                  ? CupertinoColors.activeGreen
-                                  : ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_big_tip_title.tr(),
-                            subtitleText:
-                                '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.circleDollarToSlot,
-                              color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
-                                  ? CupertinoColors.activeGreen
-                                  : ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_supporter_title.tr(),
-                            subtitleText:
-                                '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
-                            ),
-                          ),
-                          CustomNotchedCupertinoListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.circleDollarToSlot,
-                              color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
-                                  ? CupertinoColors.activeGreen
-                                  : ThemeHelper.cupertinoListTileIconColor(),
-                              size: 23,
-                            ),
-                            trailing: const CupertinoListTileChevron(),
-                            titleText: LocaleKeys.donate_patron_title.tr(),
-                            subtitleText:
-                                '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
-                            onTap: () => _buyProduct(
-                              _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
-                            ),
-                          ),
-                        ],
-                      ),
-                      CupertinoButton(
-                        child: const Text(
-                          LocaleKeys.donate_restore_title,
-                          style: TextStyle(color: CupertinoColors.systemGrey2),
-                        ).tr(),
-                        onPressed: () async {
-                          try {
-                            CustomerInfo restoredInfo = await Purchases.restorePurchases();
-                            setState(() {
-                              _customerInfo = restoredInfo;
-                            });
-                            Fluttertoast.showToast(
-                              toastLength: Toast.LENGTH_LONG,
-                              msg: LocaleKeys.donate_restored_snackbar_message.tr(),
-                            );
-                          } on PlatformException catch (_) {
-                            Fluttertoast.showToast(
-                              backgroundColor: CupertinoColors.destructiveRed,
-                              textColor: CupertinoColors.black,
-                              toastLength: Toast.LENGTH_LONG,
-                              msg: LocaleKeys.error_snackbar_message.tr(),
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                }
-
-                return StatusIosPage(
-                  message: LocaleKeys.donate_load_failed_message.tr(),
-                );
-              },
+                },
+              ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _heading(String headerText) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, bottom: 6),
+      child: DefaultTextStyle(
+        style: CupertinoTheme.of(context).textTheme.textStyle.merge(
+          TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: CupertinoTheme.of(context).primaryColor,
           ),
-        ],
+        ),
+        child: Text(headerText),
       ),
     );
   }
