@@ -7,6 +7,7 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/metadata_bloc.dart';
@@ -29,16 +30,10 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
     final state = context.read<MetadataBloc>().state;
 
     return CupertinoModalPopupScaffold(
-      leading: CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: () => Navigator.pop(context),
-        child: const Text(LocaleKeys.cancel_title).tr(),
-      ),
-      middle: DefaultTextStyle(
-        style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
-        //TODO: Needs translation string
-        child: const Text('Navigate'),
-      ),
+      leading: const IosBottomSheetCancelButton(),
+      middleText:
+          //TODO: Needs translation string
+          'Navigate',
       child: CustomCupertinoListSection(
         hasLeading: false,
         children: [
