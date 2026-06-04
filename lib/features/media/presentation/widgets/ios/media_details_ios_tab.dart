@@ -42,74 +42,69 @@ class _MediaDetailsIosTabState extends State<MediaDetailsIosTab> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: This first blocbuilder on these tabs is probably redundant
-    return BlocBuilder<MetadataBloc, MetadataState>(
-      builder: (context, state) {
-        return CupertinoScrollbar(
-          controller: _scrollController,
-          child: CupertinoRefreshPage(
-            scrollController: _scrollController,
-            onRefresh: () {
-              context.read<MetadataBloc>().add(
-                MetadataFetched(
-                  server: widget.server,
-                  ratingKey: widget.ratingKey,
-                  freshFetch: true,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
-
-              return _refreshCompleter.future;
-            },
-            sliver: BlocConsumer<MetadataBloc, MetadataState>(
-              listener: (context, state) {
-                if (state.status != BlocStatus.initial) {
-                  _refreshCompleter.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                return SliverPadding(
-                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
-                  sliver: BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, settingsState) {
-                      settingsState as SettingsSuccess;
-
-                      if (state.status == BlocStatus.initial && state.metadata == null) {
-                        return const SliverFillRemaining(
-                          child: Center(
-                            child: CupertinoActivityIndicator(),
-                          ),
-                        );
-                      }
-
-                      if (state.status == BlocStatus.failure) {
-                        return SliverFillRemaining(
-                          child: StatusIosPage(
-                            message: state.message ?? 'Unknown failure.',
-                            suggestion: state.suggestion,
-                          ),
-                        );
-                      }
-
-                      return SliverList(
-                        delegate: SliverChildListDelegate.fixed(
-                          [
-                            if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
-                              MediaDetailsIosTabSummary(metadata: state.metadata),
-                            const Gap(8),
-                            MediaDetailsIosTabDetails(metadata: state.metadata),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
+    return CupertinoScrollbar(
+      controller: _scrollController,
+      child: CupertinoRefreshPage(
+        scrollController: _scrollController,
+        onRefresh: () {
+          context.read<MetadataBloc>().add(
+            MetadataFetched(
+              server: widget.server,
+              ratingKey: widget.ratingKey,
+              freshFetch: true,
+              settingsBloc: _settingsBloc,
             ),
-          ),
-        );
-      },
+          );
+
+          return _refreshCompleter.future;
+        },
+        sliver: BlocConsumer<MetadataBloc, MetadataState>(
+          listener: (context, state) {
+            if (state.status != BlocStatus.initial) {
+              _refreshCompleter.complete();
+              _refreshCompleter = Completer();
+            }
+          },
+          builder: (context, state) {
+            return SliverPadding(
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
+              sliver: BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, settingsState) {
+                  settingsState as SettingsSuccess;
+
+                  if (state.status == BlocStatus.initial && state.metadata == null) {
+                    return const SliverFillRemaining(
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  }
+
+                  if (state.status == BlocStatus.failure) {
+                    return SliverFillRemaining(
+                      child: StatusIosPage(
+                        message: state.message ?? 'Unknown failure.',
+                        suggestion: state.suggestion,
+                      ),
+                    );
+                  }
+
+                  return SliverList(
+                    delegate: SliverChildListDelegate.fixed(
+                      [
+                        if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
+                          MediaDetailsIosTabSummary(metadata: state.metadata),
+                        const Gap(8),
+                        MediaDetailsIosTabDetails(metadata: state.metadata),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

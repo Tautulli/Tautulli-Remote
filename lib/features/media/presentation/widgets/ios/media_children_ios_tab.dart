@@ -72,159 +72,155 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
       }
     }
 
-    return BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
-      builder: (context, state) {
-        return CupertinoScrollbar(
-          controller: _scrollController,
-          child: CupertinoRefreshPage(
-            scrollController: _scrollController,
-            onRefresh: () {
-              _childrenMetadataBloc.add(
-                ChildrenMetadataFetched(
-                  server: widget.server,
-                  ratingKey: widget.ratingKey,
-                  freshFetch: true,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
+    return CupertinoScrollbar(
+      controller: _scrollController,
+      child: CupertinoRefreshPage(
+        scrollController: _scrollController,
+        onRefresh: () {
+          _childrenMetadataBloc.add(
+            ChildrenMetadataFetched(
+              server: widget.server,
+              ratingKey: widget.ratingKey,
+              freshFetch: true,
+              settingsBloc: _settingsBloc,
+            ),
+          );
 
-              return _refreshCompleter.future;
-            },
-            sliver: BlocConsumer<ChildrenMetadataBloc, ChildrenMetadataState>(
-              listener: (context, state) {
-                if (state.status != BlocStatus.initial) {
-                  _refreshCompleter.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                return SliverPadding(
-                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
-                  sliver: BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, settingsState) {
-                      settingsState as SettingsSuccess;
+          return _refreshCompleter.future;
+        },
+        sliver: BlocConsumer<ChildrenMetadataBloc, ChildrenMetadataState>(
+          listener: (context, state) {
+            if (state.status != BlocStatus.initial) {
+              _refreshCompleter.complete();
+              _refreshCompleter = Completer();
+            }
+          },
+          builder: (context, state) {
+            return SliverPadding(
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
+              sliver: BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, settingsState) {
+                  settingsState as SettingsSuccess;
 
-                      if (state.status == BlocStatus.initial && state.children == null) {
-                        return const SliverFillRemaining(
-                          child: Center(
-                            child: CupertinoActivityIndicator(),
-                          ),
+                  if (state.status == BlocStatus.initial && state.children == null) {
+                    return const SliverFillRemaining(
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  }
+
+                  if (state.status == BlocStatus.failure) {
+                    return SliverFillRemaining(
+                      child: StatusIosPage(
+                        message: state.message ?? 'Unknown failure.',
+                        suggestion: state.suggestion,
+                      ),
+                    );
+                  }
+
+                  if (widget.mediaType == MediaType.album) {
+                    return SliverList.separated(
+                      itemCount: state.children?.length ?? 0,
+                      separatorBuilder: (context, index) => const Gap(4),
+                      itemBuilder: (context, index) {
+                        final track = state.children?[index];
+
+                        return MediaListIosTrack(
+                          track: track!,
+                          onTap: () async {
+                            await Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) => MediaIosPage(
+                                  server: widget.server,
+                                  disableAncestryNavigation: true,
+                                  media: track,
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      }
+                      },
+                    );
+                  }
 
-                      if (state.status == BlocStatus.failure) {
-                        return SliverFillRemaining(
-                          child: StatusIosPage(
-                            message: state.message ?? 'Unknown failure.',
-                            suggestion: state.suggestion,
-                          ),
-                        );
-                      }
+                  return SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxistCount,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
+                      mainAxisExtent: _calculateCellHeight(screenWidth, crossAxistCount),
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: state.children?.length,
+                      (context, index) {
+                        final item = state.children![index];
 
-                      if (widget.mediaType == MediaType.album) {
-                        return SliverList.separated(
-                          itemCount: state.children?.length ?? 0,
-                          separatorBuilder: (context, index) => const Gap(4),
-                          itemBuilder: (context, index) {
-                            final track = state.children?[index];
-
-                            return MediaListIosTrack(
-                              track: track!,
+                        if (item.mediaType == MediaType.episode) {
+                          return Padding(
+                            padding: const EdgeInsetsGeometry.all(4),
+                            child: MediaListIosThumbnail(
+                              title: item.title,
+                              mediaIndex: item.mediaIndex,
+                              thumbUri: item.imageUri,
                               onTap: () async {
                                 await Navigator.of(context).push(
                                   CupertinoPageRoute(
                                     builder: (context) => MediaIosPage(
                                       server: widget.server,
+                                      media: item,
                                       disableAncestryNavigation: true,
-                                      media: track,
+                                      parentPosterUri: widget.parentPosterUri,
                                     ),
                                   ),
                                 );
                               },
-                            );
-                          },
+                            ),
+                          );
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsetsGeometry.all(4),
+                          child: MediaListIosPoster(
+                            mediaType: item.mediaType,
+                            title: item.title,
+                            year: item.year,
+                            ratingKey: item.ratingKey,
+                            posterUri: item.imageUri,
+                            onTap: () async {
+                              if (item.mediaType == MediaType.photoAlbum) {
+                                await Navigator.of(context).push(
+                                  CupertinoPageRoute(
+                                    builder: (context) => MediaIosPage(
+                                      server: widget.server,
+                                      disableAncestryNavigation: true,
+                                      media: item,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                await Navigator.of(context).push(
+                                  CupertinoPageRoute(
+                                    builder: (context) => MediaIosPage(
+                                      server: widget.server,
+                                      disableAncestryNavigation: true,
+                                      media: item,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                         );
-                      }
-
-                      return SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxistCount,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 0,
-                          mainAxisExtent: _calculateCellHeight(screenWidth, crossAxistCount),
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: state.children?.length,
-                          (context, index) {
-                            final item = state.children![index];
-
-                            if (item.mediaType == MediaType.episode) {
-                              return Padding(
-                                padding: const EdgeInsetsGeometry.all(4),
-                                child: MediaListIosThumbnail(
-                                  title: item.title,
-                                  mediaIndex: item.mediaIndex,
-                                  thumbUri: item.imageUri,
-                                  onTap: () async {
-                                    await Navigator.of(context).push(
-                                      CupertinoPageRoute(
-                                        builder: (context) => MediaIosPage(
-                                          server: widget.server,
-                                          media: item,
-                                          disableAncestryNavigation: true,
-                                          parentPosterUri: widget.parentPosterUri,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-
-                            return Padding(
-                              padding: const EdgeInsetsGeometry.all(4),
-                              child: MediaListIosPoster(
-                                mediaType: item.mediaType,
-                                title: item.title,
-                                year: item.year,
-                                ratingKey: item.ratingKey,
-                                posterUri: item.imageUri,
-                                onTap: () async {
-                                  if (item.mediaType == MediaType.photoAlbum) {
-                                    await Navigator.of(context).push(
-                                      CupertinoPageRoute(
-                                        builder: (context) => MediaIosPage(
-                                          server: widget.server,
-                                          disableAncestryNavigation: true,
-                                          media: item,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    await Navigator.of(context).push(
-                                      CupertinoPageRoute(
-                                        builder: (context) => MediaIosPage(
-                                          server: widget.server,
-                                          disableAncestryNavigation: true,
-                                          media: item,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      },
+                      },
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
