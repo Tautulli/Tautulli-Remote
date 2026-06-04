@@ -66,41 +66,38 @@ class _MediaDetailsIosTabState extends State<MediaDetailsIosTab> {
             }
           },
           builder: (context, state) {
-            return SliverPadding(
-              padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
-              sliver: BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, settingsState) {
-                  settingsState as SettingsSuccess;
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                settingsState as SettingsSuccess;
 
-                  if (state.status == BlocStatus.initial && state.metadata == null) {
-                    return const SliverFillRemaining(
-                      child: Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
-                    );
-                  }
-
-                  if (state.status == BlocStatus.failure) {
-                    return SliverFillRemaining(
-                      child: StatusIosPage(
-                        message: state.message ?? 'Unknown failure.',
-                        suggestion: state.suggestion,
-                      ),
-                    );
-                  }
-
-                  return SliverList(
-                    delegate: SliverChildListDelegate.fixed(
-                      [
-                        if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
-                          MediaDetailsIosTabSummary(metadata: state.metadata),
-                        const Gap(8),
-                        MediaDetailsIosTabDetails(metadata: state.metadata),
-                      ],
+                if (state.status == BlocStatus.initial && state.metadata == null) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
                     ),
                   );
-                },
-              ),
+                }
+
+                if (state.status == BlocStatus.failure) {
+                  return SliverFillRemaining(
+                    child: StatusIosPage(
+                      message: state.message ?? 'Unknown failure.',
+                      suggestion: state.suggestion,
+                    ),
+                  );
+                }
+
+                return SliverList(
+                  delegate: SliverChildListDelegate.fixed(
+                    [
+                      if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
+                        MediaDetailsIosTabSummary(metadata: state.metadata),
+                      const Gap(8),
+                      MediaDetailsIosTabDetails(metadata: state.metadata),
+                    ],
+                  ),
+                );
+              },
             );
           },
         ),

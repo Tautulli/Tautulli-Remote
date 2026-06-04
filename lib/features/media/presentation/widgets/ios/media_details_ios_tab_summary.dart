@@ -29,6 +29,7 @@ class MediaDetailsIosTabSummary extends StatelessWidget {
           tp.layout(maxWidth: constraints.maxWidth);
 
           return CupertinoCard(
+            horizontalPadding: 8,
             child: GestureDetector(
               onTap: tp.didExceedMaxLines
                   ? () async {
