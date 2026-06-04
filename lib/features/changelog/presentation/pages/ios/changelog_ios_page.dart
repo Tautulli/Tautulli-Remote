@@ -56,7 +56,7 @@ class ChangelogIosView extends StatelessWidget {
               CupertinoIcons.heart_solid,
               color: CupertinoColors.systemRed,
             ),
-            const Gap(8),
+            const Gap(4),
             Text(
               LocaleKeys.donate_title,
               style: TextStyle(color: ThemeHelper.cupertinoNavigationBarItemColor()),
