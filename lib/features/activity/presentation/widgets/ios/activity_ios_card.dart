@@ -56,115 +56,113 @@ class _ActivityIosCardState extends State<ActivityIosCard> {
 
     return SizedBox(
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
-      child: CupertinoCard(
-        child: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
+      child: GestureDetector(
+        onTap: () => showCupertinoSheet(
+          context: context,
+          builder: (context) {
+            return BlocProvider.value(
+              value: _activityBloc,
+              child: BlocProvider(
+                create: (context) => di.sl<TerminateStreamBloc>(),
+                child: ActivityIosBottomSheet(
+                  server: widget.server,
+                  activity: widget.activity,
+                ),
+              ),
+            );
+          },
+        ),
+        child: CupertinoCard(
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              state as SettingsSuccess;
 
-            return Stack(
-              children: [
-                if (!state.appSettings.disableImageBackgrounds && widget.activity.imageUri != null)
-                  Positioned.fill(
-                    child: CachedNetworkImage(
-                      imageUrl: posterUri.toString(),
-                      httpHeaders: {
-                        for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                          headerModel.key: headerModel.value,
-                      },
-                      imageBuilder: (context, imageProvider) => DecoratedBox(
-                        position: DecorationPosition.foreground,
-                        decoration: BoxDecoration(
-                          color: CupertinoColors.black.withValues(alpha: 0.4),
+              return Stack(
+                children: [
+                  if (!state.appSettings.disableImageBackgrounds && widget.activity.imageUri != null)
+                    Positioned.fill(
+                      child: CachedNetworkImage(
+                        imageUrl: posterUri.toString(),
+                        httpHeaders: {
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
+                        },
+                        imageBuilder: (context, imageProvider) => DecoratedBox(
+                          position: DecorationPosition.foreground,
+                          decoration: BoxDecoration(
+                            color: CupertinoColors.black.withValues(alpha: 0.4),
+                          ),
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 25,
+                              sigmaY: 25,
+                              tileMode: TileMode.decal,
+                            ),
+                            child: Image(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
-                        child: ImageFiltered(
+                        placeholder: (context, url) => ImageFiltered(
                           imageFilter: ImageFilter.blur(
                             sigmaX: 25,
                             sigmaY: 25,
                             tileMode: TileMode.decal,
                           ),
-                          child: Image(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
+                          child: Image.asset(
+                            'assets/images/poster_fallback.png',
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      placeholder: (context, url) => ImageFiltered(
-                        imageFilter: ImageFilter.blur(
-                          sigmaX: 25,
-                          sigmaY: 25,
-                          tileMode: TileMode.decal,
-                        ),
-                        child: Image.asset(
-                          'assets/images/poster_fallback.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => ImageFiltered(
-                        imageFilter: ImageFilter.blur(
-                          sigmaX: 25,
-                          sigmaY: 25,
-                          tileMode: TileMode.decal,
-                        ),
-                        child: Image.asset(
-                          'assets/images/poster_error.png',
-                          fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 25,
+                            sigmaY: 25,
+                            tileMode: TileMode.decal,
+                          ),
+                          child: Image.asset(
+                            'assets/images/poster_error.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                Positioned.fill(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              IosPoster(
-                                mediaType: widget.activity.mediaType,
-                                uri: posterUri,
-                                activityState: widget.activity.state,
-                              ),
-                              const Gap(8),
-                              Expanded(
-                                child: IosActivityDetails(
-                                  activity: widget.activity,
+                  Positioned.fill(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IosPoster(
+                                  mediaType: widget.activity.mediaType,
+                                  uri: posterUri,
+                                  activityState: widget.activity.state,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: IosProgressBar(activity: widget.activity),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned.fill(
-                  child: GestureDetector(
-                    onTap: () => showCupertinoSheet(
-                      context: context,
-                      builder: (context) {
-                        return BlocProvider.value(
-                          value: _activityBloc,
-                          child: BlocProvider(
-                            create: (context) => di.sl<TerminateStreamBloc>(),
-                            child: ActivityIosBottomSheet(
-                              server: widget.server,
-                              activity: widget.activity,
+                                const Gap(8),
+                                Expanded(
+                                  child: IosActivityDetails(
+                                    activity: widget.activity,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: IosProgressBar(activity: widget.activity),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
