@@ -132,7 +132,7 @@ class AdvancedIosGroup extends StatelessWidget {
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.home_page_title.tr(),
               subtitleText: StringHelper.mapHomePageSettingToTitle(homePageSetting),
-              onTap: () => showCupertinoSheet(
+              onTap: () => showCupertinoModalPopup(
                 context: context,
                 builder: (context) => HomePageIosBottomSheet(
                   initialValue: homePageSetting,
@@ -150,7 +150,7 @@ class AdvancedIosGroup extends StatelessWidget {
           trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.language_title.tr(),
           subtitleText: TranslationHelper.localeToString(context.locale),
-          onTap: () => showCupertinoSheet(
+          onTap: () => showCupertinoModalPopup(
             context: context,
             builder: (context) => BlocProvider(
               create: (context) => di.sl<TranslationBloc>(),

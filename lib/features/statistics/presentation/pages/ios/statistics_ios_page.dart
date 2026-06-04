@@ -26,6 +26,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/ios/library_ios_card.dart';
 import '../../../../media/data/models/media_model.dart';
+import '../../../../media/presentation/pages/ios/media_ios_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/ios/user_ios_card.dart';
@@ -41,6 +42,7 @@ import '../../widgets/ios/top_libraries_statistic_ios_details.dart';
 import '../../widgets/ios/top_platforms_statistic_ios_details.dart';
 import '../../widgets/ios/top_statistic_ios_details.dart';
 import '../../widgets/ios/top_users_statistic_ios_details.dart';
+import 'individual_statistic_ios_page.dart';
 
 class StatisticsIosPage extends StatelessWidget {
   final bool showBackButton;
@@ -253,17 +255,17 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               stat: stat,
               onTap: stat.stats.length > displayCount
                   ? () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => BlocProvider.value(
-                      //       value: _statisticsBloc,
-                      //       child: IndividualStatisticPage(
-                      //         server: _server,
-                      //         statIdType: stat.statIdType,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: _statisticsBloc,
+                            child: IndividualStatisticIosPage(
+                              server: _server,
+                              statIdType: stat.statIdType,
+                            ),
+                          ),
+                        ),
+                      );
                     }
                   : null,
             ),
@@ -319,14 +321,14 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                 uri: statData.posterUri,
                 details: TopStatisticIosDetails(statData: statData),
                 onTap: () async {
-                  // await Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MediaPage(
-                  //       server: _server,
-                  //       media: media,
-                  //     ),
-                  //   ),
-                  // );
+                  await Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => MediaIosPage(
+                        server: _server,
+                        media: media,
+                      ),
+                    ),
+                  );
                 },
               ),
             );
@@ -343,14 +345,14 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                 uri: statData.posterUri,
                 details: PopularStatisticIosDetails(statData: statData),
                 onTap: () async {
-                  // await Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MediaPage(
-                  //       server: _server,
-                  //       media: media,
-                  //     ),
-                  //   ),
-                  // );
+                  await Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => MediaIosPage(
+                        server: _server,
+                        media: media,
+                      ),
+                    ),
+                  );
                 },
               ),
             );
@@ -363,14 +365,14 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                 uri: statData.posterUri,
                 details: LastWatchedStatisticIosDetails(statData: statData),
                 onTap: () async {
-                  // await Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MediaPage(
-                  //       server: _server,
-                  //       media: media.copyWith(mediaType: statData.mediaType),
-                  //     ),
-                  //   ),
-                  // );
+                  await Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => MediaIosPage(
+                        server: _server,
+                        media: media.copyWith(mediaType: statData.mediaType),
+                      ),
+                    ),
+                  );
                 },
               ),
             );
@@ -465,7 +467,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
             color: ThemeHelper.cupertinoNavigationBarItemColor(),
           ),
           onPressed: () async {
-            final result = await showCupertinoSheet(
+            final result = await showCupertinoModalPopup(
               context: context,
               builder: (_) => StatisticTypeIosBottomSheet(
                 initialValue: _statsType,
@@ -504,7 +506,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                 color: ThemeHelper.cupertinoNavigationBarItemColor(),
               ),
               onPressed: () async {
-                final result = await showCupertinoSheet(
+                final result = await showCupertinoModalPopup(
                   context: context,
                   builder: (_) => TimeRangeIosBottomSheet(
                     initialValue: _timeRange,

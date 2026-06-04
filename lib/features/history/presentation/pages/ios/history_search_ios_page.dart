@@ -20,7 +20,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/search_history_bloc.dart';
-import '../../widgets/ios/history_actions_action_sheet.dart';
+import '../../widgets/ios/history_actions_ios_bottom_sheet.dart';
 import '../../widgets/ios/history_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/history_ios_card.dart';
 
@@ -369,11 +369,13 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
             ),
           ),
           onPressed: () async {
+            FocusScope.of(context).unfocus();
+
             String? result = await showCupertinoModalPopup(
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: HistoryActionsActionSheet(
+                child: HistoryActionsIosBottomSheet(
                   userId: _userId,
                   filterApplied: _filterOptionSelected(),
                 ),
@@ -418,7 +420,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
               }
             }
             if (result == 'filter') {
-              final bool? filterUnchanged = await showCupertinoSheet(
+              final bool? filterUnchanged = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => HistoryFilterIosBottomSheet(
                   filterMap: _filterMap,

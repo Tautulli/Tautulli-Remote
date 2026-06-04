@@ -288,11 +288,11 @@ class _UsersIosViewState extends State<UsersIosView> {
         CupertinoButton(
           padding: const EdgeInsets.all(8),
           child: Icon(
-            CupertinoIcons.slider_horizontal_3,
+            CupertinoIcons.arrow_up_arrow_down,
             color: ThemeHelper.cupertinoNavigationBarItemColor(),
           ),
           onPressed: () async {
-            Map<String, String>? usersSort = await showCupertinoSheet(
+            Map<String, String>? usersSort = await showCupertinoModalPopup(
               context: context,
               builder: (_) => UsersFilterIosBottomSheet(
                 orderColumn: _orderColumn,

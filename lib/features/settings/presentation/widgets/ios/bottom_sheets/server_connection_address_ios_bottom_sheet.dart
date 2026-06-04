@@ -5,9 +5,9 @@ import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -37,8 +37,8 @@ class ServerConnectionAddressIosBottomSheet extends StatelessWidget {
 
     return Form(
       key: formKey,
-      child: PageScaffoldCupertino(
-        middle: Text(title),
+      child: CupertinoModalPopupScaffold(
+        middleText: title,
         leading: const IosBottomSheetCancelButton(),
         trailing: IosBottomSheetSaveButton(
           onPressed: () {

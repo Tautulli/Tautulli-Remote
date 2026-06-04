@@ -295,12 +295,12 @@ class _RecentlyAddedIosViewState extends State<RecentlyAddedIosView> {
               ),
             ),
             child: Icon(
-              CupertinoIcons.slider_horizontal_3,
+              CupertinoIcons.line_horizontal_3_decrease,
               color: ThemeHelper.cupertinoNavigationBarItemColor(),
             ),
           ),
           onPressed: () async {
-            MediaType? mediaType = await showCupertinoSheet(
+            MediaType? mediaType = await showCupertinoModalPopup(
               context: context,
               builder: (_) => RecentlyAddedFilterIosBottomSheet(
                 mediaType: _mediaType,

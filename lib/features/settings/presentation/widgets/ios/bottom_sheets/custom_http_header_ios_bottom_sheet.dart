@@ -6,9 +6,9 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../../core/types/custom_http_header_type.dart';
+import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../data/models/custom_header_model.dart';
 import '../../../bloc/registration_headers_bloc.dart';
@@ -76,32 +76,32 @@ class _CustomHttpHeaderIosBottomSheetState extends State<CustomHttpHeaderIosBott
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: PageScaffoldCupertino(
-        middle: const Text(LocaleKeys.custom_http_headers_title).tr(),
+      child: CupertinoModalPopupScaffold(
+        middleText: LocaleKeys.custom_http_headers_title.tr(),
         leading: const IosBottomSheetCancelButton(),
         trailing: IosBottomSheetSaveButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {
                 context.read<RegistrationHeadersBloc>().add(
-                      RegistrationHeadersUpdate(
-                        title: _keyController.value.text.trim(),
-                        subtitle: _valueController.value.text.trim(),
-                        basicAuth: _selectedSegment == CustomHttpHeaderType.basic,
-                        previousTitle: widget.existingKey,
-                      ),
-                    );
+                  RegistrationHeadersUpdate(
+                    title: _keyController.value.text.trim(),
+                    subtitle: _valueController.value.text.trim(),
+                    basicAuth: _selectedSegment == CustomHttpHeaderType.basic,
+                    previousTitle: widget.existingKey,
+                  ),
+                );
               } else {
                 if (widget.tautulliId != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateCustomHeaders(
-                          tautulliId: widget.tautulliId!,
-                          title: _keyController.value.text.trim(),
-                          subtitle: _valueController.value.text.trim(),
-                          basicAuth: _selectedSegment == CustomHttpHeaderType.basic,
-                          previousTitle: widget.existingKey,
-                        ),
-                      );
+                    SettingsUpdateCustomHeaders(
+                      tautulliId: widget.tautulliId!,
+                      title: _keyController.value.text.trim(),
+                      subtitle: _valueController.value.text.trim(),
+                      basicAuth: _selectedSegment == CustomHttpHeaderType.basic,
+                      previousTitle: widget.existingKey,
+                    ),
+                  );
                 }
               }
 
@@ -148,7 +148,9 @@ class _CustomHttpHeaderIosBottomSheetState extends State<CustomHttpHeaderIosBott
 
                       return null;
                     },
-                    placeholder: (_selectedSegment == CustomHttpHeaderType.basic) ? LocaleKeys.username_title.tr() : LocaleKeys.header_key_title.tr(),
+                    placeholder: (_selectedSegment == CustomHttpHeaderType.basic)
+                        ? LocaleKeys.username_title.tr()
+                        : LocaleKeys.header_key_title.tr(),
                   ),
                   CupertinoTextFormFieldRow(
                     controller: _valueController,
@@ -160,7 +162,9 @@ class _CustomHttpHeaderIosBottomSheetState extends State<CustomHttpHeaderIosBott
 
                       return null;
                     },
-                    placeholder: (_selectedSegment == CustomHttpHeaderType.basic) ? LocaleKeys.password_title.tr() : LocaleKeys.header_value_title.tr(),
+                    placeholder: (_selectedSegment == CustomHttpHeaderType.basic)
+                        ? LocaleKeys.password_title.tr()
+                        : LocaleKeys.header_value_title.tr(),
                   ),
                 ],
               ),

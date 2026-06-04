@@ -31,9 +31,9 @@ class ServerPrimaryConnectionIosListTile extends StatelessWidget {
       additionalInfo: server.primaryActive == true ? const ActiveConnectionIosIndicator() : null,
       trailing: const CupertinoListTileChevron(),
       onTap: () {
-        return showCupertinoSheet(
+        return showCupertinoModalPopup(
           context: context,
-          pageBuilder: (context) {
+          builder: (context) {
             return ServerConnectionAddressIosBottomSheet(
               primary: true,
               server: server,

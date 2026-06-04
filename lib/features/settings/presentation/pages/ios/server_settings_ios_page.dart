@@ -140,9 +140,9 @@ class ServerSettingsIosView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: CupertinoButton.filled(
                     child: const Text(LocaleKeys.add_custom_http_header_title).tr(),
-                    onPressed: () => showCupertinoSheet(
+                    onPressed: () => showCupertinoModalPopup(
                       context: context,
-                      pageBuilder: (context) => CustomHttpHeaderIosBottomSheet(
+                      builder: (context) => CustomHttpHeaderIosBottomSheet(
                         forRegistration: false,
                         tautulliId: server.tautulliId,
                         currentHeaders: server.customHeaders,

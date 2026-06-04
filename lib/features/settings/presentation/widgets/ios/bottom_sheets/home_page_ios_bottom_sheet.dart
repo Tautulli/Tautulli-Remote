@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -26,8 +26,8 @@ class HomePageIosBottomSheet extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return PageScaffoldCupertino(
-      middle: const Text(LocaleKeys.home_page_title).tr(),
+    return CupertinoModalPopupScaffold(
+      middleText: LocaleKeys.home_page_title.tr(),
       leading: const IosBottomSheetCancelButton(),
       child: CustomCupertinoListSection(
         hasLeading: false,

@@ -287,11 +287,11 @@ class _LibrariesIosViewState extends State<LibrariesIosView> {
         CupertinoButton(
           padding: const EdgeInsets.all(8),
           child: Icon(
-            CupertinoIcons.slider_horizontal_3,
+            CupertinoIcons.arrow_up_arrow_down,
             color: ThemeHelper.cupertinoNavigationBarItemColor(),
           ),
           onPressed: () async {
-            Map<String, String>? librarySort = await showCupertinoSheet(
+            Map<String, String>? librarySort = await showCupertinoModalPopup(
               context: context,
               builder: (_) => LibrariesFilterIosBottomSheet(
                 orderColumn: _orderColumn,

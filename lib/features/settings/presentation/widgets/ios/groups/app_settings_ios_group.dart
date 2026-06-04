@@ -35,7 +35,7 @@ class AppSettingsIosGroup extends StatelessWidget {
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.server_timeout_title.tr(),
               subtitleText: _serverTimeoutDisplay(serverTimeout),
-              onTap: () => showCupertinoSheet(
+              onTap: () => showCupertinoModalPopup(
                 context: context,
                 builder: (context) => ServerTimeoutIosBottomSheet(
                   initialValue: serverTimeout,
@@ -57,7 +57,7 @@ class AppSettingsIosGroup extends StatelessWidget {
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.activity_refresh_rate_title.tr(),
               subtitleText: _activityRefreshRateDisplay(refreshRate),
-              onTap: () => showCupertinoSheet(
+              onTap: () => showCupertinoModalPopup(
                 context: context,
                 builder: (context) => ActivityRefreshRateIosBottomSheet(
                   initialValue: refreshRate,

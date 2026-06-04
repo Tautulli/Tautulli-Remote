@@ -4,9 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/model/flog/log.dart';
 import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
@@ -16,7 +14,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import '../../widgets/ios/logging_actions_action_sheet.dart';
+import '../../widgets/ios/logging_actions_ios_bottom_sheet.dart';
 import '../../widgets/ios/logging_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/logging_ios_table.dart';
 
@@ -149,7 +147,6 @@ class _LoggingIosViewState extends State<LoggingIosView> {
   }
 
   Widget _navBarActions() {
-    //TODO: Should I move all actions into a single button or just update the icons?
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -158,9 +155,9 @@ class _LoggingIosViewState extends State<LoggingIosView> {
             if (state is LoggingSuccess) {
               return CupertinoButton(
                 padding: const EdgeInsets.all(8),
-                onPressed: () => showCupertinoSheet(
+                onPressed: () => showCupertinoModalPopup(
                   context: context,
-                  pageBuilder: (_) => BlocProvider.value(
+                  builder: (_) => BlocProvider.value(
                     value: context.read<LoggingBloc>(),
                     child: LoggingFilterIosBottomSheet(
                       initialValue: state.level,
@@ -168,7 +165,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
                   ),
                 ),
                 child: Icon(
-                  FontAwesomeIcons.filter,
+                  CupertinoIcons.line_horizontal_3_decrease,
                   color: ThemeHelper.cupertinoNavigationBarItemColor(),
                 ),
               );
@@ -176,7 +173,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
             return const CupertinoButton(
               padding: EdgeInsets.all(8),
               onPressed: null,
-              child: Icon(FontAwesomeIcons.filter),
+              child: Icon(CupertinoIcons.line_horizontal_3_decrease),
             );
           },
         ),
@@ -188,12 +185,12 @@ class _LoggingIosViewState extends State<LoggingIosView> {
               value: context.read<LoggingBloc>(),
               child: BlocProvider.value(
                 value: context.read<LoggingExportBloc>(),
-                child: const LoggingActionsActionSheet(),
+                child: const LoggingActionsIosBottomSheet(),
               ),
             ),
           ),
           child: Icon(
-            Icons.more_horiz,
+            CupertinoIcons.slider_horizontal_3,
             color: ThemeHelper.cupertinoNavigationBarItemColor(),
           ),
         ),

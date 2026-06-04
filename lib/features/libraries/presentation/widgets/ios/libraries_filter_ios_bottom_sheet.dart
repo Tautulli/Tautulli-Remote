@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class LibrariesFilterIosBottomSheet extends StatefulWidget {
@@ -80,10 +80,9 @@ class _LibrariesFilterIosBottomSheetState extends State<LibrariesFilterIosBottom
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoModalPopupScaffold(
       //TODO: Add translation string
-      middle: const Text('Sort Libraries'),
-      showBackButton: false,
+      middleText: 'Sort Libraries',
       leading: const IosBottomSheetCancelButton(),
       trailing: IosBottomSheetSaveButton(
         onPressed: () => Navigator.of(context).pop({
@@ -91,35 +90,33 @@ class _LibrariesFilterIosBottomSheetState extends State<LibrariesFilterIosBottom
           'orderDir': orderDir,
         }),
       ),
-      child: SingleChildScrollView(
-        child: CustomCupertinoListSection(
-          hasLeading: false,
-          children: [
-            CustomNotchedCupertinoListTile(
-              onTap: () => changeSort('section_name'),
-              titleText: LocaleKeys.name_title.tr(),
-              trailing: orderColumn == 'section_name' ? _activeSortIndicators() : _inactiveSortIndicators(),
-            ),
-            CustomNotchedCupertinoListTile(
-              onTap: () => changeSort('count'),
-              //TODO: Needs translation string
-              titleText: 'Count',
-              trailing: orderColumn == 'count' ? _activeSortIndicators() : _inactiveSortIndicators(),
-            ),
-            CustomNotchedCupertinoListTile(
-              onTap: () => changeSort('duration'),
-              //TODO: Needs translation string
-              titleText: 'Time',
-              trailing: orderColumn == 'duration' ? _activeSortIndicators() : _inactiveSortIndicators(),
-            ),
-            CustomNotchedCupertinoListTile(
-              onTap: () => changeSort('plays'),
-              //TODO: Needs translation string
-              titleText: 'Plays',
-              trailing: orderColumn == 'plays' ? _activeSortIndicators() : _inactiveSortIndicators(),
-            ),
-          ],
-        ),
+      child: CustomCupertinoListSection(
+        hasLeading: false,
+        children: [
+          CustomNotchedCupertinoListTile(
+            onTap: () => changeSort('section_name'),
+            titleText: LocaleKeys.name_title.tr(),
+            trailing: orderColumn == 'section_name' ? _activeSortIndicators() : _inactiveSortIndicators(),
+          ),
+          CustomNotchedCupertinoListTile(
+            onTap: () => changeSort('count'),
+            //TODO: Needs translation string
+            titleText: 'Count',
+            trailing: orderColumn == 'count' ? _activeSortIndicators() : _inactiveSortIndicators(),
+          ),
+          CustomNotchedCupertinoListTile(
+            onTap: () => changeSort('duration'),
+            //TODO: Needs translation string
+            titleText: 'Time',
+            trailing: orderColumn == 'duration' ? _activeSortIndicators() : _inactiveSortIndicators(),
+          ),
+          CustomNotchedCupertinoListTile(
+            onTap: () => changeSort('plays'),
+            //TODO: Needs translation string
+            titleText: 'Plays',
+            trailing: orderColumn == 'plays' ? _activeSortIndicators() : _inactiveSortIndicators(),
+          ),
+        ],
       ),
     );
   }

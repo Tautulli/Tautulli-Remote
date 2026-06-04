@@ -3,10 +3,10 @@ import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 
@@ -27,9 +27,9 @@ class LoggingFilterIosBottomSheet extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return PageScaffoldCupertino(
+    return CupertinoModalPopupScaffold(
       //TODO: Add translation string
-      middle: const Text('Filter Logs'),
+      middleText: 'Filter Logs',
       leading: const IosBottomSheetCancelButton(),
       child: CustomCupertinoListSection(
         hasLeading: false,

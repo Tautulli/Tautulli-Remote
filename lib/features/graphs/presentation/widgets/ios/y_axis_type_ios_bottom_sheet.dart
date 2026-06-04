@@ -5,8 +5,9 @@ import '../../../../../../core/types/tautulli_types.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 
 class YAxisTypeIosBottomSheet extends StatelessWidget {
   final PlayMetricType initialValue;
@@ -18,9 +19,8 @@ class YAxisTypeIosBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
-      showBackButton: false,
-      middle: const Text(LocaleKeys.y_axis_title).tr(),
+    return CupertinoModalPopupScaffold(
+      middleText: LocaleKeys.y_axis_title.tr(),
       leading: const IosBottomSheetCancelButton(),
       child: CustomCupertinoListSection(
         hasLeading: false,
@@ -29,6 +29,10 @@ class YAxisTypeIosBottomSheet extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop(PlayMetricType.plays);
             },
+            leading: Icon(
+              CupertinoIcons.number,
+              color: ThemeHelper.cupertinoListTileIconColor(),
+            ),
             titleText: LocaleKeys.play_count_title.tr(),
             trailing: initialValue == PlayMetricType.plays ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
@@ -36,6 +40,10 @@ class YAxisTypeIosBottomSheet extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop(PlayMetricType.time);
             },
+            leading: Icon(
+              CupertinoIcons.clock_fill,
+              color: ThemeHelper.cupertinoListTileIconColor(),
+            ),
             titleText: LocaleKeys.play_time_title.tr(),
             trailing: initialValue == PlayMetricType.time ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),

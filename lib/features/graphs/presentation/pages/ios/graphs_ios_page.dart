@@ -18,7 +18,7 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/graphs_bloc.dart';
 import '../../widgets/ios/graph_tips_ios_dialog.dart';
-import '../../widgets/ios/graphs_actions_action_sheet.dart';
+import '../../widgets/ios/graphs_actions_ios_bottom_sheet.dart';
 import '../../widgets/ios/media_type_graphs_ios_tab.dart';
 import '../../widgets/ios/play_totals_graphs_ios_tab.dart';
 import '../../widgets/ios/stream_type_graphs_ios_tab.dart';
@@ -284,7 +284,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
                 color: ThemeHelper.cupertinoNavigationBarItemColor(),
               ),
               onPressed: () async {
-                final result = await showCupertinoSheet(
+                final result = await showCupertinoModalPopup(
                   context: context,
                   builder: (_) => TimeRangeIosBottomSheet(
                     initialValue: _timeRange,
@@ -365,7 +365,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: GraphsActionsActionSheet(
+                child: GraphsActionsIosBottomSheet(
                   userId: _userId,
                   yAxis: _yAxis,
                 ),
@@ -373,7 +373,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
             );
 
             if (result == 'user') {
-              int? newUserId = await showCupertinoSheet(
+              int? newUserId = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
@@ -401,7 +401,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
               }
             }
             if (result == 'yAxis') {
-              final PlayMetricType? yAxis = await showCupertinoSheet(
+              final PlayMetricType? yAxis = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => YAxisTypeIosBottomSheet(
                   initialValue: _yAxis,

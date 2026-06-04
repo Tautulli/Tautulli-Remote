@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../database/data/models/server_model.dart';
+import 'cupertino_modal_popup_scaffold.dart';
 import 'custom_cupertino_list_section.dart';
 import 'custom_notched_cupertino_list_tile.dart';
 import 'ios_bottom_sheet_cancel_button.dart';
-import 'page_scaffold_cupertino.dart';
 
 class ServerSelectIosBottomSheet extends StatelessWidget {
   final ServerModel activeServer;
@@ -31,10 +31,10 @@ class ServerSelectIosBottomSheet extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return PageScaffoldCupertino(
+    return CupertinoModalPopupScaffold(
       leading: const IosBottomSheetCancelButton(),
       //Todo: Translation string
-      middle: Text('Select Server'),
+      middleText: 'Select Server',
       child: CustomCupertinoListSection(
         hasLeading: false,
         children: servers

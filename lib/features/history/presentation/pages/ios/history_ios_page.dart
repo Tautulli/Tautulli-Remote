@@ -19,7 +19,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/history_bloc.dart';
-import '../../widgets/ios/history_actions_action_sheet.dart';
+import '../../widgets/ios/history_actions_ios_bottom_sheet.dart';
 import '../../widgets/ios/history_filter_ios_bottom_sheet.dart';
 import '../../widgets/ios/history_ios_card.dart';
 import 'history_search_ios_page.dart';
@@ -414,7 +414,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: HistoryActionsActionSheet(
+                child: HistoryActionsIosBottomSheet(
                   userId: _userId,
                   filterApplied: _filterOptionSelected(),
                 ),
@@ -422,7 +422,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
             );
 
             if (result == 'user') {
-              int? newUserId = await showCupertinoSheet(
+              int? newUserId = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
@@ -457,7 +457,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
               }
             }
             if (result == 'filter') {
-              final bool? filterUnchanged = await showCupertinoSheet(
+              final bool? filterUnchanged = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => HistoryFilterIosBottomSheet(
                   filterMap: _filterMap,

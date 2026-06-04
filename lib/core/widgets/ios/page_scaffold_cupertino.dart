@@ -83,7 +83,7 @@ class PageScaffoldCupertino extends StatelessWidget {
                               ),
                             ],
                           ),
-                          onPressed: () => showCupertinoSheet(
+                          onPressed: () => showCupertinoModalPopup(
                             context: context,
                             builder: (context) => ServerSelectIosBottomSheet(
                               activeServer: state.appSettings.activeServer,
