@@ -56,6 +56,7 @@ class OneSignalDataPrivacyIosView extends StatelessWidget {
             const OneSignalDataPrivacyIosText(),
             if (showToggle)
               const CustomCupertinoListSection(
+                margin: EdgeInsets.fromLTRB(8, 20, 8, 8),
                 children: [
                   OneSignalDataPrivacyCupertinoListTile(),
                 ],
