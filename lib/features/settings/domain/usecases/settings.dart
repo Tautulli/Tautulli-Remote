@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/core/types/framework.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -174,16 +174,16 @@ class Settings {
     return await repository.setActiveServerId(value);
   }
 
-  /// Returns the Framework set by the user.
+  /// Returns the AppStyle set by the user.
   ///
   /// If no value is stored returns a value based on the device platform.
-  Framework getFramework() {
-    return repository.getFramework();
+  AppStyle getAppStyle() {
+    return repository.getAppStyle();
   }
 
-  /// Sets the Framework.
-  Future<bool> setFramework(Framework value) async {
-    return await repository.setFramework(value);
+  /// Sets the AppStyle.
+  Future<bool> setAppStyle(AppStyle value) async {
+    return await repository.setAppStyle(value);
   }
 
   /// Returns if there is an available app update on the App Store or Play Store.

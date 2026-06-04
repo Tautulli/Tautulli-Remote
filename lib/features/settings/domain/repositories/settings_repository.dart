@@ -6,7 +6,7 @@ import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/types/framework.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -73,9 +73,9 @@ abstract class SettingsRepository {
   String getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
-  // Framework
-  Framework getFramework();
-  Future<bool> setFramework(Framework value);
+  // App Style
+  AppStyle getAppStyle();
+  Future<bool> setAppStyle(AppStyle value);
 
   // App Update Available
   bool getAppUpdateAvailable();

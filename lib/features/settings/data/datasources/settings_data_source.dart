@@ -15,7 +15,7 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
-import '../../../../core/types/framework.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -83,6 +83,10 @@ abstract class SettingsDataSource {
   String getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
+  // AppStyle
+  AppStyle getAppStyle();
+  Future<bool> setAppStyle(AppStyle value);
+
   // App Update Available
   bool getAppUpdateAvailable();
   Future<bool> setAppUpdateAvailable(bool value);
@@ -98,10 +102,6 @@ abstract class SettingsDataSource {
   // Double Back To Exit
   bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
-
-  // Framework
-  Framework getFramework();
-  Future<bool> setFramework(Framework value);
 
   // Graph Time Range
   int getGraphTimeRange();
@@ -213,11 +213,11 @@ abstract class SettingsDataSource {
 }
 
 const activeServerId = 'activeServerId';
+const appStyle = 'appStyle';
 const appUpdateAvailable = 'appUpdateAvailable';
 const customCertHashList = 'customCertHashList';
 const disableImageBackgrounds = 'disableImageBackgrounds';
 const doubleBackToExit = 'doubleTapToExit';
-const framework = 'framework';
 const graphTimeRange = 'graphTimeRange';
 const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
@@ -430,17 +430,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return localStorage.setString(activeServerId, value);
   }
 
-  // Framework
+  // AppStyle
   @override
-  Framework getFramework() {
-    String? frameworkString = localStorage.getString(framework) ?? di.sl<DeviceInfo>().platform;
+  AppStyle getAppStyle() {
+    final String defaultAppStyle = di.sl<DeviceInfo>().platform == 'ios' ? 'cupertino' : 'material';
 
-    return Cast.castToFramework(frameworkString);
+    String? appStyleString = localStorage.getString(appStyle) ?? defaultAppStyle;
+
+    return Cast.castToAppStyle(appStyleString);
   }
 
   @override
-  Future<bool> setFramework(Framework value) {
-    return localStorage.setString(framework, value.toShortString());
+  Future<bool> setAppStyle(AppStyle value) {
+    return localStorage.setString(appStyle, value.toShortString());
   }
 
   // App Update Available

@@ -10,7 +10,7 @@ import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
-import '../../../../core/types/framework.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -60,8 +60,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateActiveServer>(
       (event, emit) => _onSettingsUpdateActiveServer(event, emit),
     );
-    on<SettingsUpdateFramework>(
-      (event, emit) => _onSettingsUpdateFramework(event, emit),
+    on<SettingsUpdateAppStyle>(
+      (event, emit) => _onSettingsUpdateAppStyle(event, emit),
     );
     on<SettingsUpdateAppUpdateAvailable>(
       (event, emit) => _onSettingsUpdateAppUpdateAvailable(event, emit),
@@ -367,12 +367,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         activeServer: activeServerId != ''
             ? serverList.firstWhere((server) => server.tautulliId == activeServerId)
             : serverList.isNotEmpty
-                ? serverList.first
-                : blankServer,
+            ? serverList.first
+            : blankServer,
+        appStyle: settings.getAppStyle(),
         appUpdateAvailable: settings.getAppUpdateAvailable(),
         disableImageBackgrounds: settings.getDisableImageBackgrounds(),
         doubleBackToExit: settings.getDoubleBackToExit(),
-        framework: settings.getFramework(),
         graphTimeRange: settings.getGraphTimeRange(),
         graphTipsShown: settings.getGraphTipsShown(),
         graphYAxis: settings.getGraphYAxis(),
@@ -640,20 +640,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  void _onSettingsUpdateFramework(
-    SettingsUpdateFramework event,
+  void _onSettingsUpdateAppStyle(
+    SettingsUpdateAppStyle event,
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
 
-    await settings.setFramework(event.framework);
+    await settings.setAppStyle(event.appStyle);
     logging.debug(
-      "Settings :: Framework changed to '${event.framework}'",
+      "Settings :: App Style changed to '${event.appStyle}'",
     );
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings.copyWith(framework: event.framework),
+        appSettings: currentState.appSettings.copyWith(appStyle: event.appStyle),
       ),
     );
   }
@@ -982,7 +982,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       primaryConnectionDomain: primaryConnectionAddress.domain,
       primaryConnectionPath: primaryConnectionAddress.path,
       secondaryConnectionAddress: secondaryConnectionAddress.address,
-      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null ? secondaryConnectionAddress.protocol!.toShortString() : '',
+      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null
+          ? secondaryConnectionAddress.protocol!.toShortString()
+          : '',
       secondaryConnectionDomain: secondaryConnectionAddress.domain,
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,

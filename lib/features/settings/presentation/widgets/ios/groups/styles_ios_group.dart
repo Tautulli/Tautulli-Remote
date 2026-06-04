@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/types/framework.dart';
+import '../../../../../../core/types/app_style.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class FrameworkIosGroup extends StatelessWidget {
-  const FrameworkIosGroup({super.key});
+class StylesIosGroup extends StatelessWidget {
+  const StylesIosGroup({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class FrameworkIosGroup extends StatelessWidget {
 
         return CustomCupertinoListSection(
           //TODO:  Create translation key
-          headerText: 'Framework',
+          headerText: 'Styles',
           children: [
             CustomNotchedCupertinoListTile(
               leading: FaIcon(
@@ -27,14 +27,13 @@ class FrameworkIosGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor(),
                 size: 21.3,
               ),
-              //TODO:  Create translation key
-              titleText: 'Android',
-              trailing: state.appSettings.framework == Framework.android
+              titleText: 'Material',
+              trailing: state.appSettings.appStyle == AppStyle.material
                   ? const Icon(CupertinoIcons.checkmark_alt)
                   : null,
               onTap: () {
                 context.read<SettingsBloc>().add(
-                  const SettingsUpdateFramework(Framework.android),
+                  const SettingsUpdateAppStyle(AppStyle.material),
                 );
               },
             ),
@@ -44,12 +43,13 @@ class FrameworkIosGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor(),
                 size: 23,
               ),
-              //TODO:  Create translation key
-              titleText: 'iOS',
-              trailing: state.appSettings.framework == Framework.ios ? const Icon(CupertinoIcons.checkmark_alt) : null,
+              titleText: 'Cupertino',
+              trailing: state.appSettings.appStyle == AppStyle.cupertino
+                  ? const Icon(CupertinoIcons.checkmark_alt)
+                  : null,
               onTap: () {
                 context.read<SettingsBloc>().add(
-                  const SettingsUpdateFramework(Framework.ios),
+                  const SettingsUpdateAppStyle(AppStyle.cupertino),
                 );
               },
             ),

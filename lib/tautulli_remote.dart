@@ -181,15 +181,15 @@ class TautulliRemoteState extends State<TautulliRemote> {
         if (data.canUpdate != null) {
           if (data.canUpdate == true) {
             di.sl<Logging>().info(
-                  'App Update :: Update available. Local Version: ${await PackageInformationImpl().version} | Store Version: ${data.storeVersion}',
-                );
+              'App Update :: Update available. Local Version: ${await PackageInformationImpl().version} | Store Version: ${data.storeVersion}',
+            );
           }
 
           context.read<SettingsBloc>().add(
-                SettingsUpdateAppUpdateAvailable(
-                  appUpdateAvailable: data.canUpdate!,
-                ),
-              );
+            SettingsUpdateAppUpdateAvailable(
+              appUpdateAvailable: data.canUpdate!,
+            ),
+          );
         }
       },
     );
@@ -204,8 +204,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
       if (servers.isNotEmpty) {
         di.sl<Logging>().info(
-              'Settings :: App version changed, updating server registration',
-            );
+          'Settings :: App version changed, updating server registration',
+        );
 
         for (ServerModel server in servers) {
           final failureOrRegisterDevice = await updateServerRegistration(server);
@@ -213,15 +213,15 @@ class TautulliRemoteState extends State<TautulliRemote> {
           failureOrRegisterDevice.fold(
             (failure) {
               di.sl<Logging>().error(
-                    'Settings :: Failed to update registration for ${server.plexName} with new app version',
-                  );
+                'Settings :: Failed to update registration for ${server.plexName} with new app version',
+              );
             },
             (results) async {
               await di.sl<Settings>().updateServer(server);
 
               di.sl<Logging>().info(
-                    'Settings :: Updated registration for ${server.plexName} with new app version',
-                  );
+                'Settings :: Updated registration for ${server.plexName} with new app version',
+              );
 
               di.sl<Settings>().setRegistrationUpdateNeeded(false);
             },
@@ -235,8 +235,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
     final servers = await di.sl<Settings>().getAllServers();
 
     di.sl<Logging>().info(
-          'OneSignal :: OneSignal registration changed, updating server registration in 5 seconds',
-        );
+      'OneSignal :: OneSignal registration changed, updating server registration in 5 seconds',
+    );
 
     await Future.delayed(const Duration(seconds: 5));
 
@@ -246,17 +246,17 @@ class TautulliRemoteState extends State<TautulliRemote> {
       failureOrRegisterDevice.fold(
         (failure) {
           di.sl<Logging>().error(
-                'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
-              );
+            'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+          );
         },
         (results) async {
           await di.sl<Settings>().updateServer(
-                server.copyWith(oneSignalRegistered: true),
-              );
+            server.copyWith(oneSignalRegistered: true),
+          );
 
           di.sl<Logging>().info(
-                'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
-              );
+            'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+          );
 
           di.sl<Settings>().setRegistrationUpdateNeeded(false);
         },
@@ -267,17 +267,21 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
     ServerModel server,
   ) async {
-    String connectionProtocol = server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
-    String connectionDomain = server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
+    String connectionProtocol = server.primaryActive!
+        ? server.primaryConnectionProtocol
+        : server.secondaryConnectionProtocol!;
+    String connectionDomain = server.primaryActive!
+        ? server.primaryConnectionDomain
+        : server.secondaryConnectionDomain!;
     String? connectionPath = server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
 
     final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
-          connectionProtocol: connectionProtocol,
-          connectionDomain: connectionDomain,
-          connectionPath: connectionPath ?? '',
-          deviceToken: server.deviceToken,
-          customHeaders: server.customHeaders,
-        );
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath ?? '',
+      deviceToken: server.deviceToken,
+      customHeaders: server.customHeaders,
+    );
 
     return failureOrRegisterDevice;
   }
@@ -287,7 +291,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (current.appSettings.framework != previous.appSettings.framework) {
+          if (current.appSettings.appStyle != previous.appSettings.appStyle) {
             return true;
           }
         }

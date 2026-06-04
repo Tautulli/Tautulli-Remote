@@ -10,7 +10,7 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/ios/accessibility_ios_page.dart';
 import '../../../pages/ios/advanced_ios_page.dart';
-import '../../../pages/ios/theme_ios_page.dart';
+import '../../../pages/ios/appearance_ios_page.dart';
 import '../bottom_sheets/activity_refresh_rate_ios_bottom_sheet.dart';
 import '../bottom_sheets/server_timeout_ios_bottom_sheet.dart';
 
@@ -88,10 +88,11 @@ class AppSettingsIosGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          titleText: LocaleKeys.themes_title.tr(),
+          //TODO:  Create translation key
+          titleText: 'Appearance',
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => ThemeIosPage(
+              builder: (context) => AppearanceIosPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

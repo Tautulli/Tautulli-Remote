@@ -9,7 +9,7 @@ import 'package:system_theme/system_theme.dart';
 import 'core/global_keys/global_keys.dart';
 import 'core/helpers/home_page_helper.dart';
 import 'core/helpers/theme_helper.dart';
-import 'core/types/framework.dart';
+import 'core/types/app_style.dart';
 import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
 import 'core/widgets/ios/settings_not_loaded_ios.dart';
@@ -120,7 +120,8 @@ class AppFramework extends StatelessWidget {
         final Color systemColor = SystemTheme.accentColor.accent;
         final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
 
-        if (di.sl<Settings>().getFramework() == Framework.ios) {
+        print(di.sl<Settings>().getAppStyle());
+        if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
           return _CupertinoFramework(
             initialRoute: initialRoute,
             useAtkinsonHyperLegible: useAtkinsonHyperLegible,

@@ -32,13 +32,13 @@ class SettingsAddServer extends SettingsEvent {
 
   @override
   List<Object> get props => [
-        primaryConnectionAddress,
-        deviceToken,
-        tautulliId,
-        plexName,
-        plexPass,
-        oneSignalRegistered,
-      ];
+    primaryConnectionAddress,
+    deviceToken,
+    tautulliId,
+    plexName,
+    plexPass,
+    oneSignalRegistered,
+  ];
 }
 
 class SettingsClearCache extends SettingsEvent {}
@@ -80,13 +80,13 @@ class SettingsLoad extends SettingsEvent {
   List<Object> get props => [updateServerInfo];
 }
 
-class SettingsUpdateFramework extends SettingsEvent {
-  final Framework framework;
+class SettingsUpdateAppStyle extends SettingsEvent {
+  final AppStyle appStyle;
 
-  const SettingsUpdateFramework(this.framework);
+  const SettingsUpdateAppStyle(this.appStyle);
 
   @override
-  List<Object> get props => [framework];
+  List<Object> get props => [appStyle];
 }
 
 class SettingsUpdateActiveServer extends SettingsEvent {
@@ -335,16 +335,16 @@ class SettingsUpdateServer extends SettingsEvent {
 
   @override
   List<Object> get props => [
-        id,
-        sortIndex,
-        primaryConnectionAddress,
-        secondaryConnectionAddress,
-        deviceToken,
-        tautulliId,
-        plexName,
-        plexPass,
-        oneSignalRegistered,
-      ];
+    id,
+    sortIndex,
+    primaryConnectionAddress,
+    secondaryConnectionAddress,
+    deviceToken,
+    tautulliId,
+    plexName,
+    plexPass,
+    oneSignalRegistered,
+  ];
 }
 
 class SettingsUpdateServerPlexAndTautulliInfo extends SettingsEvent {

@@ -2,17 +2,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/types/framework.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 
 class AppSettingsModel extends Equatable {
   final ServerModel activeServer;
+  final AppStyle appStyle;
   final bool appUpdateAvailable;
   final bool disableImageBackgrounds;
   final bool doubleBackToExit;
-  final Framework framework;
   final int graphTimeRange;
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
@@ -41,10 +41,10 @@ class AppSettingsModel extends Equatable {
 
   const AppSettingsModel({
     required this.activeServer,
+    required this.appStyle,
     required this.appUpdateAvailable,
     required this.disableImageBackgrounds,
     required this.doubleBackToExit,
-    required this.framework,
     required this.graphTimeRange,
     required this.graphTipsShown,
     required this.graphYAxis,
@@ -74,10 +74,10 @@ class AppSettingsModel extends Equatable {
 
   AppSettingsModel copyWith({
     ServerModel? activeServer,
+    AppStyle? appStyle,
     bool? appUpdateAvailable,
     bool? disableImageBackgrounds,
     bool? doubleBackToExit,
-    Framework? framework,
     int? graphTimeRange,
     bool? graphTipsShown,
     PlayMetricType? graphYAxis,
@@ -106,10 +106,10 @@ class AppSettingsModel extends Equatable {
   }) {
     return AppSettingsModel(
       activeServer: activeServer ?? this.activeServer,
+      appStyle: appStyle ?? this.appStyle,
       appUpdateAvailable: appUpdateAvailable ?? this.appUpdateAvailable,
       disableImageBackgrounds: disableImageBackgrounds ?? this.disableImageBackgrounds,
       doubleBackToExit: doubleBackToExit ?? this.doubleBackToExit,
-      framework: framework ?? this.framework,
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
@@ -141,10 +141,10 @@ class AppSettingsModel extends Equatable {
   Map<String, String> dump() {
     return {
       'Active Server': '${activeServer.plexName} (${activeServer.id})',
+      'App Style': appStyle.toString(),
       'App Update Available': appUpdateAvailable.toString(),
       'Disable Image Backgrounds': disableImageBackgrounds.toString(),
       'Double Back To Exit': doubleBackToExit.toString(),
-      'Framework': framework.toString(),
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
@@ -174,34 +174,34 @@ class AppSettingsModel extends Equatable {
 
   @override
   List<Object> get props => [
-        activeServer,
-        appUpdateAvailable,
-        disableImageBackgrounds,
-        doubleBackToExit,
-        framework,
-        graphTimeRange,
-        graphTipsShown,
-        graphYAxis,
-        historyFilter,
-        homePage,
-        librariesSort,
-        libraryMediaFullRefresh,
-        maskSensitiveInfo,
-        multiserverActivity,
-        oneSignalBannerDismissed,
-        oneSignalConsented,
-        recentlyAddedFilter,
-        refreshRate,
-        secret,
-        serverTimeout,
-        statisticsStatType,
-        statisticsTimeRange,
-        theme,
-        themeCustomColor,
-        themeEnhancement,
-        themeUseSystemColor,
-        useAtkinsonHyperlegible,
-        usersSort,
-        wizardComplete,
-      ];
+    activeServer,
+    appStyle,
+    appUpdateAvailable,
+    disableImageBackgrounds,
+    doubleBackToExit,
+    graphTimeRange,
+    graphTipsShown,
+    graphYAxis,
+    historyFilter,
+    homePage,
+    librariesSort,
+    libraryMediaFullRefresh,
+    maskSensitiveInfo,
+    multiserverActivity,
+    oneSignalBannerDismissed,
+    oneSignalConsented,
+    recentlyAddedFilter,
+    refreshRate,
+    secret,
+    serverTimeout,
+    statisticsStatType,
+    statisticsTimeRange,
+    theme,
+    themeCustomColor,
+    themeEnhancement,
+    themeUseSystemColor,
+    useAtkinsonHyperlegible,
+    usersSort,
+    wizardComplete,
+  ];
 }
