@@ -283,6 +283,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
                             server: _server,
                             history: history,
                             viewMediaEnabled: history.live != true,
+                            currentPageTitle: LocaleKeys.history_title.tr(),
                           );
                         } else {
                           return const Gap(8);

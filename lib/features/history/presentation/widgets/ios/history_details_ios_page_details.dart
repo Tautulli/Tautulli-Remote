@@ -14,21 +14,21 @@ import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';
 
-class HistoryIosBottomSheetDetails extends StatefulWidget {
+class HistoryDetailsIosPageDetails extends StatefulWidget {
   final ServerModel server;
   final HistoryModel history;
 
-  const HistoryIosBottomSheetDetails({
+  const HistoryDetailsIosPageDetails({
     super.key,
     required this.server,
     required this.history,
   });
 
   @override
-  State<HistoryIosBottomSheetDetails> createState() => _HistoryIosBottomSheetDetailsState();
+  State<HistoryDetailsIosPageDetails> createState() => _HistoryDetailsIosPageDetailsState();
 }
 
-class _HistoryIosBottomSheetDetailsState extends State<HistoryIosBottomSheetDetails> {
+class _HistoryDetailsIosPageDetailsState extends State<HistoryDetailsIosPageDetails> {
   @override
   void initState() {
     super.initState();

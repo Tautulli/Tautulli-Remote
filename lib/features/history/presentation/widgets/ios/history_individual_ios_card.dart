@@ -9,12 +9,11 @@ import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/widgets/ios/user_ios_icon.dart';
 import '../../../data/models/history_model.dart';
-import 'history_ios_bottom_sheet.dart';
+import '../../pages/ios/history_details_ios_page.dart';
 
 class HistoryIndividualIosCard extends StatelessWidget {
   final ServerModel server;
@@ -35,19 +34,14 @@ class HistoryIndividualIosCard extends StatelessWidget {
           ? height * MediaQuery.of(context).textScaler.scale(1)
           : height,
       child: GestureDetector(
-        onTap: () => showCupertinoSheet(
-          context: context,
-          builder: (context) {
-            return BlocProvider.value(
-              value: context.read<GeoIpBloc>(),
-              child: HistoryIosBottomSheet(
-                server: server,
-                history: history,
-                viewUserEnabled: true,
-                viewMediaEnabled: false,
-              ),
-            );
-          },
+        onTap: () => Navigator.of(context).push(
+          CupertinoPageRoute(
+            builder: (context) => HistoryDetailsIosPage(
+              server: server,
+              history: history,
+              viewMediaEnabled: false,
+            ),
+          ),
         ),
         child: CupertinoCard(
           child: Stack(

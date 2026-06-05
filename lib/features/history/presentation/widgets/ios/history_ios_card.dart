@@ -29,12 +29,17 @@ class HistoryIosCard extends StatelessWidget {
     return IosPosterCard(
       mediaType: history.mediaType,
       uri: history.posterUri,
-      details: HistoryIosCardDetails(history: history),
+      details: HistoryIosCardDetails(
+        history: history,
+        showUser: showUser,
+      ),
       onTap: () => Navigator.of(context).push(
         CupertinoPageRoute(
           builder: (context) => HistoryDetailsIosPage(
             server: server,
             history: history,
+            viewUserEnabled: viewUserEnabled,
+            viewMediaEnabled: viewMediaEnabled,
             previousPageTitle: currentPageTitle,
           ),
         ),

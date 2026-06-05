@@ -130,7 +130,8 @@ class _UserDetailsHistoryIosTabState extends State<UserDetailsHistoryIosTab> {
                           return HistoryIosCard(
                             server: widget.server,
                             history: history,
-                            viewMediaEnabled: history.live != true,
+                            showUser: false,
+                            viewUserEnabled: false,
                           );
                         } else {
                           return const Gap(8);
