@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
 import 'custom_cupertino_nav_bar.dart' as nav;
 import 'custom_cupertino_navigation_bar_back_button.dart';
 import 'server_select_ios_bottom_sheet.dart';
 
-class PageScaffoldCupertino extends StatelessWidget {
+class PageScaffoldCupertino extends StatefulWidget {
   final bool showServerSelect;
   final bool loading;
   final bool showBackButton;
@@ -31,6 +33,19 @@ class PageScaffoldCupertino extends StatelessWidget {
   });
 
   @override
+  State<PageScaffoldCupertino> createState() => _PageScaffoldCupertinoState();
+}
+
+class _PageScaffoldCupertinoState extends State<PageScaffoldCupertino> {
+  final QuickActions quickActions = const QuickActions();
+
+  @override
+  void initState() {
+    super.initState();
+    initalizeQuickActionsCupertino(quickActions);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: nav.CupertinoNavigationBar(
@@ -38,17 +53,19 @@ class PageScaffoldCupertino extends StatelessWidget {
         leading: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (showBackButton)
+            if (widget.showBackButton)
               BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (context, state) {
                   state as SettingsSuccess;
 
                   return CustomCupertinoNavigationBarBackButton(
-                    previousPageTitle: state.serverList.length > 1 && showServerSelect ? null : previousPageTitle,
+                    previousPageTitle: state.serverList.length > 1 && widget.showServerSelect
+                        ? null
+                        : widget.previousPageTitle,
                   );
                 },
               ),
-            if (showServerSelect)
+            if (widget.showServerSelect)
               BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (context, state) {
                   if (state is SettingsSuccess && state.serverList.length > 1) {
@@ -58,7 +75,7 @@ class PageScaffoldCupertino extends StatelessWidget {
                       children: [
                         CupertinoButton(
                           padding: EdgeInsets.only(
-                            left: showBackButton ? 0 : 16,
+                            left: widget.showBackButton ? 0 : 16,
                             right: 16,
                           ),
                           child: Row(
@@ -99,15 +116,15 @@ class PageScaffoldCupertino extends StatelessWidget {
                 },
               ),
             const Gap(8),
-            if (loading) const CupertinoActivityIndicator(),
-            if (showBackButton == false) ?leading,
+            if (widget.loading) const CupertinoActivityIndicator(),
+            if (widget.showBackButton == false) ?widget.leading,
           ],
         ),
-        middle: middle,
-        trailing: trailing,
+        middle: widget.middle,
+        trailing: widget.trailing,
       ),
       child: SafeArea(
-        child: child,
+        child: widget.child,
       ),
     );
   }

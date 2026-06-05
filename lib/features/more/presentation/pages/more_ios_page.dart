@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/global_keys/global_keys.dart';
 import '../../../../core/helpers/theme_helper.dart';
 import '../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
@@ -25,8 +26,39 @@ class MoreIosPage extends StatelessWidget {
   }
 }
 
-class MoreIosView extends StatelessWidget {
+class MoreIosView extends StatefulWidget {
   const MoreIosView({super.key});
+
+  @override
+  State<MoreIosView> createState() => _MoreIosViewState();
+}
+
+class _MoreIosViewState extends State<MoreIosView> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (moreNavigationPage.value != null) {
+      final page = moreNavigationPage.value;
+      moreNavigationPage.value = null;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+
+        switch (page) {
+          case 'settings':
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                builder: (context) => SettingsIosPage(
+                  showBackButton: true,
+                  previousPageTitle: LocaleKeys.more_title.tr(),
+                ),
+              ),
+            );
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

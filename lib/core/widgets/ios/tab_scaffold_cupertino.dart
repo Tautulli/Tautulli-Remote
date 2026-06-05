@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../app_framework.dart';
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
 import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
 import '../../../features/libraries/presentation/pages/ios/libraries_ios_page.dart';
@@ -71,7 +72,16 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
         },
       ),
       tabBuilder: (context, index) {
+        if (index == 4) {
+          return CupertinoTabView(
+            routes: cupertinoRoutes,
+            navigatorKey: moreTabNavigatorKey,
+            builder: (context) => const MoreIosPage(),
+          );
+        }
+
         return CupertinoTabView(
+          routes: cupertinoRoutes,
           builder: (context) {
             switch (index) {
               case 1:
@@ -80,8 +90,6 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
                 return const RecentlyAddedIosPage(showBackButton: false);
               case 3:
                 return const LibrariesIosPage(showBackButton: false);
-              case 4:
-                return const MoreIosPage();
               case 0:
               default:
                 return const ActivityIosPage(showBackButton: false);
