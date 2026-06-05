@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -9,17 +10,16 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../core/widgets/ios/ios_poster.dart';
-import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
-import '../../bloc/terminate_stream_bloc.dart';
-import 'activity_ios_bottom_sheet.dart';
+import '../../pages/ios/activity_details_ios_page.dart';
 import 'ios_activity_details.dart';
 import 'ios_progress_bar.dart';
 
-class ActivityIosCard extends StatefulWidget {
+class ActivityIosCard extends StatelessWidget {
   final ServerModel server;
   final ActivityModel activity;
 
@@ -30,47 +30,31 @@ class ActivityIosCard extends StatefulWidget {
   });
 
   @override
-  State<ActivityIosCard> createState() => _ActivityIosCardState();
-}
-
-class _ActivityIosCardState extends State<ActivityIosCard> {
-  late ActivityBloc _activityBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _activityBloc = context.read<ActivityBloc>();
-  }
-
-  @override
   Widget build(BuildContext context) {
     late Uri? posterUri;
 
-    switch (widget.activity.mediaType) {
+    switch (activity.mediaType) {
       case (MediaType.episode):
-        posterUri = widget.activity.grandparentImageUri;
+        posterUri = activity.grandparentImageUri;
         break;
       default:
-        posterUri = widget.activity.imageUri;
+        posterUri = activity.imageUri;
     }
 
     return SizedBox(
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
       child: GestureDetector(
-        onTap: () => showCupertinoSheet(
-          context: context,
-          builder: (context) {
-            return BlocProvider.value(
-              value: _activityBloc,
-              child: BlocProvider(
-                create: (context) => di.sl<TerminateStreamBloc>(),
-                child: ActivityIosBottomSheet(
-                  server: widget.server,
-                  activity: widget.activity,
-                ),
+        onTap: () => Navigator.of(context).push(
+          CupertinoPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: context.read<ActivityBloc>(),
+              child: ActivityDetailsIosPage(
+                activity: activity,
+                server: server,
+                previousPageTitle: LocaleKeys.activity_title.tr(),
               ),
-            );
-          },
+            ),
+          ),
         ),
         child: CupertinoCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
@@ -79,7 +63,7 @@ class _ActivityIosCardState extends State<ActivityIosCard> {
 
               return Stack(
                 children: [
-                  if (!state.appSettings.disableImageBackgrounds && widget.activity.imageUri != null)
+                  if (!state.appSettings.disableImageBackgrounds && activity.imageUri != null)
                     Positioned.fill(
                       child: CachedNetworkImage(
                         imageUrl: posterUri.toString(),
@@ -138,14 +122,14 @@ class _ActivityIosCardState extends State<ActivityIosCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 IosPoster(
-                                  mediaType: widget.activity.mediaType,
+                                  mediaType: activity.mediaType,
                                   uri: posterUri,
-                                  activityState: widget.activity.state,
+                                  activityState: activity.state,
                                 ),
                                 const Gap(8),
                                 Expanded(
                                   child: IosActivityDetails(
-                                    activity: widget.activity,
+                                    activity: activity,
                                   ),
                                 ),
                               ],
@@ -154,7 +138,7 @@ class _ActivityIosCardState extends State<ActivityIosCard> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: IosProgressBar(activity: widget.activity),
+                          child: IosProgressBar(activity: activity),
                         ),
                       ],
                     ),
