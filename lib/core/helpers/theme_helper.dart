@@ -32,8 +32,7 @@ class ThemeHelper {
       case (ThemeType.tautulli):
         return tautulliCupertino(enhancement: enhancement, fontName: fontName);
       case (ThemeType.dynamic):
-        // return dynamicCupertino(color: color, enhancement: enhancement, fontName: fontName);
-        return tautulliCupertino(enhancement: enhancement, fontName: fontName);
+        return dynamicCupertino(color: color, enhancement: enhancement, fontName: fontName);
     }
   }
 
@@ -209,6 +208,22 @@ class ThemeHelper {
       applyThemeToAll: true,
       brightness: Brightness.dark,
       primaryColor: PlexColorPalette.primaryGold,
+      primaryContrastingColor: CupertinoColors.black,
+      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark
+          ? PlexColorPalette.black
+          : TautulliColorPalette.midnight,
+    );
+  }
+
+  static CupertinoThemeData dynamicCupertino({
+    required Color color,
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    return CupertinoThemeData(
+      applyThemeToAll: true,
+      brightness: Brightness.dark,
+      primaryColor: color,
       primaryContrastingColor: CupertinoColors.black,
       scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark
           ? PlexColorPalette.black
