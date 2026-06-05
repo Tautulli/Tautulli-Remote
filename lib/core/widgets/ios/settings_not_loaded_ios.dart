@@ -12,41 +12,44 @@ class SettingsNotLoadedIos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, state) {
-        if (state is SettingsInProgress) {
+    return ColoredBox(
+      color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          if (state is SettingsInProgress) {
+            return StatusIosPage(
+              message: LocaleKeys.settings_loading_message.tr(),
+              action: const CupertinoActivityIndicator(),
+            );
+          }
+          if (state is SettingsFailure) {
+            return StatusIosPage(
+              message: LocaleKeys.settings_load_failed_message.tr(),
+              action: CupertinoButton.filled(
+                child: const Text(LocaleKeys.contact_support_title).tr(),
+                onPressed: () async {
+                  await launchUrlString(
+                    mode: LaunchMode.externalApplication,
+                    'https://tautulli.com/#support',
+                  );
+                },
+              ),
+            );
+          }
           return StatusIosPage(
-            message: LocaleKeys.settings_loading_message.tr(),
-            action: const CupertinoActivityIndicator(),
-          );
-        }
-        if (state is SettingsFailure) {
-          return StatusIosPage(
-            message: LocaleKeys.settings_load_failed_message.tr(),
+            message: LocaleKeys.settings_load_error_message.tr(),
             action: CupertinoButton.filled(
-              child: const Text(LocaleKeys.contact_support_title).tr(),
               onPressed: () async {
                 await launchUrlString(
                   mode: LaunchMode.externalApplication,
                   'https://tautulli.com/#support',
                 );
               },
+              child: const Text(LocaleKeys.contact_support_title).tr(),
             ),
           );
-        }
-        return StatusIosPage(
-          message: LocaleKeys.settings_load_error_message.tr(),
-          action: CupertinoButton.filled(
-            onPressed: () async {
-              await launchUrlString(
-                mode: LaunchMode.externalApplication,
-                'https://tautulli.com/#support',
-              );
-            },
-            child: const Text(LocaleKeys.contact_support_title).tr(),
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 }
