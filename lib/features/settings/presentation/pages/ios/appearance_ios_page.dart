@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../widgets/ios/groups/appearance_enhancements_ios_group.dart';
 import '../../widgets/ios/groups/dynamic_color_ios_group.dart';
 import '../../widgets/ios/groups/styles_ios_group.dart';
-import '../../widgets/ios/groups/theme_enhancements_ios_group.dart';
 import '../../widgets/ios/groups/themes_ios_group.dart';
 
 class AppearanceIosPage extends StatelessWidget {
@@ -46,7 +46,7 @@ class AppearanceIosView extends StatelessWidget {
           StylesIosGroup(),
           ThemesIosGroup(),
           DynamicColorIosGroup(),
-          ThemeEnhancementsIosGroup(),
+          AppearanceEnhancementsIosGroup(),
         ],
       ),
     );

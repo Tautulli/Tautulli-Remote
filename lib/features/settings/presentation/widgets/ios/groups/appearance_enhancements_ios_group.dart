@@ -9,8 +9,8 @@ import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.da
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class ThemeEnhancementsIosGroup extends StatelessWidget {
-  const ThemeEnhancementsIosGroup({super.key});
+class AppearanceEnhancementsIosGroup extends StatelessWidget {
+  const AppearanceEnhancementsIosGroup({super.key});
 
   @override
   Widget build(BuildContext context) {
