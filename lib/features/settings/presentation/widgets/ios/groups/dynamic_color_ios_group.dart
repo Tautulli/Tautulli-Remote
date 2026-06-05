@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../../../core/device_info/device_info.dart';
@@ -36,16 +35,16 @@ class DynamicColorIosGroup extends StatelessWidget {
 
               return CustomNotchedCupertinoListTile(
                 inactive: themeNotDynamic || !supportsAccentColor,
-                leading: FaIcon(
-                  FontAwesomeIcons.wandMagicSparkles,
+                leading: Icon(
+                  CupertinoIcons.wand_stars,
                   color: (themeNotDynamic || !supportsAccentColor)
                       ? CupertinoColors.inactiveGray
                       : ThemeHelper.cupertinoListTileIconColor(),
-                  size: 21.3,
+                  size: 30,
                 ),
                 trailing: CupertinoSwitch(
                   value: state.appSettings.themeUseSystemColor,
-                  onChanged: themeNotDynamic || !supportsAccentColor
+                  onChanged: (themeNotDynamic || !supportsAccentColor)
                       ? null
                       : (value) {
                           context.read<SettingsBloc>().add(
@@ -67,18 +66,18 @@ class DynamicColorIosGroup extends StatelessWidget {
 
             return CustomNotchedCupertinoListTile(
               inactive: themeNotDynamic || useSystemColor,
-              leading: FaIcon(
-                FontAwesomeIcons.palette,
+              leading: Icon(
+                CupertinoIcons.eyedropper_halffull,
                 color: (themeNotDynamic || useSystemColor)
                     ? CupertinoColors.inactiveGray
                     : ThemeHelper.cupertinoListTileIconColor(),
-                size: 23,
+                size: 25,
               ),
               additionalInfo: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FaIcon(
-                    FontAwesomeIcons.solidCircle,
+                  Icon(
+                    CupertinoIcons.circle_fill,
                     color: themeNotDynamic || useSystemColor
                         ? state.appSettings.themeCustomColor.withValues(alpha: 0.7)
                         : state.appSettings.themeCustomColor,
@@ -87,51 +86,53 @@ class DynamicColorIosGroup extends StatelessWidget {
               ),
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.custom_color_title.tr(),
-              onTap: () => showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  content: Material(
-                    color: Colors.transparent,
-                    child: ColorPicker(
-                      color: state.appSettings.themeCustomColor,
-                      pickersEnabled: const {
-                        ColorPickerType.primary: false,
-                        ColorPickerType.accent: false,
-                        ColorPickerType.wheel: true,
-                      },
-                      showColorCode: true,
-                      colorCodeHasColor: true,
-                      enableShadesSelection: false,
-                      columnSpacing: 14,
-                      padding: const EdgeInsetsGeometry.all(0),
-                      copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-                        copyFormat: ColorPickerCopyFormat.hexRRGGBB,
+              onTap: () => (themeNotDynamic || useSystemColor)
+                  ? null
+                  : showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        content: Material(
+                          color: Colors.transparent,
+                          child: ColorPicker(
+                            color: state.appSettings.themeCustomColor,
+                            pickersEnabled: const {
+                              ColorPickerType.primary: false,
+                              ColorPickerType.accent: false,
+                              ColorPickerType.wheel: true,
+                            },
+                            showColorCode: true,
+                            colorCodeHasColor: true,
+                            enableShadesSelection: false,
+                            columnSpacing: 14,
+                            padding: const EdgeInsetsGeometry.all(0),
+                            copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+                              copyFormat: ColorPickerCopyFormat.hexRRGGBB,
+                            ),
+                            onColorChanged: (value) {
+                              pickerColor = value;
+                            },
+                          ),
+                        ),
+                        actions: [
+                          CupertinoDialogAction(
+                            isDefaultAction: true,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(LocaleKeys.close_title).tr(),
+                          ),
+                          CupertinoDialogAction(
+                            onPressed: () {
+                              context.read<SettingsBloc>().add(
+                                SettingsUpdateThemeCustomColor(pickerColor),
+                              );
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(LocaleKeys.select_title).tr(),
+                          ),
+                        ],
                       ),
-                      onColorChanged: (value) {
-                        pickerColor = value;
-                      },
                     ),
-                  ),
-                  actions: [
-                    CupertinoDialogAction(
-                      isDefaultAction: true,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(LocaleKeys.close_title).tr(),
-                    ),
-                    CupertinoDialogAction(
-                      onPressed: () {
-                        context.read<SettingsBloc>().add(
-                          SettingsUpdateThemeCustomColor(pickerColor),
-                        );
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(LocaleKeys.select_title).tr(),
-                    ),
-                  ],
-                ),
-              ),
             );
           },
         ),

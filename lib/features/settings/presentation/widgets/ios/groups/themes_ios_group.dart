@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
@@ -30,6 +29,7 @@ class ThemesIosGroup extends StatelessWidget {
                   ThemeHelper.cupertinoListTileIconColor(),
                   BlendMode.srcIn,
                 ),
+                height: 30,
               ),
               trailing: state.appSettings.theme == ThemeType.tautulli ? const Icon(CupertinoIcons.checkmark_alt) : null,
               titleText: 'Tautulli',
@@ -41,10 +41,10 @@ class ThemesIosGroup extends StatelessWidget {
               },
             ),
             CustomNotchedCupertinoListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.swatchbook,
+              leading: Icon(
+                CupertinoIcons.color_filter,
                 color: ThemeHelper.cupertinoListTileIconColor(),
-                size: 23,
+                size: 32,
               ),
               trailing: state.appSettings.theme == ThemeType.dynamic ? const Icon(CupertinoIcons.checkmark_alt) : null,
               titleText: LocaleKeys.dynamic_title.tr(),

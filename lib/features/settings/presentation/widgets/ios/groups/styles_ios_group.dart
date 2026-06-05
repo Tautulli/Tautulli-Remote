@@ -41,7 +41,7 @@ class StylesIosGroup extends StatelessWidget {
               leading: FaIcon(
                 FontAwesomeIcons.apple,
                 color: ThemeHelper.cupertinoListTileIconColor(),
-                size: 23,
+                size: 26,
               ),
               titleText: 'Cupertino',
               trailing: state.appSettings.appStyle == AppStyle.cupertino

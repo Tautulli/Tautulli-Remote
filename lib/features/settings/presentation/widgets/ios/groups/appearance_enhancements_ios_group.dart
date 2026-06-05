@@ -25,6 +25,7 @@ class AppearanceEnhancementsIosGroup extends StatelessWidget {
               leading: Icon(
                 CupertinoIcons.circle_lefthalf_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),
+                size: 25,
               ),
               trailing: CupertinoSwitch(
                 value: state.appSettings.themeEnhancement == ThemeEnhancementType.ultraContrastDark,
