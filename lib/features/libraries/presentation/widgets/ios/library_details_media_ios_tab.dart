@@ -19,11 +19,13 @@ import '../../bloc/library_media_bloc.dart';
 class LibraryDetailsMediaIosTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
+  final String? currentPageTitle;
 
   const LibraryDetailsMediaIosTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
+    this.currentPageTitle,
   });
 
   @override
@@ -139,26 +141,16 @@ class _LibraryDetailsMediaIosTabState extends State<LibraryDetailsMediaIosTab> {
                                 year: item.year,
                               );
 
-                              if (item.mediaType == MediaType.photoAlbum) {
-                                await Navigator.of(context).push(
-                                  CupertinoPageRoute(
-                                    builder: (context) => MediaIosPage(
-                                      server: widget.server,
-                                      media: media,
-                                    ),
+                              await Navigator.of(context).push(
+                                CupertinoPageRoute(
+                                  builder: (context) => MediaIosPage(
+                                    server: widget.server,
+                                    media: media,
+                                    disableAppBarActions: item.mediaType == MediaType.photo,
+                                    previousPageTitle: widget.currentPageTitle,
                                   ),
-                                );
-                              } else {
-                                await Navigator.of(context).push(
-                                  CupertinoPageRoute(
-                                    builder: (context) => MediaIosPage(
-                                      server: widget.server,
-                                      media: media,
-                                      disableAppBarActions: item.mediaType == MediaType.photo,
-                                    ),
-                                  ),
-                                );
-                              }
+                                ),
+                              );
                             },
                           ),
                         );

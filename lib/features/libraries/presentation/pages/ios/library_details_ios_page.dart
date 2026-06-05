@@ -189,6 +189,7 @@ class _LibraryDetailsIosViewState extends State<LibraryDetailsIosView> {
               LibraryDetailsMediaIosTab(
                 server: server,
                 libraryTableModel: widget.libraryTableModel,
+                currentPageTitle: widget.libraryTableModel.sectionName,
               ),
           ],
         );
