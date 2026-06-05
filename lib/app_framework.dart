@@ -273,7 +273,7 @@ class _CupertinoFramework extends StatelessWidget {
       //TODO: Implement inital route behavior
       // initialRoute: initialRoute,
       // home: HomePageHelper.get(),
-      home: TabScaffoldCupertino(),
+      home: const TabScaffoldCupertino(),
     );
   }
 }
