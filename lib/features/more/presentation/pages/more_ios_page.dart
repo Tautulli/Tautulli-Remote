@@ -38,25 +38,38 @@ class _MoreIosViewState extends State<MoreIosView> {
   void initState() {
     super.initState();
 
+    moreNavigationPage.addListener(_handleMoreNavigation);
+
     if (moreNavigationPage.value != null) {
-      final page = moreNavigationPage.value;
-      moreNavigationPage.value = null;
-
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-
-        switch (page) {
-          case 'settings':
-            Navigator.of(context).push(
-              CupertinoPageRoute(
-                builder: (context) => SettingsIosPage(
-                  showBackButton: true,
-                  previousPageTitle: LocaleKeys.more_title.tr(),
-                ),
-              ),
-            );
-        }
+        _handleMoreNavigation();
       });
+    }
+  }
+
+  @override
+  void dispose() {
+    moreNavigationPage.removeListener(_handleMoreNavigation);
+    super.dispose();
+  }
+
+  void _handleMoreNavigation() {
+    if (moreNavigationPage.value == null) return;
+    if (!mounted) return;
+
+    final page = moreNavigationPage.value;
+    moreNavigationPage.value = null;
+
+    switch (page) {
+      case 'settings':
+        Navigator.of(context).push(
+          CupertinoPageRoute(
+            builder: (context) => SettingsIosPage(
+              showBackButton: true,
+              previousPageTitle: LocaleKeys.more_title.tr(),
+            ),
+          ),
+        );
     }
   }
 
