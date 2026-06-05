@@ -63,7 +63,13 @@ class _TabbedIconDetailsIosPageState extends State<TabbedIconDetailsIosPage> {
                 child: ClipRect(
                   child: ColoredBox(
                     color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                    child: widget.background,
+                    child: DecoratedBox(
+                      position: DecorationPosition.foreground,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.black.withValues(alpha: 0.2),
+                      ),
+                      child: widget.background,
+                    ),
                   ),
                 ),
               ),

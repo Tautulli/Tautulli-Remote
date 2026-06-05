@@ -75,16 +75,22 @@ class _TabbedPosterDetailsIosPageState extends State<TabbedPosterDetailsIosPage>
           ),
           child: Stack(
             children: [
-              //* Background
               Column(
                 children: [
+                  //* Background
                   SizedBox(
                     height: topAreaHeight + 60,
                     width: double.infinity,
                     child: ClipRect(
                       child: ColoredBox(
                         color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                        child: widget.background,
+                        child: DecoratedBox(
+                          position: DecorationPosition.foreground,
+                          decoration: BoxDecoration(
+                            color: CupertinoColors.black.withValues(alpha: 0.2),
+                          ),
+                          child: widget.background,
+                        ),
                       ),
                     ),
                   ),
@@ -97,7 +103,7 @@ class _TabbedPosterDetailsIosPageState extends State<TabbedPosterDetailsIosPage>
                         children: [
                           Container(
                             height: 97,
-                            padding: const EdgeInsets.only(left: 8 + 100 + 8, right: 8 + 100 + 8, top: 4),
+                            padding: const EdgeInsets.only(left: 8 + 100 + 8, right: 8, top: 4),
                             //* Item Info
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +169,7 @@ class _TabbedPosterDetailsIosPageState extends State<TabbedPosterDetailsIosPage>
                   ),
                 ],
               ),
-              //* Icon
+              //* Poster
               Positioned(
                 left: 8,
                 top: topAreaHeight,
