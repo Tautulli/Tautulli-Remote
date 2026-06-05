@@ -19,6 +19,7 @@ class UserIosCard extends StatefulWidget {
   final UserTableModel user;
   final Widget details;
   final bool fetchUser;
+  final String? currentPageTitle;
 
   const UserIosCard({
     super.key,
@@ -26,6 +27,7 @@ class UserIosCard extends StatefulWidget {
     required this.user,
     required this.details,
     this.fetchUser = false,
+    this.currentPageTitle,
   });
 
   @override
@@ -73,6 +75,7 @@ class _UserIosCardState extends State<UserIosCard> {
                   user: user,
                   backgroundColor: color,
                   fetchUser: widget.fetchUser,
+                  previousPageTitle: widget.currentPageTitle,
                 ),
               ),
             ),

@@ -216,6 +216,7 @@ class _UsersIosViewState extends State<UsersIosView> {
                             server: _server,
                             user: user,
                             details: UserIosDetails(user: user),
+                            currentPageTitle: LocaleKeys.users_title.tr(),
                           );
                         } else {
                           return const Gap(8);

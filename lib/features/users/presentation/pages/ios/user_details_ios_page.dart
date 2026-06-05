@@ -25,6 +25,7 @@ class UserDetailsIosPage extends StatelessWidget {
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
+  final String? previousPageTitle;
 
   const UserDetailsIosPage({
     super.key,
@@ -32,6 +33,7 @@ class UserDetailsIosPage extends StatelessWidget {
     required this.user,
     this.backgroundColor,
     this.fetchUser = false,
+    this.previousPageTitle,
   });
 
   @override
@@ -53,6 +55,7 @@ class UserDetailsIosPage extends StatelessWidget {
         user: user,
         backgroundColor: backgroundColor,
         fetchUser: fetchUser,
+        previousPageTitle: previousPageTitle,
       ),
     );
   }
@@ -63,6 +66,7 @@ class UserDetailsIosView extends StatefulWidget {
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
+  final String? previousPageTitle;
 
   const UserDetailsIosView({
     super.key,
@@ -70,6 +74,7 @@ class UserDetailsIosView extends StatefulWidget {
     required this.user,
     this.backgroundColor,
     this.fetchUser = false,
+    this.previousPageTitle,
   });
 
   @override
@@ -77,7 +82,7 @@ class UserDetailsIosView extends StatefulWidget {
 }
 
 class _UserDetailsIosViewState extends State<UserDetailsIosView> {
-  late Future getColorFuture;
+  late Future<Color?> getColorFuture;
   late bool hasNetworkImage;
   late UserHistoryBloc _userHistoryBloc;
   Color? _backgroundColor;
@@ -126,17 +131,36 @@ class _UserDetailsIosViewState extends State<UserDetailsIosView> {
         settingsState as SettingsSuccess;
 
         return TabbedIconDetailsIosPage(
-          previousPageTitle: LocaleKeys.users_title.tr(),
+          previousPageTitle: widget.previousPageTitle,
           sensitive: settingsState.appSettings.maskSensitiveInfo,
-          background: Container(
-            //TODO: Use this method elsewhere instead of a stack of 2 colors?
-            color: _backgroundColor != null
-                ? Color.alphaBlend(
-                    CupertinoColors.black.withValues(alpha: 0.6),
-                    _backgroundColor!,
-                  )
-                : null,
-          ),
+          background: widget.backgroundColor != null
+              ? Container(
+                  //TODO: Use this method elsewhere instead of a stack of 2 colors?
+                  color: _backgroundColor != null
+                      ? Color.alphaBlend(
+                          CupertinoColors.black.withValues(alpha: 0.6),
+                          _backgroundColor!,
+                        )
+                      : null,
+                )
+              : BlocBuilder<UserIndividualBloc, UserIndividualState>(
+                  builder: (context, state) {
+                    return FutureBuilder<Color?>(
+                      future: hasNetworkImage && !widget.fetchUser ? getColorFuture : _getColor(state.user.userThumb),
+                      builder: (context, snapshot) {
+                        final color = snapshot.connectionState == ConnectionState.done ? snapshot.data : null;
+                        return Container(
+                          color: color != null
+                              ? Color.alphaBlend(
+                                  CupertinoColors.black.withValues(alpha: 0.6),
+                                  color,
+                                )
+                              : null,
+                        );
+                      },
+                    );
+                  },
+                ),
           icon: BlocBuilder<UserIndividualBloc, UserIndividualState>(
             builder: (context, state) {
               return UserIosIcon(
