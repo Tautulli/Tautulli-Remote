@@ -17,7 +17,7 @@ import 'tabbed_poster_details_ios_page.dart';
 class PhotoAlbumMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const PhotoAlbumMediaIosPage({
     super.key,
@@ -39,7 +39,7 @@ class PhotoAlbumMediaIosPage extends StatelessWidget {
 class PhotoAlbumMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const PhotoAlbumMediaIosView({

@@ -24,7 +24,7 @@ class MediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAppBarActions;
   final bool disableAncestryNavigation;
 
@@ -67,7 +67,7 @@ class MediaIosPage extends StatelessWidget {
 class MediaIosView extends StatefulWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final Uri? parentPosterUri;
   final bool disableAppBarActions;
   final bool disableAncestryNavigation;

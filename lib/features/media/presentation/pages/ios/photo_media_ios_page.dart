@@ -18,7 +18,7 @@ class PhotoMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final bool disableAppBarActions;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const PhotoMediaIosPage({
     super.key,
@@ -42,7 +42,7 @@ class PhotoMediaIosPage extends StatelessWidget {
 class PhotoMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAppBarActions;
 
   const PhotoMediaIosView({

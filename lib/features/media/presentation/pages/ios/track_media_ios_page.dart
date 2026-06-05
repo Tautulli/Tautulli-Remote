@@ -21,7 +21,7 @@ import 'tabbed_poster_details_ios_page.dart';
 class TrackMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const TrackMediaIosPage({
@@ -46,7 +46,7 @@ class TrackMediaIosPage extends StatelessWidget {
 class TrackMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const TrackMediaIosView({

@@ -17,7 +17,7 @@ import 'tabbed_poster_details_ios_page.dart';
 class ClipMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const ClipMediaIosPage({
     super.key,
@@ -39,7 +39,7 @@ class ClipMediaIosPage extends StatelessWidget {
 class ClipMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const ClipMediaIosView({

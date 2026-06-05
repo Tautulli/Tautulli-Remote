@@ -23,7 +23,7 @@ class EpisodeMediaIosPage extends StatelessWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAncestryNavigation;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const EpisodeMediaIosPage({
     super.key,
@@ -51,7 +51,7 @@ class EpisodeMediaIosView extends StatelessWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAncestryNavigation;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const EpisodeMediaIosView({
     super.key,

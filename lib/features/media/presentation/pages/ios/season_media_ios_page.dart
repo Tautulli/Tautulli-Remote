@@ -23,7 +23,7 @@ class SeasonMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final bool disableAncestryNavigation;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const SeasonMediaIosPage({
     super.key,
@@ -47,7 +47,7 @@ class SeasonMediaIosPage extends StatelessWidget {
 class SeasonMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const SeasonMediaIosView({
@@ -91,7 +91,8 @@ class SeasonMediaIosView extends StatelessWidget {
             mediaType: media.mediaType,
             uri: media.imageUri,
           ),
-          itemTitle: media.title,
+          itemTitle: media.parentTitle,
+          itemSubtitle: media.title,
           segments: {
             0: const Text(LocaleKeys.details_title).tr(),
             1: const Text(LocaleKeys.episodes_title).tr(),

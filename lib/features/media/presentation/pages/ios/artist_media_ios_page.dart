@@ -19,7 +19,7 @@ import 'tabbed_poster_details_ios_page.dart';
 class ArtistMediaIosPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   const ArtistMediaIosPage({
     super.key,
@@ -41,7 +41,7 @@ class ArtistMediaIosPage extends StatelessWidget {
 class ArtistMediaIosView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final String previousPageTitle;
+  final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
   const ArtistMediaIosView({
