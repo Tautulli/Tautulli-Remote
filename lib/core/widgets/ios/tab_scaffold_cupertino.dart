@@ -9,6 +9,8 @@ import '../../../features/more/presentation/pages/more_ios_page.dart';
 import '../../../features/recently_added/presentation/pages/ios/recently_added_ios_page.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
+import '../../rate_app/rate_app.dart';
+import 'rate_app_dialog_cupertino.dart';
 
 class TabScaffoldCupertino extends StatefulWidget {
   const TabScaffoldCupertino({super.key});
@@ -22,6 +24,15 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
   void initState() {
     super.initState();
     cupertinoTabController.index = 0;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (rateApp.shouldOpenDialog) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => const RateAppDialogCupertino(),
+        );
+      }
+    });
   }
 
   @override
