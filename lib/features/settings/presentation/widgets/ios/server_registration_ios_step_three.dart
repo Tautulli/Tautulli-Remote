@@ -37,19 +37,19 @@ class ServerRegistrationIosStepThree extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CupertinoButton.filled(
                 child: const Text(LocaleKeys.add_custom_http_header_title).tr(),
-                onPressed: () => showCupertinoSheet(
+                onPressed: () => showCupertinoModalPopup(
                   context: context,
-                  pageBuilder: (context) => CustomHttpHeaderIosBottomSheet(
+                  builder: (context) => CustomHttpHeaderIosBottomSheet(
                     forRegistration: true,
                     currentHeaders: state is RegistrationHeadersLoaded
                         ? state.headers
-                            .map(
-                              (header) => CustomHeaderModel(
-                                key: header.key,
-                                value: header.value,
-                              ),
-                            )
-                            .toList()
+                              .map(
+                                (header) => CustomHeaderModel(
+                                  key: header.key,
+                                  value: header.value,
+                                ),
+                              )
+                              .toList()
                         : [],
                   ),
                 ),

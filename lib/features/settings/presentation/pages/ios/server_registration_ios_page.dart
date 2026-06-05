@@ -3,25 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../../../../core/error/failure.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_close_button.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../../dependency_injection.dart' as di;
-import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../data/models/custom_header_model.dart';
-import '../../../bloc/register_device_bloc.dart';
-import '../../../bloc/registration_headers_bloc.dart';
-import '../../../bloc/settings_bloc.dart';
-import '../dialogs/certificate_failure_ios_dialog.dart';
-import '../dialogs/registration_exit_ios_dialog.dart';
-import '../dialogs/registration_failure_ios_dialog.dart';
-import '../server_registration_ios_step_one.dart';
-import '../server_registration_ios_step_three.dart';
-import '../server_registration_ios_step_two.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_close_button.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
+import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/custom_header_model.dart';
+import '../../bloc/register_device_bloc.dart';
+import '../../bloc/registration_headers_bloc.dart';
+import '../../bloc/settings_bloc.dart';
+import '../../widgets/ios/dialogs/certificate_failure_ios_dialog.dart';
+import '../../widgets/ios/dialogs/registration_exit_ios_dialog.dart';
+import '../../widgets/ios/dialogs/registration_failure_ios_dialog.dart';
+import '../../widgets/ios/server_registration_ios_step_one.dart';
+import '../../widgets/ios/server_registration_ios_step_three.dart';
+import '../../widgets/ios/server_registration_ios_step_two.dart';
 
-class ServerRegistrationIosBottomSheet extends StatelessWidget {
-  const ServerRegistrationIosBottomSheet({super.key});
+class ServerRegistrationIosPage extends StatelessWidget {
+  const ServerRegistrationIosPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class ServerRegistrationIosView extends StatelessWidget {
 
         if (shouldPop ?? false) {
           context.read<RegistrationHeadersBloc>().add(
-                RegistrationHeadersClear(),
-              );
+            RegistrationHeadersClear(),
+          );
           navigator.pop();
         }
       },
@@ -73,8 +73,8 @@ class ServerRegistrationIosView extends StatelessWidget {
             }
 
             context.read<RegistrationHeadersBloc>().add(
-                  RegistrationHeadersClear(),
-                );
+              RegistrationHeadersClear(),
+            );
             Navigator.of(context).pop();
           }
           if (state is RegisterDeviceFailure) {
@@ -101,6 +101,7 @@ class ServerRegistrationIosView extends StatelessWidget {
         child: Form(
           key: formKey,
           child: PageScaffoldCupertino(
+            showBackButton: false,
             middle: const Text(LocaleKeys.server_registration_title).tr(),
             leading: IosBottomSheetCloseButton(
               onPressed: () async {
@@ -111,8 +112,8 @@ class ServerRegistrationIosView extends StatelessWidget {
 
                 if (result) {
                   context.read<RegistrationHeadersBloc>().add(
-                        RegistrationHeadersClear(),
-                      );
+                    RegistrationHeadersClear(),
+                  );
 
                   Navigator.of(context).pop();
                 }
@@ -124,23 +125,23 @@ class ServerRegistrationIosView extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.read<RegisterDeviceBloc>().add(
-                            RegisterDeviceStarted(
-                              primaryConnectionAddress: primaryController.text,
-                              secondaryConnectionAddress: secondaryController.text,
-                              deviceToken: tokenController.text,
-                              headers: state is RegistrationHeadersLoaded
-                                  ? state.headers
-                                      .map(
-                                        (header) => CustomHeaderModel(
-                                          key: header.key,
-                                          value: header.value,
-                                        ),
-                                      )
-                                      .toList()
-                                  : [],
-                              settingsBloc: context.read<SettingsBloc>(),
-                            ),
-                          );
+                        RegisterDeviceStarted(
+                          primaryConnectionAddress: primaryController.text,
+                          secondaryConnectionAddress: secondaryController.text,
+                          deviceToken: tokenController.text,
+                          headers: state is RegistrationHeadersLoaded
+                              ? state.headers
+                                    .map(
+                                      (header) => CustomHeaderModel(
+                                        key: header.key,
+                                        value: header.value,
+                                      ),
+                                    )
+                                    .toList()
+                              : [],
+                          settingsBloc: context.read<SettingsBloc>(),
+                        ),
+                      );
                     }
                   },
                 );

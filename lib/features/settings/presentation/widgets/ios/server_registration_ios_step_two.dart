@@ -72,7 +72,6 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
           horizontalPadding: 20,
           child: CupertinoFormSection.insetGrouped(
             margin: const EdgeInsetsGeometry.all(0),
-            decoration: const BoxDecoration(color: Colors.transparent),
             children: [
               CupertinoTextFormFieldRow(
                 controller: widget.primaryController,
