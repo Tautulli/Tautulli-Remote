@@ -9,6 +9,7 @@ import '../../../../../core/helpers/data_unit_helper.dart';
 import '../../../../../core/helpers/ip_address_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/stream_decision.dart';
@@ -19,21 +20,21 @@ import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 
-class ActivityIosBottomSheetDetails extends StatefulWidget {
+class ActivityDetailsIosPageDetails extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityIosBottomSheetDetails({
+  const ActivityDetailsIosPageDetails({
     super.key,
     required this.server,
     required this.activity,
   });
 
   @override
-  State<ActivityIosBottomSheetDetails> createState() => _ActivityBottomSheetDetailsState();
+  State<ActivityDetailsIosPageDetails> createState() => _ActivityBottomSheetDetailsState();
 }
 
-class _ActivityBottomSheetDetailsState extends State<ActivityIosBottomSheetDetails> {
+class _ActivityBottomSheetDetailsState extends State<ActivityDetailsIosPageDetails> {
   @override
   void initState() {
     super.initState();
@@ -66,6 +67,29 @@ class _ActivityBottomSheetDetailsState extends State<ActivityIosBottomSheetDetai
 
                   return Column(
                     children: [
+                      _ItemRow(
+                        title: LocaleKeys.user_title.tr(),
+                        item: Text(
+                          settingsState.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : widget.activity.friendlyName ?? '',
+                        ),
+                      ),
+                      if (widget.activity.live != true &&
+                          widget.activity.duration != null &&
+                          widget.activity.viewOffset != null &&
+                          widget.activity.duration != null)
+                        _ItemRow(
+                          title: LocaleKeys.eta_title.tr(),
+                          item: Text(
+                            TimeHelper.eta(
+                              widget.activity.duration!,
+                              widget.activity.progressPercent,
+                              widget.server.timeFormat,
+                            ),
+                          ),
+                        ),
+                      const Gap(8),
                       _ItemRow(
                         title: LocaleKeys.product_title.tr(),
                         item: Text(

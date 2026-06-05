@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import 'ios_bottom_sheet_terminate_button.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
-
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../translations/locale_keys.g.dart';
 
 class TerminateStreamIosBottomSheet extends StatelessWidget {
   final ActivityModel activity;
@@ -25,10 +25,8 @@ class TerminateStreamIosBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoModalPopupScaffold(
       leading: const IosBottomSheetCancelButton(),
-      //TODO: translation
-      middle: Text('Terminate Stream'),
       trailing: const IosBottomSheetTerminateButton(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),

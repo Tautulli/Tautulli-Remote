@@ -11,6 +11,7 @@ class IosBottomSheetTerminateButton extends StatelessWidget {
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(
         vertical: 12,
+        horizontal: 16,
       ),
       child: const Text(
         LocaleKeys.terminate_title,
