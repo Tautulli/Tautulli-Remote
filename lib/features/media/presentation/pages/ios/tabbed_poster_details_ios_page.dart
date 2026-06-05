@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
 import '../../../../../core/widgets/ios/ios_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 class TabbedPosterDetailsIosPage extends StatefulWidget {
   final String? previousPageTitle;
@@ -78,21 +80,27 @@ class _TabbedPosterDetailsIosPageState extends State<TabbedPosterDetailsIosPage>
               Column(
                 children: [
                   //* Background
-                  SizedBox(
-                    height: topAreaHeight + 60,
-                    width: double.infinity,
-                    child: ClipRect(
-                      child: ColoredBox(
-                        color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                        child: DecoratedBox(
-                          position: DecorationPosition.foreground,
-                          decoration: BoxDecoration(
-                            color: CupertinoColors.black.withValues(alpha: 0.2),
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      state as SettingsSuccess;
+
+                      return SizedBox(
+                        height: topAreaHeight + 60,
+                        width: double.infinity,
+                        child: ClipRect(
+                          child: ColoredBox(
+                            color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+                            child: DecoratedBox(
+                              position: DecorationPosition.foreground,
+                              decoration: BoxDecoration(
+                                color: CupertinoColors.black.withValues(alpha: 0.2),
+                              ),
+                              child: !state.appSettings.disableImageBackgrounds ? widget.background : null,
+                            ),
                           ),
-                          child: widget.background,
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   Expanded(
                     child: Container(

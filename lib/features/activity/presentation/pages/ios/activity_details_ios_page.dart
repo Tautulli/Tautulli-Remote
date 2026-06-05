@@ -163,32 +163,34 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
                       child: ClipRect(
                         child: ColoredBox(
                           color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                          child: CachedNetworkImage(
-                            imageUrl: posterUri.toString(),
-                            httpHeaders: {
-                              for (CustomHeaderModel headerModel
-                                  in settingsState.appSettings.activeServer.customHeaders)
-                                headerModel.key: headerModel.value,
-                            },
-                            imageBuilder: (context, imageProvider) => DecoratedBox(
-                              position: DecorationPosition.foreground,
-                              decoration: BoxDecoration(
-                                color: CupertinoColors.black.withValues(alpha: 0.2),
-                              ),
-                              child: ImageFiltered(
-                                imageFilter: ImageFilter.blur(
-                                  sigmaX: 25,
-                                  sigmaY: 25,
-                                  tileMode: TileMode.decal,
-                                ),
-                                child: Image(
-                                  image: imageProvider,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
+                          child: DecoratedBox(
+                            position: DecorationPosition.foreground,
+                            decoration: BoxDecoration(
+                              color: CupertinoColors.black.withValues(alpha: 0.2),
                             ),
-                            placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-                            errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
+                            child: (!settingsState.appSettings.disableImageBackgrounds && activity.imageUri != null)
+                                ? CachedNetworkImage(
+                                    imageUrl: posterUri.toString(),
+                                    httpHeaders: {
+                                      for (CustomHeaderModel headerModel
+                                          in settingsState.appSettings.activeServer.customHeaders)
+                                        headerModel.key: headerModel.value,
+                                    },
+                                    imageBuilder: (context, imageProvider) => ImageFiltered(
+                                      imageFilter: ImageFilter.blur(
+                                        sigmaX: 25,
+                                        sigmaY: 25,
+                                        tileMode: TileMode.decal,
+                                      ),
+                                      child: Image(
+                                        image: imageProvider,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
+                                    errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
+                                  )
+                                : null,
                           ),
                         ),
                       ),
