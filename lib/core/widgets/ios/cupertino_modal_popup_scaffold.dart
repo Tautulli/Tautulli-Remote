@@ -25,6 +25,7 @@ class CupertinoModalPopupScaffold extends StatelessWidget {
         middle: middleText != null
             ? DefaultTextStyle(
                 style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+                textAlign: TextAlign.center,
                 child: Text(middleText!),
               )
             : null,
