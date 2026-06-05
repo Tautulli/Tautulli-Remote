@@ -383,7 +383,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
             );
 
             if (result == 'user') {
-              int newUserId = await showCupertinoSheet(
+              int newUserId = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),

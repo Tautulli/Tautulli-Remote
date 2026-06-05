@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -73,33 +73,33 @@ class _EditCustomHttpHeaderIosBottomSheetState extends State<EditCustomHttpHeade
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: PageScaffoldCupertino(
+      child: CupertinoModalPopupScaffold(
         //TODO: Add translations
-        middle: const Text('Edit {HeaderType} Header'),
+        middleText: _isBasicAuth ? 'Edit Basic Authentication Header' : 'Edit Custom Header',
         leading: const IosBottomSheetCancelButton(),
         trailing: IosBottomSheetSaveButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {
                 context.read<RegistrationHeadersBloc>().add(
-                      RegistrationHeadersUpdate(
-                        title: _keyController.value.text.trim(),
-                        subtitle: _valueController.value.text.trim(),
-                        basicAuth: _isBasicAuth,
-                        previousTitle: widget.existingKey,
-                      ),
-                    );
+                  RegistrationHeadersUpdate(
+                    title: _keyController.value.text.trim(),
+                    subtitle: _valueController.value.text.trim(),
+                    basicAuth: _isBasicAuth,
+                    previousTitle: widget.existingKey,
+                  ),
+                );
               } else {
                 if (widget.tautulliId != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateCustomHeaders(
-                          tautulliId: widget.tautulliId!,
-                          title: _keyController.value.text.trim(),
-                          subtitle: _valueController.value.text.trim(),
-                          basicAuth: _isBasicAuth,
-                          previousTitle: widget.existingKey,
-                        ),
-                      );
+                    SettingsUpdateCustomHeaders(
+                      tautulliId: widget.tautulliId!,
+                      title: _keyController.value.text.trim(),
+                      subtitle: _valueController.value.text.trim(),
+                      basicAuth: _isBasicAuth,
+                      previousTitle: widget.existingKey,
+                    ),
+                  );
                 }
               }
 
@@ -114,6 +114,7 @@ class _EditCustomHttpHeaderIosBottomSheetState extends State<EditCustomHttpHeade
               CupertinoTextFormFieldRow(
                 controller: _keyController,
                 focusNode: _keyFocus,
+                autofocus: true,
                 validator: (value) {
                   if (isBlank(value)) {
                     return LocaleKeys.cannot_be_blank_message.tr();

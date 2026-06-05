@@ -71,9 +71,9 @@ class CustomHeaderIosListTile extends StatelessWidget {
             ),
           ),
           trailing: const CupertinoListTileChevron(),
-          onTap: () => showCupertinoSheet(
+          onTap: () => showCupertinoModalPopup(
             context: context,
-            pageBuilder: (context) => EditCustomHttpHeaderIosBottomSheet(
+            builder: (context) => EditCustomHttpHeaderIosBottomSheet(
               forRegistration: false,
               tautulliId: tautulliId,
               existingKey: title,
