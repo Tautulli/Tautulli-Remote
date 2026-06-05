@@ -120,7 +120,6 @@ class AppFramework extends StatelessWidget {
         final Color systemColor = SystemTheme.accentColor.accent;
         final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
 
-        print(di.sl<Settings>().getAppStyle());
         if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
           return _CupertinoFramework(
             initialRoute: initialRoute,
