@@ -76,6 +76,7 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
               CupertinoTextFormFieldRow(
                 controller: widget.primaryController,
                 focusNode: _primaryFocus,
+                autocorrect: false,
                 onTap: () {
                   setState(() {
                     FocusScope.of(context).requestFocus(_primaryFocus);
@@ -102,6 +103,7 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
                   CupertinoTextFormFieldRow(
                     controller: widget.secondaryController,
                     focusNode: _secondaryFocus,
+                    autocorrect: false,
                     onTap: () {
                       setState(() {
                         FocusScope.of(context).requestFocus(_secondaryFocus);
@@ -138,6 +140,7 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
               CupertinoTextFormFieldRow(
                 controller: widget.tokenController,
                 focusNode: _tokenFocus,
+                autocorrect: false,
                 placeholder: LocaleKeys.device_token_title.tr(),
                 onTap: () {
                   setState(() {
