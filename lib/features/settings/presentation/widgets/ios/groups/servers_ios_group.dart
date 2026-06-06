@@ -10,6 +10,7 @@ import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.da
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/ios/server_settings_ios_page.dart';
+import '../delete_server_ios_button.dart';
 
 class ServersIosGroup extends StatelessWidget {
   final bool isWizard;
@@ -22,7 +23,8 @@ class ServersIosGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCupertinoListSection(
-      headerText: LocaleKeys.servers_title.tr(),
+      margin: isWizard ? EdgeInsets.zero : null,
+      headerText: isWizard ? null : LocaleKeys.servers_title.tr(),
       children: [
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
@@ -66,15 +68,12 @@ class ServersIosGroup extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                            //TODO: Update trailing for wizard
-                            trailing: const CupertinoListTileChevron(),
-                            // trailing: isWizard
-                            //     ? DeleteServerButton(
-                            //         isWizard: isWizard,
-                            //         serverId: server.id!,
-                            //         server: server,
-                            //       )
-                            //     : null,
+                            trailing: isWizard
+                                ? DeleteServerIosButton(
+                                    serverId: server.id!,
+                                    server: server,
+                                  )
+                                : const CupertinoListTileChevron(),
                           ),
                         )
                         .toList()

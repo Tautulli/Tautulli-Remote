@@ -308,7 +308,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       emit(
         currentState.copyWith(
           appSettings: currentState.appSettings.copyWith(
-            activeServer: blankServer,
+            activeServer: null,
           ),
         ),
       );
@@ -329,11 +329,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     await settings.deleteServer(event.id);
 
     logging.info("Settings :: Deleted server '${event.plexName}'");
-
-    // Delay item removal to avoid user noticing server page trying to display
-    // after server is removed from the list
-    //TODO: There has to be a better solution to this problem
-    await Future.delayed(const Duration(milliseconds: 180));
 
     emit(
       currentState.copyWith(serverList: updatedList),

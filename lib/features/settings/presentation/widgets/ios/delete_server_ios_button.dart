@@ -9,13 +9,11 @@ import '../../bloc/settings_bloc.dart';
 import 'dialogs/delete_ios_dialog.dart';
 
 class DeleteServerIosButton extends StatelessWidget {
-  final bool isWizard;
   final int serverId;
   final ServerModel server;
 
   const DeleteServerIosButton({
     super.key,
-    this.isWizard = false,
     required this.serverId,
     required this.server,
   });
@@ -42,8 +40,6 @@ class DeleteServerIosButton extends StatelessWidget {
         );
 
         if (result) {
-          if (!isWizard) Navigator.of(context).pop();
-
           context.read<SettingsBloc>().add(
             SettingsDeleteServer(
               id: serverId,

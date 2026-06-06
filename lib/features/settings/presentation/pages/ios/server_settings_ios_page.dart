@@ -61,9 +61,22 @@ class ServerSettingsIosView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
+    return BlocConsumer<SettingsBloc, SettingsState>(
+      listener: (context, state) {
+        if (state is SettingsSuccess) {
+          final serverExists = state.serverList.any((s) => s.id == serverId);
+
+          if (!serverExists && Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
+        }
+      },
       builder: (context, state) {
         state as SettingsSuccess;
+
+        // Display something after the state updates while we wait for the listener
+        final serverExists = state.serverList.any((s) => s.id == serverId);
+        if (!serverExists) return const SizedBox();
 
         final server = state.serverList.firstWhere(
           (server) => server.id == serverId,
