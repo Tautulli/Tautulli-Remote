@@ -27,7 +27,6 @@ class PermissionSettingIosDialog extends StatelessWidget {
           child: const Text(LocaleKeys.cancel_title).tr(),
         ),
         CupertinoDialogAction(
-          isDefaultAction: true,
           onPressed: () async {
             await openAppSettings().then(
               (value) {
