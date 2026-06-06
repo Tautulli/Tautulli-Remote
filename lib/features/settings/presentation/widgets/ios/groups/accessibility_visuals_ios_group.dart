@@ -9,12 +9,18 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
 class AccessibilityVisualsIosGroup extends StatelessWidget {
-  const AccessibilityVisualsIosGroup({super.key});
+  final bool isWizard;
+
+  const AccessibilityVisualsIosGroup({
+    super.key,
+    this.isWizard = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomCupertinoListSection(
-      headerText: LocaleKeys.theme_title.tr(),
+      margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
+      headerText: isWizard ? null : LocaleKeys.visuals_title.tr(),
       children: [
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {

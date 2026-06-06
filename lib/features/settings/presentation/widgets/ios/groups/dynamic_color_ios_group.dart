@@ -16,14 +16,20 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
 class DynamicColorIosGroup extends StatelessWidget {
-  const DynamicColorIosGroup({super.key});
+  final bool isWizard;
+
+  const DynamicColorIosGroup({
+    super.key,
+    this.isWizard = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     late Color pickerColor;
 
     return CustomCupertinoListSection(
-      headerText: LocaleKeys.dynamic_color_title.tr(),
+      margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
+      headerText: isWizard ? null : LocaleKeys.dynamic_color_title.tr(),
       children: [
         if (di.sl<DeviceInfo>().platform != 'ios')
           BlocBuilder<SettingsBloc, SettingsState>(

@@ -11,7 +11,12 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
 class ThemesIosGroup extends StatelessWidget {
-  const ThemesIosGroup({super.key});
+  final bool isWizard;
+
+  const ThemesIosGroup({
+    super.key,
+    this.isWizard = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,8 @@ class ThemesIosGroup extends StatelessWidget {
         state as SettingsSuccess;
 
         return CustomCupertinoListSection(
-          headerText: LocaleKeys.themes_title.tr(),
+          margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
+          headerText: isWizard ? null : LocaleKeys.themes_title.tr(),
           children: [
             CustomNotchedCupertinoListTile(
               leading: WebsafeSvg.asset(
