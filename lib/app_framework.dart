@@ -77,6 +77,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
   StatisticsIosPage.routeName: (_) => const StatisticsIosPage(),
   UsersIosPage.routeName: (_) => const UsersIosPage(),
+  WizardPage.routeName: (_) => const WizardPage(),
 };
 
 class AppFramework extends StatelessWidget {
@@ -122,7 +123,7 @@ class AppFramework extends StatelessWidget {
 
         if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
           return _CupertinoFramework(
-            initialRoute: initialRoute,
+            // initialRoute: initialRoute,
             useAtkinsonHyperLegible: useAtkinsonHyperLegible,
             theme: theme,
             themeUseSystemColor: themeUseSystemColor,
@@ -200,7 +201,6 @@ class _MaterialFramework extends StatelessWidget {
 }
 
 class _CupertinoFramework extends StatelessWidget {
-  final String? initialRoute;
   final bool useAtkinsonHyperLegible;
   final ThemeType theme;
   final bool themeUseSystemColor;
@@ -209,7 +209,6 @@ class _CupertinoFramework extends StatelessWidget {
   final ThemeEnhancementType themeEnhancement;
 
   const _CupertinoFramework({
-    required this.initialRoute,
     required this.useAtkinsonHyperLegible,
     required this.theme,
     required this.themeUseSystemColor,
@@ -235,7 +234,7 @@ class _CupertinoFramework extends StatelessWidget {
       builder: (context, child) {
         return BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
-            //TODO: Temporary logic until CupertinoThemeData supports a font option
+            // CupertinoTheme does not support a fontName like MaterialTheme. As a result we need to edit the CupertinoTheme and use that to change the Cupertino widgets and the DefaultTextStyle below.
             CupertinoThemeData theme = CupertinoTheme.of(context);
             final fontFamily = GoogleFonts.getFont(
               useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : 'Open Sans',
@@ -256,23 +255,26 @@ class _CupertinoFramework extends StatelessWidget {
             if (state is SettingsSuccess) {
               return CupertinoTheme(
                 data: cupertinoTheme,
-                child: child!,
+                child: DefaultTextStyle(
+                  style: cupertinoTheme.textTheme.textStyle,
+                  child: child!,
+                ),
               );
             }
 
             return CupertinoTheme(
               data: cupertinoTheme,
-              child: const Scaffold(
-                body: SettingsNotLoadedIos(),
+              child: DefaultTextStyle(
+                style: cupertinoTheme.textTheme.textStyle,
+                child: const Scaffold(
+                  body: SettingsNotLoadedIos(),
+                ),
               ),
             );
           },
         );
       },
       routes: cupertinoRoutes,
-      //TODO: Implement inital route behavior
-      // initialRoute: initialRoute,
-      // home: HomePageHelper.get(),
       home: const TabScaffoldCupertino(),
     );
   }
