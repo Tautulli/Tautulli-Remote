@@ -34,6 +34,8 @@ class MoreIosView extends StatefulWidget {
 }
 
 class _MoreIosViewState extends State<MoreIosView> {
+  String? _currentRoute;
+
   @override
   void initState() {
     super.initState();
@@ -62,14 +64,18 @@ class _MoreIosViewState extends State<MoreIosView> {
 
     switch (page) {
       case 'settings':
-        Navigator.of(context).push(
-          CupertinoPageRoute(
-            builder: (context) => SettingsIosPage(
-              showBackButton: true,
-              previousPageTitle: LocaleKeys.more_title.tr(),
-            ),
-          ),
-        );
+        if (_currentRoute == 'settings') return;
+        _currentRoute = 'settings';
+        Navigator.of(context)
+            .push(
+              CupertinoPageRoute(
+                builder: (context) => SettingsIosPage(
+                  showBackButton: true,
+                  previousPageTitle: LocaleKeys.more_title.tr(),
+                ),
+              ),
+            )
+            .then((_) => _currentRoute = null);
     }
   }
 
@@ -194,14 +200,20 @@ class _MoreIosViewState extends State<MoreIosView> {
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.settings_title.tr(),
-                    onTap: () => Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        builder: (context) => SettingsIosPage(
-                          showBackButton: true,
-                          previousPageTitle: LocaleKeys.more_title.tr(),
-                        ),
-                      ),
-                    ),
+                    onTap: () {
+                      _currentRoute = 'settings';
+
+                      return Navigator.of(context)
+                          .push(
+                            CupertinoPageRoute(
+                              builder: (context) => SettingsIosPage(
+                                showBackButton: true,
+                                previousPageTitle: LocaleKeys.more_title.tr(),
+                              ),
+                            ),
+                          )
+                          .then((_) => _currentRoute = null);
+                    },
                   ),
                 ],
               ),
