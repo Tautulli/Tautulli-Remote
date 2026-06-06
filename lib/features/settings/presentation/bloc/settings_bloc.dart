@@ -1311,10 +1311,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsUpdateWizardComplete event,
     Emitter<SettingsState> emit,
   ) async {
-    await settings.setWizardComplete(event.wizardComplete);
+    final currentState = state as SettingsSuccess;
 
+    await settings.setWizardComplete(event.wizardComplete);
     logging.info(
       'Settings :: Wizard complete',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          wizardComplete: event.wizardComplete,
+        ),
+      ),
     );
   }
 }
