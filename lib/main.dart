@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:system_theme/system_theme.dart';
 
+import 'core/global_keys/global_keys.dart';
 import 'core/helpers/translation_helper.dart';
 import 'core/package_information/package_information.dart';
 import 'dependency_injection.dart' as di;
@@ -59,17 +60,16 @@ void main() async {
 
     if (!wizardComplete) {
       final serversExist = await di.sl<Settings>().getAllServers().then(
-            (value) => value.isNotEmpty,
-          );
+        (value) => value.isNotEmpty,
+      );
       // Mark wizard as complete for users who added servers before wizard existed
       if (serversExist) {
         await di.sl<Settings>().setWizardComplete(true);
       } else {
         routeToReturn ??= '/wizard';
+        await di.sl<Settings>().setLastAppVersion(runningVersion);
       }
-    }
-
-    if (runningVersion != lastAppVersion) {
+    } else if (runningVersion != lastAppVersion) {
       await di.sl<Settings>().setLastAppVersion(runningVersion);
       await di.sl<Settings>().setRegistrationUpdateNeeded(true);
       routeToReturn ??= '/changelog';
@@ -79,6 +79,7 @@ void main() async {
   }
 
   final initialRoute = await calculateInitialRoute();
+  cupertinoInitialRoute.value = initialRoute;
 
   runApp(
     EasyLocalization(
