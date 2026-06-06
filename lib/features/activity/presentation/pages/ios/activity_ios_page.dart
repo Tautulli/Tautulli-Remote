@@ -192,6 +192,31 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
             }
           },
         ),
+        //* Fetch activity again after the wizard is completed
+        BlocListener<SettingsBloc, SettingsState>(
+          listenWhen: (previous, current) {
+            if (previous is SettingsSuccess && current is SettingsSuccess) {
+              if (previous.appSettings.wizardComplete != current.appSettings.wizardComplete &&
+                  current.serverList.isNotEmpty) {
+                return true;
+              }
+            }
+            return false;
+          },
+          listener: (context, state) {
+            if (state is SettingsSuccess) {
+              _activityBloc.add(
+                ActivityFetched(
+                  serverList: _serverList,
+                  multiserver: _multiserver,
+                  activeServerId: _activeServerId,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
+            }
+          },
+        ),
       ],
 
       child: BlocSelector<SettingsBloc, SettingsState, bool?>(
