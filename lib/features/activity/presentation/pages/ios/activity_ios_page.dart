@@ -244,8 +244,10 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
                 }
               },
               builder: (context, state) {
-                return Builder(
-                  builder: (context) {
+                return BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, settingsState) {
+                    settingsState as SettingsSuccess;
+
                     if (_multiserver && _serverList.length > 1) {
                       return _buildMultiserverActivity(
                         serverActivityModelList: state.serverActivityList,
@@ -254,6 +256,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
                       return _buildSingleServerActivity(
                         serverActivityModelList: state.serverActivityList,
                         freshFetch: state.freshFetch,
+                        wizardComplete: settingsState.appSettings.wizardComplete,
                       );
                     }
                   },
@@ -287,11 +290,20 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
   Widget _buildSingleServerActivity({
     required List<ServerActivityModel> serverActivityModelList,
     required bool freshFetch,
+    required bool wizardComplete,
   }) {
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> serverActivityWidgets = [];
 
     if (serverActivityModelList.isEmpty) {
+      if (!wizardComplete) {
+        return const StatusIosPage(
+          //TODO: Need translation string
+          message: 'Waiting for the setup wizard to complete',
+          action: CupertinoActivityIndicator(),
+        );
+      }
+
       return _statusWidget(
         child: StatusIosPage(
           message: LocaleKeys.error_message_no_servers.tr(),
