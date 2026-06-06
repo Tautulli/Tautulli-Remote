@@ -9,6 +9,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -138,7 +139,7 @@ class _DonateIosViewState extends State<DonateIosView> {
                   } else if (_offerings!.all.isNotEmpty) {
                     return ListView(
                       children: [
-                        _heading(LocaleKeys.donate_onetime_title.tr()),
+                        CustomCupertinoListSectionHeading(LocaleKeys.donate_onetime_title.tr()),
                         CustomCupertinoListSection(
                           margin: EdgeInsets.zero,
                           children: [
@@ -215,7 +216,7 @@ class _DonateIosViewState extends State<DonateIosView> {
                             ),
                           ],
                         ),
-                        _heading(LocaleKeys.donate_recurring_title.tr()),
+                        CustomCupertinoListSectionHeading(LocaleKeys.donate_recurring_title.tr()),
                         CustomCupertinoListSection(
                           margin: EdgeInsets.zero,
                           children: [
@@ -326,22 +327,6 @@ class _DonateIosViewState extends State<DonateIosView> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _heading(String headerText) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 6),
-      child: DefaultTextStyle(
-        style: CupertinoTheme.of(context).textTheme.textStyle.merge(
-          TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: CupertinoTheme.of(context).primaryColor,
-          ),
-        ),
-        child: Text(headerText),
       ),
     );
   }

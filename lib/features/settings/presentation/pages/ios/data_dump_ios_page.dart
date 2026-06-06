@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:tautulli_remote/core/widgets/ios/custom_cupertino_list_section_heading.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
@@ -106,17 +107,22 @@ class _SettingsDumpGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
-      margin: EdgeInsets.zero,
-      headerText: headerText,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CupertinoCard(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: children,
+        CustomCupertinoListSectionHeading(headerText),
+        CustomCupertinoListSection(
+          margin: EdgeInsets.zero,
+          children: [
+            CupertinoCard(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: children,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );
