@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/types/wizard_skip_type.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/permission_setting_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
@@ -104,8 +105,8 @@ class WizardOneSignal extends StatelessWidget {
                         onChanged: (_) async {
                           if (await Permission.notification.request().isGranted) {
                             context.read<WizardBloc>().add(
-                                  WizardToggleOneSignal(),
-                                );
+                              WizardToggleOneSignal(),
+                            );
                           } else {
                             await showDialog(
                               context: context,
@@ -126,7 +127,7 @@ class WizardOneSignal extends StatelessWidget {
                 rightAction: state.oneSignalSkipped || state.oneSignalAllowed
                     ? const WizardNextButton()
                     : const WizardSkipButton(
-                        skipType: SkipType.onesignal,
+                        wizardSkipType: WizardSkipType.onesignal,
                       ),
               ),
             ],

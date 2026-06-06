@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/types/wizard_skip_type.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -121,7 +122,7 @@ class WizardServers extends StatelessWidget {
                   return WizardStepper(
                     leftAction: const WizardExitButton(),
                     rightAction: settingsState.serverList.isEmpty && !wizardState.serversSkipped
-                        ? const WizardSkipButton(skipType: SkipType.servers)
+                        ? const WizardSkipButton(wizardSkipType: WizardSkipType.servers)
                         : const WizardNextButton(),
                   );
                 },
