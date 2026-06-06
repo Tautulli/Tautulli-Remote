@@ -14,10 +14,7 @@ class IosBottomSheetSaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       onPressed: onPressed,
       child: const Text(LocaleKeys.save_title).tr(),
     );

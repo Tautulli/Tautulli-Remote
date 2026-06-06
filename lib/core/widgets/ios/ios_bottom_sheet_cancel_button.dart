@@ -9,10 +9,7 @@ class IosBottomSheetCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: const Text(LocaleKeys.cancel_title).tr(),
       onPressed: () => Navigator.of(context).pop(),
     );
