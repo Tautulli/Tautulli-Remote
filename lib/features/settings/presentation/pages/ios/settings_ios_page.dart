@@ -10,7 +10,7 @@ import '../../widgets/ios/groups/about_ios_group.dart';
 import '../../widgets/ios/groups/app_settings_ios_group.dart';
 import '../../widgets/ios/groups/help_and_support_ios_group.dart';
 import '../../widgets/ios/groups/more_ios_group.dart';
-import '../../widgets/ios/groups/server_ios_group.dart';
+import '../../widgets/ios/groups/servers_ios_group.dart';
 import '../../widgets/ios/onesignal_ios_alert_card.dart';
 import '../../widgets/ios/register_server_ios_button.dart';
 
