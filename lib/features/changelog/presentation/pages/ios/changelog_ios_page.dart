@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../donate/presentation/pages/ios/donate_ios_page.dart';
+import '../../../../donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
 import '../../../data/datasources/changelog_data_source.dart';
 import '../../widgets/ios/changelog_ios_item.dart';
 
@@ -66,7 +66,7 @@ class ChangelogIosView extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => DonateIosPage(
+              builder: (context) => CupertinoStyleDonatePage(
                 showBackButton: true,
                 previousPageTitle: LocaleKeys.changelog_title.tr(),
               ),

@@ -13,13 +13,13 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.da
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../widgets/ios/donate_heading_ios_card.dart';
+import '../../widgets/cupertino/cupertino_style_donate_heading_card.dart';
 
-class DonateIosPage extends StatelessWidget {
+class CupertinoStyleDonatePage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const DonateIosPage({
+  const CupertinoStyleDonatePage({
     super.key,
     this.showBackButton = false,
     this.previousPageTitle,
@@ -29,28 +29,28 @@ class DonateIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DonateIosView(
+    return CupertinoStyleDonateView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class DonateIosView extends StatefulWidget {
+class CupertinoStyleDonateView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const DonateIosView({
+  const CupertinoStyleDonateView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
-  State<DonateIosView> createState() => _DonateIosViewState();
+  State<CupertinoStyleDonateView> createState() => _CupertinoStyleDonateViewState();
 }
 
-class _DonateIosViewState extends State<DonateIosView> {
+class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
   CustomerInfo? _customerInfo;
   Offerings? _offerings;
 
@@ -128,7 +128,7 @@ class _DonateIosViewState extends State<DonateIosView> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
-            const DonateHeadingIosCard(),
+            const CupertinoStyleDonateHeadingCard(),
             Expanded(
               child: Builder(
                 builder: (context) {
