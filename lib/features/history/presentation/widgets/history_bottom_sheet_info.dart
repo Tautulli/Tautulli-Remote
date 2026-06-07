@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/time_helper.dart';
@@ -20,9 +20,7 @@ class HistoryBottomSheetInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleRow(history),
-        if (history.mediaType == MediaType.episode ||
-            history.mediaType == MediaType.track)
-          SubtitleRow(history),
+        if (history.mediaType == MediaType.episode || history.mediaType == MediaType.track) SubtitleRow(history),
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -132,9 +130,7 @@ class ItemDetailsRow extends StatelessWidget {
       );
     }
 
-    if (mediaType == MediaType.episode &&
-        history.live == true &&
-        history.mediaIndex == null) {
+    if (mediaType == MediaType.episode && history.live == true && history.mediaIndex == null) {
       return Text(
         TimeHelper.cleanDateTime(
           history.date!,
@@ -146,8 +142,7 @@ class ItemDetailsRow extends StatelessWidget {
       );
     }
 
-    if (mediaType == MediaType.episode &&
-        (history.parentMediaIndex != null || history.mediaIndex != null)) {
+    if (mediaType == MediaType.episode && (history.parentMediaIndex != null || history.mediaIndex != null)) {
       return Text(
         '${history.parentMediaIndex != null ? "S${history.parentMediaIndex}" : ""}${history.parentMediaIndex != null && history.mediaIndex != null ? " • " : ""}${history.mediaIndex != null ? "E${history.mediaIndex}" : ""}',
         overflow: TextOverflow.ellipsis,

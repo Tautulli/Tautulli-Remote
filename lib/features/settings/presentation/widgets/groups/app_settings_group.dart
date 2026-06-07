@@ -9,7 +9,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../pages/accessibility_page.dart';
 import '../../pages/advanced_page.dart';
-import '../../pages/theme_page.dart';
+import '../../pages/appearance_page.dart';
 import '../dialogs/activity_refresh_rate_dialog.dart';
 import '../dialogs/server_timeout_dialog.dart';
 
@@ -78,13 +78,14 @@ class AppSettingsGroup extends StatelessWidget {
         ),
         CustomListTile(
           leading: FaIcon(
-            FontAwesomeIcons.palette,
+            FontAwesomeIcons.brush,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-          title: LocaleKeys.themes_title.tr(),
+          //TODO:  Create translation key
+          title: 'Appearance',
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const ThemePage(),
+              builder: (context) => const AppearancePage(),
             ),
           ),
         ),

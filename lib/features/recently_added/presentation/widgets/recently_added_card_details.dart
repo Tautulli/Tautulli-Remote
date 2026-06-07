@@ -83,10 +83,11 @@ class _TitleRow extends StatelessWidget {
     return Text(
       text ?? 'Unknown',
       overflow: TextOverflow.ellipsis,
-      maxLines: [
-        MediaType.movie,
-        MediaType.season,
-      ].contains(recentlyAdded.mediaType)
+      maxLines:
+          [
+            MediaType.movie,
+            MediaType.season,
+          ].contains(recentlyAdded.mediaType)
           ? 2
           : 1,
       style: const TextStyle(
@@ -151,8 +152,7 @@ class _ItemDetailsRow extends StatelessWidget {
       //   text = '';
       //   break;
       case (MediaType.episode):
-        text =
-            'S${recentlyAdded.parentMediaIndex} • E${recentlyAdded.mediaIndex}';
+        text = 'S${recentlyAdded.parentMediaIndex} • E${recentlyAdded.mediaIndex}';
         break;
       case (MediaType.track):
         text = recentlyAdded.parentTitle;

@@ -173,7 +173,7 @@ SPEC CHECKSUMS:
   cryptography_flutter_plus: e83d08081cb3d04035282302098a18464b599510
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_app_group_directory: d2c3337f424828558953172f9378d00df9b7756d
   flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
   fluttertoast: 21eecd6935e7064cc1fcb733a4c5a428f3f24f0f

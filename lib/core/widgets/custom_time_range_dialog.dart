@@ -15,62 +15,66 @@ class CustomTimeRangeDialog extends StatelessWidget {
 
     return AlertDialog(
       title: const Text(LocaleKeys.custom_time_range_title).tr(),
-      content: Column(mainAxisSize: MainAxisSize.min, children: [
-        Form(
-          key: formKey,
-          child: TextFormField(
-            controller: textController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Form(
+            key: formKey,
+            child: TextFormField(
+              controller: textController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
-              ),
-              errorBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.error,
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
-              ),
-              focusedErrorBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.error,
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
+                //TODO: Shouldn't display time suggestion on statistics page
+                hintText: LocaleKeys.enter_time_range_in_days_message.tr(),
               ),
-              hintText: LocaleKeys.enter_time_range_in_days_message.tr(),
-            ),
-            validator: (value) {
-              if (isBlank(value)) {
-                return LocaleKeys.cannot_be_blank_message.tr();
-              } else {
-                try {
-                  final timeRange = int.parse(value!);
+              validator: (value) {
+                if (isBlank(value)) {
+                  return LocaleKeys.cannot_be_blank_message.tr();
+                } else {
+                  try {
+                    final timeRange = int.parse(value!);
 
-                  if (timeRange < 2) {
-                    return LocaleKeys.integer_larger_than_1_message.tr();
-                  } else {
-                    return null;
+                    if (timeRange < 2) {
+                      return LocaleKeys.integer_larger_than_1_message.tr();
+                    } else {
+                      return null;
+                    }
+                  } catch (e) {
+                    return LocaleKeys.enter_an_integer_message.tr();
                   }
-                } catch (e) {
-                  return LocaleKeys.enter_an_integer_message.tr();
                 }
-              }
-            },
+              },
+            ),
           ),
-        ),
-        const Gap(8),
-        Text(
-          LocaleKeys.custom_time_range_dialog_content,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ).tr(),
-      ]),
+          const Gap(8),
+          Text(
+            LocaleKeys.custom_time_range_dialog_content,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ).tr(),
+        ],
+      ),
       actions: [
         TextButton(
           style: TextButton.styleFrom(

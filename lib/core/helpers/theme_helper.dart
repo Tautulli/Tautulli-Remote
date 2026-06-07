@@ -1,4 +1,5 @@
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,7 +8,7 @@ import '../types/theme_type.dart';
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
-  static ThemeData themeSelector({
+  static ThemeData materialThemeSelector({
     required ThemeType theme,
     required Color color,
     required ThemeEnhancementType enhancement,
@@ -15,13 +16,28 @@ class ThemeHelper {
   }) {
     switch (theme) {
       case (ThemeType.tautulli):
-        return tautulli(enhancement: enhancement, fontName: fontName);
+        return tautulliMaterial(enhancement: enhancement, fontName: fontName);
       case (ThemeType.dynamic):
-        return dynamic(color: color, enhancement: enhancement, fontName: fontName);
+        return dynamicMaterial(color: color, enhancement: enhancement, fontName: fontName);
     }
   }
 
-  static ThemeData tautulli({
+  static CupertinoThemeData cupertinoThemeSelector({
+    required ThemeType theme,
+    required Color color,
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    switch (theme) {
+      case (ThemeType.tautulli):
+        return tautulliCupertino(enhancement: enhancement, fontName: fontName);
+      case (ThemeType.dynamic):
+        return dynamicCupertino(color: color, enhancement: enhancement, fontName: fontName);
+    }
+  }
+
+  //* Material Themes
+  static ThemeData tautulliMaterial({
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
@@ -35,23 +51,39 @@ class ThemeHelper {
         primary: PlexColorPalette.primaryGold,
         onPrimary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
         primaryContainer: const Color(0xffd5950c),
-        onPrimaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onPrimaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         secondary: PlexColorPalette.blue,
-        onSecondary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onSecondary: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         secondaryContainer: PlexColorPalette.blue,
-        onSecondaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onSecondaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         tertiary: PlexColorPalette.orange,
-        onTertiary: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onTertiary: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         tertiaryContainer: PlexColorPalette.orange,
-        onTertiaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
+        onTertiaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
         error: Colors.red,
         onError: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         errorContainer: Colors.red,
-        onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.black : TautulliColorPalette.notWhite,
-        surface: enhancement == ThemeEnhancementType.ultraContrastDark ? PlexColorPalette.black : TautulliColorPalette.midnight,
+        onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.black
+            : TautulliColorPalette.notWhite,
+        surface: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? PlexColorPalette.black
+            : TautulliColorPalette.midnight,
         onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         surfaceContainerHighest: const Color(0xff404040),
-        onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.smoke,
+        onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark
+            ? Colors.white
+            : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
       ),
       appBarTheme: const AppBarTheme(
@@ -105,13 +137,14 @@ class ThemeHelper {
     );
   }
 
-  static ThemeData dynamic({
+  static ThemeData dynamicMaterial({
     required Color color,
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
-    final FlexTones flexTones =
-        (enhancement == ThemeEnhancementType.ultraContrastDark) ? FlexTones.ultraContrast(Brightness.dark) : FlexTones.chroma(Brightness.dark);
+    final FlexTones flexTones = (enhancement == ThemeEnhancementType.ultraContrastDark)
+        ? FlexTones.ultraContrast(Brightness.dark)
+        : FlexTones.chroma(Brightness.dark);
 
     return ThemeData(
       useMaterial3: true,
@@ -166,6 +199,79 @@ class ThemeHelper {
     );
   }
 
+  //* Cupertino Themes
+  static CupertinoThemeData tautulliCupertino({
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    return CupertinoThemeData(
+      applyThemeToAll: true,
+      brightness: Brightness.dark,
+      primaryColor: PlexColorPalette.primaryGold,
+      primaryContrastingColor: CupertinoColors.black,
+      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark
+          ? PlexColorPalette.black
+          : TautulliColorPalette.midnight,
+    );
+  }
+
+  static CupertinoThemeData dynamicCupertino({
+    required Color color,
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    return CupertinoThemeData(
+      applyThemeToAll: true,
+      brightness: Brightness.dark,
+      primaryColor: color,
+      primaryContrastingColor: CupertinoColors.black,
+      scaffoldBackgroundColor: enhancement == ThemeEnhancementType.ultraContrastDark
+          ? PlexColorPalette.black
+          : TautulliColorPalette.midnight,
+    );
+  }
+
+  static Color cupertinoListTileIconColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoActionSheetActionColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoAlertCardButtonTextColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoAlertCardIconColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoCardIconColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoBottomSheetTextColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoBottomSheetHeadingColor() {
+    return CupertinoColors.systemGrey2;
+  }
+
+  static Color cupertinoNavigationBarItemColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoStandardTextColor() {
+    return CupertinoColors.white;
+  }
+
+  static Color cupertinoChartLineColor() {
+    return CupertinoColors.systemGrey;
+  }
+
+  //* Utilities
   static Color darkenedColor(Color color) {
     return HSLColor.fromColor(color).withLightness(0.08).toColor();
   }

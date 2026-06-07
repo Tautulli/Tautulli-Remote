@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
@@ -14,6 +15,7 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -80,6 +82,10 @@ abstract class SettingsDataSource {
   // Active Server ID
   String getActiveServerId();
   Future<bool> setActiveServerId(String value);
+
+  // AppStyle
+  AppStyle getAppStyle();
+  Future<bool> setAppStyle(AppStyle value);
 
   // App Update Available
   bool getAppUpdateAvailable();
@@ -207,6 +213,7 @@ abstract class SettingsDataSource {
 }
 
 const activeServerId = 'activeServerId';
+const appStyle = 'appStyle';
 const appUpdateAvailable = 'appUpdateAvailable';
 const customCertHashList = 'customCertHashList';
 const disableImageBackgrounds = 'disableImageBackgrounds';
@@ -421,6 +428,21 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setActiveServerId(String value) {
     return localStorage.setString(activeServerId, value);
+  }
+
+  // AppStyle
+  @override
+  AppStyle getAppStyle() {
+    final String defaultAppStyle = di.sl<DeviceInfo>().platform == 'ios' ? 'cupertino' : 'material';
+
+    String? appStyleString = localStorage.getString(appStyle) ?? defaultAppStyle;
+
+    return Cast.castToAppStyle(appStyleString);
+  }
+
+  @override
+  Future<bool> setAppStyle(AppStyle value) {
+    return localStorage.setString(appStyle, value.toShortString());
   }
 
   // App Update Available

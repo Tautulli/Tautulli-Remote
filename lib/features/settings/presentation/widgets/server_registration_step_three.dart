@@ -7,6 +7,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/custom_header_model.dart';
 import '../bloc/registration_headers_bloc.dart';
 import 'dialogs/custom_header_type_dialog.dart';
+import 'list_tiles/custom_header_list_tile.dart';
 import 'registration_instruction.dart';
 
 class ServerRegistrationStepThree extends StatelessWidget {
@@ -41,9 +42,9 @@ class ServerRegistrationStepThree extends StatelessWidget {
                         currentHeaders: state is RegistrationHeadersLoaded
                             ? state.headers
                                 .map(
-                                  (widget) => CustomHeaderModel(
-                                    key: widget.title,
-                                    value: widget.subtitle,
+                                  (header) => CustomHeaderModel(
+                                    key: header.key,
+                                    value: header.value,
                                   ),
                                 )
                                 .toList()
@@ -59,7 +60,15 @@ class ServerRegistrationStepThree extends StatelessWidget {
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: state.headers,
+                  children: state.headers
+                      .map(
+                        (header) => CustomHeaderListTile(
+                          forRegistration: true,
+                          title: header.key,
+                          subtitle: header.value,
+                        ),
+                      )
+                      .toList(),
                 )
               : null,
         );

@@ -8,6 +8,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/user_icon_size.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/user_history_bloc.dart';
@@ -91,12 +92,12 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
-            UserIndividualFetched(
-              server: widget.server,
-              userId: widget.user.userId!,
-              settingsBloc: settingsBloc,
-            ),
-          );
+        UserIndividualFetched(
+          server: widget.server,
+          userId: widget.user.userId!,
+          settingsBloc: settingsBloc,
+        ),
+      );
     }
 
     _userHistoryBloc.add(
@@ -107,12 +108,12 @@ class _UserDetailsViewState extends State<UserDetailsView> {
       ),
     );
     context.read<UserStatisticsBloc>().add(
-          UserStatisticsFetched(
-            server: widget.server,
-            userId: widget.user.userId!,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      UserStatisticsFetched(
+        server: widget.server,
+        userId: widget.user.userId!,
+        settingsBloc: settingsBloc,
+      ),
+    );
   }
 
   @override
@@ -177,10 +178,10 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                         text: widget.user.lastSeen != null && !widget.fetchUser
                             ? TimeHelper.moment(widget.user.lastSeen)
                             : widget.fetchUser && state.user.lastSeen != null
-                                ? TimeHelper.moment(state.user.lastSeen)
-                                : widget.fetchUser && state.status == BlocStatus.initial
-                                    ? ''
-                                    : LocaleKeys.never.tr(),
+                            ? TimeHelper.moment(state.user.lastSeen)
+                            : widget.fetchUser && state.status == BlocStatus.initial
+                            ? ''
+                            : LocaleKeys.never.tr(),
                         style: const TextStyle(
                           fontWeight: FontWeight.w300,
                         ),

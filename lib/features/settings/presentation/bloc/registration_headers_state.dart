@@ -10,7 +10,7 @@ abstract class RegistrationHeadersState extends Equatable {
 class RegistrationHeadersInitial extends RegistrationHeadersState {}
 
 class RegistrationHeadersLoaded extends RegistrationHeadersState {
-  final List<CustomHeaderListTile> headers;
+  final List<CustomHeaderModel> headers;
 
   const RegistrationHeadersLoaded(this.headers);
 

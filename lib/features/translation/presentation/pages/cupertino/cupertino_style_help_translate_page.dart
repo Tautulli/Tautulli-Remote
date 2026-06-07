@@ -1,0 +1,99 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:websafe_svg/websafe_svg.dart';
+
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../widgets/cupertino/cupertino_style_help_translate_heading_card.dart';
+
+class CupertinoStyleHelpTranslatePage extends StatelessWidget {
+  final bool showBackButton;
+  final String? previousPageTitle;
+
+  const CupertinoStyleHelpTranslatePage({
+    super.key,
+    this.showBackButton = true,
+    this.previousPageTitle,
+  });
+
+  static const routeName = '/help_translate';
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoStyleHelpTranslateView(
+      showBackButton: showBackButton,
+      previousPageTitle: previousPageTitle,
+    );
+  }
+}
+
+class CupertinoStyleHelpTranslateView extends StatelessWidget {
+  final bool showBackButton;
+  final String? previousPageTitle;
+
+  const CupertinoStyleHelpTranslateView({
+    super.key,
+    required this.showBackButton,
+    this.previousPageTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoStylePageScaffold(
+      showBackButton: showBackButton,
+      previousPageTitle: previousPageTitle,
+      middle: const Text(LocaleKeys.help_translate_title).tr(),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CupertinoStyleHelpTranslateHeadingCard(),
+            CupertinoStyleListSection(
+              margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+              children: [
+                CupertinoStyleNotchedCupertinoListTile(
+                  leading: WebsafeSvg.asset(
+                    'assets/logos/weblate.svg',
+                    colorFilter: ColorFilter.mode(
+                      ThemeHelper.cupertinoListTileIconColor(),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  trailing: const CupertinoStyleListTileExternal(),
+                  titleText: LocaleKeys.translate_tautulli_remote_title.tr(),
+                  onTap: () async {
+                    await launchUrlString(
+                      mode: LaunchMode.externalApplication,
+                      'https://hosted.weblate.org/engage/tautulli-remote/',
+                    );
+                  },
+                ),
+                CupertinoStyleNotchedCupertinoListTile(
+                  leading: FaIcon(
+                    FontAwesomeIcons.github,
+                    color: ThemeHelper.cupertinoListTileIconColor(),
+                    size: 23,
+                  ),
+                  trailing: const CupertinoStyleListTileExternal(),
+                  titleText: LocaleKeys.request_a_new_language_title.tr(),
+                  onTap: () async {
+                    await launchUrlString(
+                      mode: LaunchMode.externalApplication,
+                      'https://github.com/Tautulli/Tautulli-Remote/issues/new/choose',
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,5 +1,6 @@
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
+import '../types/app_style.dart';
 import '../types/section_type.dart';
 import '../types/tautulli_types.dart';
 import '../types/theme_enhancement_type.dart';
@@ -113,6 +114,18 @@ class Cast {
 
   //* Tautulli Types
 
+  /// Casts `String` to an `AppStyle`.
+  ///
+  /// Returns `AppStyle.material` if value is anything but 'ios'.
+  static AppStyle castToAppStyle(String value) {
+    switch (value) {
+      case ('cupertino'):
+        return AppStyle.cupertino;
+      default:
+        return AppStyle.material;
+    }
+  }
+
   /// Casts `String` to a `GraphSeriesType`.
   ///
   /// Returns `GraphSeriesType.unknown` if no match is found.
@@ -138,8 +151,8 @@ class Cast {
         return GraphSeriesType.total;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to GraphSeriesType',
-            );
+          'Utilities :: Failed to cast $value to GraphSeriesType',
+        );
         return GraphSeriesType.unknown;
     }
   }
@@ -159,8 +172,8 @@ class Cast {
         return Location.unknown;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to Location',
-            );
+          'Utilities :: Failed to cast $value to Location',
+        );
         return Location.unknown;
     }
   }
@@ -200,8 +213,8 @@ class Cast {
         return MediaType.track;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to MediaType',
-            );
+          'Utilities :: Failed to cast $value to MediaType',
+        );
         return MediaType.unknown;
     }
   }
@@ -223,8 +236,8 @@ class Cast {
         return PlaybackState.playing;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to PlaybackState',
-            );
+          'Utilities :: Failed to cast $value to PlaybackState',
+        );
         return PlaybackState.unknown;
     }
   }
@@ -242,8 +255,8 @@ class Cast {
         return PlayMetricType.time;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to PlayMetricType',
-            );
+          'Utilities :: Failed to cast $value to PlayMetricType',
+        );
         return PlayMetricType.unknown;
     }
   }
@@ -265,8 +278,8 @@ class Cast {
         return SectionType.show;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to SectionType',
-            );
+          'Utilities :: Failed to cast $value to SectionType',
+        );
         return SectionType.unknown;
     }
   }
@@ -302,8 +315,8 @@ class Cast {
         return StatIdType.topUsers;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to StatIdType',
-            );
+          'Utilities :: Failed to cast $value to StatIdType',
+        );
         return StatIdType.unknown;
     }
   }
@@ -325,8 +338,8 @@ class Cast {
         return StreamDecision.none;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to StreamDecision',
-            );
+          'Utilities :: Failed to cast $value to StreamDecision',
+        );
         return StreamDecision.unknown;
     }
   }
@@ -349,8 +362,8 @@ class Cast {
         return SubtitleDecision.none;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to SubtitleDecision',
-            );
+          'Utilities :: Failed to cast $value to SubtitleDecision',
+        );
         return SubtitleDecision.unknown;
     }
   }
@@ -370,8 +383,8 @@ class Cast {
         return VideoDynamicRange.sdr;
       default:
         di.sl<Logging>().warning(
-              'Utilities :: Failed to cast $value to VideoDynamicRange',
-            );
+          'Utilities :: Failed to cast $value to VideoDynamicRange',
+        );
         return VideoDynamicRange.unknown;
     }
   }

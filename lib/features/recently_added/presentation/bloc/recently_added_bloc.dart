@@ -42,11 +42,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     required this.imageUrl,
     required this.logging,
   }) : super(
-          RecentlyAddedState(
-            recentlyAdded: tautulliIdCache != null ? recentlyAddedCache[tautulliIdCache]! : [],
-            hasReachedMax: hasReachedMaxCache,
-          ),
-        ) {
+         RecentlyAddedState(
+           recentlyAdded: tautulliIdCache != null ? recentlyAddedCache[tautulliIdCache]! : [],
+           hasReachedMax: hasReachedMaxCache,
+         ),
+       ) {
     on<RecentlyAddedFetched>(
       _onRecentlyAddedFetched,
       transformer: throttleDroppable(throttleDuration),
@@ -91,7 +91,12 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     tautulliIdCache = event.server.tautulliId;
     mediaTypeCache = event.mediaType;
 
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) {
+      return emit(
+        state.copyWith(status: BlocStatus.success),
+      );
+    }
+    ;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Recently Added page
@@ -170,7 +175,8 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           settingsBloc: event.settingsBloc,
         );
 
-        recentlyAddedCache[event.server.tautulliId] = recentlyAddedCache[event.server.tautulliId]! + recentlyAddedListWithUris;
+        recentlyAddedCache[event.server.tautulliId] =
+            recentlyAddedCache[event.server.tautulliId]! + recentlyAddedListWithUris;
         hasReachedMaxCache = recentlyAddedListWithUris.length < count;
 
         return emit(

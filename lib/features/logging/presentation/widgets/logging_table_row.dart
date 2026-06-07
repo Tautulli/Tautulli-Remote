@@ -5,7 +5,7 @@ import '../../../../core/helpers/time_helper.dart';
 
 class LoggingTableRow extends StatelessWidget {
   final Log log;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   const LoggingTableRow(
     this.log, {

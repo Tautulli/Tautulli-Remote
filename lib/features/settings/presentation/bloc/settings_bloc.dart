@@ -10,6 +10,7 @@ import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
+import '../../../../core/types/app_style.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
@@ -58,6 +59,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
     on<SettingsUpdateActiveServer>(
       (event, emit) => _onSettingsUpdateActiveServer(event, emit),
+    );
+    on<SettingsUpdateAppStyle>(
+      (event, emit) => _onSettingsUpdateAppStyle(event, emit),
     );
     on<SettingsUpdateAppUpdateAvailable>(
       (event, emit) => _onSettingsUpdateAppUpdateAvailable(event, emit),
@@ -304,7 +308,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       emit(
         currentState.copyWith(
           appSettings: currentState.appSettings.copyWith(
-            activeServer: blankServer,
+            activeServer: null,
           ),
         ),
       );
@@ -325,11 +329,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     await settings.deleteServer(event.id);
 
     logging.info("Settings :: Deleted server '${event.plexName}'");
-
-    // Delay item removal to avoid user noticing server page trying to display
-    // after server is removed from the list
-    //TODO: There has to be a better solution to this problem
-    await Future.delayed(const Duration(milliseconds: 180));
 
     emit(
       currentState.copyWith(serverList: updatedList),
@@ -363,8 +362,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         activeServer: activeServerId != ''
             ? serverList.firstWhere((server) => server.tautulliId == activeServerId)
             : serverList.isNotEmpty
-                ? serverList.first
-                : blankServer,
+            ? serverList.first
+            : blankServer,
+        appStyle: settings.getAppStyle(),
         appUpdateAvailable: settings.getAppUpdateAvailable(),
         disableImageBackgrounds: settings.getDisableImageBackgrounds(),
         doubleBackToExit: settings.getDoubleBackToExit(),
@@ -631,6 +631,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(doubleBackToExit: event.doubleBackToExit),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateAppStyle(
+    SettingsUpdateAppStyle event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setAppStyle(event.appStyle);
+    logging.debug(
+      "Settings :: App Style changed to '${event.appStyle}'",
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(appStyle: event.appStyle),
       ),
     );
   }
@@ -959,7 +977,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       primaryConnectionDomain: primaryConnectionAddress.domain,
       primaryConnectionPath: primaryConnectionAddress.path,
       secondaryConnectionAddress: secondaryConnectionAddress.address,
-      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null ? secondaryConnectionAddress.protocol!.toShortString() : '',
+      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null
+          ? secondaryConnectionAddress.protocol!.toShortString()
+          : '',
       secondaryConnectionDomain: secondaryConnectionAddress.domain,
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,
@@ -1286,10 +1306,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsUpdateWizardComplete event,
     Emitter<SettingsState> emit,
   ) async {
-    await settings.setWizardComplete(event.wizardComplete);
+    final currentState = state as SettingsSuccess;
 
+    await settings.setWizardComplete(event.wizardComplete);
     logging.info(
       'Settings :: Wizard complete',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          wizardComplete: event.wizardComplete,
+        ),
+      ),
     );
   }
 }

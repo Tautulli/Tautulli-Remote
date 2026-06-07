@@ -42,11 +42,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     required this.logging,
     required this.settings,
   }) : super(
-          ActivityState(
-            serverActivityList: serverActivityListCache,
-            freshFetch: freshFetch,
-          ),
-        ) {
+         ActivityState(
+           serverActivityList: serverActivityListCache,
+           freshFetch: freshFetch,
+           lastAutoRefresh: DateTime.now(),
+         ),
+       ) {
     on<ActivityFetched>(_onActivityFetched);
     on<ActivityLoadServer>(_onActivityLoadServer);
     on<ActivityAutoRefreshStart>(_onActivityAutoRefreshStart);
@@ -80,6 +81,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         state.copyWith(
           serverActivityList: [...serverActivityListCache],
           freshFetch: freshFetch,
+          lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
         ),
       );
 
@@ -95,6 +97,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               state.copyWith(
                 serverActivityList: [...serverActivityListCache],
                 freshFetch: freshFetch,
+                lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
               ),
             );
 
@@ -110,12 +113,15 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
 
         // Update status to inProgress
-        serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(status: BlocStatus.inProgress);
+        serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(
+          status: BlocStatus.inProgress,
+        );
 
         emit(
           state.copyWith(
             serverActivityList: [...serverActivityListCache],
             freshFetch: freshFetch,
+            lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
           ),
         );
 
@@ -131,7 +137,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   void _addNewServers(List<ServerModel> serverList) {
     for (ServerModel server in serverList) {
-      final bool serverExistsInCache = serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
+      final bool serverExistsInCache =
+          serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
 
       if (!serverExistsInCache) {
         serverActivityListCache.add(
@@ -165,7 +172,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     );
     // Clear activityList if active server was changed
     if (activeServerIdCache != activeServer.tautulliId) {
-      serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(activityList: []);
+      serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(
+        activityList: [],
+      );
     }
 
     activeServerIdCache = activeServer.tautulliId;
@@ -173,7 +182,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   void _removeOldServers(List<ServerModel> serverList) {
     for (ServerActivityModel serverActivityModel in serverActivityListCache) {
-      final bool serverExistsInServerList = serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) != -1 ? true : false;
+      final bool serverExistsInServerList =
+          serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) != -1 ? true : false;
 
       if (!serverExistsInServerList) {
         serverActivityListCache.remove(serverActivityModel);
@@ -184,7 +194,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   void _updateServerSortIndex(List<ServerModel> serverList) {
     for (ServerActivityModel serverActivityModel in serverActivityListCache) {
       final int serverIndex = serverActivityListCache.indexOf(serverActivityModel);
-      final int sortIndex = serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId).sortIndex;
+      final int sortIndex = serverList
+          .firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId)
+          .sortIndex;
 
       serverActivityListCache[serverIndex] = serverActivityListCache[serverIndex].copyWith(sortIndex: sortIndex);
     }
@@ -196,34 +208,34 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   }) {
     activity
         .getActivity(
-      tautulliId: serverActivityModel.tautulliId,
-    )
+          tautulliId: serverActivityModel.tautulliId,
+        )
         .then(
-      (failureOrActivity) {
-        // When a quick action is used it is possible for the app to request activity before closing bloc and navigating
-        // to a new page. This cases a StateError which is caught and the status is set to success to avoid the server
-        // being stuck in inProgress
-        try {
-          add(
-            ActivityLoadServer(
-              tautulliId: serverActivityModel.tautulliId,
-              serverName: serverActivityModel.serverName,
-              failureOrActivity: failureOrActivity,
-              settingsBloc: settingsBloc,
-            ),
-          );
-        } catch (_) {
-          final int index = serverActivityListCache.indexWhere(
-            (server) => server.tautulliId == serverActivityModel.tautulliId,
-          );
+          (failureOrActivity) {
+            // When a quick action is used it is possible for the app to request activity before closing bloc and navigating
+            // to a new page. This cases a StateError which is caught and the status is set to success to avoid the server
+            // being stuck in inProgress
+            try {
+              add(
+                ActivityLoadServer(
+                  tautulliId: serverActivityModel.tautulliId,
+                  serverName: serverActivityModel.serverName,
+                  failureOrActivity: failureOrActivity,
+                  settingsBloc: settingsBloc,
+                ),
+              );
+            } catch (_) {
+              final int index = serverActivityListCache.indexWhere(
+                (server) => server.tautulliId == serverActivityModel.tautulliId,
+              );
 
-          serverActivityListCache[index] = serverActivityListCache[index].copyWith(
-            status: BlocStatus.success,
-            activityList: [],
-          );
-        }
-      },
-    );
+              serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+                status: BlocStatus.success,
+                activityList: [],
+              );
+            }
+          },
+        );
 
     freshFetch = false;
   }
@@ -318,6 +330,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             serverList: serverListCache,
             multiserver: multiserverCache,
             activeServerId: activeServerIdCache!,
+            autoRefresh: true,
             settingsBloc: settingsBlocCache,
           ),
         );

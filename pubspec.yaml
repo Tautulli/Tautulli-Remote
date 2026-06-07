@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 3.4.1+173
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   android_id: ^0.4.0
@@ -30,6 +30,7 @@ dependencies:
       ref: tautulli-remote
   filesize: ^2.0.1
   fl_chart: ^1.0.0
+  flex_color_picker: ^3.7.1
   flex_seed_scheme: ^3.5.1
   flutter:
     sdk: flutter
