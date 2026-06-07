@@ -14,14 +14,14 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_user_filter_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/search_history_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_history_actions_bottom_sheet.dart';
-import '../../widgets/cupertino/cupertino_style_history_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_history_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_history_filter_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_history_card.dart';
 
 class CupertinoStyleHistorySearchPage extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_permission_setting_dialog.dart';
+import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../bloc/wizard_bloc.dart';

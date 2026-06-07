@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';

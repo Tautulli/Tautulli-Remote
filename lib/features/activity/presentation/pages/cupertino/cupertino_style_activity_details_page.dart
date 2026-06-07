@@ -11,7 +11,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
-import '../../../../../core/widgets/cupertino/cupertino_style_failure_alert_dialog.dart';
+import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_failure_alert_dialog.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -28,7 +28,7 @@ import '../../widgets/cupertino/cupertino_style_activity_details_page_details.da
 import '../../widgets/cupertino/cupertino_style_activity_details_page_info.dart';
 import '../../widgets/cupertino/cupertino_style_progress_bar.dart';
 import '../../widgets/cupertino/cupertino_style_progress_percent.dart';
-import '../../widgets/cupertino/cupertino_style_terminate_stream_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_terminate_stream_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_time_total.dart';
 
 class CupertinoStyleActivityDetailsPage extends StatelessWidget {

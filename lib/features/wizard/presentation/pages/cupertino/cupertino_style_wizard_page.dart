@@ -11,15 +11,15 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_accessibility.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_appearance.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_back_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_back_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_closing.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_finish_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_finish_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_stepper.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_next_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_next_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_onesignal.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_quit_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_quit_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_servers.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_skip_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_skip_button.dart';
 
 // Ignoring const as consts prevents the wizard from changing when the language is changed
 // ignore_for_file: prefer_const_constructors

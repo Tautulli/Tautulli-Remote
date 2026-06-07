@@ -20,7 +20,7 @@ import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_time_range_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_time_range_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';

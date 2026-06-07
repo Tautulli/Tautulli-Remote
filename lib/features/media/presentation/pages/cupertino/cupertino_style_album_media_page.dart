@@ -16,7 +16,7 @@ import '../../bloc/metadata_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_media_children_tab.dart';
 import '../../widgets/cupertino/cupertino_style_media_details_tab.dart';
 import '../../widgets/cupertino/cupertino_style_media_history_tab.dart';
-import '../../widgets/cupertino/cupertino_style_media_navigate_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_media_navigate_bottom_sheet.dart';
 import 'cupertino_style_tabbed_poster_details_page.dart';
 
 class CupertinoStyleAlbumMediaPage extends StatelessWidget {

@@ -10,19 +10,19 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/play_metric_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_time_range_bottom_sheet.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_user_filter_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_time_range_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/graphs_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_graph_tips_dialog.dart';
-import '../../widgets/cupertino/cupertino_style_graphs_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/dialogs/cupertino_style_graph_tips_dialog.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_graphs_actions_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_media_type_graphs_tab.dart';
 import '../../widgets/cupertino/cupertino_style_play_totals_graphs_tab.dart';
 import '../../widgets/cupertino/cupertino_style_stream_type_graphs_tab.dart';
-import '../../widgets/cupertino/cupertino_style_y_axis_type_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_y_axis_type_bottom_sheet.dart';
 
 class CupertinoStyleGraphsPage extends StatelessWidget {
   final bool showBackButton;

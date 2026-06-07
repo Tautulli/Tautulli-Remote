@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/error/failure.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_close_button.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_close_button.dart';
+import '../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';

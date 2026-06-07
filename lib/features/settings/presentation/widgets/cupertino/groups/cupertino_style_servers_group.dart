@@ -10,7 +10,7 @@ import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cuperti
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/cupertino/cupertino_style_server_settings_page.dart';
-import '../cupertino_style_delete_server_button.dart';
+import '../buttons/cupertino_style_delete_server_button.dart';
 
 class CupertinoStyleServersGroup extends StatelessWidget {
   final bool isWizard;

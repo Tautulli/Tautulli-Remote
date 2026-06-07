@@ -14,7 +14,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/clear_tautulli_image_cache_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/bottom_sheets/cupertino_style_custom_http_header_bottom_sheet.dart';
-import '../../widgets/cupertino/cupertino_style_delete_server_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_delete_server_button.dart';
 import '../../widgets/cupertino/dialogs/cupertino_style_clear_tautulli_image_cache_dialog.dart';
 import '../../widgets/cupertino/list_tiles/cupertino_style_custom_header_list_tile.dart';
 import '../../widgets/cupertino/list_tiles/cupertino_style_server_device_token_list_tile.dart';

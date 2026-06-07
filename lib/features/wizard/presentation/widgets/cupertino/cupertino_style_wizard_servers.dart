@@ -11,7 +11,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/widgets/cupertino/bottom_sheets/cupertino_style_language_bottom_sheet.dart';
 import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_servers_group.dart';
-import '../../../../settings/presentation/widgets/cupertino/cupertino_style_register_server_button.dart';
+import '../../../../settings/presentation/widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
 import '../../../../translation/presentation/bloc/translation_bloc.dart';
 
 class CupertinoStyleWizardServers extends StatelessWidget {

@@ -12,7 +12,7 @@ import '../../widgets/cupertino/groups/cupertino_style_help_and_support_group.da
 import '../../widgets/cupertino/groups/cupertino_style_more_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_servers_group.dart';
 import '../../widgets/cupertino/cupertino_style_onesignal_alert_card.dart';
-import '../../widgets/cupertino/cupertino_style_register_server_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
 
 class CupertinoStyleSettingsPage extends StatelessWidget {
   final bool showBackButton;

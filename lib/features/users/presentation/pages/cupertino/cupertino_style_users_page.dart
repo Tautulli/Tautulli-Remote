@@ -18,7 +18,7 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/users_table_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_user_card.dart';
 import '../../widgets/cupertino/cupertino_style_user_details.dart';
-import '../../widgets/cupertino/cupertino_style_users_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_users_filter_bottom_sheet.dart';
 
 class CupertinoStyleUsersPage extends StatelessWidget {
   final bool showBackButton;

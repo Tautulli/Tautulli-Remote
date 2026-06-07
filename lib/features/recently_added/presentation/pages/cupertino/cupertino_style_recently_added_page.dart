@@ -19,7 +19,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/recently_added_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_recently_added_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_recently_added_filter_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_recently_added_card.dart';
 
 class CupertinoStyleRecentlyAddedPage extends StatelessWidget {

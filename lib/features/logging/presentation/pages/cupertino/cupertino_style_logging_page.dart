@@ -14,8 +14,8 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_logging_actions_bottom_sheet.dart';
-import '../../widgets/cupertino/cupertino_style_logging_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_logging_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_logging_filter_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_logging_table.dart';
 
 class CupertinoStyleLoggingPage extends StatelessWidget {

@@ -16,7 +16,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/libraries_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_libraries_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_libraries_filter_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_library_card.dart';
 import '../../widgets/library_card_details.dart';
 
