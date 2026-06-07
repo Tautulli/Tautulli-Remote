@@ -14,15 +14,15 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import '../../widgets/ios/logging_actions_ios_bottom_sheet.dart';
-import '../../widgets/ios/logging_filter_ios_bottom_sheet.dart';
-import '../../widgets/ios/logging_ios_table.dart';
+import '../../widgets/cupertino/cupertino_style_logging_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_logging_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_logging_table.dart';
 
-class LoggingIosPage extends StatelessWidget {
+class CupertinoStyleLoggingPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const LoggingIosPage({
+  const CupertinoStyleLoggingPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -39,7 +39,7 @@ class LoggingIosPage extends StatelessWidget {
           create: (context) => di.sl<LoggingExportBloc>(),
         ),
       ],
-      child: LoggingIosView(
+      child: CupertinoStyleLoggingView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
@@ -47,21 +47,21 @@ class LoggingIosPage extends StatelessWidget {
   }
 }
 
-class LoggingIosView extends StatefulWidget {
+class CupertinoStyleLoggingView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const LoggingIosView({
+  const CupertinoStyleLoggingView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
-  State<LoggingIosView> createState() => _LoggingIosViewState();
+  State<CupertinoStyleLoggingView> createState() => _CupertinoStyleLoggingViewState();
 }
 
-class _LoggingIosViewState extends State<LoggingIosView> {
+class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
   late Completer<void> _refreshCompleter;
 
   @override
@@ -134,7 +134,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
                 );
               }
 
-              return LoggingIosTable(
+              return CupertinoStyleLoggingTable(
                 refreshCompleter: _refreshCompleter,
                 logs: filteredLogs,
               );
@@ -159,7 +159,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
                   context: context,
                   builder: (_) => BlocProvider.value(
                     value: context.read<LoggingBloc>(),
-                    child: LoggingFilterIosBottomSheet(
+                    child: CupertinoStyleLoggingFilterBottomSheet(
                       initialValue: state.level,
                     ),
                   ),
@@ -185,7 +185,7 @@ class _LoggingIosViewState extends State<LoggingIosView> {
               value: context.read<LoggingBloc>(),
               child: BlocProvider.value(
                 value: context.read<LoggingExportBloc>(),
-                child: const LoggingActionsIosBottomSheet(),
+                child: const CupertinoStyleLoggingActionsBottomSheet(),
               ),
             ),
           ),

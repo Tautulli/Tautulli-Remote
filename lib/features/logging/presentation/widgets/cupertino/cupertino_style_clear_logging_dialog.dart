@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 
-class ClearLoggingIosDialog extends StatelessWidget {
-  const ClearLoggingIosDialog({super.key});
+class CupertinoStyleClearLoggingDialog extends StatelessWidget {
+  const CupertinoStyleClearLoggingDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

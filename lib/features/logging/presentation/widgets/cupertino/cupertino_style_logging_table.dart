@@ -10,11 +10,11 @@ import '../../bloc/logging_bloc.dart';
 import '../logging_table_headers.dart';
 import '../logging_table_row.dart';
 
-class LoggingIosTable extends StatelessWidget {
+class CupertinoStyleLoggingTable extends StatelessWidget {
   final Completer<void> refreshCompleter;
   final List<Log> logs;
 
-  const LoggingIosTable({
+  const CupertinoStyleLoggingTable({
     super.key,
     required this.refreshCompleter,
     required this.logs,

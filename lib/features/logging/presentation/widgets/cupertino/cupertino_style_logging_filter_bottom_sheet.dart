@@ -10,10 +10,10 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 
-class LoggingFilterIosBottomSheet extends StatelessWidget {
+class CupertinoStyleLoggingFilterBottomSheet extends StatelessWidget {
   final LogLevel initialValue;
 
-  const LoggingFilterIosBottomSheet({
+  const CupertinoStyleLoggingFilterBottomSheet({
     super.key,
     required this.initialValue,
   });

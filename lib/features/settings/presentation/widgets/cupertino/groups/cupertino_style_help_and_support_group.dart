@@ -8,7 +8,7 @@ import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../../logging/presentation/pages/ios/logging_ios_page.dart';
+import '../../../../../logging/presentation/pages/cupertino/cupertino_style_logging_page.dart';
 
 class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
   const CupertinoStyleHelpAndSupportGroup({super.key});
@@ -87,7 +87,7 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
           titleText: LocaleKeys.tautulli_remote_logs_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => LoggingIosPage(
+              builder: (context) => CupertinoStyleLoggingPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

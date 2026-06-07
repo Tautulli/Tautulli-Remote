@@ -10,10 +10,10 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import 'clear_logging_ios_dialog.dart';
+import 'cupertino_style_clear_logging_dialog.dart';
 
-class LoggingActionsIosBottomSheet extends StatelessWidget {
-  const LoggingActionsIosBottomSheet({super.key});
+class CupertinoStyleLoggingActionsBottomSheet extends StatelessWidget {
+  const CupertinoStyleLoggingActionsBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class LoggingActionsIosBottomSheet extends StatelessWidget {
                 context: context,
                 builder: (context) => BlocProvider.value(
                   value: loggingBloc,
-                  child: const ClearLoggingIosDialog(),
+                  child: const CupertinoStyleClearLoggingDialog(),
                 ),
               );
             },
