@@ -24,8 +24,10 @@ abstract class  LocaleKeys {
   static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
   static const app_update_available_message = 'app_update_available_message';
+  static const appearance_title = 'appearance_title';
   static const artists_title = 'artists_title';
   static const audio_title = 'audio_title';
+  static const back_title = 'back_title';
   static const bandwidth_title = 'bandwidth_title';
   static const basic_authentication_title = 'basic_authentication_title';
   static const bitrate_title = 'bitrate_title';
@@ -42,6 +44,7 @@ abstract class  LocaleKeys {
   static const clear_app_image_cache_success_snackbar_message = 'clear_app_image_cache_success_snackbar_message';
   static const clear_app_image_cache_subtitle = 'clear_app_image_cache_subtitle';
   static const clear_app_image_cache_title = 'clear_app_image_cache_title';
+  static const clear_filters_title = 'clear_filters_title';
   static const clear_tautulli_image_cache_dialog_content = 'clear_tautulli_image_cache_dialog_content';
   static const clear_tautulli_image_cache_failure_snackbar_message = 'clear_tautulli_image_cache_failure_snackbar_message';
   static const clear_tautulli_image_cache_success_snackbar_message = 'clear_tautulli_image_cache_success_snackbar_message';
@@ -54,6 +57,7 @@ abstract class  LocaleKeys {
   static const container_title = 'container_title';
   static const converting_title = 'converting_title';
   static const copied_to_clipboard_snackbar_message = 'copied_to_clipboard_snackbar_message';
+  static const count_title = 'count_title';
   static const custom_color_title = 'custom_color_title';
   static const custom_time_range_dialog_content = 'custom_time_range_dialog_content';
   static const custom_time_range_title = 'custom_time_range_title';
@@ -84,7 +88,8 @@ abstract class  LocaleKeys {
   static const disabled_title = 'disabled_title';
   static const discard_title = 'discard_title';
   static const discord_title = 'discord_title';
-  static const dismiss_buttom = 'dismiss_buttom';
+  static const dismiss_button = 'dismiss_button';
+  static const dismiss_title = 'dismiss_title';
   static const donate_big_tip_title = 'donate_big_tip_title';
   static const donate_burger_title = 'donate_burger_title';
   static const donate_cone_title = 'donate_cone_title';
@@ -110,6 +115,8 @@ abstract class  LocaleKeys {
   static const dynamic_color_title = 'dynamic_color_title';
   static const dynamic_title = 'dynamic_title';
   static const dynamic_theme_subtitle = 'dynamic_theme_subtitle';
+  static const edit_basic_authentication_header_title = 'edit_basic_authentication_header_title';
+  static const edit_custom_header_title = 'edit_custom_header_title';
   static const enhancements_title = 'enhancements_title';
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
@@ -139,13 +146,19 @@ abstract class  LocaleKeys {
   static const error_suggestion_register_server = 'error_suggestion_register_server';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
   static const error_suggestion_terminate_stream_failed = 'error_suggestion_terminate_stream_failed';
+  static const error_title = 'error_title';
   static const eta_title = 'eta_title';
+  static const exit_title = 'exit_title';
+  static const failed_users_fetch_message = 'failed_users_fetch_message';
   static const failure_title = 'failure_title';
   static const fast_title = 'fast_title';
   static const faster_title = 'faster_title';
   static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
   static const filter_history_title = 'filter_history_title';
+  static const filter_logs_title = 'filter_logs_title';
   static const filter_recently_added_title = 'filter_recently_added_title';
+  static const filter_user_title = 'filter_user_title';
+  static const finish_title = 'finish_title';
   static const font_title = 'font_title';
   static const genres_title = 'genres_title';
   static const global_stats_title = 'global_stats_title';
@@ -154,6 +167,7 @@ abstract class  LocaleKeys {
   static const go_to_season_title = 'go_to_season_title';
   static const go_to_settings_title = 'go_to_settings_title';
   static const go_to_show_title = 'go_to_show_title';
+  static const graphs_action_title = 'graphs_action_title';
   static const graphs_tips_dialog_content = 'graphs_tips_dialog_content';
   static const graphs_title = 'graphs_title';
   static const header_key_title = 'header_key_title';
@@ -164,6 +178,7 @@ abstract class  LocaleKeys {
   static const help_translate_title = 'help_translate_title';
   static const hidden_message = 'hidden_message';
   static const high_contrast_title = 'high_contrast_title';
+  static const history_actions_title = 'history_actions_title';
   static const history_empty_message = 'history_empty_message';
   static const history_title = 'history_title';
   static const home_page_title = 'home_page_title';
@@ -184,6 +199,7 @@ abstract class  LocaleKeys {
   static const live_tv_title = 'live_tv_title';
   static const location_lookup_failed_message = 'location_lookup_failed_message';
   static const location_title = 'location_title';
+  static const logging_actions_title = 'logging_actions_title';
   static const logs_clear_menu_item = 'logs_clear_menu_item';
   static const logs_clear_dialog_title = 'logs_clear_dialog_title';
   static const logs_empty_filter_message = 'logs_empty_filter_message';
@@ -214,8 +230,10 @@ abstract class  LocaleKeys {
   static const multiserver_activity_page_title = 'multiserver_activity_page_title';
   static const music_title = 'music_title';
   static const name_title = 'name_title';
+  static const navigate_title = 'navigate_title';
   static const never = 'never';
   static const new_title = 'new_title';
+  static const next_title = 'next_title';
   static const normal_title = 'normal_title';
   static const no_title = 'no_title';
   static const no_data = 'no_data';
@@ -224,7 +242,6 @@ abstract class  LocaleKeys {
   static const not_configured_message = 'not_configured_message';
   static const notification_permission_dialog_title = 'notification_permission_dialog_title';
   static const notification_permission_dialog_content = 'notification_permission_dialog_content';
-  static const or = 'or';
   static const onesignal_consent_switch_title = 'onesignal_consent_switch_title';
   static const onesignal_data_privacy_not_accepted_content = 'onesignal_data_privacy_not_accepted_content';
   static const onesignal_data_privacy_not_accepted_title = 'onesignal_data_privacy_not_accepted_title';
@@ -243,6 +260,7 @@ abstract class  LocaleKeys {
   static const operations_title = 'operations_title';
   static const optimized_title = 'optimized_title';
   static const optional = 'optional';
+  static const or = 'or';
   static const other_title = 'other_title';
   static const paused_title = 'paused_title';
   static const photos_title = 'photos_title';
@@ -327,10 +345,12 @@ abstract class  LocaleKeys {
   static const skip_title = 'skip_title';
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
+  static const sort_libraries_title = 'sort_libraries_title';
   static const sort_users_title = 'sort_users_title';
   static const speed_title = 'speed_title';
   static const starring_title = 'starring_title';
   static const started_title = 'started_title';
+  static const statistic_type_title = 'statistic_type_title';
   static const statistics_empty_message = 'statistics_empty_message';
   static const statistics_title = 'statistics_title';
   static const stats_title = 'stats_title';
@@ -342,6 +362,7 @@ abstract class  LocaleKeys {
   static const stream_title = 'stream_title';
   static const streams_title = 'streams_title';
   static const studio_title = 'studio_title';
+  static const styles_title = 'styles_title';
   static const subtitle_title = 'subtitle_title';
   static const system_color_title = 'system_color_title';
   static const taken_title = 'taken_title';
@@ -386,14 +407,18 @@ abstract class  LocaleKeys {
   static const password_title = 'password_title';
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
   static const view_on_plex_title = 'view_on_plex_title';
+  static const waiting_for_wizard_message = 'waiting_for_wizard_message';
   static const wiki_title = 'wiki_title';
   static const wizard_accessibility_text_1 = 'wizard_accessibility_text_1';
   static const wizard_accessibility_text_2 = 'wizard_accessibility_text_2';
   static const wizard_closing_announcements = 'wizard_closing_announcements';
   static const wizard_closing_notifications = 'wizard_closing_notifications';
+  static const wizard_closing_styles = 'wizard_closing_styles';
   static const wizard_closing_support = 'wizard_closing_support';
   static const wizard_closing_title = 'wizard_closing_title';
   static const wizard_closing_translate = 'wizard_closing_translate';
+  static const wizard_error_suggestion = 'wizard_error_suggestion';
+  static const wizard_error_title = 'wizard_error_title';
   static const wizard_onesignal_allow_title = 'wizard_onesignal_allow_title';
   static const wizard_onesignal_text_1 = 'wizard_onesignal_text_1';
   static const wizard_onesignal_text_2 = 'wizard_onesignal_text_2';
