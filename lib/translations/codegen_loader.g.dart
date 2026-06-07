@@ -310,7 +310,8 @@ class CodegenLoader extends AssetLoader{
   "users_title": "用户",
   "play_count_by_day_of_the_week": "最近一周的每日播放次数",
   "play_count_by_top_10_platforms": "播放次数前十的播放平台",
-  "eta_title": "预计结束时间"
+  "eta_title": "预计结束时间",
+  "add_custom_http_header_title": "添加自定义HTTP标头"
 };
 static const Map<String,dynamic> _sl = {
   "about_legalese": "Licencirano pod GNU General Public License v3.0",
@@ -1005,7 +1006,7 @@ static const Map<String,dynamic> _hu = {
   "started_title": "Elkezdve",
   "step_title": "Lépés",
   "studio_title": "Stúdió",
-  "tautulli_theme_subtitle": "Ismerős kinézet",
+  "tautulli_theme_subtitle": "Ismert látvány",
   "terminate_title": "Leállítás",
   "terminate_stream_dialog_default_message": "A szerver tulajdonosa befejezte a streamet.",
   "terminate_stream_dialog_title": "Biztos, hogy véget akarsz vetni ennek a streamnek?",
@@ -1089,7 +1090,17 @@ static const Map<String,dynamic> _hu = {
   "rate_app_message": "Ha tetszik a Tautulli Remote, kérjük, írjon véleményt.",
   "system_color_title": "Rendszer színe",
   "translate_tautulli_remote_title": "Tautulli Remote fordítása",
-  "visuals_title": "Látvány"
+  "visuals_title": "Látvány",
+  "daily_concurrent_stream_count_by_stream_type_title": "Napi egyidejű streamek száma streamtípus szerint",
+  "daily_play_count_by_media_type_title": "Napi lejátszások száma médiatípusonként",
+  "eta_title": "Becsült idő",
+  "play_time_by_hour_of_the_day": "Lejátszási idő a nap órái szerint",
+  "play_time_by_platform_stream_type": "Játékidő platformonként és streamtípusonként",
+  "play_time_by_stream_resolution": "Lejátszási idő a stream felbontása szerint",
+  "play_time_by_top_10_platforms": "Játékidő a 10 legaktívabb platformon",
+  "play_time_by_top_10_users": "A 10 legaktívabb felhasználó játékideje",
+  "play_time_by_user_stream_type": "Játékidő felhasználói stream típusa szerint",
+  "player_stats_title": "Lejátszási statisztika"
 };
 static const Map<String,dynamic> _nl = {
   "about_legalese": "Gelicenseerd onder de GNU General Public License v3.0",
@@ -1274,7 +1285,9 @@ static const Map<String,dynamic> _nl = {
   "check_again_title": "Controleer Nogmaals",
   "clear_app_image_cache_dialog_content": "Weet je zeker dat je de afbeelding cache wil wissen?",
   "clear_app_image_cache_success_snackbar_message": "Afbeelding cache gewist",
-  "accessibility_title": "Toegankelijkheid"
+  "accessibility_title": "Toegankelijkheid",
+  "app_update_available_message": "Een update is beschikbaar voor Tautulli Remote",
+  "clear_app_image_cache_subtitle": "Verwijder afbeeldingen uit de lokale cache"
 };
 static const Map<String,dynamic> _de = {
   "about_legalese": "Lizenziert unter der GNU General Public License v3.0",
@@ -2563,7 +2576,8 @@ static const Map<String,dynamic> _uk = {
   "view_media_title": "Переглянути медіа",
   "custom_title": "Власний",
   "decision_title": "Відтворення",
-  "visuals_title": "Візуально"
+  "visuals_title": "Візуально",
+  "total_title": "Всього"
 };
 static const Map<String,dynamic> _sk = {
   "about_legalese": "Licencované podľa všeobecnej verejnej licencie GNU v3.0",
@@ -2727,7 +2741,65 @@ static const Map<String,dynamic> _sk = {
   "wizard_welcome_text_1": "Vitajte!",
   "wizard_welcome_text_2": "Tautulli Remote vám umožňuje zobraziť aktivitu, históriu, štatistiky a ďalšie informácie o vašom serveri Plex pripojením sa k existujúcemu serveru Tautulli.",
   "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia.",
-  "y_axis_title": "Osa Y"
+  "y_axis_title": "Osa Y",
+  "accessibility_title": "Prístupnosť",
+  "active_connection_content": "Toto je aktuálna adresa pripojenia používaná Tautulli Remote.",
+  "active_connection_title": "Aktívne pripojenie",
+  "activity_empty_message": "Momentálne sa nič neprehráva.",
+  "add_custom_http_header_title": "Pridať vlastnú HTTP hlavičku",
+  "advanced_title": "Pokročilé",
+  "aired_title": "Vysielané",
+  "all_time_title": "Celý čas",
+  "all_users_title": "Všetci používatelia",
+  "announcements_load_failed_message": "Nepodarilo sa načítať oznámenia.",
+  "app_logs_title": "Záznamy aplikácie",
+  "app_update_available_message": "K dispozícii je aktualizácia pre Tautulli Remote",
+  "artists_title": "Umelci",
+  "audio_title": "Audio",
+  "bandwidth_title": "Šírka pásma",
+  "basic_authentication_title": "Základná autentifikácia",
+  "bitrate_title": "Bitrate",
+  "cancel_title": "Zrušiť",
+  "cannot_be_blank_message": "Nemôže byť prázdne",
+  "certificate_verification_failed_content": "Certifikát pre tento server sa nepodarilo overiť a môže byť samopodpísaný. Chcete dôverovať tomuto certifikátu?",
+  "check_again_title": "Skontrolovať znova",
+  "clear_app_image_cache_dialog_content": "Ste si istí, že chcete vymazať miestnu vyrovnávaciu pamäť obrázkov?",
+  "data_dump_warning_line_2": "Buďte opatrní pri zdieľaní.",
+  "date_title": "Dátum",
+  "decision_title": "Rozhodnutie",
+  "directed_by_title": "Réžia",
+  "disable_image_backgrounds_title": "Vypnúť pozadia obrázkov",
+  "discard_title": "Zahodiť",
+  "discord_title": "Discord",
+  "donate_big_tip_title": "Veľký tip",
+  "donate_patron_title": "Patron",
+  "donate_restore_title": "Ručné obnovenie darov",
+  "donate_restored_snackbar_message": "Dary obnovené",
+  "donate_tip_jar_title": "Pohár na sprepitné",
+  "dont_ask_again_message": "Znovu sa nepýtať",
+  "double_back_to_exit_toast_message": "Použite späť pre odchod",
+  "double_back_to_exit_subtitle": "Použite späť dvakrát na odchod",
+  "double_back_to_exit_title": "Dvakrát späť pre odchod",
+  "dynamic_color_title": "Dynamická farba",
+  "dynamic_title": "Dynamické",
+  "dynamic_theme_subtitle": "Vyber si farbu, akúkoľvek farbu",
+  "enhancements_title": "Vylepšenia",
+  "episode_title": "Epizóda",
+  "error_message_bad_api_response": "Zlá odpoveď API",
+  "error_message_certificate_expired": "Certifikát TLS/SSL vypršal",
+  "error_message_certificate_verification": "Overenie certifikátu zlyhalo",
+  "error_message_connection": "Žiadne pripojenie k sieti",
+  "error_message_database_init": "Nepodarilo sa inicializovať databázu",
+  "error_message_generic": "Neznáma chyba",
+  "error_message_invalid_api_key": "Neplatný token zariadenia",
+  "error_message_no_servers": "Žiadne servery nie sú nakonfigurované",
+  "error_message_server": "Nepodarilo sa pripojiť k serveru",
+  "error_message_server_version": "Verzia servera nespĺňa požiadavky",
+  "error_message_terminate_stream_failed": "Nepodarilo sa ukončiť stream",
+  "error_snackbar_message": "Niečo sa pokazilo",
+  "error_suggestion_authorization_required": "Server odpovedal s požiadavkou na autorizáciu. Overte podrobnosti pripojenia a hlavičky.",
+  "error_suggestion_bad_api_response": "Odpoveď servera obsahovala chýbajúce požadované informácie. Kontaktujte podporu.",
+  "error_suggestion_certificate_expired": "Odpoveď servera obsahovala chýbajúce požadované informácie. Kontaktujte podporu."
 };
 static const Map<String,dynamic> _en = {
   "about_legalese": "Licensed under the GNU General Public License v3.0",
@@ -3930,7 +4002,11 @@ static const Map<String,dynamic> _fr = {
   "high_contrast_title": "Contraste élevé",
   "enhancements_title": "Améliorations",
   "wizard_theme_text_2": "Essayez le thème dynamique aux côtés de votre couleur préférée !",
-  "theme_title": "Thème"
+  "theme_title": "Thème",
+  "total_title": "Total",
+  "home_page_title": "Page d'accueil",
+  "max_concurrent_title": "flux simultanés maximum",
+  "daily_concurrent_stream_count_by_stream_type_title": "Nombre quotidien de flux simultanés par type de flux"
 };
 static const Map<String,dynamic> _el = {
   "activity_title": "Δραστηριότητα",
@@ -5273,7 +5349,8 @@ static const Map<String,dynamic> _es = {
   "wizard_skip_dialog_message_servers": "Aún no has registrado ningún servidor de Tautulli.",
   "wizard_skip_dialog_title": "¿Seguro que quieres saltar?",
   "wizard_theme_text_2": "¡Pruebe el tema dinámico junto a su color favorito!",
-  "wizard_welcome_text_1": "¡Bienvenido!"
+  "wizard_welcome_text_1": "¡Bienvenido!",
+  "total_title": "Total"
 };
 static const Map<String,dynamic> _nb = {
   "about_legalese": "Lisensiert ved bruk av GNU General Public License v3.0",
