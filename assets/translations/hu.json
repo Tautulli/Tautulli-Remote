@@ -306,7 +306,7 @@
     "started_title": "Elkezdve",
     "step_title": "Lépés",
     "studio_title": "Stúdió",
-    "tautulli_theme_subtitle": "Ismerős kinézet",
+    "tautulli_theme_subtitle": "Ismert látvány",
     "terminate_title": "Leállítás",
     "terminate_stream_dialog_default_message": "A szerver tulajdonosa befejezte a streamet.",
     "terminate_stream_dialog_title": "Biztos, hogy véget akarsz vetni ennek a streamnek?",
@@ -390,5 +390,15 @@
     "rate_app_message": "Ha tetszik a Tautulli Remote, kérjük, írjon véleményt.",
     "system_color_title": "Rendszer színe",
     "translate_tautulli_remote_title": "Tautulli Remote fordítása",
-    "visuals_title": "Látvány"
+    "visuals_title": "Látvány",
+    "daily_concurrent_stream_count_by_stream_type_title": "Napi egyidejű streamek száma streamtípus szerint",
+    "daily_play_count_by_media_type_title": "Napi lejátszások száma médiatípusonként",
+    "eta_title": "Becsült idő",
+    "play_time_by_hour_of_the_day": "Lejátszási idő a nap órái szerint",
+    "play_time_by_platform_stream_type": "Játékidő platformonként és streamtípusonként",
+    "play_time_by_stream_resolution": "Lejátszási idő a stream felbontása szerint",
+    "play_time_by_top_10_platforms": "Játékidő a 10 legaktívabb platformon",
+    "play_time_by_top_10_users": "A 10 legaktívabb felhasználó játékideje",
+    "play_time_by_user_stream_type": "Játékidő felhasználói stream típusa szerint",
+    "player_stats_title": "Lejátszási statisztika"
 }

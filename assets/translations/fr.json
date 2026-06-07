@@ -399,5 +399,9 @@
     "high_contrast_title": "Contraste élevé",
     "enhancements_title": "Améliorations",
     "wizard_theme_text_2": "Essayez le thème dynamique aux côtés de votre couleur préférée !",
-    "theme_title": "Thème"
+    "theme_title": "Thème",
+    "total_title": "Total",
+    "home_page_title": "Page d'accueil",
+    "max_concurrent_title": "flux simultanés maximum",
+    "daily_concurrent_stream_count_by_stream_type_title": "Nombre quotidien de flux simultanés par type de flux"
 }

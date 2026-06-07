@@ -294,5 +294,6 @@
     "users_title": "用户",
     "play_count_by_day_of_the_week": "最近一周的每日播放次数",
     "play_count_by_top_10_platforms": "播放次数前十的播放平台",
-    "eta_title": "预计结束时间"
+    "eta_title": "预计结束时间",
+    "add_custom_http_header_title": "添加自定义HTTP标头"
 }
