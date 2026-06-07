@@ -16,7 +16,7 @@ import '../../../../../core/widgets/ios/ios_poster.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/ios/media_ios_page.dart';
+import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
@@ -329,7 +329,7 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
 
             Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => MediaIosPage(
+                builder: (context) => CupertinoStyleMediaPage(
                   server: widget.server,
                   media: media,
                 ),

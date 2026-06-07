@@ -9,10 +9,10 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 
-class MediaDetailsIosTabDetails extends StatelessWidget {
+class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
   final MediaModel? metadata;
 
-  const MediaDetailsIosTabDetails({
+  const CupertinoStyleMediaDetailsTabDetails({
     super.key,
     required this.metadata,
   });

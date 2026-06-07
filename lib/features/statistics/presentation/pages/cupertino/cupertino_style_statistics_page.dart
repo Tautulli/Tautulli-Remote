@@ -26,7 +26,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/ios/library_ios_card.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/ios/media_ios_page.dart';
+import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
@@ -323,7 +323,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => MediaIosPage(
+                      builder: (context) => CupertinoStyleMediaPage(
                         server: _server,
                         media: media,
                       ),
@@ -347,7 +347,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => MediaIosPage(
+                      builder: (context) => CupertinoStyleMediaPage(
                         server: _server,
                         media: media,
                       ),
@@ -367,7 +367,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => MediaIosPage(
+                      builder: (context) => CupertinoStyleMediaPage(
                         server: _server,
                         media: media.copyWith(mediaType: statData.mediaType),
                       ),

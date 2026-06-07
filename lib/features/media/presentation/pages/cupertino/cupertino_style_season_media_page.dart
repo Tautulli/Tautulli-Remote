@@ -6,45 +6,51 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/ios_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
-import '../../widgets/ios/media_children_ios_tab.dart';
-import '../../widgets/ios/media_details_ios_tab.dart';
-import '../../widgets/ios/media_history_ios_tab.dart';
-import 'tabbed_poster_details_ios_page.dart';
+import '../../bloc/metadata_bloc.dart';
+import '../../widgets/cupertino/cupertino_style_media_children_tab.dart';
+import '../../widgets/cupertino/cupertino_style_media_details_tab.dart';
+import '../../widgets/cupertino/cupertino_style_media_history_tab.dart';
+import '../../widgets/cupertino/cupertino_style_media_navigate_bottom_sheet.dart';
+import 'cupertino_style_tabbed_poster_details_page.dart';
 
-class ArtistMediaIosPage extends StatelessWidget {
+class CupertinoStyleSeasonMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
+  final bool disableAncestryNavigation;
   final String? previousPageTitle;
 
-  const ArtistMediaIosPage({
+  const CupertinoStyleSeasonMediaPage({
     super.key,
     required this.server,
     required this.media,
+    this.disableAncestryNavigation = false,
     required this.previousPageTitle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ArtistMediaIosView(
+    return CupertinoStyleSeasonMediaView(
       server: server,
       media: media,
+      disableAncestryNavigation: disableAncestryNavigation,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class ArtistMediaIosView extends StatelessWidget {
+class CupertinoStyleSeasonMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final String? previousPageTitle;
   final bool disableAncestryNavigation;
 
-  const ArtistMediaIosView({
+  const CupertinoStyleSeasonMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -58,7 +64,7 @@ class ArtistMediaIosView extends StatelessWidget {
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;
 
-        return TabbedPosterDetailsIosPage(
+        return CupertinoStyleTabbedPosterDetailsPage(
           previousPageTitle: previousPageTitle,
           background: CachedNetworkImage(
             imageUrl: media.imageUri.toString(),
@@ -80,28 +86,30 @@ class ArtistMediaIosView extends StatelessWidget {
             placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
             errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
+          navBarActions: _navBarActions(context),
           poster: IosPoster(
             mediaType: media.mediaType,
             uri: media.imageUri,
           ),
-          itemTitle: media.title,
+          itemTitle: media.parentTitle,
+          itemSubtitle: media.title,
           segments: {
             0: const Text(LocaleKeys.details_title).tr(),
-            1: const Text(LocaleKeys.albums_title).tr(),
+            1: const Text(LocaleKeys.episodes_title).tr(),
             2: const Text(LocaleKeys.history_title).tr(),
           },
           segmentChildren: [
-            MediaDetailsIosTab(
+            CupertinoStyleMediaDetailsTab(
               server: server,
               ratingKey: media.ratingKey!,
             ),
-            MediaChildrenIosTab(
+            CupertinoStyleMediaChildrenTab(
               server: server,
               ratingKey: media.ratingKey!,
               mediaType: media.mediaType!,
               parentPosterUri: media.imageUri,
             ),
-            MediaHistoryIosTab(
+            CupertinoStyleMediaHistoryTab(
               server: server,
               ratingKey: media.ratingKey!,
               mediaType: media.mediaType!,
@@ -110,6 +118,33 @@ class ArtistMediaIosView extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _navBarActions(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (!disableAncestryNavigation)
+          CupertinoButton(
+            padding: const EdgeInsets.all(8),
+            child: Icon(
+              CupertinoIcons.arrow_turn_left_up,
+              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            ),
+            onPressed: () => showCupertinoModalPopup(
+              context: context,
+              builder: (_) => BlocProvider.value(
+                value: context.read<MetadataBloc>(),
+                child: CupertinoStyleMediaNavigateBottomSheet(
+                  mediaType: media.mediaType,
+                  server: server,
+                  media: media,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

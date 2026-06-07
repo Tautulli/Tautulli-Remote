@@ -4,7 +4,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/ios_poster_card.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/ios/media_ios_page.dart';
+import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../data/models/recently_added_model.dart';
 import 'cupertino_style_recently_added_card_details.dart';
 
@@ -54,7 +54,7 @@ class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
 
         await Navigator.of(context).push(
           CupertinoPageRoute(
-            builder: (context) => MediaIosPage(
+            builder: (context) => CupertinoStyleMediaPage(
               server: server,
               media: media,
               parentPosterUri: media.parentImageUri,

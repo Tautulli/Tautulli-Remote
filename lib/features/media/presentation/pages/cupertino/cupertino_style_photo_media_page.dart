@@ -11,44 +11,46 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
-import '../../widgets/ios/media_details_ios_tab.dart';
-import '../../widgets/ios/media_history_ios_tab.dart';
-import 'tabbed_poster_details_ios_page.dart';
+import '../../widgets/cupertino/cupertino_style_media_details_tab.dart';
+import 'cupertino_style_tabbed_poster_details_page.dart';
 
-class MovieMediaIosPage extends StatelessWidget {
+class CupertinoStylePhotoMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
+  final bool disableAppBarActions;
   final String? previousPageTitle;
 
-  const MovieMediaIosPage({
+  const CupertinoStylePhotoMediaPage({
     super.key,
     required this.server,
     required this.media,
+    this.disableAppBarActions = false,
     required this.previousPageTitle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MovieMediaIosView(
+    return CupertinoStylePhotoMediaView(
       server: server,
       media: media,
+      disableAppBarActions: disableAppBarActions,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class MovieMediaIosView extends StatelessWidget {
+class CupertinoStylePhotoMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final String? previousPageTitle;
-  final bool disableAncestryNavigation;
+  final bool disableAppBarActions;
 
-  const MovieMediaIosView({
+  const CupertinoStylePhotoMediaView({
     super.key,
     required this.server,
     required this.media,
     required this.previousPageTitle,
-    this.disableAncestryNavigation = false,
+    this.disableAppBarActions = false,
   });
 
   @override
@@ -57,7 +59,7 @@ class MovieMediaIosView extends StatelessWidget {
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;
 
-        return TabbedPosterDetailsIosPage(
+        return CupertinoStyleTabbedPosterDetailsPage(
           previousPageTitle: previousPageTitle,
           background: CachedNetworkImage(
             imageUrl: media.imageUri.toString(),
@@ -84,20 +86,14 @@ class MovieMediaIosView extends StatelessWidget {
             uri: media.imageUri,
           ),
           itemTitle: media.title,
+          itemSubtitle: media.parentTitle ?? '',
           segments: {
             0: const Text(LocaleKeys.details_title).tr(),
-            1: const Text(LocaleKeys.history_title).tr(),
           },
           segmentChildren: [
-            MediaDetailsIosTab(
+            CupertinoStyleMediaDetailsTab(
               server: server,
               ratingKey: media.ratingKey!,
-            ),
-            MediaHistoryIosTab(
-              server: server,
-              ratingKey: media.ratingKey!,
-              mediaType: media.mediaType!,
-              parentPosterUri: media.imageUri,
             ),
           ],
         );

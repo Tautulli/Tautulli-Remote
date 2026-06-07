@@ -9,7 +9,7 @@ import '../../../../../core/widgets/ios/ios_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class TabbedPosterDetailsIosPage extends StatefulWidget {
+class CupertinoStyleTabbedPosterDetailsPage extends StatefulWidget {
   final String? previousPageTitle;
   final bool sensitive;
   final Widget? background;
@@ -21,7 +21,7 @@ class TabbedPosterDetailsIosPage extends StatefulWidget {
   final Map<int, Widget> segments;
   final List<Widget> segmentChildren;
 
-  const TabbedPosterDetailsIosPage({
+  const CupertinoStyleTabbedPosterDetailsPage({
     super.key,
     this.previousPageTitle,
     this.sensitive = false,
@@ -36,10 +36,10 @@ class TabbedPosterDetailsIosPage extends StatefulWidget {
   });
 
   @override
-  State<TabbedPosterDetailsIosPage> createState() => _TabbedPosterDetailsIosPageState();
+  State<CupertinoStyleTabbedPosterDetailsPage> createState() => _CupertinoStyleTabbedPosterDetailsPageState();
 }
 
-class _TabbedPosterDetailsIosPageState extends State<TabbedPosterDetailsIosPage> {
+class _CupertinoStyleTabbedPosterDetailsPageState extends State<CupertinoStyleTabbedPosterDetailsPage> {
   final PageController _pageController = PageController();
   int _selectedIndex = 0;
 

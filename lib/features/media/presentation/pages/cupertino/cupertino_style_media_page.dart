@@ -9,18 +9,18 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/children_metadata_bloc.dart';
 import '../../bloc/metadata_bloc.dart';
-import 'album_media_ios_page.dart';
-import 'artist_media_ios_page.dart';
-import 'clip_media_ios_page.dart';
-import 'episode_media_ios_page.dart';
-import 'movie_media_ios_page.dart';
-import 'photo_album_media_ios_page.dart';
-import 'photo_media_ios_page.dart';
-import 'season_media_ios_page.dart';
-import 'show_media_ios_page.dart';
-import 'track_media_ios_page.dart';
+import 'cupertino_style_album_media_page.dart';
+import 'cupertino_style_artist_media_page.dart';
+import 'cupertino_style_clip_media_page.dart';
+import 'cupertino_style_episode_media_page.dart';
+import 'cupertino_style_movie_media_page.dart';
+import 'cupertino_style_photo_album_media_page.dart';
+import 'cupertino_style_photo_media_page.dart';
+import 'cupertino_style_season_media_page.dart';
+import 'cupertino_style_show_media_page.dart';
+import 'cupertino_style_track_media_page.dart';
 
-class MediaIosPage extends StatelessWidget {
+class CupertinoStyleMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
@@ -28,7 +28,7 @@ class MediaIosPage extends StatelessWidget {
   final bool disableAppBarActions;
   final bool disableAncestryNavigation;
 
-  const MediaIosPage({
+  const CupertinoStyleMediaPage({
     super.key,
     required this.server,
     required this.media,
@@ -52,7 +52,7 @@ class MediaIosPage extends StatelessWidget {
           create: (context) => di.sl<IndividualHistoryBloc>(),
         ),
       ],
-      child: MediaIosView(
+      child: CupertinoStyleMediaView(
         server: server,
         media: media,
         parentPosterUri: parentPosterUri,
@@ -64,7 +64,7 @@ class MediaIosPage extends StatelessWidget {
   }
 }
 
-class MediaIosView extends StatefulWidget {
+class CupertinoStyleMediaView extends StatefulWidget {
   final ServerModel server;
   final MediaModel media;
   final String? previousPageTitle;
@@ -72,7 +72,7 @@ class MediaIosView extends StatefulWidget {
   final bool disableAppBarActions;
   final bool disableAncestryNavigation;
 
-  const MediaIosView({
+  const CupertinoStyleMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -83,10 +83,10 @@ class MediaIosView extends StatefulWidget {
   });
 
   @override
-  State<MediaIosView> createState() => _MediaIosViewState();
+  State<CupertinoStyleMediaView> createState() => _CupertinoStyleMediaViewState();
 }
 
-class _MediaIosViewState extends State<MediaIosView> {
+class _CupertinoStyleMediaViewState extends State<CupertinoStyleMediaView> {
   @override
   void initState() {
     super.initState();
@@ -131,26 +131,26 @@ class _MediaIosViewState extends State<MediaIosView> {
   Widget build(BuildContext context) {
     switch (widget.media.mediaType) {
       case MediaType.album:
-        return AlbumMediaIosPage(
+        return CupertinoStyleAlbumMediaPage(
           server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.artist:
-        return ArtistMediaIosPage(
+        return CupertinoStyleArtistMediaPage(
           server: widget.server,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.clip:
-        return ClipMediaIosPage(
+        return CupertinoStyleClipMediaPage(
           server: widget.server,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.episode:
-        return EpisodeMediaIosPage(
+        return CupertinoStyleEpisodeMediaPage(
           server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
@@ -158,33 +158,33 @@ class _MediaIosViewState extends State<MediaIosView> {
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.photo:
-        return PhotoMediaIosPage(
+        return CupertinoStylePhotoMediaPage(
           server: widget.server,
           media: widget.media,
           disableAppBarActions: widget.disableAppBarActions,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.photoAlbum:
-        return PhotoAlbumMediaIosPage(
+        return CupertinoStylePhotoAlbumMediaPage(
           server: widget.server,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.season:
-        return SeasonMediaIosPage(
+        return CupertinoStyleSeasonMediaPage(
           server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.show:
-        return ShowMediaIosPage(
+        return CupertinoStyleShowMediaPage(
           server: widget.server,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,
         );
       case MediaType.track:
-        return TrackMediaIosPage(
+        return CupertinoStyleTrackMediaPage(
           server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
@@ -193,7 +193,7 @@ class _MediaIosViewState extends State<MediaIosView> {
       case MediaType.movie:
       case MediaType.otherVideo:
       default:
-        return MovieMediaIosPage(
+        return CupertinoStyleMovieMediaPage(
           server: widget.server,
           media: widget.media,
           previousPageTitle: widget.previousPageTitle,

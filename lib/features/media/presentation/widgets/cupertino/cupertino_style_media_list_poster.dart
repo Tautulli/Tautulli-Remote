@@ -5,7 +5,7 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/ios_poster.dart';
 
-class MediaListIosPoster extends StatelessWidget {
+class CupertinoStyleMediaListPoster extends StatelessWidget {
   final String? title;
   final int? year;
   final int? ratingKey;
@@ -13,7 +13,7 @@ class MediaListIosPoster extends StatelessWidget {
   final Uri? posterUri;
   final Function()? onTap;
 
-  const MediaListIosPoster({
+  const CupertinoStyleMediaListPoster({
     super.key,
     this.title,
     this.year,

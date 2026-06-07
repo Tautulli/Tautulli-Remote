@@ -5,11 +5,11 @@ import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../data/models/media_model.dart';
 
-class MediaListIosTrack extends StatelessWidget {
+class CustomerStyleMediaListTrack extends StatelessWidget {
   final MediaModel track;
   final Function()? onTap;
 
-  const MediaListIosTrack({
+  const CustomerStyleMediaListTrack({
     super.key,
     required this.track,
     this.onTap,

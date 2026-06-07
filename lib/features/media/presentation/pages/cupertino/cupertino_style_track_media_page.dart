@@ -13,53 +13,48 @@ import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/metadata_bloc.dart';
-import '../../widgets/ios/media_details_ios_tab.dart';
-import '../../widgets/ios/media_history_ios_tab.dart';
-import '../../widgets/ios/media_navigate_ios_bottom_sheet.dart';
-import 'tabbed_poster_details_ios_page.dart';
+import '../../widgets/cupertino/cupertino_style_media_details_tab.dart';
+import '../../widgets/cupertino/cupertino_style_media_history_tab.dart';
+import '../../widgets/cupertino/cupertino_style_media_navigate_bottom_sheet.dart';
+import 'cupertino_style_tabbed_poster_details_page.dart';
 
-class EpisodeMediaIosPage extends StatelessWidget {
+class CupertinoStyleTrackMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final Uri? parentPosterUri;
-  final bool disableAncestryNavigation;
   final String? previousPageTitle;
+  final bool disableAncestryNavigation;
 
-  const EpisodeMediaIosPage({
+  const CupertinoStyleTrackMediaPage({
     super.key,
     required this.server,
     required this.media,
-    this.parentPosterUri,
-    this.disableAncestryNavigation = false,
     required this.previousPageTitle,
+    this.disableAncestryNavigation = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return EpisodeMediaIosView(
+    return CupertinoStyleTrackMediaView(
       server: server,
       media: media,
-      parentPosterUri: parentPosterUri,
-      disableAncestryNavigation: disableAncestryNavigation,
       previousPageTitle: previousPageTitle,
+      disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
 
-class EpisodeMediaIosView extends StatelessWidget {
+class CupertinoStyleTrackMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
-  final Uri? parentPosterUri;
-  final bool disableAncestryNavigation;
   final String? previousPageTitle;
+  final bool disableAncestryNavigation;
 
-  const EpisodeMediaIosView({
+  const CupertinoStyleTrackMediaView({
     super.key,
     required this.server,
     required this.media,
-    this.parentPosterUri,
-    this.disableAncestryNavigation = false,
     required this.previousPageTitle,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -68,7 +63,7 @@ class EpisodeMediaIosView extends StatelessWidget {
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;
 
-        return TabbedPosterDetailsIosPage(
+        return CupertinoStyleTabbedPosterDetailsPage(
           previousPageTitle: previousPageTitle,
           background: CachedNetworkImage(
             imageUrl: media.imageUri.toString(),
@@ -93,24 +88,21 @@ class EpisodeMediaIosView extends StatelessWidget {
           navBarActions: _navBarActions(context),
           poster: IosPoster(
             mediaType: media.mediaType,
-            uri: parentPosterUri ?? media.imageUri,
+            uri: media.imageUri,
           ),
-          itemTitle: media.grandparentTitle,
-          itemSubtitle: media.title ?? '',
-          itemDetail: media.parentMediaIndex != null && media.mediaIndex != null
-              ? 'S${media.parentMediaIndex} • E${media.mediaIndex}'
-              : null,
+          itemTitle: media.title,
+          itemSubtitle: media.grandparentTitle,
+          itemDetail: media.parentTitle,
           segments: {
             0: const Text(LocaleKeys.details_title).tr(),
             1: const Text(LocaleKeys.history_title).tr(),
           },
           segmentChildren: [
-            MediaDetailsIosTab(
+            CupertinoStyleMediaDetailsTab(
               server: server,
               ratingKey: media.ratingKey!,
             ),
-
-            MediaHistoryIosTab(
+            CupertinoStyleMediaHistoryTab(
               server: server,
               ratingKey: media.ratingKey!,
               mediaType: media.mediaType!,
@@ -137,7 +129,7 @@ class EpisodeMediaIosView extends StatelessWidget {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<MetadataBloc>(),
-                child: MediaNavigateIosBottomSheet(
+                child: CupertinoStyleMediaNavigateBottomSheet(
                   mediaType: media.mediaType,
                   server: server,
                   media: media,

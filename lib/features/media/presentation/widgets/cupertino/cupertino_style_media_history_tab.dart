@@ -16,13 +16,13 @@ import '../../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../../history/presentation/widgets/ios/history_individual_ios_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class MediaHistoryIosTab extends StatefulWidget {
+class CupertinoStyleMediaHistoryTab extends StatefulWidget {
   final ServerModel server;
   final int ratingKey;
   final MediaType mediaType;
   final Uri? parentPosterUri;
 
-  const MediaHistoryIosTab({
+  const CupertinoStyleMediaHistoryTab({
     super.key,
     required this.server,
     required this.ratingKey,
@@ -31,10 +31,10 @@ class MediaHistoryIosTab extends StatefulWidget {
   });
 
   @override
-  State<MediaHistoryIosTab> createState() => _MediaHistoryIosTabState();
+  State<CupertinoStyleMediaHistoryTab> createState() => _CupertinoStyleMediaHistoryTabState();
 }
 
-class _MediaHistoryIosTabState extends State<MediaHistoryIosTab> {
+class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHistoryTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late IndividualHistoryBloc _individualHistoryBloc;

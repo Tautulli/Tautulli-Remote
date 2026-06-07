@@ -11,14 +11,14 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/metadata_bloc.dart';
-import '../../pages/ios/media_ios_page.dart';
+import '../../pages/cupertino/cupertino_style_media_page.dart';
 
-class MediaNavigateIosBottomSheet extends StatelessWidget {
+class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
   final MediaType? mediaType;
   final ServerModel server;
   final MediaModel media;
 
-  const MediaNavigateIosBottomSheet({
+  const CupertinoStyleMediaNavigateBottomSheet({
     super.key,
     required this.mediaType,
     required this.server,
@@ -48,7 +48,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             title: state.metadata!.parentTitle,
@@ -74,7 +74,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             title: state.metadata!.grandparentTitle,
@@ -93,7 +93,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             parentTitle: state.metadata!.grandparentTitle,
@@ -120,7 +120,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             title: state.metadata!.parentTitle,
@@ -146,7 +146,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             title: state.metadata!.grandparentTitle,
@@ -165,7 +165,7 @@ class MediaNavigateIosBottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     return await Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => MediaIosPage(
+                        builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
                             parentTitle: state.metadata!.grandparentTitle,

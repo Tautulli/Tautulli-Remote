@@ -9,7 +9,7 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
 import '../../../../../core/widgets/ios/ios_poster.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/ios/media_ios_page.dart';
+import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
@@ -222,7 +222,7 @@ class HistoryDetailsIosView extends StatelessWidget {
 
                   Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => MediaIosPage(
+                      builder: (context) => CupertinoStyleMediaPage(
                         server: server,
                         media: media,
                       ),

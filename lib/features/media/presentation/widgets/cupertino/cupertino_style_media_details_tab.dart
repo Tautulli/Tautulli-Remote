@@ -11,24 +11,24 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/metadata_bloc.dart';
-import 'media_details_ios_tab_details.dart';
-import 'media_details_ios_tab_summary.dart';
+import 'cupertino_style_media_details_tab_details.dart';
+import 'cupertino_style_media_details_tab_summary.dart';
 
-class MediaDetailsIosTab extends StatefulWidget {
+class CupertinoStyleMediaDetailsTab extends StatefulWidget {
   final ServerModel server;
   final int ratingKey;
 
-  const MediaDetailsIosTab({
+  const CupertinoStyleMediaDetailsTab({
     super.key,
     required this.server,
     required this.ratingKey,
   });
 
   @override
-  State<MediaDetailsIosTab> createState() => _MediaDetailsIosTabState();
+  State<CupertinoStyleMediaDetailsTab> createState() => _CupertinoStyleMediaDetailsTabState();
 }
 
-class _MediaDetailsIosTabState extends State<MediaDetailsIosTab> {
+class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetailsTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;
@@ -91,9 +91,9 @@ class _MediaDetailsIosTabState extends State<MediaDetailsIosTab> {
                   delegate: SliverChildListDelegate.fixed(
                     [
                       if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
-                        MediaDetailsIosTabSummary(metadata: state.metadata),
+                        CupertinoStyleMediaDetailsTabSummary(metadata: state.metadata),
                       const Gap(8),
-                      MediaDetailsIosTabDetails(metadata: state.metadata),
+                      CupertinoStyleMediaDetailsTabDetails(metadata: state.metadata),
                     ],
                   ),
                 );

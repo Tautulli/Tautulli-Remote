@@ -10,8 +10,8 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/section_type.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/ios/media_ios_page.dart';
-import '../../../../media/presentation/widgets/ios/media_list_ios_poster.dart';
+import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
+import '../../../../media/presentation/widgets/cupertino/cupertino_style_media_list_poster.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../bloc/library_media_bloc.dart';
@@ -120,7 +120,7 @@ class _LibraryDetailsMediaIosTabState extends State<LibraryDetailsMediaIosTab> {
 
                         return Padding(
                           padding: const EdgeInsets.all(4),
-                          child: MediaListIosPoster(
+                          child: CupertinoStyleMediaListPoster(
                             mediaType: item.mediaType,
                             title: item.title,
                             ratingKey: item.ratingKey,
@@ -143,7 +143,7 @@ class _LibraryDetailsMediaIosTabState extends State<LibraryDetailsMediaIosTab> {
 
                               await Navigator.of(context).push(
                                 CupertinoPageRoute(
-                                  builder: (context) => MediaIosPage(
+                                  builder: (context) => CupertinoStyleMediaPage(
                                     server: widget.server,
                                     media: media,
                                     disableAppBarActions: item.mediaType == MediaType.photo,

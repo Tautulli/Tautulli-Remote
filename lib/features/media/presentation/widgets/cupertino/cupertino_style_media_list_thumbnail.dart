@@ -8,13 +8,13 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class MediaListIosThumbnail extends StatelessWidget {
+class CupertinoStyleMediaListThumbnail extends StatelessWidget {
   final String? title;
   final int? mediaIndex;
   final Uri? thumbUri;
   final Function()? onTap;
 
-  const MediaListIosThumbnail({
+  const CupertinoStyleMediaListThumbnail({
     super.key,
     this.title,
     this.mediaIndex,

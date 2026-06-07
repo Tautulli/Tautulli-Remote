@@ -7,10 +7,10 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 
-class MediaDetailsIosTabSummary extends StatelessWidget {
+class CupertinoStyleMediaDetailsTabSummary extends StatelessWidget {
   final MediaModel? metadata;
 
-  const MediaDetailsIosTabSummary({
+  const CupertinoStyleMediaDetailsTabSummary({
     super.key,
     required this.metadata,
   });

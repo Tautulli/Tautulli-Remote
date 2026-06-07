@@ -11,18 +11,18 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/children_metadata_bloc.dart';
-import '../../pages/ios/media_ios_page.dart';
-import 'media_list_ios_poster.dart';
-import 'media_list_ios_thumbnail.dart';
-import 'media_list_ios_track.dart';
+import '../../pages/cupertino/cupertino_style_media_page.dart';
+import 'cupertino_style_media_list_poster.dart';
+import 'cupertino_style_media_list_thumbnail.dart';
+import 'customer_style_media_list_track.dart';
 
-class MediaChildrenIosTab extends StatefulWidget {
+class CupertinoStyleMediaChildrenTab extends StatefulWidget {
   final ServerModel server;
   final int ratingKey;
   final MediaType mediaType;
   final Uri? parentPosterUri;
 
-  const MediaChildrenIosTab({
+  const CupertinoStyleMediaChildrenTab({
     super.key,
     required this.server,
     required this.ratingKey,
@@ -31,10 +31,10 @@ class MediaChildrenIosTab extends StatefulWidget {
   });
 
   @override
-  State<MediaChildrenIosTab> createState() => _MediaChildrenIosTabState();
+  State<CupertinoStyleMediaChildrenTab> createState() => _CupertinoStyleMediaChildrenTabState();
 }
 
-class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
+class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChildrenTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late ChildrenMetadataBloc _childrenMetadataBloc;
@@ -126,12 +126,12 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
                       itemBuilder: (context, index) {
                         final track = state.children?[index];
 
-                        return MediaListIosTrack(
+                        return CustomerStyleMediaListTrack(
                           track: track!,
                           onTap: () async {
                             await Navigator.of(context).push(
                               CupertinoPageRoute(
-                                builder: (context) => MediaIosPage(
+                                builder: (context) => CupertinoStyleMediaPage(
                                   server: widget.server,
                                   disableAncestryNavigation: true,
                                   media: track,
@@ -159,14 +159,14 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
                         if (item.mediaType == MediaType.episode) {
                           return Padding(
                             padding: const EdgeInsetsGeometry.all(4),
-                            child: MediaListIosThumbnail(
+                            child: CupertinoStyleMediaListThumbnail(
                               title: item.title,
                               mediaIndex: item.mediaIndex,
                               thumbUri: item.imageUri,
                               onTap: () async {
                                 await Navigator.of(context).push(
                                   CupertinoPageRoute(
-                                    builder: (context) => MediaIosPage(
+                                    builder: (context) => CupertinoStyleMediaPage(
                                       server: widget.server,
                                       media: item,
                                       disableAncestryNavigation: true,
@@ -181,7 +181,7 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
 
                         return Padding(
                           padding: const EdgeInsetsGeometry.all(4),
-                          child: MediaListIosPoster(
+                          child: CupertinoStyleMediaListPoster(
                             mediaType: item.mediaType,
                             title: item.title,
                             year: item.year,
@@ -191,7 +191,7 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
                               if (item.mediaType == MediaType.photoAlbum) {
                                 await Navigator.of(context).push(
                                   CupertinoPageRoute(
-                                    builder: (context) => MediaIosPage(
+                                    builder: (context) => CupertinoStyleMediaPage(
                                       server: widget.server,
                                       disableAncestryNavigation: true,
                                       media: item,
@@ -201,7 +201,7 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
                               } else {
                                 await Navigator.of(context).push(
                                   CupertinoPageRoute(
-                                    builder: (context) => MediaIosPage(
+                                    builder: (context) => CupertinoStyleMediaPage(
                                       server: widget.server,
                                       disableAncestryNavigation: true,
                                       media: item,
