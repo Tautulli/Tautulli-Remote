@@ -175,7 +175,6 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
                   child: CupertinoRefreshPage(
                     scrollController: _scrollController,
                     onRefresh: null,
-                    //TODO: Could this be made a SliverFixedExtentList and just result in bottom loader being larger?
                     sliver: SliverPadding(
                       padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
                       sliver: SliverList(

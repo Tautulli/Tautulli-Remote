@@ -81,7 +81,6 @@ class AppSettingsIosGroup extends StatelessWidget {
             ),
           ),
         ),
-        //TODO: Remove for cupertino framework
         CustomNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.paintbrush_fill,

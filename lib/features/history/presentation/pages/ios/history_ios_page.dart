@@ -243,7 +243,6 @@ class _HistoryIosViewState extends State<HistoryIosView> {
 
                   return _refreshCompleter.future;
                 },
-                //TODO: Could this be made a SliverFixedExtentList and just result in bottom loader being larger?
                 sliver: SliverPadding(
                   padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
                   sliver: SliverList(

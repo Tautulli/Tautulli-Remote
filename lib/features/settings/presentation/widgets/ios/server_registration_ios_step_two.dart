@@ -45,7 +45,6 @@ class _ServerRegistrationIosStepTwoState extends State<ServerRegistrationIosStep
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: CupertinoButton.filled(
             child: const Text(LocaleKeys.scan_qr_code_title).tr(),
-            //TODO: Test qr scan works on device
             onPressed: () async {
               try {
                 final qrCodeScan = await di.sl<QrCodeScanner>().scan(context);
