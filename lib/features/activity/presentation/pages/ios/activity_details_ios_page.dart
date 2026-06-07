@@ -20,7 +20,7 @@ import '../../../../media/presentation/pages/ios/media_ios_page.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
-import '../../../../users/presentation/pages/ios/user_details_ios_page.dart';
+import '../../../../users/presentation/pages/cupertino/cupertino_style_user_details_page.dart';
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../bloc/terminate_stream_bloc.dart';
@@ -296,7 +296,7 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
 
             Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => UserDetailsIosPage(
+                builder: (context) => CupertinoStyleUserDetailsPage(
                   server: widget.server,
                   user: user,
                   fetchUser: true,

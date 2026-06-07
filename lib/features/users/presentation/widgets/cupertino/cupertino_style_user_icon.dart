@@ -7,11 +7,11 @@ import '../../../../../core/types/user_icon_size.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 
-class UserIosIcon extends StatelessWidget {
+class CupertinoStyleUserIcon extends StatelessWidget {
   final UserModel user;
   final UserIconSize size;
 
-  const UserIosIcon({
+  const CupertinoStyleUserIcon({
     super.key,
     required this.user,
     this.size = UserIconSize.normal,

@@ -16,8 +16,8 @@ import '../../../../../core/widgets/ios/cupertino_status_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
-import '../../../../users/presentation/widgets/ios/user_ios_card.dart';
-import '../../../../users/presentation/widgets/ios/user_ios_details.dart';
+import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
+import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_details.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../../data/models/library_watch_time_stat_model.dart';
 import '../../bloc/library_statistics_bloc.dart';
@@ -250,11 +250,11 @@ class _LibraryDetailsStatsIosTabState extends State<LibraryDetailsStatsIosTab> {
             );
 
             statList.add(
-              UserIosCard(
+              CupertinoStyleUserCard(
                 server: widget.server,
                 fetchUser: true,
                 user: user,
-                details: UserIosDetails(
+                details: CupertinoStyleUserDetails(
                   user: user,
                   showLastStreamed: false,
                 ),

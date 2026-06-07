@@ -9,19 +9,19 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/models/user_table_model.dart';
-import '../../pages/ios/user_details_ios_page.dart';
-import 'user_ios_icon.dart';
+import '../../pages/cupertino/cupertino_style_user_details_page.dart';
+import 'cupertino_style_user_icon.dart';
 
 Map<String, Color?> backgroundColorCache = {};
 
-class UserIosCard extends StatefulWidget {
+class CupertinoStyleUserCard extends StatefulWidget {
   final ServerModel server;
   final UserTableModel user;
   final Widget details;
   final bool fetchUser;
   final String? currentPageTitle;
 
-  const UserIosCard({
+  const CupertinoStyleUserCard({
     super.key,
     required this.server,
     required this.user,
@@ -31,10 +31,10 @@ class UserIosCard extends StatefulWidget {
   });
 
   @override
-  State<UserIosCard> createState() => _UserIosCardState();
+  State<CupertinoStyleUserCard> createState() => _CupertinoStyleUserCardState();
 }
 
-class _UserIosCardState extends State<UserIosCard> {
+class _CupertinoStyleUserCardState extends State<CupertinoStyleUserCard> {
   late Future getColorFuture;
   late bool hasNetworkImage;
 
@@ -70,7 +70,7 @@ class _UserIosCardState extends State<UserIosCard> {
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(
               CupertinoPageRoute(
-                builder: (context) => UserDetailsIosPage(
+                builder: (context) => CupertinoStyleUserDetailsPage(
                   server: widget.server,
                   user: user,
                   backgroundColor: color,
@@ -105,7 +105,7 @@ class _UserIosCardState extends State<UserIosCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            UserIosIcon(user: user),
+                            CupertinoStyleUserIcon(user: user),
                             const Gap(8),
                             Expanded(
                               child: widget.details,

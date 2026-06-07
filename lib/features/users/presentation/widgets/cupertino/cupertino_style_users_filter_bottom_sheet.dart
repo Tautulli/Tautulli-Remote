@@ -9,21 +9,21 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class UsersFilterIosBottomSheet extends StatefulWidget {
+class CupertinoStyleUsersFilterBottomSheet extends StatefulWidget {
   final String orderColumn;
   final String orderDir;
 
-  const UsersFilterIosBottomSheet({
+  const CupertinoStyleUsersFilterBottomSheet({
     super.key,
     required this.orderColumn,
     required this.orderDir,
   });
 
   @override
-  State<UsersFilterIosBottomSheet> createState() => _UsersFilterIosBottomSheetState();
+  State<CupertinoStyleUsersFilterBottomSheet> createState() => _CupertinoStyleUsersFilterBottomSheetState();
 }
 
-class _UsersFilterIosBottomSheetState extends State<UsersFilterIosBottomSheet> {
+class _CupertinoStyleUsersFilterBottomSheetState extends State<CupertinoStyleUsersFilterBottomSheet> {
   late String orderColumn;
   late String orderDir;
 

@@ -15,7 +15,7 @@ import '../../../graphs/presentation/pages/ios/graphs_ios_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/ios/settings_ios_page.dart';
 import '../../../statistics/presentation/pages/ios/statistics_ios_page.dart';
-import '../../../users/presentation/pages/ios/users_ios_page.dart';
+import '../../../users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 
 class MoreIosPage extends StatelessWidget {
   const MoreIosPage({super.key});
@@ -101,7 +101,7 @@ class _MoreIosViewState extends State<MoreIosView> {
                     titleText: LocaleKeys.users_title.tr(),
                     onTap: () => Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => UsersIosPage(
+                        builder: (context) => CupertinoStyleUsersPage(
                           showBackButton: true,
                           previousPageTitle: LocaleKeys.more_title.tr(),
                         ),

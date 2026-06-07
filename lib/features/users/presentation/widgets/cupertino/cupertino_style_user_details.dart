@@ -8,11 +8,11 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_table_model.dart';
 
-class UserIosDetails extends StatelessWidget {
+class CupertinoStyleUserDetails extends StatelessWidget {
   final UserTableModel user;
   final bool showLastStreamed;
 
-  const UserIosDetails({
+  const CupertinoStyleUserDetails({
     super.key,
     required this.user,
     this.showLastStreamed = true,

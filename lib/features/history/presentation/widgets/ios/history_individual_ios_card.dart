@@ -11,7 +11,7 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
-import '../../../../users/presentation/widgets/ios/user_ios_icon.dart';
+import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_icon.dart';
 import '../../../data/models/history_model.dart';
 import '../../pages/ios/history_details_ios_page.dart';
 
@@ -52,7 +52,7 @@ class HistoryIndividualIosCard extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      UserIosIcon(
+                      CupertinoStyleUserIcon(
                         user: UserModel(
                           userId: history.userId,
                           userThumb: history.userThumb,

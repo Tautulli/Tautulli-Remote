@@ -22,7 +22,7 @@ import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/ios/media_ios_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
-import '../../../../users/presentation/widgets/ios/user_ios_card.dart';
+import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
 import '../../widgets/ios/last_watched_statistic_ios_details.dart';
@@ -310,7 +310,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
       case (StatIdType.topUsers):
         return stat.stats
             .map(
-              (statData) => UserIosCard(
+              (statData) => CupertinoStyleUserCard(
                 server: widget.server,
                 user: UserTableModel(
                   userId: statData.userId,

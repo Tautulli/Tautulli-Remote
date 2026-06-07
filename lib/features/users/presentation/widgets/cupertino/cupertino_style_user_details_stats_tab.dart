@@ -22,21 +22,21 @@ import '../../../data/models/user_model.dart';
 import '../../../data/models/user_watch_time_stat_model.dart';
 import '../../bloc/user_statistics_bloc.dart';
 
-class UserDetailsStatsIosTab extends StatefulWidget {
+class CupertinoStyleUserDetailsStatsTab extends StatefulWidget {
   final ServerModel server;
   final UserModel user;
 
-  const UserDetailsStatsIosTab({
+  const CupertinoStyleUserDetailsStatsTab({
     super.key,
     required this.server,
     required this.user,
   });
 
   @override
-  State<UserDetailsStatsIosTab> createState() => _UserDetailsStatsIosTabState();
+  State<CupertinoStyleUserDetailsStatsTab> createState() => _CupertinoStyleUserDetailsStatsTabState();
 }
 
-class _UserDetailsStatsIosTabState extends State<UserDetailsStatsIosTab> {
+class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDetailsStatsTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;

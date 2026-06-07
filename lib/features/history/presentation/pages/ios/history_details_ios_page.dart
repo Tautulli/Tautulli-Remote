@@ -13,7 +13,7 @@ import '../../../../media/presentation/pages/ios/media_ios_page.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
-import '../../../../users/presentation/pages/ios/user_details_ios_page.dart';
+import '../../../../users/presentation/pages/cupertino/cupertino_style_user_details_page.dart';
 import '../../../data/models/history_model.dart';
 import '../../widgets/ios/history_details_ios_page_details.dart';
 import '../../widgets/ios/history_details_ios_page_info.dart';
@@ -187,7 +187,7 @@ class HistoryDetailsIosView extends StatelessWidget {
 
                   Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) => UserDetailsIosPage(
+                      builder: (context) => CupertinoStyleUserDetailsPage(
                         server: server,
                         user: user,
                         fetchUser: true,

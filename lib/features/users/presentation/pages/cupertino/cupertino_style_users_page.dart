@@ -16,16 +16,16 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/users_table_bloc.dart';
-import '../../widgets/ios/user_ios_card.dart';
-import '../../widgets/ios/user_ios_details.dart';
-import '../../widgets/ios/users_filter_ios_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_user_card.dart';
+import '../../widgets/cupertino/cupertino_style_user_details.dart';
+import '../../widgets/cupertino/cupertino_style_users_filter_bottom_sheet.dart';
 
-class UsersIosPage extends StatelessWidget {
+class CupertinoStyleUsersPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const UsersIosPage({
+  const CupertinoStyleUsersPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -38,7 +38,7 @@ class UsersIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<UsersTableBloc>(),
-      child: UsersIosView(
+      child: CupertinoStyleUsersView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -47,12 +47,12 @@ class UsersIosPage extends StatelessWidget {
   }
 }
 
-class UsersIosView extends StatefulWidget {
+class CupertinoStyleUsersView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const UsersIosView({
+  const CupertinoStyleUsersView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -60,10 +60,10 @@ class UsersIosView extends StatefulWidget {
   });
 
   @override
-  State<UsersIosView> createState() => _UsersIosViewState();
+  State<CupertinoStyleUsersView> createState() => _CupertinoStyleUsersViewState();
 }
 
-class _UsersIosViewState extends State<UsersIosView> {
+class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
   final _scrollController = ScrollController();
   late String _orderColumn;
   late String _orderDir;
@@ -212,10 +212,10 @@ class _UsersIosViewState extends State<UsersIosView> {
                         if (index.isEven) {
                           final user = state.users[itemIndex];
 
-                          return UserIosCard(
+                          return CupertinoStyleUserCard(
                             server: _server,
                             user: user,
-                            details: UserIosDetails(user: user),
+                            details: CupertinoStyleUserDetails(user: user),
                             currentPageTitle: LocaleKeys.users_title.tr(),
                           );
                         } else {
@@ -295,7 +295,7 @@ class _UsersIosViewState extends State<UsersIosView> {
           onPressed: () async {
             Map<String, String>? usersSort = await showCupertinoModalPopup(
               context: context,
-              builder: (_) => UsersFilterIosBottomSheet(
+              builder: (_) => CupertinoStyleUsersFilterBottomSheet(
                 orderColumn: _orderColumn,
                 orderDir: _orderDir,
               ),

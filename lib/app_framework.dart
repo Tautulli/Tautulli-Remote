@@ -42,8 +42,9 @@ import 'features/statistics/presentation/pages/ios/statistics_ios_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/translation/presentation/pages/ios/help_translate_ios_page.dart';
-import 'features/users/presentation/pages/ios/users_ios_page.dart';
+import 'features/users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
+import 'features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 
 Map<String, Widget Function(BuildContext)> materialRoutes = {
@@ -76,8 +77,8 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   RecentlyAddedIosPage.routeName: (_) => const RecentlyAddedIosPage(),
   SettingsIosPage.routeName: (_) => const SettingsIosPage(),
   StatisticsIosPage.routeName: (_) => const StatisticsIosPage(),
-  UsersIosPage.routeName: (_) => const UsersIosPage(),
-  WizardPage.routeName: (_) => const WizardPage(),
+  CupertinoStyleUsersPage.routeName: (_) => const CupertinoStyleUsersPage(),
+  CupertinoStyleWizardPage.routeName: (_) => const CupertinoStyleWizardPage(),
 };
 
 class AppFramework extends StatelessWidget {

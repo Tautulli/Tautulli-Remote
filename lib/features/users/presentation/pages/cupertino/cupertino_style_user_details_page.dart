@@ -16,18 +16,18 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 import '../../bloc/user_individual_bloc.dart';
 import '../../bloc/user_statistics_bloc.dart';
-import '../../widgets/ios/user_details_history_ios_tab.dart';
-import '../../widgets/ios/user_details_stats_ios_tab.dart';
-import '../../widgets/ios/user_ios_icon.dart';
+import '../../widgets/cupertino/cupertino_style_user_details_history_tab.dart';
+import '../../widgets/cupertino/cupertino_style_user_details_stats_tab.dart';
+import '../../widgets/cupertino/cupertino_style_user_icon.dart';
 
-class UserDetailsIosPage extends StatelessWidget {
+class CupertinoStyleUserDetailsPage extends StatelessWidget {
   final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
   final String? previousPageTitle;
 
-  const UserDetailsIosPage({
+  const CupertinoStyleUserDetailsPage({
     super.key,
     required this.server,
     required this.user,
@@ -50,7 +50,7 @@ class UserDetailsIosPage extends StatelessWidget {
           create: (context) => di.sl<UserHistoryBloc>(),
         ),
       ],
-      child: UserDetailsIosView(
+      child: CupertinoStyleUserDetailsView(
         server: server,
         user: user,
         backgroundColor: backgroundColor,
@@ -61,14 +61,14 @@ class UserDetailsIosPage extends StatelessWidget {
   }
 }
 
-class UserDetailsIosView extends StatefulWidget {
+class CupertinoStyleUserDetailsView extends StatefulWidget {
   final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
   final String? previousPageTitle;
 
-  const UserDetailsIosView({
+  const CupertinoStyleUserDetailsView({
     super.key,
     required this.server,
     required this.user,
@@ -78,10 +78,10 @@ class UserDetailsIosView extends StatefulWidget {
   });
 
   @override
-  State<UserDetailsIosView> createState() => _UserDetailsIosViewState();
+  State<CupertinoStyleUserDetailsView> createState() => _CupertinoStyleUserDetailsViewState();
 }
 
-class _UserDetailsIosViewState extends State<UserDetailsIosView> {
+class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetailsView> {
   late Future<Color?> getColorFuture;
   late bool hasNetworkImage;
   late UserHistoryBloc _userHistoryBloc;
@@ -162,7 +162,7 @@ class _UserDetailsIosViewState extends State<UserDetailsIosView> {
                 ),
           icon: BlocBuilder<UserIndividualBloc, UserIndividualState>(
             builder: (context, state) {
-              return UserIosIcon(
+              return CupertinoStyleUserIcon(
                 user: widget.fetchUser && state.user.userId != null ? state.user : widget.user,
                 size: UserIconSize.large,
               );
@@ -205,11 +205,11 @@ class _UserDetailsIosViewState extends State<UserDetailsIosView> {
             1: const Text(LocaleKeys.history_title).tr(),
           },
           segmentChildren: [
-            UserDetailsStatsIosTab(
+            CupertinoStyleUserDetailsStatsTab(
               server: widget.server,
               user: widget.user,
             ),
-            UserDetailsHistoryIosTab(
+            CupertinoStyleUserDetailsHistoryTab(
               server: widget.server,
               user: widget.user,
             ),
