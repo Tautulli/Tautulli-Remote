@@ -12,7 +12,7 @@ import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/user_history_bloc.dart';
-import '../../../../history/presentation/widgets/ios/history_ios_card.dart';
+import '../../../../history/presentation/widgets/cupertino/cupertino_style_history_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 
@@ -127,7 +127,7 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
                         if (index.isEven) {
                           final history = state.history[itemIndex];
 
-                          return HistoryIosCard(
+                          return CupertinoStyleHistoryCard(
                             server: widget.server,
                             history: history,
                             showUser: false,

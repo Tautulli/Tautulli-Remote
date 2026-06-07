@@ -20,15 +20,15 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/search_history_bloc.dart';
-import '../../widgets/ios/history_actions_ios_bottom_sheet.dart';
-import '../../widgets/ios/history_filter_ios_bottom_sheet.dart';
-import '../../widgets/ios/history_ios_card.dart';
+import '../../widgets/cupertino/cupertino_style_history_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_history_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_history_card.dart';
 
-class HistorySearchIosPage extends StatelessWidget {
+class CupertinoStyleHistorySearchPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const HistorySearchIosPage({
+  const CupertinoStyleHistorySearchPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -38,7 +38,7 @@ class HistorySearchIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<SearchHistoryBloc>(),
-      child: HistorySearchIosView(
+      child: CupertinoStyleHistorySearchView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
@@ -46,21 +46,21 @@ class HistorySearchIosPage extends StatelessWidget {
   }
 }
 
-class HistorySearchIosView extends StatefulWidget {
+class CupertinoStyleHistorySearchView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const HistorySearchIosView({
+  const CupertinoStyleHistorySearchView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
-  State<HistorySearchIosView> createState() => _HistorySearchIosViewState();
+  State<CupertinoStyleHistorySearchView> createState() => _CupertinoStyleHistorySearchViewState();
 }
 
-class _HistorySearchIosViewState extends State<HistorySearchIosView> {
+class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistorySearchView> {
   bool _firstPageLoad = true;
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
@@ -210,7 +210,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
                             if (index.isEven) {
                               final history = state.history[itemIndex];
 
-                              return HistoryIosCard(
+                              return CupertinoStyleHistoryCard(
                                 server: _server,
                                 history: history,
                                 viewMediaEnabled: history.live != true,
@@ -374,7 +374,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: HistoryActionsIosBottomSheet(
+                child: CupertinoStyleHistoryActionsBottomSheet(
                   userId: _userId,
                   filterApplied: _filterOptionSelected(),
                 ),
@@ -421,7 +421,7 @@ class _HistorySearchIosViewState extends State<HistorySearchIosView> {
             if (result == 'filter') {
               final bool? filterUnchanged = await showCupertinoModalPopup(
                 context: context,
-                builder: (_) => HistoryFilterIosBottomSheet(
+                builder: (_) => CupertinoStyleHistoryFilterBottomSheet(
                   filterMap: _filterMap,
                 ),
               );

@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../../translations/locale_keys.g.dart';
 
-class UsersLoadIssueIosDialog extends StatelessWidget {
-  const UsersLoadIssueIosDialog({super.key});
+class CupertinoStyleUsersLoadIssueDialog extends StatelessWidget {
+  const CupertinoStyleUsersLoadIssueDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

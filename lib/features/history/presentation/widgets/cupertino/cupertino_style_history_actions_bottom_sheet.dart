@@ -8,13 +8,13 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
-import 'dialogs/users_load_issue_ios_dialog.dart';
+import 'dialogs/cupertino_style_users_load_issue_dialog.dart';
 
-class HistoryActionsIosBottomSheet extends StatelessWidget {
+class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
   final int? userId;
   final bool filterApplied;
 
-  const HistoryActionsIosBottomSheet({
+  const CupertinoStyleHistoryActionsBottomSheet({
     super.key,
     required this.userId,
     required this.filterApplied,
@@ -77,7 +77,7 @@ class HistoryActionsIosBottomSheet extends StatelessWidget {
                   if (state.status == BlocStatus.failure) {
                     await showCupertinoDialog(
                       context: context,
-                      builder: (context) => const UsersLoadIssueIosDialog(),
+                      builder: (context) => const CupertinoStyleUsersLoadIssueDialog(),
                     );
                   }
                 },

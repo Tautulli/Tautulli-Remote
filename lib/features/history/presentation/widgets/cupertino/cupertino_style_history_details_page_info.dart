@@ -6,10 +6,10 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';
 
-class HistoryDetailsIosPageInfo extends StatelessWidget {
+class CupertinoStyleHistoryDetailsPageInfo extends StatelessWidget {
   final HistoryModel history;
 
-  const HistoryDetailsIosPageInfo({
+  const CupertinoStyleHistoryDetailsPageInfo({
     super.key,
     required this.history,
   });

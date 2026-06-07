@@ -19,17 +19,17 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/history_bloc.dart';
-import '../../widgets/ios/history_actions_ios_bottom_sheet.dart';
-import '../../widgets/ios/history_filter_ios_bottom_sheet.dart';
-import '../../widgets/ios/history_ios_card.dart';
-import 'history_search_ios_page.dart';
+import '../../widgets/cupertino/cupertino_style_history_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_history_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_history_card.dart';
+import 'cupertino_style_history_search_page.dart';
 
-class HistoryIosPage extends StatelessWidget {
+class CupertinoStyleHistoryPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const HistoryIosPage({
+  const CupertinoStyleHistoryPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -49,7 +49,7 @@ class HistoryIosPage extends StatelessWidget {
           create: (context) => di.sl<UsersBloc>(),
         ),
       ],
-      child: HistoryIosView(
+      child: CupertinoStyleHistoryView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -58,12 +58,12 @@ class HistoryIosPage extends StatelessWidget {
   }
 }
 
-class HistoryIosView extends StatefulWidget {
+class CupertinoStyleHistoryView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const HistoryIosView({
+  const CupertinoStyleHistoryView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -71,10 +71,10 @@ class HistoryIosView extends StatefulWidget {
   });
 
   @override
-  State<HistoryIosView> createState() => _HistoryIosViewState();
+  State<CupertinoStyleHistoryView> createState() => _CupertinoStyleHistoryViewState();
 }
 
-class _HistoryIosViewState extends State<HistoryIosView> {
+class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
   final _scrollController = ScrollController();
   late ServerModel _server;
   late HistoryBloc _historyBloc;
@@ -278,7 +278,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
                         if (index.isEven) {
                           final history = state.history[itemIndex];
 
-                          return HistoryIosCard(
+                          return CupertinoStyleHistoryCard(
                             server: _server,
                             history: history,
                             viewMediaEnabled: history.live != true,
@@ -385,7 +385,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
             CupertinoPageRoute(
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: HistorySearchIosPage(
+                child: CupertinoStyleHistorySearchPage(
                   previousPageTitle: LocaleKeys.history_title.tr(),
                 ),
               ),
@@ -414,7 +414,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: HistoryActionsIosBottomSheet(
+                child: CupertinoStyleHistoryActionsBottomSheet(
                   userId: _userId,
                   filterApplied: _filterOptionSelected(),
                 ),
@@ -459,7 +459,7 @@ class _HistoryIosViewState extends State<HistoryIosView> {
             if (result == 'filter') {
               final bool? filterUnchanged = await showCupertinoModalPopup(
                 context: context,
-                builder: (_) => HistoryFilterIosBottomSheet(
+                builder: (_) => CupertinoStyleHistoryFilterBottomSheet(
                   filterMap: _filterMap,
                 ),
               );

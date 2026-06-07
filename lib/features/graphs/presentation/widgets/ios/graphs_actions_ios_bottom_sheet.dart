@@ -10,7 +10,7 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../history/presentation/widgets/ios/dialogs/users_load_issue_ios_dialog.dart';
+import '../../../../history/presentation/widgets/cupertino/dialogs/cupertino_style_users_load_issue_dialog.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 
 class GraphsActionsIosBottomSheet extends StatelessWidget {
@@ -80,7 +80,7 @@ class GraphsActionsIosBottomSheet extends StatelessWidget {
                   if (state.status == BlocStatus.failure) {
                     await showCupertinoDialog(
                       context: context,
-                      builder: (context) => const UsersLoadIssueIosDialog(),
+                      builder: (context) => const CupertinoStyleUsersLoadIssueDialog(),
                     );
                   }
                 },

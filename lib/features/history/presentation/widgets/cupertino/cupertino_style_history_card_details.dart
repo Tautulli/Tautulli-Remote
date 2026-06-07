@@ -12,11 +12,11 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';
 import '../history_bottom_sheet_info.dart';
 
-class HistoryIosCardDetails extends StatelessWidget {
+class CupertinoStyleHistoryCardDetails extends StatelessWidget {
   final HistoryModel history;
   final bool showUser;
 
-  const HistoryIosCardDetails({
+  const CupertinoStyleHistoryCardDetails({
     super.key,
     required this.history,
     this.showUser = true,

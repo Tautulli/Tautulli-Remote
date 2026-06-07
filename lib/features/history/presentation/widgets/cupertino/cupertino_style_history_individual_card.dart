@@ -13,13 +13,13 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_icon.dart';
 import '../../../data/models/history_model.dart';
-import '../../pages/ios/history_details_ios_page.dart';
+import '../../pages/cupertino/cupertino_style_history_details_page.dart';
 
-class HistoryIndividualIosCard extends StatelessWidget {
+class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
   final ServerModel server;
   final HistoryModel history;
 
-  const HistoryIndividualIosCard({
+  const CupertinoStyleHistoryIndividualCard({
     super.key,
     required this.server,
     required this.history,
@@ -36,7 +36,7 @@ class HistoryIndividualIosCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(
           CupertinoPageRoute(
-            builder: (context) => HistoryDetailsIosPage(
+            builder: (context) => CupertinoStyleHistoryDetailsPage(
               server: server,
               history: history,
               viewMediaEnabled: false,

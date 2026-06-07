@@ -14,21 +14,21 @@ import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';
 
-class HistoryDetailsIosPageDetails extends StatefulWidget {
+class CupertinoStyleHistoryDetailsPageDetails extends StatefulWidget {
   final ServerModel server;
   final HistoryModel history;
 
-  const HistoryDetailsIosPageDetails({
+  const CupertinoStyleHistoryDetailsPageDetails({
     super.key,
     required this.server,
     required this.history,
   });
 
   @override
-  State<HistoryDetailsIosPageDetails> createState() => _HistoryDetailsIosPageDetailsState();
+  State<CupertinoStyleHistoryDetailsPageDetails> createState() => _CupertinoStyleHistoryDetailsPageDetailsState();
 }
 
-class _HistoryDetailsIosPageDetailsState extends State<HistoryDetailsIosPageDetails> {
+class _CupertinoStyleHistoryDetailsPageDetailsState extends State<CupertinoStyleHistoryDetailsPageDetails> {
   @override
   void initState() {
     super.initState();

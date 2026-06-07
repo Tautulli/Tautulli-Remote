@@ -13,7 +13,7 @@ import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
-import '../../../../history/presentation/widgets/ios/history_individual_ios_card.dart';
+import '../../../../history/presentation/widgets/cupertino/cupertino_style_history_individual_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 class CupertinoStyleMediaHistoryTab extends StatefulWidget {
@@ -134,7 +134,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
                         if (index.isEven) {
                           final history = state.history[itemIndex];
 
-                          return HistoryIndividualIosCard(
+                          return CupertinoStyleHistoryIndividualCard(
                             server: widget.server,
                             history: history.copyWith(posterUri: widget.parentPosterUri),
                           );

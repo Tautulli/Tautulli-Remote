@@ -15,17 +15,17 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/pages/cupertino/cupertino_style_user_details_page.dart';
 import '../../../data/models/history_model.dart';
-import '../../widgets/ios/history_details_ios_page_details.dart';
-import '../../widgets/ios/history_details_ios_page_info.dart';
+import '../../widgets/cupertino/cupertino_style_history_details_page_details.dart';
+import '../../widgets/cupertino/cupertino_style_history_details_page_info.dart';
 
-class HistoryDetailsIosPage extends StatelessWidget {
+class CupertinoStyleHistoryDetailsPage extends StatelessWidget {
   final ServerModel server;
   final HistoryModel history;
   final bool viewUserEnabled;
   final bool viewMediaEnabled;
   final String? previousPageTitle;
 
-  const HistoryDetailsIosPage({
+  const CupertinoStyleHistoryDetailsPage({
     super.key,
     required this.server,
     required this.history,
@@ -36,7 +36,7 @@ class HistoryDetailsIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HistoryDetailsIosView(
+    return CupertinoStyleHistoryDetailsView(
       server: server,
       history: history,
       viewUserEnabled: viewUserEnabled,
@@ -46,14 +46,14 @@ class HistoryDetailsIosPage extends StatelessWidget {
   }
 }
 
-class HistoryDetailsIosView extends StatelessWidget {
+class CupertinoStyleHistoryDetailsView extends StatelessWidget {
   final ServerModel server;
   final HistoryModel history;
   final bool viewUserEnabled;
   final bool viewMediaEnabled;
   final String? previousPageTitle;
 
-  const HistoryDetailsIosView({
+  const CupertinoStyleHistoryDetailsView({
     super.key,
     required this.server,
     required this.history,
@@ -137,11 +137,11 @@ class HistoryDetailsIosView extends StatelessWidget {
                             height: 97,
                             padding: const EdgeInsets.only(left: 8 + 100 + 8, right: 8, top: 4),
                             //* Item Info
-                            child: HistoryDetailsIosPageInfo(history: history),
+                            child: CupertinoStyleHistoryDetailsPageInfo(history: history),
                           ),
                           //* Details
                           Expanded(
-                            child: HistoryDetailsIosPageDetails(
+                            child: CupertinoStyleHistoryDetailsPageDetails(
                               history: history,
                               server: server,
                             ),

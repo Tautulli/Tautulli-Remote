@@ -8,19 +8,19 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class HistoryFilterIosBottomSheet extends StatefulWidget {
+class CupertinoStyleHistoryFilterBottomSheet extends StatefulWidget {
   final Map<String, bool> filterMap;
 
-  const HistoryFilterIosBottomSheet({
+  const CupertinoStyleHistoryFilterBottomSheet({
     super.key,
     required this.filterMap,
   });
 
   @override
-  State<HistoryFilterIosBottomSheet> createState() => _HistoryFilterIosBottomSheetState();
+  State<CupertinoStyleHistoryFilterBottomSheet> createState() => _CupertinoStyleHistoryFilterBottomSheetState();
 }
 
-class _HistoryFilterIosBottomSheetState extends State<HistoryFilterIosBottomSheet> {
+class _CupertinoStyleHistoryFilterBottomSheetState extends State<CupertinoStyleHistoryFilterBottomSheet> {
   late Map<String, bool> _unalteredFilterMap;
   late Map<String, bool> _filterMap;
 
