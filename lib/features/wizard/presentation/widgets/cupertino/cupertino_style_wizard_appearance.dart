@@ -15,14 +15,13 @@ class CupertinoStyleWizardAppearance extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //TODO: Needs translation string
         const Text(
-          'Appearance',
+          LocaleKeys.appearance_title,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20,
           ),
-        ),
+        ).tr(),
         const Gap(8),
         const Text(
           LocaleKeys.wizard_theme_text_1,

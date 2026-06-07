@@ -7,19 +7,20 @@ import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../core/widgets/tautulli_logo_title.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_back_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_finish_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_next_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_quit_button.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_wizard_skip_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_accessibility.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_appearance.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_wizard_back_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_closing.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_wizard_finish_button.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_stepper.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_wizard_next_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_onesignal.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_wizard_quit_button.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_servers.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_wizard_skip_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_stepper.dart';
 
 // Ignoring const as consts prevents the wizard from changing when the language is changed
 // ignore_for_file: prefer_const_constructors
@@ -93,12 +94,10 @@ class CupertinoStyleWizardView extends StatelessWidget {
                             return Container(
                               color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                               child: CupertinoStyleStatusPage(
-                                //TODO: Needs translation strings
-                                message: 'Wizard Error',
-                                suggestion:
-                                    'Something went wrong. Please report this and use the button to exit and setup manually.',
+                                message: LocaleKeys.wizard_error_title.tr(),
+                                suggestion: LocaleKeys.wizard_error_suggestion.tr(),
                                 action: CupertinoButton.filled(
-                                  child: const Text('Exit Wizard'),
+                                  child: const Text(LocaleKeys.exit_title).tr(),
                                   onPressed: () {
                                     context.read<SettingsBloc>().add(const SettingsUpdateWizardComplete(true));
                                     CupertinoSheetRoute.popSheet(context);

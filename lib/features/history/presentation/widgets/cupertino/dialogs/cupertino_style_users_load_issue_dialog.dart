@@ -9,9 +9,8 @@ class CupertinoStyleUsersLoadIssueDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      //TODO: Add translation strings
-      title: const Text('Error'),
-      content: const Text('Failed to fetch the users list.'),
+      title: const Text(LocaleKeys.error_title).tr(),
+      content: const Text(LocaleKeys.failed_users_fetch_message).tr(),
       actions: [
         CupertinoDialogAction(
           onPressed: () {

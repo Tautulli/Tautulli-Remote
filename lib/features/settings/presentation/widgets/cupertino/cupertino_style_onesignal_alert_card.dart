@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote/features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
@@ -11,6 +10,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import '../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../bloc/settings_bloc.dart';
 
 class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
@@ -35,13 +35,12 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
             content: LocaleKeys.onesignal_data_privacy_not_accepted_content.tr(),
             actions: [
               CupertinoButton(
-                //TODO: "Dismiss" translation strong. LocaleKeys.dismiss_buttom is mispelled
                 child: Text(
-                  'Dismiss',
+                  LocaleKeys.dismiss_title,
                   style: TextStyle(
                     color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
                   ),
-                ),
+                ).tr(),
                 onPressed: () => settingsBloc.add(
                   const SettingsUpdateOneSignalBannerDismiss(true),
                 ),

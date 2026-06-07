@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../../core/types/media_type.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleRecentlyAddedFilterBottomSheet extends StatelessWidget {
@@ -19,8 +19,7 @@ class CupertinoStyleRecentlyAddedFilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
-      //TODO: Add translation string
-      middleText: 'Filter Recently Added',
+      middleText: LocaleKeys.filter_recently_added_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),
       child: CupertinoStyleListSection(
         hasLeading: false,

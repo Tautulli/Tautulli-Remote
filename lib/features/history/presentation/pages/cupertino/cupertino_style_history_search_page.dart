@@ -101,8 +101,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
     return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
-      //TODO: Translation string
-      middle: const Text('Search History'),
+      middle: const Text(LocaleKeys.search_history_title).tr(),
       trailing: _navBarActions(),
       child: BlocConsumer<SearchHistoryBloc, SearchHistoryState>(
         listener: (context, state) {

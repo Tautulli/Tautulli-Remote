@@ -66,8 +66,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
             CupertinoIcons.paintbrush_fill,
             color: ThemeHelper.cupertinoCardIconColor(),
           ),
-          //TODO: Needs translation string
-          title: 'Change the app style between Material and Cupertino under Settings > Appearance.',
+          title: LocaleKeys.wizard_closing_styles.tr(),
         ),
         const Gap(8),
         CupertinoStyleNoticeCard(

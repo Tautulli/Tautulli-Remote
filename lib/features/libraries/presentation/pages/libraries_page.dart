@@ -301,10 +301,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                           size: 20,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    //TODO: Needs translation string
-                    child: Text('Count'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.count_title).tr(),
                   ),
                 ],
               ),
@@ -324,10 +323,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                           size: 20,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    //TODO: Needs translation string
-                    child: Text('Time'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.time_title).tr(),
                   ),
                 ],
               ),
@@ -347,10 +345,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                           size: 20,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    //TODO: Needs translation string
-                    child: Text('Plays'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.plays_title).tr(),
                   ),
                 ],
               ),

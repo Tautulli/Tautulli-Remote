@@ -38,7 +38,7 @@ class SettingsAlertBanner extends StatelessWidget {
               onPressed: () => settingsBloc.add(
                 const SettingsUpdateOneSignalBannerDismiss(true),
               ),
-              child: const Text(LocaleKeys.dismiss_buttom).tr(),
+              child: const Text(LocaleKeys.dismiss_button).tr(),
             ),
             buttonTwo: TextButton(
               style: TextButton.styleFrom(
@@ -68,8 +68,8 @@ class SettingsAlertBanner extends StatelessWidget {
                     foregroundColor: TautulliColorPalette.notWhite,
                   ),
                   onPressed: () => context.read<OneSignalHealthBloc>().add(
-                        OneSignalHealthCheck(),
-                      ),
+                    OneSignalHealthCheck(),
+                  ),
                   child: const Text(LocaleKeys.check_again_title).tr(),
                 ),
               );

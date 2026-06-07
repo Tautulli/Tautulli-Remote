@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleHistoryFilterBottomSheet extends StatefulWidget {
@@ -45,8 +45,7 @@ class _CupertinoStyleHistoryFilterBottomSheetState extends State<CupertinoStyleH
   @override
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
-      //TODO: Add translation string
-      middleText: 'Filter History',
+      middleText: LocaleKeys.filter_history_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),
       trailing: CupertinoStyleBottomSheetSaveButton(
         onPressed: () {

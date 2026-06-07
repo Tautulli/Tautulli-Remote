@@ -27,8 +27,7 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
       leading: const CupertinoStyleBottomSheetCancelButton(),
-      //TODO: Translation string
-      middleText: 'Graphs Actions',
+      middleText: LocaleKeys.graphs_action_title.tr(),
       child: CupertinoStyleListSection(
         children: [
           BlocBuilder<UsersBloc, UsersState>(
@@ -39,8 +38,7 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
                   CupertinoIcons.person_fill,
                   color: ThemeHelper.cupertinoListTileIconColor(),
                 ),
-                //TODO: Translation string
-                titleText: 'Select User',
+                titleText: LocaleKeys.select_user_title.tr(),
                 trailing: Builder(
                   builder: (context) {
                     if (userId != -1) {

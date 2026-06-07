@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleUsersFilterBottomSheet extends StatefulWidget {
@@ -81,8 +81,7 @@ class _CupertinoStyleUsersFilterBottomSheetState extends State<CupertinoStyleUse
   @override
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
-      //TODO: Add translation string
-      middleText: 'Sort Users',
+      middleText: LocaleKeys.sort_users_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),
       trailing: CupertinoStyleBottomSheetSaveButton(
         onPressed: () => Navigator.of(context).pop({

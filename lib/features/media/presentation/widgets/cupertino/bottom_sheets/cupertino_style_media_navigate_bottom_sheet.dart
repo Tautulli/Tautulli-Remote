@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/types/media_type.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../data/models/media_model.dart';
 import '../../../bloc/metadata_bloc.dart';
@@ -31,9 +31,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
 
     return CupertinoStyleModalPopupScaffold(
       leading: const CupertinoStyleBottomSheetCancelButton(),
-      middleText:
-          //TODO: Needs translation string
-          'Navigate',
+      middleText: LocaleKeys.navigate_title.tr(),
       child: CupertinoStyleListSection(
         hasLeading: false,
         children: [

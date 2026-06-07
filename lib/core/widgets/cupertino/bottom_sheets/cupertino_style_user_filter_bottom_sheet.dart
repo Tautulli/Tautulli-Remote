@@ -27,8 +27,7 @@ class CupertinoStyleUserFilterBottomSheet extends StatelessWidget {
             settingsState as SettingsSuccess;
 
             return CupertinoStyleModalPopupScaffold(
-              //TODO: Add translation string
-              middleText: 'Filter User',
+              middleText: LocaleKeys.filter_user_title.tr(),
               leading: const CupertinoStyleBottomSheetCancelButton(),
               child: CupertinoStyleListSection(
                 hasLeading: false,

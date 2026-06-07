@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/wizard_bloc.dart';
 
 class CupertinoStyleWizardNextButton extends StatelessWidget {
@@ -16,8 +18,7 @@ class CupertinoStyleWizardNextButton extends StatelessWidget {
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       onPressed: isDisabled ? null : () => context.read<WizardBloc>().add(WizardNext()),
-      //TODO: Needs translation string
-      child: const Text('Next'),
+      child: const Text(LocaleKeys.next_title).tr(),
     );
   }
 }

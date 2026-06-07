@@ -177,8 +177,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   List<Widget> _appBarActions() {
     return [
       PopupMenuButton(
-        //TODO: Needs translation string
-        tooltip: 'Stats Type',
+        tooltip: LocaleKeys.statistic_type_title.tr(),
         icon: FaIcon(
           _statsType == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
           color: Theme.of(context).colorScheme.onSurface,

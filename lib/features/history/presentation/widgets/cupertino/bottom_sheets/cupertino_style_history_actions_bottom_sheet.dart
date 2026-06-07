@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tautulli_remote/translations/locale_keys.g.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/bloc_status.dart';
@@ -24,8 +26,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
       leading: const CupertinoStyleBottomSheetCancelButton(),
-      //TODO: Translation string
-      middleText: 'History Actions',
+      middleText: LocaleKeys.history_actions_title.tr(),
       child: CupertinoStyleListSection(
         children: [
           BlocBuilder<UsersBloc, UsersState>(
@@ -36,8 +37,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
                   CupertinoIcons.person_fill,
                   color: ThemeHelper.cupertinoListTileIconColor(),
                 ),
-                //TODO: Translation string
-                titleText: 'Select User',
+                titleText: LocaleKeys.select_user_title.tr(),
                 trailing: Builder(
                   builder: (context) {
                     if (userId != -1) {
@@ -89,8 +89,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
               CupertinoIcons.line_horizontal_3_decrease,
               color: ThemeHelper.cupertinoListTileIconColor(),
             ),
-            //TODO: Translation string
-            titleText: 'Filter History',
+            titleText: LocaleKeys.filter_history_title.tr(),
             trailing: Visibility(
               visible: filterApplied,
               child: const Padding(
@@ -111,8 +110,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
               CupertinoIcons.clear_circled_solid,
               color: CupertinoColors.destructiveRed,
             ),
-            //TODO: Translation string
-            titleText: 'Clear Filters',
+            titleText: LocaleKeys.clear_filters_title.tr(),
             onTap: () {
               Navigator.of(context).pop('clear');
             },

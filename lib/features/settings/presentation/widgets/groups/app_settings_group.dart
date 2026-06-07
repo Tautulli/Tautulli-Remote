@@ -81,8 +81,7 @@ class AppSettingsGroup extends StatelessWidget {
             FontAwesomeIcons.brush,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-          //TODO:  Create translation key
-          title: 'Appearance',
+          title: LocaleKeys.appearance_title.tr(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const AppearancePage(),

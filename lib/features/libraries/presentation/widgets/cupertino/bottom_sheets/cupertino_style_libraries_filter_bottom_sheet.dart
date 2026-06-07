@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleLibrariesFilterBottomSheet extends StatefulWidget {
@@ -81,8 +81,7 @@ class _CupertinoStyleLibrariesFilterBottomSheetState extends State<CupertinoStyl
   @override
   Widget build(BuildContext context) {
     return CupertinoStyleModalPopupScaffold(
-      //TODO: Add translation string
-      middleText: 'Sort Libraries',
+      middleText: LocaleKeys.sort_libraries_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),
       trailing: CupertinoStyleBottomSheetSaveButton(
         onPressed: () => Navigator.of(context).pop({
@@ -100,20 +99,17 @@ class _CupertinoStyleLibrariesFilterBottomSheetState extends State<CupertinoStyl
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () => changeSort('count'),
-            //TODO: Needs translation string
-            titleText: 'Count',
+            titleText: LocaleKeys.count_title.tr(),
             trailing: orderColumn == 'count' ? _activeSortIndicators() : _inactiveSortIndicators(),
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () => changeSort('duration'),
-            //TODO: Needs translation string
-            titleText: 'Time',
+            titleText: LocaleKeys.time_title.tr(),
             trailing: orderColumn == 'duration' ? _activeSortIndicators() : _inactiveSortIndicators(),
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () => changeSort('plays'),
-            //TODO: Needs translation string
-            titleText: 'Plays',
+            titleText: LocaleKeys.plays_title.tr(),
             trailing: orderColumn == 'plays' ? _activeSortIndicators() : _inactiveSortIndicators(),
           ),
         ],

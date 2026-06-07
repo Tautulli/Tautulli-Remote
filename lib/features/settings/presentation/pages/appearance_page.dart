@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/page_body.dart';
-import '../widgets/groups/styles_group.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/groups/dynamic_color_group.dart';
+import '../widgets/groups/styles_group.dart';
 import '../widgets/groups/theme_enhancements_group.dart';
 import '../widgets/groups/themes_group.dart';
 
@@ -24,8 +26,7 @@ class AppearanceView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        //TODO:  Create translation key
-        title: const Text('Appearance'),
+        title: const Text(LocaleKeys.appearance_title).tr(),
       ),
       body: PageBody(
         child: ListView(

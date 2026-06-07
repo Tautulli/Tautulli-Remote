@@ -295,10 +295,9 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
 
     if (serverActivityModelList.isEmpty) {
       if (!wizardComplete) {
-        return const CupertinoStyleStatusPage(
-          //TODO: Need translation string
-          message: 'Waiting for the setup wizard to complete',
-          action: CupertinoActivityIndicator(),
+        return CupertinoStyleStatusPage(
+          message: LocaleKeys.waiting_for_wizard_message.tr(),
+          action: const CupertinoActivityIndicator(),
         );
       }
 

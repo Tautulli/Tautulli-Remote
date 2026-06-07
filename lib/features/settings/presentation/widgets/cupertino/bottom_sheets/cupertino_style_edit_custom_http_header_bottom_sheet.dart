@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -75,8 +75,9 @@ class _CupertinoStyleEditCustomHttpHeaderBottomSheetState extends State<Cupertin
     return Form(
       key: _formKey,
       child: CupertinoStyleModalPopupScaffold(
-        //TODO: Add translations
-        middleText: _isBasicAuth ? 'Edit Basic Authentication Header' : 'Edit Custom Header',
+        middleText: _isBasicAuth
+            ? LocaleKeys.edit_basic_authentication_header_title.tr()
+            : LocaleKeys.edit_custom_header_title.tr(),
         leading: const CupertinoStyleBottomSheetCancelButton(),
         trailing: CupertinoStyleBottomSheetSaveButton(
           onPressed: () {

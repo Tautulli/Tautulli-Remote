@@ -8,8 +8,8 @@ import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.da
 import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../../../pages/cupertino/cupertino_style_accessibility_page.dart';
 import '../../../pages/cupertino/cupertino_advanced_page.dart';
+import '../../../pages/cupertino/cupertino_style_accessibility_page.dart';
 import '../../../pages/cupertino/cupertino_style_appearance_page.dart';
 import '../bottom_sheets/cupertino_style_activity_refresh_rate_bottom_sheet.dart';
 import '../bottom_sheets/cupertino_style_server_timeout_bottom_sheet.dart';
@@ -87,8 +87,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor(),
           ),
           trailing: const CupertinoListTileChevron(),
-          //TODO:  Create translation key
-          titleText: 'Appearance',
+          titleText: LocaleKeys.appearance_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (context) => CupertinoStyleAppearancePage(

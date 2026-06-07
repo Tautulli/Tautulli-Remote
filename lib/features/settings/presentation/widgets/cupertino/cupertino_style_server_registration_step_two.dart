@@ -63,8 +63,7 @@ class _CupertinoStyleServerRegistrationStepTwoState extends State<CupertinoStyle
           ),
         ),
         const Gap(4),
-        //TODO: Should have a translate string
-        const Text('or'),
+        const Text(LocaleKeys.or).tr(),
         const Gap(4),
         CupertinoStyleCard(
           horizontalPadding: 20,
