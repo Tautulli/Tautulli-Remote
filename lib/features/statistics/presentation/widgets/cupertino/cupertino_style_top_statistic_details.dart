@@ -5,10 +5,10 @@ import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/statistic_data_model.dart';
 
-class TopLibrariesStatisticIosDetails extends StatelessWidget {
+class CupertinoStyleTopStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
 
-  const TopLibrariesStatisticIosDetails({
+  const CupertinoStyleTopStatisticDetails({
     super.key,
     required this.statData,
   });
@@ -20,7 +20,7 @@ class TopLibrariesStatisticIosDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          statData.sectionName ?? '',
+          statData.title ?? '',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

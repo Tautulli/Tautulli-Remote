@@ -1,16 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/statistic_data_model.dart';
 
-class LastWatchedStatisticIosDetails extends StatelessWidget {
+class CupertinoStylePopularStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
 
-  const LastWatchedStatisticIosDetails({
+  const CupertinoStylePopularStatisticDetails({
     super.key,
     required this.statData,
   });
@@ -30,18 +28,24 @@ class LastWatchedStatisticIosDetails extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-
-            return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : statData.friendlyName ?? 'name missing',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            );
-          },
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: LocaleKeys.users_title.tr(),
+              ),
+              const TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
+                text: statData.usersWatched.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
         ),
         RichText(
           text: TextSpan(
@@ -53,7 +57,7 @@ class LastWatchedStatisticIosDetails extends StatelessWidget {
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastWatch != null ? TimeHelper.moment(statData.lastWatch) : LocaleKeys.never.tr(),
+                text: statData.lastPlay != null ? TimeHelper.moment(statData.lastPlay) : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,

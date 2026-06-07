@@ -9,10 +9,10 @@ import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.da
 import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
-class StatisticTypeIosBottomSheet extends StatelessWidget {
+class CupertinoStyleStatisticTypeBottomSheet extends StatelessWidget {
   final PlayMetricType initialValue;
 
-  const StatisticTypeIosBottomSheet({
+  const CupertinoStyleStatisticTypeBottomSheet({
     super.key,
     required this.initialValue,
   });

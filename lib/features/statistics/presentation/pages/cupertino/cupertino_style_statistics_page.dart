@@ -33,23 +33,23 @@ import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_ca
 import '../../../data/models/statistic_data_model.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
-import '../../widgets/ios/bottom_sheets/statistic_type_ios_bottom_sheet.dart';
-import '../../widgets/ios/last_watched_statistic_ios_details.dart';
-import '../../widgets/ios/most_concurrent_statistic_ios_details.dart';
-import '../../widgets/ios/popular_statistic_ios_details.dart';
-import '../../widgets/ios/statistics_ios_heading.dart';
-import '../../widgets/ios/top_libraries_statistic_ios_details.dart';
-import '../../widgets/ios/top_platforms_statistic_ios_details.dart';
-import '../../widgets/ios/top_statistic_ios_details.dart';
-import '../../widgets/ios/top_users_statistic_ios_details.dart';
-import 'individual_statistic_ios_page.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_statistic_type_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_last_watched_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_most_concurrent_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_popular_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_statistics_heading.dart';
+import '../../widgets/cupertino/cupertino_style_top_libraries_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_platforms_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_users_statistic_details.dart';
+import 'cupertino_style_individual_statistic_page.dart';
 
-class StatisticsIosPage extends StatelessWidget {
+class CupertinoStyleStatisticsPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const StatisticsIosPage({
+  const CupertinoStyleStatisticsPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -62,7 +62,7 @@ class StatisticsIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<StatisticsBloc>(),
-      child: StatisticsIosView(
+      child: CupertinoStyleStatisticsView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -71,12 +71,12 @@ class StatisticsIosPage extends StatelessWidget {
   }
 }
 
-class StatisticsIosView extends StatefulWidget {
+class CupertinoStyleStatisticsView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const StatisticsIosView({
+  const CupertinoStyleStatisticsView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -84,10 +84,10 @@ class StatisticsIosView extends StatefulWidget {
   });
 
   @override
-  State<StatisticsIosView> createState() => _StatisticsIosViewState();
+  State<CupertinoStyleStatisticsView> createState() => _CupertinoStyleStatisticsViewState();
 }
 
-class _StatisticsIosViewState extends State<StatisticsIosView> {
+class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsView> {
   late ServerModel _server;
   late PlayMetricType _statsType;
   late int _timeRange;
@@ -251,7 +251,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
         widgetList.add(
           Padding(
             padding: EdgeInsets.only(top: i == 0 ? 0 : 12, bottom: 6),
-            child: StatisticsIosHeading(
+            child: CupertinoStyleStatisticsHeading(
               stat: stat,
               onTap: stat.stats.length > displayCount
                   ? () {
@@ -259,7 +259,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                         CupertinoPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: _statisticsBloc,
-                            child: IndividualStatisticIosPage(
+                            child: CupertinoStyleIndividualStatisticPage(
                               server: _server,
                               statIdType: stat.statIdType,
                             ),
@@ -319,7 +319,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               IosPosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: TopStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -343,7 +343,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               IosPosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: PopularStatisticIosDetails(statData: statData),
+                details: CupertinoStylePopularStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -363,7 +363,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
               IosPosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: LastWatchedStatisticIosDetails(statData: statData),
+                details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -388,7 +388,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: TopUsersStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopUsersStatisticDetails(statData: statData),
               ),
             );
           }
@@ -416,7 +416,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                     BlendMode.srcIn,
                   ),
                 ),
-                details: TopPlatformsStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopPlatformsStatisticDetails(statData: statData),
               ),
             );
           }
@@ -425,7 +425,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
             widgetList.add(
               IosIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: MostConcurrentStatisticIosDetails(statData: statData),
+                details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
               ),
             );
           }
@@ -443,7 +443,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: TopLibrariesStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopLibrariesStatisticDetails(statData: statData),
               ),
             );
           }
@@ -469,7 +469,7 @@ class _StatisticsIosViewState extends State<StatisticsIosView> {
           onPressed: () async {
             final result = await showCupertinoModalPopup(
               context: context,
-              builder: (_) => StatisticTypeIosBottomSheet(
+              builder: (_) => CupertinoStyleStatisticTypeBottomSheet(
                 initialValue: _statsType,
               ),
             );

@@ -1,17 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/statistic_data_model.dart';
 
-class TopPlatformsStatisticIosDetails extends StatelessWidget {
+class CupertinoStyleTopUsersStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
 
-  const TopPlatformsStatisticIosDetails({
-    super.key,
-    required this.statData,
-  });
+  const CupertinoStyleTopUsersStatisticDetails({super.key, required this.statData, s});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +18,22 @@ class TopPlatformsStatisticIosDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          statData.platform ?? '',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+
+            return Text(
+              state.appSettings.maskSensitiveInfo
+                  ? LocaleKeys.hidden_message.tr()
+                  : statData.friendlyName ?? 'name missing',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            );
+          },
         ),
         RichText(
           text: TextSpan(

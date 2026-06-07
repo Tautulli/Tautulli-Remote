@@ -7,10 +7,10 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/statistic_data_model.dart';
 
-class MostConcurrentStatisticIosDetails extends StatelessWidget {
+class CupertinoStyleMostConcurrentStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
 
-  const MostConcurrentStatisticIosDetails({
+  const CupertinoStyleMostConcurrentStatisticDetails({
     super.key,
     required this.statData,
   });

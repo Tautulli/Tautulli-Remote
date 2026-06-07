@@ -25,19 +25,19 @@ import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
-import '../../widgets/ios/last_watched_statistic_ios_details.dart';
-import '../../widgets/ios/most_concurrent_statistic_ios_details.dart';
-import '../../widgets/ios/popular_statistic_ios_details.dart';
-import '../../widgets/ios/top_libraries_statistic_ios_details.dart';
-import '../../widgets/ios/top_platforms_statistic_ios_details.dart';
-import '../../widgets/ios/top_statistic_ios_details.dart';
-import '../../widgets/ios/top_users_statistic_ios_details.dart';
+import '../../widgets/cupertino/cupertino_style_last_watched_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_most_concurrent_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_popular_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_libraries_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_platforms_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_statistic_details.dart';
+import '../../widgets/cupertino/cupertino_style_top_users_statistic_details.dart';
 
-class IndividualStatisticIosPage extends StatelessWidget {
+class CupertinoStyleIndividualStatisticPage extends StatelessWidget {
   final ServerModel server;
   final StatIdType statIdType;
 
-  const IndividualStatisticIosPage({
+  const CupertinoStyleIndividualStatisticPage({
     super.key,
     required this.server,
     required this.statIdType,
@@ -45,28 +45,28 @@ class IndividualStatisticIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IndividualStatisticIosView(
+    return CupertinoStyleIndividualStatisticView(
       server: server,
       statIdType: statIdType,
     );
   }
 }
 
-class IndividualStatisticIosView extends StatefulWidget {
+class CupertinoStyleIndividualStatisticView extends StatefulWidget {
   final ServerModel server;
   final StatIdType statIdType;
 
-  const IndividualStatisticIosView({
+  const CupertinoStyleIndividualStatisticView({
     super.key,
     required this.server,
     required this.statIdType,
   });
 
   @override
-  State<IndividualStatisticIosView> createState() => _IndividualStatisticIosViewState();
+  State<CupertinoStyleIndividualStatisticView> createState() => _CupertinoStyleIndividualStatisticViewState();
 }
 
-class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView> {
+class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIndividualStatisticView> {
   final _scrollController = ScrollController();
   late StatisticsBloc _statisticsBloc;
   late SettingsBloc _settingsBloc;
@@ -198,7 +198,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
             return IosPosterCard(
               mediaType: statData.mediaType,
               uri: statData.posterUri,
-              details: TopStatisticIosDetails(statData: statData),
+              details: CupertinoStyleTopStatisticDetails(statData: statData),
               onTap: () async {
                 await Navigator.of(context).push(
                   CupertinoPageRoute(
@@ -220,7 +220,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
               (statData) => IosPosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: PopularStatisticIosDetails(statData: statData),
+                details: CupertinoStylePopularStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -276,7 +276,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
               (statData) => IosPosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: LastWatchedStatisticIosDetails(statData: statData),
+                details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -318,7 +318,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: TopUsersStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopUsersStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -346,7 +346,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
                     BlendMode.srcIn,
                   ),
                 ),
-                details: TopPlatformsStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopPlatformsStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -355,7 +355,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
             .map(
               (statData) => IosIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: MostConcurrentStatisticIosDetails(statData: statData),
+                details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -373,7 +373,7 @@ class _IndividualStatisticIosViewState extends State<IndividualStatisticIosView>
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: TopLibrariesStatisticIosDetails(statData: statData),
+                details: CupertinoStyleTopLibrariesStatisticDetails(statData: statData),
               ),
             )
             .toList();

@@ -8,11 +8,11 @@ import '../../../../../core/widgets/ios/heading_ios.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/statistic_model.dart';
 
-class StatisticsIosHeading extends StatelessWidget {
+class CupertinoStyleStatisticsHeading extends StatelessWidget {
   final StatisticModel stat;
   final Function()? onTap;
 
-  const StatisticsIosHeading({
+  const CupertinoStyleStatisticsHeading({
     super.key,
     required this.stat,
     this.onTap,
