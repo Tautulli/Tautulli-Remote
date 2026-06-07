@@ -41,8 +41,8 @@ class AdvancedGroup extends StatelessWidget {
                 onChanged: (value) {
                   if (value != null) {
                     context.read<SettingsBloc>().add(
-                          SettingsUpdateDoubleBackToExit(value),
-                        );
+                      SettingsUpdateDoubleBackToExit(value),
+                    );
                   }
                 },
               );
@@ -65,8 +65,8 @@ class AdvancedGroup extends StatelessWidget {
               onChanged: (value) {
                 if (value != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateMaskSensitiveInfo(value),
-                      );
+                    SettingsUpdateMaskSensitiveInfo(value),
+                  );
                 }
               },
             );
@@ -89,8 +89,8 @@ class AdvancedGroup extends StatelessWidget {
               onChanged: (value) {
                 if (value != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateMultiserverActivity(value),
-                      );
+                    SettingsUpdateMultiserverActivity(value),
+                  );
                 }
               },
             );
@@ -113,8 +113,8 @@ class AdvancedGroup extends StatelessWidget {
               onChanged: (value) {
                 if (value != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateLibraryMediaFullRefresh(value),
-                      );
+                    SettingsUpdateLibraryMediaFullRefresh(value),
+                  );
                 }
               },
             );
@@ -127,7 +127,7 @@ class AdvancedGroup extends StatelessWidget {
 
             return CustomListTile(
               leading: FaIcon(
-                FontAwesomeIcons.house,
+                FontAwesomeIcons.solidHouse,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
               title: LocaleKeys.home_page_title.tr(),
