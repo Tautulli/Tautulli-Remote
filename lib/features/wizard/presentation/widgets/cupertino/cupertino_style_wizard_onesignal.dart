@@ -13,8 +13,8 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
 import '../../bloc/wizard_bloc.dart';
 
-class WizardOnesignalIos extends StatelessWidget {
-  const WizardOnesignalIos({super.key});
+class CupertinoStyleWizardOnesignal extends StatelessWidget {
+  const CupertinoStyleWizardOnesignal({super.key});
 
   @override
   Widget build(BuildContext context) {

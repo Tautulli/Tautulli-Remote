@@ -8,8 +8,8 @@ import '../../../../settings/presentation/widgets/ios/groups/appearance_enhancem
 import '../../../../settings/presentation/widgets/ios/groups/dynamic_color_ios_group.dart';
 import '../../../../settings/presentation/widgets/ios/groups/themes_ios_group.dart';
 
-class WizardAppearanceIos extends StatelessWidget {
-  const WizardAppearanceIos({super.key});
+class CupertinoStyleWizardAppearance extends StatelessWidget {
+  const CupertinoStyleWizardAppearance({super.key});
 
   @override
   Widget build(BuildContext context) {

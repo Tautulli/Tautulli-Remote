@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
-import 'wizard_quit_ios_dialog.dart';
+import 'cupertino_style_wizard_quit_dialog.dart';
 
-class WizardQuitIosButton extends StatelessWidget {
-  const WizardQuitIosButton({super.key});
+class CupertinoStyleWizardQuitButton extends StatelessWidget {
+  const CupertinoStyleWizardQuitButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class WizardQuitIosButton extends StatelessWidget {
       onPressed: () async {
         bool result = await showCupertinoDialog(
           context: context,
-          builder: (context) => const WizardQuitIosDialog(),
+          builder: (context) => const CupertinoStyleWizardQuitDialog(),
         );
 
         if (result) {

@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/wizard_bloc.dart';
-import 'wizard_skip_ios_dialog.dart';
+import 'cupertino_style_wizard_skip_dialog.dart';
 
-class WizardSkipIosButton extends StatelessWidget {
+class CupertinoStyleWizardSkipButton extends StatelessWidget {
   final WizardSkipType wizardSkipType;
 
-  const WizardSkipIosButton({
+  const CupertinoStyleWizardSkipButton({
     super.key,
     required this.wizardSkipType,
   });
@@ -25,7 +25,7 @@ class WizardSkipIosButton extends StatelessWidget {
       onPressed: () async {
         final result = await showCupertinoDialog(
           context: context,
-          builder: (context) => WizardSkipIosDialog(
+          builder: (context) => CupertinoStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
                 ? LocaleKeys.wizard_skip_dialog_message_servers.tr()
                 : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),

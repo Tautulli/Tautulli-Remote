@@ -5,8 +5,8 @@ import '../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';
 
-class WizardFinishIosButton extends StatelessWidget {
-  const WizardFinishIosButton({super.key});
+class CupertinoStyleWizardFinishButton extends StatelessWidget {
+  const CupertinoStyleWizardFinishButton({super.key});
 
   @override
   Widget build(BuildContext context) {

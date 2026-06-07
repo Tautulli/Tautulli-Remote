@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:im_stepper/stepper.dart';
 
-class WizardIosStepper extends StatelessWidget {
+class CupertinoStyleWizardStepper extends StatelessWidget {
   final int stepCount;
   final int activeStep;
 
-  const WizardIosStepper({
+  const CupertinoStyleWizardStepper({
     super.key,
     required this.stepCount,
     required this.activeStep,

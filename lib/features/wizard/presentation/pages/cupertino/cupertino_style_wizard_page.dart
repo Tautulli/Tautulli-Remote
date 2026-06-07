@@ -9,23 +9,23 @@ import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../core/widgets/tautulli_logo_title.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';
-import '../../widgets/ios/wizard_accessibility_ios.dart';
-import '../../widgets/ios/wizard_appearance_ios.dart';
-import '../../widgets/ios/wizard_back_ios_button.dart';
-import '../../widgets/ios/wizard_closing_ios.dart';
-import '../../widgets/ios/wizard_finish_ios_button.dart';
-import '../../widgets/ios/wizard_ios_stepper.dart';
-import '../../widgets/ios/wizard_next_ios_button.dart';
-import '../../widgets/ios/wizard_onesignal_ios.dart';
-import '../../widgets/ios/wizard_quit_ios_button.dart';
-import '../../widgets/ios/wizard_servers_ios.dart';
-import '../../widgets/ios/wizard_skip_ios_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_accessibility.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_appearance.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_back_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_closing.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_finish_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_stepper.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_next_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_onesignal.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_quit_button.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_servers.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_skip_button.dart';
 
 // Ignoring const as consts prevents the wizard from changing when the language is changed
 // ignore_for_file: prefer_const_constructors
 
-class WizardIosPage extends StatelessWidget {
-  const WizardIosPage({super.key});
+class CupertinoStyleWizardPage extends StatelessWidget {
+  const CupertinoStyleWizardPage({super.key});
 
   static const routeName = '/wizard';
 
@@ -33,13 +33,13 @@ class WizardIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => WizardBloc(),
-      child: WizardIosView(),
+      child: CupertinoStyleWizardView(),
     );
   }
 }
 
-class WizardIosView extends StatelessWidget {
-  const WizardIosView({super.key});
+class CupertinoStyleWizardView extends StatelessWidget {
+  const CupertinoStyleWizardView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class WizardIosView extends StatelessWidget {
         return PageScaffoldCupertino(
           showBackButton: false,
           leading: _WizardLeftIosAction(activeStep: wizardState.activeStep),
-          middle: WizardIosStepper(
+          middle: CupertinoStyleWizardStepper(
             stepCount: wizardState.stepCount,
             activeStep: wizardState.activeStep,
           ),
@@ -80,15 +80,15 @@ class WizardIosView extends StatelessWidget {
                       builder: (context) {
                         switch (wizardState.activeStep) {
                           case 0:
-                            return WizardServersIos();
+                            return CupertinoStyleWizardServers();
                           case 1:
-                            return WizardOnesignalIos();
+                            return CupertinoStyleWizardOnesignal();
                           case 2:
-                            return WizardAppearanceIos();
+                            return CupertinoStyleWizardAppearance();
                           case 3:
-                            return WizardAccessibilityIos();
+                            return CupertinoStyleWizardAccessibility();
                           case 4:
-                            return WizardClosingIos();
+                            return CupertinoStyleWizardClosing();
                           default:
                             return Container(
                               color: CupertinoTheme.of(context).scaffoldBackgroundColor,
@@ -130,10 +130,10 @@ class _WizardLeftIosAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (activeStep == 0) {
-      return const WizardQuitIosButton();
+      return const CupertinoStyleWizardQuitButton();
     }
 
-    return const WizardBackIosButton();
+    return const CupertinoStyleWizardBackButton();
   }
 }
 
@@ -159,14 +159,14 @@ class _WizardRightIosAction extends StatelessWidget {
         settingsState as SettingsSuccess;
 
         if (activeStep == 0 && (settingsState.serverList.isEmpty && !serversSkipped)) {
-          return const WizardSkipIosButton(wizardSkipType: WizardSkipType.servers);
+          return const CupertinoStyleWizardSkipButton(wizardSkipType: WizardSkipType.servers);
         } else if (activeStep == 1 && !(oneSignalSkipped || oneSignalAllowed)) {
-          return const WizardSkipIosButton(wizardSkipType: WizardSkipType.onesignal);
+          return const CupertinoStyleWizardSkipButton(wizardSkipType: WizardSkipType.onesignal);
         } else if (activeStep == stepCount - 1) {
-          return const WizardFinishIosButton();
+          return const CupertinoStyleWizardFinishButton();
         }
 
-        return const WizardNextIosButton();
+        return const CupertinoStyleWizardNextButton();
       },
     );
   }

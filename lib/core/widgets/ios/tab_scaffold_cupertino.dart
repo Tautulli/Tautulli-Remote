@@ -10,7 +10,7 @@ import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
 import '../../../features/libraries/presentation/pages/ios/libraries_ios_page.dart';
 import '../../../features/more/presentation/pages/more_ios_page.dart';
 import '../../../features/recently_added/presentation/pages/ios/recently_added_ios_page.dart';
-import '../../../features/wizard/presentation/pages/ios/wizard_ios_page.dart';
+import '../../../features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
 import '../../rate_app/rate_app.dart';
@@ -39,7 +39,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
           context: context,
           useNestedNavigation: true,
           enableDrag: false,
-          builder: (context) => const WizardIosPage(),
+          builder: (context) => const CupertinoStyleWizardPage(),
         );
       } else if (route == '/changelog') {
         await navigatorKey.currentState?.push(

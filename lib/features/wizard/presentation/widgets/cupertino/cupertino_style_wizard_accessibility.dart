@@ -8,8 +8,8 @@ import '../../../../settings/presentation/widgets/ios/groups/accessibility_font_
 import '../../../../settings/presentation/widgets/ios/groups/accessibility_theme_ios_group.dart';
 import '../../../../settings/presentation/widgets/ios/groups/accessibility_visuals_ios_group.dart';
 
-class WizardAccessibilityIos extends StatelessWidget {
-  const WizardAccessibilityIos({super.key});
+class CupertinoStyleWizardAccessibility extends StatelessWidget {
+  const CupertinoStyleWizardAccessibility({super.key});
 
   @override
   Widget build(BuildContext context) {

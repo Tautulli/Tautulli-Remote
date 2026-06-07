@@ -3,16 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/wizard_bloc.dart';
 
-class WizardBackIosButton extends StatelessWidget {
-  const WizardBackIosButton({super.key});
+class CupertinoStyleWizardNextButton extends StatelessWidget {
+  final bool isDisabled;
+
+  const CupertinoStyleWizardNextButton({
+    super.key,
+    this.isDisabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      onPressed: () => context.read<WizardBloc>().add(WizardPrevious()),
+      onPressed: isDisabled ? null : () => context.read<WizardBloc>().add(WizardNext()),
       //TODO: Needs translation string
-      child: const Text('Back'),
+      child: const Text('Next'),
     );
   }
 }

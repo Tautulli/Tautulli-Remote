@@ -14,8 +14,8 @@ import '../../../../settings/presentation/widgets/ios/groups/servers_ios_group.d
 import '../../../../settings/presentation/widgets/ios/register_server_ios_button.dart';
 import '../../../../translation/presentation/bloc/translation_bloc.dart';
 
-class WizardServersIos extends StatelessWidget {
-  const WizardServersIos({super.key});
+class CupertinoStyleWizardServers extends StatelessWidget {
+  const CupertinoStyleWizardServers({super.key});
 
   @override
   Widget build(BuildContext context) {

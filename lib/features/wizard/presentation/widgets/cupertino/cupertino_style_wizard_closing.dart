@@ -8,8 +8,8 @@ import '../../../../../core/widgets/ios/cupertino_notice_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/wizard_bloc.dart';
 
-class WizardClosingIos extends StatelessWidget {
-  const WizardClosingIos({super.key});
+class CupertinoStyleWizardClosing extends StatelessWidget {
+  const CupertinoStyleWizardClosing({super.key});
 
   @override
   Widget build(BuildContext context) {
