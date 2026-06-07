@@ -40,8 +40,9 @@ String genericSuggestion = LocaleKeys.error_suggestion_generic.tr();
 String missingServerSuggestion = LocaleKeys.error_suggestion_register_server.tr();
 String invalidApiKeySuggestion = LocaleKeys.error_suggestion_invalid_api_key.tr();
 String plexConnectionSuggestion = LocaleKeys.error_suggestion_plex_connection.tr();
-String serverVersionSuggestion =
-    LocaleKeys.error_suggestion_server_version.tr(args: [MinimumVersion.tautulliServer.toString()]);
+String serverVersionSuggestion = LocaleKeys.error_suggestion_server_version.tr(
+  args: [MinimumVersion.tautulliServer.toString()],
+);
 String terminateStreamSuggestion = LocaleKeys.error_suggestion_terminate_stream_failed.tr();
 
 class FailureHelper {
@@ -75,94 +76,94 @@ class FailureHelper {
       } else {
         if (isNotBlank(responseString) && responseString != 'null') {
           di.sl<Logging>().error(
-                'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
-              );
+            'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
+          );
         }
         exception = ServerException;
       }
     }
 
     switch (exception) {
-      case (AuthorizationRequiredException):
+      case AuthorizationRequiredException _:
         return AuthorizationRequiredFailure();
-      case (BadApiResponseException):
+      case BadApiResponseException _:
         return BadApiResponseFailure();
-      case (CertificateExpiredException):
+      case CertificateExpiredException _:
         return CertificateExpiredFailure();
-      case (CertificateVerificationException):
+      case CertificateVerificationException _:
         return CertificateVerificationFailure();
-      // case (ConnectionDetailsException):
+      // case ConnectionDetailsException _:
       //   return ConnectionDetailsFailure();
-      case (DatabaseInitException):
+      case DatabaseInitException _:
         return DatabaseInitFailure();
-      case (DioException):
+      case DioException _:
         return DioFailure();
-      case (InvalidApiKeyException):
+      case InvalidApiKeyException _:
         return InvalidApiKeyFailure();
-      // case (HandshakeException):
+      // case HandshakeException _:
       //   return TlsFailure();
-      // case (JsonDecodeException):
+      // case JsonDecodeException _:
       //   return JsonDecodeFailure();
-      case (ServerException):
+      case ServerException _:
         return ServerFailure();
-      case (ServerVersionException):
+      case ServerVersionException _:
         return ServerVersionFailure();
-      // case (SettingsException):
+      // case SettingsException _:
       //   return SettingsFailure();
-      // case (SocketException):
+      // case SocketException _:
       //   return SocketFailure();
-      case (TerminateStreamException):
+      case TerminateStreamException _:
         return TerminateStreamFailure();
-      case (TimeoutException):
+      case TimeoutException _:
         return TimeoutFailure();
-      // case (TlsException):
+      // case TlsException _:
       //   return TlsFailure();
       default:
         di.sl<Logging>().error(
-              'FailureMapper :: Unable to map [$exception] to a specific failure',
-            );
+          'FailureMapper :: Unable to map [$exception] to a specific failure',
+        );
         return GenericFailure();
     }
   }
 
   static String mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case (AuthorizationRequiredFailure):
+      case AuthorizationRequiredFailure _:
         return serverMessage;
-      case (BadApiResponseFailure):
+      case BadApiResponseFailure _:
         return badApiResponseMessage;
-      case (CertificateExpiredFailure):
+      case CertificateExpiredFailure _:
         return certificateExpiredMessage;
-      case (CertificateVerificationFailure):
+      case CertificateVerificationFailure _:
         return certificateVerificationMessage;
-      // case (ConnectionDetailsFailure):
+      // case ConnectionDetailsFailure _:
       //   return settingsMessage;
-      case (ConnectionFailure):
+      case ConnectionFailure _:
         return connectionMessage;
-      case (DatabaseInitFailure):
+      case DatabaseInitFailure _:
         return dataBaseInitMessage;
-      case (InvalidApiKeyFailure):
+      case InvalidApiKeyFailure _:
         return invalidApiKeyMessage;
-      // case (JsonDecodeFailure):
+      // case JsonDecodeFailure _:
       //   return jsonMessage;
-      case (MissingServerFailure):
+      case MissingServerFailure _:
         return missingServerMessage;
-      case (DioFailure):
-      case (ServerFailure):
+      case DioFailure _:
+      case ServerFailure _:
         return serverMessage;
-      case (ServerVersionFailure):
+      case ServerVersionFailure _:
         return serverVersionMessage;
-      // case (SettingsFailure):
+      // case SettingsFailure _:
       //   return settingsMessage;
-      // case (SocketFailure):
+      // case SocketFailure _:
       //   return socketMessage;
-      case (TerminateStreamFailure):
+      case TerminateStreamFailure _:
         return terminateStreamMessage;
-      case (TimeoutFailure):
+      case TimeoutFailure _:
         return timeoutMessage;
-      // case (TlsFailure):
+      // case TlsFailure _:
       //   return tlsMessage;
-      case (GenericFailure):
+      case GenericFailure _:
       default:
         return genericMessage;
     }
@@ -170,42 +171,42 @@ class FailureHelper {
 
   static String mapFailureToSuggestion(Failure failure) {
     switch (failure.runtimeType) {
-      case (AuthorizationRequiredFailure):
+      case AuthorizationRequiredFailure _:
         return authorizationRequiredSuggestion;
-      case (BadApiResponseFailure):
+      case BadApiResponseFailure _:
         return badApiResponseSuggestion;
-      case (CertificateExpiredFailure):
+      case CertificateExpiredFailure _:
         return certificateExpiredSuggestion;
-      case (CertificateVerificationFailure):
+      case CertificateVerificationFailure _:
         return certificateVerificationSuggestion;
-      // case (ConnectionDetailsFailure):
+      // case ConnectionDetailsFailure _:
       //   return checkServerSettingsSuggestion;
-      case (ConnectionFailure):
+      case ConnectionFailure _:
         return '';
-      case (DatabaseInitFailure):
+      case DatabaseInitFailure _:
         return genericSuggestion;
-      case (InvalidApiKeyFailure):
+      case InvalidApiKeyFailure _:
         return invalidApiKeySuggestion;
-      // case (JsonDecodeFailure):
+      // case JsonDecodeFailure _:
       //   return checkConnectionAddressSuggestion;
-      case (MissingServerFailure):
+      case MissingServerFailure _:
         return missingServerSuggestion;
-      case (DioFailure):
-      case (ServerFailure):
+      case DioFailure _:
+      case ServerFailure _:
         return checkServerSettingsSuggestion;
-      case (ServerVersionFailure):
+      case ServerVersionFailure _:
         return serverVersionSuggestion;
-      // case (SettingsFailure):
+      // case SettingsFailure _:
       //   return checkServerSettingsSuggestion;
-      // case (SocketFailure):
+      // case SocketFailure _:
       //   return checkConnectionAddressSuggestion;
-      case (TerminateStreamFailure):
+      case TerminateStreamFailure _:
         return terminateStreamSuggestion;
-      case (TimeoutFailure):
+      case TimeoutFailure _:
         return plexConnectionSuggestion;
-      // case (TlsFailure):
+      // case TlsFailure _:
       //   return checkConnectionAddressSuggestion;
-      case (GenericFailure):
+      case GenericFailure _:
       default:
         return genericSuggestion;
     }

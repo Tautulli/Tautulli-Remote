@@ -13,16 +13,12 @@ class Cast {
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.
   static bool? castToBool(dynamic value) {
-    switch (value.runtimeType) {
-      case num:
+    switch (value) {
+      case num _:
         return (value as num?) == 0 ? false : true;
-      case double:
-        return (value as double?) == 0 ? false : true;
-      case int:
-        return (value as int?) == 0 ? false : true;
-      case String:
+      case String _:
         return (value as String?) == "" || value == "0" ? false : true;
-      case bool:
+      case bool _:
         return (value as bool?);
       default:
         return null;
@@ -33,17 +29,15 @@ class Cast {
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.
   static double? castToDouble(dynamic value) {
-    switch (value.runtimeType) {
-      case num:
-        return (value as num).toDouble();
-      case double:
+    switch (value) {
+      case double _:
         return (value as double?);
-      case int:
-        return (value as int).toDouble();
-      case String:
-        return double.tryParse(value as String);
-      case bool:
-        return (value as bool) ? 1 : 0;
+      case int _:
+        return (value).toDouble();
+      case String _:
+        return double.tryParse(value);
+      case bool _:
+        return (value) ? 1 : 0;
       default:
         return null;
     }
@@ -53,17 +47,15 @@ class Cast {
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.
   static int? castToInt(dynamic value) {
-    switch (value.runtimeType) {
-      case num:
-        return (value as double).floor();
-      case double:
-        return (value as double).floor();
-      case int:
+    switch (value) {
+      case double _:
+        return (value).floor();
+      case int _:
         return (value as int?);
-      case String:
-        return int.tryParse(value as String);
-      case bool:
-        return (value as bool) ? 1 : 0;
+      case String _:
+        return int.tryParse(value);
+      case bool _:
+        return (value) ? 1 : 0;
       default:
         return null;
     }
@@ -73,15 +65,13 @@ class Cast {
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.
   static num? castToNum(dynamic value) {
-    switch (value.runtimeType) {
-      case num:
-      case double:
-      case int:
+    switch (value) {
+      case num _:
         return (value as num?);
-      case String:
-        return num.tryParse(value as String);
-      case bool:
-        return (value as bool) ? 1 : 0;
+      case String _:
+        return num.tryParse(value);
+      case bool _:
+        return (value) ? 1 : 0;
       default:
         return null;
     }
@@ -91,21 +81,21 @@ class Cast {
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.
   static String? castToString(dynamic value) {
-    switch (value.runtimeType) {
-      case double:
+    switch (value) {
+      case double _:
         return (value as double?).toString();
-      case int:
+      case int _:
         return (value as int?).toString();
-      case String:
+      case String _:
         return (value as String?);
-      case bool:
-        return (value as bool) ? "1" : "0";
-      case PlayMetricType:
-      case MediaType:
-      case SectionType:
-      case StatIdType:
-      case StreamDecision:
-      case ImageFallback:
+      case bool _:
+        return (value) ? "1" : "0";
+      case PlayMetricType _:
+      case MediaType _:
+      case SectionType _:
+      case StatIdType _:
+      case StreamDecision _:
+      case ImageFallback _:
         return value.apiValue();
       default:
         return null;
