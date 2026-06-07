@@ -104,7 +104,7 @@ class MediaListIosPoster extends StatelessWidget {
           ),
         ),
         Container(
-          height: 26,
+          height: 28,
           padding: const EdgeInsets.symmetric(horizontal: 2),
           child: Column(
             children: [

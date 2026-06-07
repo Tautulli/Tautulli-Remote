@@ -240,7 +240,7 @@ class _MediaChildrenIosTabState extends State<MediaChildrenIosTab> {
         ? itemWidth * 2 / 3
         : itemWidth * 3 / 2;
 
-    double textHeight = widget.mediaType == MediaType.season ? 44 : 26;
+    double textHeight = widget.mediaType == MediaType.season ? 50 : 28;
 
     return posterHeight + textHeight;
   }

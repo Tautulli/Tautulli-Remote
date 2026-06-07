@@ -180,7 +180,7 @@ class _LibraryDetailsMediaIosTabState extends State<LibraryDetailsMediaIosTab> {
     ].contains(widget.libraryTableModel.sectionType);
 
     final double posterHeight = isSquare ? itemWidth : itemWidth * 3 / 2;
-    const double textHeight = 26;
+    const double textHeight = 28;
 
     return posterHeight + textHeight;
   }

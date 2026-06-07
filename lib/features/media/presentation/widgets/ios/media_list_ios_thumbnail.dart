@@ -51,7 +51,7 @@ class MediaListIosThumbnail extends StatelessWidget {
           ),
         ),
         Container(
-          height: mediaIndex != null ? 44 : 26,
+          height: mediaIndex != null ? 50 : 28,
           padding: const EdgeInsets.symmetric(horizontal: 2),
           child: Column(
             children: [
