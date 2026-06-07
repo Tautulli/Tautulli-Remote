@@ -92,7 +92,14 @@ class _UserIosCardState extends State<UserIosCard> {
                       if (!state.appSettings.disableImageBackgrounds)
                         AnimatedSwitcher(
                           duration: const Duration(milliseconds: 400),
-                          child: color != null ? _DarkenedBackground(color: color) : null,
+                          child: Container(
+                            color: color != null
+                                ? Color.alphaBlend(
+                                    CupertinoColors.black.withValues(alpha: 0.6),
+                                    color,
+                                  )
+                                : null,
+                          ),
                         ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -114,30 +121,6 @@ class _UserIosCardState extends State<UserIosCard> {
           ),
         );
       },
-    );
-  }
-}
-
-class _DarkenedBackground extends StatelessWidget {
-  final Color color;
-
-  const _DarkenedBackground({
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: color,
-          ),
-        ),
-        Container(
-          color: CupertinoColors.black.withValues(alpha: 0.6),
-        ),
-      ],
     );
   }
 }

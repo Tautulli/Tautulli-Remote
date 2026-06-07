@@ -135,7 +135,6 @@ class _UserDetailsIosViewState extends State<UserDetailsIosView> {
           sensitive: settingsState.appSettings.maskSensitiveInfo,
           background: widget.backgroundColor != null
               ? Container(
-                  //TODO: Use this method elsewhere instead of a stack of 2 colors?
                   color: _backgroundColor != null
                       ? Color.alphaBlend(
                           CupertinoColors.black.withValues(alpha: 0.6),

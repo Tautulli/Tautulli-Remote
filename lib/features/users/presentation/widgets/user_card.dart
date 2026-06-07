@@ -66,7 +66,9 @@ class _UserCardState extends State<UserCard> {
 
         return CardWithForcedTint(
           child: SizedBox(
-            height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
+            height: MediaQuery.of(context).textScaler.scale(1) > 1
+                ? 100 * MediaQuery.of(context).textScaler.scale(1)
+                : 100,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
                 state as SettingsSuccess;
@@ -76,7 +78,14 @@ class _UserCardState extends State<UserCard> {
                     if (!state.appSettings.disableImageBackgrounds)
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 400),
-                        child: color != null ? _DarkenedBackground(color: color) : null,
+                        child: Container(
+                          color: color != null
+                              ? Color.alphaBlend(
+                                  Colors.black.withValues(alpha: 0.6),
+                                  color,
+                                )
+                              : null,
+                        ),
                       ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -116,30 +125,6 @@ class _UserCardState extends State<UserCard> {
           ),
         );
       },
-    );
-  }
-}
-
-class _DarkenedBackground extends StatelessWidget {
-  final Color color;
-
-  const _DarkenedBackground({
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: color,
-          ),
-        ),
-        Container(
-          color: Colors.black.withValues(alpha: 0.6),
-        ),
-      ],
     );
   }
 }
