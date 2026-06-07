@@ -11,7 +11,7 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
-import '../../../../recently_added/presentation/widgets/ios/recently_added_ios_card.dart';
+import '../../../../recently_added/presentation/widgets/cupertino/cupertino_style_recently_added_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 
@@ -103,7 +103,7 @@ class _LibraryDetailsNewIosTabState extends State<LibraryDetailsNewIosTab> {
                     itemBuilder: (context, index) {
                       final recentlyAdded = state.recentlyAdded[index];
 
-                      return RecentlyAddedIosCard(
+                      return CupertinoStyleRecentlyAddedCard(
                         server: widget.server,
                         recentlyAdded: recentlyAdded,
                       );

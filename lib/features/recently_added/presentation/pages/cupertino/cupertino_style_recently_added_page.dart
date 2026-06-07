@@ -19,15 +19,15 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/recently_added_bloc.dart';
-import '../../widgets/ios/recently_added_filter_ios_bottom_sheet.dart';
-import '../../widgets/ios/recently_added_ios_card.dart';
+import '../../widgets/cupertino/cupertino_style_recently_added_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_recently_added_card.dart';
 
-class RecentlyAddedIosPage extends StatelessWidget {
+class CupertinoStyleRecentlyAddedPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const RecentlyAddedIosPage({
+  const CupertinoStyleRecentlyAddedPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -40,7 +40,7 @@ class RecentlyAddedIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<RecentlyAddedBloc>(),
-      child: RecentlyAddedIosView(
+      child: CupertinoStyleRecentlyAddedView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -49,12 +49,12 @@ class RecentlyAddedIosPage extends StatelessWidget {
   }
 }
 
-class RecentlyAddedIosView extends StatefulWidget {
+class CupertinoStyleRecentlyAddedView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const RecentlyAddedIosView({
+  const CupertinoStyleRecentlyAddedView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -62,10 +62,10 @@ class RecentlyAddedIosView extends StatefulWidget {
   });
 
   @override
-  State<RecentlyAddedIosView> createState() => _RecentlyAddedIosViewState();
+  State<CupertinoStyleRecentlyAddedView> createState() => _CupertinoStyleRecentlyAddedViewState();
 }
 
-class _RecentlyAddedIosViewState extends State<RecentlyAddedIosView> {
+class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecentlyAddedView> {
   final _scrollController = ScrollController();
   late RecentlyAddedBloc _recentlyAddedBloc;
   late SettingsBloc _settingsBloc;
@@ -212,7 +212,7 @@ class _RecentlyAddedIosViewState extends State<RecentlyAddedIosView> {
                         if (index.isEven) {
                           final recentlyAdded = state.recentlyAdded[itemIndex];
 
-                          return RecentlyAddedIosCard(
+                          return CupertinoStyleRecentlyAddedCard(
                             server: _server,
                             recentlyAdded: recentlyAdded,
                           );
@@ -302,7 +302,7 @@ class _RecentlyAddedIosViewState extends State<RecentlyAddedIosView> {
           onPressed: () async {
             MediaType? mediaType = await showCupertinoModalPopup(
               context: context,
-              builder: (_) => RecentlyAddedFilterIosBottomSheet(
+              builder: (_) => CupertinoStyleRecentlyAddedFilterBottomSheet(
                 mediaType: _mediaType,
               ),
             );

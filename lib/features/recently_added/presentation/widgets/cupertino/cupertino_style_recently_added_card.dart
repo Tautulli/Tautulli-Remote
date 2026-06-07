@@ -6,13 +6,13 @@ import '../../../../../core/widgets/ios/ios_poster_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/ios/media_ios_page.dart';
 import '../../../data/models/recently_added_model.dart';
-import 'recently_added_ios_card_details.dart';
+import 'cupertino_style_recently_added_card_details.dart';
 
-class RecentlyAddedIosCard extends StatelessWidget {
+class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
   final ServerModel server;
   final RecentlyAddedModel recentlyAdded;
 
-  const RecentlyAddedIosCard({
+  const CupertinoStyleRecentlyAddedCard({
     super.key,
     required this.server,
     required this.recentlyAdded,
@@ -64,7 +64,7 @@ class RecentlyAddedIosCard extends StatelessWidget {
       },
       mediaType: recentlyAdded.mediaType,
       uri: posterUri,
-      details: RecentlyAddedIosCardDetails(recentlyAdded: recentlyAdded),
+      details: CupertinoStyleRecentlyAddedCardDetails(recentlyAdded: recentlyAdded),
     );
   }
 }

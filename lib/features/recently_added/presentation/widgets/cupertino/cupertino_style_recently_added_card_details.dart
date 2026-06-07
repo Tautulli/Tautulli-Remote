@@ -8,10 +8,10 @@ import '../../../../../core/widgets/media_type_icon.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/recently_added_model.dart';
 
-class RecentlyAddedIosCardDetails extends StatelessWidget {
+class CupertinoStyleRecentlyAddedCardDetails extends StatelessWidget {
   final RecentlyAddedModel recentlyAdded;
 
-  const RecentlyAddedIosCardDetails({
+  const CupertinoStyleRecentlyAddedCardDetails({
     super.key,
     required this.recentlyAdded,
   });

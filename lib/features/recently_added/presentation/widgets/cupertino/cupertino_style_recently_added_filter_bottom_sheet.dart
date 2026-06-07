@@ -8,10 +8,10 @@ import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart'
 import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class RecentlyAddedFilterIosBottomSheet extends StatelessWidget {
+class CupertinoStyleRecentlyAddedFilterBottomSheet extends StatelessWidget {
   final MediaType? mediaType;
 
-  const RecentlyAddedFilterIosBottomSheet({
+  const CupertinoStyleRecentlyAddedFilterBottomSheet({
     super.key,
     required this.mediaType,
   });
