@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app_framework.dart';
 import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
 import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
-import '../../../features/changelog/presentation/pages/ios/changelog_ios_page.dart';
+import '../../../features/changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
 import '../../../features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
 import '../../../features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import '../../../features/more/presentation/pages/cupertino/cupertino_style_more_page.dart';
@@ -45,7 +45,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
         await navigatorKey.currentState?.push(
           CupertinoPageRoute(
             fullscreenDialog: true,
-            builder: (context) => const ChangelogIosPage(),
+            builder: (context) => const CupertinoStyleChangelogPage(),
           ),
         );
       }

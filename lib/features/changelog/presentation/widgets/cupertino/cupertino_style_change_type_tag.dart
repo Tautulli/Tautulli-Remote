@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-class ChangeTypeIosTag extends StatelessWidget {
+class CupertinoStyleChangeTypeTag extends StatelessWidget {
   final String type;
 
-  const ChangeTypeIosTag(
+  const CupertinoStyleChangeTypeTag(
     this.type, {
     super.key,
   });

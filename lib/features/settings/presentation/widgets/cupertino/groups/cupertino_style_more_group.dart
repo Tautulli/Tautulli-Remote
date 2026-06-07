@@ -7,7 +7,7 @@ import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
+import '../../../../../changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
 import '../../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../../../../translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
 import '../../../pages/cupertino/cupertino_style_data_dump_page.dart';
@@ -47,7 +47,7 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
           titleText: LocaleKeys.changelog_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => ChangelogIosPage(
+              builder: (context) => CupertinoStyleChangelogPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

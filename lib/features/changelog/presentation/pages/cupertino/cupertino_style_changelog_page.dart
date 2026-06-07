@@ -7,13 +7,13 @@ import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
 import '../../../data/datasources/changelog_data_source.dart';
-import '../../widgets/ios/changelog_ios_item.dart';
+import '../../widgets/cupertino/cupertino_style_changelog_item.dart';
 
-class ChangelogIosPage extends StatelessWidget {
+class CupertinoStyleChangelogPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const ChangelogIosPage({
+  const CupertinoStyleChangelogPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -23,18 +23,18 @@ class ChangelogIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangelogIosView(
+    return CupertinoStyleChangelogView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class ChangelogIosView extends StatelessWidget {
+class CupertinoStyleChangelogView extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const ChangelogIosView({
+  const CupertinoStyleChangelogView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -87,7 +87,7 @@ class ChangelogIosView extends StatelessWidget {
 
     for (int i = 0; i < data.length; i++) {
       entries.add(
-        ChangelogIosItem(
+        CupertinoStyleChangelogItem(
           data[i],
           bottomPadding: i < data.length - 1,
         ),

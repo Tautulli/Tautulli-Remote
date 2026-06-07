@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/ios/cupertino_card.dart';
-import 'change_type_ios_tag.dart';
+import 'cupertino_style_change_type_tag.dart';
 
-class ChangelogIosItem extends StatelessWidget {
+class CupertinoStyleChangelogItem extends StatelessWidget {
   final Map release;
   final bool bottomPadding;
 
-  const ChangelogIosItem(
+  const CupertinoStyleChangelogItem(
     this.release, {
     super.key,
     this.bottomPadding = false,
@@ -64,7 +64,7 @@ class ChangelogIosItem extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ChangeTypeIosTag(change['type']),
+                            CupertinoStyleChangeTypeTag(change['type']),
                             const Gap(8),
                             Expanded(
                               child: Column(
