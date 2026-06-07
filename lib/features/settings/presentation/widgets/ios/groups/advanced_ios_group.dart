@@ -7,6 +7,7 @@ import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/helpers/translation_helper.dart';
+import '../../../../../../core/types/app_style.dart';
 import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
@@ -21,16 +22,21 @@ class AdvancedIosGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
-      headerText: LocaleKeys.settings_title.tr(),
-      children: [
-        if (di.sl<DeviceInfo>().platform == 'android')
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              state as SettingsSuccess;
-              final doubleBackToExit = state.appSettings.doubleBackToExit;
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        state as SettingsSuccess;
+        final doubleBackToExit = state.appSettings.doubleBackToExit;
+        final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
+        final multiserverActivity = state.appSettings.multiserverActivity;
+        final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
+        final homePageSetting = state.appSettings.homePage;
+        final appStyle = state.appSettings.appStyle;
 
-              return CustomNotchedCupertinoListTile(
+        return CustomCupertinoListSection(
+          headerText: LocaleKeys.settings_title.tr(),
+          children: [
+            if (di.sl<DeviceInfo>().platform == 'android')
+              CustomNotchedCupertinoListTile(
                 leading: Icon(
                   CupertinoIcons.chevron_left_2,
                   color: ThemeHelper.cupertinoListTileIconColor(),
@@ -45,15 +51,8 @@ class AdvancedIosGroup extends StatelessWidget {
                 ),
                 titleText: LocaleKeys.double_back_to_exit_title.tr(),
                 subtitleText: LocaleKeys.double_back_to_exit_subtitle.tr(),
-              );
-            },
-          ),
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-            final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
-
-            return CustomNotchedCupertinoListTile(
+              ),
+            CustomNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.eye_slash_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -68,15 +67,8 @@ class AdvancedIosGroup extends StatelessWidget {
               ),
               titleText: LocaleKeys.mask_senstivie_info_title.tr(),
               subtitleText: LocaleKeys.mask_senstivie_info_subtitle.tr(),
-            );
-          },
-        ),
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-            final multiserverActivity = state.appSettings.multiserverActivity;
-
-            return CustomNotchedCupertinoListTile(
+            ),
+            CustomNotchedCupertinoListTile(
               leading: FaIcon(
                 FontAwesomeIcons.barsStaggered,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -92,15 +84,8 @@ class AdvancedIosGroup extends StatelessWidget {
               ),
               titleText: LocaleKeys.multiserver_activity_page_title.tr(),
               subtitleText: LocaleKeys.multiserver_activity_page_subtitle.tr(),
-            );
-          },
-        ),
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-            final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
-
-            return CustomNotchedCupertinoListTile(
+            ),
+            CustomNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.arrow_clockwise,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -115,50 +100,43 @@ class AdvancedIosGroup extends StatelessWidget {
               ),
               titleText: LocaleKeys.library_media_full_refresh_title.tr(),
               subtitleText: LocaleKeys.library_media_full_refresh_subtitle.tr(),
-            );
-          },
-        ),
-        //TODO: Hide if using Cupertino framework
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-            final homePageSetting = state.appSettings.homePage;
-
-            return CustomNotchedCupertinoListTile(
-              leading: Icon(
-                CupertinoIcons.house_fill,
-                color: ThemeHelper.cupertinoListTileIconColor(),
-              ),
-              trailing: const CupertinoListTileChevron(),
-              titleText: LocaleKeys.home_page_title.tr(),
-              subtitleText: StringHelper.mapHomePageSettingToTitle(homePageSetting),
-              onTap: () => showCupertinoModalPopup(
-                context: context,
-                builder: (context) => HomePageIosBottomSheet(
-                  initialValue: homePageSetting,
+            ),
+            if (appStyle != AppStyle.cupertino)
+              CustomNotchedCupertinoListTile(
+                leading: Icon(
+                  CupertinoIcons.house_fill,
+                  color: ThemeHelper.cupertinoListTileIconColor(),
+                ),
+                trailing: const CupertinoListTileChevron(),
+                titleText: LocaleKeys.home_page_title.tr(),
+                subtitleText: StringHelper.mapHomePageSettingToTitle(homePageSetting),
+                onTap: () => showCupertinoModalPopup(
+                  context: context,
+                  builder: (context) => HomePageIosBottomSheet(
+                    initialValue: homePageSetting,
+                  ),
                 ),
               ),
-            );
-          },
-        ),
-        CustomNotchedCupertinoListTile(
-          leading: FaIcon(
-            FontAwesomeIcons.language,
-            color: ThemeHelper.cupertinoListTileIconColor(),
-            size: 19.2,
-          ),
-          trailing: const CupertinoListTileChevron(),
-          titleText: LocaleKeys.language_title.tr(),
-          subtitleText: TranslationHelper.localeToString(context.locale),
-          onTap: () => showCupertinoModalPopup(
-            context: context,
-            builder: (context) => BlocProvider(
-              create: (context) => di.sl<TranslationBloc>(),
-              child: LanguageIosBottomSheet(initialValue: context.locale),
+            CustomNotchedCupertinoListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.language,
+                color: ThemeHelper.cupertinoListTileIconColor(),
+                size: 19.2,
+              ),
+              trailing: const CupertinoListTileChevron(),
+              titleText: LocaleKeys.language_title.tr(),
+              subtitleText: TranslationHelper.localeToString(context.locale),
+              onTap: () => showCupertinoModalPopup(
+                context: context,
+                builder: (context) => BlocProvider(
+                  create: (context) => di.sl<TranslationBloc>(),
+                  child: LanguageIosBottomSheet(initialValue: context.locale),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
