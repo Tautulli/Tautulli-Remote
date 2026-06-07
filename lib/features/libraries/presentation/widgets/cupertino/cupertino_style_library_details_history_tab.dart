@@ -16,21 +16,21 @@ import '../../../../history/presentation/widgets/ios/history_ios_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 
-class LibraryDetailsHistoryIosTab extends StatefulWidget {
+class CupertinoStyleLibraryDetailsHistoryTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsHistoryIosTab({
+  const CupertinoStyleLibraryDetailsHistoryTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsHistoryIosTab> createState() => _LibraryDetailsHistoryIosTabState();
+  State<CupertinoStyleLibraryDetailsHistoryTab> createState() => _CupertinoStyleLibraryDetailsHistoryTabState();
 }
 
-class _LibraryDetailsHistoryIosTabState extends State<LibraryDetailsHistoryIosTab> {
+class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleLibraryDetailsHistoryTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;

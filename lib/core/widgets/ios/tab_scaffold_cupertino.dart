@@ -7,7 +7,7 @@ import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart
 import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
-import '../../../features/libraries/presentation/pages/ios/libraries_ios_page.dart';
+import '../../../features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import '../../../features/more/presentation/pages/cupertino/cupertino_style_more_page.dart';
 import '../../../features/recently_added/presentation/pages/cupertino/cupertino_style_recently_added_page.dart';
 import '../../../features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
@@ -118,7 +118,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
               case 2:
                 return const CupertinoStyleRecentlyAddedPage(showBackButton: false);
               case 3:
-                return const LibrariesIosPage(showBackButton: false);
+                return const CupertinoStyleLibrariesPage(showBackButton: false);
               case 0:
               default:
                 return const ActivityIosPage(showBackButton: false);

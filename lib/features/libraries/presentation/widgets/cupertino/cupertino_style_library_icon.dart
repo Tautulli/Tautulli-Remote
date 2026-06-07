@@ -6,10 +6,10 @@ import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../data/models/library_table_model.dart';
 
-class LibraryIosIcon extends StatelessWidget {
+class CupertinoStyleLibraryIcon extends StatelessWidget {
   final LibraryTableModel library;
 
-  const LibraryIosIcon({
+  const CupertinoStyleLibraryIcon({
     super.key,
     required this.library,
   });

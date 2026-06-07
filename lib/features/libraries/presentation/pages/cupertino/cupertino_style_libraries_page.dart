@@ -16,16 +16,16 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/libraries_bloc.dart';
-import '../../widgets/ios/libraries_filter_ios_bottom_sheet.dart';
-import '../../widgets/ios/library_ios_card.dart';
+import '../../widgets/cupertino/cupertino_style_libraries_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_library_card.dart';
 import '../../widgets/library_card_details.dart';
 
-class LibrariesIosPage extends StatelessWidget {
+class CupertinoStyleLibrariesPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const LibrariesIosPage({
+  const CupertinoStyleLibrariesPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -38,7 +38,7 @@ class LibrariesIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<LibrariesBloc>(),
-      child: LibrariesIosView(
+      child: CupertinoStyleLibrariesView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -47,12 +47,12 @@ class LibrariesIosPage extends StatelessWidget {
   }
 }
 
-class LibrariesIosView extends StatefulWidget {
+class CupertinoStyleLibrariesView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const LibrariesIosView({
+  const CupertinoStyleLibrariesView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -60,10 +60,10 @@ class LibrariesIosView extends StatefulWidget {
   });
 
   @override
-  State<LibrariesIosView> createState() => _LibrariesIosViewState();
+  State<CupertinoStyleLibrariesView> createState() => _CupertinoStyleLibrariesViewState();
 }
 
-class _LibrariesIosViewState extends State<LibrariesIosView> {
+class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesView> {
   final _scrollController = ScrollController();
   late LibrariesBloc _librariesBloc;
   late SettingsBloc _settingsBloc;
@@ -212,7 +212,7 @@ class _LibrariesIosViewState extends State<LibrariesIosView> {
                         if (index.isEven) {
                           final library = state.libraries[itemIndex];
 
-                          return LibraryIosCard(
+                          return CupertinoStyleLibraryCard(
                             library: library,
                             details: LibraryCardDetails(library: library),
                           );
@@ -293,7 +293,7 @@ class _LibrariesIosViewState extends State<LibrariesIosView> {
           onPressed: () async {
             Map<String, String>? librarySort = await showCupertinoModalPopup(
               context: context,
-              builder: (_) => LibrariesFilterIosBottomSheet(
+              builder: (_) => CupertinoStyleLibrariesFilterBottomSheet(
                 orderColumn: _orderColumn,
                 orderDir: _orderDir,
               ),

@@ -3,21 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../data/models/library_table_model.dart';
-import 'library_ios_icon.dart';
+import 'cupertino_style_library_icon.dart';
 
-class LibraryDetailsIosIcon extends StatefulWidget {
+class CupertinoStyleLibraryDetailsIcon extends StatefulWidget {
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsIosIcon({
+  const CupertinoStyleLibraryDetailsIcon({
     super.key,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsIosIcon> createState() => _LibraryDetailsIosIconState();
+  State<CupertinoStyleLibraryDetailsIcon> createState() => _CupertinoStyleLibraryDetailsIconState();
 }
 
-class _LibraryDetailsIosIconState extends State<LibraryDetailsIosIcon> {
+class _CupertinoStyleLibraryDetailsIconState extends State<CupertinoStyleLibraryDetailsIcon> {
   late Future getColorFuture;
   late bool hasNetworkImage;
 
@@ -60,7 +60,7 @@ class _LibraryDetailsIosIconState extends State<LibraryDetailsIosIcon> {
             ),
           ),
           Center(
-            child: LibraryIosIcon(library: widget.libraryTableModel),
+            child: CupertinoStyleLibraryIcon(library: widget.libraryTableModel),
           ),
         ],
       ),

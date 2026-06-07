@@ -28,7 +28,7 @@ import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/graphs/presentation/pages/ios/graphs_ios_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/history/presentation/pages/ios/history_ios_page.dart';
-import 'features/libraries/presentation/pages/ios/libraries_ios_page.dart';
+import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
@@ -72,7 +72,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   GraphsIosPage.routeName: (_) => const GraphsIosPage(),
   CupertinoStyleHelpTranslatePage.routeName: (_) => const CupertinoStyleHelpTranslatePage(),
   HistoryIosPage.routeName: (_) => const HistoryIosPage(),
-  LibrariesIosPage.routeName: (_) => const LibrariesIosPage(),
+  CupertinoStyleLibrariesPage.routeName: (_) => const CupertinoStyleLibrariesPage(),
   CupertinoStyleOnesignalDataPrivacyPage.routeName: (_) => const CupertinoStyleOnesignalDataPrivacyPage(),
   CupertinoStyleRecentlyAddedPage.routeName: (_) => const CupertinoStyleRecentlyAddedPage(),
   CupertinoStyleSettingsPage.routeName: (_) => const CupertinoStyleSettingsPage(),

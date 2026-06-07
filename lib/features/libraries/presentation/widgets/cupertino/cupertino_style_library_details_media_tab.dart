@@ -16,12 +16,12 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../bloc/library_media_bloc.dart';
 
-class LibraryDetailsMediaIosTab extends StatefulWidget {
+class CupertinoStyleLibraryDetailsMediaTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
   final String? currentPageTitle;
 
-  const LibraryDetailsMediaIosTab({
+  const CupertinoStyleLibraryDetailsMediaTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
@@ -29,10 +29,10 @@ class LibraryDetailsMediaIosTab extends StatefulWidget {
   });
 
   @override
-  State<LibraryDetailsMediaIosTab> createState() => _LibraryDetailsMediaIosTabState();
+  State<CupertinoStyleLibraryDetailsMediaTab> createState() => _CupertinoStyleLibraryDetailsMediaTabState();
 }
 
-class _LibraryDetailsMediaIosTabState extends State<LibraryDetailsMediaIosTab> {
+class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLibraryDetailsMediaTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;

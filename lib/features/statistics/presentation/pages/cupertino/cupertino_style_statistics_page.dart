@@ -24,7 +24,7 @@ import '../../../../../core/widgets/ios/time_range_ios_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
-import '../../../../libraries/presentation/widgets/ios/library_ios_card.dart';
+import '../../../../libraries/presentation/widgets/cupertino/cupertino_style_library_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -432,7 +432,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
 
           if (stat.statIdType == StatIdType.topLibraries) {
             widgetList.add(
-              LibraryIosCard(
+              CupertinoStyleLibraryCard(
                 library: LibraryTableModel(
                   iconUri: statData.iconUri,
                   sectionId: statData.sectionId,

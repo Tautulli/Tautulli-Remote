@@ -17,7 +17,7 @@ import '../../../../../core/widgets/ios/ios_poster_card.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
-import '../../../../libraries/presentation/widgets/ios/library_ios_card.dart';
+import '../../../../libraries/presentation/widgets/cupertino/cupertino_style_library_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -362,7 +362,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.topLibraries):
         return stat.stats
             .map(
-              (statData) => LibraryIosCard(
+              (statData) => CupertinoStyleLibraryCard(
                 library: LibraryTableModel(
                   iconUri: statData.iconUri,
                   sectionId: statData.sectionId,

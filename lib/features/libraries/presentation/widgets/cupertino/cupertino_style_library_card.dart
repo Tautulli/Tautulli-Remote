@@ -8,14 +8,14 @@ import '../../../../../core/widgets/ios/ios_icon_card.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
-import '../../pages/ios/library_details_ios_page.dart';
-import 'library_ios_icon.dart';
+import '../../pages/cupertino/cupertino_style_library_details_page.dart';
+import 'cupertino_style_library_icon.dart';
 
-class LibraryIosCard extends StatelessWidget {
+class CupertinoStyleLibraryCard extends StatelessWidget {
   final LibraryTableModel library;
   final Widget details;
 
-  const LibraryIosCard({
+  const CupertinoStyleLibraryCard({
     super.key,
     required this.library,
     required this.details,
@@ -76,11 +76,11 @@ class LibraryIosCard extends StatelessWidget {
           );
         },
       ),
-      icon: LibraryIosIcon(library: library),
+      icon: CupertinoStyleLibraryIcon(library: library),
       details: details,
       onTap: () => Navigator.of(context).push(
         CupertinoPageRoute(
-          builder: (context) => LibraryDetailsIosPage(
+          builder: (context) => CupertinoStyleLibraryDetailsPage(
             libraryTableModel: library,
           ),
         ),

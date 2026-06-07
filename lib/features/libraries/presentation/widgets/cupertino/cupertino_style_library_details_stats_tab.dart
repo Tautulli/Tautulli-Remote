@@ -22,21 +22,21 @@ import '../../../data/models/library_table_model.dart';
 import '../../../data/models/library_watch_time_stat_model.dart';
 import '../../bloc/library_statistics_bloc.dart';
 
-class LibraryDetailsStatsIosTab extends StatefulWidget {
+class CupertinoStyleLibraryDetailsStatsTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsStatsIosTab({
+  const CupertinoStyleLibraryDetailsStatsTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsStatsIosTab> createState() => _LibraryDetailsStatsIosTabState();
+  State<CupertinoStyleLibraryDetailsStatsTab> createState() => _CupertinoStyleLibraryDetailsStatsTabState();
 }
 
-class _LibraryDetailsStatsIosTabState extends State<LibraryDetailsStatsIosTab> {
+class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLibraryDetailsStatsTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;

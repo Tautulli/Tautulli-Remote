@@ -15,21 +15,21 @@ import '../../../../recently_added/presentation/widgets/cupertino/cupertino_styl
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 
-class LibraryDetailsNewIosTab extends StatefulWidget {
+class CupertinoStyleLibraryDetailsNewTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsNewIosTab({
+  const CupertinoStyleLibraryDetailsNewTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsNewIosTab> createState() => _LibraryDetailsNewIosTabState();
+  State<CupertinoStyleLibraryDetailsNewTab> createState() => _CupertinoStyleLibraryDetailsNewTabState();
 }
 
-class _LibraryDetailsNewIosTabState extends State<LibraryDetailsNewIosTab> {
+class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibraryDetailsNewTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late SettingsBloc _settingsBloc;

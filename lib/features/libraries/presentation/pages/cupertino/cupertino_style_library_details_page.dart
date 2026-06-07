@@ -18,16 +18,16 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../bloc/library_media_bloc.dart';
 import '../../bloc/library_statistics_bloc.dart';
-import '../../widgets/ios/library_details_history_ios_tab.dart';
-import '../../widgets/ios/library_details_ios_icon.dart';
-import '../../widgets/ios/library_details_media_ios_tab.dart';
-import '../../widgets/ios/library_details_new_ios_tab.dart';
-import '../../widgets/ios/library_details_stats_ios_tab.dart';
+import '../../widgets/cupertino/cupertino_style_library_details_history_tab.dart';
+import '../../widgets/cupertino/cupertino_style_library_details_icon.dart';
+import '../../widgets/cupertino/cupertino_style_library_details_media_tab.dart';
+import '../../widgets/cupertino/cupertino_style_library_details_new_tab.dart';
+import '../../widgets/cupertino/cupertino_style_library_details_stats_tab.dart';
 
-class LibraryDetailsIosPage extends StatelessWidget {
+class CupertinoStyleLibraryDetailsPage extends StatelessWidget {
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsIosPage({
+  const CupertinoStyleLibraryDetailsPage({
     super.key,
     required this.libraryTableModel,
   });
@@ -49,26 +49,26 @@ class LibraryDetailsIosPage extends StatelessWidget {
           create: (context) => di.sl<LibraryMediaBloc>(),
         ),
       ],
-      child: LibraryDetailsIosView(
+      child: CupertinoStyleLibraryDetailsView(
         libraryTableModel: libraryTableModel,
       ),
     );
   }
 }
 
-class LibraryDetailsIosView extends StatefulWidget {
+class CupertinoStyleLibraryDetailsView extends StatefulWidget {
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsIosView({
+  const CupertinoStyleLibraryDetailsView({
     super.key,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsIosView> createState() => _LibraryDetailsIosViewState();
+  State<CupertinoStyleLibraryDetailsView> createState() => _CupertinoStyleLibraryDetailsViewState();
 }
 
-class _LibraryDetailsIosViewState extends State<LibraryDetailsIosView> {
+class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibraryDetailsView> {
   late ServerModel server;
 
   @override
@@ -141,7 +141,7 @@ class _LibraryDetailsIosViewState extends State<LibraryDetailsIosView> {
             placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
             errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
-          icon: LibraryDetailsIosIcon(libraryTableModel: widget.libraryTableModel),
+          icon: CupertinoStyleLibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
           title: widget.libraryTableModel.sectionName ?? '',
           subtitle: widget.libraryTableModel.sectionType == SectionType.photo
               ? const Text('')
@@ -171,22 +171,22 @@ class _LibraryDetailsIosViewState extends State<LibraryDetailsIosView> {
           },
           segmentChildren: [
             if (widget.libraryTableModel.sectionType != SectionType.photo)
-              LibraryDetailsStatsIosTab(
+              CupertinoStyleLibraryDetailsStatsTab(
                 server: server,
                 libraryTableModel: widget.libraryTableModel,
               ),
             if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
-              LibraryDetailsNewIosTab(
+              CupertinoStyleLibraryDetailsNewTab(
                 server: server,
                 libraryTableModel: widget.libraryTableModel,
               ),
             if (widget.libraryTableModel.sectionType != SectionType.photo)
-              LibraryDetailsHistoryIosTab(
+              CupertinoStyleLibraryDetailsHistoryTab(
                 server: server,
                 libraryTableModel: widget.libraryTableModel,
               ),
             if (widget.libraryTableModel.sectionType != SectionType.live)
-              LibraryDetailsMediaIosTab(
+              CupertinoStyleLibraryDetailsMediaTab(
                 server: server,
                 libraryTableModel: widget.libraryTableModel,
                 currentPageTitle: widget.libraryTableModel.sectionName,
