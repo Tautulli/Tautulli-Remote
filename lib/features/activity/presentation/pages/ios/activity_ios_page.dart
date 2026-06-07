@@ -72,22 +72,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
   @override
   void initState() {
     super.initState();
-    cupertinoTabController.addListener(
-      () {
-        if (cupertinoTabController.index == 0) {
-          _activityBloc.add(
-            ActivityFetched(
-              serverList: _serverList,
-              multiserver: _multiserver,
-              activeServerId: _activeServerId,
-              settingsBloc: _settingsBloc,
-            ),
-          );
-        }
-      },
-    );
-
-    //TODO: Add stuff for rating the app
+    cupertinoTabController.addListener(_onActivityOpened);
 
     _activityBloc = context.read<ActivityBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -114,8 +99,22 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
 
   @override
   void dispose() {
-    super.dispose();
+    cupertinoTabController.removeListener(_onActivityOpened);
     WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _onActivityOpened() {
+    if (cupertinoTabController.index == 0) {
+      _activityBloc.add(
+        ActivityFetched(
+          serverList: _serverList,
+          multiserver: _multiserver,
+          activeServerId: _activeServerId,
+          settingsBloc: _settingsBloc,
+        ),
+      );
+    }
   }
 
   // Take action if the app is paused or resumed
