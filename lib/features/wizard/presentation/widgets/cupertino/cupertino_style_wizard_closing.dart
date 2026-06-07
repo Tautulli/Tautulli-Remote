@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_notice_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notice_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/wizard_bloc.dart';
 
@@ -23,7 +23,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
           ),
         ).tr(),
         const Gap(8),
-        CupertinoNoticeCard(
+        CupertinoStyleNoticeCard(
           leading: Icon(
             CupertinoIcons.dot_radiowaves_left_right,
             color: ThemeHelper.cupertinoCardIconColor(),
@@ -31,7 +31,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
           title: LocaleKeys.wizard_closing_announcements.tr(),
         ),
         const Gap(8),
-        CupertinoNoticeCard(
+        CupertinoStyleNoticeCard(
           leading: Icon(
             CupertinoIcons.bubble_left_fill,
             color: ThemeHelper.cupertinoCardIconColor(),
@@ -47,7 +47,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Gap(8),
-                  CupertinoNoticeCard(
+                  CupertinoStyleNoticeCard(
                     leading: Icon(
                       CupertinoIcons.bell_fill,
                       color: ThemeHelper.cupertinoCardIconColor(),
@@ -61,7 +61,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
           },
         ),
         const Gap(8),
-        CupertinoNoticeCard(
+        CupertinoStyleNoticeCard(
           leading: Icon(
             CupertinoIcons.paintbrush_fill,
             color: ThemeHelper.cupertinoCardIconColor(),
@@ -70,7 +70,7 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
           title: 'Change the app style between Material and Cupertino under Settings > Appearance.',
         ),
         const Gap(8),
-        CupertinoNoticeCard(
+        CupertinoStyleNoticeCard(
           leading: Icon(
             CupertinoIcons.globe,
             color: ThemeHelper.cupertinoCardIconColor(),

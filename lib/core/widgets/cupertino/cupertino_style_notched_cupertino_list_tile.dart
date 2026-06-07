@@ -6,7 +6,7 @@ import 'package:quiver/strings.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 
-class CustomNotchedCupertinoListTile extends StatelessWidget {
+class CupertinoStyleNotchedCupertinoListTile extends StatelessWidget {
   final bool inactive;
   final String titleText;
   final String? subtitleText;
@@ -19,7 +19,7 @@ class CustomNotchedCupertinoListTile extends StatelessWidget {
   final bool sensitive;
   final bool isDestructive;
 
-  const CustomNotchedCupertinoListTile({
+  const CupertinoStyleNotchedCupertinoListTile({
     super.key,
     this.inactive = false,
     required this.titleText,

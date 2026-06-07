@@ -8,10 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/play_metric_type.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../core/widgets/ios/time_range_ios_bottom_sheet.dart';
-import '../../../../../core/widgets/ios/user_filter_ios_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_time_range_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -157,7 +157,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
           );
         }
       },
-      child: PageScaffoldCupertino(
+      child: CupertinoStylePageScaffold(
         showBackButton: widget.showBackButton,
         previousPageTitle: widget.previousPageTitle,
         showServerSelect: true,
@@ -187,7 +187,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                 children: [
                   CupertinoScrollbar(
                     controller: _mediaScrollController,
-                    child: CupertinoRefreshPage(
+                    child: CupertinoStyleRefreshPage(
                       onRefresh: () {
                         _graphsBloc.add(
                           GraphsFetched(
@@ -208,7 +208,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                   ),
                   CupertinoScrollbar(
                     controller: _streamScrollController,
-                    child: CupertinoRefreshPage(
+                    child: CupertinoStyleRefreshPage(
                       onRefresh: () {
                         _graphsBloc.add(
                           GraphsFetched(
@@ -229,7 +229,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                   ),
                   CupertinoScrollbar(
                     controller: _totalsScrollController,
-                    child: CupertinoRefreshPage(
+                    child: CupertinoStyleRefreshPage(
                       onRefresh: () {
                         _graphsBloc.add(
                           GraphsFetched(
@@ -286,7 +286,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
               onPressed: () async {
                 final result = await showCupertinoModalPopup(
                   context: context,
-                  builder: (_) => TimeRangeIosBottomSheet(
+                  builder: (_) => CupertinoStyleTimeRangeBottomSheet(
                     initialValue: _timeRange,
                   ),
                 );
@@ -377,7 +377,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
-                  child: UserFilterIosBottomSheet(
+                  child: CupertinoStyleUserFilterBottomSheet(
                     initialValue: _userId!,
                   ),
                 ),

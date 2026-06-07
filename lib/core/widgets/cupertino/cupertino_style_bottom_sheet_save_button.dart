@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../translations/locale_keys.g.dart';
 
-class IosBottomSheetSaveButton extends StatelessWidget {
+class CupertinoStyleBottomSheetSaveButton extends StatelessWidget {
   final Function()? onPressed;
 
-  const IosBottomSheetSaveButton({
+  const CupertinoStyleBottomSheetSaveButton({
     super.key,
     this.onPressed,
   });

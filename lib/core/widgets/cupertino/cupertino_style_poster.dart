@@ -10,13 +10,13 @@ import '../../helpers/theme_helper.dart';
 import '../../types/media_type.dart';
 import '../../types/playback_state.dart';
 
-class IosPoster extends StatelessWidget {
+class CupertinoStylePoster extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
   final PlaybackState? activityState;
   final bool opaqueBackground;
 
-  const IosPoster({
+  const CupertinoStylePoster({
     super.key,
     required this.mediaType,
     required this.uri,

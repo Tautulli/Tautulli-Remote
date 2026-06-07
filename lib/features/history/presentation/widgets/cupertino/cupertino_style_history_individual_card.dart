@@ -7,7 +7,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
@@ -43,7 +43,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
             ),
           ),
         ),
-        child: CupertinoCard(
+        child: CupertinoStyleCard(
           child: Stack(
             children: [
               Positioned.fill(

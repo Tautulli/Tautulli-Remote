@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/permission_setting_ios_dialog.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/onesignal_health_bloc.dart';
@@ -21,7 +21,7 @@ class CupertinoStyleOnesignalDataPrivacyListTile extends StatelessWidget {
 
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
       builder: (context, state) {
-        return CustomNotchedCupertinoListTile(
+        return CupertinoStyleNotchedCupertinoListTile(
           trailing: CupertinoSwitch(
             value: state is OneSignalPrivacySuccess,
             onChanged: (value) async {
@@ -36,7 +36,7 @@ class CupertinoStyleOnesignalDataPrivacyListTile extends StatelessWidget {
                 } else {
                   await showCupertinoDialog(
                     context: context,
-                    builder: (context) => PermissionSettingIosDialog(
+                    builder: (context) => CupertinoStylePermissionSettingDialog(
                       title: LocaleKeys.notification_permission_dialog_title.tr(),
                       content: LocaleKeys.notification_permission_dialog_content.tr(),
                     ),

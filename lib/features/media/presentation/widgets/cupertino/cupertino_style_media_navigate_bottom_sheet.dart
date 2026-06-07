@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/metadata_bloc.dart';
@@ -29,12 +29,12 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.read<MetadataBloc>().state;
 
-    return CupertinoModalPopupScaffold(
-      leading: const IosBottomSheetCancelButton(),
+    return CupertinoStyleModalPopupScaffold(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
       middleText:
           //TODO: Needs translation string
           'Navigate',
-      child: CustomCupertinoListSection(
+      child: CupertinoStyleListSection(
         hasLeading: false,
         children: [
           //* Season
@@ -42,7 +42,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_show_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();
@@ -68,7 +68,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_show_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();
@@ -87,7 +87,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                     );
                   },
                 ),
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_season_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();
@@ -114,7 +114,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_artist_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();
@@ -140,7 +140,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_artist_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();
@@ -159,7 +159,7 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                     );
                   },
                 ),
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_album_title.tr(),
                   onTap: () async {
                     Navigator.of(context).pop();

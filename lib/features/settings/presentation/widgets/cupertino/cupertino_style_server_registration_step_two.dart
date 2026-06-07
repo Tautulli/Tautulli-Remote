@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../core/qr_code_scanner/qr_code_scanner.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import 'dialogs/cupertino_style_secondary_connection_address_info_dialog.dart';
@@ -36,7 +36,7 @@ class _CupertinoStyleServerRegistrationStepTwoState extends State<CupertinoStyle
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomCupertinoListSection(
+        CupertinoStyleListSection(
           headerText: '${LocaleKeys.step_title.tr()} 2',
         ),
         Container(
@@ -66,7 +66,7 @@ class _CupertinoStyleServerRegistrationStepTwoState extends State<CupertinoStyle
         //TODO: Should have a translate string
         const Text('or'),
         const Gap(4),
-        CupertinoCard(
+        CupertinoStyleCard(
           horizontalPadding: 20,
           child: CupertinoFormSection.insetGrouped(
             margin: const EdgeInsetsGeometry.all(0),

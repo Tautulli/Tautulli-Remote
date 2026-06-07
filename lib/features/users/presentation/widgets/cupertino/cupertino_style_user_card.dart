@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/models/user_table_model.dart';
@@ -66,7 +66,7 @@ class _CupertinoStyleUserCardState extends State<CupertinoStyleUserCard> {
           color = snapshot.data as Color;
         }
 
-        return CupertinoCard(
+        return CupertinoStyleCard(
           child: GestureDetector(
             onTap: () => Navigator.of(context).push(
               CupertinoPageRoute(

@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 
 import '../../helpers/theme_helper.dart';
 
-class CupertinoCard extends StatelessWidget {
+class CupertinoStyleCard extends StatelessWidget {
   final Widget child;
   final double? horizontalPadding;
   final Color? tint;
   final bool showLoading;
 
-  const CupertinoCard({
+  const CupertinoStyleCard({
     super.key,
     required this.child,
     this.horizontalPadding,

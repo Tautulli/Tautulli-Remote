@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/heading_ios.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_heading.dart';
 
 class CupertinoStyleGraphHeading extends StatelessWidget {
   final String text;
@@ -15,7 +15,7 @@ class CupertinoStyleGraphHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: HeadingIos(
+      child: CupertinoStyleHeading(
         text: text,
         color: ThemeHelper.cupertinoStandardTextColor(),
       ),

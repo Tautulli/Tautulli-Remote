@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import 'cupertino_card.dart';
+import 'cupertino_style_card.dart';
 
-class CupertinoNoticeCard extends StatelessWidget {
+class CupertinoStyleNoticeCard extends StatelessWidget {
   final Widget leading;
   final String title;
 
-  const CupertinoNoticeCard({
+  const CupertinoStyleNoticeCard({
     super.key,
     required this.leading,
     required this.title,
@@ -15,7 +15,7 @@ class CupertinoNoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(

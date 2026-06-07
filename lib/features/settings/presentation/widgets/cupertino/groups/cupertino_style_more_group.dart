@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
 import '../../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
@@ -17,10 +17,10 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       headerText: LocaleKeys.more_title.tr(),
       children: [
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             colorFilter: ColorFilter.mode(
@@ -38,7 +38,7 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.square_list_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -53,7 +53,7 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.globe,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -69,7 +69,7 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.faucet,
             color: ThemeHelper.cupertinoListTileIconColor(),

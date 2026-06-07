@@ -8,7 +8,7 @@ import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/section_type.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../media/presentation/widgets/cupertino/cupertino_style_media_list_poster.dart';
@@ -54,18 +54,18 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
 
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryMediaBloc>().add(
-                LibraryMediaFetched(
-                  server: widget.server,
-                  sectionId: widget.libraryTableModel.sectionId!,
-                  refresh: true,
-                  fullRefresh: _libraryMediaFullRefresh,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
+            LibraryMediaFetched(
+              server: widget.server,
+              sectionId: widget.libraryTableModel.sectionId!,
+              refresh: true,
+              fullRefresh: _libraryMediaFullRefresh,
+              settingsBloc: _settingsBloc,
+            ),
+          );
 
           //TODO: Add message about full library refresh
 
@@ -107,8 +107,8 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
                       crossAxisCount: screenWidth > 1000
                           ? 9
                           : screenWidth > 580
-                              ? 6
-                              : 3,
+                          ? 6
+                          : 3,
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
                       mainAxisExtent: _calculateCellHeight(screenWidth),
@@ -170,8 +170,8 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
     final int crossAxisCount = screenWidth > 1000
         ? 9
         : screenWidth > 580
-            ? 6
-            : 3;
+        ? 6
+        : 3;
     final double itemWidth = (screenWidth - 16) / crossAxisCount;
     final bool isSquare = [
       SectionType.artist,

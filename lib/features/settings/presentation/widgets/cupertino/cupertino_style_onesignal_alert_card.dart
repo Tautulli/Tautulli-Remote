@@ -6,7 +6,7 @@ import 'package:tautulli_remote/features/onesignal/presentation/pages/cupertino/
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_alert_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_alert_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -24,7 +24,7 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
       builder: (context, privacyState) {
         // If OneSignal consent is false
         if (privacyState is OneSignalPrivacyFailure) {
-          return CupertinoAlertCard(
+          return CupertinoStyleAlertCard(
             tint: CupertinoColors.systemOrange.highContrastColor,
             leading: FaIcon(
               FontAwesomeIcons.triangleExclamation,
@@ -70,7 +70,7 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
           builder: (context, healthState) {
             // If OneSignal is not reachable
             if (healthState is OneSignalHealthFailure) {
-              return CupertinoAlertCard(
+              return CupertinoStyleAlertCard(
                 leading: FaIcon(
                   FontAwesomeIcons.triangleExclamation,
                   size: 30,
@@ -99,7 +99,7 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
               builder: (context, subState) {
                 // If OneSignal is not subscribed
                 if (subState is OneSignalSubFailure) {
-                  return CupertinoAlertCard(
+                  return CupertinoStyleAlertCard(
                     tint: CupertinoColors.systemOrange.highContrastColor,
                     leading: FaIcon(
                       FontAwesomeIcons.triangleExclamation,

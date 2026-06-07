@@ -10,9 +10,9 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
-import '../../../../../core/widgets/ios/failure_cupertino_alert_dialog.dart';
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/widgets/cupertino/cupertino_style_failure_alert_dialog.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../media/data/models/media_model.dart';
@@ -127,7 +127,7 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
             }
 
             if (state is TerminateStreamFailure) {
-              showFailureCupertinoAlertDialog(
+              showCupertinoStyleFailureAlertDialog(
                 context: context,
                 failure: state.failure,
               );
@@ -262,7 +262,7 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                   top: topAreaHeight,
                   child: SizedBox(
                     height: 150,
-                    child: IosPoster(
+                    child: CupertinoStylePoster(
                       mediaType: activity.mediaType,
                       uri: posterUri,
                       activityState: activity.state,

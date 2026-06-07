@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_alert_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_alert_card.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 
@@ -13,7 +13,7 @@ class CupertinoStyleAppUpdateAlertCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoAlertCard(
+    return CupertinoStyleAlertCard(
       tint: CupertinoTheme.of(context).primaryColor,
       leading: Icon(
         CupertinoIcons.cloud_download_fill,

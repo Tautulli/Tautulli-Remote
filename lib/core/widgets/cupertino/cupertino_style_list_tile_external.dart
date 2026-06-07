@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class CupertinoListTileExternal extends StatelessWidget {
-  const CupertinoListTileExternal({super.key});
+class CupertinoStyleListTileExternal extends StatelessWidget {
+  const CupertinoStyleListTileExternal({super.key});
 
   @override
   Widget build(BuildContext context) {

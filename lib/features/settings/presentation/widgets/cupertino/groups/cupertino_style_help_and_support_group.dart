@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../logging/presentation/pages/cupertino/cupertino_style_logging_page.dart';
 
@@ -15,16 +15,16 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       headerText: LocaleKeys.help_and_support_title.tr(),
       children: [
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.github,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 23,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: LocaleKeys.wiki_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -33,13 +33,13 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.discord,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 19.2,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: LocaleKeys.discord_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -48,13 +48,13 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.redditAlien,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 23,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: LocaleKeys.reddit_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -63,13 +63,13 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.github,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 23,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -78,7 +78,7 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.list_bullet,
             color: ThemeHelper.cupertinoListTileIconColor(),

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/global_keys/global_keys.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../../announcements/presentation/pages/cupertino/cupertino_style_announcements_page.dart';
@@ -85,14 +85,14 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
       builder: (context, state) {
         state as SettingsSuccess;
 
-        return PageScaffoldCupertino(
+        return CupertinoStylePageScaffold(
           showBackButton: false,
           middle: const Text(LocaleKeys.more_title).tr(),
           child: Column(
             children: [
-              CustomCupertinoListSection(
+              CupertinoStyleListSection(
                 children: [
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: Icon(
                       CupertinoIcons.person_2_fill,
                       color: ThemeHelper.cupertinoListTileIconColor(),
@@ -108,7 +108,7 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                       ),
                     ),
                   ),
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: Icon(
                       CupertinoIcons.list_number,
                       color: ThemeHelper.cupertinoListTileIconColor(),
@@ -124,7 +124,7 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                       ),
                     ),
                   ),
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: Icon(
                       CupertinoIcons.chart_bar_alt_fill,
                       color: ThemeHelper.cupertinoListTileIconColor(),
@@ -142,9 +142,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                   ),
                 ],
               ),
-              CustomCupertinoListSection(
+              CupertinoStyleListSection(
                 children: [
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: Icon(
                       CupertinoIcons.bell_fill,
                       color: ThemeHelper.cupertinoListTileIconColor(),
@@ -177,7 +177,7 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                       ),
                     ),
                   ),
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: const Icon(
                       CupertinoIcons.heart_fill,
                       color: CupertinoColors.systemRed,
@@ -193,7 +193,7 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                       ),
                     ),
                   ),
-                  CustomNotchedCupertinoListTile(
+                  CupertinoStyleNotchedCupertinoListTile(
                     leading: Icon(
                       CupertinoIcons.gear_alt_fill,
                       color: ThemeHelper.cupertinoListTileIconColor(),

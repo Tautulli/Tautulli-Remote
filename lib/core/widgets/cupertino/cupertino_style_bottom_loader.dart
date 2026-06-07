@@ -4,14 +4,14 @@ import 'package:gap/gap.dart';
 import '../../error/failure.dart';
 import '../../types/bloc_status.dart';
 
-class IosBottomLoader extends StatelessWidget {
+class CupertinoStyleBottomLoader extends StatelessWidget {
   final BlocStatus status;
   final Failure? failure;
   final String? message;
   final String? suggestion;
   final Function()? onTap;
 
-  const IosBottomLoader({
+  const CupertinoStyleBottomLoader({
     super.key,
     required this.status,
     this.failure,

@@ -11,10 +11,10 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../core/widgets/ios/user_filter_ios_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -98,7 +98,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       //TODO: Translation string
@@ -172,7 +172,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
               Expanded(
                 child: CupertinoScrollbar(
                   controller: _scrollController,
-                  child: CupertinoRefreshPage(
+                  child: CupertinoStyleRefreshPage(
                     scrollController: _scrollController,
                     onRefresh: null,
                     sliver: SliverPadding(
@@ -183,7 +183,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                             final itemIndex = index ~/ 2;
 
                             if (itemIndex >= state.history.length) {
-                              return IosBottomLoader(
+                              return CupertinoStyleBottomLoader(
                                 status: state.status,
                                 failure: state.failure,
                                 message: state.message,
@@ -236,7 +236,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
   }
 
   Widget _statusWidget({required Widget child}) {
-    return CupertinoRefreshPage(
+    return CupertinoStyleRefreshPage(
       onRefresh: null,
       sliver: SliverFillRemaining(child: child),
     );
@@ -386,7 +386,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
-                  child: UserFilterIosBottomSheet(
+                  child: CupertinoStyleUserFilterBottomSheet(
                     initialValue: _userId,
                   ),
                 ),

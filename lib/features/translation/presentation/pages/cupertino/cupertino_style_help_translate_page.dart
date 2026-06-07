@@ -5,10 +5,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/cupertino/cupertino_style_help_translate_heading_card.dart';
 
@@ -45,7 +45,7 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.help_translate_title).tr(),
@@ -54,10 +54,10 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CupertinoStyleHelpTranslateHeadingCard(),
-            CustomCupertinoListSection(
+            CupertinoStyleListSection(
               margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
               children: [
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     colorFilter: ColorFilter.mode(
@@ -65,7 +65,7 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  trailing: const CupertinoListTileExternal(),
+                  trailing: const CupertinoStyleListTileExternal(),
                   titleText: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {
                     await launchUrlString(
@@ -74,13 +74,13 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
                     );
                   },
                 ),
-                CustomNotchedCupertinoListTile(
+                CupertinoStyleNotchedCupertinoListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.github,
                     color: ThemeHelper.cupertinoListTileIconColor(),
                     size: 23,
                   ),
-                  trailing: const CupertinoListTileExternal(),
+                  trailing: const CupertinoStyleListTileExternal(),
                   titleText: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
                     await launchUrlString(

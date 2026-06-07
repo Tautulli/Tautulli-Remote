@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
 import '../../../../recently_added/presentation/widgets/cupertino/cupertino_style_recently_added_card.dart';
@@ -45,17 +45,17 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryRecentlyAddedBloc>().add(
-                LibraryRecentlyAddedFetched(
-                  tautulliId: widget.server.tautulliId,
-                  sectionId: widget.libraryTableModel.sectionId!,
-                  settingsBloc: _settingsBloc,
-                  freshFetch: true,
-                ),
-              );
+            LibraryRecentlyAddedFetched(
+              tautulliId: widget.server.tautulliId,
+              sectionId: widget.libraryTableModel.sectionId!,
+              settingsBloc: _settingsBloc,
+              freshFetch: true,
+            ),
+          );
 
           return _refreshCompleter.future;
         },

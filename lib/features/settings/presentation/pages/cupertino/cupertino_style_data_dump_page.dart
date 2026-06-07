@@ -9,13 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:system_theme/system_theme.dart';
-import 'package:tautulli_remote/core/widgets/ios/custom_cupertino_list_section_heading.dart';
+import 'package:tautulli_remote/core/widgets/cupertino/cupertino_style_list_section_heading.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
@@ -66,7 +66,7 @@ class CupertinoStyleDataDumpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.data_dump_title).tr(),
@@ -110,11 +110,11 @@ class _SettingsDumpGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomCupertinoListSectionHeading(headerText),
-        CustomCupertinoListSection(
+        CupertinoStyleListSectionHeading(headerText),
+        CupertinoStyleListSection(
           margin: EdgeInsets.zero,
           children: [
-            CupertinoCard(
+            CupertinoStyleCard(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(

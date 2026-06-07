@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/cupertino/cupertino_style_accessibility_page.dart';
@@ -19,7 +19,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       headerText: LocaleKeys.settings_and_operations_title.tr(),
       children: [
         BlocBuilder<SettingsBloc, SettingsState>(
@@ -27,7 +27,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final serverTimeout = state.appSettings.serverTimeout;
 
-            return CustomNotchedCupertinoListTile(
+            return CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.stopwatch_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -49,7 +49,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final refreshRate = state.appSettings.refreshRate;
 
-            return CustomNotchedCupertinoListTile(
+            return CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.clock_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -66,7 +66,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             );
           },
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.wrench_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -81,7 +81,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.paintbrush_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -97,7 +97,7 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.universalAccess,
             color: ThemeHelper.cupertinoListTileIconColor(),

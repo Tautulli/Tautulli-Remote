@@ -6,9 +6,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/permission_setting_ios_dialog.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../bloc/wizard_bloc.dart';
@@ -38,11 +38,11 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
           textAlign: TextAlign.center,
         ).tr(),
         const Gap(16),
-        CustomCupertinoListSection(
+        CupertinoStyleListSection(
           hasLeading: true,
           margin: EdgeInsets.zero,
           children: [
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: WebsafeSvg.asset(
                 'assets/logos/onesignal.svg',
                 colorFilter: ColorFilter.mode(
@@ -60,7 +60,7 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
                 ),
               ),
             ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               titleText: LocaleKeys.onesignal_consent_switch_title.tr(),
               subtitleText: LocaleKeys.wizard_onesignal_allow_title.tr(),
               trailing: BlocBuilder<WizardBloc, WizardState>(
@@ -77,7 +77,7 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
                       } else {
                         await showCupertinoDialog(
                           context: context,
-                          builder: (context) => PermissionSettingIosDialog(
+                          builder: (context) => CupertinoStylePermissionSettingDialog(
                             title: LocaleKeys.notification_permission_dialog_title.tr(),
                             content: LocaleKeys.notification_permission_dialog_content.tr(),
                           ),

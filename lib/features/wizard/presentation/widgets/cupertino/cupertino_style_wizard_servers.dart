@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section_heading.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/widgets/cupertino/bottom_sheets/cupertino_style_language_bottom_sheet.dart';
@@ -39,10 +39,10 @@ class CupertinoStyleWizardServers extends StatelessWidget {
           textAlign: TextAlign.center,
         ).tr(),
         const Gap(16),
-        CustomCupertinoListSection(
+        CupertinoStyleListSection(
           margin: EdgeInsets.zero,
           children: [
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.globe,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -61,7 +61,7 @@ class CupertinoStyleWizardServers extends StatelessWidget {
             ),
           ],
         ),
-        CustomCupertinoListSectionHeading(LocaleKeys.servers_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.servers_title.tr()),
         const CupertinoStyleServersGroup(isWizard: true),
         const Gap(8),
         const SizedBox(

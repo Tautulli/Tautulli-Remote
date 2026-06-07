@@ -12,8 +12,8 @@ import 'core/helpers/theme_helper.dart';
 import 'core/types/app_style.dart';
 import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
-import 'core/widgets/ios/settings_not_loaded_ios.dart';
-import 'core/widgets/ios/tab_scaffold_cupertino.dart';
+import 'core/widgets/cupertino/cupertino_style_settings_not_loaded.dart';
+import 'core/widgets/cupertino/cupertino_style_tab_scaffold.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -268,7 +268,7 @@ class _CupertinoFramework extends StatelessWidget {
               child: DefaultTextStyle(
                 style: cupertinoTheme.textTheme.textStyle,
                 child: const Scaffold(
-                  body: SettingsNotLoadedIos(),
+                  body: CupertinoStyleSettingsNotLoaded(),
                 ),
               ),
             );
@@ -276,7 +276,7 @@ class _CupertinoFramework extends StatelessWidget {
         );
       },
       routes: cupertinoRoutes,
-      home: const TabScaffoldCupertino(),
+      home: const CupertinoStyleTabScaffold(),
     );
   }
 }

@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/play_metric_type.dart';
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/widgets/cupertino/dialogs/cupertino_style_users_load_issue_dialog.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
@@ -25,15 +25,15 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoModalPopupScaffold(
-      leading: const IosBottomSheetCancelButton(),
+    return CupertinoStyleModalPopupScaffold(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
       //TODO: Translation string
       middleText: 'Graphs Actions',
-      child: CustomCupertinoListSection(
+      child: CupertinoStyleListSection(
         children: [
           BlocBuilder<UsersBloc, UsersState>(
             builder: (context, state) {
-              return CustomNotchedCupertinoListTile(
+              return CupertinoStyleNotchedCupertinoListTile(
                 inactive: state.status != BlocStatus.success,
                 leading: Icon(
                   CupertinoIcons.person_fill,
@@ -87,7 +87,7 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
               );
             },
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             leading: Icon(
               yAxis == PlayMetricType.plays ? CupertinoIcons.number : CupertinoIcons.clock_fill,
               color: ThemeHelper.cupertinoListTileIconColor(),

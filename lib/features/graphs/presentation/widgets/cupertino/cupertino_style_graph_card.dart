@@ -7,7 +7,7 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/graph_chart_type.dart';
 import '../../../../../core/types/graph_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/graph_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
@@ -44,7 +44,7 @@ class CupertinoStyleGraphCard extends StatelessWidget {
       }
     }
 
-    return CupertinoCard(
+    return CupertinoStyleCard(
       showLoading: graph.status == BlocStatus.initial,
       child: SizedBox(
         height: 275,

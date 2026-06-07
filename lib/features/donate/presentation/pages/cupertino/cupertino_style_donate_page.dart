@@ -8,10 +8,10 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section_heading.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/cupertino/cupertino_style_donate_heading_card.dart';
 
@@ -120,7 +120,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.donate_title).tr(),
@@ -139,11 +139,11 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                   } else if (_offerings!.all.isNotEmpty) {
                     return ListView(
                       children: [
-                        CustomCupertinoListSectionHeading(LocaleKeys.donate_onetime_title.tr()),
-                        CustomCupertinoListSection(
+                        CupertinoStyleListSectionHeading(LocaleKeys.donate_onetime_title.tr()),
+                        CupertinoStyleListSection(
                           margin: EdgeInsets.zero,
                           children: [
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.iceCream,
                                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -151,13 +151,16 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_cone_title.tr(),
-                              subtitleText:
-                                  _offerings!.getOffering('default')!.getPackage('ice_cream')!.storeProduct.priceString,
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('ice_cream')!
+                                  .storeProduct
+                                  .priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('ice_cream')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.pizzaSlice,
                                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -165,13 +168,16 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_slice_title.tr(),
-                              subtitleText:
-                                  _offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString,
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('pizza')!
+                                  .storeProduct
+                                  .priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('pizza')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.burger,
                                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -179,32 +185,38 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_burger_title.tr(),
-                              subtitleText:
-                                  _offerings!.getOffering('default')!.getPackage('hamburger')!.storeProduct.priceString,
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('hamburger')!
+                                  .storeProduct
+                                  .priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('hamburger')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: Icon(
                                 Icons.fastfood_rounded,
                                 color: ThemeHelper.cupertinoListTileIconColor(),
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_meal_title.tr(),
-                              subtitleText:
-                                  _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,
+                              subtitleText: _offerings!
+                                  .getOffering('default')!
+                                  .getPackage('meal')!
+                                  .storeProduct
+                                  .priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('meal')!,
                               ),
                             ),
                           ],
                         ),
-                        CustomCupertinoListSectionHeading(LocaleKeys.donate_recurring_title.tr()),
-                        CustomCupertinoListSection(
+                        CupertinoStyleListSectionHeading(LocaleKeys.donate_recurring_title.tr()),
+                        CupertinoStyleListSection(
                           margin: EdgeInsets.zero,
                           children: [
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
@@ -220,7 +232,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
@@ -236,7 +248,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
@@ -252,7 +264,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
                               ),
                             ),
-                            CustomNotchedCupertinoListTile(
+                            CupertinoStyleNotchedCupertinoListTile(
                               leading: FaIcon(
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')

@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/widgets/bullet_list.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleServerRegistrationStepOne extends StatelessWidget {
@@ -13,10 +13,10 @@ class CupertinoStyleServerRegistrationStepOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomCupertinoListSection(
+        CupertinoStyleListSection(
           headerText: '${LocaleKeys.step_title.tr()} 1',
         ),
-        CupertinoCard(
+        CupertinoStyleCard(
           horizontalPadding: 20,
           child: Padding(
             padding: const EdgeInsetsGeometry.all(8),

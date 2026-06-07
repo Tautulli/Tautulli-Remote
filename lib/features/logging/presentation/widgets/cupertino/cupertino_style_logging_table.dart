@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../bloc/logging_bloc.dart';
 import '../logging_table_headers.dart';
 import '../logging_table_row.dart';
@@ -22,7 +22,7 @@ class CupertinoStyleLoggingTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoRefreshPage(
+    return CupertinoStyleRefreshPage(
       onRefresh: () {
         context.read<LoggingBloc>().add(LoggingLoad());
 

@@ -6,11 +6,11 @@ import 'package:quick_actions/quick_actions.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
-import 'custom_cupertino_nav_bar.dart' as nav;
-import 'custom_cupertino_navigation_bar_back_button.dart';
-import 'server_select_ios_bottom_sheet.dart';
+import '../../override/cupertino/nav_bar_override.dart' as nav;
+import 'cupertino_style_navigation_bar_back_button.dart';
+import 'cupertino_style_server_select_bottom_sheet.dart';
 
-class PageScaffoldCupertino extends StatefulWidget {
+class CupertinoStylePageScaffold extends StatefulWidget {
   final bool showServerSelect;
   final bool loading;
   final bool showBackButton;
@@ -20,7 +20,7 @@ class PageScaffoldCupertino extends StatefulWidget {
   final Widget? trailing;
   final Widget child;
 
-  const PageScaffoldCupertino({
+  const CupertinoStylePageScaffold({
     super.key,
     this.showServerSelect = false,
     this.loading = false,
@@ -33,10 +33,10 @@ class PageScaffoldCupertino extends StatefulWidget {
   });
 
   @override
-  State<PageScaffoldCupertino> createState() => _PageScaffoldCupertinoState();
+  State<CupertinoStylePageScaffold> createState() => _CupertinoStylePageScaffoldState();
 }
 
-class _PageScaffoldCupertinoState extends State<PageScaffoldCupertino> {
+class _CupertinoStylePageScaffoldState extends State<CupertinoStylePageScaffold> {
   final QuickActions quickActions = const QuickActions();
 
   @override
@@ -58,7 +58,7 @@ class _PageScaffoldCupertinoState extends State<PageScaffoldCupertino> {
                 builder: (context, state) {
                   state as SettingsSuccess;
 
-                  return CustomCupertinoNavigationBarBackButton(
+                  return CupertinoStyleNavigationBarBackButton(
                     previousPageTitle: state.serverList.length > 1 && widget.showServerSelect
                         ? null
                         : widget.previousPageTitle,
@@ -102,7 +102,7 @@ class _PageScaffoldCupertinoState extends State<PageScaffoldCupertino> {
                           ),
                           onPressed: () => showCupertinoModalPopup(
                             context: context,
-                            builder: (context) => ServerSelectIosBottomSheet(
+                            builder: (context) => CupertinoStyleServerSelectBottomSheet(
                               activeServer: state.appSettings.activeServer,
                               servers: state.serverList,
                             ),

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-/// For use with CustomCupertinoListSection when it's margin has been adjusted.
+/// For use with CupertinoStyleListSection when it's margin has been adjusted.
 ///
 /// If padding is not provided EdgeInsets.only(top: 16, bottom: 6) will be used.
-class CustomCupertinoListSectionHeading extends StatelessWidget {
+class CupertinoStyleListSectionHeading extends StatelessWidget {
   final String text;
   final EdgeInsets? padding;
 
-  const CustomCupertinoListSectionHeading(
+  const CupertinoStyleListSectionHeading(
     this.text, {
     super.key,
     this.padding,

@@ -10,10 +10,10 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../core/widgets/ios/user_filter_ios_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -144,7 +144,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
   @override
   Widget build(BuildContext context) {
     return //* If active server is changed trigger a HistoryFetched
-        BlocListener<SettingsBloc, SettingsState>(
+    BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
           if (previous.appSettings.activeServer != current.appSettings.activeServer) {
@@ -181,7 +181,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
           );
         }
       },
-      child: PageScaffoldCupertino(
+      child: CupertinoStylePageScaffold(
         showBackButton: widget.showBackButton,
         previousPageTitle: widget.previousPageTitle,
         showServerSelect: true,
@@ -222,7 +222,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
 
             return CupertinoScrollbar(
               controller: _scrollController,
-              child: CupertinoRefreshPage(
+              child: CupertinoStyleRefreshPage(
                 scrollController: _scrollController,
                 onRefresh: () {
                   _historyBloc.add(
@@ -251,7 +251,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                         final itemIndex = index ~/ 2;
 
                         if (itemIndex >= state.history.length) {
-                          return IosBottomLoader(
+                          return CupertinoStyleBottomLoader(
                             status: state.status,
                             failure: state.failure,
                             message: state.message,
@@ -303,7 +303,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
   }
 
   Widget _statusWidget({required Widget child}) {
-    return CupertinoRefreshPage(
+    return CupertinoStyleRefreshPage(
       onRefresh: () {
         _historyBloc.add(
           HistoryFetched(
@@ -426,7 +426,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
-                  child: UserFilterIosBottomSheet(
+                  child: CupertinoStyleUserFilterBottomSheet(
                     initialValue: _userId!,
                   ),
                 ),

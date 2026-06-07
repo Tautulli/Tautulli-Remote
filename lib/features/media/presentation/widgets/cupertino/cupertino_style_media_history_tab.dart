@@ -9,8 +9,8 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../../history/presentation/widgets/cupertino/cupertino_style_history_individual_card.dart';
@@ -52,7 +52,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           _individualHistoryBloc.add(
@@ -112,7 +112,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
                         final itemIndex = index ~/ 2;
 
                         if (itemIndex >= state.history.length) {
-                          return IosBottomLoader(
+                          return CupertinoStyleBottomLoader(
                             status: state.status,
                             failure: state.failure,
                             message: state.message,

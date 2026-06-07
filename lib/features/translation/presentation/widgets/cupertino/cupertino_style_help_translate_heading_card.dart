@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleHelpTranslateHeadingCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class CupertinoStyleHelpTranslateHeadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       horizontalPadding: 8,
       child: Padding(
         padding: const EdgeInsets.all(16),

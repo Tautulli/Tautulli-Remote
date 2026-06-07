@@ -4,25 +4,25 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 
 import '../../../translations/locale_keys.g.dart';
-import 'cupertino_modal_popup_scaffold.dart';
-import 'custom_cupertino_list_section.dart';
-import 'custom_notched_cupertino_list_tile.dart';
-import 'ios_bottom_sheet_cancel_button.dart';
-import 'ios_bottom_sheet_save_button.dart';
+import 'cupertino_style_modal_popup_scaffold.dart';
+import 'cupertino_style_list_section.dart';
+import 'cupertino_style_notched_cupertino_list_tile.dart';
+import 'cupertino_style_bottom_sheet_cancel_button.dart';
+import 'cupertino_style_bottom_sheet_save_button.dart';
 
-class TimeRangeIosBottomSheet extends StatefulWidget {
+class CupertinoStyleTimeRangeBottomSheet extends StatefulWidget {
   final int initialValue;
 
-  const TimeRangeIosBottomSheet({
+  const CupertinoStyleTimeRangeBottomSheet({
     super.key,
     required this.initialValue,
   });
 
   @override
-  State<TimeRangeIosBottomSheet> createState() => _TimeRangeIosBottomSheetState();
+  State<CupertinoStyleTimeRangeBottomSheet> createState() => _CupertinoStyleTimeRangeBottomSheetState();
 }
 
-class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
+class _CupertinoStyleTimeRangeBottomSheetState extends State<CupertinoStyleTimeRangeBottomSheet> {
   late int _value;
   final _focusNode = FocusNode();
   final _textController = TextEditingController();
@@ -42,20 +42,20 @@ class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoModalPopupScaffold(
+    return CupertinoStyleModalPopupScaffold(
       middleText: LocaleKeys.time_range_title.tr(),
-      leading: const IosBottomSheetCancelButton(),
-      trailing: IosBottomSheetSaveButton(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
+      trailing: CupertinoStyleBottomSheetSaveButton(
         onPressed: () {
           Navigator.of(context).pop(_value);
         },
       ),
       child: Column(
         children: [
-          CustomCupertinoListSection(
+          CupertinoStyleListSection(
             hasLeading: false,
             children: [
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 onTap: () {
                   setState(() {
                     _value = 7;
@@ -64,7 +64,7 @@ class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
                 titleText: '7 ${LocaleKeys.days_title.tr()}',
                 trailing: _value == 7 ? const Icon(CupertinoIcons.checkmark_alt) : null,
               ),
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 onTap: () {
                   setState(() {
                     _value = 14;
@@ -73,7 +73,7 @@ class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
                 titleText: '14 ${LocaleKeys.days_title.tr()}',
                 trailing: _value == 14 ? const Icon(CupertinoIcons.checkmark_alt) : null,
               ),
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 onTap: () {
                   setState(() {
                     _value = 30;
@@ -82,7 +82,7 @@ class _TimeRangeIosBottomSheetState extends State<TimeRangeIosBottomSheet> {
                 titleText: '30 ${LocaleKeys.days_title.tr()}',
                 trailing: _value == 30 ? const Icon(CupertinoIcons.checkmark_alt) : null,
               ),
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 onTap: () => _selectCustom(),
                 titleText: LocaleKeys.custom_title.tr(),
                 trailing: GestureDetector(

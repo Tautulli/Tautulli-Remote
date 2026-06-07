@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_app_update_alert_card.dart';
@@ -52,7 +52,7 @@ class CupertinoStyleSettingsView extends StatefulWidget {
 class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView> {
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.settings_title).tr(),

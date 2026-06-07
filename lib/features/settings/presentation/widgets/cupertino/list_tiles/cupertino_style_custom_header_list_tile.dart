@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -30,7 +30,7 @@ class CupertinoStyleCustomHeaderListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        return CustomNotchedCupertinoListTile(
+        return CupertinoStyleNotchedCupertinoListTile(
           titleText: title,
           subtitleText: sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
               ? LocaleKeys.hidden_message.tr()

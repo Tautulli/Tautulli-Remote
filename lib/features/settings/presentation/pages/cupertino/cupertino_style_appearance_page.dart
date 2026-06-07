@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../widgets/cupertino/groups/cupertino_style_appearance_enhancements_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_dynamic_color_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_styles_group.dart';
@@ -37,7 +37,7 @@ class CupertinoStyleAppearanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       previousPageTitle: previousPageTitle,
       //TODO:  Create translation key
       middle: const Text('Appearance'),

@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/data_unit_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/server_activity_model.dart';
 
@@ -18,7 +18,7 @@ class CupertinoStyleServerActivityInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(

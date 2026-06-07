@@ -11,10 +11,10 @@ import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/stat_id_type.dart';
-import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
-import '../../../../../core/widgets/ios/ios_icon_card.dart';
-import '../../../../../core/widgets/ios/ios_poster_card.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/cupertino/cupertino_style_library_card.dart';
@@ -82,7 +82,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       previousPageTitle: LocaleKeys.statistics_title.tr(),
       middle: Text(StringHelper.mapStatIdTypeToString(widget.statIdType)),
       child: BlocBuilder<StatisticsBloc, StatisticsState>(
@@ -103,7 +103,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
               separatorBuilder: (context, index) => const Gap(8),
               itemBuilder: (context, index) {
                 if (index >= statsListWidgets.length) {
-                  return IosBottomLoader(
+                  return CupertinoStyleBottomLoader(
                     status: state.status,
                     failure: state.failure,
                     message: state.message,
@@ -195,7 +195,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
               year: statData.year,
             );
 
-            return IosPosterCard(
+            return CupertinoStylePosterCard(
               mediaType: statData.mediaType,
               uri: statData.posterUri,
               details: CupertinoStyleTopStatisticDetails(statData: statData),
@@ -217,7 +217,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.popularMusic):
         return stat.stats
             .map(
-              (statData) => IosPosterCard(
+              (statData) => CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: CupertinoStylePopularStatisticDetails(statData: statData),
@@ -273,7 +273,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.lastWatched):
         return stat.stats
             .map(
-              (statData) => IosPosterCard(
+              (statData) => CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
@@ -325,7 +325,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.topPlatforms):
         return stat.stats
             .map(
-              (statData) => IosIconCard(
+              (statData) => CupertinoStyleIconCard(
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -353,7 +353,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.mostConcurrent):
         return stat.stats
             .map(
-              (statData) => IosIconCard(
+              (statData) => CupertinoStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
                 details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
               ),

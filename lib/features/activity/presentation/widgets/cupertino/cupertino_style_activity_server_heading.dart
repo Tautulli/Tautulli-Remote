@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../core/widgets/ios/heading_ios.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_heading.dart';
 
 class CupertinoStyleActivityServerHeading extends StatelessWidget {
   final String serverName;
@@ -24,7 +24,7 @@ class CupertinoStyleActivityServerHeading extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    HeadingIos(text: serverName),
+                    CupertinoStyleHeading(text: serverName),
                     if (loading)
                       const Padding(
                         padding: EdgeInsets.only(left: 4.0),

@@ -15,16 +15,16 @@ import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
 import '../../rate_app/rate_app.dart';
 import '../notifying_icon.dart';
-import 'rate_app_dialog_cupertino.dart';
+import 'cupertino_style_rate_app_dialog.dart';
 
-class TabScaffoldCupertino extends StatefulWidget {
-  const TabScaffoldCupertino({super.key});
+class CupertinoStyleTabScaffold extends StatefulWidget {
+  const CupertinoStyleTabScaffold({super.key});
 
   @override
-  State<TabScaffoldCupertino> createState() => _TabScaffoldCupertinoState();
+  State<CupertinoStyleTabScaffold> createState() => _CupertinoStyleTabScaffoldState();
 }
 
-class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
+class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
   @override
   void initState() {
     super.initState();
@@ -53,7 +53,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
       if (rateApp.shouldOpenDialog) {
         showCupertinoDialog(
           context: context,
-          builder: (context) => const RateAppDialogCupertino(),
+          builder: (context) => const CupertinoStyleRateAppDialog(),
         );
       }
     });

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/ios_poster_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../data/models/recently_added_model.dart';
@@ -33,7 +33,7 @@ class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
         posterUri = recentlyAdded.posterUri;
     }
 
-    return IosPosterCard(
+    return CupertinoStylePosterCard(
       onTap: () async {
         final media = MediaModel(
           grandparentImageUri: recentlyAdded.grandparentPosterUri,

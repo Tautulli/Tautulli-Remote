@@ -8,8 +8,8 @@ import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/helpers/translation_helper.dart';
 import '../../../../../../core/types/app_style.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
@@ -32,11 +32,11 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
         final homePageSetting = state.appSettings.homePage;
         final appStyle = state.appSettings.appStyle;
 
-        return CustomCupertinoListSection(
+        return CupertinoStyleListSection(
           headerText: LocaleKeys.settings_title.tr(),
           children: [
             if (di.sl<DeviceInfo>().platform == 'android')
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 leading: Icon(
                   CupertinoIcons.chevron_left_2,
                   color: ThemeHelper.cupertinoListTileIconColor(),
@@ -52,7 +52,7 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
                 titleText: LocaleKeys.double_back_to_exit_title.tr(),
                 subtitleText: LocaleKeys.double_back_to_exit_subtitle.tr(),
               ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.eye_slash_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -68,7 +68,7 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
               titleText: LocaleKeys.mask_senstivie_info_title.tr(),
               subtitleText: LocaleKeys.mask_senstivie_info_subtitle.tr(),
             ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: FaIcon(
                 FontAwesomeIcons.barsStaggered,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -85,7 +85,7 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
               titleText: LocaleKeys.multiserver_activity_page_title.tr(),
               subtitleText: LocaleKeys.multiserver_activity_page_subtitle.tr(),
             ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.arrow_clockwise,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -102,7 +102,7 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
               subtitleText: LocaleKeys.library_media_full_refresh_subtitle.tr(),
             ),
             if (appStyle != AppStyle.cupertino)
-              CustomNotchedCupertinoListTile(
+              CupertinoStyleNotchedCupertinoListTile(
                 leading: Icon(
                   CupertinoIcons.house_fill,
                   color: ThemeHelper.cupertinoListTileIconColor(),
@@ -117,7 +117,7 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
                   ),
                 ),
               ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: FaIcon(
                 FontAwesomeIcons.language,
                 color: ThemeHelper.cupertinoListTileIconColor(),

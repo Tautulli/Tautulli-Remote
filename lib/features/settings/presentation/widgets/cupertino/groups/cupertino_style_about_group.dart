@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/package_information/package_information.dart';
-import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 
@@ -17,10 +17,10 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       headerText: LocaleKeys.about_title.tr(),
       children: [
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: Icon(
             CupertinoIcons.info_circle_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),
@@ -49,13 +49,13 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
             ],
           ),
         ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.fileInvoice,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 23,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: 'License',
           subtitleText: 'GNU General Public License v3.0',
           onTap: () async {
@@ -66,13 +66,13 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
           },
         ),
         if (di.sl<DeviceInfo>().platform == 'ios')
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             leading: FaIcon(
               FontAwesomeIcons.fileInvoice,
               color: ThemeHelper.cupertinoListTileIconColor(),
               size: 23,
             ),
-            trailing: const CupertinoListTileExternal(),
+            trailing: const CupertinoStyleListTileExternal(),
             titleText: LocaleKeys.terms_of_use_title.tr(),
             onTap: () async {
               await launchUrlString(
@@ -81,13 +81,13 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
               );
             },
           ),
-        CustomNotchedCupertinoListTile(
+        CupertinoStyleNotchedCupertinoListTile(
           leading: FaIcon(
             FontAwesomeIcons.fileInvoice,
             color: ThemeHelper.cupertinoListTileIconColor(),
             size: 23,
           ),
-          trailing: const CupertinoListTileExternal(),
+          trailing: const CupertinoStyleListTileExternal(),
           titleText: LocaleKeys.privacy_policy_title.tr(),
           onTap: () async {
             await launchUrlString(

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../core/widgets/tautulli_logo_title.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';
@@ -50,7 +50,7 @@ class CupertinoStyleWizardView extends StatelessWidget {
         context.locale; // Ensures bloc updates when locale is changed
         wizardState as WizardInitial;
 
-        return PageScaffoldCupertino(
+        return CupertinoStylePageScaffold(
           showBackButton: false,
           leading: _WizardLeftIosAction(activeStep: wizardState.activeStep),
           middle: CupertinoStyleWizardStepper(

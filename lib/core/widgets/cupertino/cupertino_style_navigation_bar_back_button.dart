@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 import '../../helpers/theme_helper.dart';
 
-class CustomCupertinoNavigationBarBackButton extends StatelessWidget {
+class CupertinoStyleNavigationBarBackButton extends StatelessWidget {
   final String? previousPageTitle;
 
-  const CustomCupertinoNavigationBarBackButton({
+  const CupertinoStyleNavigationBarBackButton({
     super.key,
     this.previousPageTitle,
   });

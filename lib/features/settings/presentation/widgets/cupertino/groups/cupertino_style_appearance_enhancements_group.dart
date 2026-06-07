@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/theme_enhancement_type.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -19,7 +19,7 @@ class CupertinoStyleAppearanceEnhancementsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
       headerText: isWizard ? null : LocaleKeys.enhancements_title.tr(),
       children: [
@@ -27,7 +27,7 @@ class CupertinoStyleAppearanceEnhancementsGroup extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return CustomNotchedCupertinoListTile(
+            return CupertinoStyleNotchedCupertinoListTile(
               leading: Icon(
                 CupertinoIcons.circle_lefthalf_fill,
                 color: ThemeHelper.cupertinoListTileIconColor(),

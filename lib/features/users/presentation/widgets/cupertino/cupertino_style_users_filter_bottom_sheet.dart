@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleUsersFilterBottomSheet extends StatefulWidget {
@@ -80,25 +80,25 @@ class _CupertinoStyleUsersFilterBottomSheetState extends State<CupertinoStyleUse
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoModalPopupScaffold(
+    return CupertinoStyleModalPopupScaffold(
       //TODO: Add translation string
       middleText: 'Sort Users',
-      leading: const IosBottomSheetCancelButton(),
-      trailing: IosBottomSheetSaveButton(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
+      trailing: CupertinoStyleBottomSheetSaveButton(
         onPressed: () => Navigator.of(context).pop({
           'orderColumn': orderColumn,
           'orderDir': orderDir,
         }),
       ),
-      child: CustomCupertinoListSection(
+      child: CupertinoStyleListSection(
         hasLeading: false,
         children: [
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () => changeSort('friendly_name'),
             titleText: LocaleKeys.name_title.tr(),
             trailing: orderColumn == 'friendly_name' ? _activeSortIndicators() : _inactiveSortIndicators(),
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () => changeSort('last_seen'),
             titleText: LocaleKeys.last_streamed_title.tr(),
             trailing: orderColumn == 'last_seen' ? _activeSortIndicators() : _inactiveSortIndicators(),

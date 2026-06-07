@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
 import '../../../data/datasources/changelog_data_source.dart';
@@ -42,7 +42,7 @@ class CupertinoStyleChangelogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.changelog_title).tr(),

@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ios/ios_icon_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
@@ -23,7 +23,7 @@ class CupertinoStyleLibraryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IosIconCard(
+    return CupertinoStyleIconCard(
       background: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           state as SettingsSuccess;

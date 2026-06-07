@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../translations/locale_keys.g.dart';
-import 'cupertino_card.dart';
+import 'cupertino_style_card.dart';
 
-class CupertinoStatusCard extends StatelessWidget {
+class CupertinoStyleStatusCard extends StatelessWidget {
   final bool isFailure;
   final String message;
   final String? suggestion;
 
-  const CupertinoStatusCard({
+  const CupertinoStyleStatusCard({
     super.key,
     this.isFailure = false,
     required this.message,
@@ -20,7 +20,7 @@ class CupertinoStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
-      child: CupertinoCard(
+      child: CupertinoStyleCard(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

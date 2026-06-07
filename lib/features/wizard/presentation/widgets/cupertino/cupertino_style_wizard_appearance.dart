@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_appearance_enhancements_group.dart';
 import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_dynamic_color_group.dart';
@@ -33,11 +33,11 @@ class CupertinoStyleWizardAppearance extends StatelessWidget {
           LocaleKeys.wizard_theme_text_2,
           textAlign: TextAlign.center,
         ).tr(),
-        CustomCupertinoListSectionHeading(LocaleKeys.themes_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.themes_title.tr()),
         const CupertinoStyleThemesGroup(isWizard: true),
-        CustomCupertinoListSectionHeading(LocaleKeys.dynamic_color_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.dynamic_color_title.tr()),
         const CupertinoStyleDynamicColorGroup(isWizard: true),
-        CustomCupertinoListSectionHeading(LocaleKeys.enhancements_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.enhancements_title.tr()),
         const CupertinoStyleAppearanceEnhancementsGroup(isWizard: true),
       ],
     );

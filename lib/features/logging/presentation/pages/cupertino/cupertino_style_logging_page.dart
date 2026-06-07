@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
@@ -78,7 +78,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
       return _refreshCompleter.future;
     }
 
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.app_logs_title).tr(),
@@ -98,7 +98,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
         },
         builder: (context, state) {
           if (state is LoggingFailure) {
-            return CupertinoRefreshPage(
+            return CupertinoStyleRefreshPage(
               onRefresh: onRefresh,
               sliver: SliverFillRemaining(
                 child: CupertinoStyleStatusPage(
@@ -109,7 +109,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
           }
           if (state is LoggingSuccess) {
             if (state.logs.isEmpty) {
-              return CupertinoRefreshPage(
+              return CupertinoStyleRefreshPage(
                 onRefresh: onRefresh,
                 sliver: SliverFillRemaining(
                   child: CupertinoStyleStatusPage(
@@ -124,7 +124,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
               );
 
               if (filteredLogs.isEmpty) {
-                return CupertinoRefreshPage(
+                return CupertinoStyleRefreshPage(
                   onRefresh: onRefresh,
                   sliver: SliverFillRemaining(
                     child: CupertinoStyleStatusPage(

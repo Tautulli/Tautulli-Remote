@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
@@ -158,7 +158,7 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
                 top: topAreaHeight,
                 child: SizedBox(
                   height: 150,
-                  child: IosPoster(
+                  child: CupertinoStylePoster(
                     mediaType: history.mediaType,
                     uri: history.posterUri,
                     opaqueBackground: true,

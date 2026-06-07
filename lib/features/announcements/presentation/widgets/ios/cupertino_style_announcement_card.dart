@@ -5,7 +5,7 @@ import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/announcement_model.dart';
 
@@ -21,7 +21,7 @@ class CupertinoStyleAnnouncementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       child: GestureDetector(
         onTap: isNotBlank(announcement.actionUrl)
             ? () async {

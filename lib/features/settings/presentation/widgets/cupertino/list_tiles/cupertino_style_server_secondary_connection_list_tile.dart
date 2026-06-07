@@ -6,7 +6,7 @@ import 'package:quiver/strings.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../cupertino_style_active_connection_indicator.dart';
 import '../bottom_sheets/cupertino_style_server_connection_address_bottom_sheet.dart';
@@ -23,7 +23,7 @@ class CupertinoStyleServerSecondaryConnectionListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool inactive = isBlank(server.secondaryConnectionAddress);
 
-    return CustomNotchedCupertinoListTile(
+    return CupertinoStyleNotchedCupertinoListTile(
       sensitive: true,
       titleText: LocaleKeys.secondary_connection_title.tr(),
       subtitleText: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress!,

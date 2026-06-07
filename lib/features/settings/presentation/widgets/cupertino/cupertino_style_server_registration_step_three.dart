@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/custom_header_model.dart';
 import '../../bloc/registration_headers_bloc.dart';
@@ -18,7 +18,7 @@ class CupertinoStyleServerRegistrationStepThree extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            CustomCupertinoListSection(
+            CupertinoStyleListSection(
               decoration: BoxDecoration(color: CupertinoColors.systemBackground.darkElevatedColor),
               headerText: '${LocaleKeys.step_title.tr()} 3',
               children: [

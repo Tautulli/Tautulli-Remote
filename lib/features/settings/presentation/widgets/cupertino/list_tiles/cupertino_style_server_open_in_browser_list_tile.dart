@@ -5,8 +5,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/cupertino_list_tile_external.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleServerOpenInBrowserListTile extends StatelessWidget {
@@ -19,13 +19,13 @@ class CupertinoStyleServerOpenInBrowserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomNotchedCupertinoListTile(
+    return CupertinoStyleNotchedCupertinoListTile(
       titleText: LocaleKeys.open_server_in_browser_title.tr(args: [server.plexName]),
       leading: Icon(
         CupertinoIcons.macwindow,
         color: ThemeHelper.cupertinoListTileIconColor(),
       ),
-      trailing: const CupertinoListTileExternal(),
+      trailing: const CupertinoStyleListTileExternal(),
       onTap: () async {
         if (server.primaryActive != false) {
           await launchUrlString(

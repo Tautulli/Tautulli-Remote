@@ -5,8 +5,8 @@ import 'package:reorderables/reorderables.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/cupertino/cupertino_style_server_settings_page.dart';
@@ -22,7 +22,7 @@ class CupertinoStyleServersGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       margin: isWizard ? EdgeInsets.zero : null,
       headerText: isWizard ? null : LocaleKeys.servers_title.tr(),
       children: [
@@ -45,7 +45,7 @@ class CupertinoStyleServersGroup extends StatelessWidget {
               children: state is SettingsSuccess
                   ? state.serverList
                         .map(
-                          (server) => CustomNotchedCupertinoListTile(
+                          (server) => CupertinoStyleNotchedCupertinoListTile(
                             sensitive: true,
                             key: ValueKey(server.tautulliId),
                             leading: WebsafeSvg.asset(

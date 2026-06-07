@@ -3,10 +3,10 @@ import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 
@@ -27,42 +27,42 @@ class CupertinoStyleLoggingFilterBottomSheet extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return CupertinoModalPopupScaffold(
+    return CupertinoStyleModalPopupScaffold(
       //TODO: Add translation string
       middleText: 'Filter Logs',
-      leading: const IosBottomSheetCancelButton(),
-      child: CustomCupertinoListSection(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
+      child: CupertinoStyleListSection(
         hasLeading: false,
         children: [
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.ALL);
             },
             titleText: LocaleKeys.all_title.tr(),
             trailing: initialValue == LogLevel.ALL ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.DEBUG);
             },
             titleText: 'Debug',
             trailing: initialValue == LogLevel.DEBUG ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.INFO);
             },
             titleText: 'Info',
             trailing: initialValue == LogLevel.INFO ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.WARNING);
             },
             titleText: 'Warning',
             trailing: initialValue == LogLevel.WARNING ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.ERROR);
             },

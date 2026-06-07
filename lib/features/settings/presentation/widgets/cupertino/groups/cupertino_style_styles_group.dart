@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/app_style.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../bloc/settings_bloc.dart';
 
 class CupertinoStyleStylesGroup extends StatelessWidget {
@@ -17,11 +17,11 @@ class CupertinoStyleStylesGroup extends StatelessWidget {
       builder: (context, state) {
         state as SettingsSuccess;
 
-        return CustomCupertinoListSection(
+        return CupertinoStyleListSection(
           //TODO:  Create translation key
           headerText: 'Styles',
           children: [
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: FaIcon(
                 FontAwesomeIcons.android,
                 color: ThemeHelper.cupertinoListTileIconColor(),
@@ -37,7 +37,7 @@ class CupertinoStyleStylesGroup extends StatelessWidget {
                 );
               },
             ),
-            CustomNotchedCupertinoListTile(
+            CupertinoStyleNotchedCupertinoListTile(
               leading: FaIcon(
                 FontAwesomeIcons.apple,
                 color: ThemeHelper.cupertinoListTileIconColor(),

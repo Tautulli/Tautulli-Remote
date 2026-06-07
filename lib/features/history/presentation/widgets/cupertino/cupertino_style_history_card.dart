@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/widgets/ios/ios_poster_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../data/models/history_model.dart';
 import '../../pages/cupertino/cupertino_style_history_details_page.dart';
 import 'cupertino_style_history_card_details.dart';
@@ -26,7 +26,7 @@ class CupertinoStyleHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IosPosterCard(
+    return CupertinoStylePosterCard(
       mediaType: history.mediaType,
       uri: history.posterUri,
       details: CupertinoStyleHistoryCardDetails(

@@ -5,8 +5,8 @@ import 'package:rate_my_app/rate_my_app.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../rate_app/rate_app.dart';
 
-class RateAppDialogCupertino extends StatelessWidget {
-  const RateAppDialogCupertino({super.key});
+class CupertinoStyleRateAppDialog extends StatelessWidget {
+  const CupertinoStyleRateAppDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

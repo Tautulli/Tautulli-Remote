@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -87,7 +87,7 @@ class CupertinoStyleAlbumMediaView extends StatelessWidget {
             errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
           navBarActions: _navBarActions(context),
-          poster: IosPoster(
+          poster: CupertinoStylePoster(
             mediaType: media.mediaType,
             uri: media.imageUri,
           ),

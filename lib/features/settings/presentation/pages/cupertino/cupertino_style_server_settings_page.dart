@@ -6,9 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/clear_tautulli_image_cache_bloc.dart';
@@ -92,7 +92,7 @@ class ServerSettingsIosView extends StatelessWidget {
           server.customHeaders.insert(0, authHeader);
         }
 
-        return PageScaffoldCupertino(
+        return CupertinoStylePageScaffold(
           showBackButton: showBackButton,
           previousPageTitle: previousPageTitle,
           middle: Text(server.plexName),
@@ -128,7 +128,7 @@ class ServerSettingsIosView extends StatelessWidget {
             },
             child: ListView(
               children: [
-                CustomCupertinoListSection(
+                CupertinoStyleListSection(
                   headerText: LocaleKeys.connection_details_title.tr(),
                   children: [
                     CupertinoStyleServerPrimaryConnectionListTile(server: server),
@@ -136,7 +136,7 @@ class ServerSettingsIosView extends StatelessWidget {
                     CupertinoStyleServerDeviceTokenListTile(deviceToken: server.deviceToken),
                   ],
                 ),
-                CustomCupertinoListSection(
+                CupertinoStyleListSection(
                   headerText: LocaleKeys.custom_http_headers_title.tr(),
                   children: server.customHeaders
                       .map(
@@ -163,11 +163,11 @@ class ServerSettingsIosView extends StatelessWidget {
                     ),
                   ),
                 ),
-                CustomCupertinoListSection(
+                CupertinoStyleListSection(
                   headerText: LocaleKeys.other_title.tr(),
                   children: [
                     CupertinoStyleServerOpenInBrowserListTile(server: server),
-                    CustomNotchedCupertinoListTile(
+                    CupertinoStyleNotchedCupertinoListTile(
                       titleText: LocaleKeys.clear_tautulli_image_cache_title.tr(args: [server.plexName]),
                       subtitleText: LocaleKeys.clear_tautulli_image_cache_subtitle.tr(args: [server.plexName]),
                       leading: FaIcon(

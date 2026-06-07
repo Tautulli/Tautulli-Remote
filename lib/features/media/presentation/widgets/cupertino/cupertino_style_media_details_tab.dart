@@ -8,7 +8,7 @@ import 'package:quiver/strings.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/metadata_bloc.dart';
 import 'cupertino_style_media_details_tab_details.dart';
@@ -44,17 +44,17 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           context.read<MetadataBloc>().add(
-                MetadataFetched(
-                  server: widget.server,
-                  ratingKey: widget.ratingKey,
-                  freshFetch: true,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
+            MetadataFetched(
+              server: widget.server,
+              ratingKey: widget.ratingKey,
+              freshFetch: true,
+              settingsBloc: _settingsBloc,
+            ),
+          );
 
           return _refreshCompleter.future;
         },

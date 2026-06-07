@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/announcements_bloc.dart';
 import '../../widgets/ios/cupertino_style_announcement_card.dart';
@@ -58,8 +58,8 @@ class _CupertinoStyleAnnouncementsViewState extends State<CupertinoStyleAnnounce
           final currentState = announcementsBloc.state as AnnouncementsSuccess;
           if (currentState.unread) {
             context.read<AnnouncementsBloc>().add(
-                  AnnouncementsMarkRead(),
-                );
+              AnnouncementsMarkRead(),
+            );
           }
         }
       },
@@ -68,7 +68,7 @@ class _CupertinoStyleAnnouncementsViewState extends State<CupertinoStyleAnnounce
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.announcements_title).tr(),
       child: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(

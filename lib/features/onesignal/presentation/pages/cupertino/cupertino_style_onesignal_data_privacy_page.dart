@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/cupertino/cupertino_style_onesignal_data_privacy_list_tile.dart';
 import '../../widgets/cupertino/cupertino_style_onesignal_data_privacy_text.dart';
@@ -45,7 +45,7 @@ class CupertinoStyleOnesignalDataPrivacyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffoldCupertino(
+    return CupertinoStylePageScaffold(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),
@@ -55,7 +55,7 @@ class CupertinoStyleOnesignalDataPrivacyView extends StatelessWidget {
           children: [
             const CupertinoStyleOnesignalDataPrivacyText(),
             if (showToggle)
-              const CustomCupertinoListSection(
+              const CupertinoStyleListSection(
                 margin: EdgeInsets.fromLTRB(8, 20, 8, 8),
                 children: [
                   CupertinoStyleOnesignalDataPrivacyListTile(),

@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../translations/locale_keys.g.dart';
 
-class IosBottomSheetCancelButton extends StatelessWidget {
-  const IosBottomSheetCancelButton({super.key});
+class CupertinoStyleBottomSheetCancelButton extends StatelessWidget {
+  const CupertinoStyleBottomSheetCancelButton({super.key});
 
   @override
   Widget build(BuildContext context) {

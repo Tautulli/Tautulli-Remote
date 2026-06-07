@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import 'cupertino_style_change_type_tag.dart';
 
 class CupertinoStyleChangelogItem extends StatelessWidget {
@@ -19,7 +19,7 @@ class CupertinoStyleChangelogItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
-      child: CupertinoCard(
+      child: CupertinoStyleCard(
         horizontalPadding: 8,
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -5,7 +5,7 @@ import '../../../translations/locale_keys.g.dart';
 import '../../error/failure.dart';
 import '../../helpers/failure_helper.dart';
 
-Future<void> showFailureCupertinoAlertDialog({
+Future<void> showCupertinoStyleFailureAlertDialog({
   required BuildContext context,
   required Failure failure,
 }) {

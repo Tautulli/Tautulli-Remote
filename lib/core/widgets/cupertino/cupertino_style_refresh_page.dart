@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
-class CupertinoRefreshPage extends StatefulWidget {
+class CupertinoStyleRefreshPage extends StatefulWidget {
   final Future Function()? onRefresh;
   final Widget? sliver;
   final List<Widget>? slivers;
   final ScrollController? scrollController;
 
-  const CupertinoRefreshPage({
+  const CupertinoStyleRefreshPage({
     super.key,
     required this.onRefresh,
     this.sliver,
@@ -20,10 +20,10 @@ class CupertinoRefreshPage extends StatefulWidget {
        );
 
   @override
-  State<CupertinoRefreshPage> createState() => _CupertinoRefreshPageState();
+  State<CupertinoStyleRefreshPage> createState() => _CupertinoStyleRefreshPageState();
 }
 
-class _CupertinoRefreshPageState extends State<CupertinoRefreshPage> {
+class _CupertinoStyleRefreshPageState extends State<CupertinoStyleRefreshPage> {
   /// Whether the scroll view is at the top.
   ///
   /// This is used to determine whether to show the refresh indicator.

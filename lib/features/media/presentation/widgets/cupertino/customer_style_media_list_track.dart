@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../data/models/media_model.dart';
 
 class CustomerStyleMediaListTrack extends StatelessWidget {
@@ -23,7 +23,7 @@ class CustomerStyleMediaListTrack extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: GestureDetector(
           onTap: onTap,
-          child: CupertinoCard(
+          child: CupertinoStyleCard(
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Row(

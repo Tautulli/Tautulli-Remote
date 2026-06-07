@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-class HeadingIos extends StatelessWidget {
+class CupertinoStyleHeading extends StatelessWidget {
   final String text;
   final Color? color;
 
-  const HeadingIos({
+  const CupertinoStyleHeading({
     super.key,
     required this.text,
     this.color,

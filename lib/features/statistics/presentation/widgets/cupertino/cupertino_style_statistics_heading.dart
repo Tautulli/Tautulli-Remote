@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/heading_ios.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/statistic_model.dart';
 
@@ -27,7 +27,7 @@ class CupertinoStyleStatisticsHeading extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: HeadingIos(
+              child: CupertinoStyleHeading(
                 text: StringHelper.mapStatIdTypeToString(stat.statIdType),
                 color: ThemeHelper.cupertinoStandardTextColor(),
               ),

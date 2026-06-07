@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/error/failure.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_close_button.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_close_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/custom_header_model.dart';
@@ -100,10 +100,10 @@ class ServerRegistrationIosView extends StatelessWidget {
         },
         child: Form(
           key: formKey,
-          child: PageScaffoldCupertino(
+          child: CupertinoStylePageScaffold(
             showBackButton: false,
             middle: const Text(LocaleKeys.server_registration_title).tr(),
-            leading: IosBottomSheetCloseButton(
+            leading: CupertinoStyleBottomSheetCloseButton(
               onPressed: () async {
                 final result = await showCupertinoDialog(
                   context: context,
@@ -121,7 +121,7 @@ class ServerRegistrationIosView extends StatelessWidget {
             ),
             trailing: BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
               builder: (context, state) {
-                return IosBottomSheetSaveButton(
+                return CupertinoStyleBottomSheetSaveButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.read<RegisterDeviceBloc>().add(

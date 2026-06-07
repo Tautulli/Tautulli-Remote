@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-class CustomCupertinoListSection extends StatelessWidget {
+class CupertinoStyleListSection extends StatelessWidget {
   final String? headerText;
   final List<Widget>? children;
   final BoxDecoration? decoration;
   final bool hasLeading;
   final EdgeInsetsGeometry? margin;
 
-  const CustomCupertinoListSection({
+  const CupertinoStyleListSection({
     super.key,
     this.headerText,
     this.children,

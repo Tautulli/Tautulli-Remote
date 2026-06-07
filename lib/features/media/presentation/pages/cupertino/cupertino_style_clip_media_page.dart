@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -78,7 +78,7 @@ class CupertinoStyleClipMediaView extends StatelessWidget {
             placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
             errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
-          poster: IosPoster(
+          poster: CupertinoStylePoster(
             mediaType: media.mediaType,
             uri: media.imageUri,
           ),

@@ -7,8 +7,8 @@ import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../pages/cupertino/cupertino_style_status_page.dart';
 
-class SettingsNotLoadedIos extends StatelessWidget {
-  const SettingsNotLoadedIos({super.key});
+class CupertinoStyleSettingsNotLoaded extends StatelessWidget {
+  const CupertinoStyleSettingsNotLoaded({super.key});
 
   @override
   Widget build(BuildContext context) {

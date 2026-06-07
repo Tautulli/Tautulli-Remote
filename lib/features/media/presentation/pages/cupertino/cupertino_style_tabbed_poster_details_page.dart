@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
@@ -14,7 +14,7 @@ class CupertinoStyleTabbedPosterDetailsPage extends StatefulWidget {
   final bool sensitive;
   final Widget? background;
   final Widget? navBarActions;
-  final IosPoster? poster;
+  final CupertinoStylePoster? poster;
   final String? itemTitle;
   final String? itemSubtitle;
   final String? itemDetail;

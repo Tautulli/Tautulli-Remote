@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-class IosBottomSheetCloseButton extends StatelessWidget {
+class CupertinoStyleBottomSheetCloseButton extends StatelessWidget {
   final Function() onPressed;
 
-  const IosBottomSheetCloseButton({
+  const CupertinoStyleBottomSheetCloseButton({
     super.key,
     required this.onPressed,
   });

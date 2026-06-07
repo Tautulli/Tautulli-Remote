@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 
 class CupertinoStyleMediaListPoster extends StatelessWidget {
   final String? title;
@@ -35,7 +35,7 @@ class CupertinoStyleMediaListPoster extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: IosPoster(
+                    child: CupertinoStylePoster(
                       mediaType: mediaType,
                       uri: Uri.tryParse(posterUri.toString()),
                     ),

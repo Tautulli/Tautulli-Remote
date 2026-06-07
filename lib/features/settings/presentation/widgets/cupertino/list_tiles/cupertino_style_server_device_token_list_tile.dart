@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleServerDeviceTokenListTile extends StatelessWidget {
@@ -17,7 +17,7 @@ class CupertinoStyleServerDeviceTokenListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomNotchedCupertinoListTile(
+    return CupertinoStyleNotchedCupertinoListTile(
       sensitive: true,
       titleText: LocaleKeys.device_token_title.tr(),
       subtitleText: deviceToken,

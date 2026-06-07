@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class CupertinoModalPopupScaffold extends StatelessWidget {
+class CupertinoStyleModalPopupScaffold extends StatelessWidget {
   final Widget? leading;
   final String? middleText;
   final Widget? trailing;
   final Widget child;
 
-  const CupertinoModalPopupScaffold({
+  const CupertinoStyleModalPopupScaffold({
     super.key,
     this.leading,
     this.middleText,

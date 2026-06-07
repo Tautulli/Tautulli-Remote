@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_accessibility_font_group.dart';
 import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_accessibility_theme_group.dart';
@@ -32,11 +32,11 @@ class CupertinoStyleWizardAccessibility extends StatelessWidget {
           LocaleKeys.wizard_accessibility_text_2,
           textAlign: TextAlign.center,
         ).tr(),
-        CustomCupertinoListSectionHeading(LocaleKeys.font_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.font_title.tr()),
         const CupertinoStyleAccessibilityFontGroup(isWizard: true),
-        CustomCupertinoListSectionHeading(LocaleKeys.theme_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.theme_title.tr()),
         const CupertinoStyleAccessibilityThemeGroup(isWizard: true),
-        CustomCupertinoListSectionHeading(LocaleKeys.visuals_title.tr()),
+        CupertinoStyleListSectionHeading(LocaleKeys.visuals_title.tr()),
         const CupertinoStyleAccessibilityVisualsGroup(isWizard: true),
         //TODO: Add an example card to show effect of disabling backgrounds
       ],

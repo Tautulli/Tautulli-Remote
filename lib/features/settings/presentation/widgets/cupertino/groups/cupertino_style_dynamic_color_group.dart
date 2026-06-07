@@ -9,8 +9,8 @@ import 'package:system_theme/system_theme.dart';
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/theme_type.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -27,7 +27,7 @@ class CupertinoStyleDynamicColorGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     late Color pickerColor;
 
-    return CustomCupertinoListSection(
+    return CupertinoStyleListSection(
       margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
       headerText: isWizard ? null : LocaleKeys.dynamic_color_title.tr(),
       children: [
@@ -39,7 +39,7 @@ class CupertinoStyleDynamicColorGroup extends StatelessWidget {
               final bool themeNotDynamic = state.appSettings.theme != ThemeType.dynamic;
               final bool supportsAccentColor = defaultTargetPlatform.supportsAccentColor;
 
-              return CustomNotchedCupertinoListTile(
+              return CupertinoStyleNotchedCupertinoListTile(
                 inactive: themeNotDynamic || !supportsAccentColor,
                 leading: Icon(
                   CupertinoIcons.wand_stars,
@@ -70,7 +70,7 @@ class CupertinoStyleDynamicColorGroup extends StatelessWidget {
             final bool useSystemColor = state.appSettings.themeUseSystemColor;
             pickerColor = state.appSettings.themeCustomColor;
 
-            return CustomNotchedCupertinoListTile(
+            return CupertinoStyleNotchedCupertinoListTile(
               inactive: themeNotDynamic || useSystemColor,
               leading: Icon(
                 CupertinoIcons.eyedropper_halffull,

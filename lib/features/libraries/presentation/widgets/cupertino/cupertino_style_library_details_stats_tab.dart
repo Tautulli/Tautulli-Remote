@@ -10,9 +10,9 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_icon_card.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/cupertino_status_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_status_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
@@ -52,17 +52,17 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryStatisticsBloc>().add(
-                LibraryStatisticsFetched(
-                  server: widget.server,
-                  sectionId: widget.libraryTableModel.sectionId!,
-                  settingsBloc: _settingsBloc,
-                  freshFetch: true,
-                ),
-              );
+            LibraryStatisticsFetched(
+              server: widget.server,
+              sectionId: widget.libraryTableModel.sectionId!,
+              settingsBloc: _settingsBloc,
+              freshFetch: true,
+            ),
+          );
           return _refreshCompleter.future;
         },
         sliver: BlocConsumer<LibraryStatisticsBloc, LibraryStatisticsState>(
@@ -137,7 +137,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
 
       if (state.watchTimeStatsStatus == BlocStatus.failure) {
         statList.add(
-          CupertinoStatusCard(
+          CupertinoStyleStatusCard(
             isFailure: true,
             message: state.message ?? LocaleKeys.error_message_generic.tr(),
             suggestion: state.suggestion,
@@ -148,7 +148,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
           final watchTimeStat = state.watchTimeStatsList[i];
 
           statList.add(
-            CupertinoIconCard(
+            CupertinoStyleIconCard(
               icon: watchTimeStat.queryDays == 1
                   ? Icon(
                       CupertinoIcons.clock_fill,
@@ -156,22 +156,22 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
                       color: ThemeHelper.cupertinoCardIconColor(),
                     )
                   : watchTimeStat.queryDays == 7
-                      ? Icon(
-                          CupertinoIcons.calendar_today,
-                          size: 55,
-                          color: ThemeHelper.cupertinoCardIconColor(),
-                        )
-                      : watchTimeStat.queryDays == 30
-                          ? Icon(
-                              CupertinoIcons.calendar,
-                              size: 55,
-                              color: ThemeHelper.cupertinoCardIconColor(),
-                            )
-                          : Icon(
-                              CupertinoIcons.hourglass,
-                              size: 55,
-                              color: ThemeHelper.cupertinoCardIconColor(),
-                            ),
+                  ? Icon(
+                      CupertinoIcons.calendar_today,
+                      size: 55,
+                      color: ThemeHelper.cupertinoCardIconColor(),
+                    )
+                  : watchTimeStat.queryDays == 30
+                  ? Icon(
+                      CupertinoIcons.calendar,
+                      size: 55,
+                      color: ThemeHelper.cupertinoCardIconColor(),
+                    )
+                  : Icon(
+                      CupertinoIcons.hourglass,
+                      size: 55,
+                      color: ThemeHelper.cupertinoCardIconColor(),
+                    ),
               details: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +222,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
 
       if (state.userStatsStatus == BlocStatus.failure) {
         statList.add(
-          CupertinoStatusCard(
+          CupertinoStyleStatusCard(
             isFailure: true,
             message: state.message ?? LocaleKeys.error_message_generic.tr(),
             suggestion: state.suggestion,
@@ -232,7 +232,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
         if (state.userStatsList.isEmpty) {
           statList.addAll(
             [
-              CupertinoStatusCard(message: LocaleKeys.user_stats_empty_message.tr()),
+              CupertinoStyleStatusCard(message: LocaleKeys.user_stats_empty_message.tr()),
               const Gap(8),
             ],
           );

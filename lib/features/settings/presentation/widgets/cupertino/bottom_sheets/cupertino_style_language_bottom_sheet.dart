@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/helpers/translation_helper.dart';
-import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
 
@@ -27,14 +27,14 @@ class CupertinoStyleLanguageBottomSheet extends StatelessWidget {
       ),
     );
 
-    return CupertinoModalPopupScaffold(
+    return CupertinoStyleModalPopupScaffold(
       middleText: LocaleKeys.language_title.tr(),
-      leading: const IosBottomSheetCancelButton(),
-      child: CustomCupertinoListSection(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
+      child: CupertinoStyleListSection(
         hasLeading: false,
         children: locales
             .map(
-              (locale) => CustomNotchedCupertinoListTile(
+              (locale) => CupertinoStyleNotchedCupertinoListTile(
                 onTap: () {
                   context.read<TranslationBloc>().add(
                     TranslationLocaleUpdated(locale),

@@ -8,7 +8,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/children_metadata_bloc.dart';
 import '../../pages/cupertino/cupertino_style_media_page.dart';
@@ -74,7 +74,7 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
 
     return CupertinoScrollbar(
       controller: _scrollController,
-      child: CupertinoRefreshPage(
+      child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
           _childrenMetadataBloc.add(
@@ -237,8 +237,8 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
     final double posterHeight = isSquare
         ? itemWidth
         : widget.mediaType == MediaType.season
-            ? itemWidth * 2 / 3
-            : itemWidth * 3 / 2;
+        ? itemWidth * 2 / 3
+        : itemWidth * 3 / 2;
 
     double textHeight = widget.mediaType == MediaType.season ? 50 : 28;
 

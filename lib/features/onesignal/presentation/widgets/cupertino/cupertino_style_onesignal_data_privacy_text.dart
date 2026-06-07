@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
@@ -16,7 +16,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
     final textBlock3 = LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');
     final textBlock4 = LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
 
-    return CupertinoCard(
+    return CupertinoStyleCard(
       horizontalPadding: 8,
       child: Padding(
         padding: const EdgeInsets.all(16),

@@ -9,9 +9,9 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/global_keys/global_keys.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/cupertino_status_card.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_status_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -225,7 +225,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           return null;
         },
         builder: (context, multiserverEnabled) {
-          return PageScaffoldCupertino(
+          return CupertinoStylePageScaffold(
             showBackButton: widget.showBackButton,
             previousPageTitle: widget.previousPageTitle,
             showServerSelect: multiserverEnabled == false,
@@ -268,7 +268,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
   }
 
   Widget _statusWidget({required Widget child}) {
-    return CupertinoRefreshPage(
+    return CupertinoStyleRefreshPage(
       onRefresh: () {
         _activityBloc.add(
           ActivityFetched(
@@ -359,7 +359,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           crossAxisCount = 1;
         }
 
-        return CupertinoRefreshPage(
+        return CupertinoStyleRefreshPage(
           onRefresh: () {
             _activityBloc.add(
               ActivityFetched(
@@ -384,7 +384,8 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: (2 *
+                childAspectRatio:
+                    (2 *
                         MediaQuery.of(context).size.width /
                         (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
                     crossAxisCount,
@@ -412,7 +413,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
         List<Widget> serverActivityList = [];
         if (serverActivityModel.status == BlocStatus.failure) {
           serverActivityList.add(
-            CupertinoStatusCard(
+            CupertinoStyleStatusCard(
               isFailure: true,
               message: serverActivityModel.failureMessage ?? '',
               suggestion: serverActivityModel.failureSuggestion,
@@ -420,7 +421,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           );
         } else if (serverActivityModel.activityList.isEmpty) {
           serverActivityList.add(
-            CupertinoStatusCard(
+            CupertinoStyleStatusCard(
               message: LocaleKeys.activity_empty_message.tr(),
             ),
           );
@@ -467,7 +468,8 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio: (2 *
+                      childAspectRatio:
+                          (2 *
                               MediaQuery.of(context).size.width /
                               (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
                           crossAxisCount,
@@ -483,7 +485,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
         );
       }
 
-      return CupertinoRefreshPage(
+      return CupertinoStyleRefreshPage(
         onRefresh: () {
           _activityBloc.add(
             ActivityFetched(

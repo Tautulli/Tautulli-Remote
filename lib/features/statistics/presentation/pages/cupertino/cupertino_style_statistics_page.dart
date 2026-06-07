@@ -16,11 +16,11 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
 import '../../../../../core/types/stat_id_type.dart';
-import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
-import '../../../../../core/widgets/ios/ios_icon_card.dart';
-import '../../../../../core/widgets/ios/ios_poster_card.dart';
-import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../../core/widgets/ios/time_range_ios_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_time_range_bottom_sheet.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
@@ -149,7 +149,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
           );
         }
       },
-      child: PageScaffoldCupertino(
+      child: CupertinoStylePageScaffold(
         showBackButton: widget.showBackButton,
         previousPageTitle: widget.previousPageTitle,
         showServerSelect: true,
@@ -192,7 +192,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
 
             return CupertinoScrollbar(
               controller: _scrollController,
-              child: CupertinoRefreshPage(
+              child: CupertinoStyleRefreshPage(
                 scrollController: _scrollController,
                 onRefresh: () {
                   _statisticsBloc.add(
@@ -222,7 +222,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
   }
 
   Widget _statusWidget({required Widget child}) {
-    return CupertinoRefreshPage(
+    return CupertinoStyleRefreshPage(
       onRefresh: () {
         _statisticsBloc.add(
           StatisticsFetched(
@@ -316,7 +316,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
             StatIdType.topMusic,
           ].contains(stat.statIdType)) {
             widgetList.add(
-              IosPosterCard(
+              CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: CupertinoStyleTopStatisticDetails(statData: statData),
@@ -340,7 +340,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
             StatIdType.popularMusic,
           ].contains(stat.statIdType)) {
             widgetList.add(
-              IosPosterCard(
+              CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: CupertinoStylePopularStatisticDetails(statData: statData),
@@ -360,7 +360,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
 
           if (stat.statIdType == StatIdType.lastWatched) {
             widgetList.add(
-              IosPosterCard(
+              CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
@@ -395,7 +395,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
 
           if (stat.statIdType == StatIdType.topPlatforms) {
             widgetList.add(
-              IosIconCard(
+              CupertinoStyleIconCard(
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -423,7 +423,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
 
           if (stat.statIdType == StatIdType.mostConcurrent) {
             widgetList.add(
-              IosIconCard(
+              CupertinoStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
                 details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
               ),
@@ -508,7 +508,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               onPressed: () async {
                 final result = await showCupertinoModalPopup(
                   context: context,
-                  builder: (_) => TimeRangeIosBottomSheet(
+                  builder: (_) => CupertinoStyleTimeRangeBottomSheet(
                     initialValue: _timeRange,
                   ),
                 );

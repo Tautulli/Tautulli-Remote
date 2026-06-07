@@ -8,16 +8,16 @@ import 'package:gap/gap.dart';
 import '../../../features/settings/data/models/custom_header_model.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../types/media_type.dart';
-import 'cupertino_card.dart';
-import 'ios_poster.dart';
+import 'cupertino_style_card.dart';
+import 'cupertino_style_poster.dart';
 
-class IosPosterCard extends StatelessWidget {
+class CupertinoStylePosterCard extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
   final Widget details;
   final Function()? onTap;
 
-  const IosPosterCard({
+  const CupertinoStylePosterCard({
     super.key,
     this.mediaType,
     this.uri,
@@ -31,7 +31,7 @@ class IosPosterCard extends StatelessWidget {
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
       child: ClipRSuperellipse(
         borderRadius: BorderRadius.circular(12),
-        child: CupertinoCard(
+        child: CupertinoStyleCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;
@@ -93,7 +93,7 @@ class IosPosterCard extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          IosPoster(mediaType: mediaType, uri: uri),
+                          CupertinoStylePoster(mediaType: mediaType, uri: uri),
                           const Gap(8),
                           Expanded(child: details),
                         ],

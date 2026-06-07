@@ -6,9 +6,9 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../../core/types/custom_http_header_type.dart';
-import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../data/models/custom_header_model.dart';
 import '../../../bloc/registration_headers_bloc.dart';
@@ -76,10 +76,10 @@ class _CupertinoStyleCustomHttpHeaderBottomSheetState extends State<CupertinoSty
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: CupertinoModalPopupScaffold(
+      child: CupertinoStyleModalPopupScaffold(
         middleText: LocaleKeys.custom_http_headers_title.tr(),
-        leading: const IosBottomSheetCancelButton(),
-        trailing: IosBottomSheetSaveButton(
+        leading: const CupertinoStyleBottomSheetCancelButton(),
+        trailing: CupertinoStyleBottomSheetSaveButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {

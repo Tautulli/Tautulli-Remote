@@ -6,8 +6,8 @@ import 'package:gap/gap.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
@@ -25,8 +25,8 @@ class CupertinoStyleTerminateStreamBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoModalPopupScaffold(
-      leading: const IosBottomSheetCancelButton(),
+    return CupertinoStyleModalPopupScaffold(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
       trailing: const CupertinoStyleBottomSheetTerminateButton(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),

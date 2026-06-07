@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
-import 'cupertino_card.dart';
+import 'cupertino_style_card.dart';
 
-class CupertinoAlertCard extends StatelessWidget {
+class CupertinoStyleAlertCard extends StatelessWidget {
   final Color? tint;
   final Widget? leading;
   final String? title;
   final String? content;
   final List<Widget>? actions;
 
-  const CupertinoAlertCard({
+  const CupertinoStyleAlertCard({
     super.key,
     this.tint,
     this.leading,
@@ -21,7 +21,7 @@ class CupertinoAlertCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       tint: tint ?? CupertinoColors.systemRed.highContrastColor,
       horizontalPadding: 20,
       child: Padding(

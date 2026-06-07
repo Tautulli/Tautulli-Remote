@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import 'dialogs/cupertino_style_users_load_issue_dialog.dart';
 
@@ -22,15 +22,15 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoModalPopupScaffold(
-      leading: const IosBottomSheetCancelButton(),
+    return CupertinoStyleModalPopupScaffold(
+      leading: const CupertinoStyleBottomSheetCancelButton(),
       //TODO: Translation string
       middleText: 'History Actions',
-      child: CustomCupertinoListSection(
+      child: CupertinoStyleListSection(
         children: [
           BlocBuilder<UsersBloc, UsersState>(
             builder: (context, state) {
-              return CustomNotchedCupertinoListTile(
+              return CupertinoStyleNotchedCupertinoListTile(
                 inactive: state.status != BlocStatus.success,
                 leading: Icon(
                   CupertinoIcons.person_fill,
@@ -84,7 +84,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
               );
             },
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             leading: Icon(
               CupertinoIcons.line_horizontal_3_decrease,
               color: ThemeHelper.cupertinoListTileIconColor(),
@@ -105,7 +105,7 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
               Navigator.of(context).pop('filter');
             },
           ),
-          CustomNotchedCupertinoListTile(
+          CupertinoStyleNotchedCupertinoListTile(
             isDestructive: true,
             leading: const Icon(
               CupertinoIcons.clear_circled_solid,

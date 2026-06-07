@@ -4,11 +4,11 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../translations/locale_keys.g.dart';
 
-class PermissionSettingIosDialog extends StatelessWidget {
+class CupertinoStylePermissionSettingDialog extends StatelessWidget {
   final String title;
   final String content;
 
-  const PermissionSettingIosDialog({
+  const CupertinoStylePermissionSettingDialog({
     super.key,
     required this.title,
     required this.content,

@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
-import '../../../../../../core/widgets/ios/ios_bottom_sheet_save_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -74,11 +74,11 @@ class _CupertinoStyleEditCustomHttpHeaderBottomSheetState extends State<Cupertin
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: CupertinoModalPopupScaffold(
+      child: CupertinoStyleModalPopupScaffold(
         //TODO: Add translations
         middleText: _isBasicAuth ? 'Edit Basic Authentication Header' : 'Edit Custom Header',
-        leading: const IosBottomSheetCancelButton(),
-        trailing: IosBottomSheetSaveButton(
+        leading: const CupertinoStyleBottomSheetCancelButton(),
+        trailing: CupertinoStyleBottomSheetSaveButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {

@@ -8,8 +8,8 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/ios/cupertino_card.dart';
-import '../../../../../core/widgets/ios/ios_poster.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -56,7 +56,7 @@ class CupertinoStyleActivityCard extends StatelessWidget {
             ),
           ),
         ),
-        child: CupertinoCard(
+        child: CupertinoStyleCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;
@@ -121,7 +121,7 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IosPoster(
+                                CupertinoStylePoster(
                                   mediaType: activity.mediaType,
                                   uri: posterUri,
                                   activityState: activity.state,

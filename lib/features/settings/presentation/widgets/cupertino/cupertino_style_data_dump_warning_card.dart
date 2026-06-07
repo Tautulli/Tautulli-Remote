@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/ios/cupertino_card.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleDataDumpWarningCard extends StatelessWidget {
@@ -11,7 +11,7 @@ class CupertinoStyleDataDumpWarningCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoCard(
+    return CupertinoStyleCard(
       tint: CupertinoColors.systemRed.darkColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
