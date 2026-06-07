@@ -7,7 +7,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/global_keys/global_keys.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/cupertino_status_card.dart';
@@ -217,7 +217,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           },
         ),
       ],
-
       child: BlocSelector<SettingsBloc, SettingsState, bool?>(
         selector: (state) {
           if (state is SettingsSuccess) {
@@ -296,7 +295,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
 
     if (serverActivityModelList.isEmpty) {
       if (!wizardComplete) {
-        return const StatusIosPage(
+        return const CupertinoStyleStatusPage(
           //TODO: Need translation string
           message: 'Waiting for the setup wizard to complete',
           action: CupertinoActivityIndicator(),
@@ -304,7 +303,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
       }
 
       return _statusWidget(
-        child: StatusIosPage(
+        child: CupertinoStyleStatusPage(
           message: LocaleKeys.error_message_no_servers.tr(),
           suggestion: LocaleKeys.error_suggestion_register_server.tr(),
         ),
@@ -318,7 +317,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
 
       if (firstServer.status == BlocStatus.failure) {
         return _statusWidget(
-          child: StatusIosPage(
+          child: CupertinoStyleStatusPage(
             message: firstServer.failureMessage ?? '',
             suggestion: firstServer.failureSuggestion ?? '',
           ),
@@ -337,7 +336,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
         );
       } else if (firstServer.activityList.isEmpty) {
         return _statusWidget(
-          child: StatusIosPage(message: LocaleKeys.activity_empty_message.tr()),
+          child: CupertinoStyleStatusPage(message: LocaleKeys.activity_empty_message.tr()),
         );
       } else {
         for (ActivityModel activityModel in firstServer.activityList) {
@@ -385,8 +384,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio:
-                    (2 *
+                childAspectRatio: (2 *
                         MediaQuery.of(context).size.width /
                         (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
                     crossAxisCount,
@@ -469,8 +467,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio:
-                          (2 *
+                      childAspectRatio: (2 *
                               MediaQuery.of(context).size.width /
                               (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
                           crossAxisCount,

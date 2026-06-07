@@ -6,7 +6,7 @@ import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/ios/tabbed_icon_details_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/user_icon_size.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -100,12 +100,12 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
 
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
-        UserIndividualFetched(
-          server: widget.server,
-          userId: widget.user.userId!,
-          settingsBloc: settingsBloc,
-        ),
-      );
+            UserIndividualFetched(
+              server: widget.server,
+              userId: widget.user.userId!,
+              settingsBloc: settingsBloc,
+            ),
+          );
     }
 
     _userHistoryBloc.add(
@@ -116,12 +116,12 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
       ),
     );
     context.read<UserStatisticsBloc>().add(
-      UserStatisticsFetched(
-        server: widget.server,
-        userId: widget.user.userId!,
-        settingsBloc: settingsBloc,
-      ),
-    );
+          UserStatisticsFetched(
+            server: widget.server,
+            userId: widget.user.userId!,
+            settingsBloc: settingsBloc,
+          ),
+        );
   }
 
   @override
@@ -130,7 +130,7 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;
 
-        return TabbedIconDetailsIosPage(
+        return CupertinoStyleTabbedIconDetailsPage(
           previousPageTitle: widget.previousPageTitle,
           sensitive: settingsState.appSettings.maskSensitiveInfo,
           background: widget.backgroundColor != null
@@ -187,10 +187,10 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
                       text: widget.user.lastSeen != null && !widget.fetchUser
                           ? TimeHelper.moment(widget.user.lastSeen)
                           : widget.fetchUser && state.user.lastSeen != null
-                          ? TimeHelper.moment(state.user.lastSeen)
-                          : widget.fetchUser && state.status == BlocStatus.initial
-                          ? ''
-                          : LocaleKeys.never.tr(),
+                              ? TimeHelper.moment(state.user.lastSeen)
+                              : widget.fetchUser && state.status == BlocStatus.initial
+                                  ? ''
+                                  : LocaleKeys.never.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                       ),

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/ios/tabbed_icon_details_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/section_type.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
@@ -79,38 +79,38 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
     server = settingsState.appSettings.activeServer;
 
     context.read<LibraryHistoryBloc>().add(
-      LibraryHistoryFetched(
-        server: server,
-        sectionId: widget.libraryTableModel.sectionId!,
-        settingsBloc: settingsBloc,
-      ),
-    );
+          LibraryHistoryFetched(
+            server: server,
+            sectionId: widget.libraryTableModel.sectionId!,
+            settingsBloc: settingsBloc,
+          ),
+        );
 
     context.read<LibraryRecentlyAddedBloc>().add(
-      LibraryRecentlyAddedFetched(
-        tautulliId: server.tautulliId,
-        sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
-      ),
-    );
+          LibraryRecentlyAddedFetched(
+            tautulliId: server.tautulliId,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            settingsBloc: settingsBloc,
+          ),
+        );
 
     context.read<LibraryStatisticsBloc>().add(
-      LibraryStatisticsFetched(
-        server: server,
-        sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
-      ),
-    );
+          LibraryStatisticsFetched(
+            server: server,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            settingsBloc: settingsBloc,
+          ),
+        );
 
     context.read<LibraryMediaBloc>().add(
-      LibraryMediaFetched(
-        server: server,
-        sectionId: widget.libraryTableModel.sectionId ?? 0,
-        refresh: false,
-        fullRefresh: false,
-        settingsBloc: settingsBloc,
-      ),
-    );
+          LibraryMediaFetched(
+            server: server,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            refresh: false,
+            fullRefresh: false,
+            settingsBloc: settingsBloc,
+          ),
+        );
   }
 
   @override
@@ -119,7 +119,7 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;
 
-        return TabbedIconDetailsIosPage(
+        return CupertinoStyleTabbedIconDetailsPage(
           previousPageTitle: LocaleKeys.libraries_title.tr(),
           background: CachedNetworkImage(
             imageUrl: widget.libraryTableModel.backgroundUri.toString(),

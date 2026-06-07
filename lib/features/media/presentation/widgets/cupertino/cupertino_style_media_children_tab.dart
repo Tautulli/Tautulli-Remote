@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
@@ -112,7 +112,7 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
 
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? 'Unknown failure.',
                         suggestion: state.suggestion,
                       ),
@@ -237,8 +237,8 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
     final double posterHeight = isSquare
         ? itemWidth
         : widget.mediaType == MediaType.season
-        ? itemWidth * 2 / 3
-        : itemWidth * 3 / 2;
+            ? itemWidth * 2 / 3
+            : itemWidth * 3 / 2;
 
     double textHeight = widget.mediaType == MediaType.season ? 50 : 28;
 

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/section_type.dart';
@@ -58,14 +58,14 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryMediaBloc>().add(
-            LibraryMediaFetched(
-              server: widget.server,
-              sectionId: widget.libraryTableModel.sectionId!,
-              refresh: true,
-              fullRefresh: _libraryMediaFullRefresh,
-              settingsBloc: _settingsBloc,
-            ),
-          );
+                LibraryMediaFetched(
+                  server: widget.server,
+                  sectionId: widget.libraryTableModel.sectionId!,
+                  refresh: true,
+                  fullRefresh: _libraryMediaFullRefresh,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
 
           //TODO: Add message about full library refresh
 
@@ -95,7 +95,7 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
 
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? 'Unknown failure.',
                         suggestion: state.suggestion,
                       ),
@@ -107,8 +107,8 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
                       crossAxisCount: screenWidth > 1000
                           ? 9
                           : screenWidth > 580
-                          ? 6
-                          : 3,
+                              ? 6
+                              : 3,
                       crossAxisSpacing: 0,
                       mainAxisSpacing: 0,
                       mainAxisExtent: _calculateCellHeight(screenWidth),
@@ -170,8 +170,8 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
     final int crossAxisCount = screenWidth > 1000
         ? 9
         : screenWidth > 580
-        ? 6
-        : 3;
+            ? 6
+            : 3;
     final double itemWidth = (screenWidth - 16) / crossAxisCount;
     final bool isSquare = [
       SectionType.artist,

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
@@ -77,7 +77,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
           builder: (context, state) {
             return SliverPadding(
               padding: const EdgeInsetsGeometry.symmetric(horizontal: 8),
-
               sliver: BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (context, settingsState) {
                   settingsState as SettingsSuccess;
@@ -92,7 +91,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
 
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? 'Unknown failure.',
                         suggestion: state.suggestion,
                       ),
@@ -101,7 +100,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
 
                   if (state.history.isEmpty) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: LocaleKeys.history_empty_message.tr(),
                       ),
                     );

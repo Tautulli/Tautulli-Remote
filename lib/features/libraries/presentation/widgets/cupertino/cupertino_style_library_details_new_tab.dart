@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -49,13 +49,13 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryRecentlyAddedBloc>().add(
-            LibraryRecentlyAddedFetched(
-              tautulliId: widget.server.tautulliId,
-              sectionId: widget.libraryTableModel.sectionId!,
-              settingsBloc: _settingsBloc,
-              freshFetch: true,
-            ),
-          );
+                LibraryRecentlyAddedFetched(
+                  tautulliId: widget.server.tautulliId,
+                  sectionId: widget.libraryTableModel.sectionId!,
+                  settingsBloc: _settingsBloc,
+                  freshFetch: true,
+                ),
+              );
 
           return _refreshCompleter.future;
         },
@@ -83,7 +83,7 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
 
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? 'Unknown failure.',
                         suggestion: state.suggestion,
                       ),
@@ -92,7 +92,7 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
 
                   if (state.recentlyAdded.isEmpty) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: LocaleKeys.history_empty_message.tr(),
                       ),
                     );

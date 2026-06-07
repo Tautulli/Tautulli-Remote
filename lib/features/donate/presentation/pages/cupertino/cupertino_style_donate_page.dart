@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
@@ -151,12 +151,8 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_cone_title.tr(),
-                              subtitleText: _offerings!
-                                  .getOffering('default')!
-                                  .getPackage('ice_cream')!
-                                  .storeProduct
-                                  .priceString,
-
+                              subtitleText:
+                                  _offerings!.getOffering('default')!.getPackage('ice_cream')!.storeProduct.priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('ice_cream')!,
                               ),
@@ -169,12 +165,8 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_slice_title.tr(),
-                              subtitleText: _offerings!
-                                  .getOffering('default')!
-                                  .getPackage('pizza')!
-                                  .storeProduct
-                                  .priceString,
-
+                              subtitleText:
+                                  _offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('pizza')!,
                               ),
@@ -187,12 +179,8 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_burger_title.tr(),
-                              subtitleText: _offerings!
-                                  .getOffering('default')!
-                                  .getPackage('hamburger')!
-                                  .storeProduct
-                                  .priceString,
-
+                              subtitleText:
+                                  _offerings!.getOffering('default')!.getPackage('hamburger')!.storeProduct.priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('hamburger')!,
                               ),
@@ -204,12 +192,8 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_meal_title.tr(),
-                              subtitleText: _offerings!
-                                  .getOffering('default')!
-                                  .getPackage('meal')!
-                                  .storeProduct
-                                  .priceString,
-
+                              subtitleText:
+                                  _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('meal')!,
                               ),
@@ -232,7 +216,6 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               titleText: LocaleKeys.donate_tip_jar_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
                               ),
@@ -249,7 +232,6 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               titleText: LocaleKeys.donate_big_tip_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
                               ),
@@ -266,7 +248,6 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               titleText: LocaleKeys.donate_supporter_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
                               ),
@@ -283,7 +264,6 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               titleText: LocaleKeys.donate_patron_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
-
                               onTap: () => _buyProduct(
                                 _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
                               ),
@@ -319,7 +299,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                     );
                   }
 
-                  return StatusIosPage(
+                  return CupertinoStyleStatusPage(
                     message: LocaleKeys.donate_load_failed_message.tr(),
                   );
                 },

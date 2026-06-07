@@ -9,7 +9,7 @@ import 'package:quiver/strings.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
@@ -128,7 +128,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                   _searchBar(),
                   Expanded(
                     child: _statusWidget(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? '',
                         suggestion: state.suggestion ?? '',
                       ),
@@ -143,7 +143,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                   _searchBar(),
                   Expanded(
                     child: _statusWidget(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: LocaleKeys.history_empty_message.tr(),
                       ),
                     ),

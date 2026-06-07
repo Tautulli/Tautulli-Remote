@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../core/widgets/tautulli_logo_title.dart';
@@ -92,7 +92,7 @@ class CupertinoStyleWizardView extends StatelessWidget {
                           default:
                             return Container(
                               color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                              child: StatusIosPage(
+                              child: CupertinoStyleStatusPage(
                                 //TODO: Needs translation strings
                                 message: 'Wizard Error',
                                 suggestion:

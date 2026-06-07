@@ -7,7 +7,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
@@ -91,13 +91,13 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
     _refreshCompleter = Completer<void>();
 
     context.read<UsersTableBloc>().add(
-      UsersTableFetched(
-        server: _server,
-        orderColumn: _orderColumn,
-        orderDir: _orderDir,
-        settingsBloc: _settingsBloc,
-      ),
-    );
+          UsersTableFetched(
+            server: _server,
+            orderColumn: _orderColumn,
+            orderDir: _orderDir,
+            settingsBloc: _settingsBloc,
+          ),
+        );
   }
 
   @override
@@ -118,13 +118,13 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
           _filterRefresh = true;
 
           context.read<UsersTableBloc>().add(
-            UsersTableFetched(
-              server: _server,
-              orderColumn: _orderColumn,
-              orderDir: _orderDir,
-              settingsBloc: _settingsBloc,
-            ),
-          );
+                UsersTableFetched(
+                  server: _server,
+                  orderColumn: _orderColumn,
+                  orderDir: _orderDir,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
         }
       },
       child: PageScaffoldCupertino(
@@ -145,7 +145,7 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
             if (state.users.isEmpty) {
               if (state.status == BlocStatus.failure) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: state.message ?? '',
                     suggestion: state.suggestion ?? '',
                   ),
@@ -153,7 +153,7 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
               }
               if (state.status == BlocStatus.success) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: LocaleKeys.recently_added_empty_message.tr(),
                   ),
                 );

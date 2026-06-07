@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/announcements_bloc.dart';
@@ -58,8 +58,8 @@ class _CupertinoStyleAnnouncementsViewState extends State<CupertinoStyleAnnounce
           final currentState = announcementsBloc.state as AnnouncementsSuccess;
           if (currentState.unread) {
             context.read<AnnouncementsBloc>().add(
-              AnnouncementsMarkRead(),
-            );
+                  AnnouncementsMarkRead(),
+                );
           }
         }
       },
@@ -92,7 +92,7 @@ class _CupertinoStyleAnnouncementsViewState extends State<CupertinoStyleAnnounce
             );
           }
           if (state is AnnouncementsFailure) {
-            return StatusIosPage(message: state.message);
+            return CupertinoStyleStatusPage(message: state.message);
           }
 
           return const Center(

@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -48,13 +48,13 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
         scrollController: _scrollController,
         onRefresh: () {
           context.read<MetadataBloc>().add(
-            MetadataFetched(
-              server: widget.server,
-              ratingKey: widget.ratingKey,
-              freshFetch: true,
-              settingsBloc: _settingsBloc,
-            ),
-          );
+                MetadataFetched(
+                  server: widget.server,
+                  ratingKey: widget.ratingKey,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
 
           return _refreshCompleter.future;
         },
@@ -80,7 +80,7 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
 
                 if (state.status == BlocStatus.failure) {
                   return SliverFillRemaining(
-                    child: StatusIosPage(
+                    child: CupertinoStyleStatusPage(
                       message: state.message ?? 'Unknown failure.',
                       suggestion: state.suggestion,
                     ),

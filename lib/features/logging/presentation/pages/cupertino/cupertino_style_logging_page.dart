@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -101,7 +101,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
             return CupertinoRefreshPage(
               onRefresh: onRefresh,
               sliver: SliverFillRemaining(
-                child: StatusIosPage(
+                child: CupertinoStyleStatusPage(
                   message: LocaleKeys.logs_failed_to_load_message.tr(),
                 ),
               ),
@@ -112,7 +112,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
               return CupertinoRefreshPage(
                 onRefresh: onRefresh,
                 sliver: SliverFillRemaining(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: LocaleKeys.logs_empty_message.tr(),
                   ),
                 ),
@@ -127,7 +127,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
                 return CupertinoRefreshPage(
                   onRefresh: onRefresh,
                   sliver: SliverFillRemaining(
-                    child: StatusIosPage(
+                    child: CupertinoStyleStatusPage(
                       message: LocaleKeys.logs_empty_filter_message.tr(),
                     ),
                   ),

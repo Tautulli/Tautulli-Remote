@@ -11,7 +11,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
@@ -169,7 +169,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
             if (state.statList.isEmpty) {
               if (state.status == BlocStatus.failure) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: state.message ?? '',
                     suggestion: state.suggestion ?? '',
                   ),
@@ -177,7 +177,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               }
               if (state.status == BlocStatus.success) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: LocaleKeys.recently_added_empty_message.tr(),
                   ),
                 );

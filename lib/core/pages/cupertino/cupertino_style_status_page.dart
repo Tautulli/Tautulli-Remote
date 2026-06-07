@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-class StatusIosPage extends StatelessWidget {
+class CupertinoStyleStatusPage extends StatelessWidget {
   final String message;
   final String? suggestion;
   final Widget? action;
 
-  const StatusIosPage({
+  const CupertinoStyleStatusPage({
     super.key,
     required this.message,
     this.suggestion,

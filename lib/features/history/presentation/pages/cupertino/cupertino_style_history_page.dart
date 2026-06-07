@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
 import '../../../../../core/widgets/ios/ios_bottom_loader.dart';
@@ -144,7 +144,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
   @override
   Widget build(BuildContext context) {
     return //* If active server is changed trigger a HistoryFetched
-    BlocListener<SettingsBloc, SettingsState>(
+        BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
           if (previous.appSettings.activeServer != current.appSettings.activeServer) {
@@ -199,7 +199,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
             if (state.history.isEmpty) {
               if (state.status == BlocStatus.failure) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: state.message ?? '',
                     suggestion: state.suggestion ?? '',
                   ),
@@ -207,7 +207,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
               }
               if (state.status == BlocStatus.success) {
                 return _statusWidget(
-                  child: StatusIosPage(
+                  child: CupertinoStyleStatusPage(
                     message: LocaleKeys.history_empty_message.tr(),
                   ),
                 );

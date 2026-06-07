@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../core/widgets/ios/custom_cupertino_nav_bar.dart' as nav;
+import '../../widgets/ios/custom_cupertino_nav_bar.dart' as nav;
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../helpers/theme_helper.dart';
 
-class TabbedIconDetailsIosPage extends StatefulWidget {
+class CupertinoStyleTabbedIconDetailsPage extends StatefulWidget {
   final String? previousPageTitle;
   final bool sensitive;
   final Widget? background;
@@ -18,7 +18,7 @@ class TabbedIconDetailsIosPage extends StatefulWidget {
   final Map<int, Widget> segments;
   final List<Widget> segmentChildren;
 
-  const TabbedIconDetailsIosPage({
+  const CupertinoStyleTabbedIconDetailsPage({
     super.key,
     this.previousPageTitle,
     this.sensitive = false,
@@ -31,10 +31,10 @@ class TabbedIconDetailsIosPage extends StatefulWidget {
   });
 
   @override
-  State<TabbedIconDetailsIosPage> createState() => _TabbedIconDetailsIosPageState();
+  State<CupertinoStyleTabbedIconDetailsPage> createState() => _CupertinoStyleTabbedIconDetailsPageState();
 }
 
-class _TabbedIconDetailsIosPageState extends State<TabbedIconDetailsIosPage> {
+class _CupertinoStyleTabbedIconDetailsPageState extends State<CupertinoStyleTabbedIconDetailsPage> {
   final PageController _pageController = PageController();
   int _selectedIndex = 0;
 

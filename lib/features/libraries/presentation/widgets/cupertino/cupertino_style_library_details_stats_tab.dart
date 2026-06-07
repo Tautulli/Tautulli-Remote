@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/ios/status_ios_page.dart';
+import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/ios/cupertino_icon_card.dart';
 import '../../../../../core/widgets/ios/cupertino_refresh_page.dart';
@@ -56,13 +56,13 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
         scrollController: _scrollController,
         onRefresh: () {
           context.read<LibraryStatisticsBloc>().add(
-            LibraryStatisticsFetched(
-              server: widget.server,
-              sectionId: widget.libraryTableModel.sectionId!,
-              settingsBloc: _settingsBloc,
-              freshFetch: true,
-            ),
-          );
+                LibraryStatisticsFetched(
+                  server: widget.server,
+                  sectionId: widget.libraryTableModel.sectionId!,
+                  settingsBloc: _settingsBloc,
+                  freshFetch: true,
+                ),
+              );
           return _refreshCompleter.future;
         },
         sliver: BlocConsumer<LibraryStatisticsBloc, LibraryStatisticsState>(
@@ -90,7 +90,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
 
                   if (state.watchTimeStatsStatus == BlocStatus.failure && state.userStatsStatus == BlocStatus.failure) {
                     return SliverFillRemaining(
-                      child: StatusIosPage(
+                      child: CupertinoStyleStatusPage(
                         message: state.message ?? 'Unknown failure.',
                         suggestion: state.suggestion,
                       ),
@@ -156,22 +156,22 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
                       color: ThemeHelper.cupertinoCardIconColor(),
                     )
                   : watchTimeStat.queryDays == 7
-                  ? Icon(
-                      CupertinoIcons.calendar_today,
-                      size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
-                    )
-                  : watchTimeStat.queryDays == 30
-                  ? Icon(
-                      CupertinoIcons.calendar,
-                      size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
-                    )
-                  : Icon(
-                      CupertinoIcons.hourglass,
-                      size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
-                    ),
+                      ? Icon(
+                          CupertinoIcons.calendar_today,
+                          size: 55,
+                          color: ThemeHelper.cupertinoCardIconColor(),
+                        )
+                      : watchTimeStat.queryDays == 30
+                          ? Icon(
+                              CupertinoIcons.calendar,
+                              size: 55,
+                              color: ThemeHelper.cupertinoCardIconColor(),
+                            )
+                          : Icon(
+                              CupertinoIcons.hourglass,
+                              size: 55,
+                              color: ThemeHelper.cupertinoCardIconColor(),
+                            ),
               details: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
