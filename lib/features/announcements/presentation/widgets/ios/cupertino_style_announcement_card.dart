@@ -9,11 +9,11 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/announcement_model.dart';
 
-class AnnouncementIosCard extends StatelessWidget {
+class CupertinoStyleAnnouncementCard extends StatelessWidget {
   final AnnouncementModel announcement;
   final int lastReadAnnouncementId;
 
-  const AnnouncementIosCard({
+  const CupertinoStyleAnnouncementCard({
     super.key,
     required this.announcement,
     required this.lastReadAnnouncementId,

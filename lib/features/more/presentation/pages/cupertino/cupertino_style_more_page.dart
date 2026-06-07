@@ -9,7 +9,7 @@ import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart'
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
-import '../../../../announcements/presentation/pages/ios/announcements_ios_page.dart';
+import '../../../../announcements/presentation/pages/cupertino/cupertino_style_announcements_page.dart';
 import '../../../../donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
 import '../../../../graphs/presentation/pages/cupertino/cupertino_style_graphs_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -170,7 +170,7 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                     titleText: LocaleKeys.announcements_title.tr(),
                     onTap: () => Navigator.of(context).push(
                       CupertinoPageRoute(
-                        builder: (context) => AnnouncementsIosPage(
+                        builder: (context) => CupertinoStyleAnnouncementsPage(
                           showBackButton: true,
                           previousPageTitle: LocaleKeys.more_title.tr(),
                         ),

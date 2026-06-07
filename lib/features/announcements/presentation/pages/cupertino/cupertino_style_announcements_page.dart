@@ -7,13 +7,13 @@ import '../../../../../core/pages/ios/status_ios_page.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/announcements_bloc.dart';
-import '../../widgets/ios/announcement_ios_card.dart';
+import '../../widgets/ios/cupertino_style_announcement_card.dart';
 
-class AnnouncementsIosPage extends StatelessWidget {
+class CupertinoStyleAnnouncementsPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const AnnouncementsIosPage({
+  const CupertinoStyleAnnouncementsPage({
     super.key,
     this.showBackButton = false,
     this.previousPageTitle,
@@ -23,28 +23,28 @@ class AnnouncementsIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnouncementsIosView(
+    return CupertinoStyleAnnouncementsView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class AnnouncementsIosView extends StatefulWidget {
+class CupertinoStyleAnnouncementsView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const AnnouncementsIosView({
+  const CupertinoStyleAnnouncementsView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
-  State<AnnouncementsIosView> createState() => _AnnouncementsIosViewState();
+  State<CupertinoStyleAnnouncementsView> createState() => _CupertinoStyleAnnouncementsViewState();
 }
 
-class _AnnouncementsIosViewState extends State<AnnouncementsIosView> {
+class _CupertinoStyleAnnouncementsViewState extends State<CupertinoStyleAnnouncementsView> {
   final _scrollController = ScrollController();
 
   @override
@@ -83,7 +83,7 @@ class _AnnouncementsIosViewState extends State<AnnouncementsIosView> {
                 separatorBuilder: (context, index) => const Gap(8),
                 itemBuilder: (context, index) {
                   final announcement = state.filteredList[index];
-                  return AnnouncementIosCard(
+                  return CupertinoStyleAnnouncementCard(
                     announcement: announcement,
                     lastReadAnnouncementId: state.lastReadAnnouncementId,
                   );
