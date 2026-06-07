@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/widgets/ios/heading_ios.dart';
 
-class ActivityIosServerHeading extends StatelessWidget {
+class CupertinoStyleActivityServerHeading extends StatelessWidget {
   final String serverName;
   final bool loading;
 
-  const ActivityIosServerHeading({
+  const CupertinoStyleActivityServerHeading({
     super.key,
     required this.serverName,
     this.loading = false,

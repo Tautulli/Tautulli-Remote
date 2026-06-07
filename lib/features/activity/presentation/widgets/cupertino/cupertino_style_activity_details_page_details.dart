@@ -20,21 +20,21 @@ import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 
-class ActivityDetailsIosPageDetails extends StatefulWidget {
+class CupertinoStyleActivityDetailsPageDetails extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityDetailsIosPageDetails({
+  const CupertinoStyleActivityDetailsPageDetails({
     super.key,
     required this.server,
     required this.activity,
   });
 
   @override
-  State<ActivityDetailsIosPageDetails> createState() => _ActivityBottomSheetDetailsState();
+  State<CupertinoStyleActivityDetailsPageDetails> createState() => _ActivityBottomSheetDetailsState();
 }
 
-class _ActivityBottomSheetDetailsState extends State<ActivityDetailsIosPageDetails> {
+class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetailsPageDetails> {
   @override
   void initState() {
     super.initState();

@@ -10,12 +10,12 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../stream_icons.dart';
 import '../time_left.dart';
-import 'ios_platform_icon.dart';
+import 'cupertino_style_platform_icon.dart';
 
-class IosActivityDetails extends StatelessWidget {
+class CupertinoStyleActivityDetails extends StatelessWidget {
   final ActivityModel activity;
 
-  const IosActivityDetails({
+  const CupertinoStyleActivityDetails({
     super.key,
     required this.activity,
   });
@@ -54,7 +54,7 @@ class IosActivityDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  IosPlatformIcon(platformName: activity.platformName),
+                  CupertinoStylePlatformIcon(platformName: activity.platformName),
                   if (activity.mediaType != MediaType.photo) StreamIcons(activity: activity),
                 ],
               ),

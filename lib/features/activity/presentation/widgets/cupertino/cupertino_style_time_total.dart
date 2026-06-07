@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:tautulli_remote/core/helpers/time_helper.dart';
 
-class TimeIosTotal extends StatelessWidget {
+class CupertinoStyleTimeTotal extends StatelessWidget {
   final int viewOffset;
   final Duration duration;
 
-  const TimeIosTotal({
+  const CupertinoStyleTimeTotal({
     super.key,
     required this.viewOffset,
     required this.duration,

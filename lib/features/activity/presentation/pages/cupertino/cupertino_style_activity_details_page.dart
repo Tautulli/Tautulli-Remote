@@ -24,19 +24,19 @@ import '../../../../users/presentation/pages/cupertino/cupertino_style_user_deta
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../bloc/terminate_stream_bloc.dart';
-import '../../widgets/ios/activity_details_ios_page_details.dart';
-import '../../widgets/ios/activity_details_ios_page_info.dart';
-import '../../widgets/ios/ios_progress_bar.dart';
-import '../../widgets/ios/progress_ios_percent.dart';
-import '../../widgets/ios/terminate_stream_ios_bottom_sheet.dart';
-import '../../widgets/ios/time_ios_total.dart';
+import '../../widgets/cupertino/cupertino_style_activity_details_page_details.dart';
+import '../../widgets/cupertino/cupertino_style_activity_details_page_info.dart';
+import '../../widgets/cupertino/cupertino_style_progress_bar.dart';
+import '../../widgets/cupertino/cupertino_style_progress_percent.dart';
+import '../../widgets/cupertino/cupertino_style_terminate_stream_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_time_total.dart';
 
-class ActivityDetailsIosPage extends StatelessWidget {
+class CupertinoStyleActivityDetailsPage extends StatelessWidget {
   final ServerModel server;
   final ActivityModel activity;
   final String? previousPageTitle;
 
-  const ActivityDetailsIosPage({
+  const CupertinoStyleActivityDetailsPage({
     super.key,
     required this.server,
     required this.activity,
@@ -47,7 +47,7 @@ class ActivityDetailsIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<TerminateStreamBloc>(),
-      child: ActivityDetailsIosView(
+      child: CupertinoStyleActivityDetailsView(
         server: server,
         activity: activity,
         previousPageTitle: previousPageTitle,
@@ -56,12 +56,12 @@ class ActivityDetailsIosPage extends StatelessWidget {
   }
 }
 
-class ActivityDetailsIosView extends StatefulWidget {
+class CupertinoStyleActivityDetailsView extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
   final String? previousPageTitle;
 
-  const ActivityDetailsIosView({
+  const CupertinoStyleActivityDetailsView({
     super.key,
     required this.server,
     required this.activity,
@@ -69,10 +69,10 @@ class ActivityDetailsIosView extends StatefulWidget {
   });
 
   @override
-  State<ActivityDetailsIosView> createState() => _ActivityDetailsIosViewState();
+  State<CupertinoStyleActivityDetailsView> createState() => _CupertinoStyleActivityDetailsViewState();
 }
 
-class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
+class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivityDetailsView> {
   late ActivityModel activity;
   late Uri? posterUri;
 
@@ -206,10 +206,10 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
                               height: 97,
                               padding: const EdgeInsets.only(left: 8 + 100 + 8, right: 8, top: 4),
                               //* Item Info
-                              child: ActivityDetailsIosPageInfo(activity: activity),
+                              child: CupertinoStyleActivityDetailsPageInfo(activity: activity),
                             ),
                             //* Details
-                            IosProgressBar(activity: activity),
+                            CupertinoStyleProgressBar(activity: activity),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 4, 10, 0),
                               child: Row(
@@ -223,8 +223,8 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           if (activity.progressPercent != null)
-                                            ProgressIosPercent(progressPercent: activity.progressPercent!),
-                                          TimeIosTotal(
+                                            CupertinoStyleProgressPercent(progressPercent: activity.progressPercent!),
+                                          CupertinoStyleTimeTotal(
                                             viewOffset: activity.viewOffset!,
                                             duration: activity.duration!,
                                           ),
@@ -245,7 +245,7 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
                             ),
                             const Gap(8),
                             Expanded(
-                              child: ActivityDetailsIosPageDetails(
+                              child: CupertinoStyleActivityDetailsPageDetails(
                                 server: widget.server,
                                 activity: activity,
                               ),
@@ -349,7 +349,7 @@ class _ActivityDetailsIosViewState extends State<ActivityDetailsIosView> {
 
               final bool? confirm = await showCupertinoModalPopup(
                 context: context,
-                builder: (context) => TerminateStreamIosBottomSheet(
+                builder: (context) => CupertinoStyleTerminateStreamBottomSheet(
                   activity: activity,
                   controller: controller,
                 ),

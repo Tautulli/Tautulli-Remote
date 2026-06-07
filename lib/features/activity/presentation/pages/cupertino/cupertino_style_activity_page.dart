@@ -18,15 +18,15 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../../../data/models/server_activity_model.dart';
 import '../../bloc/activity_bloc.dart';
-import '../../widgets/ios/activity_ios_card.dart';
-import '../../widgets/ios/activity_ios_server_heading.dart';
-import '../../widgets/ios/server_activity_ios_info_card.dart';
+import '../../widgets/cupertino/cupertino_style_activity_card.dart';
+import '../../widgets/cupertino/cupertino_style_activity_server_heading.dart';
+import '../../widgets/cupertino/cupertino_style_server_activity_info_card.dart';
 
-class ActivityIosPage extends StatelessWidget {
+class CupertinoStyleActivityPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const ActivityIosPage({
+  const CupertinoStyleActivityPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -38,7 +38,7 @@ class ActivityIosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<ActivityBloc>(),
-      child: ActivityIosView(
+      child: CupertinoStyleActivityView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
       ),
@@ -46,21 +46,21 @@ class ActivityIosPage extends StatelessWidget {
   }
 }
 
-class ActivityIosView extends StatefulWidget {
+class CupertinoStyleActivityView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const ActivityIosView({
+  const CupertinoStyleActivityView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
   });
 
   @override
-  State<ActivityIosView> createState() => _ActivityIosViewState();
+  State<CupertinoStyleActivityView> createState() => _CupertinoStyleActivityViewState();
 }
 
-class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingObserver {
+class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
@@ -342,7 +342,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
       } else {
         for (ActivityModel activityModel in firstServer.activityList) {
           serverActivityWidgets.add(
-            ActivityIosCard(
+            CupertinoStyleActivityCard(
               activity: activityModel,
               server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
             ),
@@ -378,7 +378,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
               SliverPadding(
                 padding: const EdgeInsets.all(8),
                 sliver: SliverToBoxAdapter(
-                  child: ServerActivityIosInfoCard(serverActivity: firstServer),
+                  child: CupertinoStyleServerActivityInfoCard(serverActivity: firstServer),
                 ),
               ),
             SliverPadding(
@@ -429,7 +429,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
         } else {
           for (ActivityModel activityModel in serverActivityModel.activityList) {
             serverActivityList.add(
-              ActivityIosCard(
+              CupertinoStyleActivityCard(
                 activity: activityModel,
                 server: _serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId),
               ),
@@ -453,7 +453,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             sliver: SliverStickyHeader(
-              header: ActivityIosServerHeading(
+              header: CupertinoStyleActivityServerHeading(
                 serverName: serverActivityModel.serverName,
                 loading: serverActivityModel.status == BlocStatus.inProgress,
               ),
@@ -463,7 +463,7 @@ class _ActivityIosViewState extends State<ActivityIosView> with WidgetsBindingOb
                     if (streamCount > 0)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
-                        child: ServerActivityIosInfoCard(serverActivity: serverActivityModel),
+                        child: CupertinoStyleServerActivityInfoCard(serverActivity: serverActivityModel),
                       ),
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),

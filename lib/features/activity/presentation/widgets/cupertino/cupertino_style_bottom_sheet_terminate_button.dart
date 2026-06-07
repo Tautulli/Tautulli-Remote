@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../translations/locale_keys.g.dart';
 
-class IosBottomSheetTerminateButton extends StatelessWidget {
-  const IosBottomSheetTerminateButton({super.key});
+class CupertinoStyleBottomSheetTerminateButton extends StatelessWidget {
+  const CupertinoStyleBottomSheetTerminateButton({super.key});
 
   @override
   Widget build(BuildContext context) {

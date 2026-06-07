@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app_framework.dart';
-import '../../../features/activity/presentation/pages/ios/activity_ios_page.dart';
+import '../../../features/activity/presentation/pages/cupertino/cupertino_style_activity_page.dart';
 import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../features/changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
 import '../../../features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
@@ -121,7 +121,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
                 return const CupertinoStyleLibrariesPage(showBackButton: false);
               case 0:
               default:
-                return const ActivityIosPage(showBackButton: false);
+                return const CupertinoStyleActivityPage(showBackButton: false);
             }
           },
         );

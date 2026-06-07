@@ -5,10 +5,10 @@ import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 
-class IosPlatformIcon extends StatelessWidget {
+class CupertinoStylePlatformIcon extends StatelessWidget {
   final String? platformName;
 
-  const IosPlatformIcon({
+  const CupertinoStylePlatformIcon({
     super.key,
     required this.platformName,
   });

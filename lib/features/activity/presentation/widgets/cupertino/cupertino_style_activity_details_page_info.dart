@@ -6,10 +6,10 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 
-class ActivityDetailsIosPageInfo extends StatelessWidget {
+class CupertinoStyleActivityDetailsPageInfo extends StatelessWidget {
   final ActivityModel activity;
 
-  const ActivityDetailsIosPageInfo({
+  const CupertinoStyleActivityDetailsPageInfo({
     super.key,
     required this.activity,
   });

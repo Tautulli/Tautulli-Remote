@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
-class ProgressIosPercent extends StatelessWidget {
+class CupertinoStyleProgressPercent extends StatelessWidget {
   final int progressPercent;
 
-  const ProgressIosPercent({
+  const CupertinoStyleProgressPercent({
     super.key,
     required this.progressPercent,
   });

@@ -11,13 +11,13 @@ import '../../../../../core/widgets/ios/ios_bottom_sheet_cancel_button.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
-import 'ios_bottom_sheet_terminate_button.dart';
+import 'cupertino_style_bottom_sheet_terminate_button.dart';
 
-class TerminateStreamIosBottomSheet extends StatelessWidget {
+class CupertinoStyleTerminateStreamBottomSheet extends StatelessWidget {
   final ActivityModel activity;
   final TextEditingController controller;
 
-  const TerminateStreamIosBottomSheet({
+  const CupertinoStyleTerminateStreamBottomSheet({
     super.key,
     required this.activity,
     required this.controller,
@@ -27,7 +27,7 @@ class TerminateStreamIosBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoModalPopupScaffold(
       leading: const IosBottomSheetCancelButton(),
-      trailing: const IosBottomSheetTerminateButton(),
+      trailing: const CupertinoStyleBottomSheetTerminateButton(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
         child: Column(

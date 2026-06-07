@@ -17,7 +17,7 @@ import 'core/widgets/ios/tab_scaffold_cupertino.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
-import 'features/activity/presentation/pages/ios/activity_ios_page.dart';
+import 'features/activity/presentation/pages/cupertino/cupertino_style_activity_page.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/announcements/presentation/pages/cupertino/cupertino_style_announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
@@ -65,7 +65,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
 };
 
 Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
-  ActivityIosPage.routeName: (_) => const ActivityIosPage(),
+  CupertinoStyleActivityPage.routeName: (_) => const CupertinoStyleActivityPage(),
   CupertinoStyleAnnouncementsPage.routeName: (_) => const CupertinoStyleAnnouncementsPage(),
   CupertinoStyleChangelogPage.routeName: (_) => const CupertinoStyleChangelogPage(),
   CupertinoStyleDonatePage.routeName: (_) => const CupertinoStyleDonatePage(),

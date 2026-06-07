@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:tautulli_remote/core/helpers/theme_helper.dart';
-import 'package:tautulli_remote/core/types/media_type.dart';
-import 'package:tautulli_remote/features/activity/data/models/activity_model.dart';
 
-class IosProgressBar extends StatelessWidget {
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../data/models/activity_model.dart';
+
+class CupertinoStyleProgressBar extends StatelessWidget {
   final ActivityModel activity;
 
-  const IosProgressBar({
+  const CupertinoStyleProgressBar({
     super.key,
     required this.activity,
   });

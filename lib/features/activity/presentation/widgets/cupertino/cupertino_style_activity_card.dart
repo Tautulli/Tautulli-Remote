@@ -15,15 +15,15 @@ import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
-import '../../pages/ios/activity_details_ios_page.dart';
-import 'ios_activity_details.dart';
-import 'ios_progress_bar.dart';
+import '../../pages/cupertino/cupertino_style_activity_details_page.dart';
+import 'cupertino_style_activity_details.dart';
+import 'cupertino_style_progress_bar.dart';
 
-class ActivityIosCard extends StatelessWidget {
+class CupertinoStyleActivityCard extends StatelessWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityIosCard({
+  const CupertinoStyleActivityCard({
     super.key,
     required this.server,
     required this.activity,
@@ -48,7 +48,7 @@ class ActivityIosCard extends StatelessWidget {
           CupertinoPageRoute(
             builder: (_) => BlocProvider.value(
               value: context.read<ActivityBloc>(),
-              child: ActivityDetailsIosPage(
+              child: CupertinoStyleActivityDetailsPage(
                 activity: activity,
                 server: server,
                 previousPageTitle: LocaleKeys.activity_title.tr(),
@@ -128,7 +128,7 @@ class ActivityIosCard extends StatelessWidget {
                                 ),
                                 const Gap(8),
                                 Expanded(
-                                  child: IosActivityDetails(
+                                  child: CupertinoStyleActivityDetails(
                                     activity: activity,
                                   ),
                                 ),
@@ -138,7 +138,7 @@ class ActivityIosCard extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: IosProgressBar(activity: activity),
+                          child: CupertinoStyleProgressBar(activity: activity),
                         ),
                       ],
                     ),

@@ -8,10 +8,10 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/server_activity_model.dart';
 
-class ServerActivityIosInfoCard extends StatelessWidget {
+class CupertinoStyleServerActivityInfoCard extends StatelessWidget {
   final ServerActivityModel serverActivity;
 
-  const ServerActivityIosInfoCard({
+  const CupertinoStyleServerActivityInfoCard({
     super.key,
     required this.serverActivity,
   });
