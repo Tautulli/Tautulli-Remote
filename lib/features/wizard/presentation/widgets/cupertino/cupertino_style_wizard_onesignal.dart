@@ -10,7 +10,7 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/permission_setting_ios_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
+import '../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../bloc/wizard_bloc.dart';
 
 class CupertinoStyleWizardOnesignal extends StatelessWidget {
@@ -54,7 +54,7 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
               trailing: const CupertinoListTileChevron(),
               onTap: () => Navigator.of(context).push(
                 CupertinoPageRoute(
-                  builder: (context) => const OneSignalDataPrivacyIosPage(
+                  builder: (context) => const CupertinoStyleOnesignalDataPrivacyPage(
                     showToggle: false,
                   ),
                 ),

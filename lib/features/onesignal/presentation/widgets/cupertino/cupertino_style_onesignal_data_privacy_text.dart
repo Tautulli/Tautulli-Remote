@@ -6,8 +6,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class OneSignalDataPrivacyIosText extends StatelessWidget {
-  const OneSignalDataPrivacyIosText({super.key});
+class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
+  const CupertinoStyleOnesignalDataPrivacyText({super.key});
 
   @override
   Widget build(BuildContext context) {

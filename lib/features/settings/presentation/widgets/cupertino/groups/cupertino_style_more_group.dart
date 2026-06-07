@@ -8,7 +8,7 @@ import '../../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
-import '../../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
+import '../../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import '../../../../../translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
 import '../../../pages/cupertino/cupertino_style_data_dump_page.dart';
 
@@ -32,7 +32,7 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
           titleText: LocaleKeys.onesignal_data_privacy_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => OneSignalDataPrivacyIosPage(
+              builder: (context) => CupertinoStyleOnesignalDataPrivacyPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

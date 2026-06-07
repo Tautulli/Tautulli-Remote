@@ -4,15 +4,15 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../widgets/ios/onesignal_data_privacy_cupertino_list_tile.dart';
-import '../../widgets/ios/onesignal_data_privacy_ios_text.dart';
+import '../../widgets/cupertino/cupertino_style_onesignal_data_privacy_list_tile.dart';
+import '../../widgets/cupertino/cupertino_style_onesignal_data_privacy_text.dart';
 
-class OneSignalDataPrivacyIosPage extends StatelessWidget {
+class CupertinoStyleOnesignalDataPrivacyPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool showToggle;
 
-  const OneSignalDataPrivacyIosPage({
+  const CupertinoStyleOnesignalDataPrivacyPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -23,7 +23,7 @@ class OneSignalDataPrivacyIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OneSignalDataPrivacyIosView(
+    return CupertinoStyleOnesignalDataPrivacyView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       showToggle: showToggle,
@@ -31,12 +31,12 @@ class OneSignalDataPrivacyIosPage extends StatelessWidget {
   }
 }
 
-class OneSignalDataPrivacyIosView extends StatelessWidget {
+class CupertinoStyleOnesignalDataPrivacyView extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool showToggle;
 
-  const OneSignalDataPrivacyIosView({
+  const CupertinoStyleOnesignalDataPrivacyView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -53,12 +53,12 @@ class OneSignalDataPrivacyIosView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const OneSignalDataPrivacyIosText(),
+            const CupertinoStyleOnesignalDataPrivacyText(),
             if (showToggle)
               const CustomCupertinoListSection(
                 margin: EdgeInsets.fromLTRB(8, 20, 8, 8),
                 children: [
-                  OneSignalDataPrivacyCupertinoListTile(),
+                  CupertinoStyleOnesignalDataPrivacyListTile(),
                 ],
               ),
           ],

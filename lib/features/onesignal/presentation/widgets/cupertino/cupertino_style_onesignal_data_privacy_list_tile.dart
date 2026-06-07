@@ -10,8 +10,8 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/onesignal_health_bloc.dart';
 import '../../bloc/onesignal_privacy_bloc.dart';
 
-class OneSignalDataPrivacyCupertinoListTile extends StatelessWidget {
-  const OneSignalDataPrivacyCupertinoListTile({super.key});
+class CupertinoStyleOnesignalDataPrivacyListTile extends StatelessWidget {
+  const CupertinoStyleOnesignalDataPrivacyListTile({super.key});
 
   @override
   Widget build(BuildContext context) {

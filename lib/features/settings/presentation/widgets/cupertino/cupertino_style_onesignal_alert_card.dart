@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote/features/onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
+import 'package:tautulli_remote/features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
@@ -55,7 +55,7 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
                 ).tr(),
                 onPressed: () => Navigator.of(context).push(
                   CupertinoPageRoute(
-                    builder: (context) => OneSignalDataPrivacyIosPage(
+                    builder: (context) => CupertinoStyleOnesignalDataPrivacyPage(
                       previousPageTitle: LocaleKeys.settings_title.tr(),
                     ),
                   ),
