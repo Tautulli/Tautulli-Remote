@@ -9,7 +9,7 @@ import '../../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.da
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/ios/changelog_ios_page.dart';
 import '../../../../../onesignal/presentation/pages/ios/onesignal_data_privacy_ios_page.dart';
-import '../../../../../translation/presentation/pages/ios/help_translate_ios_page.dart';
+import '../../../../../translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
 import '../../../pages/ios/data_dump_ios_page.dart';
 
 class MoreIosGroup extends StatelessWidget {
@@ -63,7 +63,7 @@ class MoreIosGroup extends StatelessWidget {
           titleText: LocaleKeys.help_translate_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => HelpTranslateIosPage(
+              builder: (context) => CupertinoStyleHelpTranslatePage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

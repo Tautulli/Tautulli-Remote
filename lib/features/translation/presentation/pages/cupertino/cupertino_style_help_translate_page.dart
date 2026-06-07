@@ -10,13 +10,13 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../widgets/ios/help_translate_heading_ios_card.dart';
+import '../../widgets/cupertino/cupertino_style_help_translate_heading_card.dart';
 
-class HelpTranslateIosPage extends StatelessWidget {
+class CupertinoStyleHelpTranslatePage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const HelpTranslateIosPage({
+  const CupertinoStyleHelpTranslatePage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -26,18 +26,18 @@ class HelpTranslateIosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HelpTranslateIosView(
+    return CupertinoStyleHelpTranslateView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class HelpTranslateIosView extends StatelessWidget {
+class CupertinoStyleHelpTranslateView extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const HelpTranslateIosView({
+  const CupertinoStyleHelpTranslateView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -53,7 +53,7 @@ class HelpTranslateIosView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const HelpTranslateHeadingIosCard(),
+            const CupertinoStyleHelpTranslateHeadingCard(),
             CustomCupertinoListSection(
               margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
               children: [

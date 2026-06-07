@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class HelpTranslateHeadingIosCard extends StatelessWidget {
-  const HelpTranslateHeadingIosCard({super.key});
+class CupertinoStyleHelpTranslateHeadingCard extends StatelessWidget {
+  const CupertinoStyleHelpTranslateHeadingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
