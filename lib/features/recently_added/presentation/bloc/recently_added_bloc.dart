@@ -96,7 +96,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         state.copyWith(status: BlocStatus.success),
       );
     }
-    ;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Recently Added page
