@@ -36,7 +36,7 @@ import 'features/recently_added/presentation/pages/ios/recently_added_ios_page.d
 import 'features/recently_added/presentation/pages/recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
-import 'features/settings/presentation/pages/ios/settings_ios_page.dart';
+import 'features/settings/presentation/pages/cupertino/cupertino_style_settings_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
@@ -75,7 +75,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   LibrariesIosPage.routeName: (_) => const LibrariesIosPage(),
   OneSignalDataPrivacyIosPage.routeName: (_) => const OneSignalDataPrivacyIosPage(),
   RecentlyAddedIosPage.routeName: (_) => const RecentlyAddedIosPage(),
-  SettingsIosPage.routeName: (_) => const SettingsIosPage(),
+  CupertinoStyleSettingsPage.routeName: (_) => const CupertinoStyleSettingsPage(),
   CupertinoStyleStatisticsPage.routeName: (_) => const CupertinoStyleStatisticsPage(),
   CupertinoStyleUsersPage.routeName: (_) => const CupertinoStyleUsersPage(),
   CupertinoStyleWizardPage.routeName: (_) => const CupertinoStyleWizardPage(),

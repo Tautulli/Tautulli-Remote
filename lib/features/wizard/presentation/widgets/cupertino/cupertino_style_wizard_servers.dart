@@ -9,9 +9,9 @@ import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.da
 import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../settings/presentation/widgets/ios/bottom_sheets/language_ios_bottom_sheet.dart';
-import '../../../../settings/presentation/widgets/ios/groups/servers_ios_group.dart';
-import '../../../../settings/presentation/widgets/ios/register_server_ios_button.dart';
+import '../../../../settings/presentation/widgets/cupertino/bottom_sheets/cupertino_style_language_bottom_sheet.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_servers_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/cupertino_style_register_server_button.dart';
 import '../../../../translation/presentation/bloc/translation_bloc.dart';
 
 class CupertinoStyleWizardServers extends StatelessWidget {
@@ -53,7 +53,7 @@ class CupertinoStyleWizardServers extends StatelessWidget {
                 context: context,
                 builder: (context) => BlocProvider(
                   create: (context) => di.sl<TranslationBloc>(),
-                  child: LanguageIosBottomSheet(
+                  child: CupertinoStyleLanguageBottomSheet(
                     initialValue: context.locale,
                   ),
                 ),
@@ -62,11 +62,11 @@ class CupertinoStyleWizardServers extends StatelessWidget {
           ],
         ),
         CustomCupertinoListSectionHeading(LocaleKeys.servers_title.tr()),
-        const ServersIosGroup(isWizard: true),
+        const CupertinoStyleServersGroup(isWizard: true),
         const Gap(8),
         const SizedBox(
           width: double.infinity,
-          child: RegisterServerIosButton(isWizard: true),
+          child: CupertinoStyleRegisterServerButton(isWizard: true),
         ),
       ],
     );

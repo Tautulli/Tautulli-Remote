@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../settings/presentation/widgets/ios/groups/accessibility_font_ios_group.dart';
-import '../../../../settings/presentation/widgets/ios/groups/accessibility_theme_ios_group.dart';
-import '../../../../settings/presentation/widgets/ios/groups/accessibility_visuals_ios_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_accessibility_font_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_accessibility_theme_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_accessibility_visuals_group.dart';
 
 class CupertinoStyleWizardAccessibility extends StatelessWidget {
   const CupertinoStyleWizardAccessibility({super.key});
@@ -33,11 +33,11 @@ class CupertinoStyleWizardAccessibility extends StatelessWidget {
           textAlign: TextAlign.center,
         ).tr(),
         CustomCupertinoListSectionHeading(LocaleKeys.font_title.tr()),
-        const AccessibilityFontIosGroup(isWizard: true),
+        const CupertinoStyleAccessibilityFontGroup(isWizard: true),
         CustomCupertinoListSectionHeading(LocaleKeys.theme_title.tr()),
-        const AccessibilityThemeIosGroup(isWizard: true),
+        const CupertinoStyleAccessibilityThemeGroup(isWizard: true),
         CustomCupertinoListSectionHeading(LocaleKeys.visuals_title.tr()),
-        const AccessibilityVisualsIosGroup(isWizard: true),
+        const CupertinoStyleAccessibilityVisualsGroup(isWizard: true),
         //TODO: Add an example card to show effect of disabling backgrounds
       ],
     );

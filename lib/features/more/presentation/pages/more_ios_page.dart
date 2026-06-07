@@ -13,7 +13,7 @@ import '../../../announcements/presentation/pages/ios/announcements_ios_page.dar
 import '../../../donate/presentation/pages/ios/donate_ios_page.dart';
 import '../../../graphs/presentation/pages/ios/graphs_ios_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../settings/presentation/pages/ios/settings_ios_page.dart';
+import '../../../settings/presentation/pages/cupertino/cupertino_style_settings_page.dart';
 import '../../../statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
 import '../../../users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 
@@ -69,7 +69,7 @@ class _MoreIosViewState extends State<MoreIosView> {
         Navigator.of(context)
             .push(
               CupertinoPageRoute(
-                builder: (context) => SettingsIosPage(
+                builder: (context) => CupertinoStyleSettingsPage(
                   showBackButton: true,
                   previousPageTitle: LocaleKeys.more_title.tr(),
                 ),
@@ -206,7 +206,7 @@ class _MoreIosViewState extends State<MoreIosView> {
                       return Navigator.of(context)
                           .push(
                             CupertinoPageRoute(
-                              builder: (context) => SettingsIosPage(
+                              builder: (context) => CupertinoStyleSettingsPage(
                                 showBackButton: true,
                                 previousPageTitle: LocaleKeys.more_title.tr(),
                               ),

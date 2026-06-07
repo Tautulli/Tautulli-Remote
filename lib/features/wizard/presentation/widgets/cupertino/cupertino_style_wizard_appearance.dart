@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/ios/custom_cupertino_list_section_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../settings/presentation/widgets/ios/groups/appearance_enhancements_ios_group.dart';
-import '../../../../settings/presentation/widgets/ios/groups/dynamic_color_ios_group.dart';
-import '../../../../settings/presentation/widgets/ios/groups/themes_ios_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_appearance_enhancements_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_dynamic_color_group.dart';
+import '../../../../settings/presentation/widgets/cupertino/groups/cupertino_style_themes_group.dart';
 
 class CupertinoStyleWizardAppearance extends StatelessWidget {
   const CupertinoStyleWizardAppearance({super.key});
@@ -34,11 +34,11 @@ class CupertinoStyleWizardAppearance extends StatelessWidget {
           textAlign: TextAlign.center,
         ).tr(),
         CustomCupertinoListSectionHeading(LocaleKeys.themes_title.tr()),
-        const ThemesIosGroup(isWizard: true),
+        const CupertinoStyleThemesGroup(isWizard: true),
         CustomCupertinoListSectionHeading(LocaleKeys.dynamic_color_title.tr()),
-        const DynamicColorIosGroup(isWizard: true),
+        const CupertinoStyleDynamicColorGroup(isWizard: true),
         CustomCupertinoListSectionHeading(LocaleKeys.enhancements_title.tr()),
-        const AppearanceEnhancementsIosGroup(isWizard: true),
+        const CupertinoStyleAppearanceEnhancementsGroup(isWizard: true),
       ],
     );
   }
