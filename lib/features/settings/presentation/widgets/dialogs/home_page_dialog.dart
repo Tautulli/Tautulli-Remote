@@ -30,62 +30,56 @@ class HomePageDialogState extends State<HomePageDialog> {
     setState(() {
       _homePage = value;
       context.read<SettingsBloc>().add(
-            SettingsUpdateHomePage(value),
-          );
+        SettingsUpdateHomePage(value),
+      );
       Navigator.of(context).pop();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      clipBehavior: Clip.hardEdge,
-      titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-      title: const Text(LocaleKeys.home_page_title).tr(),
-      children: [
-        RadioListTile(
-          title: const Text(LocaleKeys.activity_title).tr(),
-          value: 'activity',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.history_title).tr(),
-          value: 'history',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.recently_added_title).tr(),
-          value: 'recent',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.libraries_title).tr(),
-          value: 'libraries',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.users_title).tr(),
-          value: 'users',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.statistics_title).tr(),
-          value: 'statistics',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.graphs_title).tr(),
-          value: 'graphs',
-          groupValue: _homePage,
-          onChanged: (value) => _homePageChanged(value as String),
-        ),
-      ],
+    return RadioGroup<String>(
+      groupValue: _homePage,
+      onChanged: (value) {
+        if (value != null) {
+          _homePageChanged(value);
+        }
+      },
+      child: SimpleDialog(
+        clipBehavior: Clip.hardEdge,
+        titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
+        title: const Text(LocaleKeys.home_page_title).tr(),
+        children: [
+          RadioListTile(
+            title: const Text(LocaleKeys.activity_title).tr(),
+            value: 'activity',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.history_title).tr(),
+            value: 'history',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.recently_added_title).tr(),
+            value: 'recent',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.libraries_title).tr(),
+            value: 'libraries',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.users_title).tr(),
+            value: 'users',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.statistics_title).tr(),
+            value: 'statistics',
+          ),
+          RadioListTile(
+            title: const Text(LocaleKeys.graphs_title).tr(),
+            value: 'graphs',
+          ),
+        ],
+      ),
     );
   }
 }

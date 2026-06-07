@@ -19,44 +19,42 @@ class ThemesGroup extends StatelessWidget {
       builder: (context, state) {
         state as SettingsSuccess;
 
-        return ListTileGroup(
-          heading: LocaleKeys.themes_title.tr(),
-          listTiles: [
-            CustomRadioListTile(
-              leading: WebsafeSvg.asset(
-                'assets/logos/logo_flat.svg',
-                colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.onSurface,
-                  BlendMode.srcIn,
+        return RadioGroup<ThemeType>(
+          groupValue: state.appSettings.theme,
+          onChanged: (value) {
+            if (value != null) {
+              context.read<SettingsBloc>().add(
+                SettingsUpdateTheme(value),
+              );
+            }
+          },
+          child: ListTileGroup(
+            heading: LocaleKeys.themes_title.tr(),
+            listTiles: [
+              CustomRadioListTile(
+                leading: WebsafeSvg.asset(
+                  'assets/logos/logo_flat.svg',
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
+                  height: 35,
                 ),
-                height: 35,
+                title: 'Tautulli',
+                subtitle: LocaleKeys.tautulli_theme_subtitle.tr(),
+                value: ThemeType.tautulli,
               ),
-              title: 'Tautulli',
-              subtitle: LocaleKeys.tautulli_theme_subtitle.tr(),
-              value: ThemeType.tautulli,
-              groupValue: state.appSettings.theme,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                      SettingsUpdateTheme(value as ThemeType),
-                    );
-              },
-            ),
-            CustomRadioListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.swatchbook,
-                color: Theme.of(context).colorScheme.onSurface,
+              CustomRadioListTile(
+                leading: FaIcon(
+                  FontAwesomeIcons.swatchbook,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                title: LocaleKeys.dynamic_title.tr(),
+                subtitle: LocaleKeys.dynamic_theme_subtitle.tr(),
+                value: ThemeType.dynamic,
               ),
-              title: LocaleKeys.dynamic_title.tr(),
-              subtitle: LocaleKeys.dynamic_theme_subtitle.tr(),
-              value: ThemeType.dynamic,
-              groupValue: state.appSettings.theme,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                      SettingsUpdateTheme(value as ThemeType),
-                    );
-              },
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

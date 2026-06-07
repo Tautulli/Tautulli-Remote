@@ -35,36 +35,39 @@ class LanguageDialogState extends State<LanguageDialog> {
         TranslationHelper.localeToEnglishString(b),
       ),
     );
-    return SimpleDialog(
-      clipBehavior: Clip.hardEdge,
-      titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-      title: const Text(LocaleKeys.language_title).tr(),
-      children: locales
-          .map(
-            (locale) => RadioListTile(
-              title: Text(
-                TranslationHelper.localeToString(locale),
+    return RadioGroup<Locale>(
+      groupValue: _locale,
+      onChanged: (value) {
+        if (value != null) {
+          setState(() {
+            context.read<TranslationBloc>().add(
+              TranslationLocaleUpdated(value),
+            );
+            context.setLocale(value);
+            Navigator.of(context).pop();
+          });
+        }
+      },
+      child: SimpleDialog(
+        clipBehavior: Clip.hardEdge,
+        titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
+        title: const Text(LocaleKeys.language_title).tr(),
+        children: locales
+            .map(
+              (locale) => RadioListTile(
+                title: Text(
+                  TranslationHelper.localeToString(locale),
+                ),
+                subtitle: locale.languageCode != 'en'
+                    ? Text(
+                        TranslationHelper.localeToEnglishString(locale),
+                      )
+                    : null,
+                value: locale,
               ),
-              subtitle: locale.languageCode != 'en'
-                  ? Text(
-                      TranslationHelper.localeToEnglishString(locale),
-                    )
-                  : null,
-              value: locale,
-              groupValue: _locale,
-              onChanged: (value) {
-                setState(() {
-                  _locale = value as Locale;
-                  context.read<TranslationBloc>().add(
-                        TranslationLocaleUpdated(locale),
-                      );
-                  context.setLocale(value);
-                  Navigator.of(context).pop();
-                });
-              },
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

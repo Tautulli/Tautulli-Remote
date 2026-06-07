@@ -14,8 +14,7 @@ class ActivityRefreshRateDialog extends StatefulWidget {
   });
 
   @override
-  State<ActivityRefreshRateDialog> createState() =>
-      _ActivityRefreshRateDialogState();
+  State<ActivityRefreshRateDialog> createState() => _ActivityRefreshRateDialogState();
 }
 
 class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
@@ -31,67 +30,63 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
     setState(() {
       _refresh = value;
       context.read<SettingsBloc>().add(
-            SettingsUpdateRefreshRate(value),
-          );
+        SettingsUpdateRefreshRate(value),
+      );
       Navigator.of(context).pop();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      clipBehavior: Clip.hardEdge,
-      title: const Text(
-        LocaleKeys.activity_refresh_rate_title,
-      ).tr(),
-      children: [
-        RadioListTile(
-          title: Text(
-            '5 ${LocaleKeys.sec.tr()} - ${LocaleKeys.faster_title.tr()}',
+    return RadioGroup<int>(
+      groupValue: _refresh,
+      onChanged: (value) {
+        if (value != null) {
+          _refreshRadioValueChanged(value);
+        }
+      },
+      child: SimpleDialog(
+        clipBehavior: Clip.hardEdge,
+        title: const Text(
+          LocaleKeys.activity_refresh_rate_title,
+        ).tr(),
+        children: [
+          RadioListTile(
+            title: Text(
+              '5 ${LocaleKeys.sec.tr()} - ${LocaleKeys.faster_title.tr()}',
+            ),
+            value: 5,
           ),
-          value: 5,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text(
-            '7 ${LocaleKeys.sec.tr()} - ${LocaleKeys.fast_title.tr()}',
+          RadioListTile(
+            title: Text(
+              '7 ${LocaleKeys.sec.tr()} - ${LocaleKeys.fast_title.tr()}',
+            ),
+            value: 7,
           ),
-          value: 7,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text(
-            '10 ${LocaleKeys.sec.tr()} - ${LocaleKeys.normal_title.tr()}',
+          RadioListTile(
+            title: Text(
+              '10 ${LocaleKeys.sec.tr()} - ${LocaleKeys.normal_title.tr()}',
+            ),
+            value: 10,
           ),
-          value: 10,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text(
-            '15 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slow_title.tr()}',
+          RadioListTile(
+            title: Text(
+              '15 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slow_title.tr()}',
+            ),
+            value: 15,
           ),
-          value: 15,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text(
-            '20 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slower_title.tr()}',
+          RadioListTile(
+            title: Text(
+              '20 ${LocaleKeys.sec.tr()} - ${LocaleKeys.slower_title.tr()}',
+            ),
+            value: 20,
           ),
-          value: 20,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: const Text(LocaleKeys.disabled_title).tr(),
-          value: 0,
-          groupValue: _refresh,
-          onChanged: (value) => _refreshRadioValueChanged(value as int),
-        ),
-      ],
+          RadioListTile(
+            title: const Text(LocaleKeys.disabled_title).tr(),
+            value: 0,
+          ),
+        ],
+      ),
     );
   }
 }

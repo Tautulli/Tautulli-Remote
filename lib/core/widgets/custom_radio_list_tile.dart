@@ -6,13 +6,11 @@ import 'package:gap/gap.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 
-class CustomRadioListTile extends StatelessWidget {
+class CustomRadioListTile<T> extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? subtitle;
-  final Object value;
-  final Object groupValue;
-  final Function(Object?)? onChanged;
+  final T value;
   final bool inactive;
   final bool sensitive;
 
@@ -22,8 +20,6 @@ class CustomRadioListTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     required this.value,
-    required this.groupValue,
-    this.onChanged,
     this.inactive = false,
     this.sensitive = false,
   });
@@ -41,7 +37,6 @@ class CustomRadioListTile extends StatelessWidget {
           child: RadioListTile(
             controlAffinity: ListTileControlAffinity.trailing,
             value: value,
-            groupValue: groupValue,
             title: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -62,23 +57,26 @@ class CustomRadioListTile extends StatelessWidget {
                         title,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: inactive ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.onSurface,
+                          color: inactive
+                              ? Theme.of(context).colorScheme.onSurfaceVariant
+                              : Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       if (subtitle != null)
                         Text(
-                          sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : subtitle!,
+                          sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : subtitle!,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                         ),
                     ],
                   ),
                 ),
               ],
             ),
-            onChanged: onChanged,
           ),
         );
       },

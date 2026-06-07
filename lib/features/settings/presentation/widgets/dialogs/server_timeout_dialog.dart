@@ -30,51 +30,49 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
     setState(() {
       _timeout = value;
       context.read<SettingsBloc>().add(
-            SettingsUpdateServerTimeout(value),
-          );
+        SettingsUpdateServerTimeout(value),
+      );
       Navigator.of(context).pop();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      clipBehavior: Clip.hardEdge,
-      title: const Text(LocaleKeys.server_timeout_title).tr(),
-      children: [
-        RadioListTile(
-          title: Text('3 ${LocaleKeys.sec.tr()}'),
-          value: 3,
-          groupValue: _timeout,
-          onChanged: (value) => _timeoutRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text('5 ${LocaleKeys.sec.tr()}'),
-          value: 5,
-          groupValue: _timeout,
-          onChanged: (value) => _timeoutRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text('8 ${LocaleKeys.sec.tr()}'),
-          value: 8,
-          groupValue: _timeout,
-          onChanged: (value) => _timeoutRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text(
-            '15 ${LocaleKeys.sec.tr()} (${LocaleKeys.default_title.tr()})',
+    return RadioGroup<int>(
+      groupValue: _timeout,
+      onChanged: (value) {
+        if (value != null) {
+          _timeoutRadioValueChanged(value);
+        }
+      },
+      child: SimpleDialog(
+        clipBehavior: Clip.hardEdge,
+        title: const Text(LocaleKeys.server_timeout_title).tr(),
+        children: [
+          RadioListTile(
+            title: Text('3 ${LocaleKeys.sec.tr()}'),
+            value: 3,
           ),
-          value: 15,
-          groupValue: _timeout,
-          onChanged: (value) => _timeoutRadioValueChanged(value as int),
-        ),
-        RadioListTile(
-          title: Text('30 ${LocaleKeys.sec.tr()}'),
-          value: 30,
-          groupValue: _timeout,
-          onChanged: (value) => _timeoutRadioValueChanged(value as int),
-        ),
-      ],
+          RadioListTile(
+            title: Text('5 ${LocaleKeys.sec.tr()}'),
+            value: 5,
+          ),
+          RadioListTile(
+            title: Text('8 ${LocaleKeys.sec.tr()}'),
+            value: 8,
+          ),
+          RadioListTile(
+            title: Text(
+              '15 ${LocaleKeys.sec.tr()} (${LocaleKeys.default_title.tr()})',
+            ),
+            value: 15,
+          ),
+          RadioListTile(
+            title: Text('30 ${LocaleKeys.sec.tr()}'),
+            value: 30,
+          ),
+        ],
+      ),
     );
   }
 }

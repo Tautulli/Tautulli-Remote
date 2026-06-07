@@ -16,41 +16,39 @@ class StylesGroup extends StatelessWidget {
       builder: (context, state) {
         state as SettingsSuccess;
 
-        return ListTileGroup(
-          //TODO:  Create translation key
-          heading: 'Styles',
-          listTiles: [
-            CustomRadioListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.android,
-                color: Theme.of(context).colorScheme.onSurface,
+        return RadioGroup<AppStyle>(
+          groupValue: state.appSettings.appStyle,
+          onChanged: (value) {
+            if (value != null) {
+              context.read<SettingsBloc>().add(
+                SettingsUpdateAppStyle(value),
+              );
+            }
+          },
+          child: ListTileGroup(
+            //TODO:  Create translation key
+            heading: 'Styles',
+            listTiles: [
+              CustomRadioListTile(
+                leading: FaIcon(
+                  FontAwesomeIcons.android,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                //TODO:  Create translation key
+                title: 'Material',
+                value: AppStyle.material,
               ),
-              //TODO:  Create translation key
-              title: 'Material',
-              value: AppStyle.material,
-              groupValue: state.appSettings.appStyle,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                  SettingsUpdateAppStyle(value as AppStyle),
-                );
-              },
-            ),
-            CustomRadioListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.apple,
-                color: Theme.of(context).colorScheme.onSurface,
+              CustomRadioListTile(
+                leading: FaIcon(
+                  FontAwesomeIcons.apple,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                //TODO:  Create translation key
+                title: 'Cupertino',
+                value: AppStyle.cupertino,
               ),
-              //TODO:  Create translation key
-              title: 'Cupertino',
-              value: AppStyle.cupertino,
-              groupValue: state.appSettings.appStyle,
-              onChanged: (value) {
-                context.read<SettingsBloc>().add(
-                  SettingsUpdateAppStyle(value as AppStyle),
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
