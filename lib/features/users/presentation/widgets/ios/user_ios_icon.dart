@@ -64,10 +64,9 @@ class UserIosIcon extends StatelessWidget {
               },
             ),
           ),
-          //TODO: Adjust icon size as using CupertinoIcons made it a little smaller and when size is increased the position changes
           if (user.isActive != null && !user.isActive!)
             Positioned(
-              bottom: size == UserIconSize.normal ? -1 : -2,
+              bottom: size == UserIconSize.normal ? -3 : -5,
               right: 0,
               child: Stack(
                 children: [
@@ -77,13 +76,13 @@ class UserIosIcon extends StatelessWidget {
                     child: Icon(
                       CupertinoIcons.circle_fill,
                       color: ThemeHelper.cupertinoCardIconColor(),
-                      size: size == UserIconSize.normal ? 14 : 17,
+                      size: size == UserIconSize.normal ? 16 : 21,
                     ),
                   ),
                   Icon(
                     CupertinoIcons.exclamationmark_triangle_fill,
                     color: CupertinoTheme.of(context).primaryColor,
-                    size: size == UserIconSize.normal ? 24 : 32,
+                    size: size == UserIconSize.normal ? 26 : 36,
                   ),
                 ],
               ),
