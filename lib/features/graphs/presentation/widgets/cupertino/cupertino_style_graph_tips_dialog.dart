@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../../translations/locale_keys.g.dart';
 
-class GraphTipsIosDialog extends StatelessWidget {
-  const GraphTipsIosDialog({super.key});
+class CupertinoStyleGraphTipsDialog extends StatelessWidget {
+  const CupertinoStyleGraphTipsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

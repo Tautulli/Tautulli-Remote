@@ -25,7 +25,7 @@ import 'features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/donate/presentation/pages/ios/donate_ios_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
-import 'features/graphs/presentation/pages/ios/graphs_ios_page.dart';
+import 'features/graphs/presentation/pages/cupertino/cupertino_style_graphs_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
 import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
@@ -69,7 +69,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   AnnouncementsIosPage.routeName: (_) => const AnnouncementsIosPage(),
   ChangelogIosPage.routeName: (_) => const ChangelogIosPage(),
   DonateIosPage.routeName: (_) => const DonateIosPage(),
-  GraphsIosPage.routeName: (_) => const GraphsIosPage(),
+  CupertinoStyleGraphsPage.routeName: (_) => const CupertinoStyleGraphsPage(),
   CupertinoStyleHelpTranslatePage.routeName: (_) => const CupertinoStyleHelpTranslatePage(),
   CupertinoStyleHistoryPage.routeName: (_) => const CupertinoStyleHistoryPage(),
   CupertinoStyleLibrariesPage.routeName: (_) => const CupertinoStyleLibrariesPage(),

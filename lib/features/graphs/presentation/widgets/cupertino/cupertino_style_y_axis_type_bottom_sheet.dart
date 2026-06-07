@@ -9,10 +9,10 @@ import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/cupertino_modal_popup_scaffold.dart';
 
-class YAxisTypeIosBottomSheet extends StatelessWidget {
+class CupertinoStyleYAxisTypeBottomSheet extends StatelessWidget {
   final PlayMetricType initialValue;
 
-  const YAxisTypeIosBottomSheet({
+  const CupertinoStyleYAxisTypeBottomSheet({
     super.key,
     required this.initialValue,
   });

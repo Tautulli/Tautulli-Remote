@@ -7,11 +7,11 @@ import '../../../../../core/types/graph_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/graphs_bloc.dart';
-import 'graph_ios_card.dart';
-import 'graph_ios_heading.dart';
+import 'cupertino_style_graph_card.dart';
+import 'cupertino_style_graph_heading.dart';
 
-class PlayTotalsGraphsIosTab extends StatelessWidget {
-  const PlayTotalsGraphsIosTab({super.key});
+class CupertinoStylePlayTotalsGraphsTab extends StatelessWidget {
+  const CupertinoStylePlayTotalsGraphsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class PlayTotalsGraphsIosTab extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                GraphIosHeading(
+                CupertinoStyleGraphHeading(
                   text: state.yAxis == PlayMetricType.plays
                       ? LocaleKeys.total_play_count_for_last_12_months_title.tr()
                       : LocaleKeys.total_play_time_for_last_12_months_title.tr(),
                 ),
-                GraphIosCard(
+                CupertinoStyleGraphCard(
                   graphChartType: GraphChartType.bar,
                   yAxis: state.yAxis,
                   graphType: GraphType.playsPerMonth,

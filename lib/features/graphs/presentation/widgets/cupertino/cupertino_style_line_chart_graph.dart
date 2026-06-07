@@ -11,11 +11,11 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../data/models/chart_data_model.dart';
 import '../../../data/models/graph_data_model.dart';
 
-class LineChartIosGraph extends StatelessWidget {
+class CupertinoStyleLineChartGraph extends StatelessWidget {
   final PlayMetricType yAxis;
   final GraphDataModel graphData;
 
-  const LineChartIosGraph({
+  const CupertinoStyleLineChartGraph({
     super.key,
     required this.yAxis,
     required this.graphData,

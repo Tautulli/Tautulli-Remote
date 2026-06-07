@@ -17,13 +17,13 @@ import '../../../data/models/chart_data_model.dart';
 import '../../../data/models/graph_data_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
 
-class BarChartIosGraph extends StatelessWidget {
+class CupertinoStyleBarChartGraph extends StatelessWidget {
   final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphDataModel graphData;
   final bool? isVertical;
 
-  const BarChartIosGraph({
+  const CupertinoStyleBarChartGraph({
     super.key,
     required this.yAxis,
     required this.graphType,

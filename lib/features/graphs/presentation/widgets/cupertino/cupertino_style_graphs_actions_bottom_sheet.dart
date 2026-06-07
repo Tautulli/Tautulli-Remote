@@ -13,11 +13,11 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/widgets/cupertino/dialogs/cupertino_style_users_load_issue_dialog.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 
-class GraphsActionsIosBottomSheet extends StatelessWidget {
+class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
   final int? userId;
   final PlayMetricType yAxis;
 
-  const GraphsActionsIosBottomSheet({
+  const CupertinoStyleGraphsActionsBottomSheet({
     super.key,
     required this.userId,
     required this.yAxis,

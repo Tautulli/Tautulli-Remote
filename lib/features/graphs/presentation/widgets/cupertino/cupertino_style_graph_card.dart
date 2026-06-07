@@ -11,18 +11,18 @@ import '../../../../../core/widgets/ios/cupertino_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/graph_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
-import 'bar_chart_ios_graph.dart';
-import 'graph_card_ios_legend.dart';
-import 'line_chart_ios_graph.dart';
+import 'cupertino_style_bar_chart_graph.dart';
+import 'cupertino_style_graph_card_legend.dart';
+import 'cupertino_style_line_chart_graph.dart';
 
-class GraphIosCard extends StatelessWidget {
+class CupertinoStyleGraphCard extends StatelessWidget {
   final GraphChartType graphChartType;
   final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphModel graph;
   final bool? isVertical;
 
-  const GraphIosCard({
+  const CupertinoStyleGraphCard({
     super.key,
     required this.graphChartType,
     required this.yAxis,
@@ -88,12 +88,12 @@ class GraphIosCard extends StatelessWidget {
                           if (containsData == true) {
                             switch (graphChartType) {
                               case (GraphChartType.line):
-                                return LineChartIosGraph(
+                                return CupertinoStyleLineChartGraph(
                                   yAxis: yAxis,
                                   graphData: graph.graphDataModel!,
                                 );
                               case (GraphChartType.bar):
-                                return BarChartIosGraph(
+                                return CupertinoStyleBarChartGraph(
                                   yAxis: yAxis,
                                   graphType: graphType,
                                   graphData: graph.graphDataModel!,
@@ -113,7 +113,7 @@ class GraphIosCard extends StatelessWidget {
                   ),
                 ),
                 if (graph.graphDataModel != null && containsData)
-                  GraphCardIosLegend(
+                  CupertinoStyleGraphCardLegend(
                     graphData: graph.graphDataModel!,
                   ),
               ],

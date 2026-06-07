@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/ios/heading_ios.dart';
 
-class GraphIosHeading extends StatelessWidget {
+class CupertinoStyleGraphHeading extends StatelessWidget {
   final String text;
 
-  const GraphIosHeading({
+  const CupertinoStyleGraphHeading({
     super.key,
     required this.text,
   });

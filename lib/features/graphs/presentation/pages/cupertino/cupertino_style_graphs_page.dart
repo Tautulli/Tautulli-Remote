@@ -17,19 +17,19 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/graphs_bloc.dart';
-import '../../widgets/ios/graph_tips_ios_dialog.dart';
-import '../../widgets/ios/graphs_actions_ios_bottom_sheet.dart';
-import '../../widgets/ios/media_type_graphs_ios_tab.dart';
-import '../../widgets/ios/play_totals_graphs_ios_tab.dart';
-import '../../widgets/ios/stream_type_graphs_ios_tab.dart';
-import '../../widgets/ios/y_axis_type_ios_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_graph_tips_dialog.dart';
+import '../../widgets/cupertino/cupertino_style_graphs_actions_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_media_type_graphs_tab.dart';
+import '../../widgets/cupertino/cupertino_style_play_totals_graphs_tab.dart';
+import '../../widgets/cupertino/cupertino_style_stream_type_graphs_tab.dart';
+import '../../widgets/cupertino/cupertino_style_y_axis_type_bottom_sheet.dart';
 
-class GraphsIosPage extends StatelessWidget {
+class CupertinoStyleGraphsPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const GraphsIosPage({
+  const CupertinoStyleGraphsPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -49,7 +49,7 @@ class GraphsIosPage extends StatelessWidget {
           create: (context) => di.sl<UsersBloc>(),
         ),
       ],
-      child: GraphsIosView(
+      child: CupertinoStyleGraphsView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
         refreshOnLoad: refreshOnLoad,
@@ -58,12 +58,12 @@ class GraphsIosPage extends StatelessWidget {
   }
 }
 
-class GraphsIosView extends StatefulWidget {
+class CupertinoStyleGraphsView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
   final bool refreshOnLoad;
 
-  const GraphsIosView({
+  const CupertinoStyleGraphsView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
@@ -71,10 +71,10 @@ class GraphsIosView extends StatefulWidget {
   });
 
   @override
-  State<GraphsIosView> createState() => _GraphsIosViewState();
+  State<CupertinoStyleGraphsView> createState() => _CupertinoStyleGraphsViewState();
 }
 
-class _GraphsIosViewState extends State<GraphsIosView> {
+class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
   late ServerModel _server;
   late int? _userId;
   late PlayMetricType _yAxis;
@@ -123,7 +123,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         return showCupertinoDialog(
           context: context,
-          builder: (context) => const GraphTipsIosDialog(),
+          builder: (context) => const CupertinoStyleGraphTipsDialog(),
         );
       });
       _settingsBloc.add(const SettingsUpdateGraphTipsShown(true));
@@ -203,7 +203,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
                         return Future.value();
                       },
                       scrollController: _mediaScrollController,
-                      sliver: const MediaTypeGraphsIosTab(),
+                      sliver: const CupertinoStyleMediaTypeGraphsTab(),
                     ),
                   ),
                   CupertinoScrollbar(
@@ -224,7 +224,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
                         return Future.value();
                       },
                       scrollController: _streamScrollController,
-                      sliver: const StreamTypeIosGraphsTab(),
+                      sliver: const CupertinoStyleStreamTypeGraphsTab(),
                     ),
                   ),
                   CupertinoScrollbar(
@@ -245,7 +245,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
                         return Future.value();
                       },
                       scrollController: _totalsScrollController,
-                      sliver: const PlayTotalsGraphsIosTab(),
+                      sliver: const CupertinoStylePlayTotalsGraphsTab(),
                     ),
                   ),
                 ],
@@ -365,7 +365,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
               context: context,
               builder: (_) => BlocProvider.value(
                 value: context.read<UsersBloc>(),
-                child: GraphsActionsIosBottomSheet(
+                child: CupertinoStyleGraphsActionsBottomSheet(
                   userId: _userId,
                   yAxis: _yAxis,
                 ),
@@ -403,7 +403,7 @@ class _GraphsIosViewState extends State<GraphsIosView> {
             if (result == 'yAxis') {
               final PlayMetricType? yAxis = await showCupertinoModalPopup(
                 context: context,
-                builder: (_) => YAxisTypeIosBottomSheet(
+                builder: (_) => CupertinoStyleYAxisTypeBottomSheet(
                   initialValue: _yAxis,
                 ),
               );

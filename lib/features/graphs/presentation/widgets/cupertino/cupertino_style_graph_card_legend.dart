@@ -10,10 +10,10 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/graph_data_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
 
-class GraphCardIosLegend extends StatelessWidget {
+class CupertinoStyleGraphCardLegend extends StatelessWidget {
   final GraphDataModel graphData;
 
-  const GraphCardIosLegend({
+  const CupertinoStyleGraphCardLegend({
     super.key,
     required this.graphData,
   });
