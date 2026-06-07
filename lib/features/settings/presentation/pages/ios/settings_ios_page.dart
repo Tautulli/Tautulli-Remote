@@ -58,7 +58,6 @@ class _SettingsIosViewState extends State<SettingsIosView> {
       middle: const Text(LocaleKeys.settings_title).tr(),
       child: Column(
         children: [
-          //TODO: Banners for update and onesignal issues
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;
@@ -67,7 +66,7 @@ class _SettingsIosViewState extends State<SettingsIosView> {
                 return const AppUpdateIosAlertCard();
               }
 
-              return const SizedBox();
+              return const SizedBox.shrink();
             },
           ),
           BlocBuilder<SettingsBloc, SettingsState>(
@@ -77,7 +76,7 @@ class _SettingsIosViewState extends State<SettingsIosView> {
                 return const OneSignalIosAlertCard();
               }
 
-              return const SizedBox();
+              return const SizedBox.shrink();
             },
           ),
           Expanded(
