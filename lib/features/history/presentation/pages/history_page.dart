@@ -208,7 +208,9 @@ class _HistoryViewState extends State<HistoryView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.history.length : state.history.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.history.length
+                          : state.history.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.history.length) {
@@ -318,13 +320,15 @@ class _HistoryViewState extends State<HistoryView> {
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
                     state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                    color: (_userId != -1 && _userId != null)
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
                   onSelected: (value) {
                     setState(() {
-                      _userId = value as int;
+                      _userId = value;
                     });
 
                     _historyBloc.add(
@@ -358,9 +362,13 @@ class _HistoryViewState extends State<HistoryView> {
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : user.friendlyName ?? '',
+                                  state.appSettings.maskSensitiveInfo
+                                      ? LocaleKeys.hidden_message.tr()
+                                      : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                                    color: _userId == user.userId!
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.onSurface,
                                   ),
                                 );
                               },
@@ -395,7 +403,9 @@ class _HistoryViewState extends State<HistoryView> {
           return PopupMenuButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,
-              color: _filterOptionSelected() ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              color: _filterOptionSelected()
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface,
               size: 20,
             ),
             tooltip: LocaleKeys.filter_history_title.tr(),
@@ -412,7 +422,13 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   bool _filterOptionSelected() {
-    return _movieMediaType || _episodeMediaType || _trackMediaType || _liveMediaType || _directPlayDecision || _directStreamDecision || _transcodeDecision;
+    return _movieMediaType ||
+        _episodeMediaType ||
+        _trackMediaType ||
+        _liveMediaType ||
+        _directPlayDecision ||
+        _directStreamDecision ||
+        _transcodeDecision;
   }
 
   List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {

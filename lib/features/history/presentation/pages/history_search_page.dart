@@ -103,7 +103,10 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                 return ListView.separated(
                   controller: _scrollController,
                   padding: const EdgeInsets.all(8),
-                  itemCount: searchState.hasReachedMax || searchState.status == BlocStatus.initial || searchState.status == BlocStatus.inProgress
+                  itemCount:
+                      searchState.hasReachedMax ||
+                          searchState.status == BlocStatus.initial ||
+                          searchState.status == BlocStatus.inProgress
                       ? searchState.history.length
                       : searchState.history.length + 1,
                   separatorBuilder: (context, index) => const Gap(8),
@@ -210,7 +213,9 @@ class _HistorySearchViewState extends State<HistorySearchView> {
               child: IconButton(
                 icon: FaIcon(
                   FontAwesomeIcons.xmark,
-                  color: isNotEmpty(_textController.text) ? Theme.of(context).colorScheme.onSurface : Colors.transparent,
+                  color: isNotEmpty(_textController.text)
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Colors.transparent,
                   size: 20,
                 ),
                 onPressed: isNotEmpty(_textController.text)
@@ -242,21 +247,21 @@ class _HistorySearchViewState extends State<HistorySearchView> {
           onSubmitted: (value) {
             if (isNotBlank(value)) {
               context.read<SearchHistoryBloc>().add(
-                    SearchHistoryFetched(
-                      server: settingsState.appSettings.activeServer,
-                      userId: _userId,
-                      movieMediaType: _movieMediaType,
-                      episodeMediaType: _episodeMediaType,
-                      trackMediaType: _trackMediaType,
-                      liveMediaType: _liveMediaType,
-                      directPlayDecision: _directPlayDecision,
-                      directStreamDecision: _directStreamDecision,
-                      transcodeDecision: _transcodeDecision,
-                      search: value,
-                      freshFetch: true,
-                      settingsBloc: context.read<SettingsBloc>(),
-                    ),
-                  );
+                SearchHistoryFetched(
+                  server: settingsState.appSettings.activeServer,
+                  userId: _userId,
+                  movieMediaType: _movieMediaType,
+                  episodeMediaType: _episodeMediaType,
+                  trackMediaType: _trackMediaType,
+                  liveMediaType: _liveMediaType,
+                  directPlayDecision: _directPlayDecision,
+                  directStreamDecision: _directStreamDecision,
+                  transcodeDecision: _transcodeDecision,
+                  search: value,
+                  freshFetch: true,
+                  settingsBloc: context.read<SettingsBloc>(),
+                ),
+              );
             }
           },
         );
@@ -275,13 +280,15 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
                     state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                    color: (_userId != -1)
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
                   onSelected: (value) {
                     setState(() {
-                      _userId = value as int;
+                      _userId = value;
                     });
 
                     if (isNotBlank(_textController.text)) {
@@ -317,9 +324,13 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : user.friendlyName ?? '',
+                                  state.appSettings.maskSensitiveInfo
+                                      ? LocaleKeys.hidden_message.tr()
+                                      : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                                    color: _userId == user.userId!
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.onSurface,
                                   ),
                                 );
                               },
@@ -354,7 +365,9 @@ class _HistorySearchViewState extends State<HistorySearchView> {
           return PopupMenuButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,
-              color: _filterOptionSelected() ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              color: _filterOptionSelected()
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface,
               size: 20,
             ),
             tooltip: LocaleKeys.filter_history_title.tr(),
@@ -371,7 +384,13 @@ class _HistorySearchViewState extends State<HistorySearchView> {
   }
 
   bool _filterOptionSelected() {
-    return _movieMediaType || _episodeMediaType || _trackMediaType || _liveMediaType || _directPlayDecision || _directStreamDecision || _transcodeDecision;
+    return _movieMediaType ||
+        _episodeMediaType ||
+        _trackMediaType ||
+        _liveMediaType ||
+        _directPlayDecision ||
+        _directStreamDecision ||
+        _transcodeDecision;
   }
 
   List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {
