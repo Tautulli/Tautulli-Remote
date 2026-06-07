@@ -8,7 +8,7 @@ import '../../../features/announcements/presentation/bloc/announcements_bloc.dar
 import '../../../features/changelog/presentation/pages/ios/changelog_ios_page.dart';
 import '../../../features/history/presentation/pages/ios/history_ios_page.dart';
 import '../../../features/libraries/presentation/pages/ios/libraries_ios_page.dart';
-import '../../../features/more/presentation/pages/more_ios_page.dart';
+import '../../../features/more/presentation/pages/cupertino/cupertino_style_more_page.dart';
 import '../../../features/recently_added/presentation/pages/cupertino/cupertino_style_recently_added_page.dart';
 import '../../../features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
 import '../../../translations/locale_keys.g.dart';
@@ -105,7 +105,7 @@ class _TabScaffoldCupertinoState extends State<TabScaffoldCupertino> {
           return CupertinoTabView(
             routes: cupertinoRoutes,
             navigatorKey: moreTabNavigatorKey,
-            builder: (context) => const MoreIosPage(),
+            builder: (context) => const CupertinoStyleMorePage(),
           );
         }
 

@@ -2,38 +2,38 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/global_keys/global_keys.dart';
-import '../../../../core/helpers/theme_helper.dart';
-import '../../../../core/widgets/ios/custom_cupertino_list_section.dart';
-import '../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
-import '../../../../core/widgets/ios/page_scaffold_cupertino.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../announcements/presentation/bloc/announcements_bloc.dart';
-import '../../../announcements/presentation/pages/ios/announcements_ios_page.dart';
-import '../../../donate/presentation/pages/ios/donate_ios_page.dart';
-import '../../../graphs/presentation/pages/ios/graphs_ios_page.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../settings/presentation/pages/cupertino/cupertino_style_settings_page.dart';
-import '../../../statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
-import '../../../users/presentation/pages/cupertino/cupertino_style_users_page.dart';
+import '../../../../../core/global_keys/global_keys.dart';
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/widgets/ios/custom_cupertino_list_section.dart';
+import '../../../../../core/widgets/ios/custom_notched_cupertino_list_tile.dart';
+import '../../../../../core/widgets/ios/page_scaffold_cupertino.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
+import '../../../../announcements/presentation/pages/ios/announcements_ios_page.dart';
+import '../../../../donate/presentation/pages/ios/donate_ios_page.dart';
+import '../../../../graphs/presentation/pages/ios/graphs_ios_page.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../settings/presentation/pages/cupertino/cupertino_style_settings_page.dart';
+import '../../../../statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
+import '../../../../users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 
-class MoreIosPage extends StatelessWidget {
-  const MoreIosPage({super.key});
+class CupertinoStyleMorePage extends StatelessWidget {
+  const CupertinoStyleMorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MoreIosView();
+    return const CupertinoStyleMoreView();
   }
 }
 
-class MoreIosView extends StatefulWidget {
-  const MoreIosView({super.key});
+class CupertinoStyleMoreView extends StatefulWidget {
+  const CupertinoStyleMoreView({super.key});
 
   @override
-  State<MoreIosView> createState() => _MoreIosViewState();
+  State<CupertinoStyleMoreView> createState() => _CupertinoStyleMoreViewState();
 }
 
-class _MoreIosViewState extends State<MoreIosView> {
+class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
   String? _currentRoute;
 
   @override
