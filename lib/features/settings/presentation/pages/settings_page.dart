@@ -45,7 +45,8 @@ class _SettingsViewState extends State<SettingsView> {
 
     return ScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.settings_title).tr(),
-      body: Column(
+      body: ListView(
+        padding: const EdgeInsets.all(8.0),
         children: [
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
@@ -60,29 +61,23 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
-              if (state is SettingsSuccess && (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
+              if (state is SettingsSuccess &&
+                  (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
                 return const SettingsAlertBanner();
               }
 
               return const SizedBox(height: 0, width: 0);
             },
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(8.0),
-              children: const [
-                ServersGroup(),
-                Gap(8),
-                RegisterServerButton(),
-                Gap(8),
-                AppSettingsGroup(),
-                Gap(8),
-                HelpAndSupportGroup(),
-                Gap(8),
-                MoreGroup(),
-              ],
-            ),
-          ),
+          const ServersGroup(),
+          const Gap(8),
+          const RegisterServerButton(),
+          const Gap(8),
+          const AppSettingsGroup(),
+          const Gap(8),
+          const HelpAndSupportGroup(),
+          const Gap(8),
+          const MoreGroup(),
         ],
       ),
     );

@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
+import '../../widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
 import '../../widgets/cupertino/cupertino_style_app_update_alert_card.dart';
+import '../../widgets/cupertino/cupertino_style_onesignal_alert_card.dart';
 import '../../widgets/cupertino/groups/cupertino_style_about_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_app_settings_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_help_and_support_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_more_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_servers_group.dart';
-import '../../widgets/cupertino/cupertino_style_onesignal_alert_card.dart';
-import '../../widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
 
 class CupertinoStyleSettingsPage extends StatelessWidget {
   final bool showBackButton;
@@ -56,7 +56,7 @@ class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView>
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.settings_title).tr(),
-      child: Column(
+      child: ListView(
         children: [
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
@@ -79,18 +79,12 @@ class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView>
               return const SizedBox.shrink();
             },
           ),
-          Expanded(
-            child: ListView(
-              children: const [
-                CupertinoStyleServersGroup(),
-                CupertinoStyleRegisterServerButton(),
-                CupertinoStyleAppSettingsGroup(),
-                CupertinoStyleHelpAndSupportGroup(),
-                CupertinoStyleMoreGroup(),
-                CupertinoStyleAboutGroup(),
-              ],
-            ),
-          ),
+          const CupertinoStyleServersGroup(),
+          const CupertinoStyleRegisterServerButton(),
+          const CupertinoStyleAppSettingsGroup(),
+          const CupertinoStyleHelpAndSupportGroup(),
+          const CupertinoStyleMoreGroup(),
+          const CupertinoStyleAboutGroup(),
         ],
       ),
     );
