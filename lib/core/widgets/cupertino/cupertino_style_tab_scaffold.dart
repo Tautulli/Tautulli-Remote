@@ -39,7 +39,7 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
           context: context,
           useNestedNavigation: true,
           enableDrag: false,
-          builder: (context) => const CupertinoStyleWizardPage(),
+          scrollableBuilder: (context, scrollController) => const CupertinoStyleWizardPage(),
         );
       } else if (route == '/changelog') {
         await navigatorKey.currentState?.push(
