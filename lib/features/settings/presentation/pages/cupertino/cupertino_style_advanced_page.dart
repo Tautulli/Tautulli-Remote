@@ -6,11 +6,11 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/cupertino/groups/cupertino_style_advanced_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_operations_group.dart';
 
-class CupertinoAdvancedPage extends StatelessWidget {
+class CupertinoStyleAdvancedPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const CupertinoAdvancedPage({
+  const CupertinoStyleAdvancedPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
@@ -18,18 +18,18 @@ class CupertinoAdvancedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoAdvancedView(
+    return CupertinoStyleAdvancedView(
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
     );
   }
 }
 
-class CupertinoAdvancedView extends StatelessWidget {
+class CupertinoStyleAdvancedView extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
-  const CupertinoAdvancedView({
+  const CupertinoStyleAdvancedView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
