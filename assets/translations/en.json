@@ -122,7 +122,7 @@
     "error_message_certificate_expired": "TLS/SSL Certificate is Expired",
     "error_message_certificate_verification": "Certificate verification failed",
     "error_message_connection": "No network connectivity",
-    "error_message_database_init": "Failed to initalize database",
+    "error_message_database_init": "Failed to initialize database",
     "error_message_generic": "Unknown error",
     "error_message_invalid_api_key": "Invalid Device Token",
     "error_message_no_servers": "No servers are configured",
