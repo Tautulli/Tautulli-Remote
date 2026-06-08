@@ -18,12 +18,12 @@ import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/cupertino/cupertino_style_activity_page.dart';
 import 'features/activity/presentation/pages/material/material_style_activity_page.dart';
-import 'features/announcements/presentation/pages/material/material_style_announcements_page.dart';
 import 'features/announcements/presentation/pages/cupertino/cupertino_style_announcements_page.dart';
-import 'features/changelog/presentation/pages/material/material_style_changelog_page.dart';
+import 'features/announcements/presentation/pages/material/material_style_announcements_page.dart';
 import 'features/changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
+import 'features/changelog/presentation/pages/material/material_style_changelog_page.dart';
 import 'features/donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
-import 'features/donate/presentation/pages/donate_page.dart';
+import 'features/donate/presentation/pages/material/material_style_donate_page.dart';
 import 'features/graphs/presentation/pages/cupertino/cupertino_style_graphs_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
@@ -51,7 +51,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleActivityPage.routeName: (_) => const MaterialStyleActivityPage(),
   MaterialStyleAnnouncementsPage.routeName: (_) => const MaterialStyleAnnouncementsPage(),
   MaterialStyleChangelogPage.routeName: (_) => const MaterialStyleChangelogPage(),
-  DonatePage.routeName: (_) => const DonatePage(),
+  MaterialStyleDonatePage.routeName: (_) => const MaterialStyleDonatePage(),
   GraphsPage.routeName: (_) => const GraphsPage(),
   HistoryPage.routeName: (_) => const HistoryPage(),
   HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),

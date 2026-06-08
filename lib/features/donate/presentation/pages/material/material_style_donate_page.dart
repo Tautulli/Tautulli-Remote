@@ -6,20 +6,20 @@ import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/device_info/device_info.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/widgets/custom_list_tile.dart';
-import '../../../../core/widgets/list_tile_group.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../widgets/donate_heading_card.dart';
+import '../../../../../core/device_info/device_info.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../widgets/material/material_style_donate_heading_card.dart';
 
-class DonatePage extends StatelessWidget {
+class MaterialStyleDonatePage extends StatelessWidget {
   final bool showDrawer;
 
-  const DonatePage({
+  const MaterialStyleDonatePage({
     super.key,
     this.showDrawer = true,
   });
@@ -31,7 +31,7 @@ class DonatePage extends StatelessWidget {
     if (showDrawer) {
       return ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.donate_title).tr(),
-        body: const DonateView(),
+        body: const MaterialStyleDonateView(),
       );
     } else {
       return Scaffold(
@@ -40,21 +40,21 @@ class DonatePage extends StatelessWidget {
           title: const Text(LocaleKeys.donate_title).tr(),
         ),
         body: const PageBody(
-          child: DonateView(),
+          child: MaterialStyleDonateView(),
         ),
       );
     }
   }
 }
 
-class DonateView extends StatefulWidget {
-  const DonateView({super.key});
+class MaterialStyleDonateView extends StatefulWidget {
+  const MaterialStyleDonateView({super.key});
 
   @override
-  State<DonateView> createState() => _DonateViewState();
+  State<MaterialStyleDonateView> createState() => _MaterialStyleDonateViewState();
 }
 
-class _DonateViewState extends State<DonateView> {
+class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
   CustomerInfo? _customerInfo;
   Offerings? _offerings;
 
@@ -148,7 +148,8 @@ class _DonateViewState extends State<DonateView> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          const DonateHeadingCard(),
+          const MaterialStyleDonateHeadingCard(),
+          const Gap(8),
           Expanded(
             child: _offerings == null
                 ? Center(
@@ -204,10 +205,9 @@ class _DonateViewState extends State<DonateView> {
                             ),
                           ),
                           CustomListTile(
-                            leading: Icon(
-                              Icons.fastfood_rounded,
+                            leading: FaIcon(
+                              FontAwesomeIcons.utensils,
                               color: Theme.of(context).colorScheme.onSurface,
-                              size: 26,
                             ),
                             title: LocaleKeys.donate_meal_title.tr(),
                             subtitle: _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,

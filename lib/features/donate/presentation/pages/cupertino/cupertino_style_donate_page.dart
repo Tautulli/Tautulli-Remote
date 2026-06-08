@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -197,9 +196,10 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                             ),
                             CupertinoStyleNotchedCupertinoListTile(
-                              leading: Icon(
-                                Icons.fastfood_rounded,
+                              leading: FaIcon(
+                                FontAwesomeIcons.utensils,
                                 color: ThemeHelper.cupertinoListTileIconColor(),
+                                size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
                               titleText: LocaleKeys.donate_meal_title.tr(),
