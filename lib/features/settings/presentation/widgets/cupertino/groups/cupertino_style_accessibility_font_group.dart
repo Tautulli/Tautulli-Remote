@@ -42,7 +42,7 @@ class CupertinoStyleAccessibilityFontGroup extends StatelessWidget {
                   );
                 },
               ),
-              titleText: 'Atkinson Hyperlegible',
+              titleText: 'Atkinson Hyperlegible Next',
             );
           },
         ),

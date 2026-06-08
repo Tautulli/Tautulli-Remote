@@ -179,7 +179,7 @@ class _MaterialFramework extends StatelessWidget {
         theme: theme,
         color: (themeUseSystemColor && defaultTargetPlatform.supportsAccentColor) ? systemColor : themeCustomColor,
         enhancement: themeEnhancement,
-        fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
+        fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible Next' : null,
       ),
       builder: (context, child) {
         return BlocBuilder<SettingsBloc, SettingsState>(
@@ -230,7 +230,7 @@ class _CupertinoFramework extends StatelessWidget {
         theme: theme,
         color: (themeUseSystemColor && defaultTargetPlatform.supportsAccentColor) ? systemColor : themeCustomColor,
         enhancement: themeEnhancement,
-        fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
+        fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible Next' : null,
       ),
       builder: (context, child) {
         return BlocBuilder<SettingsBloc, SettingsState>(
@@ -238,7 +238,7 @@ class _CupertinoFramework extends StatelessWidget {
             // CupertinoTheme does not support a fontName like MaterialTheme. As a result we need to edit the CupertinoTheme and use that to change the Cupertino widgets and the DefaultTextStyle below.
             CupertinoThemeData theme = CupertinoTheme.of(context);
             final fontFamily = GoogleFonts.getFont(
-              useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : 'Open Sans',
+              useAtkinsonHyperLegible ? 'Atkinson Hyperlegible Next' : 'Open Sans',
             ).fontFamily;
             final cupertinoTheme = theme.copyWith(
               textTheme: theme.textTheme.copyWith(

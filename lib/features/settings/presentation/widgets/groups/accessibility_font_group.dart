@@ -26,13 +26,13 @@ class AccessibilityFontGroup extends StatelessWidget {
                 FontAwesomeIcons.font,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-              title: 'Atkinson Hyperlegible',
+              title: 'Atkinson Hyperlegible Next',
               value: useAtkinsonHyperlegible,
               onChanged: (value) {
                 if (value != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateUseAtkinsonHyperlegible(value),
-                      );
+                    SettingsUpdateUseAtkinsonHyperlegible(value),
+                  );
                 }
               },
             );
