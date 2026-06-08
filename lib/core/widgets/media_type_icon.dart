@@ -16,7 +16,7 @@ class MediaTypeIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = IconHelper.mapMediaTypeToIcon(mediaType);
+    final icon = IconHelper.mapMediaTypeToFaIcon(mediaType);
 
     FaIcon buildMediaIcon(double size) {
       return FaIcon(

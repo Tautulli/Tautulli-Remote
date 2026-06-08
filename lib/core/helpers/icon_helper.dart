@@ -5,7 +5,7 @@ import '../painters/quarter_circle_progress_painter.dart';
 import '../types/tautulli_types.dart';
 
 class IconHelper {
-  static IconData mapStateToIcon(String state) {
+  static FaIconData mapStateToFaIcon(String state) {
     switch (state) {
       case 'paused':
         return FontAwesomeIcons.circlePause;
@@ -20,7 +20,7 @@ class IconHelper {
     }
   }
 
-  static IconData mapMediaTypeToIcon(MediaType? mediaType) {
+  static FaIconData mapMediaTypeToFaIcon(MediaType? mediaType) {
     switch (mediaType) {
       case (MediaType.movie):
         return FontAwesomeIcons.film;
@@ -44,7 +44,7 @@ class IconHelper {
     }
   }
 
-  static IconData mapTranscodeDecisionToIcon(StreamDecision? transcodeDecision) {
+  static FaIconData mapTranscodeDecisionToFaIcon(StreamDecision? transcodeDecision) {
     switch (transcodeDecision) {
       case (StreamDecision.transcode):
         return FontAwesomeIcons.server;
@@ -76,12 +76,12 @@ class IconHelper {
                   quarterCircleProgress: watchedStatus == WatchedStatus.empty
                       ? QuarterCircleProgress.empty
                       : watchedStatus == WatchedStatus.quarter
-                          ? QuarterCircleProgress.quarter
-                          : watchedStatus == WatchedStatus.half
-                              ? QuarterCircleProgress.twoquarter
-                              : watchedStatus == WatchedStatus.threeQuarter
-                                  ? QuarterCircleProgress.threequarter
-                                  : QuarterCircleProgress.full,
+                      ? QuarterCircleProgress.quarter
+                      : watchedStatus == WatchedStatus.half
+                      ? QuarterCircleProgress.twoquarter
+                      : watchedStatus == WatchedStatus.threeQuarter
+                      ? QuarterCircleProgress.threequarter
+                      : QuarterCircleProgress.full,
                   color: color,
                 ),
               ),
