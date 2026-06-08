@@ -1097,7 +1097,27 @@ static const Map<String,dynamic> _hu = {
   "play_time_by_top_10_platforms": "Játékidő a 10 legaktívabb platformon",
   "play_time_by_top_10_users": "A 10 legaktívabb felhasználó játékideje",
   "play_time_by_user_stream_type": "Játékidő felhasználói stream típusa szerint",
-  "player_stats_title": "Lejátszási statisztika"
+  "player_stats_title": "Lejátszási statisztika",
+  "back_title": "Vissza",
+  "clear_filters_title": "Szűrők törlése",
+  "dismiss_button": "ELUTASÍTÁS",
+  "dismiss_title": "Elutasítás",
+  "error_title": "Hiba",
+  "exit_title": "Kilépés",
+  "failed_users_fetch_message": "A felhasználói lista betöltése nem sikerült.",
+  "filter_logs_title": "Naplófájlok szűrése",
+  "filter_user_title": "Felhasználók szűrése",
+  "finish_title": "Befejezés",
+  "graphs_action_title": "Grafikon művelet",
+  "next_title": "Következő",
+  "sort_libraries_title": "Könyvtárak rendezése",
+  "styles_title": "Stílusok",
+  "waiting_for_wizard_message": "Várakozás a telepítő varázsló befejezésére",
+  "wizard_closing_styles": "A Beállítások > Megjelenés menüpontban válthat a Material és a Cupertino alkalmazásstílusok között.",
+  "wizard_error_suggestion": "Hiba történt. Kérjük, jelentse ezt a hibát, majd kattintson a gombra, lépjen ki, és végezze el a beállítást kézzel.",
+  "wizard_error_title": "Telepítő hiba",
+  "edit_basic_authentication_header_title": "Alapvető hitelesítési fejléc szerkesztése",
+  "edit_custom_header_title": "Egyéni fejléc szerkesztése"
 };
 static const Map<String,dynamic> _nl = {
   "about_legalese": "Gelicenseerd onder de GNU General Public License v3.0",
@@ -2917,7 +2937,7 @@ static const Map<String,dynamic> _en = {
   "error_message_certificate_expired": "TLS/SSL Certificate is Expired",
   "error_message_certificate_verification": "Certificate verification failed",
   "error_message_connection": "No network connectivity",
-  "error_message_database_init": "Failed to initalize database",
+  "error_message_database_init": "Failed to initialize database",
   "error_message_generic": "Unknown error",
   "error_message_invalid_api_key": "Invalid Device Token",
   "error_message_no_servers": "No servers are configured",
@@ -4021,7 +4041,10 @@ static const Map<String,dynamic> _fr = {
   "total_title": "Total",
   "home_page_title": "Page d'accueil",
   "max_concurrent_title": "flux simultanés maximum",
-  "daily_concurrent_stream_count_by_stream_type_title": "Nombre quotidien de flux simultanés par type de flux"
+  "daily_concurrent_stream_count_by_stream_type_title": "Nombre quotidien de flux simultanés par type de flux",
+  "back_title": "Retour",
+  "appearance_title": "Apparence",
+  "clear_filters_title": "Effacer les filtres"
 };
 static const Map<String,dynamic> _el = {
   "activity_title": "Δραστηριότητα",
