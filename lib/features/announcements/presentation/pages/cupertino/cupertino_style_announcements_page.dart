@@ -7,7 +7,7 @@ import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/announcements_bloc.dart';
-import '../../widgets/ios/cupertino_style_announcement_card.dart';
+import '../../widgets/cupertino/cupertino_style_announcement_card.dart';
 
 class CupertinoStyleAnnouncementsPage extends StatelessWidget {
   final bool showBackButton;

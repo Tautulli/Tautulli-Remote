@@ -5,15 +5,15 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/announcement_model.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/announcement_model.dart';
 
-class AnnouncementCard extends StatelessWidget {
+class MaterialStyleAnnouncementCard extends StatelessWidget {
   final AnnouncementModel announcement;
   final int lastReadAnnouncementId;
 
-  const AnnouncementCard({
+  const MaterialStyleAnnouncementCard({
     super.key,
     required this.announcement,
     required this.lastReadAnnouncementId,

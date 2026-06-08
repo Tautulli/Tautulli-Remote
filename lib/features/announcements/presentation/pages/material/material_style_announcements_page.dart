@@ -3,32 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/announcements_bloc.dart';
-import '../widgets/announcement_card.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../bloc/announcements_bloc.dart';
+import '../../widgets/material/material_style_announcement_card.dart';
 
-class AnnouncementsView extends StatelessWidget {
-  const AnnouncementsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const AnnouncementsPage();
-  }
-}
-
-class AnnouncementsPage extends StatefulWidget {
-  const AnnouncementsPage({super.key});
+class MaterialStyleAnnouncementsPage extends StatelessWidget {
+  const MaterialStyleAnnouncementsPage({super.key});
 
   static const routeName = '/announcements';
 
   @override
-  State<AnnouncementsPage> createState() => _AnnouncementsPageState();
+  Widget build(BuildContext context) {
+    return const MaterialStyleAnnouncementsView();
+  }
 }
 
-class _AnnouncementsPageState extends State<AnnouncementsPage> {
+class MaterialStyleAnnouncementsView extends StatefulWidget {
+  const MaterialStyleAnnouncementsView({super.key});
+
+  @override
+  State<MaterialStyleAnnouncementsView> createState() => _MaterialStyleAnnouncementsViewState();
+}
+
+class _MaterialStyleAnnouncementsViewState extends State<MaterialStyleAnnouncementsView> {
   @override
   void initState() {
     super.initState();
@@ -40,8 +40,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
           final currentState = announcementsBloc.state as AnnouncementsSuccess;
           if (currentState.unread) {
             context.read<AnnouncementsBloc>().add(
-                  AnnouncementsMarkRead(),
-                );
+              AnnouncementsMarkRead(),
+            );
           }
         }
       },
@@ -62,7 +62,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 separatorBuilder: (context, index) => const Gap(8),
                 itemBuilder: (context, index) {
                   final announcement = state.filteredList[index];
-                  return AnnouncementCard(
+                  return MaterialStyleAnnouncementCard(
                     announcement: announcement,
                     lastReadAnnouncementId: state.lastReadAnnouncementId,
                   );
