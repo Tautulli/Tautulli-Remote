@@ -13,7 +13,4 @@ CustomHeaderModel _$CustomHeaderModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$CustomHeaderModelToJson(CustomHeaderModel instance) =>
-    <String, dynamic>{
-      'key': instance.key,
-      'value': instance.value,
-    };
+    <String, dynamic>{'key': instance.key, 'value': instance.value};

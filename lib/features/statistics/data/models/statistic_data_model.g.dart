@@ -6,46 +6,47 @@ part of 'statistic_data_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-StatisticDataModel _$StatisticDataModelFromJson(Map<String, dynamic> json) =>
-    StatisticDataModel(
-      art: Cast.castToString(json['art']),
-      count: Cast.castToInt(json['count']),
-      friendlyName: Cast.castToString(json['friendly_name']),
-      grandchildTitle: Cast.castToString(json['grandchild_title']),
-      grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
-      grandparentThumb: Cast.castToString(json['grandparent_thumb']),
-      grandparentTitle: Cast.castToString(json['grandparent_title']),
-      iconUri:
-          json['iconUri'] == null ? null : Uri.parse(json['iconUri'] as String),
-      lastPlay: StatisticDataModel.dateTimeFromEpochSeconds(json['last_play']),
-      lastWatch:
-          StatisticDataModel.dateTimeFromEpochSeconds(json['last_watch']),
-      mediaIndex: Cast.castToInt(json['media_index']),
-      mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
-      parentMediaIndex: Cast.castToInt(json['parent_media_index']),
-      platform: Cast.castToString(json['platform']),
-      platformName: Cast.castToString(json['platform_name']),
-      posterUri: json['posterUri'] == null
-          ? null
-          : Uri.parse(json['posterUri'] as String),
-      ratingKey: Cast.castToInt(json['rating_key']),
-      rowId: Cast.castToInt(json['row_id']),
-      sectionId: Cast.castToInt(json['section_id']),
-      sectionName: Cast.castToString(json['section_name']),
-      sectionType:
-          Cast.castStringToSectionType(json['section_type'] as String?),
-      started: StatisticDataModel.dateTimeFromEpochSeconds(json['started']),
-      thumb: Cast.castToString(json['thumb']),
-      title: Cast.castToString(json['title']),
-      totalDuration:
-          StatisticDataModel.durationFromJson(json['total_duration'] as int?),
-      totalPlays: Cast.castToInt(json['total_plays']),
-      user: Cast.castToString(json['user']),
-      userId: Cast.castToInt(json['user_id']),
-      usersWatched: Cast.castToInt(json['users_watched']),
-      userThumb: Cast.castToString(json['user_thumb']),
-      year: Cast.castToInt(json['year']),
-    );
+StatisticDataModel _$StatisticDataModelFromJson(
+  Map<String, dynamic> json,
+) => StatisticDataModel(
+  art: Cast.castToString(json['art']),
+  count: Cast.castToInt(json['count']),
+  friendlyName: Cast.castToString(json['friendly_name']),
+  grandchildTitle: Cast.castToString(json['grandchild_title']),
+  grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
+  grandparentThumb: Cast.castToString(json['grandparent_thumb']),
+  grandparentTitle: Cast.castToString(json['grandparent_title']),
+  iconUri: json['iconUri'] == null
+      ? null
+      : Uri.parse(json['iconUri'] as String),
+  lastPlay: StatisticDataModel.dateTimeFromEpochSeconds(json['last_play']),
+  lastWatch: StatisticDataModel.dateTimeFromEpochSeconds(json['last_watch']),
+  mediaIndex: Cast.castToInt(json['media_index']),
+  mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
+  parentMediaIndex: Cast.castToInt(json['parent_media_index']),
+  platform: Cast.castToString(json['platform']),
+  platformName: Cast.castToString(json['platform_name']),
+  posterUri: json['posterUri'] == null
+      ? null
+      : Uri.parse(json['posterUri'] as String),
+  ratingKey: Cast.castToInt(json['rating_key']),
+  rowId: Cast.castToInt(json['row_id']),
+  sectionId: Cast.castToInt(json['section_id']),
+  sectionName: Cast.castToString(json['section_name']),
+  sectionType: Cast.castStringToSectionType(json['section_type'] as String?),
+  started: StatisticDataModel.dateTimeFromEpochSeconds(json['started']),
+  thumb: Cast.castToString(json['thumb']),
+  title: Cast.castToString(json['title']),
+  totalDuration: StatisticDataModel.durationFromJson(
+    (json['total_duration'] as num?)?.toInt(),
+  ),
+  totalPlays: Cast.castToInt(json['total_plays']),
+  user: Cast.castToString(json['user']),
+  userId: Cast.castToInt(json['user_id']),
+  usersWatched: Cast.castToInt(json['users_watched']),
+  userThumb: Cast.castToString(json['user_thumb']),
+  year: Cast.castToInt(json['year']),
+);
 
 Map<String, dynamic> _$StatisticDataModelToJson(StatisticDataModel instance) =>
     <String, dynamic>{

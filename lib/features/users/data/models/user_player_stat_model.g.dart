@@ -17,12 +17,12 @@ UserPlayerStatModel _$UserPlayerStatModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UserPlayerStatModelToJson(
-        UserPlayerStatModel instance) =>
-    <String, dynamic>{
-      'platform': instance.platform,
-      'platform_name': instance.platformName,
-      'player_name': instance.playerName,
-      'result_id': instance.resultId,
-      'total_plays': instance.totalPlays,
-      'total_time': instance.totalTime,
-    };
+  UserPlayerStatModel instance,
+) => <String, dynamic>{
+  'platform': instance.platform,
+  'platform_name': instance.platformName,
+  'player_name': instance.playerName,
+  'result_id': instance.resultId,
+  'total_plays': instance.totalPlays,
+  'total_time': instance.totalTime,
+};

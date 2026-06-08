@@ -10,7 +10,8 @@ GraphDataModel _$GraphDataModelFromJson(Map<String, dynamic> json) =>
     GraphDataModel(
       categories: GraphDataModel.stringListfromList(json['categories'] as List),
       seriesDataList: GraphDataModel.graphSeriesDataModelFromJsonList(
-          json['series'] as List),
+        json['series'] as List,
+      ),
     );
 
 Map<String, dynamic> _$GraphDataModelToJson(GraphDataModel instance) =>

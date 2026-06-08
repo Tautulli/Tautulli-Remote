@@ -11,7 +11,7 @@ AnnouncementModel _$AnnouncementModelFromJson(Map<String, dynamic> json) =>
       actionUrl: json['actionUrl'] as String?,
       body: json['body'] as String,
       date: json['date'] as String,
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       platform: AnnouncementModel.castToPlatform(json['platform'] as String?),
       title: json['title'] as String,
     );

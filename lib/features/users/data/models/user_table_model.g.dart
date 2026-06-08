@@ -21,8 +21,9 @@ UserTableModel _$UserTableModelFromJson(Map<String, dynamic> json) =>
       isActive: Cast.castToBool(json['is_active']),
       keepHistory: Cast.castToBool(json['keep_history']),
       lastPlayed: Cast.castToString(json['last_played']),
-      lastSeen:
-          UserTableModel.dateTimeFromEpochSeconds(json['last_seen'] as int?),
+      lastSeen: UserTableModel.dateTimeFromEpochSeconds(
+        (json['last_seen'] as num?)?.toInt(),
+      ),
       live: Cast.castToBool(json['live']),
       mediaIndex: Cast.castToInt(json['media_index']),
       mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
@@ -36,7 +37,8 @@ UserTableModel _$UserTableModelFromJson(Map<String, dynamic> json) =>
       rowId: Cast.castToInt(json['row_id']),
       thumb: Cast.castToString(json['thumb']),
       transcodeDecision: Cast.castStringToStreamDecision(
-          json['transcode_decision'] as String?),
+        json['transcode_decision'] as String?,
+      ),
       userId: Cast.castToInt(json['user_id']),
       userThumb: Cast.castToString(json['user_thumb']),
       year: Cast.castToInt(json['year']),
