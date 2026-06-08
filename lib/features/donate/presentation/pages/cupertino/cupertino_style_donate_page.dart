@@ -83,15 +83,17 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
     try {
       if (_customerInfo!.activeSubscriptions.isNotEmpty) {
         String activeSku = _customerInfo!.activeSubscriptions[0];
-        _customerInfo = await Purchases.purchasePackage(
-          package,
-          googleProductChangeInfo: GoogleProductChangeInfo(activeSku),
-        );
+        _customerInfo = (await Purchases.purchase(
+          PurchaseParams.package(
+            package,
+            productChangeInfo: StoreProductChangeInfo(activeSku),
+          ),
+        )).customerInfo;
         setState(() {
           _customerInfo!.activeSubscriptions.remove(activeSku);
         });
       } else {
-        _customerInfo = await Purchases.purchasePackage(package);
+        _customerInfo = (await Purchases.purchase(PurchaseParams.package(package))).customerInfo;
       }
       setState(() {
         _customerInfo!.activeSubscriptions.add(package.identifier);
