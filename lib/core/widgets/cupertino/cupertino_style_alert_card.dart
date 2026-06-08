@@ -30,7 +30,7 @@ class CupertinoStyleAlertCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                if (leading != null) leading!,
+                ?leading,
                 if (leading != null) const Gap(16),
                 Expanded(
                   child: Column(

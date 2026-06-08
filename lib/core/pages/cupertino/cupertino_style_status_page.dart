@@ -47,7 +47,7 @@ class CupertinoStyleStatusPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   if (action != null) const Gap(16),
-                  if (action != null) action!,
+                  ?action,
                 ],
               ),
             ),

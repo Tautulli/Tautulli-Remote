@@ -152,12 +152,12 @@ class _SettingsAlertBannerContent extends StatelessWidget {
               color: TautulliColorPalette.notWhite,
             ),
           ),
-          if (message != null) message!,
+          ?message,
         ],
       ),
       actions: [
-        if (buttonOne != null) buttonOne!,
-        if (buttonTwo != null) buttonTwo!,
+        ?buttonOne,
+        ?buttonTwo,
       ],
     );
   }

@@ -21,9 +21,7 @@ class StatusPage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: scrollable
-              ? const AlwaysScrollableScrollPhysics()
-              : const NeverScrollableScrollPhysics(),
+          physics: scrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
@@ -53,7 +51,7 @@ class StatusPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     if (action != null) const Gap(4),
-                    if (action != null) action!,
+                    ?action,
                   ],
                 ),
               ),
