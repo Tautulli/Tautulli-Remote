@@ -32,7 +32,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'com.tautulli.tautulli_remote'
-    compileSdkVersion 35
+    compileSdkVersion 36
+    ndkVersion "28.2.13676358"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -45,7 +46,7 @@ android {
     defaultConfig {
         applicationId "com.tautulli.tautulli_remote"
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -67,14 +68,6 @@ android {
            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
        }
    }
-
-    buildFeatures {
-        compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-    }
 
    compileOptions {
       sourceCompatibility JavaVersion.VERSION_17
@@ -100,8 +93,4 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
-    implementation platform('androidx.compose:compose-bom:2024.04.01') // Or latest
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.runtime:runtime'
-    implementation 'androidx.compose.material:material'
 }

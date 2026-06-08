@@ -36,6 +36,7 @@ end
 
 target 'OneSignalNotificationServiceExtension' do
   use_frameworks!
+  inherit! :search_paths
   pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
   pod 'CryptoSwift', '~> 1.4.0'
 end
