@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import 'change_type_tag.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import 'material_style_change_type_tag.dart';
 
-class ChangelogItem extends StatelessWidget {
+class MaterialStyleChangelogItem extends StatelessWidget {
   final Map release;
   final bool bottomPadding;
 
-  const ChangelogItem(
+  const MaterialStyleChangelogItem(
     this.release, {
     super.key,
     this.bottomPadding = false,
@@ -58,7 +58,7 @@ class ChangelogItem extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ChangeTypeTag(change['type']),
+                            MaterialStyleChangeTypeTag(change['type']),
                             const Gap(8),
                             Expanded(
                               child: Column(

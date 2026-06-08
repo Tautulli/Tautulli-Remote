@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import 'cupertino_style_change_type_tag.dart';
+import 'cupertino_style_divider.dart';
 
 class CupertinoStyleChangelogItem extends StatelessWidget {
   final Map release;
@@ -41,9 +42,7 @@ class CupertinoStyleChangelogItem extends StatelessWidget {
                   ),
                 ],
               ),
-              const Divider(
-                color: CupertinoColors.separator,
-              ),
+              const CupertinoStyleDivider(),
               if (release['intro'] != null)
                 Column(
                   mainAxisSize: MainAxisSize.min,

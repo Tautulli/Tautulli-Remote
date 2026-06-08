@@ -2,25 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/widgets/page_body.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../donate/presentation/pages/donate_page.dart';
-import '../../data/datasources/changelog_data_source.dart';
-import '../widgets/changelog_item.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../donate/presentation/pages/donate_page.dart';
+import '../../../data/datasources/changelog_data_source.dart';
+import '../../widgets/material/material_style_changelog_item.dart';
 
-class ChangelogPage extends StatelessWidget {
-  const ChangelogPage({super.key});
+class MaterialStyleChangelogPage extends StatelessWidget {
+  const MaterialStyleChangelogPage({super.key});
 
   static const routeName = '/changelog';
 
   @override
   Widget build(BuildContext context) {
-    return const ChangelogView();
+    return const MaterialStyleChangelogView();
   }
 }
 
-class ChangelogView extends StatelessWidget {
-  const ChangelogView({super.key});
+class MaterialStyleChangelogView extends StatelessWidget {
+  const MaterialStyleChangelogView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ List<Widget> _buildChangelogEntries(List<Map<String, dynamic>> data) {
 
   for (int i = 0; i < data.length; i++) {
     entries.add(
-      ChangelogItem(
+      MaterialStyleChangelogItem(
         data[i],
         bottomPadding: i < data.length - 1,
       ),

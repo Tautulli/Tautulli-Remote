@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ChangeTypeTag extends StatelessWidget {
+class MaterialStyleChangeTypeTag extends StatelessWidget {
   final String type;
 
-  const ChangeTypeTag(
+  const MaterialStyleChangeTypeTag(
     this.type, {
     super.key,
   });
