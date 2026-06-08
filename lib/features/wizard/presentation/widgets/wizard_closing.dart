@@ -40,7 +40,7 @@ class WizardClosing extends StatelessWidget {
                   const Gap(8),
                   NoticeCard(
                     leading: FaIcon(
-                      FontAwesomeIcons.handshake,
+                      FontAwesomeIcons.solidHandshake,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                     title: LocaleKeys.wizard_closing_support.tr(),
