@@ -5,49 +5,46 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/device_info/device_info.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/failure_alert_dialog.dart';
-import '../../../../core/widgets/gesture_pill.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/media_page.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_model.dart';
-import '../../../users/presentation/pages/user_details_page.dart';
-import '../../data/models/activity_model.dart';
-import '../bloc/activity_bloc.dart';
-import '../bloc/terminate_stream_bloc.dart';
-import 'activity_bottom_sheet_details.dart';
-import 'activity_bottom_sheet_info.dart';
-import 'progress_bar.dart';
-import 'terminate_stream_dialog.dart';
-import 'time_eta.dart';
-import 'time_total.dart';
-import 'progress_percent.dart';
+import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/types/media_type.dart';
+import '../../../../../../core/widgets/failure_alert_dialog.dart';
+import '../../../../../../core/widgets/gesture_pill.dart';
+import '../../../../../../core/widgets/poster.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../media/data/models/media_model.dart';
+import '../../../../../media/presentation/pages/media_page.dart';
+import '../../../../../settings/data/models/custom_header_model.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../users/data/models/user_model.dart';
+import '../../../../../users/presentation/pages/user_details_page.dart';
+import '../../../../data/models/activity_model.dart';
+import '../../../bloc/activity_bloc.dart';
+import '../../../bloc/terminate_stream_bloc.dart';
+import '../../base/progress_bar.dart';
+import '../dialogs/material_style_terminate_stream_dialog.dart';
+import '../material_style_progress_percent.dart';
+import '../material_style_time_eta.dart';
+import '../material_style_time_total.dart';
+import 'material_style_activity_bottom_sheet_details.dart';
+import 'material_style_activity_bottom_sheet_info.dart';
 
-class ActivityBottomSheet extends StatefulWidget {
+class MaterialStyleActivityBottomSheet extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityBottomSheet({
+  const MaterialStyleActivityBottomSheet({
     super.key,
     required this.server,
     required this.activity,
   });
 
   @override
-  State<ActivityBottomSheet> createState() => _ActivityBottomSheetState();
+  State<MaterialStyleActivityBottomSheet> createState() => _MaterialStyleActivityBottomSheetState();
 }
 
-class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
+class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivityBottomSheet> {
   late ActivityModel activity;
 
   @override
@@ -75,7 +72,9 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
             setState(() {
               // Update activity to most recent data and if the item no longer exists close the bottom sheet
               try {
-                final activityList = state.serverActivityList.firstWhere((server) => server.tautulliId == widget.server.tautulliId).activityList;
+                final activityList = state.serverActivityList
+                    .firstWhere((server) => server.tautulliId == widget.server.tautulliId)
+                    .activityList;
                 final item = activityList.firstWhere(
                   (item) => item.sessionId == activity.sessionId && item.sessionKey == activity.sessionKey,
                 );
@@ -116,6 +115,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
         ),
       ],
       child: SafeArea(
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: IntrinsicHeight(
@@ -193,7 +193,8 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                 child: CachedNetworkImage(
                                                   imageUrl: posterUri.toString(),
                                                   httpHeaders: {
-                                                    for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                                                    for (CustomHeaderModel headerModel
+                                                        in state.appSettings.activeServer.customHeaders)
                                                       headerModel.key: headerModel.value,
                                                   },
                                                   placeholder: (context, url) => Image.asset(
@@ -230,7 +231,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                       left: 100,
                                                       right: 8,
                                                     ),
-                                                    child: ActivityBottomSheetInfo(
+                                                    child: MaterialStyleActivityBottomSheetInfo(
                                                       activity: activity,
                                                     ),
                                                   ),
@@ -245,7 +246,9 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                     children: [
                                                       Expanded(
                                                         child: Text(
-                                                          state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
+                                                          state.appSettings.maskSensitiveInfo
+                                                              ? LocaleKeys.hidden_message.tr()
+                                                              : activity.friendlyName ?? '',
                                                           overflow: TextOverflow.ellipsis,
                                                           style: const TextStyle(
                                                             fontSize: 13,
@@ -259,17 +262,19 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                         Column(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: [
-                                                            TimeEta(
+                                                            MaterialStyleTimeEta(
                                                               server: widget.server,
                                                               activity: activity,
                                                             ),
                                                             Row(
                                                               children: [
                                                                 if (activity.progressPercent != null) ...[
-                                                                  ProgressPercent(progressPercent: activity.progressPercent!),
+                                                                  MaterialStyleProgressPercent(
+                                                                    progressPercent: activity.progressPercent!,
+                                                                  ),
                                                                   const Text(' • '),
                                                                 ],
-                                                                TimeTotal(
+                                                                MaterialStyleTimeTotal(
                                                                   viewOffset: activity.viewOffset!,
                                                                   duration: activity.duration!,
                                                                 ),
@@ -289,7 +294,12 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
-                                                  child: ProgressBar(activity: activity),
+                                                  child: ProgressBar(
+                                                    activity: activity,
+                                                    backgroundColor: Colors.black26,
+                                                    transcodeColor: Theme.of(context).colorScheme.onSurface,
+                                                    progressColor: Theme.of(context).colorScheme.primaryContainer,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -330,7 +340,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: ActivityBottomSheetDetails(
+                          child: MaterialStyleActivityBottomSheetDetails(
                             server: widget.server,
                             activity: activity,
                           ),
@@ -425,14 +435,14 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
 
                                         if (confirm) {
                                           context.read<TerminateStreamBloc>().add(
-                                                TerminateStreamStarted(
-                                                  server: widget.server,
-                                                  sessionId: activity.sessionId,
-                                                  sessionKey: activity.sessionKey,
-                                                  message: controller.text,
-                                                  settingsBloc: context.read<SettingsBloc>(),
-                                                ),
-                                              );
+                                            TerminateStreamStarted(
+                                              server: widget.server,
+                                              sessionId: activity.sessionId,
+                                              sessionKey: activity.sessionKey,
+                                              message: controller.text,
+                                              settingsBloc: context.read<SettingsBloc>(),
+                                            ),
+                                          );
                                         }
                                       },
                                       child: const FaIcon(FontAwesomeIcons.xmark),
@@ -442,7 +452,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                               ),
                           ],
                         ),
-                        if (di.sl<DeviceInfo>().platform == 'ios') const Gap(8),
+                        SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
                       ],
                     ),
                   ),

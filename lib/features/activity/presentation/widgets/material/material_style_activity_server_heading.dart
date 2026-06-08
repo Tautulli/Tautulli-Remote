@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/heading.dart';
+import '../../../../../core/widgets/heading.dart';
 
-class ActivityServerHeading extends StatelessWidget {
+class MaterialStyleActivityServerHeading extends StatelessWidget {
   final String serverName;
   final bool loading;
 
-  const ActivityServerHeading({
+  const MaterialStyleActivityServerHeading({
     super.key,
     required this.serverName,
     this.loading = false,

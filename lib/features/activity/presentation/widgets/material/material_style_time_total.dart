@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../../core/helpers/time_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
 
-class TimeTotal extends StatelessWidget {
+//! Use a shared widget when the material style gets an update
+class MaterialStyleTimeTotal extends StatelessWidget {
   final int viewOffset;
   final Duration duration;
 
-  const TimeTotal({
+  const MaterialStyleTimeTotal({
     super.key,
     required this.viewOffset,
     required this.duration,

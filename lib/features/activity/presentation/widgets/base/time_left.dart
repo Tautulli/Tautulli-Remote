@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../data/models/activity_model.dart';
 
 class TimeLeft extends StatelessWidget {
   final ActivityModel activity;

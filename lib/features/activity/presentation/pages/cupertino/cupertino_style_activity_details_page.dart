@@ -9,10 +9,10 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/types/media_type.dart';
 import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
-import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_failure_alert_dialog.dart';
+import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
+import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_failure_alert_dialog.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../media/data/models/media_model.dart';
@@ -24,11 +24,11 @@ import '../../../../users/presentation/pages/cupertino/cupertino_style_user_deta
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../bloc/terminate_stream_bloc.dart';
+import '../../widgets/base/progress_bar.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_terminate_stream_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_activity_details_page_details.dart';
 import '../../widgets/cupertino/cupertino_style_activity_details_page_info.dart';
-import '../../widgets/cupertino/cupertino_style_progress_bar.dart';
 import '../../widgets/cupertino/cupertino_style_progress_percent.dart';
-import '../../widgets/cupertino/bottom_sheets/cupertino_style_terminate_stream_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_time_total.dart';
 
 class CupertinoStyleActivityDetailsPage extends StatelessWidget {
@@ -209,7 +209,12 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                               child: CupertinoStyleActivityDetailsPageInfo(activity: activity),
                             ),
                             //* Details
-                            CupertinoStyleProgressBar(activity: activity),
+                            ProgressBar(
+                              activity: activity,
+                              backgroundColor: CupertinoColors.black.withValues(alpha: 0.26),
+                              transcodeColor: ThemeHelper.cupertinoCardIconColor(),
+                              progressColor: CupertinoTheme.of(context).primaryColor,
+                            ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 4, 10, 0),
                               child: Row(

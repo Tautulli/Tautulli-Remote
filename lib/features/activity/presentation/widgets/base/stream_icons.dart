@@ -1,18 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/icon_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/types/stream_decision.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../core/helpers/icon_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/types/stream_decision.dart';
+import '../../../data/models/activity_model.dart';
 
 class StreamIcons extends StatelessWidget {
   final ActivityModel activity;
+  final Color iconColor;
 
   const StreamIcons({
     super.key,
     required this.activity,
+    required this.iconColor,
   });
 
   @override
@@ -47,13 +49,13 @@ class StreamIcons extends StatelessWidget {
         FaIcon(
           IconHelper.mapMediaTypeToFaIcon(activity.mediaType),
           size: mediaTypeIconSize,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: iconColor,
         ),
         const Gap(4),
         FaIcon(
           IconHelper.mapTranscodeDecisionToFaIcon(activity.transcodeDecision),
           size: transcodeDecisionIconSize,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: iconColor,
         ),
       ],
     );

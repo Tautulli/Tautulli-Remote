@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
@@ -16,8 +17,8 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../pages/cupertino/cupertino_style_activity_details_page.dart';
-import 'cupertino_style_activity_details.dart';
-import 'cupertino_style_progress_bar.dart';
+import '../base/activity_details.dart';
+import '../base/progress_bar.dart';
 
 class CupertinoStyleActivityCard extends StatelessWidget {
   final ServerModel server;
@@ -128,8 +129,9 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                                 ),
                                 const Gap(8),
                                 Expanded(
-                                  child: CupertinoStyleActivityDetails(
+                                  child: ActivityDetails(
                                     activity: activity,
+                                    iconColor: ThemeHelper.cupertinoCardIconColor(),
                                   ),
                                 ),
                               ],
@@ -138,7 +140,12 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: CupertinoStyleProgressBar(activity: activity),
+                          child: ProgressBar(
+                            activity: activity,
+                            backgroundColor: CupertinoColors.black.withValues(alpha: 0.26),
+                            transcodeColor: ThemeHelper.cupertinoCardIconColor(),
+                            progressColor: CupertinoTheme.of(context).primaryColor,
+                          ),
                         ),
                       ],
                     ),

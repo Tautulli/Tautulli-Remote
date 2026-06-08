@@ -16,18 +16,18 @@ import 'core/widgets/cupertino/cupertino_style_settings_not_loaded.dart';
 import 'core/widgets/cupertino/cupertino_style_tab_scaffold.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
-import 'features/activity/presentation/pages/activity_page.dart';
 import 'features/activity/presentation/pages/cupertino/cupertino_style_activity_page.dart';
+import 'features/activity/presentation/pages/material/material_style_activity_page.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/announcements/presentation/pages/cupertino/cupertino_style_announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
-import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/donate/presentation/pages/cupertino/cupertino_style_donate_page.dart';
-import 'features/graphs/presentation/pages/graphs_page.dart';
+import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/graphs/presentation/pages/cupertino/cupertino_style_graphs_page.dart';
-import 'features/history/presentation/pages/history_page.dart';
+import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
+import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
@@ -40,15 +40,15 @@ import 'features/settings/presentation/pages/cupertino/cupertino_style_settings_
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
-import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
+import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 
 Map<String, Widget Function(BuildContext)> materialRoutes = {
-  ActivityPage.routeName: (_) => const ActivityPage(),
+  MaterialStyleActivityPage.routeName: (_) => const MaterialStyleActivityPage(),
   AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
   ChangelogPage.routeName: (_) => const ChangelogPage(),
   DonatePage.routeName: (_) => const DonatePage(),

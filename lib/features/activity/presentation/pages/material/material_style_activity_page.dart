@@ -4,26 +4,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/rate_app/rate_app.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/status_card.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/activity_model.dart';
-import '../../data/models/server_activity_model.dart';
-import '../bloc/activity_bloc.dart';
-import '../widgets/activity_card.dart';
-import '../widgets/activity_server_heading.dart';
-import '../widgets/server_activity_info_card.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/rate_app/rate_app.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/status_card.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/activity_model.dart';
+import '../../../data/models/server_activity_model.dart';
+import '../../bloc/activity_bloc.dart';
+import '../../widgets/material/material_style_activity_card.dart';
+import '../../widgets/material/material_style_activity_server_heading.dart';
+import '../../widgets/material/material_style_server_activity_info_card.dart';
 
-class ActivityPage extends StatelessWidget {
-  const ActivityPage({super.key});
+class MaterialStyleActivityPage extends StatelessWidget {
+  const MaterialStyleActivityPage({super.key});
 
   static const routeName = '/activity';
 
@@ -31,19 +31,19 @@ class ActivityPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<ActivityBloc>(),
-      child: const ActivityView(),
+      child: const MaterialStyleActivityView(),
     );
   }
 }
 
-class ActivityView extends StatefulWidget {
-  const ActivityView({super.key});
+class MaterialStyleActivityView extends StatefulWidget {
+  const MaterialStyleActivityView({super.key});
 
   @override
-  State<ActivityView> createState() => _ActivityViewState();
+  State<MaterialStyleActivityView> createState() => _MaterialStyleActivityViewState();
 }
 
-class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver {
+class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
@@ -154,7 +154,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
       listenWhen: (previous, current) {
         // If active server is changed and multiserver is not set then trigger an ActivityFetched
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer != current.appSettings.activeServer && !current.appSettings.multiserverActivity) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer &&
+              !current.appSettings.multiserverActivity) {
             return true;
           }
         }
@@ -193,9 +194,11 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                 return Future.value();
               },
               child: PageBody(
-                loading: !_multiserver &&
+                loading:
+                    !_multiserver &&
                         state.serverActivityList.isNotEmpty &&
-                        state.serverActivityList.firstWhere((s) => s.tautulliId == _activeServerId).status == BlocStatus.inProgress
+                        state.serverActivityList.firstWhere((s) => s.tautulliId == _activeServerId).status ==
+                            BlocStatus.inProgress
                     ? true
                     : false,
                 child: Builder(
@@ -256,7 +259,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
       } else {
         for (ActivityModel activityModel in firstServer.activityList) {
           serverActivityWidgets.add(
-            ActivityCard(
+            MaterialStyleActivityCard(
               activity: activityModel,
               server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
             ),
@@ -280,14 +283,18 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
               SliverPadding(
                 padding: const EdgeInsets.all(8),
                 sliver: SliverToBoxAdapter(
-                  child: ServerActivityInfoCard(serverActivity: firstServer),
+                  child: MaterialStyleServerActivityInfoCard(serverActivity: firstServer),
                 ),
               ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) / crossAxisCount,
+                childAspectRatio:
+                    (2 *
+                        MediaQuery.of(context).size.width /
+                        (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
+                    crossAxisCount,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 children: serverActivityWidgets,
@@ -327,7 +334,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
         } else {
           for (ActivityModel activityModel in serverActivityModel.activityList) {
             serverActivityList.add(
-              ActivityCard(
+              MaterialStyleActivityCard(
                 activity: activityModel,
                 server: _serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId),
               ),
@@ -335,7 +342,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           }
         }
 
-        final int streamCount = serverActivityModel.copyCount + serverActivityModel.directPlayCount + serverActivityModel.transcodeCount;
+        final int streamCount =
+            serverActivityModel.copyCount + serverActivityModel.directPlayCount + serverActivityModel.transcodeCount;
         late int crossAxisCount;
 
         if (screenWidth > 1000) {
@@ -350,7 +358,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             sliver: SliverStickyHeader(
-              header: ActivityServerHeading(
+              header: MaterialStyleActivityServerHeading(
                 serverName: serverActivityModel.serverName,
                 loading: serverActivityModel.status == BlocStatus.inProgress,
               ),
@@ -360,13 +368,17 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                     if (streamCount > 0)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
-                        child: ServerActivityInfoCard(serverActivity: serverActivityModel),
+                        child: MaterialStyleServerActivityInfoCard(serverActivity: serverActivityModel),
                       ),
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) / crossAxisCount,
+                      childAspectRatio:
+                          (2 *
+                              MediaQuery.of(context).size.width /
+                              (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
+                          crossAxisCount,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children: serverActivityList,

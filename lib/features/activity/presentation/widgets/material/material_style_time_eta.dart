@@ -1,16 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/activity_model.dart';
 
-class TimeEta extends StatelessWidget {
+class MaterialStyleTimeEta extends StatelessWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const TimeEta({
+  const MaterialStyleTimeEta({
     super.key,
     required this.server,
     required this.activity,

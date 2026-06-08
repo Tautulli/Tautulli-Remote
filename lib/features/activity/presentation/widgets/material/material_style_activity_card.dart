@@ -5,35 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/activity_model.dart';
-import '../bloc/activity_bloc.dart';
-import '../bloc/terminate_stream_bloc.dart';
-import 'activity_bottom_sheet.dart';
-import 'activity_details.dart';
-import 'progress_bar.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/activity_model.dart';
+import '../../bloc/activity_bloc.dart';
+import '../../bloc/terminate_stream_bloc.dart';
+import '../base/activity_details.dart';
+import '../base/progress_bar.dart';
+import 'bottom_sheets/material_style_activity_bottom_sheet.dart';
 
-class ActivityCard extends StatefulWidget {
+class MaterialStyleActivityCard extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityCard({
+  const MaterialStyleActivityCard({
     super.key,
     required this.server,
     required this.activity,
   });
 
   @override
-  State<ActivityCard> createState() => _ActivityCardState();
+  State<MaterialStyleActivityCard> createState() => _MaterialStyleActivityCardState();
 }
 
-class _ActivityCardState extends State<ActivityCard> {
+class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
   late ActivityBloc _activityBloc;
 
   @override
@@ -68,7 +68,8 @@ class _ActivityCardState extends State<ActivityCard> {
                     child: CachedNetworkImage(
                       imageUrl: posterUri.toString(),
                       httpHeaders: {
-                        for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                        for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                          headerModel.key: headerModel.value,
                       },
                       imageBuilder: (context, imageProvider) => DecoratedBox(
                         position: DecorationPosition.foreground,
@@ -129,6 +130,7 @@ class _ActivityCardState extends State<ActivityCard> {
                               Expanded(
                                 child: ActivityDetails(
                                   activity: widget.activity,
+                                  iconColor: Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                             ],
@@ -137,7 +139,12 @@ class _ActivityCardState extends State<ActivityCard> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
-                        child: ProgressBar(activity: widget.activity),
+                        child: ProgressBar(
+                          activity: widget.activity,
+                          backgroundColor: Colors.black26,
+                          transcodeColor: Theme.of(context).colorScheme.onSurface,
+                          progressColor: Theme.of(context).colorScheme.primaryContainer,
+                        ),
                       ),
                     ],
                   ),
@@ -159,7 +166,7 @@ class _ActivityCardState extends State<ActivityCard> {
                             value: _activityBloc,
                             child: BlocProvider(
                               create: (context) => di.sl<TerminateStreamBloc>(),
-                              child: ActivityBottomSheet(
+                              child: MaterialStyleActivityBottomSheet(
                                 server: widget.server,
                                 activity: widget.activity,
                               ),

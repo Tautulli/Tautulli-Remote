@@ -5,33 +5,33 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/data_unit_helper.dart';
-import '../../../../core/helpers/ip_address_helper.dart';
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/tautulli_types.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../geo_ip/data/models/geo_ip_model.dart';
-import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/helpers/data_unit_helper.dart';
+import '../../../../../../core/helpers/ip_address_helper.dart';
+import '../../../../../../core/helpers/string_helper.dart';
+import '../../../../../../core/types/bloc_status.dart';
+import '../../../../../../core/types/tautulli_types.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../geo_ip/data/models/geo_ip_model.dart';
+import '../../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../data/models/activity_model.dart';
 
-class ActivityBottomSheetDetails extends StatefulWidget {
+class MaterialStyleActivityBottomSheetDetails extends StatefulWidget {
   final ServerModel server;
   final ActivityModel activity;
 
-  const ActivityBottomSheetDetails({
+  const MaterialStyleActivityBottomSheetDetails({
     super.key,
     required this.server,
     required this.activity,
   });
 
   @override
-  State<ActivityBottomSheetDetails> createState() => _ActivityBottomSheetDetailsState();
+  State<MaterialStyleActivityBottomSheetDetails> createState() => _MaterialStyleActivityBottomSheetDetailsState();
 }
 
-class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails> {
+class _MaterialStyleActivityBottomSheetDetailsState extends State<MaterialStyleActivityBottomSheetDetails> {
   @override
   void initState() {
     super.initState();
@@ -40,12 +40,12 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
 
     if (widget.activity.ipAddress != null) {
       context.read<GeoIpBloc>().add(
-            GeoIpFetched(
-              server: widget.server,
-              ipAddress: widget.activity.ipAddress!,
-              settingsBloc: settingsBloc,
-            ),
-          );
+        GeoIpFetched(
+          server: widget.server,
+          ipAddress: widget.activity.ipAddress!,
+          settingsBloc: settingsBloc,
+        ),
+      );
     }
   }
 
@@ -72,7 +72,9 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                       _ItemRow(
                         title: LocaleKeys.player_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.activity.player ?? '',
+                          settingsState.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : widget.activity.player ?? '',
                         ),
                       ),
                       _ItemRow(
@@ -82,10 +84,12 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                             String formattedBitrate = '';
                             late String finalText;
 
-                            if (widget.activity.mediaType != MediaType.photo && widget.activity.qualityProfile != 'Unknown') {
+                            if (widget.activity.mediaType != MediaType.photo &&
+                                widget.activity.qualityProfile != 'Unknown') {
                               if (widget.activity.streamBitrate != null) {
                                 if (widget.activity.streamBitrate! > 1000) {
-                                  formattedBitrate = '${(widget.activity.streamBitrate! / 1000).toStringAsFixed(1)} Mbps';
+                                  formattedBitrate =
+                                      '${(widget.activity.streamBitrate! / 1000).toStringAsFixed(1)} Mbps';
                                 } else {
                                   formattedBitrate = '${widget.activity.streamBitrate} kbps';
                                 }
@@ -123,7 +127,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               if (widget.activity.transcodeThrottled == true) {
                                 finalText = '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.throttled_title.tr()})';
                               } else {
-                                finalText = '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.speed_title.tr()}: ${widget.activity.transcodeSpeed})';
+                                finalText =
+                                    '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.speed_title.tr()}: ${widget.activity.transcodeSpeed})';
                               }
                             } else if (widget.activity.transcodeDecision == StreamDecision.copy) {
                               finalText = LocaleKeys.direct_stream_title.tr();
@@ -212,7 +217,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: '${widget.activity.videoCodec?.toUpperCase()}$hwD ${widget.activity.videoFullResolution}$videoDynamicRange',
+                                              text:
+                                                  '${widget.activity.videoCodec?.toUpperCase()}$hwD ${widget.activity.videoFullResolution}$videoDynamicRange',
                                             ),
                                             WidgetSpan(
                                               child: Padding(

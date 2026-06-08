@@ -1,15 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../../core/helpers/time_helper.dart';
+import '../../../../../../core/types/media_type.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../data/models/activity_model.dart';
 
-class ActivityBottomSheetInfo extends StatelessWidget {
+class MaterialStyleActivityBottomSheetInfo extends StatelessWidget {
   final ActivityModel activity;
 
-  const ActivityBottomSheetInfo({
+  const MaterialStyleActivityBottomSheetInfo({
     super.key,
     required this.activity,
   });

@@ -1,30 +1,31 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../data/models/server_activity_model.dart';
 import '../base/activity_info_card_bandwidth_info.dart';
 import '../base/activity_info_card_streams_info.dart';
 
-class CupertinoStyleServerActivityInfoCard extends StatelessWidget {
+class MaterialStyleServerActivityInfoCard extends StatelessWidget {
   final ServerActivityModel serverActivity;
 
-  const CupertinoStyleServerActivityInfoCard({
+  const MaterialStyleServerActivityInfoCard({
     super.key,
     required this.serverActivity,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoStyleCard(
+    return CardWithForcedTint(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            Icon(
-              CupertinoIcons.info_circle_fill,
-              color: ThemeHelper.cupertinoCardIconColor(),
+            FaIcon(
+              FontAwesomeIcons.circleInfo,
+              size: 22,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             const Gap(8),
             Expanded(

@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/activity_model.dart';
+import '../../../../../../core/helpers/string_helper.dart';
+import '../../../../../../core/helpers/time_helper.dart';
+import '../../../../../../core/types/media_type.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../data/models/activity_model.dart';
 
 Future<bool> showTerminateSessionDialog({
   required BuildContext context,

@@ -1,16 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../data/models/activity_model.dart';
 
-class CupertinoStyleProgressBar extends StatelessWidget {
+class ProgressBar extends StatelessWidget {
   final ActivityModel activity;
+  final Color backgroundColor;
+  final Color transcodeColor;
+  final Color progressColor;
 
-  const CupertinoStyleProgressBar({
+  const ProgressBar({
     super.key,
     required this.activity,
+    required this.backgroundColor,
+    required this.transcodeColor,
+    required this.progressColor,
   });
 
   @override
@@ -44,15 +49,15 @@ class CupertinoStyleProgressBar extends StatelessWidget {
       children: [
         LinearPercentIndicator(
           lineHeight: 5,
-          backgroundColor: CupertinoColors.black..withValues(alpha: 0.26),
-          progressColor: ThemeHelper.cupertinoCardIconColor(),
+          backgroundColor: backgroundColor,
+          progressColor: transcodeColor,
           barRadius: const Radius.circular(4),
           percent: ((transcodeProgress) / 100).toDouble(),
         ),
         LinearPercentIndicator(
           lineHeight: 5,
-          backgroundColor: CupertinoColors.transparent,
-          progressColor: CupertinoTheme.of(context).primaryColor,
+          backgroundColor: const Color(0x00000000),
+          progressColor: progressColor,
           barRadius: const Radius.circular(4),
           percent: ((activity.live != true ? (progressPercent) : 100) / 100).toDouble(),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:tautulli_remote/core/helpers/time_helper.dart';
+
+import '../../../../../core/helpers/time_helper.dart';
 
 class CupertinoStyleTimeTotal extends StatelessWidget {
   final int viewOffset;

@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 
-class ProgressPercent extends StatelessWidget {
+//! Use a shared widget when the material style gets an update
+class MaterialStyleProgressPercent extends StatelessWidget {
   final int progressPercent;
 
-  const ProgressPercent({
+  const MaterialStyleProgressPercent({
     super.key,
     required this.progressPercent,
   });
