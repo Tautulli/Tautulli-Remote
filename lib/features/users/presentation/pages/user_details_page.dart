@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:palette_generator/palette_generator.dart';
+import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
@@ -225,7 +225,7 @@ bool _hasNetworkImage(UserModel user) {
 Future<Color?> _getColor(String? url) async {
   if (url == null || !url.startsWith('http')) return null;
 
-  final palette = await PaletteGenerator.fromImageProvider(
+  final palette = await PaletteGeneratorMaster.fromImageProvider(
     CachedNetworkImageProvider(url),
     maximumColorCount: 1,
   );

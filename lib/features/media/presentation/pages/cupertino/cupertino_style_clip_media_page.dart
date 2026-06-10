@@ -1,11 +1,9 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
@@ -58,25 +56,12 @@ class CupertinoStyleClipMediaView extends StatelessWidget {
 
         return CupertinoStyleTabbedPosterDetailsPage(
           previousPageTitle: previousPageTitle,
-          background: CachedNetworkImage(
-            imageUrl: media.imageUri.toString(),
+          background: ImageGradientBackground(
+            imageUri: media.imageUri,
             httpHeaders: {
               for (CustomHeaderModel headerModel in settingsState.appSettings.activeServer.customHeaders)
                 headerModel.key: headerModel.value,
             },
-            imageBuilder: (context, imageProvider) => ImageFiltered(
-              imageFilter: ImageFilter.blur(
-                sigmaX: 25,
-                sigmaY: 25,
-                tileMode: TileMode.decal,
-              ),
-              child: Image(
-                image: imageProvider,
-                fit: BoxFit.fill,
-              ),
-            ),
-            placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-            errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
           poster: CupertinoStylePoster(
             mediaType: media.mediaType,

@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/poster.dart';
 import '../../../../translations/locale_keys.g.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 const double _expandedHeight = 266;
 
@@ -95,105 +97,123 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                         background: Column(
                           children: [
                             Expanded(
-                              child: Stack(
-                                children: [
-                                  Positioned.fill(
-                                    child: DecoratedBox(
-                                      position: DecorationPosition.foreground,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withValues(alpha: 0.6),
+                              child: BlocBuilder<SettingsBloc, SettingsState>(
+                                builder: (context, state) {
+                                  state as SettingsSuccess;
+
+                                  return Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: !state.appSettings.disableImageBackgrounds
+                                            ? widget.background ??
+                                                  DecoratedBox(
+                                                    position: DecorationPosition.foreground,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black.withValues(alpha: 0.2),
+                                                    ),
+                                                  )
+                                            : const SizedBox.shrink(),
                                       ),
-                                      child: widget.background,
-                                    ),
-                                  ),
-                                  // Covers the thin line between top of TabBar and the background color
-                                  Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                      height: 5,
-                                      width: MediaQuery.of(context).size.width,
-                                      color: Theme.of(context).colorScheme.surface,
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    child: Opacity(
-                                      opacity: backgroundCoverOpacity,
-                                      child: DecoratedBox(
-                                        position: DecorationPosition.foreground,
-                                        decoration: BoxDecoration(
+                                      // Covers the thin line between top of TabBar and the background color
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 5,
+                                          width: MediaQuery.of(context).size.width,
                                           color: Theme.of(context).colorScheme.surface,
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(radius),
-                                        topRight: Radius.circular(radius),
-                                      ),
-                                      child: Container(
-                                        height: 100,
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.surface,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 8,
-                                    bottom: 10,
-                                    child: Opacity(
-                                      opacity: detailsOpacity,
-                                      child: SizedBox(
-                                        height: 150,
-                                        child: widget.poster,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    child: LayoutBuilder(
-                                      builder: (context, constraints) {
-                                        return Padding(
-                                          padding: EdgeInsets.only(
-                                            top: constraints.maxHeight - 97,
-                                            left: 116,
-                                            right: 8,
-                                          ),
-                                          child: Opacity(
-                                            opacity: detailsOpacity,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.itemTitle ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  maxLines: tpItemTitle.didExceedMaxLines && tpItemSubtitle.didExceedMaxLines ? 1 : 2,
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                                if (widget.itemSubtitle != null)
-                                                  Text(
-                                                    widget.itemSubtitle!,
-                                                    maxLines: 2,
-                                                  ),
-                                                if (widget.itemDetail != null)
-                                                  Text(
-                                                    widget.itemDetail!,
-                                                    maxLines: tpItemTitle.didExceedMaxLines || tpItemSubtitle.didExceedMaxLines ? 1 : 2,
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
-                                              ],
+                                      Positioned.fill(
+                                        child: Opacity(
+                                          opacity: backgroundCoverOpacity,
+                                          child: DecoratedBox(
+                                            position: DecorationPosition.foreground,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).colorScheme.surface,
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(radius),
+                                            topRight: Radius.circular(radius),
+                                          ),
+                                          child: Container(
+                                            height: 100,
+                                            width: MediaQuery.of(context).size.width,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).colorScheme.surface,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 8,
+                                        bottom: 10,
+                                        child: Opacity(
+                                          opacity: detailsOpacity,
+                                          child: SizedBox(
+                                            height: 150,
+                                            child: widget.poster,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned.fill(
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                top: constraints.maxHeight - 97,
+                                                left: 116,
+                                                right: 8,
+                                              ),
+                                              child: Opacity(
+                                                opacity: detailsOpacity,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      widget.sensitive
+                                                          ? LocaleKeys.hidden_message.tr()
+                                                          : widget.itemTitle ?? '',
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                      maxLines:
+                                                          tpItemTitle.didExceedMaxLines &&
+                                                              tpItemSubtitle.didExceedMaxLines
+                                                          ? 1
+                                                          : 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    if (widget.itemSubtitle != null)
+                                                      Text(
+                                                        widget.itemSubtitle!,
+                                                        maxLines: 2,
+                                                      ),
+                                                    if (widget.itemDetail != null)
+                                                      Text(
+                                                        widget.itemDetail!,
+                                                        maxLines:
+                                                            tpItemTitle.didExceedMaxLines ||
+                                                                tpItemSubtitle.didExceedMaxLines
+                                                            ? 1
+                                                            : 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                             Container(

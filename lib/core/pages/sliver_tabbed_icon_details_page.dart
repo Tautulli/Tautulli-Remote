@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 
 const double _expandedHeight = 196;
@@ -71,71 +73,79 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     background: Column(
                       children: [
                         Expanded(
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  position: DecorationPosition.foreground,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.6),
+                          child: BlocBuilder<SettingsBloc, SettingsState>(
+                            builder: (context, state) {
+                              state as SettingsSuccess;
+
+                              return Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: !state.appSettings.disableImageBackgrounds
+                                        ? widget.background ??
+                                              DecoratedBox(
+                                                position: DecorationPosition.foreground,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black.withValues(alpha: 0.2),
+                                                ),
+                                              )
+                                        : const SizedBox.shrink(),
                                   ),
-                                  child: widget.background,
-                                ),
-                              ),
-                              // Covers the thin line between top of TabBar and the background color
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  height: 5,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(radius),
-                                    topRight: Radius.circular(radius),
-                                  ),
-                                  child: Container(
-                                    height: 60,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
+                                  // Covers the thin line between top of TabBar and the background color
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 5,
+                                      width: MediaQuery.of(context).size.width,
                                       color: Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 8,
-                                bottom: 10,
-                                child: Opacity(
-                                  opacity: detailsOpacity,
-                                  child: widget.icon,
-                                ),
-                              ),
-                              Positioned(
-                                left: 96,
-                                bottom: 15,
-                                child: Opacity(
-                                  opacity: detailsOpacity,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
+                                  Positioned(
+                                    bottom: 0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(radius),
+                                        topRight: Radius.circular(radius),
                                       ),
-                                      widget.subtitle,
-                                    ],
+                                      child: Container(
+                                        height: 60,
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).colorScheme.surface,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
+                                  Positioned(
+                                    left: 8,
+                                    bottom: 10,
+                                    child: Opacity(
+                                      opacity: detailsOpacity,
+                                      child: widget.icon,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 96,
+                                    bottom: 15,
+                                    child: Opacity(
+                                      opacity: detailsOpacity,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          widget.subtitle,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                         Container(

@@ -69,13 +69,7 @@ class _CupertinoStyleTabbedIconDetailsPageState extends State<CupertinoStyleTabb
                     child: ClipRect(
                       child: ColoredBox(
                         color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                        child: DecoratedBox(
-                          position: DecorationPosition.foreground,
-                          decoration: BoxDecoration(
-                            color: CupertinoColors.black.withValues(alpha: 0.2),
-                          ),
-                          child: !state.appSettings.disableImageBackgrounds ? widget.background : null,
-                        ),
+                        child: !state.appSettings.disableImageBackgrounds ? widget.background : null,
                       ),
                     ),
                   );

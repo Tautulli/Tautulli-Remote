@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:palette_generator/palette_generator.dart';
+import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../data/models/library_table_model.dart';
 import 'cupertino_style_library_icon.dart';
@@ -78,7 +78,7 @@ bool _hasNetworkImage(LibraryTableModel library) {
 Future<Color?> _getColor(String? url) async {
   if (url == null || !url.startsWith('http')) return null;
 
-  final palette = await PaletteGenerator.fromImageProvider(
+  final palette = await PaletteGeneratorMaster.fromImageProvider(
     CachedNetworkImageProvider(url),
     maximumColorCount: 1,
   );

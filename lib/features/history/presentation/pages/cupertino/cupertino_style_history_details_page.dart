@@ -1,12 +1,10 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
@@ -100,26 +98,13 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
                             color: CupertinoColors.black.withValues(alpha: 0.2),
                           ),
                           child: !settingsState.appSettings.disableImageBackgrounds
-                              ? CachedNetworkImage(
-                                  imageUrl: history.posterUri.toString(),
+                              ? ImageGradientBackground(
+                                  imageUri: history.posterUri,
                                   httpHeaders: {
                                     for (CustomHeaderModel headerModel
                                         in settingsState.appSettings.activeServer.customHeaders)
                                       headerModel.key: headerModel.value,
                                   },
-                                  imageBuilder: (context, imageProvider) => ImageFiltered(
-                                    imageFilter: ImageFilter.blur(
-                                      sigmaX: 25,
-                                      sigmaY: 25,
-                                      tileMode: TileMode.decal,
-                                    ),
-                                    child: Image(
-                                      image: imageProvider,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-                                  errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
                                 )
                               : null,
                         ),

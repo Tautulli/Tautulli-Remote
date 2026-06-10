@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/types/media_type.dart';
+import '../../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../../../core/widgets/gesture_pill.dart';
 import '../../../../../../core/widgets/poster.dart';
@@ -179,33 +177,13 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
                                             ),
                                           )
                                         : Positioned.fill(
-                                            child: DecoratedBox(
-                                              position: DecorationPosition.foreground,
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withValues(alpha: 0.2),
-                                              ),
-                                              child: ImageFiltered(
-                                                imageFilter: ImageFilter.blur(
-                                                  sigmaX: 25,
-                                                  sigmaY: 25,
-                                                  tileMode: TileMode.decal,
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: posterUri.toString(),
-                                                  httpHeaders: {
-                                                    for (CustomHeaderModel headerModel
-                                                        in state.appSettings.activeServer.customHeaders)
-                                                      headerModel.key: headerModel.value,
-                                                  },
-                                                  placeholder: (context, url) => Image.asset(
-                                                    'assets/images/poster_fallback.png',
-                                                  ),
-                                                  errorWidget: (context, url, error) => Image.asset(
-                                                    'assets/images/poster_error.png',
-                                                  ),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
+                                            child: ImageGradientBackground(
+                                              imageUri: posterUri,
+                                              httpHeaders: {
+                                                for (CustomHeaderModel headerModel
+                                                    in state.appSettings.activeServer.customHeaders)
+                                                  headerModel.key: headerModel.value,
+                                              },
                                             ),
                                           ),
                                     //* Info Section

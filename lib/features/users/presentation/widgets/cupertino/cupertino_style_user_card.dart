@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:palette_generator/palette_generator.dart';
+import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
@@ -128,7 +128,7 @@ class _CupertinoStyleUserCardState extends State<CupertinoStyleUserCard> {
 Future<Color?> _getColor(String? url) async {
   if (url == null || !url.startsWith('http')) return null;
 
-  final palette = await PaletteGenerator.fromImageProvider(
+  final palette = await PaletteGeneratorMaster.fromImageProvider(
     CachedNetworkImageProvider(url),
     maximumColorCount: 1,
   );

@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +8,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
 import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_failure_alert_dialog.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -163,35 +161,16 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                       child: ClipRect(
                         child: ColoredBox(
                           color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                          child: DecoratedBox(
-                            position: DecorationPosition.foreground,
-                            decoration: BoxDecoration(
-                              color: CupertinoColors.black.withValues(alpha: 0.2),
-                            ),
-                            child: (!settingsState.appSettings.disableImageBackgrounds && activity.imageUri != null)
-                                ? CachedNetworkImage(
-                                    imageUrl: posterUri.toString(),
-                                    httpHeaders: {
-                                      for (CustomHeaderModel headerModel
-                                          in settingsState.appSettings.activeServer.customHeaders)
-                                        headerModel.key: headerModel.value,
-                                    },
-                                    imageBuilder: (context, imageProvider) => ImageFiltered(
-                                      imageFilter: ImageFilter.blur(
-                                        sigmaX: 25,
-                                        sigmaY: 25,
-                                        tileMode: TileMode.decal,
-                                      ),
-                                      child: Image(
-                                        image: imageProvider,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-                                    errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
-                                  )
-                                : null,
-                          ),
+                          child: (!settingsState.appSettings.disableImageBackgrounds && activity.imageUri != null)
+                              ? ImageGradientBackground(
+                                  imageUri: posterUri,
+                                  httpHeaders: {
+                                    for (CustomHeaderModel headerModel
+                                        in settingsState.appSettings.activeServer.customHeaders)
+                                      headerModel.key: headerModel.value,
+                                  },
+                                )
+                              : null,
                         ),
                       ),
                     ),

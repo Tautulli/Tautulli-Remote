@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../core/types/section_type.dart';
+import '../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/library_history_bloc.dart';
@@ -78,38 +76,38 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
     server = settingsState.appSettings.activeServer;
 
     context.read<LibraryHistoryBloc>().add(
-          LibraryHistoryFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId!,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryHistoryFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId!,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryRecentlyAddedBloc>().add(
-          LibraryRecentlyAddedFetched(
-            tautulliId: server.tautulliId,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryRecentlyAddedFetched(
+        tautulliId: server.tautulliId,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryStatisticsBloc>().add(
-          LibraryStatisticsFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryStatisticsFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryMediaBloc>().add(
-          LibraryMediaFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            refresh: false,
-            fullRefresh: false,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryMediaFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        refresh: false,
+        fullRefresh: false,
+        settingsBloc: settingsBloc,
+      ),
+    );
   }
 
   @override
@@ -120,24 +118,12 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return CachedNetworkImage(
-              imageUrl: widget.libraryTableModel.backgroundUri.toString(),
+            return ImageGradientBackground(
+              imageUri: widget.libraryTableModel.backgroundUri,
               httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                  headerModel.key: headerModel.value,
               },
-              imageBuilder: (context, imageProvider) => ImageFiltered(
-                imageFilter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
-                  tileMode: TileMode.decal,
-                ),
-                child: Image(
-                  image: imageProvider,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-              errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
             );
           },
         ),
@@ -151,7 +137,9 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
                     TextSpan(text: LocaleKeys.last_streamed_title.tr()),
                     const TextSpan(text: ' '),
                     TextSpan(
-                      text: widget.libraryTableModel.lastAccessed != null ? TimeHelper.moment(widget.libraryTableModel.lastAccessed) : LocaleKeys.never.tr(),
+                      text: widget.libraryTableModel.lastAccessed != null
+                          ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
+                          : LocaleKeys.never.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 13,

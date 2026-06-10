@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +7,7 @@ import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../helpers/theme_helper.dart';
 import '../../types/media_type.dart';
 import '../../types/playback_state.dart';
+import '../base/image_gradient_background.dart';
 
 class CupertinoStylePoster extends StatelessWidget {
   final MediaType? mediaType;
@@ -132,28 +131,12 @@ class _PosterSquare extends StatelessWidget {
                     builder: (context, state) {
                       state as SettingsSuccess;
 
-                      return DecoratedBox(
-                        position: DecorationPosition.foreground,
-                        decoration: BoxDecoration(
-                          color: CupertinoColors.black.withValues(alpha: 0.2),
-                        ),
-                        child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 25,
-                            sigmaY: 25,
-                            tileMode: TileMode.decal,
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: uri.toString(),
-                            httpHeaders: {
-                              for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                                headerModel.key: headerModel.value,
-                            },
-                            placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                            errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                      return ImageGradientBackground(
+                        imageUri: uri,
+                        httpHeaders: {
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
+                        },
                       );
                     },
                   ),

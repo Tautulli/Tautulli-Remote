@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -66,51 +64,12 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                 children: [
                   if (!state.appSettings.disableImageBackgrounds && activity.imageUri != null)
                     Positioned.fill(
-                      child: CachedNetworkImage(
-                        imageUrl: posterUri.toString(),
+                      child: ImageGradientBackground(
+                        imageUri: posterUri,
                         httpHeaders: {
                           for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                             headerModel.key: headerModel.value,
                         },
-                        imageBuilder: (context, imageProvider) => DecoratedBox(
-                          position: DecorationPosition.foreground,
-                          decoration: BoxDecoration(
-                            color: CupertinoColors.black.withValues(alpha: 0.4),
-                          ),
-                          child: ImageFiltered(
-                            imageFilter: ImageFilter.blur(
-                              sigmaX: 25,
-                              sigmaY: 25,
-                              tileMode: TileMode.decal,
-                            ),
-                            child: Image(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, url) => ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 25,
-                            sigmaY: 25,
-                            tileMode: TileMode.decal,
-                          ),
-                          child: Image.asset(
-                            'assets/images/poster_fallback.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 25,
-                            sigmaY: 25,
-                            tileMode: TileMode.decal,
-                          ),
-                          child: Image.asset(
-                            'assets/images/poster_error.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
                       ),
                     ),
                   Positioned.fill(

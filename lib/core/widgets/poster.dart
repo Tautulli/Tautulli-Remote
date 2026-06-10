@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +7,7 @@ import '../../features/settings/data/models/custom_header_model.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../types/media_type.dart';
 import '../types/playback_state.dart';
+import 'base/image_gradient_background.dart';
 
 class Poster extends StatelessWidget {
   final MediaType? mediaType;
@@ -87,7 +86,8 @@ class _PosterRegular extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: uri.toString(),
                     httpHeaders: {
-                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                        headerModel.key: headerModel.value,
                     },
                     placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png', fit: BoxFit.cover),
                     errorWidget: (context, url, error) => Image.asset(
@@ -97,7 +97,8 @@ class _PosterRegular extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                if (activityState != null && activityState != PlaybackState.playing) _PosterState(activityState: activityState!),
+                if (activityState != null && activityState != PlaybackState.playing)
+                  _PosterState(activityState: activityState!),
               ],
             );
           },
@@ -136,27 +137,12 @@ class _PosterSquare extends StatelessWidget {
                     builder: (context, state) {
                       state as SettingsSuccess;
 
-                      return DecoratedBox(
-                        position: DecorationPosition.foreground,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.2),
-                        ),
-                        child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 25,
-                            sigmaY: 25,
-                            tileMode: TileMode.decal,
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: uri.toString(),
-                            httpHeaders: {
-                              for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
-                            },
-                            placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                            errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                      return ImageGradientBackground(
+                        imageUri: uri,
+                        httpHeaders: {
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
+                        },
                       );
                     },
                   ),
@@ -169,7 +155,8 @@ class _PosterSquare extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: uri.toString(),
                         httpHeaders: {
-                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
                         },
                         placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
                         errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
@@ -178,7 +165,8 @@ class _PosterSquare extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (activityState != null && activityState != PlaybackState.playing) _PosterState(activityState: activityState!),
+                if (activityState != null && activityState != PlaybackState.playing)
+                  _PosterState(activityState: activityState!),
               ],
             );
           },
@@ -205,10 +193,10 @@ class _PosterState extends StatelessWidget {
               activityState == PlaybackState.paused
                   ? FontAwesomeIcons.circlePause
                   : activityState == PlaybackState.buffering
-                      ? FontAwesomeIcons.spinner
-                      : activityState == PlaybackState.error
-                          ? FontAwesomeIcons.circleExclamation
-                          : FontAwesomeIcons.circleQuestion,
+                  ? FontAwesomeIcons.spinner
+                  : activityState == PlaybackState.error
+                  ? FontAwesomeIcons.circleExclamation
+                  : FontAwesomeIcons.circleQuestion,
               size: 48,
               color: Theme.of(context).colorScheme.onSurface,
             ),

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:palette_generator/palette_generator.dart';
+import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
@@ -100,12 +100,12 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
 
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
-            UserIndividualFetched(
-              server: widget.server,
-              userId: widget.user.userId!,
-              settingsBloc: settingsBloc,
-            ),
-          );
+        UserIndividualFetched(
+          server: widget.server,
+          userId: widget.user.userId!,
+          settingsBloc: settingsBloc,
+        ),
+      );
     }
 
     _userHistoryBloc.add(
@@ -116,12 +116,12 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
       ),
     );
     context.read<UserStatisticsBloc>().add(
-          UserStatisticsFetched(
-            server: widget.server,
-            userId: widget.user.userId!,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      UserStatisticsFetched(
+        server: widget.server,
+        userId: widget.user.userId!,
+        settingsBloc: settingsBloc,
+      ),
+    );
   }
 
   @override
@@ -187,10 +187,10 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
                       text: widget.user.lastSeen != null && !widget.fetchUser
                           ? TimeHelper.moment(widget.user.lastSeen)
                           : widget.fetchUser && state.user.lastSeen != null
-                              ? TimeHelper.moment(state.user.lastSeen)
-                              : widget.fetchUser && state.status == BlocStatus.initial
-                                  ? ''
-                                  : LocaleKeys.never.tr(),
+                          ? TimeHelper.moment(state.user.lastSeen)
+                          : widget.fetchUser && state.status == BlocStatus.initial
+                          ? ''
+                          : LocaleKeys.never.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                       ),
@@ -248,7 +248,7 @@ bool _hasNetworkImage(UserModel user) {
 Future<Color?> _getColor(String? url) async {
   if (url == null || !url.startsWith('http')) return null;
 
-  final palette = await PaletteGenerator.fromImageProvider(
+  final palette = await PaletteGeneratorMaster.fromImageProvider(
     CachedNetworkImageProvider(url),
     maximumColorCount: 1,
   );

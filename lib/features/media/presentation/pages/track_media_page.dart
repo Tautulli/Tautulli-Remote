@@ -1,15 +1,11 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/types/media_type.dart';
+import '../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -62,24 +58,12 @@ class TrackMediaView extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return CachedNetworkImage(
-              imageUrl: media.imageUri.toString(),
+            return ImageGradientBackground(
+              imageUri: media.imageUri,
               httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                  headerModel.key: headerModel.value,
               },
-              imageBuilder: (context, imageProvider) => ImageFiltered(
-                imageFilter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
-                  tileMode: TileMode.decal,
-                ),
-                child: Image(
-                  image: imageProvider,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-              errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
             );
           },
         ),

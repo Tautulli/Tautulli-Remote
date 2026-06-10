@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/section_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/library_history_bloc.dart';
@@ -79,38 +77,38 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
     server = settingsState.appSettings.activeServer;
 
     context.read<LibraryHistoryBloc>().add(
-          LibraryHistoryFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId!,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryHistoryFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId!,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryRecentlyAddedBloc>().add(
-          LibraryRecentlyAddedFetched(
-            tautulliId: server.tautulliId,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryRecentlyAddedFetched(
+        tautulliId: server.tautulliId,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryStatisticsBloc>().add(
-          LibraryStatisticsFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryStatisticsFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        settingsBloc: settingsBloc,
+      ),
+    );
 
     context.read<LibraryMediaBloc>().add(
-          LibraryMediaFetched(
-            server: server,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
-            refresh: false,
-            fullRefresh: false,
-            settingsBloc: settingsBloc,
-          ),
-        );
+      LibraryMediaFetched(
+        server: server,
+        sectionId: widget.libraryTableModel.sectionId ?? 0,
+        refresh: false,
+        fullRefresh: false,
+        settingsBloc: settingsBloc,
+      ),
+    );
   }
 
   @override
@@ -121,25 +119,12 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
 
         return CupertinoStyleTabbedIconDetailsPage(
           previousPageTitle: LocaleKeys.libraries_title.tr(),
-          background: CachedNetworkImage(
-            imageUrl: widget.libraryTableModel.backgroundUri.toString(),
+          background: ImageGradientBackground(
+            imageUri: widget.libraryTableModel.backgroundUri,
             httpHeaders: {
               for (CustomHeaderModel headerModel in settingsState.appSettings.activeServer.customHeaders)
                 headerModel.key: headerModel.value,
             },
-            imageBuilder: (context, imageProvider) => ImageFiltered(
-              imageFilter: ImageFilter.blur(
-                sigmaX: 25,
-                sigmaY: 25,
-                tileMode: TileMode.decal,
-              ),
-              child: Image(
-                image: imageProvider,
-                fit: BoxFit.fill,
-              ),
-            ),
-            placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-            errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
           icon: CupertinoStyleLibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
           title: widget.libraryTableModel.sectionName ?? '',

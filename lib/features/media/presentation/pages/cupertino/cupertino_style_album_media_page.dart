@@ -1,22 +1,20 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/metadata_bloc.dart';
+import '../../widgets/cupertino/bottom_sheets/cupertino_style_media_navigate_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_media_children_tab.dart';
 import '../../widgets/cupertino/cupertino_style_media_details_tab.dart';
 import '../../widgets/cupertino/cupertino_style_media_history_tab.dart';
-import '../../widgets/cupertino/bottom_sheets/cupertino_style_media_navigate_bottom_sheet.dart';
 import 'cupertino_style_tabbed_poster_details_page.dart';
 
 class CupertinoStyleAlbumMediaPage extends StatelessWidget {
@@ -66,25 +64,12 @@ class CupertinoStyleAlbumMediaView extends StatelessWidget {
 
         return CupertinoStyleTabbedPosterDetailsPage(
           previousPageTitle: previousPageTitle,
-          background: CachedNetworkImage(
-            imageUrl: media.imageUri.toString(),
+          background: ImageGradientBackground(
+            imageUri: media.imageUri,
             httpHeaders: {
               for (CustomHeaderModel headerModel in settingsState.appSettings.activeServer.customHeaders)
                 headerModel.key: headerModel.value,
             },
-            imageBuilder: (context, imageProvider) => ImageFiltered(
-              imageFilter: ImageFilter.blur(
-                sigmaX: 25,
-                sigmaY: 25,
-                tileMode: TileMode.decal,
-              ),
-              child: Image(
-                image: imageProvider,
-                fit: BoxFit.fill,
-              ),
-            ),
-            placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-            errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
           ),
           navBarActions: _navBarActions(context),
           poster: CupertinoStylePoster(
