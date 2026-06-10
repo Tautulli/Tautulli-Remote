@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/poster.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/poster.dart';
 
-class MediaListPoster extends StatelessWidget {
+class MaterialStyleMediaListPoster extends StatelessWidget {
   final String? title;
   final int? year;
   final int? ratingKey;
@@ -12,7 +12,7 @@ class MediaListPoster extends StatelessWidget {
   final Uri? posterUri;
   final Function()? onTap;
 
-  const MediaListPoster({
+  const MaterialStyleMediaListPoster({
     super.key,
     this.title,
     this.year,
@@ -114,8 +114,8 @@ class MediaListPoster extends StatelessWidget {
                             MediaType.photo,
                             MediaType.photoAlbum,
                           ].contains(mediaType)
-                            ? 0.7
-                            : 0.8,
+                        ? 0.7
+                        : 0.8,
                     1,
                   ],
                 ),

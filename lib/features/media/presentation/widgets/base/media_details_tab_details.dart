@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
@@ -9,12 +9,14 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 
-class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
+class MediaDetailsTabDetails extends StatelessWidget {
   final MediaModel? metadata;
+  final Color titleColor;
 
-  const CupertinoStyleMediaDetailsTabDetails({
+  const MediaDetailsTabDetails({
     super.key,
     required this.metadata,
+    required this.titleColor,
   });
 
   @override
@@ -34,6 +36,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           metadata!.studio!,
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.originallyAvailableAt != null)
                       _ItemRow(
@@ -43,6 +46,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.duration != null)
                       _ItemRow(
@@ -50,6 +54,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           TimeHelper.simple(metadata!.duration!),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (isNotBlank(metadata!.contentRating))
                       _ItemRow(
@@ -57,6 +62,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           metadata!.contentRating!,
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.genres != null && metadata!.genres!.isNotEmpty)
                       _ItemRow(
@@ -66,6 +72,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                               ? metadata!.genres!.sublist(0, 8).join(', ')
                               : metadata!.genres!.join(', '),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.directors != null && metadata!.directors!.isNotEmpty)
                       _ItemRow(
@@ -75,6 +82,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                               ? metadata!.directors!.sublist(0, 8).join(', ')
                               : metadata!.directors!.join(', '),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.writers != null && metadata!.writers!.isNotEmpty)
                       _ItemRow(
@@ -84,6 +92,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                               ? metadata!.writers!.sublist(0, 8).join(', ')
                               : metadata!.writers!.join(', '),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.actors != null && metadata!.actors!.isNotEmpty)
                       _ItemRow(
@@ -93,6 +102,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                               ? metadata!.actors!.sublist(0, 8).join(', ')
                               : metadata!.actors!.join(', '),
                         ),
+                        titleColor: titleColor,
                       ),
                     const Gap(16),
                     if (isNotBlank(metadata!.mediaInfo?.container))
@@ -101,6 +111,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           metadata!.mediaInfo!.container!.toUpperCase(),
                         ),
+                        titleColor: titleColor,
                       ),
                     if (isNotBlank(metadata!.mediaInfo?.videoFullResolution) &&
                         isNotBlank(metadata!.mediaInfo?.videoCodec))
@@ -109,6 +120,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           '${metadata!.mediaInfo!.videoResolution!.toUpperCase()} (${metadata!.mediaInfo!.videoCodec!.toUpperCase()})',
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.mediaInfo?.audioChannelLayout != null && isNotBlank(metadata!.mediaInfo?.audioCodec))
                       _ItemRow(
@@ -116,6 +128,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           '${metadata!.mediaInfo!.audioChannelLayout} (${metadata!.mediaInfo!.audioCodec!.toUpperCase()})',
                         ),
+                        titleColor: titleColor,
                       ),
                     if (metadata!.mediaInfo?.bitrate != null)
                       _ItemRow(
@@ -123,6 +136,7 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
                         item: Text(
                           DataUnitHelper.bitrate(metadata!.mediaInfo!.bitrate!),
                         ),
+                        titleColor: titleColor,
                       ),
                   ],
                 ),
@@ -140,10 +154,12 @@ class CupertinoStyleMediaDetailsTabDetails extends StatelessWidget {
 class _ItemRow extends StatelessWidget {
   final String title;
   final Widget item;
+  final Color titleColor;
 
   const _ItemRow({
     required this.title,
     required this.item,
+    required this.titleColor,
   });
 
   @override
@@ -161,10 +177,10 @@ class _ItemRow extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: CupertinoColors.systemGrey2,
+                    color: titleColor,
                   ),
                 ),
               ],

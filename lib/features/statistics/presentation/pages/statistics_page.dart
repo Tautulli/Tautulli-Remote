@@ -24,7 +24,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../libraries/data/models/library_table_model.dart';
 import '../../../libraries/presentation/widgets/material/material_style_library_card.dart';
 import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/media_page.dart';
+import '../../../media/presentation/pages/material/material_style_media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
 import '../../../users/presentation/widgets/user_card.dart';
@@ -467,7 +467,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MediaPage(
+                      builder: (context) => MaterialStyleMediaPage(
                         server: _server,
                         media: media,
                       ),
@@ -491,7 +491,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MediaPage(
+                      builder: (context) => MaterialStyleMediaPage(
                         server: _server,
                         media: media,
                       ),
@@ -511,7 +511,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MediaPage(
+                      builder: (context) => MaterialStyleMediaPage(
                         server: _server,
                         media: media.copyWith(mediaType: statData.mediaType),
                       ),

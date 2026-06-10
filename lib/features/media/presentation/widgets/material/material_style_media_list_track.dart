@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../data/models/media_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../data/models/media_model.dart';
 
-class MediaListTrack extends StatelessWidget {
+class MaterialStyleMediaListTrack extends StatelessWidget {
   final MediaModel track;
   final Function()? onTap;
 
-  const MediaListTrack({
+  const MaterialStyleMediaListTrack({
     super.key,
     required this.track,
     this.onTap,

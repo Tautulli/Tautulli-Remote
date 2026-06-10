@@ -2,51 +2,56 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/open_in_plex/open_in_plex.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
-import '../widgets/media_details_tab.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/media_model.dart';
+import '../../widgets/material/material_style_media_details_tab.dart';
+import 'material_style_tabbed_poster_details_page.dart';
 
-class ClipMediaPage extends StatelessWidget {
+class MaterialStylePhotoMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
+  final bool disableAppBarActions;
 
-  const ClipMediaPage({
+  const MaterialStylePhotoMediaPage({
     super.key,
     required this.server,
     required this.media,
+    this.disableAppBarActions = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ClipMediaView(
+    return MaterialStylePhotoMediaView(
       server: server,
       media: media,
+      disableAppBarActions: disableAppBarActions,
     );
   }
 }
 
-class ClipMediaView extends StatelessWidget {
+class MaterialStylePhotoMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
+  final bool disableAppBarActions;
 
-  const ClipMediaView({
+  const MaterialStylePhotoMediaView({
     super.key,
     required this.server,
     required this.media,
+    this.disableAppBarActions = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
+      body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -69,12 +74,12 @@ class ClipMediaView extends StatelessWidget {
         ),
         pageTitle: media.title,
         itemTitle: media.title,
-        itemSubtitle: media.parentTitle ?? '',
+        itemSubtitle: media.parentTitle,
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
         ],
         tabChildren: [
-          MediaDetailsTab(
+          MaterialStyleMediaDetailsTab(
             server: server,
             ratingKey: media.ratingKey!,
           ),
@@ -90,6 +95,7 @@ class ClipMediaView extends StatelessWidget {
           Icons.more_vert,
           color: Theme.of(context).colorScheme.onSurface,
         ),
+        enabled: !disableAppBarActions,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(12),

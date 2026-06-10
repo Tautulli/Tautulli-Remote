@@ -11,7 +11,7 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/metadata_bloc.dart';
-import 'cupertino_style_media_details_tab_details.dart';
+import '../base/media_details_tab_details.dart';
 import 'cupertino_style_media_details_tab_summary.dart';
 
 class CupertinoStyleMediaDetailsTab extends StatefulWidget {
@@ -93,7 +93,10 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
                       if (isNotBlank(state.metadata?.tagline) || isNotBlank(state.metadata?.summary))
                         CupertinoStyleMediaDetailsTabSummary(metadata: state.metadata),
                       const Gap(8),
-                      CupertinoStyleMediaDetailsTabDetails(metadata: state.metadata),
+                      MediaDetailsTabDetails(
+                        metadata: state.metadata,
+                        titleColor: CupertinoColors.systemGrey2,
+                      ),
                     ],
                   ),
                 );

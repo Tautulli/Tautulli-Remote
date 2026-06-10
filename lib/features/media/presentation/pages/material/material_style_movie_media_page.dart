@@ -2,25 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/open_in_plex/open_in_plex.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
-import '../widgets/media_children_tab.dart';
-import '../widgets/media_details_tab.dart';
-import '../widgets/media_history_tab.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/media_model.dart';
+import '../../widgets/material/material_style_media_details_tab.dart';
+import '../../widgets/material/material_style_media_history_tab.dart';
+import 'material_style_tabbed_poster_details_page.dart';
 
-class ShowMediaPage extends StatelessWidget {
+class MaterialStyleMovieMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
 
-  const ShowMediaPage({
+  const MaterialStyleMovieMediaPage({
     super.key,
     required this.server,
     required this.media,
@@ -28,18 +28,18 @@ class ShowMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShowMediaView(
+    return MaterialStyleMovieMediaView(
       server: server,
       media: media,
     );
   }
 }
 
-class ShowMediaView extends StatelessWidget {
+class MaterialStyleMovieMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
 
-  const ShowMediaView({
+  const MaterialStyleMovieMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -48,7 +48,7 @@ class ShowMediaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
+      body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -74,26 +74,17 @@ class ShowMediaView extends StatelessWidget {
         itemSubtitle: media.year?.toString(),
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
-          Tab(
-            child: const Text(LocaleKeys.seasons_title).tr(),
-          ),
           Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
-          MediaDetailsTab(
+          MaterialStyleMediaDetailsTab(
             server: server,
-            ratingKey: media.ratingKey!,
+            ratingKey: media.ratingKey ?? 0,
           ),
-          MediaChildrenTab(
+          MaterialStyleMediaHistoryTab(
             server: server,
-            ratingKey: media.ratingKey!,
-            mediaType: media.mediaType!,
-            parentPosterUri: media.imageUri,
-          ),
-          MediaHistoryTab(
-            server: server,
-            ratingKey: media.ratingKey!,
-            mediaType: media.mediaType!,
+            ratingKey: media.ratingKey ?? 0,
+            mediaType: media.mediaType ?? MediaType.unknown,
             parentPosterUri: media.imageUri,
           ),
         ],

@@ -4,7 +4,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/media_page.dart';
+import '../../../media/presentation/pages/material/material_style_media_page.dart';
 import '../../data/models/recently_added_model.dart';
 import 'recently_added_card_details.dart';
 
@@ -54,7 +54,7 @@ class RecentlyAddedCard extends StatelessWidget {
 
         await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MediaPage(
+            builder: (context) => MaterialStyleMediaPage(
               server: server,
               media: media,
               parentPosterUri: media.parentImageUri,

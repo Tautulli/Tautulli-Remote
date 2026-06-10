@@ -4,13 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/poster.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 const double _expandedHeight = 266;
 
-class SliverTabbedPosterDetailsPage extends StatefulWidget {
+class MaterialStyleTabbedPosterDetailsPage extends StatefulWidget {
   final bool sensitive;
   final Widget? background;
   final List<Widget>? appBarActions;
@@ -22,7 +22,7 @@ class SliverTabbedPosterDetailsPage extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabChildren;
 
-  const SliverTabbedPosterDetailsPage({
+  const MaterialStyleTabbedPosterDetailsPage({
     super.key,
     this.sensitive = false,
     this.background,
@@ -37,10 +37,10 @@ class SliverTabbedPosterDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<SliverTabbedPosterDetailsPage> createState() => _MediaSliverTabbedDetailsStatePage();
+  State<MaterialStyleTabbedPosterDetailsPage> createState() => _MediaSliverTabbedDetailsStatePage();
 }
 
-class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetailsPage> {
+class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPosterDetailsPage> {
   final ScrollController _scrollController = ScrollController();
   double titleOpacity = 0;
   double radius = 16;

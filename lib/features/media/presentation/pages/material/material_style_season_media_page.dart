@@ -2,27 +2,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
-import '../bloc/metadata_bloc.dart';
-import '../widgets/media_children_tab.dart';
-import '../widgets/media_details_tab.dart';
-import '../widgets/media_history_tab.dart';
-import 'media_page.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/media_model.dart';
+import '../../bloc/metadata_bloc.dart';
+import '../../widgets/material/material_style_media_children_tab.dart';
+import '../../widgets/material/material_style_media_details_tab.dart';
+import '../../widgets/material/material_style_media_history_tab.dart';
+import 'material_style_media_page.dart';
+import 'material_style_tabbed_poster_details_page.dart';
 
-class SeasonMediaPage extends StatelessWidget {
+class MaterialStyleSeasonMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final bool disableAncestryNavigation;
 
-  const SeasonMediaPage({
+  const MaterialStyleSeasonMediaPage({
     super.key,
     required this.server,
     required this.media,
@@ -31,7 +31,7 @@ class SeasonMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SeasonMediaView(
+    return MaterialStyleSeasonMediaView(
       server: server,
       media: media,
       disableAncestryNavigation: disableAncestryNavigation,
@@ -39,12 +39,12 @@ class SeasonMediaPage extends StatelessWidget {
   }
 }
 
-class SeasonMediaView extends StatelessWidget {
+class MaterialStyleSeasonMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final bool disableAncestryNavigation;
 
-  const SeasonMediaView({
+  const MaterialStyleSeasonMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -54,7 +54,7 @@ class SeasonMediaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
+      body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -85,17 +85,17 @@ class SeasonMediaView extends StatelessWidget {
           Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
-          MediaDetailsTab(
+          MaterialStyleMediaDetailsTab(
             server: server,
             ratingKey: media.ratingKey!,
           ),
-          MediaChildrenTab(
+          MaterialStyleMediaChildrenTab(
             server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
             parentPosterUri: media.imageUri,
           ),
-          MediaHistoryTab(
+          MaterialStyleMediaHistoryTab(
             server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
@@ -124,7 +124,7 @@ class SeasonMediaView extends StatelessWidget {
               if (value == MediaType.show) {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MediaPage(
+                    builder: (context) => MaterialStyleMediaPage(
                       server: server,
                       media: media.copyWith(
                         title: state.metadata!.parentTitle,

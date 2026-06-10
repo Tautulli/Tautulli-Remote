@@ -2,27 +2,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
-import '../bloc/metadata_bloc.dart';
-import '../widgets/media_details_tab.dart';
-import '../widgets/media_history_tab.dart';
-import 'media_page.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/media_model.dart';
+import '../../bloc/metadata_bloc.dart';
+import '../../widgets/material/material_style_media_details_tab.dart';
+import '../../widgets/material/material_style_media_history_tab.dart';
+import 'material_style_media_page.dart';
+import 'material_style_tabbed_poster_details_page.dart';
 
-class EpisodeMediaPage extends StatelessWidget {
+class MaterialStyleEpisodeMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAncestryNavigation;
 
-  const EpisodeMediaPage({
+  const MaterialStyleEpisodeMediaPage({
     super.key,
     required this.server,
     required this.media,
@@ -32,7 +32,7 @@ class EpisodeMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EpisodeMediaView(
+    return MaterialStyleEpisodeMediaView(
       server: server,
       media: media,
       parentPosterUri: parentPosterUri,
@@ -41,13 +41,13 @@ class EpisodeMediaPage extends StatelessWidget {
   }
 }
 
-class EpisodeMediaView extends StatelessWidget {
+class MaterialStyleEpisodeMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAncestryNavigation;
 
-  const EpisodeMediaView({
+  const MaterialStyleEpisodeMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -58,7 +58,7 @@ class EpisodeMediaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
+      body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -89,11 +89,11 @@ class EpisodeMediaView extends StatelessWidget {
           Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
-          MediaDetailsTab(
+          MaterialStyleMediaDetailsTab(
             server: server,
             ratingKey: media.ratingKey!,
           ),
-          MediaHistoryTab(
+          MaterialStyleMediaHistoryTab(
             server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
@@ -122,7 +122,7 @@ class EpisodeMediaView extends StatelessWidget {
               if (value == MediaType.show) {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MediaPage(
+                    builder: (context) => MaterialStyleMediaPage(
                       server: server,
                       media: media.copyWith(
                         title: state.metadata!.grandparentTitle,
@@ -138,7 +138,7 @@ class EpisodeMediaView extends StatelessWidget {
               if (value == MediaType.season) {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MediaPage(
+                    builder: (context) => MaterialStyleMediaPage(
                       server: server,
                       media: media.copyWith(
                         parentTitle: state.metadata!.grandparentTitle,

@@ -2,23 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/open_in_plex/open_in_plex.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
-import '../widgets/media_children_tab.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/poster.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/media_model.dart';
+import '../../widgets/material/material_style_media_details_tab.dart';
+import 'material_style_tabbed_poster_details_page.dart';
 
-class PhotoAlbumMediaPage extends StatelessWidget {
+class MaterialStyleClipMediaPage extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
 
-  const PhotoAlbumMediaPage({
+  const MaterialStyleClipMediaPage({
     super.key,
     required this.server,
     required this.media,
@@ -26,18 +26,18 @@ class PhotoAlbumMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhotoAlbumMediaView(
+    return MaterialStyleClipMediaView(
       server: server,
       media: media,
     );
   }
 }
 
-class PhotoAlbumMediaView extends StatelessWidget {
+class MaterialStyleClipMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
 
-  const PhotoAlbumMediaView({
+  const MaterialStyleClipMediaView({
     super.key,
     required this.server,
     required this.media,
@@ -46,7 +46,7 @@ class PhotoAlbumMediaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
+      body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -69,17 +69,14 @@ class PhotoAlbumMediaView extends StatelessWidget {
         ),
         pageTitle: media.title,
         itemTitle: media.title,
+        itemSubtitle: media.parentTitle ?? '',
         tabs: [
-          Tab(
-            child: const Text(LocaleKeys.media_title).tr(),
-          ),
+          Tab(child: const Text(LocaleKeys.details_title).tr()),
         ],
         tabChildren: [
-          MediaChildrenTab(
+          MaterialStyleMediaDetailsTab(
             server: server,
             ratingKey: media.ratingKey!,
-            mediaType: media.mediaType!,
-            parentPosterUri: media.imageUri,
           ),
         ],
       ),
@@ -105,7 +102,7 @@ class PhotoAlbumMediaView extends StatelessWidget {
               onTap: () async {
                 await di.sl<OpenInPlex>().open(
                   plexIdentifier: server.plexIdentifier,
-                  ratingKey: media.ratingKey!,
+                  ratingKey: media.parentRatingKey!,
                   useLegacy: true,
                 );
               },

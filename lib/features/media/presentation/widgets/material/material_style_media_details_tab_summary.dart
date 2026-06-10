@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/media_model.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/media_model.dart';
 
-class MediaDetailsTabSummary extends StatelessWidget {
+class MaterialStyleMediaDetailsTabSummary extends StatelessWidget {
   final MediaModel? metadata;
 
-  const MediaDetailsTabSummary({
+  const MaterialStyleMediaDetailsTabSummary({
     super.key,
     required this.metadata,
   });

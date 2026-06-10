@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/individual_history_bloc.dart';
-import '../../../history/presentation/widgets/material/material_style_history_individual_card.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../history/presentation/bloc/individual_history_bloc.dart';
+import '../../../../history/presentation/widgets/material/material_style_history_individual_card.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class MediaHistoryTab extends StatefulWidget {
+class MaterialStyleMediaHistoryTab extends StatefulWidget {
   final ServerModel server;
   final int ratingKey;
   final MediaType mediaType;
   final Uri? parentPosterUri;
 
-  const MediaHistoryTab({
+  const MaterialStyleMediaHistoryTab({
     super.key,
     required this.server,
     required this.ratingKey,
@@ -30,10 +30,10 @@ class MediaHistoryTab extends StatefulWidget {
   });
 
   @override
-  State<MediaHistoryTab> createState() => _MediaHistoryTabState();
+  State<MaterialStyleMediaHistoryTab> createState() => _MaterialStyleMediaHistoryTabState();
 }
 
-class _MediaHistoryTabState extends State<MediaHistoryTab> {
+class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistoryTab> {
   ScrollController? _scrollController;
   late IndividualHistoryBloc _individualHistoryBloc;
   late SettingsBloc _settingsBloc;

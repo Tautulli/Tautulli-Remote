@@ -3,17 +3,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class MediaListThumbnail extends StatelessWidget {
+class MaterialStyleMediaListThumbnail extends StatelessWidget {
   final String? title;
   final int? mediaIndex;
   final Uri? thumbUri;
   final Function()? onTap;
 
-  const MediaListThumbnail({
+  const MaterialStyleMediaListThumbnail({
     super.key,
     this.title,
     this.mediaIndex,

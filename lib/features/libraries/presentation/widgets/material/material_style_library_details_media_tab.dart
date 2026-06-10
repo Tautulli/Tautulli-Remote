@@ -13,8 +13,8 @@ import '../../../../../core/widgets/page_body.dart';
 import '../../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../media/data/models/media_model.dart';
-import '../../../../media/presentation/pages/media_page.dart';
-import '../../../../media/presentation/widgets/media_list_poster.dart';
+import '../../../../media/presentation/pages/material/material_style_media_page.dart';
+import '../../../../media/presentation/widgets/material/material_style_media_list_poster.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../bloc/library_media_bloc.dart';
@@ -126,7 +126,7 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
                           .map(
                             (item) => Padding(
                               padding: const EdgeInsets.all(4),
-                              child: MediaListPoster(
+                              child: MaterialStyleMediaListPoster(
                                 mediaType: item.mediaType,
                                 title: item.title,
                                 ratingKey: item.ratingKey,
@@ -150,7 +150,7 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
                                   if (item.mediaType == MediaType.photoAlbum) {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => MediaPage(
+                                        builder: (context) => MaterialStyleMediaPage(
                                           server: widget.server,
                                           media: media,
                                         ),
@@ -159,7 +159,7 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
                                   } else {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => MediaPage(
+                                        builder: (context) => MaterialStyleMediaPage(
                                           server: widget.server,
                                           media: media,
                                           disableAppBarActions: item.mediaType == MediaType.photo,
