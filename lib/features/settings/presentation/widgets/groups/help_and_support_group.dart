@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../logging/presentation/pages/logging_page.dart';
+import '../../../../logging/presentation/pages/material/material_style_logging_page.dart';
 
 class HelpAndSupportGroup extends StatelessWidget {
   const HelpAndSupportGroup({super.key});
@@ -79,7 +79,7 @@ class HelpAndSupportGroup extends StatelessWidget {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const LoggingPage(),
+                builder: (context) => const MaterialStyleLoggingPage(),
               ),
             );
           },

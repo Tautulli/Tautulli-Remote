@@ -1,14 +1,14 @@
 import 'package:f_logs/model/flog/log.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/theme_helper.dart';
-import 'logging_table_headers.dart';
-import 'logging_table_row.dart';
+import '../../../../../core/helpers/theme_helper.dart';
+import '../base/logging_table_headers.dart';
+import '../base/logging_table_row.dart';
 
-class LoggingTable extends StatelessWidget {
+class MaterialStyleLoggingTable extends StatelessWidget {
   final List<Log> logs;
 
-  const LoggingTable(
+  const MaterialStyleLoggingTable(
     this.logs, {
     super.key,
   });
@@ -24,7 +24,9 @@ class LoggingTable extends StatelessWidget {
             itemBuilder: (context, index) {
               return LoggingTableRow(
                 logs[index],
-                backgroundColor: (index % 2 == 0) ? Theme.of(context).colorScheme.surface : ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface),
+                backgroundColor: (index % 2 == 0)
+                    ? Theme.of(context).colorScheme.surface
+                    : ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface),
               );
             },
           ),

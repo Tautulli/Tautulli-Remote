@@ -7,18 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../dependency_injection.dart' as di;
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/logging_bloc.dart';
-import '../bloc/logging_export_bloc.dart';
-import '../widgets/clear_logging_dialog.dart';
-import '../widgets/logging_table.dart';
+import '../../../../../../dependency_injection.dart' as di;
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../bloc/logging_bloc.dart';
+import '../../bloc/logging_export_bloc.dart';
+import '../../widgets/material/dialogs/material_style_clear_logging_dialog.dart';
+import '../../widgets/material/material_style_logging_table.dart';
 
-class LoggingPage extends StatelessWidget {
-  const LoggingPage({super.key});
+class MaterialStyleLoggingPage extends StatelessWidget {
+  const MaterialStyleLoggingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +31,19 @@ class LoggingPage extends StatelessWidget {
           create: (context) => di.sl<LoggingExportBloc>(),
         ),
       ],
-      child: const LoggingView(),
+      child: const MaterialStyleLoggingView(),
     );
   }
 }
 
-class LoggingView extends StatefulWidget {
-  const LoggingView({super.key});
+class MaterialStyleLoggingView extends StatefulWidget {
+  const MaterialStyleLoggingView({super.key});
 
   @override
-  State<LoggingView> createState() => _LoggingViewState();
+  State<MaterialStyleLoggingView> createState() => _MaterialStyleLoggingViewState();
 }
 
-class _LoggingViewState extends State<LoggingView> {
+class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
   late Completer<void> _refreshCompleter;
 
   @override
@@ -100,7 +100,7 @@ class _LoggingViewState extends State<LoggingView> {
                     );
                   }
 
-                  return LoggingTable(filteredLogs);
+                  return MaterialStyleLoggingTable(filteredLogs);
                 }
               }
               return const SizedBox(height: 0, width: 0);
@@ -120,12 +120,14 @@ class _LoggingViewState extends State<LoggingView> {
               icon: FaIcon(
                 FontAwesomeIcons.filter,
                 size: 22,
-                color: state.level != LogLevel.ALL ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                color: state.level != LogLevel.ALL
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface,
               ),
               onSelected: (LogLevel value) {
                 context.read<LoggingBloc>().add(
-                      LoggingSetLevel(value),
-                    );
+                  LoggingSetLevel(value),
+                );
               },
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -139,7 +141,9 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       LocaleKeys.all_title.tr(),
                       style: TextStyle(
-                        color: state.level == LogLevel.ALL ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                        color: state.level == LogLevel.ALL
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -148,7 +152,9 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Debug',
                       style: TextStyle(
-                        color: state.level == LogLevel.DEBUG ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                        color: state.level == LogLevel.DEBUG
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -157,7 +163,9 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Info',
                       style: TextStyle(
-                        color: state.level == LogLevel.INFO ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                        color: state.level == LogLevel.INFO
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -166,7 +174,9 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Warning',
                       style: TextStyle(
-                        color: state.level == LogLevel.WARNING ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                        color: state.level == LogLevel.WARNING
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -175,7 +185,9 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Error',
                       style: TextStyle(
-                        color: state.level == LogLevel.ERROR ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+                        color: state.level == LogLevel.ERROR
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -202,16 +214,16 @@ class _LoggingViewState extends State<LoggingView> {
 
           if (value == 'export') {
             context.read<LoggingExportBloc>().add(
-                  LoggingExportStart(
-                    context: context,
-                    loggingBloc: loggingBloc,
-                  ),
-                );
+              LoggingExportStart(
+                context: context,
+                loggingBloc: loggingBloc,
+              ),
+            );
           }
           if (value == 'clear') {
             showDialog(
               context: context,
-              builder: (context) => ClearLoggingDialog(loggingBloc),
+              builder: (context) => MaterialStyleClearLoggingDialog(loggingBloc),
             );
           }
         },

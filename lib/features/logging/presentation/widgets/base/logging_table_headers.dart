@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoggingTableHeaders extends StatelessWidget {
   const LoggingTableHeaders({super.key});
@@ -9,7 +9,7 @@ class LoggingTableHeaders extends StatelessWidget {
 
     return DecoratedBox(
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: Color(0xFF000000),
       ),
       child: Row(
         children: [

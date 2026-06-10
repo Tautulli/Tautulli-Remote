@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/logging_bloc.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../bloc/logging_bloc.dart';
 
-class ClearLoggingDialog extends StatelessWidget {
+class MaterialStyleClearLoggingDialog extends StatelessWidget {
   final LoggingBloc loggingBloc;
 
-  const ClearLoggingDialog(
+  const MaterialStyleClearLoggingDialog(
     this.loggingBloc, {
     super.key,
   });

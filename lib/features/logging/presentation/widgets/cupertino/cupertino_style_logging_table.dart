@@ -7,8 +7,8 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../bloc/logging_bloc.dart';
-import '../logging_table_headers.dart';
-import '../logging_table_row.dart';
+import '../base/logging_table_headers.dart';
+import '../base/logging_table_row.dart';
 
 class CupertinoStyleLoggingTable extends StatelessWidget {
   final Completer<void> refreshCompleter;

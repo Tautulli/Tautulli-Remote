@@ -1,7 +1,7 @@
 import 'package:f_logs/model/flog/log.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../../../core/helpers/time_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
 
 class LoggingTableRow extends StatelessWidget {
   final Log log;
@@ -10,7 +10,7 @@ class LoggingTableRow extends StatelessWidget {
   const LoggingTableRow(
     this.log, {
     super.key,
-    this.backgroundColor = Colors.transparent,
+    this.backgroundColor = const Color(0x00000000),
   });
 
   @override
