@@ -14,7 +14,7 @@ import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../libraries/data/models/library_table_model.dart';
-import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../libraries/presentation/widgets/material/material_style_library_card.dart';
 import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -95,7 +95,9 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8.0),
-              itemCount: state.hasReachedMaxMap[widget.statIdType] == true ? statsListWidgets.length : statsListWidgets.length + 1,
+              itemCount: state.hasReachedMaxMap[widget.statIdType] == true
+                  ? statsListWidgets.length
+                  : statsListWidgets.length + 1,
               separatorBuilder: (context, index) => const Gap(8),
               itemBuilder: (context, index) {
                 if (index >= statsListWidgets.length) {
@@ -358,7 +360,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
       case (StatIdType.topLibraries):
         return stat.stats
             .map(
-              (statData) => LibraryCard(
+              (statData) => MaterialStyleLibraryCard(
                 library: LibraryTableModel(
                   iconUri: statData.iconUri,
                   sectionId: statData.sectionId,

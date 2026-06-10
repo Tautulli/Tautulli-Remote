@@ -2,29 +2,30 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
-import '../../../../core/types/section_type.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/library_history_bloc.dart';
-import '../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/library_table_model.dart';
-import '../bloc/library_media_bloc.dart';
-import '../bloc/library_statistics_bloc.dart';
-import '../widgets/library_details_history_tab.dart';
-import '../widgets/library_details_icon.dart';
-import '../widgets/library_details_media_tab.dart';
-import '../widgets/library_details_new_tab.dart';
-import '../widgets/library_details_stats_tab.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../../core/types/section_type.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../history/presentation/bloc/library_history_bloc.dart';
+import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/library_table_model.dart';
+import '../../bloc/library_media_bloc.dart';
+import '../../bloc/library_statistics_bloc.dart';
+import '../../widgets/base/library_details_icon.dart';
+import '../../widgets/material/material_style_library_details_history_tab.dart';
+import '../../widgets/material/material_style_library_details_media_tab.dart';
+import '../../widgets/material/material_style_library_details_new_tab.dart';
+import '../../widgets/material/material_style_library_details_stats_tab.dart';
+import '../../widgets/material/material_style_library_icon.dart';
 
-class LibraryDetailsPage extends StatelessWidget {
+class MaterialStyleLibraryDetailsPage extends StatelessWidget {
   final LibraryTableModel libraryTableModel;
-  const LibraryDetailsPage({
+  const MaterialStyleLibraryDetailsPage({
     super.key,
     required this.libraryTableModel,
   });
@@ -46,26 +47,26 @@ class LibraryDetailsPage extends StatelessWidget {
           create: (context) => di.sl<LibraryMediaBloc>(),
         ),
       ],
-      child: LibraryDetailsView(
+      child: MaterialStyleLibraryDetailsView(
         libraryTableModel: libraryTableModel,
       ),
     );
   }
 }
 
-class LibraryDetailsView extends StatefulWidget {
+class MaterialStyleLibraryDetailsView extends StatefulWidget {
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsView({
+  const MaterialStyleLibraryDetailsView({
     super.key,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsView> createState() => _LibraryDetailsViewState();
+  State<MaterialStyleLibraryDetailsView> createState() => _MaterialStyleLibraryDetailsViewState();
 }
 
-class _LibraryDetailsViewState extends State<LibraryDetailsView> {
+class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDetailsView> {
   late ServerModel server;
 
   @override
@@ -127,7 +128,13 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
             );
           },
         ),
-        icon: LibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
+        icon: LibraryDetailsIcon(
+          libraryTableModel: widget.libraryTableModel,
+          libraryIcon: MaterialStyleLibraryIcon(
+            library: widget.libraryTableModel,
+          ),
+          cardColor: Theme.of(context).cardColor,
+        ),
         title: widget.libraryTableModel.sectionName ?? '',
         subtitle: widget.libraryTableModel.sectionType == SectionType.photo
             ? const Text('')
@@ -171,22 +178,22 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         ],
         tabChildren: [
           if (widget.libraryTableModel.sectionType != SectionType.photo)
-            LibraryDetailsStatsTab(
+            MaterialStyleLibraryDetailsStatsTab(
               server: server,
               libraryTableModel: widget.libraryTableModel,
             ),
           if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
-            LibraryDetailsNewTab(
+            MaterialStyleLibraryDetailsNewTab(
               server: server,
               libraryTableModel: widget.libraryTableModel,
             ),
           if (widget.libraryTableModel.sectionType != SectionType.photo)
-            LibraryDetailsHistoryTab(
+            MaterialStyleLibraryDetailsHistoryTab(
               server: server,
               libraryTableModel: widget.libraryTableModel,
             ),
           if (widget.libraryTableModel.sectionType != SectionType.live)
-            LibraryDetailsMediaTab(
+            MaterialStyleLibraryDetailsMediaTab(
               server: server,
               libraryTableModel: widget.libraryTableModel,
             ),

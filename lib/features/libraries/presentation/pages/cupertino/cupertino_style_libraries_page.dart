@@ -18,7 +18,7 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/libraries_bloc.dart';
 import '../../widgets/cupertino/bottom_sheets/cupertino_style_libraries_filter_bottom_sheet.dart';
 import '../../widgets/cupertino/cupertino_style_library_card.dart';
-import '../../widgets/library_card_details.dart';
+import '../../widgets/base/library_card_details.dart';
 
 class CupertinoStyleLibrariesPage extends StatelessWidget {
   final bool showBackButton;
@@ -214,7 +214,10 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
 
                           return CupertinoStyleLibraryCard(
                             library: library,
-                            details: LibraryCardDetails(library: library),
+                            details: LibraryCardDetails(
+                              library: library,
+                              textColor: ThemeHelper.cupertinoStandardTextColor(),
+                            ),
                           );
                         } else {
                           return const Gap(8);

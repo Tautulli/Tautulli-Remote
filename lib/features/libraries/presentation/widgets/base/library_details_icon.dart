@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:palette_generator_master/palette_generator_master.dart';
 
-import '../../data/models/library_table_model.dart';
-import 'library_icon.dart';
+import '../../../data/models/library_table_model.dart';
 
 class LibraryDetailsIcon extends StatefulWidget {
   final LibraryTableModel libraryTableModel;
+  final Widget libraryIcon;
+  final Color cardColor;
 
   const LibraryDetailsIcon({
     super.key,
     required this.libraryTableModel,
+    required this.libraryIcon,
+    required this.cardColor,
   });
 
   @override
@@ -19,12 +22,10 @@ class LibraryDetailsIcon extends StatefulWidget {
 
 class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
   late Future getColorFuture;
-  late bool hasNetworkImage;
 
   @override
   void initState() {
     super.initState();
-    hasNetworkImage = _hasNetworkImage(widget.libraryTableModel);
     getColorFuture = _getColor(widget.libraryTableModel.backgroundUri.toString());
   }
 
@@ -51,11 +52,11 @@ class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
                 return Stack(
                   children: [
                     Container(
-                      color: color ?? Theme.of(context).cardColor,
+                      color: color ?? widget.cardColor,
                     ),
                     if (color != null)
                       Container(
-                        color: Colors.black12,
+                        color: const Color(0x1F000000),
                       ),
                   ],
                 );
@@ -63,22 +64,12 @@ class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
             ),
           ),
           Center(
-            child: Hero(
-              tag: ValueKey(widget.libraryTableModel.sectionId),
-              child: LibraryIcon(library: widget.libraryTableModel),
-            ),
+            child: widget.libraryIcon,
           ),
         ],
       ),
     );
   }
-}
-
-bool _hasNetworkImage(LibraryTableModel library) {
-  if (library.backgroundUri != null) {
-    return library.backgroundUri.toString().startsWith('http');
-  }
-  return false;
 }
 
 Future<Color?> _getColor(String? url) async {

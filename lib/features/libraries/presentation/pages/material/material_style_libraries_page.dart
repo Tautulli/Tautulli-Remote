@@ -4,22 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/libraries_bloc.dart';
-import '../widgets/library_card.dart';
-import '../widgets/library_card_details.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../bloc/libraries_bloc.dart';
+import '../../widgets/material/material_style_library_card.dart';
+import '../../widgets/base/library_card_details.dart';
 
-class LibrariesPage extends StatelessWidget {
-  const LibrariesPage({super.key});
+class MaterialStyleLibrariesPage extends StatelessWidget {
+  const MaterialStyleLibrariesPage({super.key});
 
   static const routeName = '/libraries';
 
@@ -27,19 +27,19 @@ class LibrariesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<LibrariesBloc>(),
-      child: const LibrariesView(),
+      child: const MaterialStyleLibrariesView(),
     );
   }
 }
 
-class LibrariesView extends StatefulWidget {
-  const LibrariesView({super.key});
+class MaterialStyleLibrariesView extends StatefulWidget {
+  const MaterialStyleLibrariesView({super.key});
 
   @override
-  State<LibrariesView> createState() => _LibrariesViewState();
+  State<MaterialStyleLibrariesView> createState() => _MaterialStyleLibrariesViewState();
 }
 
-class _LibrariesViewState extends State<LibrariesView> {
+class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView> {
   final _scrollController = ScrollController();
   late LibrariesBloc _librariesBloc;
   late SettingsBloc _settingsBloc;
@@ -167,9 +167,12 @@ class _LibrariesViewState extends State<LibrariesView> {
 
                         final library = state.libraries[index];
 
-                        return LibraryCard(
+                        return MaterialStyleLibraryCard(
                           library: library,
-                          details: LibraryCardDetails(library: library),
+                          details: LibraryCardDetails(
+                            library: library,
+                            textColor: Theme.of(context).colorScheme.onSurface,
+                          ),
                         );
                       },
                     );

@@ -29,7 +29,7 @@ import 'features/graphs/presentation/pages/material_style_graphs_page.dart';
 import 'features/history/presentation/pages/cupertino/cupertino_style_history_page.dart';
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
-import 'features/libraries/presentation/pages/libraries_page.dart';
+import 'features/libraries/presentation/pages/material/material_style_libraries_page.dart';
 import 'features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
 import 'features/recently_added/presentation/pages/cupertino/cupertino_style_recently_added_page.dart';
@@ -55,7 +55,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleGraphsPage.routeName: (_) => const MaterialStyleGraphsPage(),
   MaterialStyleHistoryPage.routeName: (_) => const MaterialStyleHistoryPage(),
   HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
-  LibrariesPage.routeName: (_) => const LibrariesPage(),
+  MaterialStyleLibrariesPage.routeName: (_) => const MaterialStyleLibrariesPage(),
   OneSignalDataPrivacyPage.routeName: (_) => const OneSignalDataPrivacyPage(),
   RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
   SettingsPage.routeName: (_) => const SettingsPage(),

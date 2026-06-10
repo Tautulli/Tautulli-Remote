@@ -16,11 +16,12 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../bloc/library_media_bloc.dart';
 import '../../bloc/library_statistics_bloc.dart';
+import '../../widgets/base/library_details_icon.dart';
 import '../../widgets/cupertino/cupertino_style_library_details_history_tab.dart';
-import '../../widgets/cupertino/cupertino_style_library_details_icon.dart';
 import '../../widgets/cupertino/cupertino_style_library_details_media_tab.dart';
 import '../../widgets/cupertino/cupertino_style_library_details_new_tab.dart';
 import '../../widgets/cupertino/cupertino_style_library_details_stats_tab.dart';
+import '../../widgets/cupertino/cupertino_style_library_icon.dart';
 
 class CupertinoStyleLibraryDetailsPage extends StatelessWidget {
   final LibraryTableModel libraryTableModel;
@@ -126,7 +127,11 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
                 headerModel.key: headerModel.value,
             },
           ),
-          icon: CupertinoStyleLibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
+          icon: LibraryDetailsIcon(
+            libraryTableModel: widget.libraryTableModel,
+            libraryIcon: CupertinoStyleLibraryIcon(library: widget.libraryTableModel),
+            cardColor: CupertinoColors.systemBackground.darkElevatedColor,
+          ),
           title: widget.libraryTableModel.sectionName ?? '',
           subtitle: widget.libraryTableModel.sectionType == SectionType.photo
               ? const Text('')

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/icon_card.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/library_table_model.dart';
-import '../pages/library_details_page.dart';
-import 'library_icon.dart';
+import '../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../core/widgets/icon_card.dart';
+import '../../../../settings/data/models/custom_header_model.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/library_table_model.dart';
+import '../../pages/material/material_style_library_details_page.dart';
+import 'material_style_library_icon.dart';
 
-class LibraryCard extends StatelessWidget {
+class MaterialStyleLibraryCard extends StatelessWidget {
   final LibraryTableModel library;
   final Widget details;
 
-  const LibraryCard({
+  const MaterialStyleLibraryCard({
     super.key,
     required this.library,
     required this.details,
@@ -50,13 +50,13 @@ class LibraryCard extends StatelessWidget {
       ),
       icon: Hero(
         tag: ValueKey(library.sectionId),
-        child: LibraryIcon(library: library),
+        child: MaterialStyleLibraryIcon(library: library),
       ),
       details: details,
       onTap: () async {
         await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => LibraryDetailsPage(
+            builder: (context) => MaterialStyleLibraryDetailsPage(
               libraryTableModel: library,
             ),
           ),

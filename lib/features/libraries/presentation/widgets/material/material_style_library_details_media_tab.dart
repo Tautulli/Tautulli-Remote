@@ -4,36 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/types/section_type.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/media_page.dart';
-import '../../../media/presentation/widgets/media_list_poster.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/library_table_model.dart';
-import '../bloc/library_media_bloc.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/types/section_type.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../media/data/models/media_model.dart';
+import '../../../../media/presentation/pages/media_page.dart';
+import '../../../../media/presentation/widgets/media_list_poster.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/library_table_model.dart';
+import '../../bloc/library_media_bloc.dart';
 
-class LibraryDetailsMediaTab extends StatefulWidget {
+class MaterialStyleLibraryDetailsMediaTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsMediaTab({
+  const MaterialStyleLibraryDetailsMediaTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsMediaTab> createState() => _LibraryDetailsMediaTabState();
+  State<MaterialStyleLibraryDetailsMediaTab> createState() => _MaterialStyleLibraryDetailsMediaTabState();
 }
 
-class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
+class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibraryDetailsMediaTab> {
   final ScrollController scrollController = ScrollController();
   late SettingsBloc _settingsBloc;
   late bool _libraryMediaFullRefresh;
@@ -57,14 +57,14 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
         return ThemedRefreshIndicator(
           onRefresh: () {
             context.read<LibraryMediaBloc>().add(
-                  LibraryMediaFetched(
-                    server: widget.server,
-                    sectionId: widget.libraryTableModel.sectionId!,
-                    refresh: true,
-                    fullRefresh: _libraryMediaFullRefresh,
-                    settingsBloc: _settingsBloc,
-                  ),
-                );
+              LibraryMediaFetched(
+                server: widget.server,
+                sectionId: widget.libraryTableModel.sectionId!,
+                refresh: true,
+                fullRefresh: _libraryMediaFullRefresh,
+                settingsBloc: _settingsBloc,
+              ),
+            );
 
             if (_libraryMediaFullRefresh) {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -112,13 +112,14 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                       crossAxisCount: screenWidth > 1000
                           ? 9
                           : screenWidth > 580
-                              ? 6
-                              : 3,
-                      childAspectRatio: [
-                        SectionType.artist,
-                        SectionType.playlist,
-                        SectionType.photo,
-                      ].contains(widget.libraryTableModel.sectionType)
+                          ? 6
+                          : 3,
+                      childAspectRatio:
+                          [
+                            SectionType.artist,
+                            SectionType.playlist,
+                            SectionType.photo,
+                          ].contains(widget.libraryTableModel.sectionType)
                           ? 1
                           : 2 / 3,
                       children: state.libraryItems

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/helpers/asset_helper.dart';
-import '../../data/models/library_table_model.dart';
+import '../../../../../core/helpers/asset_helper.dart';
+import '../../../data/models/library_table_model.dart';
 
-class LibraryIcon extends StatelessWidget {
+class MaterialStyleLibraryIcon extends StatelessWidget {
   final LibraryTableModel library;
 
-  const LibraryIcon({
+  const MaterialStyleLibraryIcon({
     super.key,
     required this.library,
   });

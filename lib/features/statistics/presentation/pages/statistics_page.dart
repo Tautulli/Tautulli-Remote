@@ -22,7 +22,7 @@ import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../libraries/data/models/library_table_model.dart';
-import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../libraries/presentation/widgets/material/material_style_library_card.dart';
 import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -576,7 +576,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
           if (stat.statIdType == StatIdType.topLibraries) {
             widgetList.add(
-              LibraryCard(
+              MaterialStyleLibraryCard(
                 library: LibraryTableModel(
                   iconUri: statData.iconUri,
                   sectionId: statData.sectionId,

@@ -1,18 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/section_type.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/library_table_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/section_type.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/library_table_model.dart';
 
 class LibraryCardDetails extends StatelessWidget {
   final LibraryTableModel library;
+  final Color textColor;
 
   const LibraryCardDetails({
     super.key,
     required this.library,
+    required this.textColor,
   });
 
   @override
@@ -83,7 +85,7 @@ class LibraryCardDetails extends StatelessWidget {
           ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
@@ -106,7 +108,7 @@ class LibraryCardDetails extends StatelessWidget {
           ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
@@ -157,7 +159,7 @@ class LibraryCardDetails extends StatelessWidget {
           ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
@@ -208,7 +210,7 @@ class LibraryCardDetails extends StatelessWidget {
           ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
@@ -231,7 +233,7 @@ class LibraryCardDetails extends StatelessWidget {
           ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
@@ -263,7 +265,7 @@ class LibraryCardDetails extends StatelessWidget {
               ),
             ],
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: textColor,
             ),
           ),
         ),
@@ -276,7 +278,10 @@ class LibraryCardDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                   children: [
-                    if (durationMap['day']! > 1 || durationMap['hour']! > 1 || durationMap['min']! > 1 || durationMap['sec']! > 1)
+                    if (durationMap['day']! > 1 ||
+                        durationMap['hour']! > 1 ||
+                        durationMap['min']! > 1 ||
+                        durationMap['sec']! > 1)
                       TextSpan(
                         text: '${LocaleKeys.time_title.tr()} ',
                       ),
@@ -338,7 +343,10 @@ class LibraryCardDetails extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
+                    if (durationMap['day']! < 1 &&
+                        durationMap['hour']! < 1 &&
+                        durationMap['min']! < 1 &&
+                        durationMap['sec']! > 0)
                       TextSpan(
                         children: [
                           TextSpan(
@@ -359,7 +367,7 @@ class LibraryCardDetails extends StatelessWidget {
                       ),
                   ],
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: textColor,
                   ),
                 ),
               ),

@@ -3,32 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
-import '../../../recently_added/presentation/widgets/recently_added_card.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/library_table_model.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
+import '../../../../recently_added/presentation/widgets/recently_added_card.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/library_table_model.dart';
 
-class LibraryDetailsNewTab extends StatefulWidget {
+class MaterialStyleLibraryDetailsNewTab extends StatefulWidget {
   final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
-  const LibraryDetailsNewTab({
+  const MaterialStyleLibraryDetailsNewTab({
     super.key,
     required this.server,
     required this.libraryTableModel,
   });
 
   @override
-  State<LibraryDetailsNewTab> createState() => _LibraryDetailsNewTabState();
+  State<MaterialStyleLibraryDetailsNewTab> createState() => _MaterialStyleLibraryDetailsNewTabState();
 }
 
-class _LibraryDetailsNewTabState extends State<LibraryDetailsNewTab> {
+class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibraryDetailsNewTab> {
   late SettingsBloc _settingsBloc;
 
   @override
@@ -45,13 +45,13 @@ class _LibraryDetailsNewTabState extends State<LibraryDetailsNewTab> {
         return ThemedRefreshIndicator(
           onRefresh: () {
             context.read<LibraryRecentlyAddedBloc>().add(
-                  LibraryRecentlyAddedFetched(
-                    tautulliId: widget.server.tautulliId,
-                    sectionId: widget.libraryTableModel.sectionId!,
-                    settingsBloc: _settingsBloc,
-                    freshFetch: true,
-                  ),
-                );
+              LibraryRecentlyAddedFetched(
+                tautulliId: widget.server.tautulliId,
+                sectionId: widget.libraryTableModel.sectionId!,
+                settingsBloc: _settingsBloc,
+                freshFetch: true,
+              ),
+            );
 
             return Future.value();
           },
