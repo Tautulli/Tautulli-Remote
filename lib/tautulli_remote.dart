@@ -15,7 +15,7 @@ import 'core/package_information/package_information.dart';
 import 'core/rate_app/rate_app.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
-import 'features/history/presentation/pages/history_page.dart';
+import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -97,7 +97,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
           case ('watched'):
             navigatorKey.currentState?.pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const HistoryPage(
+                builder: (context) => const MaterialStyleHistoryPage(
                   refreshOnLoad: true,
                 ),
               ),

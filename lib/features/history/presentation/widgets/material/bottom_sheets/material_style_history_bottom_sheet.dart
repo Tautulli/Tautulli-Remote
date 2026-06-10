@@ -3,30 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/device_info/device_info.dart';
-import '../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../core/widgets/gesture_pill.dart';
-import '../../../../core/widgets/poster.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/media_page.dart';
-import '../../../settings/data/models/custom_header_model.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_model.dart';
-import '../../../users/presentation/pages/user_details_page.dart';
-import '../../data/models/history_model.dart';
-import 'history_bottom_sheet_details.dart';
-import 'history_bottom_sheet_info.dart';
+import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/device_info/device_info.dart';
+import '../../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../../core/widgets/gesture_pill.dart';
+import '../../../../../../core/widgets/poster.dart';
+import '../../../../../../dependency_injection.dart' as di;
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../media/data/models/media_model.dart';
+import '../../../../../media/presentation/pages/media_page.dart';
+import '../../../../../settings/data/models/custom_header_model.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../users/data/models/user_model.dart';
+import '../../../../../users/presentation/pages/user_details_page.dart';
+import '../../../../data/models/history_model.dart';
+import '../../base/history_details_info.dart';
+import '../material_style_history_bottom_sheet_details.dart';
 
-class HistoryBottomSheet extends StatelessWidget {
+class MaterialStyleHistoryBottomSheet extends StatelessWidget {
   final ServerModel server;
   final HistoryModel history;
   final bool viewUserEnabled;
   final bool viewMediaEnabled;
 
-  const HistoryBottomSheet({
+  const MaterialStyleHistoryBottomSheet({
     super.key,
     required this.server,
     required this.history,
@@ -132,8 +132,9 @@ class HistoryBottomSheet extends StatelessWidget {
                                                     left: 100,
                                                     right: 8,
                                                   ),
-                                                  child: HistoryBottomSheetInfo(
+                                                  child: HistoryDetailsInfo(
                                                     history: history,
+                                                    fontSize: 17,
                                                   ),
                                                 ),
                                               ),
@@ -174,7 +175,7 @@ class HistoryBottomSheet extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: HistoryBottomSheetDetails(
+                        child: MaterialStyleHistoryBottomSheetDetails(
                           server: server,
                           history: history,
                         ),

@@ -11,7 +11,7 @@ import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/user_history_bloc.dart';
-import '../../../history/presentation/widgets/history_card.dart';
+import '../../../history/presentation/widgets/material/material_style_history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 
@@ -112,7 +112,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
 
                     final history = state.history[index];
 
-                    return HistoryCard(
+                    return MaterialStyleHistoryCard(
                       server: widget.server,
                       history: history,
                       showUser: false,

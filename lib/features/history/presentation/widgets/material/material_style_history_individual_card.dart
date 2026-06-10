@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/icon_helper.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_model.dart';
-import '../../../users/presentation/widgets/user_icon.dart';
-import '../../data/models/history_model.dart';
-import 'history_bottom_sheet.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/icon_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../users/data/models/user_model.dart';
+import '../../../../users/presentation/widgets/user_icon.dart';
+import '../../../data/models/history_model.dart';
+import 'bottom_sheets/material_style_history_bottom_sheet.dart';
 
-class HistoryIndividualCard extends StatelessWidget {
+class MaterialStyleHistoryIndividualCard extends StatelessWidget {
   final ServerModel server;
   final HistoryModel history;
 
-  const HistoryIndividualCard({
+  const MaterialStyleHistoryIndividualCard({
     super.key,
     required this.server,
     required this.history,
@@ -31,7 +31,9 @@ class HistoryIndividualCard extends StatelessWidget {
     final double height = [MediaType.movie, MediaType.otherVideo].contains(history.mediaType) ? 60 : 100;
 
     return SizedBox(
-      height: MediaQuery.of(context).textScaler.scale(1) > 1 ? height * MediaQuery.of(context).textScaler.scale(1) : height,
+      height: MediaQuery.of(context).textScaler.scale(1) > 1
+          ? height * MediaQuery.of(context).textScaler.scale(1)
+          : height,
       child: CardWithForcedTint(
         child: Stack(
           children: [
@@ -59,7 +61,9 @@ class HistoryIndividualCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : history.friendlyName ?? '',
+                                state.appSettings.maskSensitiveInfo
+                                    ? LocaleKeys.hidden_message.tr()
+                                    : history.friendlyName ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -72,7 +76,9 @@ class HistoryIndividualCard extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              if ([MediaType.episode].contains(history.mediaType) && history.parentMediaIndex != null && history.mediaIndex != null)
+                              if ([MediaType.episode].contains(history.mediaType) &&
+                                  history.parentMediaIndex != null &&
+                                  history.mediaIndex != null)
                                 Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
                               if ([MediaType.track].contains(history.mediaType))
                                 Text(
@@ -114,7 +120,7 @@ class HistoryIndividualCard extends StatelessWidget {
                   builder: (context) {
                     return BlocProvider.value(
                       value: context.read<GeoIpBloc>(),
-                      child: HistoryBottomSheet(
+                      child: MaterialStyleHistoryBottomSheet(
                         server: server,
                         history: history,
                         viewUserEnabled: true,

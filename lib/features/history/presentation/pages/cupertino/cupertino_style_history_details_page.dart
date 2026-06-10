@@ -13,8 +13,8 @@ import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/pages/cupertino/cupertino_style_user_details_page.dart';
 import '../../../data/models/history_model.dart';
+import '../../widgets/base/history_details_info.dart';
 import '../../widgets/cupertino/cupertino_style_history_details_page_details.dart';
-import '../../widgets/cupertino/cupertino_style_history_details_page_info.dart';
 
 class CupertinoStyleHistoryDetailsPage extends StatelessWidget {
   final ServerModel server;
@@ -122,7 +122,10 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
                             height: 97,
                             padding: const EdgeInsets.only(left: 8 + 100 + 8, right: 8, top: 4),
                             //* Item Info
-                            child: CupertinoStyleHistoryDetailsPageInfo(history: history),
+                            child: HistoryDetailsInfo(
+                              history: history,
+                              fontSize: 20,
+                            ),
                           ),
                           //* Details
                           Expanded(

@@ -12,7 +12,7 @@ import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
-import '../../../history/presentation/widgets/history_individual_card.dart';
+import '../../../history/presentation/widgets/material/material_style_history_individual_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class MediaHistoryTab extends StatefulWidget {
@@ -91,7 +91,9 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
 
                 return ListView.separated(
                   padding: const EdgeInsets.all(8),
-                  itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.history.length : state.history.length + 1,
+                  itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                      ? state.history.length
+                      : state.history.length + 1,
                   separatorBuilder: (context, index) => const Gap(8),
                   itemBuilder: (context, index) {
                     if (index >= state.history.length) {
@@ -115,7 +117,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
 
                     final history = state.history[index];
 
-                    return HistoryIndividualCard(
+                    return MaterialStyleHistoryIndividualCard(
                       server: widget.server,
                       history: history.copyWith(posterUri: widget.parentPosterUri),
                     );

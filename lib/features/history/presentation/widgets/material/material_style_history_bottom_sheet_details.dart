@@ -3,44 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/ip_address_helper.dart';
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../geo_ip/data/models/geo_ip_model.dart';
-import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/history_model.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/ip_address_helper.dart';
+import '../../../../../core/helpers/string_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../geo_ip/data/models/geo_ip_model.dart';
+import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/history_model.dart';
 
-class HistoryBottomSheetDetails extends StatefulWidget {
+class MaterialStyleHistoryBottomSheetDetails extends StatefulWidget {
   final ServerModel server;
   final HistoryModel history;
 
-  const HistoryBottomSheetDetails({
+  const MaterialStyleHistoryBottomSheetDetails({
     super.key,
     required this.server,
     required this.history,
   });
 
   @override
-  State<HistoryBottomSheetDetails> createState() => _HistoryBottomSheetDetailsState();
+  State<MaterialStyleHistoryBottomSheetDetails> createState() => _MaterialStyleHistoryBottomSheetDetailsState();
 }
 
-class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
+class _MaterialStyleHistoryBottomSheetDetailsState extends State<MaterialStyleHistoryBottomSheetDetails> {
   @override
   void initState() {
     super.initState();
 
     if (widget.history.ipAddress != null) {
       context.read<GeoIpBloc>().add(
-            GeoIpFetched(
-              server: widget.server,
-              ipAddress: widget.history.ipAddress!,
-              settingsBloc: context.read<SettingsBloc>(),
-            ),
-          );
+        GeoIpFetched(
+          server: widget.server,
+          ipAddress: widget.history.ipAddress!,
+          settingsBloc: context.read<SettingsBloc>(),
+        ),
+      );
     }
   }
 
@@ -61,7 +61,9 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                       _ItemRow(
                         title: LocaleKeys.user_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.history.friendlyName ?? '',
+                          settingsState.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : widget.history.friendlyName ?? '',
                         ),
                       ),
                       _ItemRow(
@@ -93,7 +95,9 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                       _ItemRow(
                         title: LocaleKeys.ip_address_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.history.ipAddress ?? '',
+                          settingsState.appSettings.maskSensitiveInfo
+                              ? LocaleKeys.hidden_message.tr()
+                              : widget.history.ipAddress ?? '',
                         ),
                       ),
                       if (widget.history.ipAddress != null && IpAddressHelper.isPublic(widget.history.ipAddress!))

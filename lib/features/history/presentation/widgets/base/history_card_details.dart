@@ -1,23 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/icon_helper.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/media_type_icon.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/history_model.dart';
-import 'history_bottom_sheet_info.dart';
+import '../../../../../core/helpers/icon_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/media_type_icon.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/history_model.dart';
+import 'history_details_item_details_row.dart';
+import 'history_details_subtitle_row.dart';
 
 class HistoryCardDetails extends StatelessWidget {
   final HistoryModel history;
+  final Color iconColor;
+  final Widget titleRow;
   final bool showUser;
 
   const HistoryCardDetails({
     super.key,
     required this.history,
+    required this.iconColor,
+    required this.titleRow,
     this.showUser = true,
   });
 
@@ -43,14 +48,14 @@ class HistoryCardDetails extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                  if (!showUser) TitleRow(history),
+                  if (!showUser) titleRow,
                   if (!showUser && history.mediaType != MediaType.movie)
-                    SubtitleRow(
+                    HistoryDetailsSubtitleRow(
                       history,
                       maxLines: 1,
                     ),
                   if (showUser)
-                    ItemDetailsRow(
+                    HistoryDetailsItemDetailsRow(
                       history,
                       dateFormat: state.appSettings.activeServer.dateFormat,
                     ),
@@ -60,7 +65,7 @@ class HistoryCardDetails extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   if (!showUser)
-                    ItemDetailsRow(
+                    HistoryDetailsItemDetailsRow(
                       history,
                       dateFormat: state.appSettings.activeServer.dateFormat,
                     ),
@@ -82,7 +87,7 @@ class HistoryCardDetails extends StatelessWidget {
                   children: [
                     MediaTypeIcon(
                       mediaType: history.mediaType,
-                      iconColor: Theme.of(context).colorScheme.onSurface,
+                      iconColor: iconColor,
                     ),
                     const SizedBox(width: 5),
                     IconHelper.mapWatchedStatusToIcon(

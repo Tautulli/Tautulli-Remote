@@ -9,7 +9,7 @@ import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../history/presentation/bloc/library_history_bloc.dart';
-import '../../../history/presentation/widgets/history_card.dart';
+import '../../../history/presentation/widgets/material/material_style_history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 
@@ -103,7 +103,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
 
                     final history = state.history[index];
 
-                    return HistoryCard(
+                    return MaterialStyleHistoryCard(
                       server: widget.server,
                       history: history,
                       viewMediaEnabled: history.live != true,

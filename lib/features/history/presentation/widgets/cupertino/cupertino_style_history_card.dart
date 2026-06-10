@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../data/models/history_model.dart';
 import '../../pages/cupertino/cupertino_style_history_details_page.dart';
-import 'cupertino_style_history_card_details.dart';
+import '../base/history_card_details.dart';
+import '../base/history_details_title_row.dart';
 
 class CupertinoStyleHistoryCard extends StatelessWidget {
   final ServerModel server;
@@ -29,8 +31,13 @@ class CupertinoStyleHistoryCard extends StatelessWidget {
     return CupertinoStylePosterCard(
       mediaType: history.mediaType,
       uri: history.posterUri,
-      details: CupertinoStyleHistoryCardDetails(
+      details: HistoryCardDetails(
         history: history,
+        iconColor: ThemeHelper.cupertinoCardIconColor(),
+        titleRow: HistoryDetailsTitleRow(
+          history: history,
+          fontSize: 20,
+        ),
         showUser: showUser,
       ),
       onTap: () => Navigator.of(context).push(

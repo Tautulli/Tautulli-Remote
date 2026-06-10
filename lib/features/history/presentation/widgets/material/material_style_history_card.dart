@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/widgets/poster_card.dart';
-import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
-import '../../data/models/history_model.dart';
-import 'history_bottom_sheet.dart';
-import 'history_card_details.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/widgets/poster_card.dart';
+import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import '../../../data/models/history_model.dart';
+import '../base/history_card_details.dart';
+import '../base/history_details_title_row.dart';
+import 'bottom_sheets/material_style_history_bottom_sheet.dart';
 
-class HistoryCard extends StatefulWidget {
+class MaterialStyleHistoryCard extends StatefulWidget {
   final ServerModel server;
   final HistoryModel history;
   final bool showUser;
   final bool viewUserEnabled;
   final bool viewMediaEnabled;
 
-  const HistoryCard({
+  const MaterialStyleHistoryCard({
     super.key,
     required this.server,
     required this.history,
@@ -25,10 +26,10 @@ class HistoryCard extends StatefulWidget {
   });
 
   @override
-  State<HistoryCard> createState() => _HistoryCardState();
+  State<MaterialStyleHistoryCard> createState() => _MaterialStyleHistoryCardState();
 }
 
-class _HistoryCardState extends State<HistoryCard> {
+class _MaterialStyleHistoryCardState extends State<MaterialStyleHistoryCard> {
   late GeoIpBloc _geoIpBloc;
 
   @override
@@ -44,6 +45,11 @@ class _HistoryCardState extends State<HistoryCard> {
       uri: widget.history.posterUri,
       details: HistoryCardDetails(
         history: widget.history,
+        iconColor: Theme.of(context).colorScheme.onSurface,
+        titleRow: HistoryDetailsTitleRow(
+          history: widget.history,
+          fontSize: 17,
+        ),
         showUser: widget.showUser,
       ),
       onTap: () => showModalBottomSheet(
@@ -57,7 +63,7 @@ class _HistoryCardState extends State<HistoryCard> {
         builder: (context) {
           return BlocProvider.value(
             value: _geoIpBloc,
-            child: HistoryBottomSheet(
+            child: MaterialStyleHistoryBottomSheet(
               server: widget.server,
               history: widget.history,
               viewUserEnabled: widget.viewUserEnabled,
