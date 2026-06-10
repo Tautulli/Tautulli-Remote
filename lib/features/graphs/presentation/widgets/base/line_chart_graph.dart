@@ -1,24 +1,30 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/helpers/graph_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/types/play_metric_type.dart';
+import '../../../../../core/types/tautulli_types.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../data/models/chart_data_model.dart';
 import '../../../data/models/graph_data_model.dart';
 
-class CupertinoStyleLineChartGraph extends StatelessWidget {
+class LineChartGraph extends StatelessWidget {
   final PlayMetricType yAxis;
   final GraphDataModel graphData;
+  final Color? axisTextColor;
+  final Color? horizontalLineColor;
+  final Color? verticalLineColor;
 
-  const CupertinoStyleLineChartGraph({
+  const LineChartGraph({
     super.key,
     required this.yAxis,
     required this.graphData,
+    this.axisTextColor,
+    this.horizontalLineColor,
+    this.verticalLineColor,
   });
 
   @override
@@ -53,7 +59,10 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
                           )
                         : value.toStringAsFixed(0),
                     textAlign: TextAlign.end,
-                    style: const TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      color: axisTextColor,
+                      fontSize: 12,
+                    ),
                   ),
                 );
               },
@@ -79,7 +88,10 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
                     turns: const AlwaysStoppedAnimation(-40 / 360),
                     child: Text(
                       GraphHelper.graphDate(graphData.categories[value.toInt()]),
-                      style: const TextStyle(fontSize: 12),
+                      style: TextStyle(
+                        color: axisTextColor,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 );
@@ -94,11 +106,11 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
           border: Border(
             top: BorderSide(
               width: 1,
-              color: ThemeHelper.cupertinoChartLineColor(),
+              color: horizontalLineColor ?? const Color(0xFF000000),
             ),
             bottom: BorderSide(
               width: 1,
-              color: ThemeHelper.cupertinoChartLineColor(),
+              color: horizontalLineColor ?? const Color(0xFF000000),
             ),
           ),
         ),
@@ -109,11 +121,11 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
           checkToShowVerticalLine: (value) => value % chartData.verticalLineStep == 0,
           drawVerticalLine: true,
           getDrawingVerticalLine: (value) => FlLine(
-            color: ThemeHelper.cupertinoChartLineColor().withValues(alpha: 0.1),
+            color: verticalLineColor?.withValues(alpha: 0.1),
           ),
           getDrawingHorizontalLine: (value) => FlLine(
             strokeWidth: 1,
-            color: ThemeHelper.cupertinoChartLineColor(),
+            color: horizontalLineColor,
           ),
         ),
         lineTouchData: LineTouchData(
@@ -122,7 +134,7 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
             fitInsideVertically: true,
             tooltipBorderRadius: BorderRadius.circular(12),
             getTooltipColor: (touchedSpot) =>
-                ThemeHelper.darkenedColor(CupertinoTheme.of(context).scaffoldBackgroundColor).withValues(alpha: 0.98),
+                ThemeHelper.darkenedColor(const Color(0xFF000000)).withValues(alpha: 0.96),
             getTooltipItems: (touchedSpots) {
               touchedSpots.sort(
                 (a, b) => a.barIndex.compareTo(b.barIndex),
@@ -138,6 +150,9 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
                       TextSpan(
                         text:
                             '${GraphHelper.graphDate(graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
+                        style: TextStyle(
+                          color: axisTextColor,
+                        ),
                       ),
                     if (yAxis == PlayMetricType.plays)
                       TextSpan(
@@ -164,7 +179,7 @@ class CupertinoStyleLineChartGraph extends StatelessWidget {
             return spotIndexes.map(
               (spotIndex) {
                 return TouchedSpotIndicatorData(
-                  const FlLine(color: CupertinoColors.transparent, strokeWidth: 1.0),
+                  const FlLine(color: Color(0x00000000), strokeWidth: 1.0),
                   FlDotData(
                     getDotPainter: (flSpot, _, data, __) => FlDotCirclePainter(
                       color: barData.color!,

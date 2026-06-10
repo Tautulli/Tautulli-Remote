@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/types/graph_chart_type.dart';
-import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/play_metric_type.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/graphs_bloc.dart';
-import 'graph_card.dart';
-import 'graph_heading.dart';
+import '../../../../../core/types/graph_chart_type.dart';
+import '../../../../../core/types/graph_type.dart';
+import '../../../../../core/types/play_metric_type.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../bloc/graphs_bloc.dart';
+import '../base/graph_heading.dart';
+import 'material_style_graph_card.dart';
 
-class PlayTotalsGraphsTab extends StatelessWidget {
-  const PlayTotalsGraphsTab({super.key});
+class MaterialStylePlayTotalsGraphsTab extends StatelessWidget {
+  const MaterialStylePlayTotalsGraphsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,9 @@ class PlayTotalsGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.total_play_count_for_last_12_months_title.tr()
                   : LocaleKeys.total_play_time_for_last_12_months_title.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.bar,
               yAxis: state.yAxis,
               graphType: GraphType.playsPerMonth,

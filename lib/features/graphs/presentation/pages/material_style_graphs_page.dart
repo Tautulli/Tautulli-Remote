@@ -17,13 +17,13 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/presentation/bloc/users_bloc.dart';
 import '../bloc/graphs_bloc.dart';
-import '../widgets/graph_tips_dialog.dart';
-import '../widgets/media_type_graphs_tab.dart';
-import '../widgets/play_totals_graphs_tab.dart';
-import '../widgets/stream_type_graphs_tab.dart';
+import '../widgets/material/material_style_graph_tips_dialog.dart';
+import '../widgets/material/material_style_media_type_graphs_tab.dart';
+import '../widgets/material/material_style_play_totals_graphs_tab.dart';
+import '../widgets/material/material_style_stream_type_graphs_tab.dart';
 
-class GraphsPage extends StatelessWidget {
-  const GraphsPage({super.key});
+class MaterialStyleGraphsPage extends StatelessWidget {
+  const MaterialStyleGraphsPage({super.key});
 
   static const routeName = '/graphs';
 
@@ -38,19 +38,19 @@ class GraphsPage extends StatelessWidget {
           create: (context) => di.sl<UsersBloc>(),
         ),
       ],
-      child: const GraphsView(),
+      child: const MaterialStyleGraphsView(),
     );
   }
 }
 
-class GraphsView extends StatefulWidget {
-  const GraphsView({super.key});
+class MaterialStyleGraphsView extends StatefulWidget {
+  const MaterialStyleGraphsView({super.key});
 
   @override
-  State<GraphsView> createState() => _GraphsViewState();
+  State<MaterialStyleGraphsView> createState() => _MaterialStyleGraphsViewState();
 }
 
-class _GraphsViewState extends State<GraphsView> {
+class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
   late ServerModel _server;
   late int? _userId;
   late PlayMetricType _yAxis;
@@ -94,7 +94,7 @@ class _GraphsViewState extends State<GraphsView> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         return showDialog(
           context: context,
-          builder: (context) => const GraphTipsDialog(),
+          builder: (context) => const MaterialStyleGraphTipsDialog(),
         );
       });
       _settingsBloc.add(const SettingsUpdateGraphTipsShown(true));
@@ -164,7 +164,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                               return Future.value();
                             },
-                            child: const MediaTypeGraphsTab(),
+                            child: const MaterialStyleMediaTypeGraphsTab(),
                           ),
                           ThemedRefreshIndicator(
                             onRefresh: () {
@@ -181,7 +181,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                               return Future.value();
                             },
-                            child: const StreamTypeGraphsTab(),
+                            child: const MaterialStyleStreamTypeGraphsTab(),
                           ),
                           ThemedRefreshIndicator(
                             onRefresh: () {
@@ -198,7 +198,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                               return Future.value();
                             },
-                            child: const PlayTotalsGraphsTab(),
+                            child: const MaterialStylePlayTotalsGraphsTab(),
                           ),
                         ],
                       ),

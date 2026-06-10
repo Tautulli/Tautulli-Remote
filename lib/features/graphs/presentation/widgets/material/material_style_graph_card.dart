@@ -1,14 +1,13 @@
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/graph_chart_type.dart';
 import '../../../../../core/types/graph_type.dart';
-import '../../../../../core/types/play_metric_type.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
+import '../../../../../core/types/tautulli_types.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/graph_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
@@ -16,14 +15,14 @@ import '../base/bar_chart_graph.dart';
 import '../base/graph_card_legend.dart';
 import '../base/line_chart_graph.dart';
 
-class CupertinoStyleGraphCard extends StatelessWidget {
+class MaterialStyleGraphCard extends StatelessWidget {
   final GraphChartType graphChartType;
   final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphModel graph;
   final bool? isVertical;
 
-  const CupertinoStyleGraphCard({
+  const MaterialStyleGraphCard({
     super.key,
     required this.graphChartType,
     required this.yAxis,
@@ -45,8 +44,7 @@ class CupertinoStyleGraphCard extends StatelessWidget {
       }
     }
 
-    return CupertinoStyleCard(
-      showLoading: graph.status == BlocStatus.initial,
+    return CardWithForcedTint(
       child: SizedBox(
         height: 275,
         child: Builder(
@@ -92,8 +90,9 @@ class CupertinoStyleGraphCard extends StatelessWidget {
                                 return LineChartGraph(
                                   yAxis: yAxis,
                                   graphData: graph.graphDataModel!,
-                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor(),
-                                  verticalLineColor: ThemeHelper.cupertinoChartLineColor(),
+                                  axisTextColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                                  horizontalLineColor: Theme.of(context).colorScheme.outline,
+                                  verticalLineColor: Theme.of(context).colorScheme.outline,
                                 );
                               case (GraphChartType.bar):
                                 return BarChartGraph(
@@ -101,8 +100,9 @@ class CupertinoStyleGraphCard extends StatelessWidget {
                                   graphType: graphType,
                                   graphData: graph.graphDataModel!,
                                   isVertical: isVertical,
-                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor(),
-                                  verticalLineColor: CupertinoColors.white,
+                                  axisTextColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                                  horizontalLineColor: Theme.of(context).colorScheme.outline,
+                                  verticalLineColor: Colors.white,
                                 );
                             }
                           } else {
@@ -121,6 +121,12 @@ class CupertinoStyleGraphCard extends StatelessWidget {
                   GraphCardLegend(
                     graphData: graph.graphDataModel!,
                   ),
+                graph.status == BlocStatus.initial
+                    ? LinearProgressIndicator(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        backgroundColor: Colors.transparent,
+                      )
+                    : const SizedBox(height: 4),
               ],
             );
           },

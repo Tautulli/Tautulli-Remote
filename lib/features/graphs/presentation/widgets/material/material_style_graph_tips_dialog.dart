@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../translations/locale_keys.g.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
-class GraphTipsDialog extends StatelessWidget {
-  const GraphTipsDialog({super.key});
+class MaterialStyleGraphTipsDialog extends StatelessWidget {
+  const MaterialStyleGraphTipsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

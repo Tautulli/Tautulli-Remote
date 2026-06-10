@@ -1,27 +1,30 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/device_info/device_info.dart';
-import '../../../../core/helpers/graph_helper.dart';
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/helpers/theme_helper.dart';
-import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/play_metric_type.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/chart_data_model.dart';
-import '../../data/models/graph_data_model.dart';
-import '../../data/models/graph_series_data_model.dart';
+import '../../../../../core/device_info/device_info.dart';
+import '../../../../../core/helpers/graph_helper.dart';
+import '../../../../../core/helpers/string_helper.dart';
+import '../../../../../core/helpers/theme_helper.dart';
+import '../../../../../core/types/graph_type.dart';
+import '../../../../../core/types/play_metric_type.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/chart_data_model.dart';
+import '../../../data/models/graph_data_model.dart';
+import '../../../data/models/graph_series_data_model.dart';
 
 class BarChartGraph extends StatelessWidget {
   final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphDataModel graphData;
   final bool? isVertical;
+  final Color? axisTextColor;
+  final Color? horizontalLineColor;
+  final Color? verticalLineColor;
 
   const BarChartGraph({
     super.key,
@@ -29,6 +32,9 @@ class BarChartGraph extends StatelessWidget {
     required this.graphType,
     required this.graphData,
     this.isVertical = false,
+    this.axisTextColor,
+    this.horizontalLineColor,
+    this.verticalLineColor,
   });
 
   @override
@@ -67,7 +73,7 @@ class BarChartGraph extends StatelessWidget {
                         : value.toStringAsFixed(0),
                     textAlign: TextAlign.end,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      color: axisTextColor,
                       fontSize: 12,
                     ),
                   ),
@@ -116,7 +122,7 @@ class BarChartGraph extends StatelessWidget {
                     child: Text(
                       text,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        color: axisTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -130,7 +136,7 @@ class BarChartGraph extends StatelessWidget {
                     child: Text(
                       text,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        color: axisTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -147,11 +153,11 @@ class BarChartGraph extends StatelessWidget {
           border: Border(
             top: BorderSide(
               width: 1,
-              color: Theme.of(context).colorScheme.outline,
+              color: horizontalLineColor ?? const Color(0xFF000000),
             ),
             bottom: BorderSide(
               width: 1,
-              color: Theme.of(context).colorScheme.outline,
+              color: horizontalLineColor ?? const Color(0xFF000000),
             ),
           ),
         ),
@@ -162,11 +168,11 @@ class BarChartGraph extends StatelessWidget {
           checkToShowVerticalLine: (value) => value % chartData.verticalLineStep == 0,
           drawVerticalLine: true,
           getDrawingVerticalLine: (value) => FlLine(
-            color: Colors.white.withValues(alpha: 0.03),
+            color: horizontalLineColor?.withValues(alpha: 0.03),
           ),
           getDrawingHorizontalLine: (value) => FlLine(
             strokeWidth: 1,
-            color: Theme.of(context).colorScheme.outline,
+            color: horizontalLineColor,
           ),
         ),
         barTouchData: BarTouchData(
@@ -174,7 +180,7 @@ class BarChartGraph extends StatelessWidget {
             fitInsideHorizontally: true,
             fitInsideVertically: true,
             tooltipBorderRadius: BorderRadius.circular(12),
-            getTooltipColor: (group) => ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withValues(alpha: 0.98),
+            getTooltipColor: (group) => ThemeHelper.darkenedColor(const Color(0xFF000000)).withValues(alpha: 0.98),
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               List<GraphSeriesDataModel> validItems = List.from(
                 graphData.seriesDataList.where(
@@ -195,7 +201,7 @@ class BarChartGraph extends StatelessWidget {
                   TextSpan(
                     text: '${LocaleKeys.hidden_message.tr()}\n\n',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: axisTextColor,
                     ),
                   ),
                 );
@@ -204,7 +210,7 @@ class BarChartGraph extends StatelessWidget {
                   TextSpan(
                     text: '${graphData.categories[groupIndex]}\n\n',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: axisTextColor,
                     ),
                   ),
                 );
@@ -214,7 +220,8 @@ class BarChartGraph extends StatelessWidget {
                 if (yAxis == PlayMetricType.plays) {
                   textSpanList.add(
                     TextSpan(
-                      text: '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${validItems[i].seriesData[groupIndex]}',
+                      text:
+                          '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${validItems[i].seriesData[groupIndex]}',
                       style: TextStyle(
                         color: sortedRodStackItems[i].color,
                       ),

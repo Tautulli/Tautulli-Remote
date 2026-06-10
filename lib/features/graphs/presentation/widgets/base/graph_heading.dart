@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../../../core/widgets/heading.dart';
+import '../../../../../core/widgets/heading.dart';
 
 class GraphHeading extends StatelessWidget {
   final String text;
+  final Color color;
 
   const GraphHeading({
     super.key,
     required this.text,
+    required this.color,
   });
 
   @override
@@ -16,7 +18,7 @@ class GraphHeading extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Heading(
         text: text,
-        color: Theme.of(context).colorScheme.onSurface,
+        color: color,
       ),
     );
   }

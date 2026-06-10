@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/types/tautulli_types.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/graph_data_model.dart';
-import '../../data/models/graph_series_data_model.dart';
+import '../../../../../core/helpers/color_palette_helper.dart';
+import '../../../../../core/types/tautulli_types.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/graph_data_model.dart';
+import '../../../data/models/graph_series_data_model.dart';
 
 class GraphCardLegend extends StatelessWidget {
   final GraphDataModel graphData;
@@ -38,7 +38,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.primary,
                     color: PlexColorPalette.primaryGold,
                   ),
                   const Gap(4),
@@ -55,7 +54,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.onSurface,
                     color: TautulliColorPalette.notWhite,
                   ),
                   const Gap(4),
@@ -72,8 +70,7 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.error,
-                    color: Colors.red,
+                    color: Color(0xFFF44336),
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.music_title).tr(),
@@ -89,7 +86,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.secondary,
                     color: PlexColorPalette.blue,
                   ),
                   const Gap(4),
@@ -106,7 +102,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.primary,
                     color: PlexColorPalette.primaryGold,
                   ),
                   const Gap(4),
@@ -123,7 +118,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.onSurface,
                     color: TautulliColorPalette.notWhite,
                   ),
                   const Gap(4),
@@ -140,8 +134,7 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: Theme.of(context).colorScheme.error,
-                    color: Colors.red,
+                    color: Color(0xFFF44336),
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.transcode_title).tr(),
@@ -157,7 +150,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: di.sl<Settings>().getTheme() == ThemeType.tautulli ? PlexColorPalette.seaGreen : Theme.of(context).colorScheme.secondary,
                     color: PlexColorPalette.seaGreen,
                   ),
                   const Gap(4),
@@ -174,7 +166,6 @@ class GraphCardLegend extends StatelessWidget {
                   const FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    // color: di.sl<Settings>().getTheme() == ThemeType.tautulli ? PlexColorPalette.seaGreen : Theme.of(context).colorScheme.secondary,
                     color: PlexColorPalette.seaGreen,
                   ),
                   const Gap(4),

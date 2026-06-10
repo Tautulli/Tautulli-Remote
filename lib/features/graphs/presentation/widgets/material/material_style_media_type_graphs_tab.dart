@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/types/graph_chart_type.dart';
-import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/play_metric_type.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/graphs_bloc.dart';
-import 'graph_card.dart';
-import 'graph_heading.dart';
+import '../../../../../core/types/graph_chart_type.dart';
+import '../../../../../core/types/graph_type.dart';
+import '../../../../../core/types/play_metric_type.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../bloc/graphs_bloc.dart';
+import '../base/graph_heading.dart';
+import 'material_style_graph_card.dart';
 
-class MediaTypeGraphsTab extends StatelessWidget {
-  const MediaTypeGraphsTab({super.key});
+class MaterialStyleMediaTypeGraphsTab extends StatelessWidget {
+  const MaterialStyleMediaTypeGraphsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,9 @@ class MediaTypeGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.daily_play_count_by_media_type_title.tr()
                   : LocaleKeys.daily_play_time_by_media_type_title.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.line,
               yAxis: state.yAxis,
               graphType: GraphType.playsByDate,
@@ -38,8 +39,9 @@ class MediaTypeGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_day_of_the_week.tr()
                   : LocaleKeys.play_time_by_day_of_the_week.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.bar,
               yAxis: state.yAxis,
               graphType: GraphType.playsByDayOfWeek,
@@ -50,8 +52,9 @@ class MediaTypeGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_hour_of_the_day.tr()
                   : LocaleKeys.play_time_by_hour_of_the_day.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.bar,
               yAxis: state.yAxis,
               graphType: GraphType.playsByHourOfDay,
@@ -63,8 +66,9 @@ class MediaTypeGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_top_10_platforms.tr()
                   : LocaleKeys.play_time_by_top_10_platforms.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.bar,
               yAxis: state.yAxis,
               graphType: GraphType.playsByTop10Platforms,
@@ -75,8 +79,9 @@ class MediaTypeGraphsTab extends StatelessWidget {
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_top_10_users.tr()
                   : LocaleKeys.play_time_by_top_10_users.tr(),
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            GraphCard(
+            MaterialStyleGraphCard(
               graphChartType: GraphChartType.bar,
               yAxis: state.yAxis,
               graphType: GraphType.playsByTop10Users,
