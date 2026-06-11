@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/widgets/groups/accessibility_font_group.dart';
-import '../../../settings/presentation/widgets/groups/accessibility_theme_group.dart';
-import '../../../settings/presentation/widgets/groups/accessibility_visuals_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_font_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_theme_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_visuals_group.dart';
 import 'wizard_next_button.dart';
 import 'wizard_previous_button.dart';
 import 'wizard_stepper.dart';
@@ -55,11 +55,11 @@ class WizardAccessibility extends StatelessWidget {
                   ],
                 ),
                 const Gap(8),
-                const AccessibilityFontGroup(),
+                const MaterialStyleAccessibilityFontGroup(),
                 const Gap(8),
-                const AccessibilityThemeGroup(),
+                const MaterialStyleAccessibilityThemeGroup(),
                 const Gap(8),
-                const AccessibilityVisualsGroup(),
+                const MaterialStyleAccessibilityVisualsGroup(),
                 const Gap(8),
               ],
             ),

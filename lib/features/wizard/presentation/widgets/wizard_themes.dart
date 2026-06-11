@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/widgets/groups/dynamic_color_group.dart';
-import '../../../settings/presentation/widgets/groups/theme_enhancements_group.dart';
-import '../../../settings/presentation/widgets/groups/themes_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_dynamic_color_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_theme_enhancements_group.dart';
+import '../../../settings/presentation/widgets/material/groups/material_style_themes_group.dart';
 import 'wizard_next_button.dart';
 import 'wizard_previous_button.dart';
 import 'wizard_stepper.dart';
@@ -56,11 +56,11 @@ class WizardThemes extends StatelessWidget {
                     ],
                   ),
                   const Gap(8),
-                  const ThemesGroup(),
+                  const MaterialStyleThemesGroup(),
                   const Gap(8),
-                  const DynamicColorGroup(),
+                  const MaterialStyleDynamicColorGroup(),
                   const Gap(8),
-                  const ThemeEnhancementsGroup(),
+                  const MaterialStyleThemeEnhancementsGroup(),
                 ],
               ),
             ),
