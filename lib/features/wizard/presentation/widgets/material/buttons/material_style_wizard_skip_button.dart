@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/types/wizard_skip_type.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/wizard_bloc.dart';
-import 'wizard_skip_dialog.dart';
+import '../../../../../../core/types/wizard_skip_type.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../bloc/wizard_bloc.dart';
+import '../dialogs/material_style_wizard_skip_dialog.dart';
 
-class WizardSkipButton extends StatelessWidget {
+class MaterialStyleWizardSkipButton extends StatelessWidget {
   final WizardSkipType wizardSkipType;
 
-  const WizardSkipButton({
+  const MaterialStyleWizardSkipButton({
     super.key,
     required this.wizardSkipType,
   });
@@ -24,7 +24,7 @@ class WizardSkipButton extends StatelessWidget {
       onPressed: () async {
         final result = await showDialog(
           context: context,
-          builder: (context) => WizardSkipDialog(
+          builder: (context) => MaterialStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
                 ? LocaleKeys.wizard_skip_dialog_message_servers.tr()
                 : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),

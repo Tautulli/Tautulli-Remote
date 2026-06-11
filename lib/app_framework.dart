@@ -45,7 +45,7 @@ import 'features/translation/presentation/pages/material/material_style_help_tra
 import 'features/users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 import 'features/users/presentation/pages/material/material_style_users_page.dart';
 import 'features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
-import 'features/wizard/presentation/pages/wizard_page.dart';
+import 'features/wizard/presentation/pages/material/material_style_wizard_page.dart';
 
 Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleActivityPage.routeName: (_) => const MaterialStyleActivityPage(),
@@ -61,7 +61,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleSettingsPage.routeName: (_) => const MaterialStyleSettingsPage(),
   MaterialStyleStatisticsPage.routeName: (_) => const MaterialStyleStatisticsPage(),
   MaterialStyleUsersPage.routeName: (_) => const MaterialStyleUsersPage(),
-  WizardPage.routeName: (_) => const WizardPage(),
+  MaterialStyleWizardPage.routeName: (_) => const MaterialStyleWizardPage(),
 };
 
 Map<String, Widget Function(BuildContext)> cupertinoRoutes = {

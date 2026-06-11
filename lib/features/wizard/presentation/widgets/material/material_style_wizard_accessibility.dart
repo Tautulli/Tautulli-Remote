@@ -2,17 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_font_group.dart';
-import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_theme_group.dart';
-import '../../../settings/presentation/widgets/material/groups/material_style_accessibility_visuals_group.dart';
-import 'wizard_next_button.dart';
-import 'wizard_previous_button.dart';
-import 'wizard_stepper.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/widgets/material/groups/material_style_accessibility_font_group.dart';
+import '../../../../settings/presentation/widgets/material/groups/material_style_accessibility_theme_group.dart';
+import '../../../../settings/presentation/widgets/material/groups/material_style_accessibility_visuals_group.dart';
+import 'buttons/material_style_wizard_next_button.dart';
+import 'buttons/material_style_wizard_previous_button.dart';
+import 'material_style_wizard_stepper.dart';
 
-class WizardAccessibility extends StatelessWidget {
-  const WizardAccessibility({super.key});
+class MaterialStyleWizardAccessibility extends StatelessWidget {
+  const MaterialStyleWizardAccessibility({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +64,9 @@ class WizardAccessibility extends StatelessWidget {
               ],
             ),
           ),
-          const WizardStepper(
-            leftAction: WizardPreviousButton(),
-            rightAction: WizardNextButton(),
+          const MaterialStyleWizardStepper(
+            leftAction: MaterialStyleWizardPreviousButton(),
+            rightAction: MaterialStyleWizardNextButton(),
           ),
         ],
       ),

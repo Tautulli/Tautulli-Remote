@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../../translations/locale_keys.g.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 
-class WizardQuitDialog extends StatelessWidget {
-  const WizardQuitDialog({super.key});
+class MaterialStyleWizardQuitDialog extends StatelessWidget {
+  const MaterialStyleWizardQuitDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

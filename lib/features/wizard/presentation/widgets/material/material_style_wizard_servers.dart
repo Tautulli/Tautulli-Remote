@@ -4,23 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/types/wizard_skip_type.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../settings/presentation/widgets/material/dialogs/material_style_language_dialog.dart';
-import '../../../settings/presentation/widgets/material/groups/material_style_servers_group.dart';
-import '../../../settings/presentation/widgets/material/buttons/material_style_register_server_button.dart';
-import '../../../translation/presentation/bloc/translation_bloc.dart';
-import '../bloc/wizard_bloc.dart';
-import 'wizard_exit_button.dart';
-import 'wizard_next_button.dart';
-import 'wizard_skip_button.dart';
-import 'wizard_stepper.dart';
+import '../../../../../core/types/wizard_skip_type.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../settings/presentation/widgets/material/dialogs/material_style_language_dialog.dart';
+import '../../../../settings/presentation/widgets/material/groups/material_style_servers_group.dart';
+import '../../../../settings/presentation/widgets/material/buttons/material_style_register_server_button.dart';
+import '../../../../translation/presentation/bloc/translation_bloc.dart';
+import '../../bloc/wizard_bloc.dart';
+import 'buttons/material_style_wizard_exit_button.dart';
+import 'buttons/material_style_wizard_next_button.dart';
+import 'buttons/material_style_wizard_skip_button.dart';
+import 'material_style_wizard_stepper.dart';
 
-class WizardServers extends StatelessWidget {
-  const WizardServers({super.key});
+class MaterialStyleWizardServers extends StatelessWidget {
+  const MaterialStyleWizardServers({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +119,11 @@ class WizardServers extends StatelessWidget {
                 builder: (context, settingsState) {
                   settingsState as SettingsSuccess;
 
-                  return WizardStepper(
-                    leftAction: const WizardExitButton(),
+                  return MaterialStyleWizardStepper(
+                    leftAction: const MaterialStyleWizardExitButton(),
                     rightAction: settingsState.serverList.isEmpty && !wizardState.serversSkipped
-                        ? const WizardSkipButton(wizardSkipType: WizardSkipType.servers)
-                        : const WizardNextButton(),
+                        ? const MaterialStyleWizardSkipButton(wizardSkipType: WizardSkipType.servers)
+                        : const MaterialStyleWizardNextButton(),
                   );
                 },
               );

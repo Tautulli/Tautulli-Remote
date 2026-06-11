@@ -4,15 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/notice_card.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../bloc/wizard_bloc.dart';
-import 'wizard_finish_button.dart';
-import 'wizard_previous_button.dart';
-import 'wizard_stepper.dart';
+import '../../../../../core/widgets/notice_card.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../bloc/wizard_bloc.dart';
+import 'buttons/material_style_wizard_finish_button.dart';
+import 'buttons/material_style_wizard_previous_button.dart';
+import 'material_style_wizard_stepper.dart';
 
-class WizardClosing extends StatelessWidget {
-  const WizardClosing({super.key});
+class MaterialStyleWizardClosing extends StatelessWidget {
+  const MaterialStyleWizardClosing({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +79,9 @@ class WizardClosing extends StatelessWidget {
               ),
             ),
           ),
-          const WizardStepper(
-            leftAction: WizardPreviousButton(),
-            rightAction: WizardFinishButton(),
+          const MaterialStyleWizardStepper(
+            leftAction: MaterialStyleWizardPreviousButton(),
+            rightAction: MaterialStyleWizardFinishButton(),
           ),
         ],
       ),

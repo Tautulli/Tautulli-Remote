@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/wizard_bloc.dart';
+import '../../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import '../../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../bloc/wizard_bloc.dart';
 
-class WizardFinishButton extends StatelessWidget {
-  const WizardFinishButton({super.key});
+class MaterialStyleWizardFinishButton extends StatelessWidget {
+  const MaterialStyleWizardFinishButton({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../translations/locale_keys.g.dart';
+import '../../../../../../translations/locale_keys.g.dart';
 
-class WizardSkipDialog extends StatelessWidget {
+class MaterialStyleWizardSkipDialog extends StatelessWidget {
   final String message;
 
-  const WizardSkipDialog({
+  const MaterialStyleWizardSkipDialog({
     super.key,
     required this.message,
   });

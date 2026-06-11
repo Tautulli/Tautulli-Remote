@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:im_stepper/stepper.dart';
 
-import '../bloc/wizard_bloc.dart';
+import '../../bloc/wizard_bloc.dart';
 
-class WizardStepper extends StatelessWidget {
+class MaterialStyleWizardStepper extends StatelessWidget {
   final Widget leftAction;
   final Widget rightAction;
 
-  const WizardStepper({
+  const MaterialStyleWizardStepper({
     super.key,
     required this.leftAction,
     required this.rightAction,

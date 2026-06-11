@@ -5,20 +5,20 @@ import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/types/wizard_skip_type.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../core/widgets/permission_setting_dialog.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../onesignal/presentation/pages/material/material_style_onesignal_data_privacy_page.dart';
-import '../../../settings/presentation/widgets/material/list_tiles/material_style_checkbox_settings_list_tile.dart';
-import '../bloc/wizard_bloc.dart';
-import 'wizard_next_button.dart';
-import 'wizard_previous_button.dart';
-import 'wizard_skip_button.dart';
-import 'wizard_stepper.dart';
+import '../../../../../core/types/wizard_skip_type.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/permission_setting_dialog.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../onesignal/presentation/pages/material/material_style_onesignal_data_privacy_page.dart';
+import '../../../../settings/presentation/widgets/material/list_tiles/material_style_checkbox_settings_list_tile.dart';
+import '../../bloc/wizard_bloc.dart';
+import 'buttons/material_style_wizard_next_button.dart';
+import 'buttons/material_style_wizard_previous_button.dart';
+import 'buttons/material_style_wizard_skip_button.dart';
+import 'material_style_wizard_stepper.dart';
 
-class WizardOneSignal extends StatelessWidget {
-  const WizardOneSignal({super.key});
+class MaterialStyleWizardOneSignal extends StatelessWidget {
+  const MaterialStyleWizardOneSignal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +122,11 @@ class WizardOneSignal extends StatelessWidget {
                   ],
                 ),
               ),
-              WizardStepper(
-                leftAction: const WizardPreviousButton(),
+              MaterialStyleWizardStepper(
+                leftAction: const MaterialStyleWizardPreviousButton(),
                 rightAction: state.oneSignalSkipped || state.oneSignalAllowed
-                    ? const WizardNextButton()
-                    : const WizardSkipButton(
+                    ? const MaterialStyleWizardNextButton()
+                    : const MaterialStyleWizardSkipButton(
                         wizardSkipType: WizardSkipType.onesignal,
                       ),
               ),
