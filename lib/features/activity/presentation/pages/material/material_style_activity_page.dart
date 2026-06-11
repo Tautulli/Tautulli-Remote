@@ -5,13 +5,13 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/rate_app/rate_app.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../../core/widgets/status_card.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/material/material_style_status_card.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -176,11 +176,11 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
           ),
         );
       },
-      child: ScaffoldWithInnerDrawer(
+      child: MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.activity_title).tr(),
         body: BlocBuilder<ActivityBloc, ActivityState>(
           builder: (context, state) {
-            return ThemedRefreshIndicator(
+            return MaterialStyleRefreshIndicator(
               onRefresh: () {
                 _activityBloc.add(
                   ActivityFetched(
@@ -193,7 +193,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
 
                 return Future.value();
               },
-              child: PageBody(
+              child: MaterialStylePageBody(
                 loading:
                     !_multiserver &&
                         state.serverActivityList.isNotEmpty &&
@@ -231,7 +231,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
     List<Widget> serverActivityWidgets = [];
 
     if (serverActivityModelList.isEmpty) {
-      return StatusPage(
+      return MaterialStyleStatusPage(
         scrollable: true,
         message: LocaleKeys.error_message_no_servers.tr(),
         suggestion: LocaleKeys.error_suggestion_register_server.tr(),
@@ -244,7 +244,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
       );
 
       if (firstServer.status == BlocStatus.failure) {
-        return StatusPage(
+        return MaterialStyleStatusPage(
           scrollable: true,
           message: firstServer.failureMessage ?? '',
           suggestion: firstServer.failureSuggestion ?? '',
@@ -252,7 +252,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
       } else if (freshFetch) {
         return const SizedBox();
       } else if (firstServer.activityList.isEmpty) {
-        return StatusPage(
+        return MaterialStyleStatusPage(
           scrollable: true,
           message: LocaleKeys.activity_empty_message.tr(),
         );
@@ -319,7 +319,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
         List<Widget> serverActivityList = [];
         if (serverActivityModel.status == BlocStatus.failure) {
           serverActivityList.add(
-            StatusCard(
+            MaterialStyleStatusCard(
               isFailure: true,
               message: serverActivityModel.failureMessage ?? '',
               suggestion: serverActivityModel.failureSuggestion,
@@ -327,7 +327,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
           );
         } else if (serverActivityModel.activityList.isEmpty) {
           serverActivityList.add(
-            StatusCard(
+            MaterialStyleStatusCard(
               message: LocaleKeys.activity_empty_message.tr(),
             ),
           );

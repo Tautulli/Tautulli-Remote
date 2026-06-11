@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-class StatusPage extends StatelessWidget {
+class MaterialStyleStatusPage extends StatelessWidget {
   final String message;
   final String? suggestion;
   final Widget? action;
   final bool scrollable;
 
-  const StatusPage({
+  const MaterialStyleStatusPage({
     super.key,
     required this.message,
     this.suggestion,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/poster.dart';
+import '../../../../../core/widgets/material/material_style_poster.dart';
 
 class MaterialStyleMediaListPoster extends StatelessWidget {
   final String? title;
@@ -29,7 +29,7 @@ class MaterialStyleMediaListPoster extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: Poster(
+            child: MaterialStylePoster(
               heroTag: ratingKey,
               mediaType: mediaType,
               uri: Uri.tryParse(posterUri.toString()),

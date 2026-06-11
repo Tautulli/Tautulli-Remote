@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../../core/widgets/poster.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
+import '../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -54,7 +54,7 @@ class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
 
     return SizedBox(
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
-      child: CardWithForcedTint(
+      child: MaterialStyleCard(
         child: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -80,7 +80,7 @@ class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Poster(
+                              MaterialStylePoster(
                                 mediaType: widget.activity.mediaType,
                                 uri: posterUri,
                                 activityState: widget.activity.state,

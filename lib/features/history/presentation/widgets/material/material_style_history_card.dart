@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/widgets/poster_card.dart';
+import '../../../../../core/widgets/material/material_style_poster_card.dart';
 import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../data/models/history_model.dart';
 import '../base/history_card_details.dart';
@@ -40,7 +40,7 @@ class _MaterialStyleHistoryCardState extends State<MaterialStyleHistoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    return PosterCard(
+    return MaterialStylePosterCard(
       mediaType: widget.history.mediaType,
       uri: widget.history.posterUri,
       details: HistoryCardDetails(
@@ -50,6 +50,7 @@ class _MaterialStyleHistoryCardState extends State<MaterialStyleHistoryCard> {
           history: widget.history,
           fontSize: 17,
         ),
+
         showUser: widget.showUser,
       ),
       onTap: () => showModalBottomSheet(

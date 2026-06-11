@@ -2,13 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../translations/locale_keys.g.dart';
+import '../../../../translations/locale_keys.g.dart';
 
-class PermissionSettingDialog extends StatelessWidget {
+class MaterialStylePermissionSettingDialog extends StatelessWidget {
   final String title;
   final String content;
 
-  const PermissionSettingDialog({
+  const MaterialStylePermissionSettingDialog({
     super.key,
     required this.title,
     required this.content,

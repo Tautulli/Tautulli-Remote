@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
 
 class DoubleBackToExit extends StatelessWidget {
   final Widget child;

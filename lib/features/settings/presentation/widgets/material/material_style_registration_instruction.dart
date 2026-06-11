@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../../core/widgets/heading.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
+import '../../../../../core/widgets/material/material_style_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleRegistrationInstruction extends StatelessWidget {
@@ -38,7 +38,7 @@ class MaterialStyleRegistrationInstruction extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Heading(text: heading),
+              MaterialStyleHeading(text: heading),
               if (isOptional) const Gap(4),
               if (isOptional)
                 Text(
@@ -50,13 +50,13 @@ class MaterialStyleRegistrationInstruction extends StatelessWidget {
         ),
         if (action != null && actionOnTop) action!,
         if (child != null)
-          CardWithForcedTint(
+          MaterialStyleCard(
             child: Padding(
               padding: EdgeInsets.all(hasChildPadding ? 8.0 : 0),
               child: child,
             ),
           ),
-        if (action != null && !actionOnTop) action!
+        if (action != null && !actionOnTop) action!,
       ],
     );
   }

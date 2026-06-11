@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CardWithForcedTint extends StatelessWidget {
+class MaterialStyleCard extends StatelessWidget {
   final Widget? child;
   final Color? color;
 
-  const CardWithForcedTint({
+  const MaterialStyleCard({
     super.key,
     this.child,
     this.color,

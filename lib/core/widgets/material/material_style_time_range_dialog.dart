@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../../translations/locale_keys.g.dart';
+import '../../../translations/locale_keys.g.dart';
 
-class CustomTimeRangeDialog extends StatelessWidget {
-  const CustomTimeRangeDialog({super.key});
+class MaterialStyleTimeRangeDialog extends StatelessWidget {
+  const MaterialStyleTimeRangeDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

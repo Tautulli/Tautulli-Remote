@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleHelpTranslateHeadingCard extends StatelessWidget {
@@ -13,7 +13,7 @@ class MaterialStyleHelpTranslateHeadingCard extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CardWithForcedTint(
+        MaterialStyleCard(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

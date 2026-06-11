@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import 'material_style_change_type_tag.dart';
 
 class MaterialStyleChangelogItem extends StatelessWidget {
@@ -18,7 +18,7 @@ class MaterialStyleChangelogItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
-      child: CardWithForcedTint(
+      child: MaterialStyleCard(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

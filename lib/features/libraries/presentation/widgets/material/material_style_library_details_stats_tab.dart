@@ -6,12 +6,12 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/icon_card.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/status_card.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_icon_card.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_status_card.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
@@ -49,7 +49,7 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
   Widget build(BuildContext context) {
     return BlocBuilder<LibraryStatisticsBloc, LibraryStatisticsState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             context.read<LibraryStatisticsBloc>().add(
               LibraryStatisticsFetched(
@@ -62,14 +62,14 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.userStatsStatus == BlocStatus.initial || state.watchTimeStatsStatus == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 settingsState as SettingsSuccess;
 
                 if (state.watchTimeStatsStatus == BlocStatus.failure && state.userStatsStatus == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,
@@ -114,7 +114,7 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
 
       if (state.watchTimeStatsStatus == BlocStatus.failure) {
         statList.add(
-          StatusCard(
+          MaterialStyleStatusCard(
             isFailure: true,
             message: state.message ?? LocaleKeys.error_message_generic.tr(),
             suggestion: state.suggestion,
@@ -125,7 +125,7 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
           final watchTimeStat = state.watchTimeStatsList[i];
 
           statList.add(
-            IconCard(
+            MaterialStyleIconCard(
               icon: watchTimeStat.queryDays == 1
                   ? FaIcon(
                       FontAwesomeIcons.solidClock,
@@ -199,7 +199,7 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
 
       if (state.userStatsStatus == BlocStatus.failure) {
         statList.add(
-          StatusCard(
+          MaterialStyleStatusCard(
             isFailure: true,
             message: state.message ?? LocaleKeys.error_message_generic.tr(),
             suggestion: state.suggestion,
@@ -209,7 +209,7 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
         if (state.userStatsList.isEmpty) {
           statList.addAll(
             [
-              StatusCard(message: LocaleKeys.user_stats_empty_message.tr()),
+              MaterialStyleStatusCard(message: LocaleKeys.user_stats_empty_message.tr()),
               const Gap(8),
             ],
           );

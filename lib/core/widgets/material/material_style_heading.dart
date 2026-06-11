@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Heading extends StatelessWidget {
+class MaterialStyleHeading extends StatelessWidget {
   final String text;
   final Color? color;
 
-  const Heading({
+  const MaterialStyleHeading({
     super.key,
     required this.text,
     this.color,

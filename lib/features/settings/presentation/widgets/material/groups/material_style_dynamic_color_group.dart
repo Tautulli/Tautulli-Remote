@@ -8,8 +8,8 @@ import 'package:system_theme/system_theme.dart';
 
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/types/theme_type.dart';
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -22,7 +22,7 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     late Color pickerColor;
 
-    return ListTileGroup(
+    return MaterialStyleListTileGroup(
       heading: LocaleKeys.dynamic_color_title.tr(),
       listTiles: [
         if (di.sl<DeviceInfo>().platform != 'ios')
@@ -36,7 +36,9 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
               return MaterialStyleCheckboxSettingsListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.wandMagicSparkles,
-                  color: (themeNotDynamic || !supportsAccentColor) ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
+                  color: (themeNotDynamic || !supportsAccentColor)
+                      ? Theme.of(context).disabledColor
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
                 title: LocaleKeys.system_color_title.tr(),
                 value: state.appSettings.themeUseSystemColor,
@@ -45,8 +47,8 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
                     : (value) {
                         if (value != null) {
                           context.read<SettingsBloc>().add(
-                                SettingsUpdateThemeUseSystemColor(value),
-                              );
+                            SettingsUpdateThemeUseSystemColor(value),
+                          );
                         }
                       },
               );
@@ -60,10 +62,12 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
             final bool useSystemColor = state.appSettings.themeUseSystemColor;
             pickerColor = state.appSettings.themeCustomColor;
 
-            return CustomListTile(
+            return MaterialStyleListTile(
               leading: FaIcon(
                 FontAwesomeIcons.droplet,
-                color: themeNotDynamic || useSystemColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
+                color: themeNotDynamic || useSystemColor
+                    ? Theme.of(context).disabledColor
+                    : Theme.of(context).colorScheme.onSurface,
               ),
               title: LocaleKeys.custom_color_title.tr(),
               inactive: themeNotDynamic || useSystemColor,
@@ -76,7 +80,9 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
                   children: [
                     FaIcon(
                       FontAwesomeIcons.solidCircle,
-                      color: themeNotDynamic || useSystemColor ? state.appSettings.themeCustomColor.withValues(alpha: 0.7) : state.appSettings.themeCustomColor,
+                      color: themeNotDynamic || useSystemColor
+                          ? state.appSettings.themeCustomColor.withValues(alpha: 0.7)
+                          : state.appSettings.themeCustomColor,
                       size: 20,
                     ),
                   ],
@@ -85,40 +91,40 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
               onTap: themeNotDynamic || useSystemColor
                   ? null
                   : () async => await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          contentPadding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                          content: SingleChildScrollView(
-                            child: ColorPicker(
-                              pickerColor: state.appSettings.themeCustomColor,
-                              hexInputBar: true,
-                              enableAlpha: false,
-                              onColorChanged: (value) => pickerColor = value,
-                            ),
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        contentPadding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                        content: SingleChildScrollView(
+                          child: ColorPicker(
+                            pickerColor: state.appSettings.themeCustomColor,
+                            hexInputBar: true,
+                            enableAlpha: false,
+                            onColorChanged: (value) => pickerColor = value,
                           ),
-                          actions: [
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                foregroundColor: Theme.of(context).colorScheme.onSurface,
-                              ),
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text(LocaleKeys.close_title).tr(),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                foregroundColor: Theme.of(context).colorScheme.onSurface,
-                              ),
-                              onPressed: () {
-                                context.read<SettingsBloc>().add(
-                                      SettingsUpdateThemeCustomColor(pickerColor),
-                                    );
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text(LocaleKeys.select_title).tr(),
-                            ),
-                          ],
                         ),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text(LocaleKeys.close_title).tr(),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              context.read<SettingsBloc>().add(
+                                SettingsUpdateThemeCustomColor(pickerColor),
+                              );
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(LocaleKeys.select_title).tr(),
+                          ),
+                        ],
                       ),
+                    ),
             );
           },
         ),

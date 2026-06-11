@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/poster.dart';
+import '../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
@@ -14,7 +14,7 @@ class MaterialStyleTabbedPosterDetailsPage extends StatefulWidget {
   final bool sensitive;
   final Widget? background;
   final List<Widget>? appBarActions;
-  final Poster? poster;
+  final MaterialStylePoster? poster;
   final String? pageTitle;
   final String? itemTitle;
   final String? itemSubtitle;

@@ -7,9 +7,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/types/media_type.dart';
 import '../../../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../../../core/widgets/failure_alert_dialog.dart';
-import '../../../../../../core/widgets/gesture_pill.dart';
-import '../../../../../../core/widgets/poster.dart';
+import '../../../../../../core/widgets/material/dialogs/material_style_failure_alert_dialog.dart';
+import '../../../../../../core/widgets/material/material_style_gesture_pill.dart';
+import '../../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../media/data/models/media_model.dart';
 import '../../../../../media/presentation/pages/material/material_style_media_page.dart';
@@ -200,7 +200,7 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
                                                     bottom: 2,
                                                   ),
                                                   child: Center(
-                                                    child: GesturePill(),
+                                                    child: MaterialStyleGesturePill(),
                                                   ),
                                                 ),
                                                 Expanded(
@@ -298,7 +298,7 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: SizedBox(
                         height: 130,
-                        child: Poster(
+                        child: MaterialStylePoster(
                           mediaType: activity.mediaType,
                           uri: posterUri,
                           activityState: activity.state,

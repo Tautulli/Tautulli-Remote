@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/translation_helper.dart';
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
@@ -21,7 +21,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileGroup(
+    return MaterialStyleListTileGroup(
       heading: LocaleKeys.settings_title.tr(),
       listTiles: [
         if (di.sl<DeviceInfo>().platform == 'android')
@@ -125,7 +125,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
             state as SettingsSuccess;
             final homePageSetting = state.appSettings.homePage;
 
-            return CustomListTile(
+            return MaterialStyleListTile(
               leading: FaIcon(
                 FontAwesomeIcons.solidHouse,
                 color: Theme.of(context).colorScheme.onSurface,
@@ -143,7 +143,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.language,
             color: Theme.of(context).colorScheme.onSurface,

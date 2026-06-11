@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../donate/presentation/pages/material/material_style_donate_page.dart';
 import '../../../data/datasources/changelog_data_source.dart';
@@ -52,7 +52,7 @@ class MaterialStyleChangelogView extends StatelessWidget {
           ),
         ],
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: Scrollbar(
           child: ListView(
             padding: const EdgeInsets.all(8.0),

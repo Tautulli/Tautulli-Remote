@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/notice_card.dart';
+import '../../../../../core/widgets/material/material_style_notice_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/wizard_bloc.dart';
 import 'buttons/material_style_wizard_finish_button.dart';
@@ -30,7 +30,7 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                     ),
                   ).tr(),
                   const Gap(8),
-                  NoticeCard(
+                  MaterialStyleNoticeCard(
                     leading: FaIcon(
                       FontAwesomeIcons.bullhorn,
                       color: Theme.of(context).colorScheme.onSurface,
@@ -38,7 +38,7 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                     title: LocaleKeys.wizard_closing_announcements.tr(),
                   ),
                   const Gap(8),
-                  NoticeCard(
+                  MaterialStyleNoticeCard(
                     leading: FaIcon(
                       FontAwesomeIcons.solidHandshake,
                       color: Theme.of(context).colorScheme.onSurface,
@@ -54,7 +54,7 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Gap(8),
-                            NoticeCard(
+                            MaterialStyleNoticeCard(
                               leading: FaIcon(
                                 FontAwesomeIcons.solidBell,
                                 color: Theme.of(context).colorScheme.onSurface,
@@ -68,7 +68,7 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                     },
                   ),
                   const Gap(8),
-                  NoticeCard(
+                  MaterialStyleNoticeCard(
                     leading: FaIcon(
                       FontAwesomeIcons.language,
                       color: Theme.of(context).colorScheme.onSurface,

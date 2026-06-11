@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/material/material_style_accessibility_page.dart';
@@ -18,7 +18,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileGroup(
+    return MaterialStyleListTileGroup(
       heading: LocaleKeys.settings_and_operations_title.tr(),
       listTiles: [
         BlocBuilder<SettingsBloc, SettingsState>(
@@ -26,7 +26,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final serverTimeout = state.appSettings.serverTimeout;
 
-            return CustomListTile(
+            return MaterialStyleListTile(
               leading: FaIcon(
                 FontAwesomeIcons.stopwatch,
                 size: 28,
@@ -48,7 +48,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final refreshRate = state.appSettings.refreshRate;
 
-            return CustomListTile(
+            return MaterialStyleListTile(
               leading: FaIcon(
                 FontAwesomeIcons.solidClock,
                 color: Theme.of(context).colorScheme.onSurface,
@@ -64,7 +64,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.wrench,
             color: Theme.of(context).colorScheme.onSurface,
@@ -76,7 +76,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.brush,
             color: Theme.of(context).colorScheme.onSurface,
@@ -88,7 +88,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             ),
           ),
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.universalAccess,
             color: Theme.of(context).colorScheme.onSurface,

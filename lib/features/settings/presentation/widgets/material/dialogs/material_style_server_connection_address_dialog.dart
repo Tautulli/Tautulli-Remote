@@ -5,7 +5,7 @@ import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
-import '../../../../../../core/widgets/themed_text_form_field.dart';
+import '../../../../../../core/widgets/material/material_style_text_form_field.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -37,9 +37,11 @@ class MaterialStyleServerConnectionAddressDialog extends StatelessWidget {
       ).tr(),
       content: Form(
         key: formKey,
-        child: ThemedTextFormField(
+        child: MaterialStyleTextFormField(
           controller: controller,
-          hintText: primary ? LocaleKeys.primary_connection_address_hint.tr() : LocaleKeys.secondary_connection_address_hint.tr(),
+          hintText: primary
+              ? LocaleKeys.primary_connection_address_hint.tr()
+              : LocaleKeys.secondary_connection_address_hint.tr(),
           errorMaxLines: 2,
           validator: (value) {
             bool validUrl = isURL(
@@ -76,20 +78,20 @@ class MaterialStyleServerConnectionAddressDialog extends StatelessWidget {
             if (formKey.currentState != null && formKey.currentState!.validate()) {
               if (isEmpty(controller.text) && server.primaryActive != true) {
                 context.read<SettingsBloc>().add(
-                      SettingsUpdatePrimaryActive(
-                        tautulliId: server.tautulliId,
-                        primaryActive: true,
-                      ),
-                    );
+                  SettingsUpdatePrimaryActive(
+                    tautulliId: server.tautulliId,
+                    primaryActive: true,
+                  ),
+                );
               }
 
               context.read<SettingsBloc>().add(
-                    SettingsUpdateConnectionInfo(
-                      primary: primary,
-                      connectionAddress: controller.text,
-                      server: server,
-                    ),
-                  );
+                SettingsUpdateConnectionInfo(
+                  primary: primary,
+                  connectionAddress: controller.text,
+                  server: server,
+                ),
+              );
               Navigator.of(context).pop();
             }
           },

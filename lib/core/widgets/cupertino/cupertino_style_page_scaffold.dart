@@ -6,7 +6,7 @@ import 'package:quick_actions/quick_actions.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
-import '../../override/cupertino/nav_bar_override.dart' as nav;
+import '../../overrides/cupertino/nav_bar_override.dart' as nav;
 import 'dialogs/cupertino_style_navigation_bar_back_button.dart';
 import 'bottom_sheets/cupertino_style_server_select_bottom_sheet.dart';
 

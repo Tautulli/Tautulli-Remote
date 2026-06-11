@@ -5,13 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
+import '../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/tautulli_types.dart';
-import '../../../../core/widgets/custom_time_range_dialog.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../core/widgets/material/material_style_time_range_dialog.dart';
+import '../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -127,15 +127,15 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
           );
         }
       },
-      child: ScaffoldWithInnerDrawer(
+      child: MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.graphs_title).tr(),
         actions: _server.id != null ? _appBarActions() : [],
-        body: PageBody(
+        body: MaterialStylePageBody(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;
               if (state.serverList.isEmpty) {
-                return StatusPage(
+                return MaterialStyleStatusPage(
                   message: LocaleKeys.error_message_no_servers.tr(),
                   suggestion: LocaleKeys.error_suggestion_register_server.tr(),
                 );
@@ -149,7 +149,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                       child: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          ThemedRefreshIndicator(
+                          MaterialStyleRefreshIndicator(
                             onRefresh: () {
                               _graphsBloc.add(
                                 GraphsFetched(
@@ -166,7 +166,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                             },
                             child: const MaterialStyleMediaTypeGraphsTab(),
                           ),
-                          ThemedRefreshIndicator(
+                          MaterialStyleRefreshIndicator(
                             onRefresh: () {
                               _graphsBloc.add(
                                 GraphsFetched(
@@ -183,7 +183,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                             },
                             child: const MaterialStyleStreamTypeGraphsTab(),
                           ),
-                          ThemedRefreshIndicator(
+                          MaterialStyleRefreshIndicator(
                             onRefresh: () {
                               _graphsBloc.add(
                                 GraphsFetched(
@@ -445,7 +445,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                     } else {
                       final int timeRange = await showDialog(
                         context: context,
-                        builder: (context) => const CustomTimeRangeDialog(),
+                        builder: (context) => const MaterialStyleTimeRangeDialog(),
                       );
 
                       if (timeRange != _timeRange) {

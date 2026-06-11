@@ -6,8 +6,8 @@ import 'package:gap/gap.dart';
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../../../core/widgets/gesture_pill.dart';
-import '../../../../../../core/widgets/poster.dart';
+import '../../../../../../core/widgets/material/material_style_gesture_pill.dart';
+import '../../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../media/data/models/media_model.dart';
@@ -123,7 +123,7 @@ class MaterialStyleHistoryBottomSheet extends StatelessWidget {
                                                   bottom: 2,
                                                 ),
                                                 child: Center(
-                                                  child: GesturePill(),
+                                                  child: MaterialStyleGesturePill(),
                                                 ),
                                               ),
                                               Expanded(
@@ -157,7 +157,7 @@ class MaterialStyleHistoryBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     child: SizedBox(
                       height: 130,
-                      child: Poster(
+                      child: MaterialStylePoster(
                         mediaType: history.mediaType,
                         uri: history.posterUri,
                       ),

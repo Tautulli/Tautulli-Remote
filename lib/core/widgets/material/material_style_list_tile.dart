@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
 
-class CustomListTile extends StatelessWidget {
+class MaterialStyleListTile extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? subtitle;
@@ -15,7 +15,7 @@ class CustomListTile extends StatelessWidget {
   final bool inactive;
   final bool sensitive;
 
-  const CustomListTile({
+  const MaterialStyleListTile({
     super.key,
     required this.leading,
     required this.title,
@@ -58,10 +58,14 @@ class CustomListTile extends StatelessWidget {
             ),
             subtitle: subtitle != null
                 ? Text(
-                    sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : subtitle!,
+                    sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
+                        ? LocaleKeys.hidden_message.tr()
+                        : subtitle!,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: inactive ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurfaceVariant,
+                      color: inactive
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   )
                 : null,

@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/material/material_style_help_translate_heading_card.dart';
 
@@ -31,14 +31,14 @@ class MaterialStyleHelpTranslateView extends StatelessWidget {
         forceMaterialTransparency: true,
         title: const Text(LocaleKeys.help_translate_title).tr(),
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [
             const MaterialStyleHelpTranslateHeadingCard(),
-            ListTileGroup(
+            MaterialStyleListTileGroup(
               listTiles: [
-                CustomListTile(
+                MaterialStyleListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     colorFilter: ColorFilter.mode(
@@ -56,7 +56,7 @@ class MaterialStyleHelpTranslateView extends StatelessWidget {
                     );
                   },
                 ),
-                CustomListTile(
+                MaterialStyleListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.github,
                     color: Theme.of(context).colorScheme.onSurface,

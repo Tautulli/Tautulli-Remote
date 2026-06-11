@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../override/cupertino/nav_bar_override.dart' as nav;
+import '../../overrides/cupertino/nav_bar_override.dart' as nav;
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../helpers/theme_helper.dart';

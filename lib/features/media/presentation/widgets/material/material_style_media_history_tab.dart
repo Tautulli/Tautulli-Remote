@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/bottom_loader.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../../history/presentation/widgets/material/material_style_history_individual_card.dart';
@@ -56,7 +56,7 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
 
     return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             _individualHistoryBloc.add(
               IndividualHistoryFetched(
@@ -70,12 +70,12 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.status == BlocStatus.initial,
             child: Builder(
               builder: (context) {
                 if (state.status == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? '',
                     suggestion: state.suggestion ?? '',
@@ -83,7 +83,7 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
                 }
 
                 if (state.history.isEmpty) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: LocaleKeys.history_empty_message.tr(),
                   );
@@ -97,7 +97,7 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
                   separatorBuilder: (context, index) => const Gap(8),
                   itemBuilder: (context, index) {
                     if (index >= state.history.length) {
-                      return BottomLoader(
+                      return MaterialStyleBottomLoader(
                         status: state.status,
                         failure: state.failure,
                         message: state.message,

@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/package_information/package_information.dart';
-import '../../../../../../core/widgets/custom_about_dialog.dart';
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/overrides/material/about_dialog_override.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../pages/material/material_style_data_dump_page.dart';
 
@@ -15,10 +15,10 @@ class MaterialStyleMoreGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileGroup(
+    return MaterialStyleListTileGroup(
       heading: LocaleKeys.more_title.tr(),
       listTiles: [
-        CustomListTile(
+        MaterialStyleListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             colorFilter: ColorFilter.mode(
@@ -32,7 +32,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             Navigator.of(context).pushNamed('/onesignal_privacy');
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.clipboardList,
             color: Theme.of(context).colorScheme.onSurface,
@@ -42,7 +42,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             Navigator.of(context).pushNamed('/changelog');
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.globe,
             color: Theme.of(context).colorScheme.onSurface,
@@ -52,7 +52,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             Navigator.of(context).pushNamed('/help_translate');
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.faucet,
             color: Theme.of(context).colorScheme.onSurface,
@@ -67,7 +67,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.circleInfo,
             color: Theme.of(context).colorScheme.onSurface,
@@ -81,7 +81,8 @@ class MaterialStyleMoreGroup extends StatelessWidget {
                 child: Image.asset('assets/logos/logo.png'),
               ),
               applicationName: 'Tautulli Remote',
-              applicationVersion: '${await PackageInformationImpl().version} (${await PackageInformationImpl().buildNumber})',
+              applicationVersion:
+                  '${await PackageInformationImpl().version} (${await PackageInformationImpl().buildNumber})',
               applicationLegalese: LocaleKeys.about_legalese.tr(),
             );
           },

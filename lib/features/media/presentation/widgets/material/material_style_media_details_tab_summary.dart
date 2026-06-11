@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/media_model.dart';
 
@@ -28,7 +28,7 @@ class MaterialStyleMediaDetailsTabSummary extends StatelessWidget {
           );
           tp.layout(maxWidth: constraints.maxWidth);
 
-          return CardWithForcedTint(
+          return MaterialStyleCard(
             child: InkWell(
               onTap: tp.didExceedMaxLines
                   ? () async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/heading.dart';
+import '../../../../../core/widgets/material/material_style_heading.dart';
 
 class MaterialStyleActivityServerHeading extends StatelessWidget {
   final String serverName;
@@ -23,7 +23,7 @@ class MaterialStyleActivityServerHeading extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Heading(text: serverName),
+                MaterialStyleHeading(text: serverName),
                 if (loading)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),

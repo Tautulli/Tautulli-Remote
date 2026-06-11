@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/override/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/overrides/cupertino/nav_bar_override.dart' as nav;
 import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
 import '../../../../media/data/models/media_model.dart';

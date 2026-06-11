@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
 
-class CustomRadioListTile<T> extends StatelessWidget {
+class MaterialStyleRadioListTile<T> extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? subtitle;
@@ -14,7 +14,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
   final bool inactive;
   final bool sensitive;
 
-  const CustomRadioListTile({
+  const MaterialStyleRadioListTile({
     super.key,
     required this.leading,
     required this.title,

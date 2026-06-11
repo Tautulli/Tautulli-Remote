@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../../core/pages/material/material_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/section_type.dart';
 import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -114,7 +114,7 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedIconDetailsPage(
+      body: MaterialStyleTabbedIconDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;

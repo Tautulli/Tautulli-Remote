@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../helpers/icon_helper.dart';
-import '../types/media_type.dart';
+import '../../helpers/icon_helper.dart';
+import '../../types/media_type.dart';
 
 class MediaTypeIcon extends StatelessWidget {
   final MediaType? mediaType;

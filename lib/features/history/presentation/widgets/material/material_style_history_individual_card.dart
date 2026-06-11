@@ -7,7 +7,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -34,7 +34,7 @@ class MaterialStyleHistoryIndividualCard extends StatelessWidget {
       height: MediaQuery.of(context).textScaler.scale(1) > 1
           ? height * MediaQuery.of(context).textScaler.scale(1)
           : height,
-      child: CardWithForcedTint(
+      child: MaterialStyleCard(
         child: Stack(
           children: [
             Positioned.fill(

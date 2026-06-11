@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
-import '../pages/status_page.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
+import '../../pages/material/material_style_status_page.dart';
 
-class SettingsNotLoaded extends StatelessWidget {
-  const SettingsNotLoaded({super.key});
+class MaterialStyleSettingsNotLoaded extends StatelessWidget {
+  const MaterialStyleSettingsNotLoaded({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         if (state is SettingsInProgress) {
-          return StatusPage(
+          return MaterialStyleStatusPage(
             message: LocaleKeys.settings_loading_message.tr(),
             action: CircularProgressIndicator(
               color: Theme.of(context).colorScheme.onSurface,
@@ -23,7 +23,7 @@ class SettingsNotLoaded extends StatelessWidget {
           );
         }
         if (state is SettingsFailure) {
-          return StatusPage(
+          return MaterialStyleStatusPage(
             message: LocaleKeys.settings_load_failed_message.tr(),
             action: ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -39,7 +39,7 @@ class SettingsNotLoaded extends StatelessWidget {
             ),
           );
         }
-        return StatusPage(
+        return MaterialStyleStatusPage(
           message: LocaleKeys.settings_load_error_message.tr(),
           action: ElevatedButton(
             style: ElevatedButton.styleFrom(

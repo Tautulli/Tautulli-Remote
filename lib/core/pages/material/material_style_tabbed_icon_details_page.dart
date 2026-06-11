@@ -4,12 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
 
 const double _expandedHeight = 196;
 
-class SliverTabbedIconDetailsPage extends StatefulWidget {
+class MaterialStyleTabbedIconDetailsPage extends StatefulWidget {
   final bool sensitive;
   final Widget? background;
   final Widget? icon;
@@ -18,7 +18,7 @@ class SliverTabbedIconDetailsPage extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabChildren;
 
-  const SliverTabbedIconDetailsPage({
+  const MaterialStyleTabbedIconDetailsPage({
     super.key,
     this.sensitive = false,
     this.background,
@@ -30,10 +30,10 @@ class SliverTabbedIconDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<SliverTabbedIconDetailsPage> createState() => _SliverTabbedIconDetailsStatePage();
+  State<MaterialStyleTabbedIconDetailsPage> createState() => _SliverTabbedIconDetailsStatePage();
 }
 
-class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPage> {
+class _SliverTabbedIconDetailsStatePage extends State<MaterialStyleTabbedIconDetailsPage> {
   final ScrollController _scrollController = ScrollController();
   double titleOpacity = 0;
   double radius = 16;

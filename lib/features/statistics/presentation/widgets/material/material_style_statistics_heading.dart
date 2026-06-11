@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/string_helper.dart';
-import '../../../../../core/widgets/heading.dart';
+import '../../../../../core/widgets/material/material_style_heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/statistic_model.dart';
 
@@ -31,7 +31,7 @@ class MaterialStyleStatisticsHeading extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Heading(
+                  child: MaterialStyleHeading(
                     text: StringHelper.mapStatIdTypeToString(stat.statIdType),
                     color: Theme.of(context).colorScheme.onSurface,
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/poster_card.dart';
+import '../../../../../core/widgets/material/material_style_poster_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/material/material_style_media_page.dart';
 import '../../../data/models/recently_added_model.dart';
@@ -33,7 +33,7 @@ class MaterialStyleRecentlyAddedCard extends StatelessWidget {
         posterUri = recentlyAdded.posterUri;
     }
 
-    return PosterCard(
+    return MaterialStylePosterCard(
       onTap: () async {
         final media = MediaModel(
           grandparentImageUri: recentlyAdded.grandparentPosterUri,

@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/heading.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_heading.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../../../pages/material/material_style_server_settings_page.dart';
@@ -30,7 +30,7 @@ class MaterialStyleServersGroup extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Heading(
+              child: MaterialStyleHeading(
                 text: LocaleKeys.servers_title.tr(),
               ),
             ),
@@ -55,7 +55,7 @@ class MaterialStyleServersGroup extends StatelessWidget {
                 children: state is SettingsSuccess
                     ? state.serverList
                           .map(
-                            (server) => CustomListTile(
+                            (server) => MaterialStyleListTile(
                               key: ValueKey(server.tautulliId),
                               sensitive: true,
                               leading: WebsafeSvg.asset(

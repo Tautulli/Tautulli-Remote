@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleOnesignalDataPrivacyText extends StatelessWidget {
@@ -16,7 +16,7 @@ class MaterialStyleOnesignalDataPrivacyText extends StatelessWidget {
     final textBlock3 = LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');
     final textBlock4 = LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
 
-    return CardWithForcedTint(
+    return MaterialStyleCard(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: RichText(

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/children_metadata_bloc.dart';
 import '../../pages/material/material_style_media_page.dart';
@@ -51,7 +51,7 @@ class _MaterialStyleMediaChildrenTabState extends State<MaterialStyleMediaChildr
 
     return BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             _childrenMetadataBloc.add(
               ChildrenMetadataFetched(
@@ -64,12 +64,12 @@ class _MaterialStyleMediaChildrenTabState extends State<MaterialStyleMediaChildr
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.status == BlocStatus.initial,
             child: Builder(
               builder: (context) {
                 if (state.status == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,

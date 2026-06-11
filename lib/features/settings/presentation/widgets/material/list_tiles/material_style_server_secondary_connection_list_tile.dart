@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
-import '../../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../material_style_active_connection_indicator.dart';
 import '../dialogs/material_style_server_connection_address_dialog.dart';
@@ -21,7 +21,7 @@ class MaterialStyleServerSecondaryConnectionListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool inactive = isBlank(server.secondaryConnectionAddress);
-    return CustomListTile(
+    return MaterialStyleListTile(
       inactive: inactive,
       sensitive: true,
       leading: FaIcon(

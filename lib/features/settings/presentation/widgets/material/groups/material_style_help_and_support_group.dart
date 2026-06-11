@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../logging/presentation/pages/material/material_style_logging_page.dart';
 
@@ -13,10 +13,10 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileGroup(
+    return MaterialStyleListTileGroup(
       heading: LocaleKeys.help_and_support_title.tr(),
       listTiles: [
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.github,
             color: Theme.of(context).colorScheme.onSurface,
@@ -29,7 +29,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.discord,
             size: 22,
@@ -43,7 +43,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.redditAlien,
             size: 28,
@@ -57,7 +57,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.github,
             color: Theme.of(context).colorScheme.onSurface,
@@ -70,7 +70,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             );
           },
         ),
-        CustomListTile(
+        MaterialStyleListTile(
           leading: FaIcon(
             FontAwesomeIcons.list,
             color: Theme.of(context).colorScheme.onSurface,

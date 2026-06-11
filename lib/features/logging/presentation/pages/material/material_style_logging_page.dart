@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../dependency_injection.dart' as di;
-import '../../../../../core/pages/status_page.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
@@ -60,8 +60,8 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
         title: const Text(LocaleKeys.app_logs_title).tr(),
         actions: _appbarActions(),
       ),
-      body: PageBody(
-        child: ThemedRefreshIndicator(
+      body: MaterialStylePageBody(
+        child: MaterialStyleRefreshIndicator(
           onRefresh: () {
             context.read<LoggingBloc>().add(LoggingLoad());
 
@@ -76,14 +76,14 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
             },
             builder: (context, state) {
               if (state is LoggingFailure) {
-                return StatusPage(
+                return MaterialStyleStatusPage(
                   scrollable: true,
                   message: LocaleKeys.logs_failed_to_load_message.tr(),
                 );
               }
               if (state is LoggingSuccess) {
                 if (state.logs.isEmpty) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: LocaleKeys.logs_empty_message.tr(),
                   );
@@ -94,7 +94,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
                   );
 
                   if (filteredLogs.isEmpty) {
-                    return StatusPage(
+                    return MaterialStyleStatusPage(
                       scrollable: true,
                       message: LocaleKeys.logs_empty_filter_message.tr(),
                     );

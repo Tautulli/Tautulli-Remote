@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/media_type_icon.dart';
+import '../../../../../core/widgets/base/media_type_icon.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/recently_added_model.dart';
 

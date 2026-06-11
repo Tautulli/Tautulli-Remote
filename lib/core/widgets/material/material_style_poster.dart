@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../features/settings/data/models/custom_header_model.dart';
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../types/media_type.dart';
-import '../types/playback_state.dart';
-import 'base/image_gradient_background.dart';
+import '../../../features/settings/data/models/custom_header_model.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../types/media_type.dart';
+import '../../types/playback_state.dart';
+import '../base/image_gradient_background.dart';
 
-class Poster extends StatelessWidget {
+class MaterialStylePoster extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
   final PlaybackState? activityState;
@@ -17,7 +17,7 @@ class Poster extends StatelessWidget {
   final bool heroEnabled;
   final bool opaqueBackground;
 
-  const Poster({
+  const MaterialStylePoster({
     super.key,
     required this.mediaType,
     required this.uri,

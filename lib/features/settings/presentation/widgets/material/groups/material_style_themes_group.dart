@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/types/theme_type.dart';
-import '../../../../../../core/widgets/custom_radio_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_radio_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -28,10 +28,10 @@ class MaterialStyleThemesGroup extends StatelessWidget {
               );
             }
           },
-          child: ListTileGroup(
+          child: MaterialStyleListTileGroup(
             heading: LocaleKeys.themes_title.tr(),
             listTiles: [
-              CustomRadioListTile(
+              MaterialStyleRadioListTile(
                 leading: WebsafeSvg.asset(
                   'assets/logos/logo_flat.svg',
                   colorFilter: ColorFilter.mode(
@@ -44,7 +44,7 @@ class MaterialStyleThemesGroup extends StatelessWidget {
                 subtitle: LocaleKeys.tautulli_theme_subtitle.tr(),
                 value: ThemeType.tautulli,
               ),
-              CustomRadioListTile(
+              MaterialStyleRadioListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.swatchbook,
                   color: Theme.of(context).colorScheme.onSurface,

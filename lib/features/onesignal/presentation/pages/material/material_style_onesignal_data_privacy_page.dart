@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/material/material_style_onesignal_data_privacy_list_tile.dart';
 import '../../widgets/material/material_style_onesignal_data_privacy_text.dart';
@@ -38,7 +38,7 @@ class MaterialStyleOneSignalDataPrivacyView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -47,7 +47,7 @@ class MaterialStyleOneSignalDataPrivacyView extends StatelessWidget {
               const MaterialStyleOnesignalDataPrivacyText(),
               if (showToggle) const Gap(8),
               if (showToggle)
-                const ListTileGroup(
+                const MaterialStyleListTileGroup(
                   listTiles: [
                     MaterialStyleOnesignalDataPrivacyListTile(),
                   ],

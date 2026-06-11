@@ -6,10 +6,10 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/bottom_loader.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -80,20 +80,20 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
       ),
       body: BlocBuilder<SearchHistoryBloc, SearchHistoryState>(
         builder: (context, searchState) {
-          return PageBody(
+          return MaterialStylePageBody(
             loading: searchState.status == BlocStatus.inProgress,
             child: Builder(
               builder: (context) {
                 if (searchState.history.isEmpty) {
                   if (searchState.status == BlocStatus.failure) {
-                    return StatusPage(
+                    return MaterialStyleStatusPage(
                       scrollable: true,
                       message: searchState.message ?? '',
                       suggestion: searchState.suggestion ?? '',
                     );
                   }
                   if (searchState.status == BlocStatus.success) {
-                    return StatusPage(
+                    return MaterialStyleStatusPage(
                       scrollable: true,
                       message: LocaleKeys.history_empty_message.tr(),
                     );
@@ -112,7 +112,7 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
                   separatorBuilder: (context, index) => const Gap(8),
                   itemBuilder: (context, index) {
                     if (index >= searchState.history.length) {
-                      return BottomLoader(
+                      return MaterialStyleBottomLoader(
                         status: searchState.status,
                         failure: searchState.failure,
                         message: searchState.message,

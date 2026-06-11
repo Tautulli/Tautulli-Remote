@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
-import '../../../../../core/widgets/tautulli_logo_title.dart';
+import '../../../../../core/widgets/base/tautulli_logo_title.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/wizard_bloc.dart';

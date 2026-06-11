@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../bloc/settings_bloc.dart';
@@ -43,7 +43,7 @@ class _MaterialStyleSettingsViewState extends State<MaterialStyleSettingsView> {
   Widget build(BuildContext context) {
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
-    return ScaffoldWithInnerDrawer(
+    return MaterialStyleScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.settings_title).tr(),
       body: ListView(
         padding: const EdgeInsets.all(8.0),

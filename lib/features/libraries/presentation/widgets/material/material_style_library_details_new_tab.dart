@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
 import '../../../../recently_added/presentation/widgets/material/material_style_recently_added_card.dart';
@@ -42,7 +42,7 @@ class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibrary
   Widget build(BuildContext context) {
     return BlocBuilder<LibraryRecentlyAddedBloc, LibraryRecentlyAddedState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             context.read<LibraryRecentlyAddedBloc>().add(
               LibraryRecentlyAddedFetched(
@@ -55,20 +55,20 @@ class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibrary
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.status == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 if (state.recentlyAdded.isEmpty) {
                   if (state.status == BlocStatus.failure) {
-                    return StatusPage(
+                    return MaterialStyleStatusPage(
                       scrollable: true,
                       message: state.message ?? '',
                       suggestion: state.suggestion ?? '',
                     );
                   }
                   if (state.status == BlocStatus.success) {
-                    return StatusPage(
+                    return MaterialStyleStatusPage(
                       scrollable: true,
                       message: LocaleKeys.recently_added_empty_message.tr(),
                     );

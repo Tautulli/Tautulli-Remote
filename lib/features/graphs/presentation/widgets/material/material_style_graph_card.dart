@@ -7,7 +7,7 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/graph_chart_type.dart';
 import '../../../../../core/types/graph_type.dart';
 import '../../../../../core/types/tautulli_types.dart';
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/graph_model.dart';
 import '../../../data/models/graph_series_data_model.dart';
@@ -44,7 +44,7 @@ class MaterialStyleGraphCard extends StatelessWidget {
       }
     }
 
-    return CardWithForcedTint(
+    return MaterialStyleCard(
       child: SizedBox(
         height: 275,
         child: Builder(

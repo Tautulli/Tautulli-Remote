@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../features/settings/data/models/custom_header_model.dart';
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../types/media_type.dart';
-import 'base/image_gradient_background.dart';
-import 'card_with_forced_tint.dart';
-import 'poster.dart';
+import '../../../features/settings/data/models/custom_header_model.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../types/media_type.dart';
+import '../base/image_gradient_background.dart';
+import 'material_style_card.dart';
+import 'material_style_poster.dart';
 
-class PosterCard extends StatelessWidget {
+class MaterialStylePosterCard extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
   final Widget details;
   final Function()? onTap;
 
-  const PosterCard({
+  const MaterialStylePosterCard({
     super.key,
     this.mediaType,
     this.uri,
@@ -29,7 +29,7 @@ class PosterCard extends StatelessWidget {
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 100 * MediaQuery.of(context).textScaler.scale(1) : 100,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: CardWithForcedTint(
+        child: MaterialStyleCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;
@@ -52,7 +52,7 @@ class PosterCard extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Poster(mediaType: mediaType, uri: uri),
+                          MaterialStylePoster(mediaType: mediaType, uri: uri),
                           const Gap(8),
                           Expanded(child: details),
                         ],

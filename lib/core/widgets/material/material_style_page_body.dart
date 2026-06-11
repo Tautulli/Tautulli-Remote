@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PageBody extends StatelessWidget {
+class MaterialStylePageBody extends StatelessWidget {
   final Widget child;
   final bool loading;
 
-  const PageBody({
+  const MaterialStylePageBody({
     super.key,
     required this.child,
     this.loading = false,

@@ -14,7 +14,7 @@ import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
 import 'core/widgets/cupertino/cupertino_style_settings_not_loaded.dart';
 import 'core/widgets/cupertino/cupertino_style_tab_scaffold.dart';
-import 'core/widgets/settings_not_loaded.dart';
+import 'core/widgets/material/material_style_settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/cupertino/cupertino_style_activity_page.dart';
 import 'features/activity/presentation/pages/material/material_style_activity_page.dart';
@@ -189,7 +189,7 @@ class _MaterialFramework extends StatelessWidget {
             }
 
             return const Scaffold(
-              body: SettingsNotLoaded(),
+              body: MaterialStyleSettingsNotLoaded(),
             );
           },
         );

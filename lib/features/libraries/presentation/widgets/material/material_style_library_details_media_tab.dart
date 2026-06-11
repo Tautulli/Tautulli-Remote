@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/section_type.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/material/material_style_media_page.dart';
@@ -54,7 +54,7 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
 
     return BlocBuilder<LibraryMediaBloc, LibraryMediaState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             context.read<LibraryMediaBloc>().add(
               LibraryMediaFetched(
@@ -88,12 +88,12 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.status == BlocStatus.initial,
             child: Builder(
               builder: (context) {
                 if (state.status == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,

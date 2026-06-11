@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
-import 'package:tautulli_remote/core/widgets/themed_text_form_field.dart';
+import 'package:tautulli_remote/core/widgets/material/material_style_text_form_field.dart';
 
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
@@ -85,13 +85,17 @@ class _CustomHeaderConfigDialogState extends State<MaterialStyleCustomHeaderConf
       title: Row(
         children: [
           FaIcon(
-            widget.headerType == CustomHeaderType.basicAuth ? FontAwesomeIcons.solidAddressCard : FontAwesomeIcons.addressCard,
+            widget.headerType == CustomHeaderType.basicAuth
+                ? FontAwesomeIcons.solidAddressCard
+                : FontAwesomeIcons.addressCard,
             color: Theme.of(context).colorScheme.onSurface,
           ),
           const Gap(12),
           Expanded(
             child: Text(
-              widget.headerType == CustomHeaderType.basicAuth ? LocaleKeys.basic_authentication_title.tr() : LocaleKeys.custom_title.tr(),
+              widget.headerType == CustomHeaderType.basicAuth
+                  ? LocaleKeys.basic_authentication_title.tr()
+                  : LocaleKeys.custom_title.tr(),
             ),
           ),
         ],
@@ -101,7 +105,7 @@ class _CustomHeaderConfigDialogState extends State<MaterialStyleCustomHeaderConf
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ThemedTextFormField(
+            MaterialStyleTextFormField(
               controller: _keyController,
               focusNode: _keyFocus,
               labelText: widget.headerType == CustomHeaderType.basicAuth
@@ -126,7 +130,7 @@ class _CustomHeaderConfigDialogState extends State<MaterialStyleCustomHeaderConf
               },
             ),
             const Gap(16),
-            ThemedTextFormField(
+            MaterialStyleTextFormField(
               controller: _valueController,
               focusNode: _valueFocus,
               labelText: widget.headerType == CustomHeaderType.basicAuth
@@ -172,24 +176,24 @@ class _CustomHeaderConfigDialogState extends State<MaterialStyleCustomHeaderConf
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {
                 context.read<RegistrationHeadersBloc>().add(
-                      RegistrationHeadersUpdate(
-                        title: _keyController.value.text.trim(),
-                        subtitle: _valueController.value.text.trim(),
-                        basicAuth: widget.headerType == CustomHeaderType.basicAuth,
-                        previousTitle: widget.existingKey,
-                      ),
-                    );
+                  RegistrationHeadersUpdate(
+                    title: _keyController.value.text.trim(),
+                    subtitle: _valueController.value.text.trim(),
+                    basicAuth: widget.headerType == CustomHeaderType.basicAuth,
+                    previousTitle: widget.existingKey,
+                  ),
+                );
               } else {
                 if (widget.tautulliId != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateCustomHeaders(
-                          tautulliId: widget.tautulliId!,
-                          title: _keyController.value.text.trim(),
-                          subtitle: _valueController.value.text.trim(),
-                          basicAuth: widget.headerType == CustomHeaderType.basicAuth,
-                          previousTitle: widget.existingKey,
-                        ),
-                      );
+                    SettingsUpdateCustomHeaders(
+                      tautulliId: widget.tautulliId!,
+                      title: _keyController.value.text.trim(),
+                      subtitle: _valueController.value.text.trim(),
+                      basicAuth: widget.headerType == CustomHeaderType.basicAuth,
+                      previousTitle: widget.existingKey,
+                    ),
+                  );
                 }
               }
 

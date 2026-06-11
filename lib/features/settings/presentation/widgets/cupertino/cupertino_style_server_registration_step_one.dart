@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../core/widgets/bullet_list.dart';
+import '../../../../../core/widgets/base/bullet_list.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../translations/locale_keys.g.dart';

@@ -10,15 +10,15 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/tautulli_types.dart';
-import '../../../../../core/widgets/custom_time_range_dialog.dart';
-import '../../../../../core/widgets/icon_card.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/poster_card.dart';
-import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_time_range_dialog.dart';
+import '../../../../../core/widgets/material/material_style_icon_card.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_poster_card.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
@@ -117,16 +117,16 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
           );
         }
       },
-      child: ScaffoldWithInnerDrawer(
+      child: MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.statistics_title).tr(),
         actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<StatisticsBloc, StatisticsState>(
           builder: (context, state) {
             List<Widget> statsListWidgets = _buildStatListWidgets(state.statList);
 
-            return PageBody(
+            return MaterialStylePageBody(
               loading: state.status == BlocStatus.initial,
-              child: ThemedRefreshIndicator(
+              child: MaterialStyleRefreshIndicator(
                 onRefresh: () {
                   _statisticsBloc.add(
                     StatisticsFetched(
@@ -144,14 +144,14 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                   builder: (context) {
                     if (statsListWidgets.isEmpty) {
                       if (state.status == BlocStatus.failure) {
-                        return StatusPage(
+                        return MaterialStyleStatusPage(
                           scrollable: true,
                           message: state.message ?? '',
                           suggestion: state.suggestion ?? '',
                         );
                       }
                       if (state.status == BlocStatus.success) {
-                        return StatusPage(
+                        return MaterialStyleStatusPage(
                           scrollable: true,
                           message: LocaleKeys.statistics_empty_message.tr(),
                         );
@@ -284,7 +284,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                 } else {
                   final int timeRange = await showDialog(
                     context: context,
-                    builder: (context) => const CustomTimeRangeDialog(),
+                    builder: (context) => const MaterialStyleTimeRangeDialog(),
                   );
 
                   if (timeRange != _timeRange) {
@@ -460,7 +460,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
             StatIdType.topMusic,
           ].contains(stat.statIdType)) {
             widgetList.add(
-              PosterCard(
+              MaterialStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: TopStatisticDetails(
@@ -487,7 +487,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
             StatIdType.popularMusic,
           ].contains(stat.statIdType)) {
             widgetList.add(
-              PosterCard(
+              MaterialStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: PopularStatisticDetails(
@@ -510,7 +510,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
 
           if (stat.statIdType == StatIdType.lastWatched) {
             widgetList.add(
-              PosterCard(
+              MaterialStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: LastWatchedStatisticDetails(
@@ -551,7 +551,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
 
           if (stat.statIdType == StatIdType.topPlatforms) {
             widgetList.add(
-              IconCard(
+              MaterialStyleIconCard(
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -582,7 +582,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
 
           if (stat.statIdType == StatIdType.mostConcurrent) {
             widgetList.add(
-              IconCard(
+              MaterialStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
                 details: MostConcurrentStatisticDetails(
                   statData: statData,

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/media_type_icon.dart';
+import '../../../../../core/widgets/base/media_type_icon.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';

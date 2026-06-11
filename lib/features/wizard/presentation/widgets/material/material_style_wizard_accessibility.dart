@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/widgets/material/groups/material_style_accessibility_font_group.dart';
 import '../../../../settings/presentation/widgets/material/groups/material_style_accessibility_theme_group.dart';
@@ -33,7 +33,7 @@ class MaterialStyleWizardAccessibility extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CardWithForcedTint(
+                      child: MaterialStyleCard(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(

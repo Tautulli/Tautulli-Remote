@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/bottom_loader.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/user_history_bloc.dart';
 import '../../../../history/presentation/widgets/material/material_style_history_card.dart';
@@ -51,7 +51,7 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
 
     return BlocBuilder<UserHistoryBloc, UserHistoryState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             _userHistoryBloc.add(
               UserHistoryFetched(
@@ -64,14 +64,14 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.status == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 settingsState as SettingsSuccess;
 
                 if (state.status == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,
@@ -79,7 +79,7 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
                 }
 
                 if (state.history.isEmpty) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: LocaleKeys.history_empty_message.tr(),
                   );
@@ -93,7 +93,7 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
                   separatorBuilder: (context, index) => const Gap(8),
                   itemBuilder: (context, index) {
                     if (index >= state.history.length) {
-                      return BottomLoader(
+                      return MaterialStyleBottomLoader(
                         status: state.status,
                         failure: state.failure,
                         message: state.message,

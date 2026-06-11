@@ -6,7 +6,7 @@ import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../../core/pages/material/material_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/user_icon_size.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -123,7 +123,7 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
         builder: (context, settingsState) {
           settingsState as SettingsSuccess;
 
-          return SliverTabbedIconDetailsPage(
+          return MaterialStyleTabbedIconDetailsPage(
             sensitive: settingsState.appSettings.maskSensitiveInfo,
             background: widget.backgroundColor != null
                 ? DecoratedBox(

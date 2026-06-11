@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/models/user_table_model.dart';
@@ -64,7 +64,7 @@ class _MaterialStyleUserCardState extends State<MaterialStyleUserCard> {
           color = snapshot.data as Color;
         }
 
-        return CardWithForcedTint(
+        return MaterialStyleCard(
           child: SizedBox(
             height: MediaQuery.of(context).textScaler.scale(1) > 1
                 ? 100 * MediaQuery.of(context).textScaler.scale(1)

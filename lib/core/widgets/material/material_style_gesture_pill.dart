@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GesturePill extends StatelessWidget {
-  const GesturePill({super.key});
+class MaterialStyleGesturePill extends StatelessWidget {
+  const MaterialStyleGesturePill({super.key});
 
   @override
   Widget build(BuildContext context) {

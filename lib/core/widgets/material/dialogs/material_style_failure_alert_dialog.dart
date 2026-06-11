@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../translations/locale_keys.g.dart';
-import '../error/failure.dart';
-import '../helpers/failure_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
+import '../../../error/failure.dart';
+import '../../../helpers/failure_helper.dart';
 
 Future<void> showFailureAlertDialog({
   required BuildContext context,

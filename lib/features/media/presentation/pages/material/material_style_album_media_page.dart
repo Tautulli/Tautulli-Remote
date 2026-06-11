@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../../core/widgets/poster.dart';
+import '../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -69,7 +69,7 @@ class MaterialStyleAlbumMediaView extends StatelessWidget {
           },
         ),
         appBarActions: _appBarActions(),
-        poster: Poster(
+        poster: MaterialStylePoster(
           heroTag: media.ratingKey,
           mediaType: media.mediaType,
           uri: media.imageUri,

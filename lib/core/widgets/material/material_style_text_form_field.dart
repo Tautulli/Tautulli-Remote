@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ThemedTextFormField extends StatelessWidget {
+class MaterialStyleTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? labelText;
@@ -10,7 +10,7 @@ class ThemedTextFormField extends StatelessWidget {
   final Function()? onTap;
   final String? Function(String?)? validator;
 
-  const ThemedTextFormField({
+  const MaterialStyleTextFormField({
     super.key,
     this.controller,
     this.focusNode,

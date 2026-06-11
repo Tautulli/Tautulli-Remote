@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../core/qr_code_scanner/qr_code_scanner.dart';
-import '../../../../../core/widgets/themed_text_form_field.dart';
+import '../../../../../core/widgets/material/material_style_text_form_field.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import 'dialogs/material_style_secondary_connection_address_info_dialog.dart';
@@ -88,7 +88,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Gap(8),
-          ThemedTextFormField(
+          MaterialStyleTextFormField(
             controller: widget.primaryController,
             focusNode: _primaryFocus,
             labelText: '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
@@ -118,7 +118,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
             },
           ),
           const Gap(16),
-          ThemedTextFormField(
+          MaterialStyleTextFormField(
             controller: widget.secondaryController,
             focusNode: _secondaryFocus,
             labelText: '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
@@ -167,7 +167,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
             },
           ),
           const Gap(16),
-          ThemedTextFormField(
+          MaterialStyleTextFormField(
             controller: widget.tokenController,
             focusNode: _tokenFocus,
             labelText: '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',

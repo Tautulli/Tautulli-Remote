@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/types/app_style.dart';
-import '../../../../../../core/widgets/custom_radio_list_tile.dart';
-import '../../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../../core/widgets/material/material_style_radio_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
@@ -27,10 +27,10 @@ class MaterialStyleStylesGroup extends StatelessWidget {
               );
             }
           },
-          child: ListTileGroup(
+          child: MaterialStyleListTileGroup(
             heading: LocaleKeys.styles_title.tr(),
             listTiles: [
-              CustomRadioListTile(
+              MaterialStyleRadioListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.android,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -38,7 +38,7 @@ class MaterialStyleStylesGroup extends StatelessWidget {
                 title: 'Material',
                 value: AppStyle.material,
               ),
-              CustomRadioListTile(
+              MaterialStyleRadioListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.apple,
                   color: Theme.of(context).colorScheme.onSurface,

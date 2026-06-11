@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../../core/widgets/base/image_gradient_background.dart';
-import '../../../../../core/widgets/poster.dart';
+import '../../../../../core/widgets/material/material_style_poster.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/data/models/custom_header_model.dart';
@@ -64,7 +64,7 @@ class MaterialStyleSeasonMediaView extends StatelessWidget {
         ),
         // TODO: Re-enable once new plex app deep links are discovered
         // appBarActions: _appBarActions(context),
-        poster: Poster(
+        poster: MaterialStylePoster(
           heroTag: media.ratingKey,
           mediaType: media.mediaType,
           uri: media.imageUri,

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/announcement_model.dart';
 
@@ -21,7 +21,7 @@ class MaterialStyleAnnouncementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWithForcedTint(
+    return MaterialStyleCard(
       child: InkWell(
         customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),

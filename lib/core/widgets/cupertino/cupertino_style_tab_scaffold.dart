@@ -14,7 +14,7 @@ import '../../../features/wizard/presentation/pages/cupertino/cupertino_style_wi
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
 import '../../rate_app/rate_app.dart';
-import '../notifying_icon.dart';
+import '../base/notifying_icon.dart';
 import 'dialogs/cupertino_style_rate_app_dialog.dart';
 
 class CupertinoStyleTabScaffold extends StatefulWidget {

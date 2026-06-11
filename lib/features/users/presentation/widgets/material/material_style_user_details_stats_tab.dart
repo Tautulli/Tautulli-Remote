@@ -9,12 +9,12 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/icon_card.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/status_card.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_icon_card.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_status_card.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
@@ -49,7 +49,7 @@ class _MaterialStyleUserDetailsStatsTabState extends State<MaterialStyleUserDeta
   Widget build(BuildContext context) {
     return BlocBuilder<UserStatisticsBloc, UserStatisticsState>(
       builder: (context, state) {
-        return ThemedRefreshIndicator(
+        return MaterialStyleRefreshIndicator(
           onRefresh: () {
             context.read<UserStatisticsBloc>().add(
               UserStatisticsFetched(
@@ -62,14 +62,14 @@ class _MaterialStyleUserDetailsStatsTabState extends State<MaterialStyleUserDeta
 
             return Future.value();
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             loading: state.playerStatsStatus == BlocStatus.initial || state.watchTimeStatsStatus == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 settingsState as SettingsSuccess;
 
                 if (state.watchTimeStatsStatus == BlocStatus.failure && state.playerStatsStatus == BlocStatus.failure) {
-                  return StatusPage(
+                  return MaterialStyleStatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,
@@ -117,7 +117,7 @@ List<Widget> _buildUserStatList({
 
     if (state.watchTimeStatsStatus == BlocStatus.failure) {
       statList.add(
-        StatusCard(
+        MaterialStyleStatusCard(
           isFailure: true,
           message: state.message ?? LocaleKeys.error_message_generic.tr(),
           suggestion: state.suggestion,
@@ -128,7 +128,7 @@ List<Widget> _buildUserStatList({
         final watchTimeStat = state.watchTimeStatsList[i];
 
         statList.add(
-          IconCard(
+          MaterialStyleIconCard(
             icon: watchTimeStat.queryDays == 1
                 ? FaIcon(
                     FontAwesomeIcons.solidClock,
@@ -200,7 +200,7 @@ List<Widget> _buildUserStatList({
 
     if (state.playerStatsStatus == BlocStatus.failure) {
       statList.add(
-        StatusCard(
+        MaterialStyleStatusCard(
           isFailure: true,
           message: state.message ?? LocaleKeys.error_message_generic.tr(),
           suggestion: state.suggestion,
@@ -210,7 +210,7 @@ List<Widget> _buildUserStatList({
       if (state.playerStatsList.isEmpty) {
         statList.addAll(
           [
-            StatusCard(message: LocaleKeys.player_stats_empty_message.tr()),
+            MaterialStyleStatusCard(message: LocaleKeys.player_stats_empty_message.tr()),
             const Gap(8),
           ],
         );
@@ -219,7 +219,7 @@ List<Widget> _buildUserStatList({
           final playerStat = state.playerStatsList[i];
 
           statList.add(
-            IconCard(
+            MaterialStyleIconCard(
               background: DecoratedBox(
                 position: DecorationPosition.foreground,
                 decoration: BoxDecoration(

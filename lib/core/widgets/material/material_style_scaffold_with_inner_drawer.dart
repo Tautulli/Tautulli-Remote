@@ -10,23 +10,23 @@ import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
-import '../../features/settings/domain/usecases/settings.dart';
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../translations/locale_keys.g.dart';
-import '../database/data/models/server_model.dart';
-import '../helpers/quick_actions_helper.dart';
-import '../helpers/theme_helper.dart';
-import 'double_back_to_exit.dart';
-import '../../dependency_injection.dart' as di;
-import 'tautulli_logo_title.dart';
+import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
+import '../../../features/settings/domain/usecases/settings.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../translations/locale_keys.g.dart';
+import '../../database/data/models/server_model.dart';
+import '../../helpers/quick_actions_helper.dart';
+import '../../helpers/theme_helper.dart';
+import '../base/double_back_to_exit.dart';
+import '../../../dependency_injection.dart' as di;
+import '../base/tautulli_logo_title.dart';
 
-class ScaffoldWithInnerDrawer extends StatefulWidget {
+class MaterialStyleScaffoldWithInnerDrawer extends StatefulWidget {
   final Widget title;
   final Widget body;
   final List<Widget>? actions;
 
-  const ScaffoldWithInnerDrawer({
+  const MaterialStyleScaffoldWithInnerDrawer({
     super.key,
     required this.title,
     required this.body,
@@ -34,10 +34,10 @@ class ScaffoldWithInnerDrawer extends StatefulWidget {
   });
 
   @override
-  State<ScaffoldWithInnerDrawer> createState() => _ScaffoldWithInnerDrawerState();
+  State<MaterialStyleScaffoldWithInnerDrawer> createState() => _MaterialStyleScaffoldWithInnerDrawerState();
 }
 
-class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
+class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaffoldWithInnerDrawer> {
   final QuickActions quickActions = const QuickActions();
 
   @override
@@ -118,7 +118,9 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
                           badgeColor: Theme.of(context).colorScheme.primary,
                         ),
                         position: badges.BadgePosition.topEnd(top: 1, end: -2),
-                        showBadge: (announcementsState is AnnouncementsSuccess && announcementsState.unread) || settingsState.appSettings.appUpdateAvailable,
+                        showBadge:
+                            (announcementsState is AnnouncementsSuccess && announcementsState.unread) ||
+                            settingsState.appSettings.appUpdateAvailable,
                         child: const Icon(Icons.menu),
                       ),
                       onPressed: () {
@@ -637,10 +639,10 @@ class __ServerSelectorState extends State<_ServerSelector> {
                             isOpen = !isOpen;
                           });
                           context.read<SettingsBloc>().add(
-                                SettingsUpdateActiveServer(
-                                  activeServer: server,
-                                ),
-                              );
+                            SettingsUpdateActiveServer(
+                              activeServer: server,
+                            ),
+                          );
                         },
                       );
                     },

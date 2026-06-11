@@ -12,9 +12,9 @@ import 'package:system_theme/system_theme.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
-import '../../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../../core/widgets/heading.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
+import '../../../../../core/widgets/material/material_style_heading.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
@@ -29,8 +29,8 @@ class MaterialStyleDataDumpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
     context.read<SettingsBloc>().add(
-          const SettingsLoad(updateServerInfo: false),
-        );
+      const SettingsLoad(updateServerInfo: false),
+    );
 
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
@@ -52,11 +52,11 @@ class MaterialStyleDataDumpView extends StatelessWidget {
         forceMaterialTransparency: true,
         title: const Text(LocaleKeys.data_dump_title).tr(),
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: ListView(
           padding: const EdgeInsets.all(8),
           children: [
-            CardWithForcedTint(
+            MaterialStyleCard(
               color: Theme.of(context).colorScheme.errorContainer,
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -138,10 +138,10 @@ class _SettingDumpGroup extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Heading(text: title),
+          child: MaterialStyleHeading(text: title),
         ),
         const Gap(8),
-        CardWithForcedTint(
+        MaterialStyleCard(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -291,7 +291,9 @@ class _DeviceDetails extends StatelessWidget {
             const _DataDumpRowHeading('System Accent'),
             const Gap(16),
             Text(
-              defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent.toHexString().substring(2, 8) : 'Unsupported',
+              defaultTargetPlatform.supportsAccentColor
+                  ? SystemTheme.accentColor.accent.toHexString().substring(2, 8)
+                  : 'Unsupported',
               // style: TextStyle(
               //   color: defaultTargetPlatform.supportsAccentColor ? SystemTheme.accentColor.accent : null,
               // ),
@@ -395,16 +397,18 @@ class _AppSettings extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Builder(builder: (context) {
-                      if (e.key == 'Theme Custom Color') {
-                        return Text(
-                          settingsState.appSettings.themeCustomColor.toHexString().substring(2, 8),
-                          style: TextStyle(color: settingsState.appSettings.themeCustomColor),
-                        );
-                      }
+                    child: Builder(
+                      builder: (context) {
+                        if (e.key == 'Theme Custom Color') {
+                          return Text(
+                            settingsState.appSettings.themeCustomColor.toHexString().substring(2, 8),
+                            style: TextStyle(color: settingsState.appSettings.themeCustomColor),
+                          );
+                        }
 
-                      return Text(e.value);
-                    }),
+                        return Text(e.value);
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -497,7 +501,7 @@ class _OneSignalStatus extends StatelessWidget {
               child: Text('Loading OneSignal Status'),
             );
           },
-        )
+        ),
       ],
     );
   }
@@ -700,7 +704,11 @@ class _ServerDumpGroup extends StatelessWidget {
                   ],
                 ),
                 _DataDumpRow(
-                  children: [const _DataDumpRowHeading('Secondary Protocol'), const Gap(16), Text(server.secondaryConnectionProtocol ?? '')],
+                  children: [
+                    const _DataDumpRowHeading('Secondary Protocol'),
+                    const Gap(16),
+                    Text(server.secondaryConnectionProtocol ?? ''),
+                  ],
                 ),
                 _DataDumpRow(
                   children: [

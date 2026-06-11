@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../base/donate_heading_card_content.dart';
 
 class MaterialStyleDonateHeadingCard extends StatelessWidget {
@@ -8,7 +8,7 @@ class MaterialStyleDonateHeadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CardWithForcedTint(
+    return const MaterialStyleCard(
       child: DonateHeadingCardContent(),
     );
   }

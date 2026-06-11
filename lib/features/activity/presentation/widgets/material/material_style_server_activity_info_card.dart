@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../data/models/server_activity_model.dart';
 import '../base/activity_info_card_bandwidth_info.dart';
 import '../base/activity_info_card_streams_info.dart';
@@ -17,7 +17,7 @@ class MaterialStyleServerActivityInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWithForcedTint(
+    return MaterialStyleCard(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(

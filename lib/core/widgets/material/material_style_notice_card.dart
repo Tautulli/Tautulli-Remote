@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import 'card_with_forced_tint.dart';
+import 'material_style_card.dart';
 
-class NoticeCard extends StatelessWidget {
+class MaterialStyleNoticeCard extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? content;
   final Color? color;
 
-  const NoticeCard({
+  const MaterialStyleNoticeCard({
     super.key,
     required this.leading,
     required this.title,
@@ -19,7 +19,7 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWithForcedTint(
+    return MaterialStyleCard(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/tautulli_logo_title.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/base/tautulli_logo_title.dart';
 import '../../bloc/wizard_bloc.dart';
 import '../../widgets/material/material_style_wizard_accessibility.dart';
 import '../../widgets/material/material_style_wizard_closing.dart';
@@ -62,7 +62,7 @@ class MaterialStyleWizardView extends StatelessWidget {
               navigator.pop();
             }
           },
-          child: PageBody(
+          child: MaterialStylePageBody(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(

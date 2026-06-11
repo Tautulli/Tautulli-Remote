@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/error/failure.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/custom_header_model.dart';
@@ -57,29 +57,29 @@ class MaterialStyleServerRegistrationView extends StatelessWidget {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 context.read<RegisterDeviceBloc>().add(
-                      RegisterDeviceStarted(
-                        primaryConnectionAddress: primaryController.text,
-                        secondaryConnectionAddress: secondaryController.text,
-                        deviceToken: tokenController.text,
-                        headers: state is RegistrationHeadersLoaded
-                            ? state.headers
-                                .map(
-                                  (header) => CustomHeaderModel(
-                                    key: header.key,
-                                    value: header.value,
-                                  ),
-                                )
-                                .toList()
-                            : [],
-                        settingsBloc: context.read<SettingsBloc>(),
-                      ),
-                    );
+                  RegisterDeviceStarted(
+                    primaryConnectionAddress: primaryController.text,
+                    secondaryConnectionAddress: secondaryController.text,
+                    deviceToken: tokenController.text,
+                    headers: state is RegistrationHeadersLoaded
+                        ? state.headers
+                              .map(
+                                (header) => CustomHeaderModel(
+                                  key: header.key,
+                                  value: header.value,
+                                ),
+                              )
+                              .toList()
+                        : [],
+                    settingsBloc: context.read<SettingsBloc>(),
+                  ),
+                );
               }
             },
           );
         },
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) async {
@@ -116,8 +116,8 @@ class MaterialStyleServerRegistrationView extends StatelessWidget {
                 }
 
                 context.read<RegistrationHeadersBloc>().add(
-                      RegistrationHeadersClear(),
-                    );
+                  RegistrationHeadersClear(),
+                );
                 Navigator.of(context).pop();
               }
               if (state is RegisterDeviceFailure) {

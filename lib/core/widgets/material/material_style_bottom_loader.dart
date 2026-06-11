@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../error/failure.dart';
-import '../types/bloc_status.dart';
+import '../../error/failure.dart';
+import '../../types/bloc_status.dart';
 
-class BottomLoader extends StatelessWidget {
+class MaterialStyleBottomLoader extends StatelessWidget {
   final BlocStatus status;
   final Failure? failure;
   final String? message;
   final String? suggestion;
   final Function()? onTap;
 
-  const BottomLoader({
+  const MaterialStyleBottomLoader({
     super.key,
     required this.status,
     this.failure,

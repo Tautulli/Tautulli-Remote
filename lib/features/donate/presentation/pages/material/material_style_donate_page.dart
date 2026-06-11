@@ -7,11 +7,11 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/device_info/device_info.dart';
-import '../../../../../core/pages/status_page.dart';
-import '../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
+import '../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../widgets/material/material_style_donate_heading_card.dart';
@@ -29,7 +29,7 @@ class MaterialStyleDonatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (showDrawer) {
-      return ScaffoldWithInnerDrawer(
+      return MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.donate_title).tr(),
         body: const MaterialStyleDonateView(),
       );
@@ -39,7 +39,7 @@ class MaterialStyleDonatePage extends StatelessWidget {
           forceMaterialTransparency: true,
           title: const Text(LocaleKeys.donate_title).tr(),
         ),
-        body: const PageBody(
+        body: const MaterialStylePageBody(
           child: MaterialStyleDonateView(),
         ),
       );
@@ -160,10 +160,10 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                 : _offerings!.all.isNotEmpty
                 ? ListView(
                     children: [
-                      ListTileGroup(
+                      MaterialStyleListTileGroup(
                         heading: LocaleKeys.donate_onetime_title.tr(),
                         listTiles: [
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.iceCream,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -178,7 +178,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('ice_cream')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.pizzaSlice,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -189,7 +189,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('pizza')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.burger,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -204,7 +204,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('hamburger')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.utensils,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -218,10 +218,10 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                         ],
                       ),
                       const Gap(8),
-                      ListTileGroup(
+                      MaterialStyleListTileGroup(
                         heading: LocaleKeys.donate_recurring_title.tr(),
                         listTiles: [
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.circleDollarToSlot,
                               color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
@@ -236,7 +236,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.circleDollarToSlot,
                               color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
@@ -250,7 +250,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.circleDollarToSlot,
                               color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
@@ -264,7 +264,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                               _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
                             ),
                           ),
-                          CustomListTile(
+                          MaterialStyleListTile(
                             leading: FaIcon(
                               FontAwesomeIcons.circleDollarToSlot,
                               color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
@@ -358,7 +358,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
                       ),
                     ],
                   )
-                : StatusPage(
+                : MaterialStyleStatusPage(
                     message: LocaleKeys.donate_load_failed_message.tr(),
                   ),
           ),

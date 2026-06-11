@@ -5,14 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
-import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/utilities/cast.dart';
-import '../../../../../core/widgets/bottom_loader.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -100,14 +100,14 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
           );
         }
       },
-      child: ScaffoldWithInnerDrawer(
+      child: MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.recently_added_title).tr(),
         actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
           builder: (context, state) {
-            return PageBody(
+            return MaterialStylePageBody(
               loading: state.status == BlocStatus.initial && !state.hasReachedMax,
-              child: ThemedRefreshIndicator(
+              child: MaterialStyleRefreshIndicator(
                 onRefresh: () {
                   _recentlyAddedBloc.add(
                     RecentlyAddedFetched(
@@ -124,14 +124,14 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
                   builder: (context) {
                     if (state.recentlyAdded.isEmpty) {
                       if (state.status == BlocStatus.failure) {
-                        return StatusPage(
+                        return MaterialStyleStatusPage(
                           scrollable: true,
                           message: state.message ?? '',
                           suggestion: state.suggestion ?? '',
                         );
                       }
                       if (state.status == BlocStatus.success) {
-                        return StatusPage(
+                        return MaterialStyleStatusPage(
                           scrollable: true,
                           message: LocaleKeys.recently_added_empty_message.tr(),
                         );
@@ -148,7 +148,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.recentlyAdded.length) {
-                          return BottomLoader(
+                          return MaterialStyleBottomLoader(
                             status: state.status,
                             failure: state.failure,
                             message: state.message,

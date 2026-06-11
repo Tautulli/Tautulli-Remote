@@ -8,7 +8,7 @@ import '../../../../../core/types/graph_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/graphs_bloc.dart';
-import '../base/graph_heading.dart';
+import 'material_style_graph_heading.dart';
 import 'material_style_graph_card.dart';
 
 class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
@@ -22,7 +22,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(8),
           children: [
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.daily_play_count_by_stream_type_title.tr()
                   : LocaleKeys.daily_play_time_by_stream_type_title.tr(),
@@ -35,7 +35,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.playsByStreamType]!,
             ),
             const Gap(18),
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: LocaleKeys.daily_concurrent_stream_count_by_stream_type_title.tr(),
               color: Theme.of(context).colorScheme.onSurface,
             ),
@@ -46,7 +46,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.concurrentStreams]!,
             ),
             const Gap(18),
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_source_resolution.tr()
                   : LocaleKeys.play_time_by_source_resolution.tr(),
@@ -59,7 +59,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.playsBySourceResolution]!,
             ),
             const Gap(18),
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_stream_resolution.tr()
                   : LocaleKeys.play_time_by_stream_resolution.tr(),
@@ -72,7 +72,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.playsByStreamResolution]!,
             ),
             const Gap(18),
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_platform_stream_type.tr()
                   : LocaleKeys.play_time_by_platform_stream_type.tr(),
@@ -85,7 +85,7 @@ class MaterialStyleStreamTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.streamTypeByTop10Platforms]!,
             ),
             const Gap(18),
-            GraphHeading(
+            MaterialStyleGraphHeading(
               text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_user_stream_type.tr()
                   : LocaleKeys.play_time_by_user_stream_type.tr(),

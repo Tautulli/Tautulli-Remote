@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/widgets/bullet_list.dart';
+import '../../../../../core/widgets/base/bullet_list.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import 'material_style_registration_instruction.dart';
 

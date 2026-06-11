@@ -9,10 +9,10 @@ import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/stat_id_type.dart';
-import '../../../../../core/widgets/bottom_loader.dart';
-import '../../../../../core/widgets/icon_card.dart';
-import '../../../../../core/widgets/page_body.dart';
-import '../../../../../core/widgets/poster_card.dart';
+import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
+import '../../../../../core/widgets/material/material_style_icon_card.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
+import '../../../../../core/widgets/material/material_style_poster_card.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/material/material_style_library_card.dart';
 import '../../../../media/data/models/media_model.dart';
@@ -84,7 +84,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
         forceMaterialTransparency: true,
         title: Text(StringHelper.mapStatIdTypeToString(widget.statIdType)),
       ),
-      body: PageBody(
+      body: MaterialStylePageBody(
         child: BlocBuilder<StatisticsBloc, StatisticsState>(
           builder: (context, state) {
             List<Widget> statsListWidgets = _buildStatListWidgets(
@@ -101,7 +101,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
               separatorBuilder: (context, index) => const Gap(8),
               itemBuilder: (context, index) {
                 if (index >= statsListWidgets.length) {
-                  return BottomLoader(
+                  return MaterialStyleBottomLoader(
                     status: state.status,
                     failure: state.failure,
                     message: state.message,
@@ -193,7 +193,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
               year: statData.year,
             );
 
-            return PosterCard(
+            return MaterialStylePosterCard(
               mediaType: statData.mediaType,
               uri: statData.posterUri,
               details: TopStatisticDetails(
@@ -218,7 +218,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       case (StatIdType.popularMusic):
         return stat.stats
             .map(
-              (statData) => PosterCard(
+              (statData) => MaterialStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: PopularStatisticDetails(
@@ -277,7 +277,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       case (StatIdType.lastWatched):
         return stat.stats
             .map(
-              (statData) => PosterCard(
+              (statData) => MaterialStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: LastWatchedStatisticDetails(
@@ -335,7 +335,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       case (StatIdType.topPlatforms):
         return stat.stats
             .map(
-              (statData) => IconCard(
+              (statData) => MaterialStyleIconCard(
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -366,7 +366,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       case (StatIdType.mostConcurrent):
         return stat.stats
             .map(
-              (statData) => IconCard(
+              (statData) => MaterialStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
                 details: MostConcurrentStatisticDetails(
                   statData: statData,

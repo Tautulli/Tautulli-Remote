@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
+import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/clear_tautulli_image_cache_bloc.dart';
@@ -111,11 +111,11 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                 }
               }
             },
-            child: PageBody(
+            child: MaterialStylePageBody(
               child: ListView(
                 padding: const EdgeInsets.all(8.0),
                 children: [
-                  ListTileGroup(
+                  MaterialStyleListTileGroup(
                     heading: LocaleKeys.connection_details_title.tr(),
                     listTiles: [
                       MaterialStyleServerPrimaryConnectionListTile(server: server),
@@ -126,7 +126,7 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                     ],
                   ),
                   const Gap(8),
-                  ListTileGroup(
+                  MaterialStyleListTileGroup(
                     heading: LocaleKeys.custom_http_headers_title.tr(),
                     listTiles: server.customHeaders
                         .map(
@@ -158,11 +158,11 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                     ),
                   ),
                   const Gap(8),
-                  ListTileGroup(
+                  MaterialStyleListTileGroup(
                     heading: LocaleKeys.other_title.tr(),
                     listTiles: [
                       MaterialStyleServerOpenInBrowserListTile(server: server),
-                      CustomListTile(
+                      MaterialStyleListTile(
                         leading: FaIcon(
                           FontAwesomeIcons.eraser,
                           color: Theme.of(context).colorScheme.onSurface,

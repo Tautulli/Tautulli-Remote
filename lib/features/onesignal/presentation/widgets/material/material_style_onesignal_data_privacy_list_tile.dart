@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../../core/widgets/permission_setting_dialog.dart';
+import '../../../../../core/widgets/material/dialogs/material_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/onesignal_health_bloc.dart';
@@ -75,7 +75,7 @@ class MaterialStyleOnesignalDataPrivacyListTile extends StatelessWidget {
                 } else {
                   await showDialog(
                     context: context,
-                    builder: (context) => PermissionSettingDialog(
+                    builder: (context) => MaterialStylePermissionSettingDialog(
                       title: LocaleKeys.notification_permission_dialog_title.tr(),
                       content: LocaleKeys.notification_permission_dialog_content.tr(),
                     ),

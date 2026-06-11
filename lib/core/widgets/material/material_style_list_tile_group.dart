@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'heading.dart';
+import 'material_style_heading.dart';
 
-class ListTileGroup extends StatelessWidget {
+class MaterialStyleListTileGroup extends StatelessWidget {
   final String? heading;
   final List<Widget> listTiles;
 
-  const ListTileGroup({
+  const MaterialStyleListTileGroup({
     super.key,
     this.heading,
     required this.listTiles,
@@ -21,7 +21,7 @@ class ListTileGroup extends StatelessWidget {
         if (heading != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Heading(
+            child: MaterialStyleHeading(
               text: heading!,
             ),
           ),
