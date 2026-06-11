@@ -16,7 +16,7 @@ import '../../../../../media/presentation/pages/material/material_style_media_pa
 import '../../../../../settings/data/models/custom_header_model.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../../users/data/models/user_model.dart';
-import '../../../../../users/presentation/pages/user_details_page.dart';
+import '../../../../../users/presentation/pages/material/material_style_user_details_page.dart';
 import '../../../../data/models/activity_model.dart';
 import '../../../bloc/activity_bloc.dart';
 import '../../../bloc/terminate_stream_bloc.dart';
@@ -341,7 +341,7 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
 
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => UserDetailsPage(
+                                      builder: (context) => MaterialStyleUserDetailsPage(
                                         server: widget.server,
                                         user: user,
                                         fetchUser: true,

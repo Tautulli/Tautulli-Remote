@@ -12,7 +12,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
-import '../../../../users/presentation/widgets/user_icon.dart';
+import '../../../../users/presentation/widgets/material/material_style_user_icon.dart';
 import '../../../data/models/history_model.dart';
 import 'bottom_sheets/material_style_history_bottom_sheet.dart';
 
@@ -43,7 +43,7 @@ class MaterialStyleHistoryIndividualCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    UserIcon(
+                    MaterialStyleUserIcon(
                       disableHero: true,
                       user: UserModel(
                         userId: history.userId,

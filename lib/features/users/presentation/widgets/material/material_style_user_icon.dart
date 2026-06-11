@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/types/user_icon_size.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
+import '../../../../../core/types/user_icon_size.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/user_model.dart';
 
-class UserIcon extends StatelessWidget {
+class MaterialStyleUserIcon extends StatelessWidget {
   final UserModel user;
   final UserIconSize size;
   final bool disableHero;
 
-  const UserIcon({
+  const MaterialStyleUserIcon({
     super.key,
     required this.user,
     this.size = UserIconSize.normal,

@@ -16,8 +16,8 @@ import '../../../../../core/widgets/cupertino/cupertino_style_status_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
+import '../../../../users/presentation/widgets/base/user_details.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
-import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_details.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../../data/models/library_watch_time_stat_model.dart';
 import '../../bloc/library_statistics_bloc.dart';
@@ -254,7 +254,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
                 server: widget.server,
                 fetchUser: true,
                 user: user,
-                details: CupertinoStyleUserDetails(
+                details: UserDetails(
                   user: user,
                   showLastStreamed: false,
                 ),

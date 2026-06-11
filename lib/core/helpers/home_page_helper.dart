@@ -8,7 +8,7 @@ import '../../features/libraries/presentation/pages/material/material_style_libr
 import '../../features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 import '../../features/statistics/presentation/pages/material/material_style_statistics_page.dart';
-import '../../features/users/presentation/pages/users_page.dart';
+import '../../features/users/presentation/pages/material/material_style_users_page.dart';
 
 class HomePageHelper {
   static Widget get() {
@@ -22,7 +22,7 @@ class HomePageHelper {
       case ('libraries'):
         return const MaterialStyleLibrariesPage();
       case ('users'):
-        return const UsersPage();
+        return const MaterialStyleUsersPage();
       case ('statistics'):
         return const MaterialStyleStatisticsPage();
       case ('graphs'):

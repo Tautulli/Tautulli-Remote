@@ -3,33 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/user_history_bloc.dart';
-import '../../../history/presentation/widgets/material/material_style_history_card.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../history/presentation/bloc/user_history_bloc.dart';
+import '../../../../history/presentation/widgets/material/material_style_history_card.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/user_model.dart';
 
-class UserDetailsHistoryTab extends StatefulWidget {
+class MaterialStyleUserDetailsHistoryTab extends StatefulWidget {
   final ServerModel server;
   final UserModel user;
 
-  const UserDetailsHistoryTab({
+  const MaterialStyleUserDetailsHistoryTab({
     super.key,
     required this.server,
     required this.user,
   });
 
   @override
-  State<UserDetailsHistoryTab> createState() => _UserDetailsHistoryTabState();
+  State<MaterialStyleUserDetailsHistoryTab> createState() => _MaterialStyleUserDetailsHistoryTabState();
 }
 
-class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
+class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDetailsHistoryTab> {
   ScrollController? _scrollController;
   late UserHistoryBloc _userHistoryBloc;
   late SettingsBloc _settingsBloc;

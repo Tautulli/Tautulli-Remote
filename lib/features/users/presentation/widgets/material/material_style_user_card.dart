@@ -4,23 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator_master/palette_generator_master.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
-import '../../data/models/user_table_model.dart';
-import '../pages/user_details_page.dart';
-import 'user_icon.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/models/user_table_model.dart';
+import '../../pages/material/material_style_user_details_page.dart';
+import 'material_style_user_icon.dart';
 
 Map<String, Color?> backgroundColorCache = {};
 
-class UserCard extends StatefulWidget {
+class MaterialStyleUserCard extends StatefulWidget {
   final ServerModel server;
   final UserTableModel user;
   final Widget details;
   final bool fetchUser;
 
-  const UserCard({
+  const MaterialStyleUserCard({
     super.key,
     required this.server,
     required this.user,
@@ -29,10 +29,10 @@ class UserCard extends StatefulWidget {
   });
 
   @override
-  State<UserCard> createState() => _UserCardState();
+  State<MaterialStyleUserCard> createState() => _MaterialStyleUserCardState();
 }
 
-class _UserCardState extends State<UserCard> {
+class _MaterialStyleUserCardState extends State<MaterialStyleUserCard> {
   late Future getColorFuture;
   late bool hasNetworkImage;
 
@@ -91,7 +91,7 @@ class _UserCardState extends State<UserCard> {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          UserIcon(user: user),
+                          MaterialStyleUserIcon(user: user),
                           const Gap(8),
                           Expanded(
                             child: widget.details,
@@ -106,7 +106,7 @@ class _UserCardState extends State<UserCard> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return UserDetailsPage(
+                                return MaterialStyleUserDetailsPage(
                                   server: widget.server,
                                   user: user,
                                   backgroundColor: color,

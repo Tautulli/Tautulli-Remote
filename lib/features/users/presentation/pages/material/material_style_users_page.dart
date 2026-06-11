@@ -6,22 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/users_table_bloc.dart';
-import '../widgets/user_card.dart';
-import '../widgets/user_details.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../bloc/users_table_bloc.dart';
+import '../../widgets/material/material_style_user_card.dart';
+import '../../widgets/base/user_details.dart';
 
-class UsersPage extends StatelessWidget {
-  const UsersPage({super.key});
+class MaterialStyleUsersPage extends StatelessWidget {
+  const MaterialStyleUsersPage({super.key});
 
   static const routeName = '/users';
 
@@ -29,19 +29,19 @@ class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<UsersTableBloc>(),
-      child: const UsersView(),
+      child: const MaterialStyleUsersView(),
     );
   }
 }
 
-class UsersView extends StatefulWidget {
-  const UsersView({super.key});
+class MaterialStyleUsersView extends StatefulWidget {
+  const MaterialStyleUsersView({super.key});
 
   @override
-  State<UsersView> createState() => _UsersViewState();
+  State<MaterialStyleUsersView> createState() => _MaterialStyleUsersViewState();
 }
 
-class _UsersViewState extends State<UsersView> {
+class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
   final _scrollController = ScrollController();
   late String _orderColumn;
   late String _orderDir;
@@ -65,13 +65,13 @@ class _UsersViewState extends State<UsersView> {
     _orderDir = usersSort[1];
 
     context.read<UsersTableBloc>().add(
-          UsersTableFetched(
-            server: _server,
-            orderColumn: _orderColumn,
-            orderDir: _orderDir,
-            settingsBloc: _settingsBloc,
-          ),
-        );
+      UsersTableFetched(
+        server: _server,
+        orderColumn: _orderColumn,
+        orderDir: _orderDir,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 
   @override
@@ -90,13 +90,13 @@ class _UsersViewState extends State<UsersView> {
         if (state is SettingsSuccess) {
           _server = state.appSettings.activeServer;
           context.read<UsersTableBloc>().add(
-                UsersTableFetched(
-                  server: _server,
-                  orderColumn: _orderColumn,
-                  orderDir: _orderDir,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
+            UsersTableFetched(
+              server: _server,
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+              settingsBloc: _settingsBloc,
+            ),
+          );
         }
       },
       child: ScaffoldWithInnerDrawer(
@@ -109,14 +109,14 @@ class _UsersViewState extends State<UsersView> {
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   context.read<UsersTableBloc>().add(
-                        UsersTableFetched(
-                          server: _server,
-                          orderColumn: _orderColumn,
-                          orderDir: _orderDir,
-                          freshFetch: true,
-                          settingsBloc: _settingsBloc,
-                        ),
-                      );
+                    UsersTableFetched(
+                      server: _server,
+                      orderColumn: _orderColumn,
+                      orderDir: _orderDir,
+                      freshFetch: true,
+                      settingsBloc: _settingsBloc,
+                    ),
+                  );
 
                   return Future.value(null);
                 },
@@ -142,7 +142,9 @@ class _UsersViewState extends State<UsersView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.users.length : state.users.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.users.length
+                          : state.users.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.users.length) {
@@ -153,22 +155,25 @@ class _UsersViewState extends State<UsersView> {
                             suggestion: state.suggestion,
                             onTap: () {
                               context.read<UsersTableBloc>().add(
-                                    UsersTableFetched(
-                                      server: _server,
-                                      orderColumn: _orderColumn,
-                                      orderDir: _orderDir,
-                                      settingsBloc: _settingsBloc,
-                                    ),
-                                  );
+                                UsersTableFetched(
+                                  server: _server,
+                                  orderColumn: _orderColumn,
+                                  orderDir: _orderDir,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
                             },
                           );
                         }
 
-                        return UserCard(
+                        return MaterialStyleUserCard(
                           key: ValueKey(state.users[index].userId!),
                           server: _server,
                           user: state.users[index],
-                          details: UserDetails(user: state.users[index]),
+                          details: UserDetails(
+                            user: state.users[index],
+                            textColor: Theme.of(context).colorScheme.onSurface,
+                          ),
                         );
                       },
                     );
@@ -305,7 +310,7 @@ class _UsersViewState extends State<UsersView> {
             ),
           ];
         },
-      )
+      ),
     ];
   }
 

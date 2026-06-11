@@ -9,16 +9,16 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/users_table_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_user_card.dart';
-import '../../widgets/cupertino/cupertino_style_user_details.dart';
+import '../../widgets/base/user_details.dart';
 import '../../widgets/cupertino/bottom_sheets/cupertino_style_users_filter_bottom_sheet.dart';
+import '../../widgets/cupertino/cupertino_style_user_card.dart';
 
 class CupertinoStyleUsersPage extends StatelessWidget {
   final bool showBackButton;
@@ -215,7 +215,7 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
                           return CupertinoStyleUserCard(
                             server: _server,
                             user: user,
-                            details: CupertinoStyleUserDetails(user: user),
+                            details: UserDetails(user: user),
                             currentPageTitle: LocaleKeys.users_title.tr(),
                           );
                         } else {

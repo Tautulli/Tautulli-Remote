@@ -15,7 +15,7 @@ import '../../../../../media/presentation/pages/material/material_style_media_pa
 import '../../../../../settings/data/models/custom_header_model.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../../users/data/models/user_model.dart';
-import '../../../../../users/presentation/pages/user_details_page.dart';
+import '../../../../../users/presentation/pages/material/material_style_user_details_page.dart';
 import '../../../../data/models/history_model.dart';
 import '../../base/history_details_info.dart';
 import '../material_style_history_bottom_sheet_details.dart';
@@ -199,7 +199,7 @@ class MaterialStyleHistoryBottomSheet extends StatelessWidget {
 
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => UserDetailsPage(
+                                          builder: (context) => MaterialStyleUserDetailsPage(
                                             server: server,
                                             user: user,
                                             fetchUser: true,

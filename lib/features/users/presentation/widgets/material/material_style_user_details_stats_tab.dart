@@ -5,37 +5,37 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/asset_helper.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/icon_card.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/status_card.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
-import '../../data/models/user_watch_time_stat_model.dart';
-import '../bloc/user_statistics_bloc.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/asset_helper.dart';
+import '../../../../../core/helpers/color_palette_helper.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/icon_card.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/status_card.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/models/user_watch_time_stat_model.dart';
+import '../../bloc/user_statistics_bloc.dart';
 
-class UserDetailsStatsTab extends StatefulWidget {
+class MaterialStyleUserDetailsStatsTab extends StatefulWidget {
   final ServerModel server;
   final UserModel user;
 
-  const UserDetailsStatsTab({
+  const MaterialStyleUserDetailsStatsTab({
     super.key,
     required this.server,
     required this.user,
   });
 
   @override
-  State<UserDetailsStatsTab> createState() => _UserDetailsStatsTabState();
+  State<MaterialStyleUserDetailsStatsTab> createState() => _MaterialStyleUserDetailsStatsTabState();
 }
 
-class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
+class _MaterialStyleUserDetailsStatsTabState extends State<MaterialStyleUserDetailsStatsTab> {
   late SettingsBloc _settingsBloc;
 
   @override
@@ -52,13 +52,13 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
         return ThemedRefreshIndicator(
           onRefresh: () {
             context.read<UserStatisticsBloc>().add(
-                  UserStatisticsFetched(
-                    server: widget.server,
-                    userId: widget.user.userId!,
-                    settingsBloc: _settingsBloc,
-                    freshFetch: true,
-                  ),
-                );
+              UserStatisticsFetched(
+                server: widget.server,
+                userId: widget.user.userId!,
+                settingsBloc: _settingsBloc,
+                freshFetch: true,
+              ),
+            );
 
             return Future.value();
           },
@@ -100,7 +100,8 @@ List<Widget> _buildUserStatList({
 }) {
   List<Widget> statList = [];
 
-  if (state.watchTimeStatsStatus != BlocStatus.initial || (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
+  if (state.watchTimeStatsStatus != BlocStatus.initial ||
+      (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
@@ -135,22 +136,22 @@ List<Widget> _buildUserStatList({
                     color: Theme.of(context).colorScheme.onSurface,
                   )
                 : watchTimeStat.queryDays == 7
-                    ? FaIcon(
-                        FontAwesomeIcons.calendarWeek,
-                        size: 50,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      )
-                    : watchTimeStat.queryDays == 30
-                        ? FaIcon(
-                            FontAwesomeIcons.solidCalendarDays,
-                            size: 50,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          )
-                        : FaIcon(
-                            FontAwesomeIcons.hourglass,
-                            size: 50,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                ? FaIcon(
+                    FontAwesomeIcons.calendarWeek,
+                    size: 50,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  )
+                : watchTimeStat.queryDays == 30
+                ? FaIcon(
+                    FontAwesomeIcons.solidCalendarDays,
+                    size: 50,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  )
+                : FaIcon(
+                    FontAwesomeIcons.hourglass,
+                    size: 50,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
             details: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +183,8 @@ List<Widget> _buildUserStatList({
     }
   }
 
-  if (state.playerStatsStatus != BlocStatus.initial || (state.playerStatsStatus == BlocStatus.initial && state.playerStatsList.isNotEmpty)) {
+  if (state.playerStatsStatus != BlocStatus.initial ||
+      (state.playerStatsStatus == BlocStatus.initial && state.playerStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),

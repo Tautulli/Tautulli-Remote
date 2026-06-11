@@ -15,8 +15,8 @@ import '../../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
-import '../../../../users/presentation/widgets/user_card.dart';
-import '../../../../users/presentation/widgets/user_details.dart';
+import '../../../../users/presentation/widgets/material/material_style_user_card.dart';
+import '../../../../users/presentation/widgets/base/user_details.dart';
 import '../../../data/models/library_table_model.dart';
 import '../../../data/models/library_watch_time_stat_model.dart';
 import '../../bloc/library_statistics_bloc.dart';
@@ -227,12 +227,13 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
             );
 
             statList.add(
-              UserCard(
+              MaterialStyleUserCard(
                 server: widget.server,
                 fetchUser: true,
                 user: user,
                 details: UserDetails(
                   user: user,
+                  textColor: Theme.of(context).colorScheme.onSurface,
                   showLastStreamed: false,
                 ),
               ),

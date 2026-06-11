@@ -19,7 +19,7 @@ import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/material/material_style_media_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
-import '../../../../users/presentation/widgets/user_card.dart';
+import '../../../../users/presentation/widgets/material/material_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
 import '../../widgets/base/top_statistic_details.dart';
@@ -317,7 +317,7 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       case (StatIdType.topUsers):
         return stat.stats
             .map(
-              (statData) => UserCard(
+              (statData) => MaterialStyleUserCard(
                 server: widget.server,
                 user: UserTableModel(
                   userId: statData.userId,

@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
@@ -8,14 +8,16 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_table_model.dart';
 
-class CupertinoStyleUserDetails extends StatelessWidget {
+class UserDetails extends StatelessWidget {
   final UserTableModel user;
   final bool showLastStreamed;
+  final Color? textColor;
 
-  const CupertinoStyleUserDetails({
+  const UserDetails({
     super.key,
     required this.user,
     this.showLastStreamed = true,
+    this.textColor,
   });
 
   @override
@@ -57,6 +59,9 @@ class CupertinoStyleUserDetails extends StatelessWidget {
                   ),
                 ),
               ],
+              style: TextStyle(
+                color: textColor,
+              ),
             ),
           ),
         _playsAndDuration(context),
@@ -92,6 +97,9 @@ class CupertinoStyleUserDetails extends StatelessWidget {
                     ),
                   ),
                 ],
+                style: TextStyle(
+                  color: textColor,
+                ),
               ),
             ),
           ],
@@ -191,6 +199,9 @@ class CupertinoStyleUserDetails extends StatelessWidget {
                         ],
                       ),
                   ],
+                  style: TextStyle(
+                    color: textColor,
+                  ),
                 ),
               ),
             ],

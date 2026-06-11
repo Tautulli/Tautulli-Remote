@@ -4,29 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator_master/palette_generator_master.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/user_icon_size.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/user_history_bloc.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
-import '../bloc/user_individual_bloc.dart';
-import '../bloc/user_statistics_bloc.dart';
-import '../widgets/user_details_history_tab.dart';
-import '../widgets/user_details_stats_tab.dart';
-import '../widgets/user_icon.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/types/user_icon_size.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../history/presentation/bloc/user_history_bloc.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/user_model.dart';
+import '../../bloc/user_individual_bloc.dart';
+import '../../bloc/user_statistics_bloc.dart';
+import '../../widgets/material/material_style_user_details_history_tab.dart';
+import '../../widgets/material/material_style_user_details_stats_tab.dart';
+import '../../widgets/material/material_style_user_icon.dart';
 
-class UserDetailsPage extends StatelessWidget {
+class MaterialStyleUserDetailsPage extends StatelessWidget {
   final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
-  const UserDetailsPage({
+  const MaterialStyleUserDetailsPage({
     super.key,
     required this.server,
     required this.user,
@@ -48,7 +48,7 @@ class UserDetailsPage extends StatelessWidget {
           create: (context) => di.sl<UserHistoryBloc>(),
         ),
       ],
-      child: UserDetailsView(
+      child: MaterialStyleUserDetailsView(
         server: server,
         user: user,
         backgroundColor: backgroundColor,
@@ -58,13 +58,13 @@ class UserDetailsPage extends StatelessWidget {
   }
 }
 
-class UserDetailsView extends StatefulWidget {
+class MaterialStyleUserDetailsView extends StatefulWidget {
   final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
-  const UserDetailsView({
+  const MaterialStyleUserDetailsView({
     super.key,
     required this.server,
     required this.user,
@@ -73,10 +73,10 @@ class UserDetailsView extends StatefulWidget {
   });
 
   @override
-  State<UserDetailsView> createState() => _UserDetailsViewState();
+  State<MaterialStyleUserDetailsView> createState() => _MaterialStyleUserDetailsViewState();
 }
 
-class _UserDetailsViewState extends State<UserDetailsView> {
+class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsView> {
   late Future getColorFuture;
   late bool hasNetworkImage;
   late UserHistoryBloc _userHistoryBloc;
@@ -153,7 +153,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                   ),
             icon: BlocBuilder<UserIndividualBloc, UserIndividualState>(
               builder: (context, state) {
-                return UserIcon(
+                return MaterialStyleUserIcon(
                   user: widget.fetchUser && state.user.userId != null ? state.user : widget.user,
                   size: UserIconSize.large,
                 );
@@ -199,11 +199,11 @@ class _UserDetailsViewState extends State<UserDetailsView> {
               Tab(text: LocaleKeys.history_title.tr()),
             ],
             tabChildren: [
-              UserDetailsStatsTab(
+              MaterialStyleUserDetailsStatsTab(
                 server: widget.server,
                 user: widget.user,
               ),
-              UserDetailsHistoryTab(
+              MaterialStyleUserDetailsHistoryTab(
                 server: widget.server,
                 user: widget.user,
               ),
