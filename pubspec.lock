@@ -879,14 +879,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  palette_generator:
+  palette_generator_master:
     dependency: "direct main"
     description:
-      name: palette_generator
-      sha256: "4420f7ccc3f0a4a906144e73f8b6267cd940b64f57a7262e95cb8cec3a8ae0ed"
+      name: palette_generator_master
+      sha256: "66e3e307a1e7b8ebbd5439d427be0bcb47d7035f45f1888c779122e3df9b9dce"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3+7"
+    version: "1.1.0"
   path:
     dependency: transitive
     description:
