@@ -7,42 +7,42 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/asset_helper.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/tautulli_types.dart';
-import '../../../../core/widgets/custom_time_range_dialog.dart';
-import '../../../../core/widgets/icon_card.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/poster_card.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../libraries/data/models/library_table_model.dart';
-import '../../../libraries/presentation/widgets/material/material_style_library_card.dart';
-import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/material/material_style_media_page.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_table_model.dart';
-import '../../../users/presentation/widgets/user_card.dart';
-import '../../data/models/statistic_data_model.dart';
-import '../../data/models/statistic_model.dart';
-import '../bloc/statistics_bloc.dart';
-import '../widgets/last_watched_statistic_detials.dart';
-import '../widgets/most_concurrent_statistic_details.dart';
-import '../widgets/popular_statistic_details.dart';
-import '../widgets/statistics_heading.dart';
-import '../widgets/top_libraries_statistic_details.dart';
-import '../widgets/top_platforms_statistic_details.dart';
-import '../widgets/top_statistic_details.dart';
-import '../widgets/top_users_statistic_details.dart';
-import 'individual_statistic_page.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/asset_helper.dart';
+import '../../../../../core/helpers/color_palette_helper.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/types/tautulli_types.dart';
+import '../../../../../core/widgets/custom_time_range_dialog.dart';
+import '../../../../../core/widgets/icon_card.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/poster_card.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../libraries/data/models/library_table_model.dart';
+import '../../../../libraries/presentation/widgets/material/material_style_library_card.dart';
+import '../../../../media/data/models/media_model.dart';
+import '../../../../media/presentation/pages/material/material_style_media_page.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../users/data/models/user_table_model.dart';
+import '../../../../users/presentation/widgets/user_card.dart';
+import '../../../data/models/statistic_data_model.dart';
+import '../../../data/models/statistic_model.dart';
+import '../../bloc/statistics_bloc.dart';
+import '../../widgets/base/top_statistic_details.dart';
+import '../../widgets/base/top_users_statistic_details.dart';
+import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/most_concurrent_statistic_details.dart';
+import '../../widgets/base/popular_statistic_details.dart';
+import '../../widgets/material/material_style_statistics_heading.dart';
+import '../../widgets/base/top_libraries_statistic_details.dart';
+import '../../widgets/base/top_platforms_statistic_details.dart';
+import 'material_style_individual_statistic_page.dart';
 
-class StatisticsPage extends StatelessWidget {
-  const StatisticsPage({super.key});
+class MaterialStyleStatisticsPage extends StatelessWidget {
+  const MaterialStyleStatisticsPage({super.key});
 
   static const routeName = '/statistics';
 
@@ -50,19 +50,19 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<StatisticsBloc>(),
-      child: const StatisticsView(),
+      child: const MaterialStyleStatisticsView(),
     );
   }
 }
 
-class StatisticsView extends StatefulWidget {
-  const StatisticsView({super.key});
+class MaterialStyleStatisticsView extends StatefulWidget {
+  const MaterialStyleStatisticsView({super.key});
 
   @override
-  State<StatisticsView> createState() => _StatisticsViewState();
+  State<MaterialStyleStatisticsView> createState() => _MaterialStyleStatisticsViewState();
 }
 
-class _StatisticsViewState extends State<StatisticsView> {
+class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsView> {
   late ServerModel _server;
   late PlayMetricType _statsType;
   late int _timeRange;
@@ -395,7 +395,7 @@ class _StatisticsViewState extends State<StatisticsView> {
         widgetList.add(
           Padding(
             padding: EdgeInsets.only(top: i == 0 ? 0 : 12, bottom: 6),
-            child: StatisticsHeading(
+            child: MaterialStyleStatisticsHeading(
               stat: stat,
               onTap: stat.stats.length > displayCount
                   ? () {
@@ -403,7 +403,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                         MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: _statisticsBloc,
-                            child: IndividualStatisticPage(
+                            child: MaterialStyleIndividualStatisticPage(
                               server: _server,
                               statIdType: stat.statIdType,
                             ),
@@ -463,7 +463,10 @@ class _StatisticsViewState extends State<StatisticsView> {
               PosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: TopStatisticDetails(statData: statData),
+                details: TopStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -487,7 +490,10 @@ class _StatisticsViewState extends State<StatisticsView> {
               PosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: PopularStatisticDetails(statData: statData),
+                details: PopularStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -507,7 +513,10 @@ class _StatisticsViewState extends State<StatisticsView> {
               PosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: LastWatchedStatisticDetails(statData: statData),
+                details: LastWatchedStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -532,7 +541,10 @@ class _StatisticsViewState extends State<StatisticsView> {
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: TopUsersStatisticDetails(statData: statData),
+                details: TopUsersStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             );
           }
@@ -560,7 +572,10 @@ class _StatisticsViewState extends State<StatisticsView> {
                     BlendMode.srcIn,
                   ),
                 ),
-                details: TopPlatformsStatisticDetails(statData: statData),
+                details: TopPlatformsStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             );
           }
@@ -569,7 +584,10 @@ class _StatisticsViewState extends State<StatisticsView> {
             widgetList.add(
               IconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: MostConcurrentStatisticDetails(statData: statData),
+                details: MostConcurrentStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             );
           }
@@ -587,7 +605,10 @@ class _StatisticsViewState extends State<StatisticsView> {
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: TopLibrariesStatisticDetails(statData: statData),
+                details: TopLibrariesStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             );
           }

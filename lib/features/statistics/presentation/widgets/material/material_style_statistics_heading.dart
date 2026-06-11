@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/widgets/heading.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/statistic_model.dart';
+import '../../../../../core/helpers/string_helper.dart';
+import '../../../../../core/widgets/heading.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/statistic_model.dart';
 
-class StatisticsHeading extends StatelessWidget {
+class MaterialStyleStatisticsHeading extends StatelessWidget {
   final StatisticModel stat;
   final Function()? onTap;
 
-  const StatisticsHeading({
+  const MaterialStyleStatisticsHeading({
     super.key,
     required this.stat,
     this.onTap,

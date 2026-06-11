@@ -7,7 +7,7 @@ import '../../features/history/presentation/pages/material/material_style_histor
 import '../../features/libraries/presentation/pages/material/material_style_libraries_page.dart';
 import '../../features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import '../../features/settings/domain/usecases/settings.dart';
-import '../../features/statistics/presentation/pages/statistics_page.dart';
+import '../../features/statistics/presentation/pages/material/material_style_statistics_page.dart';
 import '../../features/users/presentation/pages/users_page.dart';
 
 class HomePageHelper {
@@ -24,7 +24,7 @@ class HomePageHelper {
       case ('users'):
         return const UsersPage();
       case ('statistics'):
-        return const StatisticsPage();
+        return const MaterialStyleStatisticsPage();
       case ('graphs'):
         return const MaterialStyleGraphsPage();
       default:

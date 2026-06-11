@@ -39,7 +39,7 @@ import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/cupertino/cupertino_style_settings_page.dart';
 import 'features/settings/presentation/pages/material/material_style_settings_page.dart';
 import 'features/statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
-import 'features/statistics/presentation/pages/statistics_page.dart';
+import 'features/statistics/presentation/pages/material/material_style_statistics_page.dart';
 import 'features/translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/users/presentation/pages/cupertino/cupertino_style_users_page.dart';
@@ -59,7 +59,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleOneSignalDataPrivacyPage.routeName: (_) => const MaterialStyleOneSignalDataPrivacyPage(),
   MaterialStyleRecentlyAddedPage.routeName: (_) => const MaterialStyleRecentlyAddedPage(),
   MaterialStyleSettingsPage.routeName: (_) => const MaterialStyleSettingsPage(),
-  StatisticsPage.routeName: (_) => const StatisticsPage(),
+  MaterialStyleStatisticsPage.routeName: (_) => const MaterialStyleStatisticsPage(),
   UsersPage.routeName: (_) => const UsersPage(),
   WizardPage.routeName: (_) => const WizardPage(),
 };

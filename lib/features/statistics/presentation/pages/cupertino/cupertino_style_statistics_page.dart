@@ -16,11 +16,11 @@ import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
 import '../../../../../core/types/stat_id_type.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_time_range_bottom_sheet.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
-import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_time_range_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
@@ -33,15 +33,15 @@ import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_ca
 import '../../../data/models/statistic_data_model.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
+import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/most_concurrent_statistic_details.dart';
+import '../../widgets/base/popular_statistic_details.dart';
+import '../../widgets/base/top_libraries_statistic_details.dart';
+import '../../widgets/base/top_platforms_statistic_details.dart';
+import '../../widgets/base/top_statistic_details.dart';
+import '../../widgets/base/top_users_statistic_details.dart';
 import '../../widgets/cupertino/bottom_sheets/cupertino_style_statistic_type_bottom_sheet.dart';
-import '../../widgets/cupertino/cupertino_style_last_watched_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_most_concurrent_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_popular_statistic_details.dart';
 import '../../widgets/cupertino/cupertino_style_statistics_heading.dart';
-import '../../widgets/cupertino/cupertino_style_top_libraries_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_platforms_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_users_statistic_details.dart';
 import 'cupertino_style_individual_statistic_page.dart';
 
 class CupertinoStyleStatisticsPage extends StatelessWidget {
@@ -319,7 +319,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: CupertinoStyleTopStatisticDetails(statData: statData),
+                details: TopStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -343,7 +343,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: CupertinoStylePopularStatisticDetails(statData: statData),
+                details: PopularStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -363,7 +363,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
+                details: LastWatchedStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -388,7 +388,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: CupertinoStyleTopUsersStatisticDetails(statData: statData),
+                details: TopUsersStatisticDetails(statData: statData),
               ),
             );
           }
@@ -416,7 +416,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                     BlendMode.srcIn,
                   ),
                 ),
-                details: CupertinoStyleTopPlatformsStatisticDetails(statData: statData),
+                details: TopPlatformsStatisticDetails(statData: statData),
               ),
             );
           }
@@ -425,7 +425,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
             widgetList.add(
               CupertinoStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
+                details: MostConcurrentStatisticDetails(statData: statData),
               ),
             );
           }
@@ -443,7 +443,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: CupertinoStyleTopLibrariesStatisticDetails(statData: statData),
+                details: TopLibrariesStatisticDetails(statData: statData),
               ),
             );
           }

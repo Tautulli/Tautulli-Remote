@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/statistic_data_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/statistic_data_model.dart';
 
-class TopPlatformsStatisticDetails extends StatelessWidget {
+class TopStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
+  final Color? textColor;
 
-  const TopPlatformsStatisticDetails({
+  const TopStatisticDetails({
     super.key,
     required this.statData,
+    this.textColor,
   });
 
   @override
@@ -20,7 +22,7 @@ class TopPlatformsStatisticDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          statData.platform ?? '',
+          statData.title ?? '',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
@@ -46,7 +48,7 @@ class TopPlatformsStatisticDetails extends StatelessWidget {
               ),
             ],
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: textColor,
             ),
           ),
         ),
@@ -123,6 +125,9 @@ class TopPlatformsStatisticDetails extends StatelessWidget {
                   ),
                 ),
               ],
+              style: TextStyle(
+                color: textColor,
+              ),
             ),
           if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
             TextSpan(
@@ -145,7 +150,7 @@ class TopPlatformsStatisticDetails extends StatelessWidget {
             ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );

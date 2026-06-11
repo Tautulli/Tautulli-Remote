@@ -2,17 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/statistic_data_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../data/models/statistic_data_model.dart';
 
-class LastWatchedStatisticDetails extends StatelessWidget {
+class MostConcurrentStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
+  final Color? textColor;
 
-  const LastWatchedStatisticDetails({
+  const MostConcurrentStatisticDetails({
     super.key,
     required this.statData,
+    this.textColor,
   });
 
   @override
@@ -30,28 +32,17 @@ class LastWatchedStatisticDetails extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-
-            return Text(
-              state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : statData.friendlyName ?? 'name missing',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            );
-          },
-        ),
         RichText(
           text: TextSpan(
             children: [
               TextSpan(
-                text: LocaleKeys.streamed_title.tr(),
+                text: LocaleKeys.streams_title.tr(),
               ),
               const TextSpan(
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastWatch != null ? TimeHelper.moment(statData.lastWatch) : LocaleKeys.never.tr(),
+                text: statData.count.toString(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
@@ -59,9 +50,26 @@ class LastWatchedStatisticDetails extends StatelessWidget {
               ),
             ],
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: textColor,
             ),
           ),
+        ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+
+            return Text(
+              TimeHelper.cleanDateTime(
+                statData.started!,
+                dateFormat: state.appSettings.activeServer.dateFormat,
+                timeFormat: state.appSettings.activeServer.timeFormat,
+              ),
+              style: const TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 13,
+              ),
+            );
+          },
         ),
       ],
     );

@@ -3,38 +3,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/asset_helper.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/string_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/types/stat_id_type.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/icon_card.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/poster_card.dart';
-import '../../../libraries/data/models/library_table_model.dart';
-import '../../../libraries/presentation/widgets/material/material_style_library_card.dart';
-import '../../../media/data/models/media_model.dart';
-import '../../../media/presentation/pages/material/material_style_media_page.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_table_model.dart';
-import '../../../users/presentation/widgets/user_card.dart';
-import '../../data/models/statistic_model.dart';
-import '../bloc/statistics_bloc.dart';
-import '../widgets/last_watched_statistic_detials.dart';
-import '../widgets/most_concurrent_statistic_details.dart';
-import '../widgets/popular_statistic_details.dart';
-import '../widgets/top_libraries_statistic_details.dart';
-import '../widgets/top_platforms_statistic_details.dart';
-import '../widgets/top_statistic_details.dart';
-import '../widgets/top_users_statistic_details.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/asset_helper.dart';
+import '../../../../../core/helpers/color_palette_helper.dart';
+import '../../../../../core/helpers/string_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/types/stat_id_type.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/icon_card.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/poster_card.dart';
+import '../../../../libraries/data/models/library_table_model.dart';
+import '../../../../libraries/presentation/widgets/material/material_style_library_card.dart';
+import '../../../../media/data/models/media_model.dart';
+import '../../../../media/presentation/pages/material/material_style_media_page.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../users/data/models/user_table_model.dart';
+import '../../../../users/presentation/widgets/user_card.dart';
+import '../../../data/models/statistic_model.dart';
+import '../../bloc/statistics_bloc.dart';
+import '../../widgets/base/top_statistic_details.dart';
+import '../../widgets/base/top_users_statistic_details.dart';
+import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/most_concurrent_statistic_details.dart';
+import '../../widgets/base/popular_statistic_details.dart';
+import '../../widgets/base/top_libraries_statistic_details.dart';
+import '../../widgets/base/top_platforms_statistic_details.dart';
 
-class IndividualStatisticPage extends StatelessWidget {
+class MaterialStyleIndividualStatisticPage extends StatelessWidget {
   final ServerModel server;
   final StatIdType statIdType;
 
-  const IndividualStatisticPage({
+  const MaterialStyleIndividualStatisticPage({
     super.key,
     required this.server,
     required this.statIdType,
@@ -42,28 +42,28 @@ class IndividualStatisticPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IndividualStatisticView(
+    return MaterialStyleIndividualStatisticView(
       server: server,
       statIdType: statIdType,
     );
   }
 }
 
-class IndividualStatisticView extends StatefulWidget {
+class MaterialStyleIndividualStatisticView extends StatefulWidget {
   final ServerModel server;
   final StatIdType statIdType;
 
-  const IndividualStatisticView({
+  const MaterialStyleIndividualStatisticView({
     super.key,
     required this.server,
     required this.statIdType,
   });
 
   @override
-  State<IndividualStatisticView> createState() => _IndividualStatisticViewState();
+  State<MaterialStyleIndividualStatisticView> createState() => _MaterialStyleIndividualStatisticViewState();
 }
 
-class _IndividualStatisticViewState extends State<IndividualStatisticView> {
+class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndividualStatisticView> {
   final _scrollController = ScrollController();
   late StatisticsBloc _statisticsBloc;
   late SettingsBloc _settingsBloc;
@@ -196,7 +196,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
             return PosterCard(
               mediaType: statData.mediaType,
               uri: statData.posterUri,
-              details: TopStatisticDetails(statData: statData),
+              details: TopStatisticDetails(
+                statData: statData,
+                textColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onTap: () async {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
@@ -218,7 +221,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
               (statData) => PosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: PopularStatisticDetails(statData: statData),
+                details: PopularStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -274,7 +280,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
               (statData) => PosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: LastWatchedStatisticDetails(statData: statData),
+                details: LastWatchedStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -316,7 +325,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: TopUsersStatisticDetails(statData: statData),
+                details: TopUsersStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             )
             .toList();
@@ -344,7 +356,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                     BlendMode.srcIn,
                   ),
                 ),
-                details: TopPlatformsStatisticDetails(statData: statData),
+                details: TopPlatformsStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             )
             .toList();
@@ -353,7 +368,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
             .map(
               (statData) => IconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: MostConcurrentStatisticDetails(statData: statData),
+                details: MostConcurrentStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             )
             .toList();
@@ -371,7 +389,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: TopLibrariesStatisticDetails(statData: statData),
+                details: TopLibrariesStatisticDetails(
+                  statData: statData,
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             )
             .toList();

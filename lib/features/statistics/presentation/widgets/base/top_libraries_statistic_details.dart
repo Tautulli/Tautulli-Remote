@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/statistic_data_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/statistic_data_model.dart';
 
 class TopLibrariesStatisticDetails extends StatelessWidget {
   final StatisticDataModel statData;
+  final Color? textColor;
 
   const TopLibrariesStatisticDetails({
     super.key,
     required this.statData,
+    this.textColor,
   });
 
   @override
@@ -46,7 +48,7 @@ class TopLibrariesStatisticDetails extends StatelessWidget {
               ),
             ],
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: textColor,
             ),
           ),
         ),
@@ -145,7 +147,7 @@ class TopLibrariesStatisticDetails extends StatelessWidget {
             ),
         ],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
+          color: textColor,
         ),
       ),
     );
