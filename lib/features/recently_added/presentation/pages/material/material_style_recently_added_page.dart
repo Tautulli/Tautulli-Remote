@@ -4,25 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/pages/status_page.dart';
-import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/utilities/cast.dart';
-import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/recently_added_bloc.dart';
-import '../widgets/recently_added_card.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/pages/status_page.dart';
+import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/utilities/cast.dart';
+import '../../../../../core/widgets/bottom_loader.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../bloc/recently_added_bloc.dart';
+import '../../widgets/material/material_style_recently_added_card.dart';
 
-class RecentlyAddedPage extends StatelessWidget {
+class MaterialStyleRecentlyAddedPage extends StatelessWidget {
   final bool refreshOnLoad;
 
-  const RecentlyAddedPage({
+  const MaterialStyleRecentlyAddedPage({
     super.key,
     this.refreshOnLoad = false,
   });
@@ -33,24 +33,24 @@ class RecentlyAddedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<RecentlyAddedBloc>(),
-      child: RecentlyAddedView(refreshOnLoad: refreshOnLoad),
+      child: MaterialStyleRecentlyAddedView(refreshOnLoad: refreshOnLoad),
     );
   }
 }
 
-class RecentlyAddedView extends StatefulWidget {
+class MaterialStyleRecentlyAddedView extends StatefulWidget {
   final bool refreshOnLoad;
 
-  const RecentlyAddedView({
+  const MaterialStyleRecentlyAddedView({
     super.key,
     required this.refreshOnLoad,
   });
 
   @override
-  State<RecentlyAddedView> createState() => _RecentlyAddedViewState();
+  State<MaterialStyleRecentlyAddedView> createState() => _MaterialStyleRecentlyAddedViewState();
 }
 
-class _RecentlyAddedViewState extends State<RecentlyAddedView> {
+class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAddedView> {
   final _scrollController = ScrollController();
   late RecentlyAddedBloc _recentlyAddedBloc;
   late SettingsBloc _settingsBloc;
@@ -142,7 +142,9 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.recentlyAdded.length : state.recentlyAdded.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.recentlyAdded.length
+                          : state.recentlyAdded.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.recentlyAdded.length) {
@@ -165,7 +167,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
 
                         final recentlyAdded = state.recentlyAdded[index];
 
-                        return RecentlyAddedCard(
+                        return MaterialStyleRecentlyAddedCard(
                           server: _server,
                           recentlyAdded: recentlyAdded,
                         );
@@ -218,7 +220,9 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           builder: (context, state) {
             return FaIcon(
               FontAwesomeIcons.filter,
-              color: _mediaType != null ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              color: _mediaType != null
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface,
               size: 20,
             );
           },

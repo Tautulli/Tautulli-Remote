@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../data/models/recently_added_model.dart';
-import 'cupertino_style_recently_added_card_details.dart';
+import '../base/recently_added_card_details.dart';
 
 class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
   final ServerModel server;
@@ -64,7 +65,10 @@ class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
       },
       mediaType: recentlyAdded.mediaType,
       uri: posterUri,
-      details: CupertinoStyleRecentlyAddedCardDetails(recentlyAdded: recentlyAdded),
+      details: RecentlyAddedCardDetails(
+        recentlyAdded: recentlyAdded,
+        iconColor: ThemeHelper.cupertinoCardIconColor(),
+      ),
     );
   }
 }

@@ -1,18 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/media_type_icon.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../data/models/recently_added_model.dart';
+import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/media_type_icon.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../data/models/recently_added_model.dart';
 
 class RecentlyAddedCardDetails extends StatelessWidget {
   final RecentlyAddedModel recentlyAdded;
+  final Color? iconColor;
 
   const RecentlyAddedCardDetails({
     super.key,
     required this.recentlyAdded,
+    this.iconColor,
   });
 
   @override
@@ -42,8 +44,14 @@ class RecentlyAddedCardDetails extends StatelessWidget {
             Text(
               '${LocaleKeys.added_title.tr()} ${TimeHelper.moment(recentlyAdded.addedAt)}',
               overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 15,
+              ),
             ),
-            MediaTypeIcon(mediaType: recentlyAdded.mediaType),
+            MediaTypeIcon(
+              mediaType: recentlyAdded.mediaType,
+              iconColor: iconColor,
+            ),
           ],
         ),
       ],

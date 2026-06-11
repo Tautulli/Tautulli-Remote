@@ -20,7 +20,7 @@ import 'features/logging/domain/usecases/logging.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
-import 'features/recently_added/presentation/pages/recently_added_page.dart';
+import 'features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 
@@ -106,7 +106,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
           case ('created'):
             navigatorKey.currentState?.pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const RecentlyAddedPage(
+                builder: (context) => const MaterialStyleRecentlyAddedPage(
                   refreshOnLoad: true,
                 ),
               ),

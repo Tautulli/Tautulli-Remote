@@ -5,7 +5,7 @@ import '../../features/activity/presentation/pages/material/material_style_activ
 import '../../features/graphs/presentation/pages/material_style_graphs_page.dart';
 import '../../features/history/presentation/pages/material/material_style_history_page.dart';
 import '../../features/libraries/presentation/pages/material/material_style_libraries_page.dart';
-import '../../features/recently_added/presentation/pages/recently_added_page.dart';
+import '../../features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 import '../../features/statistics/presentation/pages/statistics_page.dart';
 import '../../features/users/presentation/pages/users_page.dart';
@@ -18,7 +18,7 @@ class HomePageHelper {
       case ('history'):
         return const MaterialStyleHistoryPage();
       case ('recent'):
-        return const RecentlyAddedPage();
+        return const MaterialStyleRecentlyAddedPage();
       case ('libraries'):
         return const MaterialStyleLibrariesPage();
       case ('users'):

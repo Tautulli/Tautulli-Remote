@@ -10,7 +10,7 @@ import '../../../../../core/widgets/page_body.dart';
 import '../../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
-import '../../../../recently_added/presentation/widgets/recently_added_card.dart';
+import '../../../../recently_added/presentation/widgets/material/material_style_recently_added_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
 
@@ -83,7 +83,7 @@ class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibrary
                   itemBuilder: (context, index) {
                     final recentlyAdded = state.recentlyAdded[index];
 
-                    return RecentlyAddedCard(
+                    return MaterialStyleRecentlyAddedCard(
                       server: widget.server,
                       recentlyAdded: recentlyAdded,
                     );
