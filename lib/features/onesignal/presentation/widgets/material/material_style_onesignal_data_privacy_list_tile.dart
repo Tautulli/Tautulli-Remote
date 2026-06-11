@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../core/widgets/permission_setting_dialog.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/onesignal_health_bloc.dart';
-import '../bloc/onesignal_privacy_bloc.dart';
+import '../../../../../core/widgets/permission_setting_dialog.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../bloc/onesignal_health_bloc.dart';
+import '../../bloc/onesignal_privacy_bloc.dart';
 
-class OneSignalDataPrivacyListTile extends StatelessWidget {
-  const OneSignalDataPrivacyListTile({super.key});
+class MaterialStyleOnesignalDataPrivacyListTile extends StatelessWidget {
+  const MaterialStyleOnesignalDataPrivacyListTile({super.key});
 
   @override
   Widget build(BuildContext context) {

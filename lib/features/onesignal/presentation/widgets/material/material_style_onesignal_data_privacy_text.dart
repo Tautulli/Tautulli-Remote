@@ -3,11 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
-class OnesignalDataPrivacyText extends StatelessWidget {
-  const OnesignalDataPrivacyText({super.key});
+class MaterialStyleOnesignalDataPrivacyText extends StatelessWidget {
+  const MaterialStyleOnesignalDataPrivacyText({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ import '../../../../core/types/wizard_skip_type.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/permission_setting_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../../onesignal/presentation/pages/onesignal_data_privacy.dart';
+import '../../../onesignal/presentation/pages/material/material_style_onesignal_data_privacy_page.dart';
 import '../../../settings/presentation/widgets/list_tiles/checkbox_settings_list_tile.dart';
 import '../bloc/wizard_bloc.dart';
 import 'wizard_next_button.dart';
@@ -79,7 +79,7 @@ class WizardOneSignal extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               fullscreenDialog: true,
-                              builder: (context) => const OneSignalDataPrivacyPage(
+                              builder: (context) => const MaterialStyleOneSignalDataPrivacyPage(
                                 showToggle: false,
                               ),
                             ),

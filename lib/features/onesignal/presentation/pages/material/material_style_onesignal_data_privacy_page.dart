@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/list_tile_group.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../widgets/onesignal_data_privacy_list_tile.dart';
-import '../widgets/onesignal_data_privacy_text.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../widgets/material/material_style_onesignal_data_privacy_list_tile.dart';
+import '../../widgets/material/material_style_onesignal_data_privacy_text.dart';
 
-class OneSignalDataPrivacyPage extends StatelessWidget {
+class MaterialStyleOneSignalDataPrivacyPage extends StatelessWidget {
   final bool showToggle;
 
-  const OneSignalDataPrivacyPage({
+  const MaterialStyleOneSignalDataPrivacyPage({
     super.key,
     this.showToggle = true,
   });
@@ -20,14 +20,14 @@ class OneSignalDataPrivacyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OneSignalDataPrivacyView(showToggle: showToggle);
+    return MaterialStyleOneSignalDataPrivacyView(showToggle: showToggle);
   }
 }
 
-class OneSignalDataPrivacyView extends StatelessWidget {
+class MaterialStyleOneSignalDataPrivacyView extends StatelessWidget {
   final bool showToggle;
 
-  const OneSignalDataPrivacyView({
+  const MaterialStyleOneSignalDataPrivacyView({
     super.key,
     required this.showToggle,
   });
@@ -44,12 +44,12 @@ class OneSignalDataPrivacyView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const OnesignalDataPrivacyText(),
+              const MaterialStyleOnesignalDataPrivacyText(),
               if (showToggle) const Gap(8),
               if (showToggle)
                 const ListTileGroup(
                   listTiles: [
-                    OneSignalDataPrivacyListTile(),
+                    MaterialStyleOnesignalDataPrivacyListTile(),
                   ],
                 ),
             ],
