@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/widgets/card_with_forced_tint.dart';
-import '../../../../translations/locale_keys.g.dart';
+import '../../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
-class HelpTranslateHeadingCard extends StatelessWidget {
-  const HelpTranslateHeadingCard({super.key});
+class MaterialStyleHelpTranslateHeadingCard extends StatelessWidget {
+  const MaterialStyleHelpTranslateHeadingCard({super.key});
 
   @override
   Widget build(BuildContext context) {

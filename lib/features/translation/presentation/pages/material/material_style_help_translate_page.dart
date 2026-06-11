@@ -4,25 +4,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/widgets/custom_list_tile.dart';
-import '../../../../core/widgets/list_tile_group.dart';
-import '../../../../core/widgets/page_body.dart';
-import '../../../../translations/locale_keys.g.dart';
-import '../widgets/help_translate_heading_card.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../core/widgets/page_body.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../widgets/material/material_style_help_translate_heading_card.dart';
 
-class HelpTranslatePage extends StatelessWidget {
-  const HelpTranslatePage({super.key});
+class MaterialStyleHelpTranslatePage extends StatelessWidget {
+  const MaterialStyleHelpTranslatePage({super.key});
 
   static const routeName = '/help_translate';
 
   @override
   Widget build(BuildContext context) {
-    return const HelpTranslateView();
+    return const MaterialStyleHelpTranslateView();
   }
 }
 
-class HelpTranslateView extends StatelessWidget {
-  const HelpTranslateView({super.key});
+class MaterialStyleHelpTranslateView extends StatelessWidget {
+  const MaterialStyleHelpTranslateView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class HelpTranslateView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [
-            const HelpTranslateHeadingCard(),
+            const MaterialStyleHelpTranslateHeadingCard(),
             ListTileGroup(
               listTiles: [
                 CustomListTile(

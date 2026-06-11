@@ -41,7 +41,7 @@ import 'features/settings/presentation/pages/material/material_style_settings_pa
 import 'features/statistics/presentation/pages/cupertino/cupertino_style_statistics_page.dart';
 import 'features/statistics/presentation/pages/material/material_style_statistics_page.dart';
 import 'features/translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
-import 'features/translation/presentation/pages/help_translate_page.dart';
+import 'features/translation/presentation/pages/material/material_style_help_translate_page.dart';
 import 'features/users/presentation/pages/cupertino/cupertino_style_users_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/cupertino/cupertino_style_wizard_page.dart';
@@ -54,7 +54,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleDonatePage.routeName: (_) => const MaterialStyleDonatePage(),
   MaterialStyleGraphsPage.routeName: (_) => const MaterialStyleGraphsPage(),
   MaterialStyleHistoryPage.routeName: (_) => const MaterialStyleHistoryPage(),
-  HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
+  MaterialStyleHelpTranslatePage.routeName: (_) => const MaterialStyleHelpTranslatePage(),
   MaterialStyleLibrariesPage.routeName: (_) => const MaterialStyleLibrariesPage(),
   MaterialStyleOneSignalDataPrivacyPage.routeName: (_) => const MaterialStyleOneSignalDataPrivacyPage(),
   MaterialStyleRecentlyAddedPage.routeName: (_) => const MaterialStyleRecentlyAddedPage(),
