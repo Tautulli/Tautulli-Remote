@@ -88,7 +88,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPoster
                         opacity: titleOpacity,
                         child: Text(
                           widget.pageTitle ?? '',
-                        ).sensitive(),
+                        ).sensitive(enabled: widget.sensitive),
                       ),
                       actions: widget.appBarActions,
                       flexibleSpace: FlexibleSpaceBar(
@@ -185,7 +185,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPoster
                                                           ? 1
                                                           : 2,
                                                       overflow: TextOverflow.ellipsis,
-                                                    ).sensitive(),
+                                                    ).sensitive(enabled: widget.sensitive),
                                                     if (widget.itemSubtitle != null)
                                                       Text(
                                                         widget.itemSubtitle!,
