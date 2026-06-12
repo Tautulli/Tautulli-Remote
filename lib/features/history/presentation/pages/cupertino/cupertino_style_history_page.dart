@@ -25,6 +25,16 @@ import '../../widgets/cupertino/bottom_sheets/cupertino_style_history_filter_bot
 import '../../widgets/cupertino/cupertino_style_history_card.dart';
 import 'cupertino_style_history_search_page.dart';
 
+// Custom page route to prevent the swipe to pop gesture on the search page if the keyboard is open
+class _SearchPageRoute<T> extends CupertinoPageRoute<T> {
+  _SearchPageRoute({required super.builder, required this.focusNode});
+
+  final FocusNode focusNode;
+
+  @override
+  bool get popGestureEnabled => focusNode.hasFocus ? false : super.popGestureEnabled;
+}
+
 class CupertinoStyleHistoryPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
@@ -404,16 +414,23 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
             CupertinoIcons.search,
             color: ThemeHelper.cupertinoNavigationBarItemColor(),
           ),
-          onPressed: () => Navigator.of(context).push(
-            CupertinoPageRoute(
-              builder: (_) => BlocProvider.value(
-                value: context.read<UsersBloc>(),
-                child: CupertinoStyleHistorySearchPage(
-                  previousPageTitle: LocaleKeys.history_title.tr(),
-                ),
-              ),
-            ),
-          ),
+          onPressed: () {
+            final focusNode = FocusNode();
+            Navigator.of(context)
+                .push(
+                  _SearchPageRoute(
+                    focusNode: focusNode,
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<UsersBloc>(),
+                      child: CupertinoStyleHistorySearchPage(
+                        previousPageTitle: LocaleKeys.history_title.tr(),
+                        focusNode: focusNode,
+                      ),
+                    ),
+                  ),
+                )
+                .whenComplete(focusNode.dispose);
+          },
         ),
         CupertinoButton(
           padding: const EdgeInsets.all(8),

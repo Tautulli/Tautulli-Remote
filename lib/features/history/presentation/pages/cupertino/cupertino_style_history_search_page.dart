@@ -11,10 +11,10 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
+import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_user_filter_bottom_sheet.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
-import '../../../../../core/widgets/cupertino/bottom_sheets/cupertino_style_user_filter_bottom_sheet.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -27,11 +27,13 @@ import '../../widgets/cupertino/cupertino_style_history_card.dart';
 class CupertinoStyleHistorySearchPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
+  final FocusNode focusNode;
 
   const CupertinoStyleHistorySearchPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
+    required this.focusNode,
   });
 
   @override
@@ -41,6 +43,7 @@ class CupertinoStyleHistorySearchPage extends StatelessWidget {
       child: CupertinoStyleHistorySearchView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
+        focusNode: focusNode,
       ),
     );
   }
@@ -49,11 +52,13 @@ class CupertinoStyleHistorySearchPage extends StatelessWidget {
 class CupertinoStyleHistorySearchView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
+  final FocusNode focusNode;
 
   const CupertinoStyleHistorySearchView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
+    required this.focusNode,
   });
 
   @override
@@ -63,7 +68,7 @@ class CupertinoStyleHistorySearchView extends StatefulWidget {
 class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistorySearchView> {
   bool _firstPageLoad = true;
   final TextEditingController _textController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  FocusNode get _focusNode => widget.focusNode;
 
   bool _hasContent = false;
   final _scrollController = ScrollController();
@@ -81,6 +86,8 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
   bool _transcodeDecision = true;
   late Completer<void> _refreshCompleter;
   bool _filterRefresh = true;
+  Animation<double>? _routeAnimation;
+  AnimationStatusListener? _routeAnimationListener;
 
   @override
   void initState() {
@@ -94,6 +101,32 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
     _server = settingsState.appSettings.activeServer;
 
     _refreshCompleter = Completer<void>();
+
+    // Only brings up the keyboard after the page is loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _routeAnimation = ModalRoute.of(context)?.animation;
+
+      if (_routeAnimation == null || _routeAnimation!.isCompleted) {
+        _focusNode.requestFocus();
+      } else {
+        _routeAnimationListener = (AnimationStatus status) {
+          if (!mounted) return;
+          if (status == AnimationStatus.completed) {
+            _focusNode.requestFocus();
+            _routeAnimation!.removeStatusListener(_routeAnimationListener!);
+            _routeAnimationListener = null;
+          }
+        };
+        _routeAnimation!.addStatusListener(_routeAnimationListener!);
+      }
+    });
+  }
+
+  Future<void> _onBeforePop() async {
+    if (!_focusNode.hasFocus) return;
+    _focusNode.unfocus();
+    await Future<void>.delayed(const Duration(milliseconds: 390));
   }
 
   @override
@@ -101,6 +134,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
     return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
+      onBeforePop: _onBeforePop,
       middle: const Text(LocaleKeys.search_history_title).tr(),
       trailing: _navBarActions(),
       child: BlocConsumer<SearchHistoryBloc, SearchHistoryState>(
@@ -243,6 +277,10 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
 
   @override
   void dispose() {
+    if (_routeAnimationListener != null) {
+      _routeAnimation?.removeStatusListener(_routeAnimationListener!);
+    }
+    _textController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -281,7 +319,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
       child: CupertinoSearchTextField(
         controller: _textController,
         focusNode: _focusNode,
-        autofocus: true,
         autocorrect: false,
         onSuffixTap: isNotEmpty(_textController.text)
             ? () {
@@ -367,7 +404,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
             ),
           ),
           onPressed: () async {
-            FocusScope.of(context).unfocus();
+            _focusNode.unfocus();
 
             String? result = await showCupertinoModalPopup(
               context: context,
