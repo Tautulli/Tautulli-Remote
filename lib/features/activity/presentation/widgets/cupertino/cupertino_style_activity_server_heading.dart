@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/cupertino/cupertino_style_heading.dart';
 
@@ -32,6 +33,7 @@ class CupertinoStyleActivityServerHeading extends StatelessWidget {
                       ),
                   ],
                 ),
+                const Gap(8),
               ],
             ),
           ),
