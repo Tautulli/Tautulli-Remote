@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
 
 import '../../helpers/theme_helper.dart';
 
@@ -30,7 +31,7 @@ class CupertinoStyleCard extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Container(
-                  color: tint?.withAlpha(175),
+                  color: tint?.withAlpha(175) ?? TautulliColorPalette.smoke.withAlpha(22),
                 ),
               ),
               child,

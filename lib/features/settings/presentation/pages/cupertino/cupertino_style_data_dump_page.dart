@@ -161,7 +161,7 @@ class _DataDumpRow extends StatelessWidget {
           children: children,
         ),
         const Divider(
-          color: CupertinoColors.separator,
+          color: CupertinoColors.systemGrey,
         ),
       ],
     );

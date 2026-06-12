@@ -7,7 +7,7 @@ class CupertinoStyleDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 7, bottom: 8),
-      child: Container(height: 1, color: CupertinoColors.separator),
+      child: Container(height: 1, color: CupertinoColors.systemGrey),
     );
   }
 }
