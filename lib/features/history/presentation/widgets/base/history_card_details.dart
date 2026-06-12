@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,7 +5,7 @@ import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/base/media_type_icon.dart';
-import '../../../../../translations/locale_keys.g.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/history_model.dart';
 import 'history_details_item_details_row.dart';
@@ -44,7 +43,7 @@ class HistoryCardDetails extends StatelessWidget {
                     Text(
                       history.fullTitle ?? '',
                       style: const TextStyle(
-                        fontSize: 17,
+                        fontSize: 16,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -53,6 +52,7 @@ class HistoryCardDetails extends StatelessWidget {
                     HistoryDetailsSubtitleRow(
                       history,
                       maxLines: 1,
+                      fontSize: 16,
                     ),
                   if (showUser)
                     HistoryDetailsItemDetailsRow(
@@ -61,13 +61,14 @@ class HistoryCardDetails extends StatelessWidget {
                     ),
                   if (showUser)
                     Text(
-                      state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : history.friendlyName ?? '',
+                      history.friendlyName ?? '',
                       overflow: TextOverflow.ellipsis,
-                    ),
+                    ).sensitive(),
                   if (!showUser)
                     HistoryDetailsItemDetailsRow(
                       history,
                       dateFormat: state.appSettings.activeServer.dateFormat,
+                      fontSize: 16,
                     ),
                 ],
               ),
@@ -82,6 +83,7 @@ class HistoryCardDetails extends StatelessWidget {
                       dateFormat: state.appSettings.activeServer.dateFormat,
                       timeFormat: state.appSettings.activeServer.timeFormat,
                     ),
+                    style: TextStyle(fontSize: !showUser ? 16 : null),
                   ),
                 Row(
                   children: [

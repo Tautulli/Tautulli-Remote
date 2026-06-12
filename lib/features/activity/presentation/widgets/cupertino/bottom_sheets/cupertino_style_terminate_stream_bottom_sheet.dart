@@ -6,8 +6,9 @@ import 'package:gap/gap.dart';
 import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/time_helper.dart';
 import '../../../../../../core/types/media_type.dart';
-import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
+import '../../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../data/models/activity_model.dart';
@@ -103,9 +104,7 @@ class _TerminateStreamMediaInfo extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return Text(
-              state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
-            );
+            return Text(activity.friendlyName ?? '').sensitive();
           },
         ),
         ...rows,

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -10,8 +9,8 @@ import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/types/graph_type.dart';
 import '../../../../../core/types/play_metric_type.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../dependency_injection.dart' as di;
-import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/chart_data_model.dart';
 import '../../../data/models/graph_data_model.dart';
@@ -94,7 +93,7 @@ class BarChartGraph extends StatelessWidget {
                       GraphType.playsByTop10Users,
                       GraphType.streamTypeByTop10Users,
                     ].contains(graphType)) {
-                  text = '${LocaleKeys.hidden_message.tr()}     ';
+                  text = '${redactedString.substring(0, 5)}...  ';
                 } else if (graphType == GraphType.playsByDayOfWeek) {
                   text = graphData.categories[value.toInt()].substring(0, 3);
                 } else if (graphType == GraphType.playsPerMonth) {
@@ -199,7 +198,7 @@ class BarChartGraph extends StatelessWidget {
                   ].contains(graphType)) {
                 textSpanList.add(
                   TextSpan(
-                    text: '${LocaleKeys.hidden_message.tr()}\n\n',
+                    text: '$redactedString\n\n',
                     style: TextStyle(
                       color: axisTextColor,
                     ),

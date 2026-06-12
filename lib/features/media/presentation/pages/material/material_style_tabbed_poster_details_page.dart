@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_poster.dart';
-import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 const double _expandedHeight = 266;
@@ -88,8 +87,8 @@ class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPoster
                       title: Opacity(
                         opacity: titleOpacity,
                         child: Text(
-                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.pageTitle ?? '',
-                        ),
+                          widget.pageTitle ?? '',
+                        ).sensitive(),
                       ),
                       actions: widget.appBarActions,
                       flexibleSpace: FlexibleSpaceBar(
@@ -176,9 +175,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPoster
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      widget.sensitive
-                                                          ? LocaleKeys.hidden_message.tr()
-                                                          : widget.itemTitle ?? '',
+                                                      widget.itemTitle ?? '',
                                                       style: const TextStyle(
                                                         fontSize: 18,
                                                       ),
@@ -188,7 +185,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<MaterialStyleTabbedPoster
                                                           ? 1
                                                           : 2,
                                                       overflow: TextOverflow.ellipsis,
-                                                    ),
+                                                    ).sensitive(),
                                                     if (widget.itemSubtitle != null)
                                                       Text(
                                                         widget.itemSubtitle!,

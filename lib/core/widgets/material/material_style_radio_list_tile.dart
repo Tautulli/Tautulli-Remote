@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../../translations/locale_keys.g.dart';
+import '../base/sensitive_text.dart';
 
 class MaterialStyleRadioListTile<T> extends StatelessWidget {
   final Widget leading;
@@ -64,14 +63,12 @@ class MaterialStyleRadioListTile<T> extends StatelessWidget {
                       ),
                       if (subtitle != null)
                         Text(
-                          sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
-                              ? LocaleKeys.hidden_message.tr()
-                              : subtitle!,
+                          subtitle!,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
-                        ),
+                        ).sensitive(enabled: sensitive),
                     ],
                   ),
                 ),

@@ -7,10 +7,11 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
-import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
@@ -362,15 +363,13 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : user.friendlyName ?? '',
+                                  user.friendlyName ?? '',
                                   style: TextStyle(
                                     color: _userId == user.userId!
                                         ? Theme.of(context).colorScheme.primary
                                         : Theme.of(context).colorScheme.onSurface,
                                   ),
-                                );
+                                ).sensitive();
                               },
                             ),
                           ),

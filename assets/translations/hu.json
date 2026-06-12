@@ -263,7 +263,6 @@
     "dynamic_color_title": "Dinamikus színvilág",
     "error_snackbar_message": "Valami elromlott",
     "error_suggestion_certificate_verification": "Kérjük, regisztráljon újra a Tautulli szerverén.",
-    "hidden_message": "REJTETT",
     "high_contrast_title": "Nagy kontrasztú",
     "error_suggestion_server_version": "Kérjük, frissítsd a Tautulli kiszolgálót v{} vagy nagyobb verzióra",
     "error_suggestion_terminate_stream_failed": "Ez a stream lehet, hogy már nem aktív",

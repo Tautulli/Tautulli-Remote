@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../../translations/locale_keys.g.dart';
+import '../../widgets/base/sensitive_text.dart';
 
 const double _expandedHeight = 196;
 
@@ -64,9 +63,7 @@ class _SliverTabbedIconDetailsStatePage extends State<MaterialStyleTabbedIconDet
                   expandedHeight: _expandedHeight,
                   title: Opacity(
                     opacity: titleOpacity,
-                    child: Text(
-                      widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
-                    ),
+                    child: Text(widget.title).sensitive(enabled: widget.sensitive),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.pin,
@@ -132,12 +129,12 @@ class _SliverTabbedIconDetailsStatePage extends State<MaterialStyleTabbedIconDet
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
+                                            widget.title,
                                             style: const TextStyle(
                                               fontSize: 18,
                                             ),
                                             overflow: TextOverflow.ellipsis,
-                                          ),
+                                          ).sensitive(enabled: widget.sensitive),
                                           widget.subtitle,
                                         ],
                                       ),

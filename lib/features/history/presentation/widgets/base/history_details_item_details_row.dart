@@ -7,11 +7,13 @@ import '../../../data/models/history_model.dart';
 class HistoryDetailsItemDetailsRow extends StatelessWidget {
   final HistoryModel history;
   final String? dateFormat;
+  final double? fontSize;
 
   const HistoryDetailsItemDetailsRow(
     this.history, {
     super.key,
     this.dateFormat,
+    this.fontSize,
   });
 
   @override
@@ -23,6 +25,7 @@ class HistoryDetailsItemDetailsRow extends StatelessWidget {
         history.year.toString(),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+        style: TextStyle(fontSize: fontSize),
       );
     }
 
@@ -35,6 +38,7 @@ class HistoryDetailsItemDetailsRow extends StatelessWidget {
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+        style: TextStyle(fontSize: fontSize),
       );
     }
 
@@ -43,6 +47,7 @@ class HistoryDetailsItemDetailsRow extends StatelessWidget {
         '${history.parentMediaIndex != null ? "S${history.parentMediaIndex}" : ""}${history.parentMediaIndex != null && history.mediaIndex != null ? " • " : ""}${history.mediaIndex != null ? "E${history.mediaIndex}" : ""}',
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+        style: TextStyle(fontSize: fontSize),
       );
     }
 
@@ -51,6 +56,7 @@ class HistoryDetailsItemDetailsRow extends StatelessWidget {
         history.parentTitle ?? '',
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+        style: TextStyle(fontSize: fontSize),
       );
     }
 

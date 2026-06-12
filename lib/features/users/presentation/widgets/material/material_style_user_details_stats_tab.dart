@@ -11,10 +11,11 @@ import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_icon_card.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
-import '../../../../../core/widgets/material/material_style_status_card.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
+import '../../../../../core/widgets/material/material_style_status_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
@@ -245,10 +246,10 @@ List<Widget> _buildUserStatList({
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    sensitive ? LocaleKeys.hidden_message.tr() : playerStat.playerName!,
+                    playerStat.playerName!,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
-                  ),
+                  ).sensitive(),
                   _playsRichText(
                     context: context,
                     totalPlays: playerStat.totalPlays ?? 0,

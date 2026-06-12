@@ -13,6 +13,7 @@ import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_status_card.dart';
@@ -265,10 +266,10 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      sensitive ? LocaleKeys.hidden_message.tr() : playerStat.playerName!,
+                      playerStat.playerName!,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 16),
-                    ),
+                    ).sensitive(),
                     _playsRichText(
                       context: context,
                       totalPlays: playerStat.totalPlays ?? 0,

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -7,8 +6,8 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
-import '../../../../../translations/locale_keys.g.dart';
 import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
@@ -61,12 +60,10 @@ class MaterialStyleHistoryIndividualCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.appSettings.maskSensitiveInfo
-                                    ? LocaleKeys.hidden_message.tr()
-                                    : history.friendlyName ?? '',
+                                history.friendlyName ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                              ),
+                              ).sensitive(),
                               if ([
                                 MediaType.episode,
                                 MediaType.track,

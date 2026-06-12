@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/statistic_data_model.dart';
@@ -35,12 +36,10 @@ class CupertinoStyleLastWatchedStatisticDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : statData.friendlyName ?? 'name missing',
+              statData.friendlyName ?? 'name missing',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-            );
+            ).sensitive();
           },
         ),
         RichText(

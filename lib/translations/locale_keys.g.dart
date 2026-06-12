@@ -176,7 +176,6 @@ abstract class  LocaleKeys {
   static const help_translate_heading_card_title = 'help_translate_heading_card_title';
   static const help_translate_heading_card_content = 'help_translate_heading_card_content';
   static const help_translate_title = 'help_translate_title';
-  static const hidden_message = 'hidden_message';
   static const high_contrast_title = 'high_contrast_title';
   static const history_actions_title = 'history_actions_title';
   static const history_empty_message = 'history_empty_message';

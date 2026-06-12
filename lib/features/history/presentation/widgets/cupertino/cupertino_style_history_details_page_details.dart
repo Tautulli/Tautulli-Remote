@@ -8,6 +8,7 @@ import '../../../../../core/helpers/ip_address_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../geo_ip/data/models/geo_ip_model.dart';
 import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
@@ -62,10 +63,8 @@ class _CupertinoStyleHistoryDetailsPageDetailsState extends State<CupertinoStyle
                       _ItemRow(
                         title: LocaleKeys.user_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo
-                              ? LocaleKeys.hidden_message.tr()
-                              : widget.history.friendlyName ?? '',
-                        ),
+                          widget.history.friendlyName ?? '',
+                        ).sensitive(),
                       ),
                       _ItemRow(
                         title: LocaleKeys.platform_title.tr(),
@@ -96,10 +95,8 @@ class _CupertinoStyleHistoryDetailsPageDetailsState extends State<CupertinoStyle
                       _ItemRow(
                         title: LocaleKeys.ip_address_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo
-                              ? LocaleKeys.hidden_message.tr()
-                              : widget.history.ipAddress ?? '',
-                        ),
+                          widget.history.ipAddress ?? '',
+                        ).sensitive(),
                       ),
                       if (widget.history.ipAddress != null && IpAddressHelper.isPublic(widget.history.ipAddress!))
                         _ItemRow(
@@ -111,10 +108,8 @@ class _CupertinoStyleHistoryDetailsPageDetailsState extends State<CupertinoStyle
                               String? region = geoIpItem?.region;
                               String? code = geoIpItem?.code;
 
-                              if (settingsState.appSettings.maskSensitiveInfo) {
-                                return Text(LocaleKeys.hidden_message.tr());
-                              } else if (geoIpState.status == BlocStatus.success) {
-                                return Text('$city, $region $code');
+                              if (geoIpState.status == BlocStatus.success) {
+                                return Text('$city, $region $code').sensitive();
                               } else if (geoIpState.status == BlocStatus.failure) {
                                 return const Text(
                                   LocaleKeys.location_lookup_failed_message,

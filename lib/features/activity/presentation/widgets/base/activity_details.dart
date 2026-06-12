@@ -1,11 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../translations/locale_keys.g.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import 'platform_icon.dart';
@@ -73,17 +72,11 @@ class ActivityDetails extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                state as SettingsSuccess;
-
-                return Expanded(
-                  child: Text(
-                    state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              },
+            Expanded(
+              child: Text(
+                activity.friendlyName ?? '',
+                overflow: TextOverflow.ellipsis,
+              ).sensitive(),
             ),
             const Gap(4),
             TimeLeft(activity: activity),

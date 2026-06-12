@@ -1,12 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/overrides/cupertino/nav_bar_override.dart' as nav;
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_poster.dart';
-import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 class CupertinoStyleTabbedPosterDetailsPage extends StatefulWidget {
@@ -118,13 +117,13 @@ class _CupertinoStyleTabbedPosterDetailsPageState extends State<CupertinoStyleTa
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.itemTitle ?? '',
+                                  widget.itemTitle ?? '',
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),
                                   maxLines: tpItemTitle.didExceedMaxLines && tpItemSubtitle.didExceedMaxLines ? 1 : 2,
                                   overflow: TextOverflow.ellipsis,
-                                ),
+                                ).sensitive(enabled: widget.sensitive),
                                 if (widget.itemSubtitle != null)
                                   Text(
                                     widget.itemSubtitle!,

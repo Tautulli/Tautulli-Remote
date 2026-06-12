@@ -1,12 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../overrides/cupertino/nav_bar_override.dart' as nav;
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../../translations/locale_keys.g.dart';
 import '../../helpers/theme_helper.dart';
+import '../../overrides/cupertino/nav_bar_override.dart' as nav;
+import '../../widgets/base/sensitive_text.dart';
 
 class CupertinoStyleTabbedIconDetailsPage extends StatefulWidget {
   final String? previousPageTitle;
@@ -88,9 +87,7 @@ class _CupertinoStyleTabbedIconDetailsPageState extends State<CupertinoStyleTabb
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
-                            ),
+                            Text(widget.title).sensitive(enabled: widget.sensitive),
                             widget.subtitle,
                           ],
                         ),

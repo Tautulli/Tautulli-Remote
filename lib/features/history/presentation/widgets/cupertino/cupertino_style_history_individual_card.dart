@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -7,8 +6,8 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/icon_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
-import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_icon.dart';
@@ -69,12 +68,11 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : history.friendlyName ?? '',
+                                  history.friendlyName ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                ),
+                                  style: const TextStyle(fontSize: 16),
+                                ).sensitive(),
                                 if ([
                                   MediaType.episode,
                                   MediaType.track,
@@ -83,6 +81,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     history.title ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 if ([MediaType.episode].contains(history.mediaType) &&
                                     history.parentMediaIndex != null &&
@@ -93,6 +92,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     history.parentTitle ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 Text(
                                   TimeHelper.cleanDateTime(
@@ -100,6 +100,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     dateFormat: state.appSettings.activeServer.dateFormat,
                                     timeFormat: state.appSettings.activeServer.timeFormat,
                                   ),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             );

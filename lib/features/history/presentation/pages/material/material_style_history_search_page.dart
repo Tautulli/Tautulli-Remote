@@ -8,6 +8,7 @@ import 'package:quiver/strings.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../dependency_injection.dart' as di;
@@ -324,15 +325,13 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : user.friendlyName ?? '',
+                                  user.friendlyName ?? '',
                                   style: TextStyle(
                                     color: _userId == user.userId!
                                         ? Theme.of(context).colorScheme.primary
                                         : Theme.of(context).colorScheme.onSurface,
                                   ),
-                                );
+                                ).sensitive();
                               },
                             ),
                           ),

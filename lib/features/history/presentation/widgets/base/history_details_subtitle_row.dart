@@ -6,11 +6,13 @@ import '../../../data/models/history_model.dart';
 class HistoryDetailsSubtitleRow extends StatelessWidget {
   final HistoryModel history;
   final int? maxLines;
+  final double? fontSize;
 
   const HistoryDetailsSubtitleRow(
     this.history, {
     super.key,
     this.maxLines,
+    this.fontSize,
   });
 
   @override
@@ -33,6 +35,7 @@ class HistoryDetailsSubtitleRow extends StatelessWidget {
       text,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines ?? lines,
+      style: TextStyle(fontSize: fontSize),
     );
   }
 }

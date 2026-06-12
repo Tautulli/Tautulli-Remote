@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_table_model.dart';
@@ -31,14 +32,12 @@ class UserDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : user.friendlyName ?? 'name missing',
+              user.friendlyName ?? 'name missing',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
-            );
+            ).sensitive();
           },
         ),
         if (showLastStreamed)

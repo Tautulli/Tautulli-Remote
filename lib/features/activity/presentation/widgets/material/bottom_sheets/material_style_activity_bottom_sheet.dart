@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/types/media_type.dart';
 import '../../../../../../core/widgets/base/image_gradient_background.dart';
+import '../../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../../core/widgets/material/dialogs/material_style_failure_alert_dialog.dart';
 import '../../../../../../core/widgets/material/material_style_gesture_pill.dart';
 import '../../../../../../core/widgets/material/material_style_poster.dart';
@@ -224,14 +225,12 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
                                                     children: [
                                                       Expanded(
                                                         child: Text(
-                                                          state.appSettings.maskSensitiveInfo
-                                                              ? LocaleKeys.hidden_message.tr()
-                                                              : activity.friendlyName ?? '',
+                                                          activity.friendlyName ?? '',
                                                           overflow: TextOverflow.ellipsis,
                                                           style: const TextStyle(
                                                             fontSize: 13,
                                                           ),
-                                                        ),
+                                                        ).sensitive(),
                                                       ),
                                                       if (activity.live != true &&
                                                           activity.duration != null &&

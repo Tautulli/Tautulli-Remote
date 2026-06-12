@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -58,9 +59,9 @@ class MaterialStyleCustomHeaderListTile extends StatelessWidget {
                 : null,
             title: Text(title),
             subtitle: Text(
-              sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message : subtitle,
+              subtitle,
               style: Theme.of(context).textTheme.titleSmall,
-            ).tr(),
+            ).sensitive(enabled: sensitive),
             trailing: GestureDetector(
               child: SizedBox(
                 width: 35,
@@ -84,16 +85,16 @@ class MaterialStyleCustomHeaderListTile extends StatelessWidget {
                 if (result) {
                   if (forRegistration) {
                     context.read<RegistrationHeadersBloc>().add(
-                          RegistrationHeadersDelete(title),
-                        );
+                      RegistrationHeadersDelete(title),
+                    );
                   } else {
                     if (tautulliId != null) {
                       context.read<SettingsBloc>().add(
-                            SettingsDeleteCustomHeader(
-                              tautulliId: tautulliId!,
-                              title: title,
-                            ),
-                          );
+                        SettingsDeleteCustomHeader(
+                          tautulliId: tautulliId!,
+                          title: title,
+                        ),
+                      );
                     }
                   }
                 }
