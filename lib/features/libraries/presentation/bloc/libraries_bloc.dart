@@ -42,13 +42,13 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     required this.imageUrl,
     required this.logging,
   }) : super(
-          LibrariesState(
-            libraries: tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
-            orderColumn: orderColumnCache ?? 'section_name',
-            orderDir: orderDirCache ?? 'asc',
-            hasReachedMax: hasReachedMaxCache,
-          ),
-        ) {
+         LibrariesState(
+           libraries: tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
+           orderColumn: orderColumnCache ?? 'section_name',
+           orderDir: orderDirCache ?? 'asc',
+           hasReachedMax: hasReachedMaxCache,
+         ),
+       ) {
     on<LibrariesFetched>(
       _onLibrariesFetched,
       transformer: throttleDroppable(throttleDuration),
@@ -94,7 +94,13 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     orderColumnCache = event.orderColumn;
     orderDirCache = event.orderDir;
 
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+        ),
+      );
+    }
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History page
