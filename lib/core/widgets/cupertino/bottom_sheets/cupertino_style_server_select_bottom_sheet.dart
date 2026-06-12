@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../database/data/models/server_model.dart';
-import '../cupertino_style_modal_popup_scaffold.dart';
-import '../cupertino_style_list_section.dart';
-import '../cupertino_style_notched_cupertino_list_tile.dart';
+import '../../base/sensitive_text.dart';
 import '../buttons/cupertino_style_bottom_sheet_cancel_button.dart';
+import '../cupertino_style_list_section.dart';
+import '../cupertino_style_modal_popup_scaffold.dart';
+import '../cupertino_style_notched_cupertino_list_tile.dart';
 
 class CupertinoStyleServerSelectBottomSheet extends StatelessWidget {
   final ServerModel activeServer;
@@ -40,7 +41,7 @@ class CupertinoStyleServerSelectBottomSheet extends StatelessWidget {
         children: servers
             .map(
               (server) => CupertinoStyleNotchedCupertinoListTile(
-                titleText: server.plexName,
+                titleText: server.plexName.sensitive(context),
                 trailing: server.id == activeServer.id ? const Icon(CupertinoIcons.checkmark_alt) : null,
                 onTap: () => serverChanged(server),
               ),

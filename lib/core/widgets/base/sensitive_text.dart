@@ -6,6 +6,7 @@ import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 extension SensitiveTextExtension on Text {
   Widget sensitive({
     bool enabled = true,
+    int? length,
   }) {
     if (!enabled) return this;
 
@@ -21,7 +22,7 @@ extension SensitiveTextExtension on Text {
 
         if (state.appSettings.maskSensitiveInfo) {
           return Text(
-            redactedString,
+            _redactedStringOfLength(length),
             key: key,
             style: style,
             strutStyle: strutStyle,
@@ -45,35 +46,35 @@ extension SensitiveTextExtension on Text {
 }
 
 extension SensitiveStringExtension on String {
-  String sensitive(BuildContext context, {bool enabled = true}) {
+  String sensitive(BuildContext context, {bool enabled = true, int? length}) {
     if (!enabled) return this;
     final state = context.read<SettingsBloc>().state;
     if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
-      return redactedString;
+      return _redactedStringOfLength(length);
     }
     return this;
   }
 }
 
 extension SensitiveNullableStringExtension on String? {
-  String? sensitive(BuildContext context, {bool enabled = true}) {
+  String? sensitive(BuildContext context, {bool enabled = true, int? length}) {
     if (!enabled) return this;
     final state = context.read<SettingsBloc>().state;
     if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
-      return redactedString;
+      return _redactedStringOfLength(length);
     }
     return this;
   }
 }
 
 extension SensitiveTextSpanExtension on TextSpan {
-  TextSpan sensitive(BuildContext context, {bool enabled = true}) {
+  TextSpan sensitive(BuildContext context, {bool enabled = true, int? length}) {
     assert(children == null, 'sensitive() cannot be used on a TextSpan with children set.');
     if (!enabled) return this;
     final state = context.read<SettingsBloc>().state;
     if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
       return TextSpan(
-        text: redactedString,
+        text: _redactedStringOfLength(length),
         style: style,
         recognizer: recognizer,
         mouseCursor: mouseCursor,
@@ -87,5 +88,7 @@ extension SensitiveTextSpanExtension on TextSpan {
     return this;
   }
 }
+
+String _redactedStringOfLength(int? length) => length == null ? redactedString : '●' * length;
 
 const redactedString = '●●●●●●●●●●';
