@@ -4,10 +4,12 @@ import '../../../helpers/theme_helper.dart';
 
 class CupertinoStyleNavigationBarBackButton extends StatelessWidget {
   final String? previousPageTitle;
+  final Future<void> Function()? onBeforePop;
 
   const CupertinoStyleNavigationBarBackButton({
     super.key,
     this.previousPageTitle,
+    this.onBeforePop,
   });
 
   @override
@@ -15,7 +17,10 @@ class CupertinoStyleNavigationBarBackButton extends StatelessWidget {
     return CupertinoNavigationBarBackButton(
       //TODO: Eventually remove workaround for https://github.com/flutter/flutter/issues/89888
       previousPageTitle: previousPageTitle,
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () async {
+        await onBeforePop?.call();
+        if (context.mounted) Navigator.of(context).pop();
+      },
       color: ThemeHelper.cupertinoNavigationBarItemColor(),
     );
   }

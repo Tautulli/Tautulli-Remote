@@ -19,6 +19,7 @@ class CupertinoStylePageScaffold extends StatefulWidget {
   final Widget middle;
   final Widget? trailing;
   final Widget child;
+  final Future<void> Function()? onBeforePop;
 
   const CupertinoStylePageScaffold({
     super.key,
@@ -30,6 +31,7 @@ class CupertinoStylePageScaffold extends StatefulWidget {
     required this.middle,
     this.trailing,
     required this.child,
+    this.onBeforePop,
   });
 
   @override
@@ -62,6 +64,7 @@ class _CupertinoStylePageScaffoldState extends State<CupertinoStylePageScaffold>
                     previousPageTitle: state.serverList.length > 1 && widget.showServerSelect
                         ? null
                         : widget.previousPageTitle,
+                    onBeforePop: widget.onBeforePop,
                   );
                 },
               ),
