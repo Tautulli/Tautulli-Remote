@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../database/data/models/server_model.dart';
 import '../../base/sensitive_text.dart';
 import '../buttons/cupertino_style_bottom_sheet_cancel_button.dart';
@@ -34,8 +36,7 @@ class CupertinoStyleServerSelectBottomSheet extends StatelessWidget {
 
     return CupertinoStyleModalPopupScaffold(
       leading: const CupertinoStyleBottomSheetCancelButton(),
-      //Todo: Translation string
-      middleText: 'Select Server',
+      middleText: LocaleKeys.select_server_title.tr(),
       child: CupertinoStyleListSection(
         hasLeading: false,
         children: servers

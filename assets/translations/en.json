@@ -316,6 +316,7 @@
     "secondary_connection_title": "Secondary Connection",
     "secondary_connection_address_hint": "Input your secondary connection address",
     "secondary_connection_address_title": "Secondary Connection Address",
+    "select_server_title": "Select Server",
     "select_title": "Select",
     "select_user_title": "Select User",
     "server_connection_address_dialog_primary_validation": "Enter a valid URL format",

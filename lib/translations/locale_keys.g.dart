@@ -320,6 +320,7 @@ abstract class  LocaleKeys {
   static const secondary_connection_title = 'secondary_connection_title';
   static const secondary_connection_address_hint = 'secondary_connection_address_hint';
   static const secondary_connection_address_title = 'secondary_connection_address_title';
+  static const select_server_title = 'select_server_title';
   static const select_title = 'select_title';
   static const select_user_title = 'select_user_title';
   static const server_connection_address_dialog_primary_validation = 'server_connection_address_dialog_primary_validation';
