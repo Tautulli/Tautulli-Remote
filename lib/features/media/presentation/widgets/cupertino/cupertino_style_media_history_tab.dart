@@ -9,8 +9,8 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/media_type.dart';
-import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
+import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../../history/presentation/widgets/cupertino/cupertino_style_history_individual_card.dart';
@@ -44,6 +44,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
   void initState() {
     super.initState();
 
+    _scrollController.addListener(_onScroll);
     _individualHistoryBloc = context.read<IndividualHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
   }
@@ -153,5 +154,33 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      _individualHistoryBloc.add(
+        IndividualHistoryFetched(
+          server: widget.server,
+          ratingKey: widget.ratingKey,
+          mediaType: widget.mediaType,
+          settingsBloc: _settingsBloc,
+        ),
+      );
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

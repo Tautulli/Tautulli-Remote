@@ -40,6 +40,7 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
   void initState() {
     super.initState();
 
+    _scrollController.addListener(_onScroll);
     _settingsBloc = context.read<SettingsBloc>();
     _libraryHistoryBloc = context.read<LibraryHistoryBloc>();
   }
