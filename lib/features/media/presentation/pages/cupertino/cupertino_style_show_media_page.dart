@@ -70,6 +70,7 @@ class CupertinoStyleShowMediaView extends StatelessWidget {
             uri: media.imageUri,
           ),
           itemTitle: media.title,
+          itemSubtitle: media.year?.toString(),
           segments: {
             0: const Text(LocaleKeys.details_title).tr(),
             1: const Text(LocaleKeys.seasons_title).tr(),
