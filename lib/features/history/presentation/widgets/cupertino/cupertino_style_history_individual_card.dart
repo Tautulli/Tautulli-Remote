@@ -86,7 +86,10 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                 if ([MediaType.episode].contains(history.mediaType) &&
                                     history.parentMediaIndex != null &&
                                     history.mediaIndex != null)
-                                  Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
+                                  Text(
+                                    'S${history.parentMediaIndex} • E${history.mediaIndex}',
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
                                 if ([MediaType.track].contains(history.mediaType))
                                   Text(
                                     history.parentTitle ?? '',
