@@ -17,6 +17,9 @@ import '../../rate_app/rate_app.dart';
 import '../base/notifying_icon.dart';
 import 'dialogs/cupertino_style_rate_app_dialog.dart';
 
+const double _tabBarHeight = 55;
+const double _iconTopPadding = 5;
+
 class CupertinoStyleTabScaffold extends StatefulWidget {
   const CupertinoStyleTabScaffold({super.key});
 
@@ -64,38 +67,54 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
     return CupertinoTabScaffold(
       controller: cupertinoTabController,
       tabBar: CupertinoTabBar(
+        height: _tabBarHeight,
         iconSize: 20,
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(
-              CupertinoIcons.tv,
-              size: 24,
+            icon: const Padding(
+              padding: EdgeInsets.only(top: _iconTopPadding),
+              child: Icon(
+                CupertinoIcons.tv,
+                size: 24,
+              ),
             ),
             label: LocaleKeys.activity_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
-              CupertinoIcons.gobackward,
-              size: 24,
+            icon: const Padding(
+              padding: EdgeInsets.only(top: _iconTopPadding),
+              child: Icon(
+                CupertinoIcons.gobackward,
+                size: 24,
+              ),
             ),
             label: LocaleKeys.history_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
-              CupertinoIcons.clock,
-              size: 24,
+            icon: const Padding(
+              padding: EdgeInsets.only(top: _iconTopPadding),
+              child: Icon(
+                CupertinoIcons.clock,
+                size: 24,
+              ),
             ),
             label: LocaleKeys.recently_added_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
-              CupertinoIcons.film,
-              size: 24,
+            icon: const Padding(
+              padding: EdgeInsets.only(top: _iconTopPadding),
+              child: Icon(
+                CupertinoIcons.film,
+                size: 24,
+              ),
             ),
             label: LocaleKeys.libraries_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const _MoreTabIcon(),
+            icon: const Padding(
+              padding: EdgeInsets.only(top: _iconTopPadding),
+              child: _MoreTabIcon(),
+            ),
             label: LocaleKeys.more_title.tr(),
           ),
         ],
