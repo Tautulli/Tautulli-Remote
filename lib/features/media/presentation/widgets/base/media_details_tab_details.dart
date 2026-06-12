@@ -22,128 +22,121 @@ class MediaDetailsTabDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (metadata != null) {
-      return Row(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
-                child: Column(
-                  children: [
-                    if (isNotBlank(metadata!.studio))
-                      _ItemRow(
-                        title: LocaleKeys.studio_title.tr(),
-                        item: Text(
-                          metadata!.studio!,
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.originallyAvailableAt != null)
-                      _ItemRow(
-                        title: [MediaType.photo, MediaType.clip].contains(metadata!.mediaType)
-                            ? LocaleKeys.taken_title.tr()
-                            : LocaleKeys.aired_title.tr(),
-                        item: Text(
-                          DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.duration != null)
-                      _ItemRow(
-                        title: LocaleKeys.runtime_title.tr(),
-                        item: Text(
-                          TimeHelper.simple(metadata!.duration!),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (isNotBlank(metadata!.contentRating))
-                      _ItemRow(
-                        title: LocaleKeys.rated_title.tr(),
-                        item: Text(
-                          metadata!.contentRating!,
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.genres != null && metadata!.genres!.isNotEmpty)
-                      _ItemRow(
-                        title: LocaleKeys.genres_title.tr(),
-                        item: Text(
-                          metadata!.genres!.length > 8
-                              ? metadata!.genres!.sublist(0, 8).join(', ')
-                              : metadata!.genres!.join(', '),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.directors != null && metadata!.directors!.isNotEmpty)
-                      _ItemRow(
-                        title: LocaleKeys.directed_by_title.tr(),
-                        item: Text(
-                          metadata!.directors!.length > 8
-                              ? metadata!.directors!.sublist(0, 8).join(', ')
-                              : metadata!.directors!.join(', '),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.writers != null && metadata!.writers!.isNotEmpty)
-                      _ItemRow(
-                        title: LocaleKeys.written_by_title.tr(),
-                        item: Text(
-                          metadata!.writers!.length > 8
-                              ? metadata!.writers!.sublist(0, 8).join(', ')
-                              : metadata!.writers!.join(', '),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.actors != null && metadata!.actors!.isNotEmpty)
-                      _ItemRow(
-                        title: LocaleKeys.starring_title.tr(),
-                        item: Text(
-                          metadata!.actors!.length > 8
-                              ? metadata!.actors!.sublist(0, 8).join(', ')
-                              : metadata!.actors!.join(', '),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    const Gap(16),
-                    if (isNotBlank(metadata!.mediaInfo?.container))
-                      _ItemRow(
-                        title: LocaleKeys.container_title.tr(),
-                        item: Text(
-                          metadata!.mediaInfo!.container!.toUpperCase(),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (isNotBlank(metadata!.mediaInfo?.videoFullResolution) &&
-                        isNotBlank(metadata!.mediaInfo?.videoCodec))
-                      _ItemRow(
-                        title: LocaleKeys.video_title.tr(),
-                        item: Text(
-                          '${metadata!.mediaInfo!.videoResolution!.toUpperCase()} (${metadata!.mediaInfo!.videoCodec!.toUpperCase()})',
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.mediaInfo?.audioChannelLayout != null && isNotBlank(metadata!.mediaInfo?.audioCodec))
-                      _ItemRow(
-                        title: LocaleKeys.audio_title.tr(),
-                        item: Text(
-                          '${metadata!.mediaInfo!.audioChannelLayout} (${metadata!.mediaInfo!.audioCodec!.toUpperCase()})',
-                        ),
-                        titleColor: titleColor,
-                      ),
-                    if (metadata!.mediaInfo?.bitrate != null)
-                      _ItemRow(
-                        title: LocaleKeys.bitrate_title.tr(),
-                        item: Text(
-                          DataUnitHelper.bitrate(metadata!.mediaInfo!.bitrate!),
-                        ),
-                        titleColor: titleColor,
-                      ),
-                  ],
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+          child: Column(
+            children: [
+              if (isNotBlank(metadata!.studio))
+                _ItemRow(
+                  title: LocaleKeys.studio_title.tr(),
+                  item: Text(
+                    metadata!.studio!,
+                  ),
+                  titleColor: titleColor,
                 ),
-              ),
-            ),
+              if (metadata!.originallyAvailableAt != null)
+                _ItemRow(
+                  title: [MediaType.photo, MediaType.clip].contains(metadata!.mediaType)
+                      ? LocaleKeys.taken_title.tr()
+                      : LocaleKeys.aired_title.tr(),
+                  item: Text(
+                    DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.duration != null)
+                _ItemRow(
+                  title: LocaleKeys.runtime_title.tr(),
+                  item: Text(
+                    TimeHelper.simple(metadata!.duration!),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (isNotBlank(metadata!.contentRating))
+                _ItemRow(
+                  title: LocaleKeys.rated_title.tr(),
+                  item: Text(
+                    metadata!.contentRating!,
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.genres != null && metadata!.genres!.isNotEmpty)
+                _ItemRow(
+                  title: LocaleKeys.genres_title.tr(),
+                  item: Text(
+                    metadata!.genres!.length > 8
+                        ? metadata!.genres!.sublist(0, 8).join(', ')
+                        : metadata!.genres!.join(', '),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.directors != null && metadata!.directors!.isNotEmpty)
+                _ItemRow(
+                  title: LocaleKeys.directed_by_title.tr(),
+                  item: Text(
+                    metadata!.directors!.length > 8
+                        ? metadata!.directors!.sublist(0, 8).join(', ')
+                        : metadata!.directors!.join(', '),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.writers != null && metadata!.writers!.isNotEmpty)
+                _ItemRow(
+                  title: LocaleKeys.written_by_title.tr(),
+                  item: Text(
+                    metadata!.writers!.length > 8
+                        ? metadata!.writers!.sublist(0, 8).join(', ')
+                        : metadata!.writers!.join(', '),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.actors != null && metadata!.actors!.isNotEmpty)
+                _ItemRow(
+                  title: LocaleKeys.starring_title.tr(),
+                  item: Text(
+                    metadata!.actors!.length > 8
+                        ? metadata!.actors!.sublist(0, 8).join(', ')
+                        : metadata!.actors!.join(', '),
+                  ),
+                  titleColor: titleColor,
+                ),
+              const Gap(16),
+              if (isNotBlank(metadata!.mediaInfo?.container))
+                _ItemRow(
+                  title: LocaleKeys.container_title.tr(),
+                  item: Text(
+                    metadata!.mediaInfo!.container!.toUpperCase(),
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (isNotBlank(metadata!.mediaInfo?.videoFullResolution) && isNotBlank(metadata!.mediaInfo?.videoCodec))
+                _ItemRow(
+                  title: LocaleKeys.video_title.tr(),
+                  item: Text(
+                    '${metadata!.mediaInfo!.videoResolution!.toUpperCase()} (${metadata!.mediaInfo!.videoCodec!.toUpperCase()})',
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.mediaInfo?.audioChannelLayout != null && isNotBlank(metadata!.mediaInfo?.audioCodec))
+                _ItemRow(
+                  title: LocaleKeys.audio_title.tr(),
+                  item: Text(
+                    '${metadata!.mediaInfo!.audioChannelLayout} (${metadata!.mediaInfo!.audioCodec!.toUpperCase()})',
+                  ),
+                  titleColor: titleColor,
+                ),
+              if (metadata!.mediaInfo?.bitrate != null)
+                _ItemRow(
+                  title: LocaleKeys.bitrate_title.tr(),
+                  item: Text(
+                    DataUnitHelper.bitrate(metadata!.mediaInfo!.bitrate!),
+                  ),
+                  titleColor: titleColor,
+                ),
+            ],
           ),
-        ],
+        ),
       );
     }
 
@@ -168,22 +161,18 @@ class _ItemRow extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
-        textBaseline: TextBaseline.ideographic,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           SizedBox(
             width: 90,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 13,
-                    color: titleColor,
-                  ),
-                ),
-              ],
+            child: Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 13,
+                color: titleColor,
+              ),
+              textAlign: TextAlign.end,
             ),
           ),
           const Gap(8),
