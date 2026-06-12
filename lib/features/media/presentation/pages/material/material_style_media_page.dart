@@ -166,7 +166,7 @@ class _MaterialStyleMediaViewState extends State<MaterialStyleMediaView> {
           media: widget.media,
         );
       case MediaType.show:
-        return MaterialStyleSeasonMediaPage(
+        return MaterialStyleShowMediaPage(
           server: widget.server,
           media: widget.media,
         );
