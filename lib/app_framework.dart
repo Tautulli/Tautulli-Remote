@@ -123,6 +123,7 @@ class AppFramework extends StatelessWidget {
         final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
 
         if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
+          currentAppStyle = AppStyle.cupertino;
           return _CupertinoFramework(
             // initialRoute: initialRoute,
             useAtkinsonHyperLegible: useAtkinsonHyperLegible,
@@ -134,6 +135,7 @@ class AppFramework extends StatelessWidget {
           );
         }
 
+        currentAppStyle = AppStyle.material;
         return _MaterialFramework(
           initialRoute: initialRoute,
           useAtkinsonHyperLegible: useAtkinsonHyperLegible,

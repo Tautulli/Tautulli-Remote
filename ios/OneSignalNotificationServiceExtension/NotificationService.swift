@@ -1,7 +1,7 @@
 import CryptoSwift
 import CommonCrypto
 import Foundation
-import OneSignalFramework
+import OneSignalExtension
 import os.log
 import SQLite3
 import UIKit
@@ -13,81 +13,105 @@ class NotificationService: UNNotificationServiceExtension {
     var bestAttemptContent: UNMutableNotificationContent?
     
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
-        self.receivedRequest = request;
+        self.receivedRequest = request
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        
+
         if let bestAttemptContent = bestAttemptContent {
-            // Parse notification payload
-            let userInfo = request.content.userInfo
-            if let custom = userInfo["custom"] as? [String: AnyObject] {
-                let data = custom["a"]! as! [String: AnyObject]
-                
-                let version = data.keys.contains("version") ? data["version"] as! Int : 1
-                let serverId = data["server_id"] as! String
-                let serverInfoDict = getServerInfo(serverId: serverId)
-                let deviceToken = serverInfoDict["deviceToken"]! as String
-                
-                let encrypted = data["encrypted"] as! Int
-                var jsonMessage: [String: Any] = [:]
-                
-                if encrypted == 1 {
-                    let salt = data["salt"] as! String
-                    let nonce = data["nonce"] as! String
-                    let cipherText = data["cipher_text"] as! String
-                    jsonMessage = getUnencryptedMessage(version: version, deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
-                } else {
-                    jsonMessage = data["plain_text"] as! [String: Any]
-                }
-
-                print("Tautulli Notification Info: Notification content: \(jsonMessage)")
-                
-                bestAttemptContent.body = jsonMessage["body"] as! String
-                bestAttemptContent.title = jsonMessage["subject"] as! String
-                
-                // Load image for notification
-                // Used information from https://medium.com/@lucasgoesvalle/custom-push-notification-with-image-and-interactions-on-ios-swift-4-ffdbde1f457
-                let notificationType = jsonMessage["notification_type"] as! Int
-                if notificationType != 0 {
-                    var connectionAddress: String?
-                    if serverInfoDict["primaryActive"]! == "1" {
-                        connectionAddress = serverInfoDict["primaryConnectionAddress"]!
-                    } else {
-                        connectionAddress = serverInfoDict["secondaryConnectionAddress"]!
-                    }
-                    
-                    var urlString:String? = "\(connectionAddress!)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(jsonMessage["poster_thumb"]!)&width=1080"
-                    
-                    if let urlImageString = urlString as? String {
-                        urlString = urlImageString
-                    }
-
-                    if urlString != nil, let fileUrl = URL(string: urlString!) {
-                        print("fileUrl: \(fileUrl)")
-
-                        guard let imageData = NSData(contentsOf: fileUrl) else {
-                            return
-                        }
-                        guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.jpg", data: imageData, options: nil) else {
-                            return
-                        }
-
-                        bestAttemptContent.attachments = [ attachment ]
-                    }
-                }
-
-            }
-            
-            OneSignal.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent, withContentHandler: self.contentHandler)
-            contentHandler(bestAttemptContent)
+            processPayload(from: request.content.userInfo, into: bestAttemptContent)
+            OneSignalExtension.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent, withContentHandler: self.contentHandler)
         }
+    }
+
+    private func processPayload(from userInfo: [AnyHashable: Any], into content: UNMutableNotificationContent) {
+        guard let custom = userInfo["custom"] as? [String: AnyObject],
+              let data = custom["a"] as? [String: AnyObject],
+              let encrypted = data["encrypted"] as? Bool,
+              let serverId = data["server_id"] as? String else {
+            print("Tautulli Notification Info: Missing or malformed payload fields")
+            return
+        }
+
+        let version = data["version"] as? Int ?? 1
+        let serverInfoDict = getServerInfo(serverId: serverId)
+
+        guard let deviceToken = serverInfoDict["deviceToken"], !deviceToken.isEmpty else {
+            print("Tautulli Notification Info: Device token not found for server \(serverId)")
+            return
+        }
+
+        let jsonMessage: [String: Any]
+        if encrypted {
+            guard let salt = data["salt"] as? String,
+                  let nonce = data["nonce"] as? String,
+                  let cipherText = data["cipher_text"] as? String else {
+                print("Tautulli Notification Info: Missing encryption fields")
+                return
+            }
+            let decrypted = getUnencryptedMessage(version: version, deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
+            guard !decrypted.keys.contains("ERROR") else {
+                print("Tautulli Notification Info: Decryption failed, using fallback content")
+                return
+            }
+            jsonMessage = decrypted
+        } else {
+            guard let plainText = data["plain_text"] as? [String: Any] else {
+                print("Tautulli Notification Info: Missing plain_text field")
+                return
+            }
+            jsonMessage = plainText
+        }
+
+        print("Tautulli Notification Info: Notification content: \(jsonMessage)")
+
+        guard let body = jsonMessage["body"] as? String,
+              let subject = jsonMessage["subject"] as? String else {
+            print("Tautulli Notification Info: Missing body or subject in decrypted payload")
+            return
+        }
+
+        content.body = body
+        content.title = subject
+
+        if let action = jsonMessage["action"] as? String,
+           let containerURL = FileManager.default.containerURL(
+               forSecurityApplicationGroupIdentifier: "group.com.tautulli.tautulliRemote.onesignal"
+           ) {
+            let cache: [String: String] = ["action": action, "server_id": serverId]
+            if let data = try? JSONEncoder().encode(cache) {
+                try? data.write(to: containerURL.appendingPathComponent("notification_action.json"))
+            }
+        }
+
+        guard let notificationType = jsonMessage["notification_type"] as? Int, notificationType != 0 else {
+            return
+        }
+
+        let connectionAddress = serverInfoDict["primaryActive"] == "1"
+            ? serverInfoDict["primaryConnectionAddress"]
+            : serverInfoDict["secondaryConnectionAddress"]
+
+        guard let connectionAddress = connectionAddress,
+              let posterThumb = jsonMessage["poster_thumb"] as? String,
+              let fileUrl = URL(string: "\(connectionAddress)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(posterThumb)&width=1080") else {
+            return
+        }
+
+        print("fileUrl: \(fileUrl)")
+
+        guard let imageData = NSData(contentsOf: fileUrl),
+              let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.jpg", data: imageData, options: nil) else {
+            return
+        }
+
+        content.attachments = [attachment]
     }
     
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
         if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
-            OneSignal.serviceExtensionTimeWillExpireRequest(self.receivedRequest, with: self.bestAttemptContent)
+            OneSignalExtension.serviceExtensionTimeWillExpireRequest(self.receivedRequest, with: self.bestAttemptContent)
             contentHandler(bestAttemptContent)
         }
     }

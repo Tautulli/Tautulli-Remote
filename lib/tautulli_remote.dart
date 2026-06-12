@@ -10,6 +10,7 @@ import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
 import 'core/global_keys/global_keys.dart';
+import 'core/types/app_style.dart';
 import 'core/helpers/notification_helper.dart';
 import 'core/package_information/package_information.dart';
 import 'core/rate_app/rate_app.dart';
@@ -84,41 +85,67 @@ class TautulliRemoteState extends State<TautulliRemote> {
     OneSignal.Notifications.addClickListener((event) async {
       // Will be called whenever a notification is opened/button pressed
 
-      // Find the action type in the notification and open a page accordingly
-      final data = await NotificationHelper.extractAdditionalData(
-        event.notification.additionalData,
+      final additionalData = event.notification.additionalData;
+
+      // On iOS the NotificationServiceExtension pre-decrypts and caches the
+      // action, so we can skip the expensive PBKDF2 derivation here.
+      String? action = await NotificationHelper.readCachedAction(
+        additionalData?['server_id'],
       );
 
-      if (data != null) {
-        final action = data['action'];
+      // Fall back to full decryption (always used on Android; iOS fallback
+      // when the extension didn't run or the cache wasn't written).
+      if (action == null) {
+        final data = await NotificationHelper.extractAdditionalData(additionalData);
+        action = data?['action'];
+      }
 
+      if (action != null) {
         // Add small delay to help make sure navigatorKey is not null
         await Future.delayed(const Duration(milliseconds: 10));
 
-        switch (action) {
-          case ('watched'):
-            navigatorKey.currentState?.pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const MaterialStyleHistoryPage(
-                  refreshOnLoad: true,
+        final isCupertino = currentAppStyle == AppStyle.cupertino;
+
+        if (isCupertino) {
+          switch (action) {
+            case ('watched'):
+              historyRefreshNotifier.value = true;
+              cupertinoTabController.index = 1;
+              return;
+            case ('created'):
+              recentlyAddedRefreshNotifier.value = true;
+              cupertinoTabController.index = 2;
+              return;
+            default:
+              cupertinoTabController.index = 0;
+          }
+        } else {
+          switch (action) {
+            case ('watched'):
+              navigatorKey.currentState?.pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MaterialStyleHistoryPage(
+                    refreshOnLoad: true,
+                  ),
                 ),
-              ),
-            );
-            return;
-          case ('created'):
-            navigatorKey.currentState?.pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const MaterialStyleRecentlyAddedPage(
-                  refreshOnLoad: true,
+              );
+              return;
+            case ('created'):
+              navigatorKey.currentState?.pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MaterialStyleRecentlyAddedPage(
+                    refreshOnLoad: true,
+                  ),
                 ),
-              ),
-            );
-            return;
-          default:
-            navigatorKey.currentState?.pushReplacementNamed('/activity');
+              );
+              return;
+            default:
+              navigatorKey.currentState?.pushReplacementNamed('/activity');
+          }
         }
       }
     });
+
 
     OneSignal.User.pushSubscription.addObserver((state) async {
       // Will be called whenever the subscription changes

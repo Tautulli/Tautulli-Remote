@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/global_keys/global_keys.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
@@ -78,6 +79,7 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
   void initState() {
     super.initState();
 
+    recentlyAddedRefreshNotifier.addListener(_onRefreshRequest);
     _scrollController.addListener(_onScroll);
     _recentlyAddedBloc = context.read<RecentlyAddedBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -256,7 +258,21 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    recentlyAddedRefreshNotifier.removeListener(_onRefreshRequest);
     super.dispose();
+  }
+
+  void _onRefreshRequest() {
+    if (!recentlyAddedRefreshNotifier.value) return;
+    recentlyAddedRefreshNotifier.value = false;
+    _recentlyAddedBloc.add(
+      RecentlyAddedFetched(
+        server: _server,
+        mediaType: _mediaType,
+        freshFetch: true,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 
   void _onScroll() {

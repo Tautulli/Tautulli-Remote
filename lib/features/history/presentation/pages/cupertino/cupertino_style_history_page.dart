@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/global_keys/global_keys.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
@@ -96,6 +97,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
   void initState() {
     super.initState();
 
+    historyRefreshNotifier.addListener(_onRefreshRequest);
     _scrollController.addListener(_onScroll);
     _historyBloc = context.read<HistoryBloc>();
     _usersBloc = context.read<UsersBloc>();
@@ -332,7 +334,28 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    historyRefreshNotifier.removeListener(_onRefreshRequest);
     super.dispose();
+  }
+
+  void _onRefreshRequest() {
+    if (!historyRefreshNotifier.value) return;
+    historyRefreshNotifier.value = false;
+    _historyBloc.add(
+      HistoryFetched(
+        server: _server,
+        userId: _userId,
+        movieMediaType: _movieMediaType,
+        episodeMediaType: _episodeMediaType,
+        trackMediaType: _trackMediaType,
+        liveMediaType: _liveMediaType,
+        directPlayDecision: _directPlayDecision,
+        directStreamDecision: _directStreamDecision,
+        transcodeDecision: _transcodeDecision,
+        freshFetch: true,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 
   void _onScroll() {

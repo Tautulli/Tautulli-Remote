@@ -12,6 +12,7 @@
 		65039799266924410018C8BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65039798266924410018C8BF /* GoogleService-Info.plist */; };
 		6599710D268D0A59009A57BC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599710C268D0A59009A57BC /* StoreKit.framework */; };
 		65EB8964267193EE00F493EF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB8963267193EE00F493EF /* NotificationService.swift */; };
+		698C82E02FDC665B008CFEA3 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65EB8961267193EE00F493EF /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -29,6 +30,13 @@
 			remoteGlobalIDString = 65EB8960267193EE00F493EF;
 			remoteInfo = OneSignalNotificationServiceExtension;
 		};
+		698C82E12FDC665B008CFEA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65EB8960267193EE00F493EF;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				698C82E02FDC665B008CFEA3 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +250,7 @@
 			);
 			dependencies = (
 				65EB8967267193EE00F493EF /* PBXTargetDependency */,
+				698C82E22FDC665B008CFEA3 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -450,6 +460,11 @@
 			isa = PBXTargetDependency;
 			target = 65EB8960267193EE00F493EF /* OneSignalNotificationServiceExtension */;
 			targetProxy = 65EB8966267193EE00F493EF /* PBXContainerItemProxy */;
+		};
+		698C82E22FDC665B008CFEA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65EB8960267193EE00F493EF /* OneSignalNotificationServiceExtension */;
+			targetProxy = 698C82E12FDC665B008CFEA3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

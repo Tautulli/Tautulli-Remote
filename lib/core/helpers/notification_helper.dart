@@ -1,21 +1,49 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cryptography_plus/cryptography_plus.dart';
 import 'package:cryptography_flutter_plus/cryptography_flutter_plus.dart';
+import 'package:cryptography_plus/cryptography_plus.dart';
+import 'package:flutter_app_group_directory/flutter_app_group_directory.dart';
 
 import '../../dependency_injection.dart' as di;
 import '../../features/settings/domain/usecases/settings.dart';
 
 class NotificationHelper {
+  static const _appGroupId = 'group.com.tautulli.tautulliRemote.onesignal';
+  static const _cacheFilename = 'notification_action.json';
+
+  // Reads the action cached by the iOS NotificationServiceExtension.
+  // Returns null on Android, if the file is absent, or if server_id doesn't match.
+  static Future<String?> readCachedAction(String? serverId) async {
+    if (!Platform.isIOS || serverId == null) return null;
+
+    try {
+      final dir = await FlutterAppGroupDirectory.getAppGroupDirectory(_appGroupId);
+      if (dir == null) return null;
+
+      final file = File('${dir.path}/$_cacheFilename');
+      if (!file.existsSync()) return null;
+
+      final json = jsonDecode(await file.readAsString()) as Map<String, dynamic>;
+      await file.delete();
+
+      if (json['server_id'] == serverId) {
+        return json['action'] as String?;
+      }
+    } catch (_) {}
+
+    return null;
+  }
+
   static Future<Map<String, dynamic>?> extractAdditionalData(
     Map<String, dynamic>? data,
   ) async {
     if (data == null) return null;
 
     final server = await di.sl<Settings>().getServerByTautulliId(
-          data['server_id'],
-        );
+      data['server_id'],
+    );
 
     if (server != null && data['encrypted'] == true) {
       int? version = data['version'];
