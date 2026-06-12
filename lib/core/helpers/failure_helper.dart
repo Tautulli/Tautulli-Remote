@@ -50,36 +50,23 @@ class FailureHelper {
   ///
   /// Unknown exceptions will map to `GenericFailure`.
   static Failure castToFailure(dynamic exception) {
-    if ([
-      TimeoutException,
-      // SettingsException,
-      // JsonDecodeException,
-      // HandshakeException,
-      // SocketException,
-      ServerException,
-      ServerVersionException,
-      // DioError,
-    ].contains(exception.runtimeType)) {
-      exception = exception.runtimeType;
-    }
-
-    // Parse DioError responses to map to more specific errors
-    if (exception.runtimeType == DioException) {
+    // Parse DioException responses to map to more specific errors
+    if (exception is DioException) {
       final responseString = exception.response.toString();
 
       if (responseString.toLowerCase().contains('authorization required')) {
-        exception = AuthorizationRequiredException;
+        exception = AuthorizationRequiredException();
       } else if (responseString.contains('"message":"Invalid apikey"')) {
-        exception = InvalidApiKeyException;
+        exception = InvalidApiKeyException();
       } else if (responseString.contains('"message":"Failed to terminate session')) {
-        exception = TerminateStreamException;
+        exception = TerminateStreamException();
       } else {
         if (isNotBlank(responseString) && responseString != 'null') {
           di.sl<Logging>().error(
             'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
           );
         }
-        exception = ServerException;
+        exception = ServerException();
       }
     }
 
@@ -127,7 +114,7 @@ class FailureHelper {
   }
 
   static String mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
+    switch (failure) {
       case AuthorizationRequiredFailure _:
         return serverMessage;
       case BadApiResponseFailure _:
@@ -170,7 +157,7 @@ class FailureHelper {
   }
 
   static String mapFailureToSuggestion(Failure failure) {
-    switch (failure.runtimeType) {
+    switch (failure) {
       case AuthorizationRequiredFailure _:
         return authorizationRequiredSuggestion;
       case BadApiResponseFailure _:
