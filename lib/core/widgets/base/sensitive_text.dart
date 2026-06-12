@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 
-extension RedactedTextExtension on Text {
+extension SensitiveTextExtension on Text {
   Widget sensitive({
     bool enabled = true,
   }) {
@@ -45,28 +45,46 @@ extension RedactedTextExtension on Text {
 }
 
 extension SensitiveStringExtension on String {
-  String sensitive({bool enabled = true}) => redactedString;
+  String sensitive(BuildContext context, {bool enabled = true}) {
+    if (!enabled) return this;
+    final state = context.read<SettingsBloc>().state;
+    if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
+      return redactedString;
+    }
+    return this;
+  }
 }
 
 extension SensitiveNullableStringExtension on String? {
-  String sensitive({bool enabled = true}) => redactedString;
+  String? sensitive(BuildContext context, {bool enabled = true}) {
+    if (!enabled) return this;
+    final state = context.read<SettingsBloc>().state;
+    if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
+      return redactedString;
+    }
+    return this;
+  }
 }
 
 extension SensitiveTextSpanExtension on TextSpan {
-  TextSpan sensitive({bool enabled = true}) {
+  TextSpan sensitive(BuildContext context, {bool enabled = true}) {
     assert(children == null, 'sensitive() cannot be used on a TextSpan with children set.');
     if (!enabled) return this;
-    return TextSpan(
-      text: redactedString,
-      style: style,
-      recognizer: recognizer,
-      mouseCursor: mouseCursor,
-      onEnter: onEnter,
-      onExit: onExit,
-      semanticsLabel: semanticsLabel,
-      locale: locale,
-      spellOut: spellOut,
-    );
+    final state = context.read<SettingsBloc>().state;
+    if (state is SettingsSuccess && state.appSettings.maskSensitiveInfo) {
+      return TextSpan(
+        text: redactedString,
+        style: style,
+        recognizer: recognizer,
+        mouseCursor: mouseCursor,
+        onEnter: onEnter,
+        onExit: onExit,
+        semanticsLabel: semanticsLabel,
+        locale: locale,
+        spellOut: spellOut,
+      );
+    }
+    return this;
   }
 }
 

@@ -33,7 +33,7 @@ class CupertinoStyleCustomHeaderListTile extends StatelessWidget {
       builder: (context, state) {
         return CupertinoStyleNotchedCupertinoListTile(
           titleText: title,
-          subtitleText: subtitle.sensitive(enabled: sensitive),
+          subtitleText: subtitle.sensitive(context, enabled: sensitive),
           leading: Icon(
             CupertinoIcons.tag_fill,
             color: ThemeHelper.cupertinoListTileIconColor(),

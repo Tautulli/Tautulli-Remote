@@ -36,7 +36,7 @@ class CupertinoStyleUserFilterBottomSheet extends StatelessWidget {
                     .map(
                       (user) => CupertinoStyleNotchedCupertinoListTile(
                         onTap: () => Navigator.of(context).pop(user.userId),
-                        titleText: user.friendlyName.sensitive(enabled: user.userId != -1),
+                        titleText: user.friendlyName.sensitive(context, enabled: user.userId != -1) ?? '',
 
                         trailing: initialValue == user.userId ? const Icon(CupertinoIcons.checkmark_alt) : null,
                       ),
