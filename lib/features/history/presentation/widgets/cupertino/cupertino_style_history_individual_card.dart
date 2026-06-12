@@ -71,7 +71,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                   history.friendlyName ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 15),
                                 ).sensitive(),
                                 if ([
                                   MediaType.episode,
@@ -81,7 +81,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     history.title ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 15),
                                   ),
                                 if ([MediaType.episode].contains(history.mediaType) &&
                                     history.parentMediaIndex != null &&
@@ -92,7 +92,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     history.parentTitle ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 15),
                                   ),
                                 Text(
                                   TimeHelper.cleanDateTime(
@@ -100,7 +100,7 @@ class CupertinoStyleHistoryIndividualCard extends StatelessWidget {
                                     dateFormat: state.appSettings.activeServer.dateFormat,
                                     timeFormat: state.appSettings.activeServer.timeFormat,
                                   ),
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 15),
                                 ),
                               ],
                             );
