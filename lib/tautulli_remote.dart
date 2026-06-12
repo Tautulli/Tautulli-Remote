@@ -37,6 +37,8 @@ class TautulliRemote extends StatefulWidget {
 }
 
 class TautulliRemoteState extends State<TautulliRemote> {
+  bool _initialRouteConsumed = false;
+
   @override
   void initState() {
     super.initState();
@@ -299,8 +301,10 @@ class TautulliRemoteState extends State<TautulliRemote> {
         return false;
       },
       builder: (context, state) {
+        final initialRoute = _initialRouteConsumed ? null : widget.initialRoute;
+        _initialRouteConsumed = true;
         return AppFramework(
-          initialRoute: widget.initialRoute,
+          initialRoute: initialRoute,
         );
       },
     );
