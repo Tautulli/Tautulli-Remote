@@ -135,6 +135,13 @@ class AppFramework extends StatelessWidget {
           );
         }
 
+        // Material handles the initial route itself via MaterialApp.initialRoute.
+        // Clear the Cupertino notifier so a later switch to Cupertino doesn't
+        // re-trigger the same route in CupertinoStyleTabScaffold.initState.
+        if (initialRoute != null) {
+          cupertinoInitialRoute.value = null;
+        }
+
         currentAppStyle = AppStyle.material;
         return _MaterialFramework(
           initialRoute: initialRoute,
