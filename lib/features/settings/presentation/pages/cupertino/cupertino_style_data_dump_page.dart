@@ -70,27 +70,29 @@ class CupertinoStyleDataDumpView extends StatelessWidget {
       showBackButton: showBackButton,
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.data_dump_title).tr(),
-      child: ListView(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        children: [
-          const CupertinoStyleDataDumpWarningCard(),
-          const _DeviceDetails(),
-          const _AppDetails(),
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              return _AppSettings(
-                settingsState: state as SettingsSuccess,
-              );
-            },
-          ),
-          const _OneSignalStatus(),
-          const _AnnouncementsGroup(),
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              return _ServerGroup(settingsState: state as SettingsSuccess);
-            },
-          ),
-        ],
+        child: Column(
+          children: [
+            const CupertinoStyleDataDumpWarningCard(),
+            const _DeviceDetails(),
+            const _AppDetails(),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return _AppSettings(
+                  settingsState: state as SettingsSuccess,
+                );
+              },
+            ),
+            const _OneSignalStatus(),
+            const _AnnouncementsGroup(),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return _ServerGroup(settingsState: state as SettingsSuccess);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -173,7 +175,9 @@ class _DeviceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    final size = MediaQuery.sizeOf(context);
+    final orientation = MediaQuery.orientationOf(context);
+    final textScaler = MediaQuery.textScalerOf(context);
     return _SettingsDumpGroup(
       headerText: 'Device Details',
       children: [
@@ -181,14 +185,14 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Aspect Ratio'),
             const Gap(16),
-            Text(mediaQuery.size.aspectRatio.toString()),
+            Text(size.aspectRatio.toString()),
           ],
         ),
         _DataDumpRow(
           children: [
             const _DataDumpRowHeading('Longest Side'),
             const Gap(16),
-            Text(mediaQuery.size.longestSide.toString()),
+            Text(size.longestSide.toString()),
           ],
         ),
         _DataDumpRow(
@@ -207,7 +211,7 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Orientation'),
             const Gap(16),
-            Text(mediaQuery.orientation.toString()),
+            Text(orientation.toString()),
           ],
         ),
         _DataDumpRow(
@@ -221,14 +225,14 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Shortest Side'),
             const Gap(16),
-            Text(mediaQuery.size.shortestSide.toString()),
+            Text(size.shortestSide.toString()),
           ],
         ),
         _DataDumpRow(
           children: [
             const _DataDumpRowHeading('Text Scale Factor'),
             const Gap(16),
-            Text(mediaQuery.textScaler.scale(1).toString()),
+            Text(textScaler.scale(1).toString()),
           ],
         ),
         _DataDumpRow(

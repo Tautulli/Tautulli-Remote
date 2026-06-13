@@ -53,68 +53,70 @@ class MaterialStyleDataDumpView extends StatelessWidget {
         title: const Text(LocaleKeys.data_dump_title).tr(),
       ),
       body: MaterialStylePageBody(
-        child: ListView(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(8),
-          children: [
-            MaterialStyleCard(
-              color: Theme.of(context).colorScheme.errorContainer,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.triangleExclamation,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    const Gap(16),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            LocaleKeys.data_dump_warning_line_1,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ).tr(),
-                          Text(
-                            LocaleKeys.data_dump_warning_line_2,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ).tr(),
-                        ],
+          child: Column(
+            children: [
+              MaterialStyleCard(
+                color: Theme.of(context).colorScheme.errorContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.triangleExclamation,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
-                    ),
-                  ],
+                      const Gap(16),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              LocaleKeys.data_dump_warning_line_1,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ).tr(),
+                            Text(
+                              LocaleKeys.data_dump_warning_line_2,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ).tr(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const Gap(8),
-            const _DeviceDetails(),
-            const Gap(8),
-            const _AppDetails(),
-            const Gap(8),
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                return _AppSettings(settingsState: state as SettingsSuccess);
-              },
-            ),
-            const Gap(8),
-            const _OneSignalStatus(),
-            const Gap(8),
-            const _AnnouncementsDumpGroup(),
-            const Gap(8),
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                return _ServerDumpGroup(
-                  settingsState: state as SettingsSuccess,
-                );
-              },
-            ),
-          ],
+              const Gap(8),
+              const _DeviceDetails(),
+              const Gap(8),
+              const _AppDetails(),
+              const Gap(8),
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  return _AppSettings(settingsState: state as SettingsSuccess);
+                },
+              ),
+              const Gap(8),
+              const _OneSignalStatus(),
+              const Gap(8),
+              const _AnnouncementsDumpGroup(),
+              const Gap(8),
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  return _ServerDumpGroup(
+                    settingsState: state as SettingsSuccess,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -199,7 +201,9 @@ class _DeviceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    final size = MediaQuery.sizeOf(context);
+    final orientation = MediaQuery.orientationOf(context);
+    final textScaler = MediaQuery.textScalerOf(context);
     return _SettingDumpGroup(
       title: 'Device Details',
       widgetList: [
@@ -207,14 +211,14 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Aspect Ratio'),
             const Gap(16),
-            Text(mediaQuery.size.aspectRatio.toString()),
+            Text(size.aspectRatio.toString()),
           ],
         ),
         _DataDumpRow(
           children: [
             const _DataDumpRowHeading('Longest Side'),
             const Gap(16),
-            Text(mediaQuery.size.longestSide.toString()),
+            Text(size.longestSide.toString()),
           ],
         ),
         _DataDumpRow(
@@ -233,7 +237,7 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Orientation'),
             const Gap(16),
-            Text(mediaQuery.orientation.toString()),
+            Text(orientation.toString()),
           ],
         ),
         _DataDumpRow(
@@ -247,14 +251,14 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Shortest Side'),
             const Gap(16),
-            Text(mediaQuery.size.shortestSide.toString()),
+            Text(size.shortestSide.toString()),
           ],
         ),
         _DataDumpRow(
           children: [
             const _DataDumpRowHeading('Text Scale Factor'),
             const Gap(16),
-            Text(mediaQuery.textScaler.scale(1).toString()),
+            Text(textScaler.scale(1).toString()),
           ],
         ),
         _DataDumpRow(
