@@ -314,84 +314,87 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
       ),
       BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
-          return Stack(
-            children: [
-              Center(
-                child: PopupMenuButton(
-                  enabled: state.status == BlocStatus.success,
-                  icon: FaIcon(
-                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSurface,
-                    size: 20,
-                  ),
-                  tooltip: LocaleKeys.select_user_title.tr(),
-                  onSelected: (value) {
-                    setState(() {
-                      _userId = value;
-                    });
+          return SizedBox(
+            width: 48,
+            child: Stack(
+              children: [
+                Center(
+                  child: PopupMenuButton(
+                    enabled: state.status == BlocStatus.success,
+                    icon: FaIcon(
+                      state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
+                      color: (_userId != -1 && _userId != null)
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                      size: 20,
+                    ),
+                    tooltip: LocaleKeys.select_user_title.tr(),
+                    onSelected: (value) {
+                      setState(() {
+                        _userId = value;
+                      });
 
-                    _historyBloc.add(
-                      HistoryFetched(
-                        server: _server,
-                        userId: _userId,
-                        movieMediaType: _movieMediaType,
-                        episodeMediaType: _episodeMediaType,
-                        trackMediaType: _trackMediaType,
-                        liveMediaType: _liveMediaType,
-                        directPlayDecision: _directPlayDecision,
-                        directStreamDecision: _directStreamDecision,
-                        transcodeDecision: _transcodeDecision,
-                        freshFetch: true,
-                        settingsBloc: _settingsBloc,
+                      _historyBloc.add(
+                        HistoryFetched(
+                          server: _server,
+                          userId: _userId,
+                          movieMediaType: _movieMediaType,
+                          episodeMediaType: _episodeMediaType,
+                          trackMediaType: _trackMediaType,
+                          liveMediaType: _liveMediaType,
+                          directPlayDecision: _directPlayDecision,
+                          directStreamDecision: _directStreamDecision,
+                          transcodeDecision: _transcodeDecision,
+                          freshFetch: true,
+                          settingsBloc: _settingsBloc,
+                        ),
+                      );
+                    },
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
                       ),
-                    );
-                  },
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
                     ),
-                  ),
-                  itemBuilder: (context) {
-                    return state.users
-                        .map(
-                          (user) => PopupMenuItem(
-                            value: user.userId,
-                            child: BlocBuilder<SettingsBloc, SettingsState>(
-                              builder: (context, state) {
-                                state as SettingsSuccess;
+                    itemBuilder: (context) {
+                      return state.users
+                          .map(
+                            (user) => PopupMenuItem(
+                              value: user.userId,
+                              child: BlocBuilder<SettingsBloc, SettingsState>(
+                                builder: (context, state) {
+                                  state as SettingsSuccess;
 
-                                return Text(
-                                  user.friendlyName ?? '',
-                                  style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                ).sensitive();
-                              },
+                                  return Text(
+                                    user.friendlyName ?? '',
+                                    style: TextStyle(
+                                      color: _userId == user.userId!
+                                          ? Theme.of(context).colorScheme.primary
+                                          : Theme.of(context).colorScheme.onSurface,
+                                    ),
+                                  ).sensitive();
+                                },
+                              ),
                             ),
-                          ),
-                        )
-                        .toList();
-                  },
-                ),
-              ),
-              if (state.status == BlocStatus.initial)
-                Positioned(
-                  bottom: 12,
-                  right: 10,
-                  child: SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                          )
+                          .toList();
+                    },
                   ),
                 ),
-            ],
+                if (state.status == BlocStatus.initial)
+                  Positioned(
+                    bottom: 12,
+                    right: 10,
+                    child: SizedBox(
+                      height: 12,
+                      width: 12,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           );
         },
       ),

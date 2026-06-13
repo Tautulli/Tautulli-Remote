@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../dependency_injection.dart' as di;
 import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../features/settings/domain/usecases/settings.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
@@ -18,7 +20,6 @@ import '../../database/data/models/server_model.dart';
 import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
 import '../base/double_back_to_exit.dart';
-import '../../../dependency_injection.dart' as di;
 import '../base/tautulli_logo_title.dart';
 
 class MaterialStyleScaffoldWithInnerDrawer extends StatefulWidget {
@@ -39,6 +40,7 @@ class MaterialStyleScaffoldWithInnerDrawer extends StatefulWidget {
 
 class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaffoldWithInnerDrawer> {
   final QuickActions quickActions = const QuickActions();
+  final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
 
   @override
   void initState() {
@@ -48,8 +50,6 @@ class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaf
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
-
     double calculateDrawerOffset() {
       // Tested Virtual Devices Sizes
       // Pixel C portrait: 900 x 1224
@@ -85,8 +85,6 @@ class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaf
         onTapClose: true,
         swipeChild: true,
         offset: IDOffset.horizontal(calculateDrawerOffset()),
-        // Since the NavigationDrawer BorderRadius cannot be overwritten use stack to create a solid background to
-        // to hide these corners
         backgroundDecoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -103,6 +101,7 @@ class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaf
         scaffold: Scaffold(
           appBar: AppBar(
             forceMaterialTransparency: true,
+            centerTitle: defaultTargetPlatform == TargetPlatform.iOS,
             leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
               builder: (context, announcementsState) {
                 return BlocBuilder<SettingsBloc, SettingsState>(
@@ -158,6 +157,32 @@ class _AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<_AppDrawer> {
+  static const List<String> _routes = [
+    '/activity',
+    '/history',
+    '/recent',
+    '/libraries',
+    '/users',
+    '/statistics',
+    '/graphs',
+    '/announcements',
+    '/donate',
+    '/settings',
+  ];
+
+  static const Map<String, int> _routeIndex = {
+    '/activity': 0,
+    '/history': 1,
+    '/recent': 2,
+    '/libraries': 3,
+    '/users': 4,
+    '/statistics': 5,
+    '/graphs': 6,
+    '/announcements': 7,
+    '/donate': 8,
+    '/settings': 9,
+  };
+
   int screenIndex = -1;
 
   @override
@@ -165,133 +190,17 @@ class _AppDrawerState extends State<_AppDrawer> {
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      final route = ModalRoute.of(context);
-      final homePage = di.sl<Settings>().getHomePage();
-
-      if (route?.settings.name == '/') {
-        switch (homePage) {
-          case ('history'):
-            setState(() {
-              screenIndex = 1;
-            });
-            return;
-          case ('recent'):
-            setState(() {
-              screenIndex = 2;
-            });
-            return;
-          case ('libraries'):
-            setState(() {
-              screenIndex = 3;
-            });
-            return;
-          case ('users'):
-            setState(() {
-              screenIndex = 4;
-            });
-            return;
-          case ('statistics'):
-            setState(() {
-              screenIndex = 5;
-            });
-            return;
-          case ('graphs'):
-            setState(() {
-              screenIndex = 6;
-            });
-            return;
-          default:
-            setState(() {
-              screenIndex = 0;
-            });
-        }
-      } else if (route?.settings.name == '/activity') {
-        setState(() {
-          screenIndex = 0;
-        });
-      } else if (route?.settings.name == '/history') {
-        setState(() {
-          screenIndex = 1;
-        });
-      } else if (route?.settings.name == '/recent') {
-        setState(() {
-          screenIndex = 2;
-        });
-      } else if (route?.settings.name == '/libraries') {
-        setState(() {
-          screenIndex = 3;
-        });
-      } else if (route?.settings.name == '/users') {
-        setState(() {
-          screenIndex = 4;
-        });
-      } else if (route?.settings.name == '/statistics') {
-        setState(() {
-          screenIndex = 5;
-        });
-      } else if (route?.settings.name == '/graphs') {
-        setState(() {
-          screenIndex = 6;
-        });
-      } else if (route?.settings.name == '/announcements') {
-        setState(() {
-          screenIndex = 7;
-        });
-      } else if (route?.settings.name == '/donate') {
-        setState(() {
-          screenIndex = 8;
-        });
-      } else if (route?.settings.name == '/settings') {
-        setState(() {
-          screenIndex = 9;
-        });
-      }
+      final routeName = ModalRoute.of(context)?.settings.name;
+      final effectiveRoute = routeName == '/' ? '/${di.sl<Settings>().getHomePage()}' : routeName ?? '';
+      setState(() {
+        screenIndex = _routeIndex[effectiveRoute] ?? 0;
+      });
     });
   }
 
   void handleScreenChanged(int selectedScreen) {
     if (selectedScreen != screenIndex) {
-      if (selectedScreen == 0) {
-        Navigator.of(context).pushReplacementNamed(
-          '/activity',
-        );
-      } else if (selectedScreen == 1) {
-        Navigator.of(context).pushReplacementNamed(
-          '/history',
-        );
-      } else if (selectedScreen == 2) {
-        Navigator.of(context).pushReplacementNamed(
-          '/recent',
-        );
-      } else if (selectedScreen == 3) {
-        Navigator.of(context).pushReplacementNamed(
-          '/libraries',
-        );
-      } else if (selectedScreen == 4) {
-        Navigator.of(context).pushReplacementNamed(
-          '/users',
-        );
-      } else if (selectedScreen == 5) {
-        Navigator.of(context).pushReplacementNamed(
-          '/statistics',
-        );
-      } else if (selectedScreen == 6) {
-        Navigator.of(context).pushReplacementNamed(
-          '/graphs',
-        );
-      } else if (selectedScreen == 7) {
-        Navigator.of(context).pushReplacementNamed(
-          '/announcements',
-        );
-      } else if (selectedScreen == 8) {
-        Navigator.of(context).pushReplacementNamed(
-          '/donate',
-        );
-      } else if (selectedScreen == 9) {
-        Navigator.of(context).pushReplacementNamed(
-          '/settings',
-        );
-      }
+      Navigator.of(context).pushReplacementNamed(_routes[selectedScreen]);
     } else {
       widget.innerDrawerKey.currentState!.close();
     }
@@ -304,11 +213,8 @@ class _AppDrawerState extends State<_AppDrawer> {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: NavigationDrawer(
-        indicatorColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        elevation: 0,
-        onDestinationSelected: handleScreenChanged,
-        selectedIndex: screenIndex,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             height: MediaQuery.of(context).viewPadding.top,
@@ -318,210 +224,223 @@ class _AppDrawerState extends State<_AppDrawer> {
           ),
           if (height > 500) const _Logo(),
           const _ServerSelector(),
-          const Gap(4),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.tv,
-                size: 20,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.activity_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.clockRotateLeft,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.history_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.clock,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.recently_added_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.photoFilm,
-                color: Theme.of(context).colorScheme.onSurface,
-                size: 20,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.libraries_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.users,
-                color: Theme.of(context).colorScheme.onSurface,
-                size: 20,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.users_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.listOl,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.statistics_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.chartColumn,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.graphs_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          const Divider(
-            indent: 8,
-            endIndent: 8,
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.bullhorn,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+            child: DrawerTheme(
+              data: const DrawerThemeData(shape: RoundedRectangleBorder()),
+              child: NavigationDrawer(
+                indicatorColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                elevation: 0,
+                onDestinationSelected: handleScreenChanged,
+                selectedIndex: screenIndex,
                 children: [
-                  Text(
-                    LocaleKeys.announcements_title,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                  const Gap(4),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.tv,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
-                  ).tr(),
-                  BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-                    builder: (context, state) {
-                      if (state is AnnouncementsSuccess && state.unread) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: FaIcon(
-                            FontAwesomeIcons.solidCircle,
-                            size: 12,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
+                    label: Text(
+                      LocaleKeys.activity_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
                   ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.clockRotateLeft,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.history_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.clock,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.recently_added_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.photoFilm,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        size: 20,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.libraries_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.users,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        size: 20,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.users_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.listOl,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.statistics_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.chartColumn,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.graphs_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  const Divider(
+                    indent: 8,
+                    endIndent: 8,
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.bullhorn,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.announcements_title,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ).tr(),
+                          BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+                            builder: (context, state) {
+                              if (state is AnnouncementsSuccess && state.unread) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.solidCircle,
+                                    size: 12,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: const SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.solidHeart,
+                        color: Colors.red,
+                      ),
+                    ),
+                    label: Text(
+                      LocaleKeys.donate_title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ).tr(),
+                  ),
+                  NavigationDrawerDestination(
+                    icon: SizedBox(
+                      width: 25,
+                      child: FaIcon(
+                        FontAwesomeIcons.gears,
+                        size: 21,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    label: Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.settings_title,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ).tr(),
+                          BlocBuilder<SettingsBloc, SettingsState>(
+                            builder: (context, state) {
+                              if (state is SettingsSuccess && state.appSettings.appUpdateAvailable) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.solidCircle,
+                                    size: 12,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Gap(4),
                 ],
               ),
             ),
           ),
-          NavigationDrawerDestination(
-            icon: const SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.solidHeart,
-                color: Colors.red,
-              ),
-            ),
-            label: Text(
-              LocaleKeys.donate_title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ).tr(),
-          ),
-          NavigationDrawerDestination(
-            icon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.gears,
-                size: 21,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            label: Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    LocaleKeys.settings_title,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ).tr(),
-                  BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, state) {
-                      if (state is SettingsSuccess && state.appSettings.appUpdateAvailable) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: FaIcon(
-                            FontAwesomeIcons.solidCircle,
-                            size: 12,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Gap(4),
         ],
       ),
     );
@@ -539,20 +458,12 @@ class _Logo extends StatelessWidget {
           Theme.of(context).colorScheme.surface,
         ),
       ),
-      child: Column(
+      child: const Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Needed for space behind status bar
-          Container(
-            height: MediaQuery.of(context).padding.top,
-            color: ThemeHelper.darkenedColor(
-              Theme.of(context).colorScheme.surface,
-            ),
-          ),
-          const Gap(8),
-          // Logo section
-          const FittedBox(
+          Gap(8),
+          FittedBox(
             child: Padding(
               padding: EdgeInsets.only(
                 left: 8,
@@ -561,7 +472,7 @@ class _Logo extends StatelessWidget {
               child: TautulliLogoTitle(),
             ),
           ),
-          const Gap(16),
+          Gap(16),
         ],
       ),
     );
@@ -575,8 +486,26 @@ class _ServerSelector extends StatefulWidget {
   State<_ServerSelector> createState() => __ServerSelectorState();
 }
 
-class __ServerSelectorState extends State<_ServerSelector> {
+class __ServerSelectorState extends State<_ServerSelector> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
   bool isOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -588,23 +517,13 @@ class __ServerSelectorState extends State<_ServerSelector> {
             (server) => server.tautulliId == state.appSettings.activeServer.tautulliId,
           );
 
-          return ExpansionPanelList(
-            expansionCallback: (panelIndex, isExpanded) {
-              setState(() {
-                isOpen = !isOpen;
-              });
-            },
-            expandedHeaderPadding: const EdgeInsets.all(0),
+          return Material(
+            color: ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface),
             elevation: 0,
-            children: [
-              ExpansionPanel(
-                isExpanded: isOpen,
-                canTapOnHeader: true,
-                backgroundColor: ThemeHelper.darkenedColor(
-                  Theme.of(context).colorScheme.surface,
-                ),
-                headerBuilder: (context, isExpanded) => ListTile(
-                  tileColor: Colors.transparent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/logo_flat.svg',
                     colorFilter: ColorFilter.mode(
@@ -620,40 +539,53 @@ class __ServerSelectorState extends State<_ServerSelector> {
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
+                  trailing: AnimatedRotation(
+                    turns: isOpen ? 0.5 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Icon(
+                      Icons.expand_more,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() => isOpen = !isOpen);
+                    if (isOpen) {
+                      _controller.forward();
+                    } else {
+                      _controller.reverse();
+                    }
+                  },
                 ),
-                body: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: nonActiveServers.map(
-                    (server) {
-                      return ListTile(
-                        tileColor: ThemeHelper.darkenedColor(
-                          Theme.of(context).colorScheme.surface,
-                        ),
-                        leading: const SizedBox(width: 30),
-                        title: Text(
-                          server.plexName,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        onTap: () {
-                          setState(() {
-                            isOpen = !isOpen;
-                          });
-                          context.read<SettingsBloc>().add(
-                            SettingsUpdateActiveServer(
-                              activeServer: server,
+                SizeTransition(
+                  sizeFactor: _animation,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: nonActiveServers
+                        .map(
+                          (server) => ListTile(
+                            leading: const SizedBox(width: 30),
+                            title: Text(
+                              server.plexName,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ).toList(),
+                            onTap: () {
+                              setState(() => isOpen = false);
+                              _controller.reverse();
+                              context.read<SettingsBloc>().add(
+                                SettingsUpdateActiveServer(activeServer: server),
+                              );
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
 
-        return const SizedBox(height: 0, width: 0);
+        return const SizedBox.shrink();
       },
     );
   }
