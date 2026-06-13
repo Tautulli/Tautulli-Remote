@@ -505,7 +505,6 @@ class _ItemRow extends StatelessWidget {
                 fontWeight: FontWeight.w300,
                 fontSize: 14,
                 color: ThemeHelper.cupertinoBottomSheetHeadingColor(),
-                height: 1.3,
               ),
               textAlign: TextAlign.end,
             ),
