@@ -29,7 +29,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
     on<UserStatisticsFetched>(_onUserStatisticsFetched);
   }
 
-  _onUserStatisticsFetched(
+  Future<void> _onUserStatisticsFetched(
     UserStatisticsFetched event,
     Emitter<UserStatisticsState> emit,
   ) async {

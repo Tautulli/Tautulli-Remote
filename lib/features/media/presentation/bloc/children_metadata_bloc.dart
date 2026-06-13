@@ -29,7 +29,7 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
     on<ChildrenMetadataFetched>(_onChildrenMetadataFetched);
   }
 
-  _onChildrenMetadataFetched(
+  Future<void> _onChildrenMetadataFetched(
     ChildrenMetadataFetched event,
     Emitter<ChildrenMetadataState> emit,
   ) async {

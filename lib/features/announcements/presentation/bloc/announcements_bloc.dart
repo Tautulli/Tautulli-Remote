@@ -33,7 +33,7 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
     );
   }
 
-  _onAnnouncementsFetch(
+  Future<void> _onAnnouncementsFetch(
     AnnouncementsFetch event,
     Emitter<AnnouncementsState> emit,
   ) async {
@@ -89,7 +89,7 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
     );
   }
 
-  _onAnnouncementsMarkRead(
+  Future<void> _onAnnouncementsMarkRead(
     AnnouncementsMarkRead event,
     Emitter<AnnouncementsState> emit,
   ) async {

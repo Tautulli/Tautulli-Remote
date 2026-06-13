@@ -29,7 +29,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     on<MetadataFetched>(_onMetadataFetched);
   }
 
-  _onMetadataFetched(
+  Future<void> _onMetadataFetched(
     MetadataFetched event,
     Emitter<MetadataState> emit,
   ) async {

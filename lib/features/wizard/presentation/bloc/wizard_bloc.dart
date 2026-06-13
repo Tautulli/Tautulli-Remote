@@ -6,15 +6,15 @@ part 'wizard_state.dart';
 
 class WizardBloc extends Bloc<WizardEvent, WizardState> {
   WizardBloc()
-      : super(
-          const WizardInitial(
-            activeStep: 0,
-            oneSignalAllowed: false,
-            oneSignalSkipped: false,
-            stepCount: 5,
-            serversSkipped: false,
-          ),
-        ) {
+    : super(
+        const WizardInitial(
+          activeStep: 0,
+          oneSignalAllowed: false,
+          oneSignalSkipped: false,
+          stepCount: 5,
+          serversSkipped: false,
+        ),
+      ) {
     on<WizardNext>((event, emit) => _onWizardNext(event, emit));
     on<WizardPrevious>((event, emit) => _onWizardPrevious(event, emit));
     on<WizardSkipOneSignal>(
@@ -28,7 +28,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     );
   }
 
-  _onWizardNext(
+  void _onWizardNext(
     WizardNext event,
     Emitter<WizardState> emit,
   ) {
@@ -41,7 +41,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     }
   }
 
-  _onWizardPrevious(
+  void _onWizardPrevious(
     WizardPrevious event,
     Emitter<WizardState> emit,
   ) {
@@ -54,7 +54,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     }
   }
 
-  _onWizardSkipOneSignal(
+  void _onWizardSkipOneSignal(
     WizardSkipOneSignal event,
     Emitter<WizardState> emit,
   ) {
@@ -68,7 +68,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     );
   }
 
-  _onWizardSkipServers(
+  void _onWizardSkipServers(
     WizardSkipServers event,
     Emitter<WizardState> emit,
   ) {
@@ -82,7 +82,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     );
   }
 
-  _onWizardToggleOneSignal(
+  void _onWizardToggleOneSignal(
     WizardToggleOneSignal event,
     Emitter<WizardState> emit,
   ) {

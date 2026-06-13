@@ -181,7 +181,7 @@ class LineChartGraph extends StatelessWidget {
                 return TouchedSpotIndicatorData(
                   const FlLine(color: Color(0x00000000), strokeWidth: 1.0),
                   FlDotData(
-                    getDotPainter: (flSpot, _, data, __) => FlDotCirclePainter(
+                    getDotPainter: (flSpot, _, data, _) => FlDotCirclePainter(
                       color: barData.color!,
                       strokeColor: barData.color!,
                       radius: 5,
