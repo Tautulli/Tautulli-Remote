@@ -180,6 +180,7 @@ class _MaterialFramework extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
@@ -231,6 +232,7 @@ class _CupertinoFramework extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
