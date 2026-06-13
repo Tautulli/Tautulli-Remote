@@ -30,7 +30,7 @@ class CupertinoStyleChangelogPage extends StatelessWidget {
   }
 }
 
-class CupertinoStyleChangelogView extends StatelessWidget {
+class CupertinoStyleChangelogView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
@@ -41,10 +41,23 @@ class CupertinoStyleChangelogView extends StatelessWidget {
   });
 
   @override
+  State<CupertinoStyleChangelogView> createState() => _CupertinoStyleChangelogViewState();
+}
+
+class _CupertinoStyleChangelogViewState extends State<CupertinoStyleChangelogView> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoStylePageScaffold(
-      showBackButton: showBackButton,
-      previousPageTitle: previousPageTitle,
+      showBackButton: widget.showBackButton,
+      previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.changelog_title).tr(),
       trailing: CupertinoButton(
         padding: const EdgeInsets.all(0),
@@ -75,8 +88,12 @@ class CupertinoStyleChangelogView extends StatelessWidget {
         },
       ),
       child: CupertinoScrollbar(
-        child: ListView(
-          children: _buildChangelogEntries(changelog['data']),
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: _buildChangelogEntries(changelog['data']),
+          ),
         ),
       ),
     );

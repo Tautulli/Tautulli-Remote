@@ -19,8 +19,21 @@ class MaterialStyleChangelogPage extends StatelessWidget {
   }
 }
 
-class MaterialStyleChangelogView extends StatelessWidget {
+class MaterialStyleChangelogView extends StatefulWidget {
   const MaterialStyleChangelogView({super.key});
+
+  @override
+  State<MaterialStyleChangelogView> createState() => _MaterialStyleChangelogViewState();
+}
+
+class _MaterialStyleChangelogViewState extends State<MaterialStyleChangelogView> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +67,13 @@ class MaterialStyleChangelogView extends StatelessWidget {
       ),
       body: MaterialStylePageBody(
         child: Scrollbar(
-          child: ListView(
+          controller: _scrollController,
+          child: SingleChildScrollView(
+            controller: _scrollController,
             padding: const EdgeInsets.all(8.0),
-            children: _buildChangelogEntries(changelog['data']),
+            child: Column(
+              children: _buildChangelogEntries(changelog['data']),
+            ),
           ),
         ),
       ),
