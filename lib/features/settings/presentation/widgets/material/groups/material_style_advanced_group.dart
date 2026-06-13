@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../../core/device_info/device_info.dart';
 import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/translation_helper.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
@@ -24,7 +24,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
     return MaterialStyleListTileGroup(
       heading: LocaleKeys.settings_title.tr(),
       listTiles: [
-        if (di.sl<DeviceInfo>().platform == 'android')
+        if (defaultTargetPlatform == TargetPlatform.android)
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               state as SettingsSuccess;

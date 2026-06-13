@@ -14,6 +14,7 @@ import '../../../features/wizard/presentation/pages/cupertino/cupertino_style_wi
 import '../../../translations/locale_keys.g.dart';
 import '../../global_keys/global_keys.dart';
 import '../../rate_app/rate_app.dart';
+import '../base/double_back_to_exit.dart';
 import '../base/notifying_icon.dart';
 import 'dialogs/cupertino_style_rate_app_dialog.dart';
 
@@ -124,7 +125,9 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
           return CupertinoTabView(
             routes: cupertinoRoutes,
             navigatorKey: moreTabNavigatorKey,
-            builder: (context) => const CupertinoStyleMorePage(),
+            builder: (context) => const DoubleBackToExit(
+              child: CupertinoStyleMorePage(),
+            ),
           );
         }
 
@@ -133,14 +136,22 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
           builder: (context) {
             switch (index) {
               case 1:
-                return const CupertinoStyleHistoryPage(showBackButton: false);
+                return const DoubleBackToExit(
+                  child: CupertinoStyleHistoryPage(showBackButton: false),
+                );
               case 2:
-                return const CupertinoStyleRecentlyAddedPage(showBackButton: false);
+                return const DoubleBackToExit(
+                  child: CupertinoStyleRecentlyAddedPage(showBackButton: false),
+                );
               case 3:
-                return const CupertinoStyleLibrariesPage(showBackButton: false);
+                return const DoubleBackToExit(
+                  child: CupertinoStyleLibrariesPage(showBackButton: false),
+                );
               case 0:
               default:
-                return const CupertinoStyleActivityPage(showBackButton: false);
+                return const DoubleBackToExit(
+                  child: CupertinoStyleActivityPage(showBackButton: false),
+                );
             }
           },
         );

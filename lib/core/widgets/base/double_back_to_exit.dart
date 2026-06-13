@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,19 +9,26 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 
-class DoubleBackToExit extends StatelessWidget {
+class DoubleBackToExit extends StatefulWidget {
   final Widget child;
-  final GlobalKey<InnerDrawerState> innerDrawerKey;
+  final GlobalKey<InnerDrawerState>? innerDrawerKey;
 
   const DoubleBackToExit({
     super.key,
     required this.child,
-    required this.innerDrawerKey,
+    this.innerDrawerKey,
   });
 
   @override
+  State<DoubleBackToExit> createState() => _DoubleBackToExitState();
+}
+
+class _DoubleBackToExitState extends State<DoubleBackToExit> {
+  DateTime? _currentBackPressTime;
+
+  @override
   Widget build(BuildContext context) {
-    DateTime? currentBackPressTime;
+    if (defaultTargetPlatform != TargetPlatform.android) return widget.child;
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
@@ -30,31 +38,31 @@ class DoubleBackToExit extends StatelessWidget {
             onPopInvokedWithResult: (didPop, result) {
               if (didPop) return;
 
-              final bool shouldPop = shouldPopRoute(
-                currentBackPressTime: currentBackPressTime,
-                innerDrawerKey: innerDrawerKey,
+              final bool shouldPop = _shouldPopRoute(
+                currentBackPressTime: _currentBackPressTime,
+                innerDrawerKey: widget.innerDrawerKey,
               );
 
-              currentBackPressTime = DateTime.now();
+              _currentBackPressTime = DateTime.now();
 
               if (shouldPop) {
                 SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               }
             },
-            child: child,
+            child: widget.child,
           );
         }
-        return child;
+        return widget.child;
       },
     );
   }
 }
 
-bool shouldPopRoute({
+bool _shouldPopRoute({
   required DateTime? currentBackPressTime,
-  required GlobalKey<InnerDrawerState> innerDrawerKey,
+  GlobalKey<InnerDrawerState>? innerDrawerKey,
 }) {
-  if (innerDrawerKey.currentState!.opened) {
+  if (innerDrawerKey != null && innerDrawerKey.currentState!.opened) {
     innerDrawerKey.currentState!.close();
     return false;
   }
@@ -62,7 +70,6 @@ bool shouldPopRoute({
   DateTime now = DateTime.now();
 
   if (currentBackPressTime == null || now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
-    currentBackPressTime = now;
     Fluttertoast.showToast(
       toastLength: Toast.LENGTH_SHORT,
       msg: LocaleKeys.double_back_to_exit_toast_message.tr(),
