@@ -3,6 +3,13 @@ description: Request a new language for Tautulli Remote
 title: "Add <replace-with-your-language> language"
 labels: [new-language]
 body:
+  - type: input
+    id: contact
+    attributes:
+      label: How is the name of the language written in that language?
+      description: In order to properly display the language in Tautulli Remote please provide the native spelling.
+    validations:
+      required: true
   - type: checkboxes
     id: verify
     attributes:
