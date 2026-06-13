@@ -29,6 +29,9 @@ dependencies:
       url: https://github.com/TheMeanCanEHdian/Flogs.git
       ref: tautulli-remote
   filesize: ^2.0.1
+  firebase_analytics: ^12.4.2
+  firebase_core: ^4.10.0
+  firebase_crashlytics: ^5.2.3
   fl_chart: ^1.2.0
   flex_color_picker: ^3.8.0
   flex_seed_scheme: ^4.0.1

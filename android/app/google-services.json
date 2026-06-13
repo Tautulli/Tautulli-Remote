@@ -3,7 +3,7 @@
     "project_number": "159358117861",
     "firebase_url": "https://plexpy-remote.firebaseio.com",
     "project_id": "plexpy-remote",
-    "storage_bucket": "plexpy-remote.appspot.com"
+    "storage_bucket": "plexpy-remote.firebasestorage.app"
   },
   "client": [
     {
@@ -38,6 +38,13 @@
             {
               "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "159358117861-jsrh66gu2c1qpgl9br8j0tnj1b7bve4d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tautulli.tautulliRemote"
+              }
             }
           ]
         }
@@ -52,19 +59,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "159358117861-l3bind80k6a530lmda7pnoqqjir0a5ec.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.williamcomartin.plexpyremote",
-            "certificate_hash": "c00d532e7a695381ba9dca9837d1cc872ddd86e2"
-          }
-        },
-        {
           "client_id": "159358117861-ccoj4ihbgqmn276olg27i04c8kamobfs.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.williamcomartin.plexpyremote",
             "certificate_hash": "b3e4f98da775f9dacdd606941e69755b63ef285c"
+          }
+        },
+        {
+          "client_id": "159358117861-l3bind80k6a530lmda7pnoqqjir0a5ec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.williamcomartin.plexpyremote",
+            "certificate_hash": "c00d532e7a695381ba9dca9837d1cc872ddd86e2"
           }
         },
         {
@@ -83,6 +90,13 @@
             {
               "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "159358117861-jsrh66gu2c1qpgl9br8j0tnj1b7bve4d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tautulli.tautulliRemote"
+              }
             }
           ]
         }

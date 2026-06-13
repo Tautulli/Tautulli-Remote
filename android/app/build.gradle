@@ -3,6 +3,7 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
+    id 'com.google.firebase.crashlytics'
     id "kotlin-kapt"
 }
 
@@ -86,8 +87,6 @@ flutter {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.android.support:support-compat:28.0.0"
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-    implementation 'com.google.firebase:firebase-analytics'
     implementation "com.onesignal:OneSignal:[5.1.6, 5.1.99]"
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'

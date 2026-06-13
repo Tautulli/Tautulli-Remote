@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:quiver/strings.dart';
 
 import '../../dependency_injection.dart' as di;
@@ -65,6 +66,7 @@ class FailureHelper {
           di.sl<Logging>().error(
             'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
           );
+          FirebaseCrashlytics.instance.recordError(exception, StackTrace.current, fatal: false);
         }
         exception = ServerException();
       }
@@ -109,6 +111,7 @@ class FailureHelper {
         di.sl<Logging>().error(
           'FailureMapper :: Unable to map [$exception] to a specific failure',
         );
+        FirebaseCrashlytics.instance.recordError(exception, StackTrace.current, fatal: false);
         return GenericFailure();
     }
   }
