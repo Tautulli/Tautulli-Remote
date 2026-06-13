@@ -25,13 +25,13 @@ import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
-import '../../widgets/cupertino/cupertino_style_last_watched_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_most_concurrent_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_popular_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_libraries_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_platforms_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_statistic_details.dart';
-import '../../widgets/cupertino/cupertino_style_top_users_statistic_details.dart';
+import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/most_concurrent_statistic_details.dart';
+import '../../widgets/base/popular_statistic_details.dart';
+import '../../widgets/base/top_libraries_statistic_details.dart';
+import '../../widgets/base/top_platforms_statistic_details.dart';
+import '../../widgets/base/top_statistic_details.dart';
+import '../../widgets/base/top_users_statistic_details.dart';
 
 class CupertinoStyleIndividualStatisticPage extends StatelessWidget {
   final ServerModel server;
@@ -198,7 +198,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
             return CupertinoStylePosterCard(
               mediaType: statData.mediaType,
               uri: statData.posterUri,
-              details: CupertinoStyleTopStatisticDetails(statData: statData),
+              details: TopStatisticDetails(statData: statData),
               onTap: () async {
                 await Navigator.of(context).push(
                   CupertinoPageRoute(
@@ -220,7 +220,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
               (statData) => CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: CupertinoStylePopularStatisticDetails(statData: statData),
+                details: PopularStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -276,7 +276,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
               (statData) => CupertinoStylePosterCard(
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
-                details: CupertinoStyleLastWatchedStatisticDetails(statData: statData),
+                details: LastWatchedStatisticDetails(statData: statData),
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
@@ -318,7 +318,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                   friendlyName: statData.friendlyName,
                   userThumb: statData.userThumb,
                 ),
-                details: CupertinoStyleTopUsersStatisticDetails(statData: statData),
+                details: TopUsersStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -346,7 +346,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                     BlendMode.srcIn,
                   ),
                 ),
-                details: CupertinoStyleTopPlatformsStatisticDetails(statData: statData),
+                details: TopPlatformsStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -355,7 +355,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
             .map(
               (statData) => CupertinoStyleIconCard(
                 icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
-                details: CupertinoStyleMostConcurrentStatisticDetails(statData: statData),
+                details: MostConcurrentStatisticDetails(statData: statData),
               ),
             )
             .toList();
@@ -373,7 +373,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                   lastAccessed: statData.lastPlay,
                   isActive: true,
                 ),
-                details: CupertinoStyleTopLibrariesStatisticDetails(statData: statData),
+                details: TopLibrariesStatisticDetails(statData: statData),
               ),
             )
             .toList();
