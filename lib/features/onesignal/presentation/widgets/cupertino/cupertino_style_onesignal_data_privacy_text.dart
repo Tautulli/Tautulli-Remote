@@ -6,8 +6,61 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
-class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
+class CupertinoStyleOnesignalDataPrivacyText extends StatefulWidget {
   const CupertinoStyleOnesignalDataPrivacyText({super.key});
+
+  @override
+  State<CupertinoStyleOnesignalDataPrivacyText> createState() =>
+      _CupertinoStyleOnesignalDataPrivacyTextState();
+}
+
+class _CupertinoStyleOnesignalDataPrivacyTextState extends State<CupertinoStyleOnesignalDataPrivacyText> {
+  late final TapGestureRecognizer _tapFaqRecognizer;
+  late final TapGestureRecognizer _tapOnesignalRecognizer;
+  late final TapGestureRecognizer _tapPrivacyRecognizer;
+  late final TapGestureRecognizer _tapDeletionRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    _tapFaqRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        launchUrlString(
+          mode: LaunchMode.externalApplication,
+          'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
+        );
+      };
+    _tapOnesignalRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        launchUrlString(
+          mode: LaunchMode.externalApplication,
+          'https://onesignal.com/',
+        );
+      };
+    _tapPrivacyRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        launchUrlString(
+          mode: LaunchMode.externalApplication,
+          'https://onesignal.com/privacy',
+        );
+      };
+    _tapDeletionRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        launchUrlString(
+          mode: LaunchMode.externalApplication,
+          'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data',
+        );
+      };
+  }
+
+  @override
+  void dispose() {
+    _tapFaqRecognizer.dispose();
+    _tapOnesignalRecognizer.dispose();
+    _tapPrivacyRecognizer.dispose();
+    _tapDeletionRecognizer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +84,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
                   color: CupertinoTheme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrlString(
-                      mode: LaunchMode.externalApplication,
-                      'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
-                    );
-                  },
+                recognizer: _tapFaqRecognizer,
               ),
               TextSpan(text: textBlock1[2]),
               TextSpan(
@@ -46,13 +93,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
                   color: CupertinoTheme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrlString(
-                      mode: LaunchMode.externalApplication,
-                      'https://onesignal.com/',
-                    );
-                  },
+                recognizer: _tapOnesignalRecognizer,
               ),
               TextSpan(text: textBlock2[2]),
               TextSpan(
@@ -61,13 +102,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
                   color: CupertinoTheme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrlString(
-                      mode: LaunchMode.externalApplication,
-                      'https://onesignal.com/privacy',
-                    );
-                  },
+                recognizer: _tapPrivacyRecognizer,
               ),
               TextSpan(text: textBlock2[4]),
               TextSpan(
@@ -79,13 +114,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatelessWidget {
                   color: CupertinoTheme.of(context).primaryColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrlString(
-                      mode: LaunchMode.externalApplication,
-                      'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data',
-                    );
-                  },
+                recognizer: _tapDeletionRecognizer,
               ),
               TextSpan(text: textBlock3[2]),
               TextSpan(
