@@ -32,16 +32,29 @@ class CupertinoStyleServerRegistrationPage extends StatelessWidget {
   }
 }
 
-class ServerRegistrationIosView extends StatelessWidget {
+class ServerRegistrationIosView extends StatefulWidget {
   const ServerRegistrationIosView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final primaryController = TextEditingController();
-    final secondaryController = TextEditingController();
-    final tokenController = TextEditingController();
+  State<ServerRegistrationIosView> createState() => _ServerRegistrationIosViewState();
+}
 
+class _ServerRegistrationIosViewState extends State<ServerRegistrationIosView> {
+  final _formKey = GlobalKey<FormState>();
+  final _primaryController = TextEditingController();
+  final _secondaryController = TextEditingController();
+  final _tokenController = TextEditingController();
+
+  @override
+  void dispose() {
+    _primaryController.dispose();
+    _secondaryController.dispose();
+    _tokenController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -99,7 +112,7 @@ class ServerRegistrationIosView extends StatelessWidget {
           }
         },
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: CupertinoStylePageScaffold(
             showBackButton: false,
             middle: const Text(LocaleKeys.server_registration_title).tr(),
@@ -123,12 +136,12 @@ class ServerRegistrationIosView extends StatelessWidget {
               builder: (context, state) {
                 return CupertinoStyleBottomSheetSaveButton(
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       context.read<RegisterDeviceBloc>().add(
                         RegisterDeviceStarted(
-                          primaryConnectionAddress: primaryController.text,
-                          secondaryConnectionAddress: secondaryController.text,
-                          deviceToken: tokenController.text,
+                          primaryConnectionAddress: _primaryController.text,
+                          secondaryConnectionAddress: _secondaryController.text,
+                          deviceToken: _tokenController.text,
                           headers: state is RegistrationHeadersLoaded
                               ? state.headers
                                     .map(
@@ -151,9 +164,9 @@ class ServerRegistrationIosView extends StatelessWidget {
               children: [
                 const CupertinoStyleServerRegistrationStepOne(),
                 CupertinoStyleServerRegistrationStepTwo(
-                  primaryController: primaryController,
-                  secondaryController: secondaryController,
-                  tokenController: tokenController,
+                  primaryController: _primaryController,
+                  secondaryController: _secondaryController,
+                  tokenController: _tokenController,
                 ),
                 const CupertinoStyleServerRegistrationStepThree(),
               ],

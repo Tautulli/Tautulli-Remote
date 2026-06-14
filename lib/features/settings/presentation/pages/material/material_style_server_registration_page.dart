@@ -31,16 +31,29 @@ class MaterialStyleServerRegistrationPage extends StatelessWidget {
   }
 }
 
-class MaterialStyleServerRegistrationView extends StatelessWidget {
+class MaterialStyleServerRegistrationView extends StatefulWidget {
   const MaterialStyleServerRegistrationView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final primaryController = TextEditingController();
-    final secondaryController = TextEditingController();
-    final tokenController = TextEditingController();
+  State<MaterialStyleServerRegistrationView> createState() => _MaterialStyleServerRegistrationViewState();
+}
 
+class _MaterialStyleServerRegistrationViewState extends State<MaterialStyleServerRegistrationView> {
+  final _formKey = GlobalKey<FormState>();
+  final _primaryController = TextEditingController();
+  final _secondaryController = TextEditingController();
+  final _tokenController = TextEditingController();
+
+  @override
+  void dispose() {
+    _primaryController.dispose();
+    _secondaryController.dispose();
+    _tokenController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
@@ -55,12 +68,12 @@ class MaterialStyleServerRegistrationView extends StatelessWidget {
             ),
             label: const Text(LocaleKeys.register_server_title).tr(),
             onPressed: () {
-              if (formKey.currentState!.validate()) {
+              if (_formKey.currentState!.validate()) {
                 context.read<RegisterDeviceBloc>().add(
                   RegisterDeviceStarted(
-                    primaryConnectionAddress: primaryController.text,
-                    secondaryConnectionAddress: secondaryController.text,
-                    deviceToken: tokenController.text,
+                    primaryConnectionAddress: _primaryController.text,
+                    secondaryConnectionAddress: _secondaryController.text,
+                    deviceToken: _tokenController.text,
                     headers: state is RegistrationHeadersLoaded
                         ? state.headers
                               .map(
@@ -142,7 +155,7 @@ class MaterialStyleServerRegistrationView extends StatelessWidget {
               }
             },
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: ListView(
                 padding: const EdgeInsets.only(
                   left: 8,
@@ -154,9 +167,9 @@ class MaterialStyleServerRegistrationView extends StatelessWidget {
                   const MaterialStyleServerRegistrationStepOne(),
                   const Gap(8),
                   MaterialStyleServerRegistrationStepTwo(
-                    primaryController: primaryController,
-                    secondaryController: secondaryController,
-                    tokenController: tokenController,
+                    primaryController: _primaryController,
+                    secondaryController: _secondaryController,
+                    tokenController: _tokenController,
                   ),
                   const Gap(8),
                   const MaterialStyleServerRegistrationStepThree(),
