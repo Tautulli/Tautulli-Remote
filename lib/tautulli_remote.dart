@@ -296,13 +296,23 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
     ServerModel server,
   ) async {
-    String connectionProtocol = server.primaryActive!
-        ? server.primaryConnectionProtocol
-        : server.secondaryConnectionProtocol!;
-    String connectionDomain = server.primaryActive!
-        ? server.primaryConnectionDomain
-        : server.secondaryConnectionDomain!;
-    String? connectionPath = server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
+    final bool usePrimary = server.primaryActive ?? true;
+    final bool secondaryAvailable =
+        server.secondaryConnectionProtocol != null && server.secondaryConnectionDomain != null;
+
+    if (!usePrimary && !secondaryAvailable) {
+      di.sl<Logging>().warning(
+        'TautulliRemote :: Secondary connection details missing for ${server.plexName} — falling back to primary for registration update',
+      );
+    }
+
+    final bool useSecondary = !usePrimary && secondaryAvailable;
+
+    String connectionProtocol =
+        useSecondary ? server.secondaryConnectionProtocol! : server.primaryConnectionProtocol;
+    String connectionDomain =
+        useSecondary ? server.secondaryConnectionDomain! : server.primaryConnectionDomain;
+    String? connectionPath = useSecondary ? server.secondaryConnectionPath : server.primaryConnectionPath;
 
     final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
       connectionProtocol: connectionProtocol,
