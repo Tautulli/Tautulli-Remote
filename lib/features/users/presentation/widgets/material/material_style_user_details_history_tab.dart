@@ -42,12 +42,16 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
   }
 
   @override
-  Widget build(BuildContext context) {
-    // Only attach scrollController if it's currently null
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_scrollController == null) {
       _scrollController = PrimaryScrollController.of(context);
       _scrollController!.addListener(_onScroll);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return BlocBuilder<UserHistoryBloc, UserHistoryState>(
       builder: (context, state) {
@@ -130,7 +134,7 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
 
   @override
   void dispose() {
-    _scrollController!.removeListener(_onScroll);
+    _scrollController?.removeListener(_onScroll);
     super.dispose();
   }
 
