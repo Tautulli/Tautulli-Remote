@@ -102,7 +102,7 @@ class CallTautulliImpl implements CallTautulli {
               }
             }
           } else if (cert.endValidity.isBefore(DateTime.now())) {
-            throw CertificateExpiredException;
+            throw CertificateExpiredException();
           }
 
           return false;
@@ -133,7 +133,7 @@ class CallTautulliImpl implements CallTautulli {
       }
     } catch (e) {
       if (e.toString().contains('CERTIFICATE_VERIFY_FAILED')) {
-        throw CertificateVerificationException;
+        throw CertificateVerificationException();
       }
 
       rethrow;
