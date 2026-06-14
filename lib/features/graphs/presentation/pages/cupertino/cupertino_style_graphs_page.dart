@@ -131,6 +131,15 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
   }
 
   @override
+  void dispose() {
+    _mediaScrollController.dispose();
+    _streamScrollController.dispose();
+    _totalsScrollController.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
