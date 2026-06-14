@@ -38,7 +38,7 @@ class CupertinoStyleGraphCard extends StatelessWidget {
     bool containsData = false;
     if (graph.graphDataModel != null) {
       for (GraphSeriesDataModel seriesDataModel in graph.graphDataModel!.seriesDataList) {
-        if (seriesDataModel.seriesData.isNotEmpty && seriesDataModel.seriesData.cast<int>().reduce(max) > 0) {
+        if (seriesDataModel.seriesData.isNotEmpty && seriesDataModel.seriesData.reduce(max) > 0) {
           containsData = true;
           break;
         }

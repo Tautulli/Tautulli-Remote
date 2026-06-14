@@ -61,6 +61,12 @@ class Cast {
     }
   }
 
+  /// Casts a list of dynamic values to a list of integers.
+  ///
+  /// Uses [castToInt] per element. Handles double, int, String, and bool. Anything else is omitted.
+  static List<int> castToIntList(List<dynamic> data) =>
+      data.map(Cast.castToInt).whereType<int>().toList();
+
   /// Casts value to a num.
   ///
   /// Handles nums, double, int, String, and bool. Anything else returns null.

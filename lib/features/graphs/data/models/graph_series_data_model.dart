@@ -10,8 +10,8 @@ part 'graph_series_data_model.g.dart';
 class GraphSeriesDataModel extends Equatable {
   @JsonKey(name: 'name', fromJson: Cast.castStringToGraphSeriesType)
   final GraphSeriesType seriesType;
-  @JsonKey(name: 'data')
-  final List seriesData;
+  @JsonKey(name: 'data', fromJson: Cast.castToIntList)
+  final List<int> seriesData;
 
   const GraphSeriesDataModel({
     required this.seriesType,

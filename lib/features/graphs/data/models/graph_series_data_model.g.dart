@@ -10,7 +10,7 @@ GraphSeriesDataModel _$GraphSeriesDataModelFromJson(
   Map<String, dynamic> json,
 ) => GraphSeriesDataModel(
   seriesType: Cast.castStringToGraphSeriesType(json['name'] as String),
-  seriesData: json['data'] as List<dynamic>,
+  seriesData: Cast.castToIntList(json['data'] as List),
 );
 
 Map<String, dynamic> _$GraphSeriesDataModelToJson(
