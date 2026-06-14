@@ -33,6 +33,14 @@ class _CupertinoStyleServerRegistrationStepTwoState extends State<CupertinoStyle
   final _tokenFocus = FocusNode();
 
   @override
+  void dispose() {
+    _primaryFocus.dispose();
+    _secondaryFocus.dispose();
+    _tokenFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [

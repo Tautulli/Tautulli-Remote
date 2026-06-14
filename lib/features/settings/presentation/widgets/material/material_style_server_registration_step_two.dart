@@ -36,6 +36,14 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
   final _tokenFocus = FocusNode();
 
   @override
+  void dispose() {
+    _primaryFocus.dispose();
+    _secondaryFocus.dispose();
+    _tokenFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialStyleRegistrationInstruction(
       actionOnTop: true,
