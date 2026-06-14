@@ -418,7 +418,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
             );
 
             if (result == 'user') {
-              int newUserId = await showCupertinoModalPopup(
+              int? newUserId = await showCupertinoModalPopup(
                 context: context,
                 builder: (_) => BlocProvider.value(
                   value: context.read<UsersBloc>(),
@@ -428,7 +428,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                 ),
               );
 
-              if (newUserId != _userId) {
+              if (newUserId != null && newUserId != _userId) {
                 setState(() {
                   _userId = newUserId;
 
