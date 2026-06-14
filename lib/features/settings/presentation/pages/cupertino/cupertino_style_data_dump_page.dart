@@ -13,6 +13,7 @@ import 'package:tautulli_remote/core/widgets/cupertino/cupertino_style_list_sect
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_card.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
@@ -629,7 +630,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.primaryConnectionAddress,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
@@ -653,7 +654,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.primaryConnectionDomain,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
@@ -677,7 +678,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.secondaryConnectionAddress ?? '',
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(enabled: server.secondaryConnectionAddress != null),
                     ),
                   ],
                 ),
@@ -696,7 +697,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.secondaryConnectionDomain ?? '',
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(enabled: server.secondaryConnectionDomain != null),
                     ),
                   ],
                 ),
@@ -720,7 +721,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.deviceToken,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),

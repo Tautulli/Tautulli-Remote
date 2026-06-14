@@ -12,6 +12,7 @@ import 'package:system_theme/system_theme.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/package_information/package_information.dart';
+import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../core/widgets/material/material_style_heading.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
@@ -655,7 +656,7 @@ class _ServerDumpGroup extends StatelessWidget {
                       child: Text(
                         server.primaryConnectionAddress,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
@@ -679,7 +680,7 @@ class _ServerDumpGroup extends StatelessWidget {
                       child: Text(
                         server.primaryConnectionDomain,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
@@ -703,7 +704,7 @@ class _ServerDumpGroup extends StatelessWidget {
                       child: Text(
                         server.secondaryConnectionAddress ?? '',
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(enabled: server.secondaryConnectionAddress != null),
                     ),
                   ],
                 ),
@@ -722,7 +723,7 @@ class _ServerDumpGroup extends StatelessWidget {
                       child: Text(
                         server.secondaryConnectionDomain ?? '',
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(enabled: server.secondaryConnectionDomain != null),
                     ),
                   ],
                 ),
@@ -746,7 +747,7 @@ class _ServerDumpGroup extends StatelessWidget {
                       child: Text(
                         server.deviceToken,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
