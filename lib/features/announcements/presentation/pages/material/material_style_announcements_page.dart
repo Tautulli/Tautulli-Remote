@@ -34,6 +34,7 @@ class _MaterialStyleAnnouncementsViewState extends State<MaterialStyleAnnounceme
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then(
       (_) {
+        if (!mounted) return;
         final announcementsBloc = context.read<AnnouncementsBloc>();
 
         if (announcementsBloc.state is AnnouncementsSuccess) {
