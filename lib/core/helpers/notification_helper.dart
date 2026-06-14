@@ -7,6 +7,7 @@ import 'package:cryptography_plus/cryptography_plus.dart';
 import 'package:flutter_app_group_directory/flutter_app_group_directory.dart';
 
 import '../../dependency_injection.dart' as di;
+import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 
 class NotificationHelper {
@@ -31,7 +32,9 @@ class NotificationHelper {
       if (json['server_id'] == serverId) {
         return json['action'] as String?;
       }
-    } catch (_) {}
+    } catch (e) {
+      di.sl<Logging>().warning('NotificationHelper :: Failed to read cached notification action [$e]');
+    }
 
     return null;
   }
