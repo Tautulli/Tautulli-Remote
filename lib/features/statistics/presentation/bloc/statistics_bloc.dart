@@ -44,7 +44,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     required this.logging,
   }) : super(
           StatisticsState(
-            statList: tautulliIdCache != null ? statCache[tautulliIdCache]! : [],
+            statList: statCache[tautulliIdCache] ?? [],
             statsType: statsTypeCache ?? PlayMetricType.plays,
             timeRange: timeRangeCache ?? 30,
           ),
@@ -158,6 +158,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     StatisticsFetchMore event,
     Emitter<StatisticsState> emit,
   ) async {
+    if (tautulliIdCache == null || !statCache.containsKey(tautulliIdCache)) return;
     if (hasReachedMaxCache.containsKey(event.statIdType) && hasReachedMaxCache[event.statIdType]!) return;
 
     emit(
