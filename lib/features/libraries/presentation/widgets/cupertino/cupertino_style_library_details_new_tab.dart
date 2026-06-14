@@ -42,6 +42,12 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,

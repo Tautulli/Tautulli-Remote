@@ -49,6 +49,12 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 

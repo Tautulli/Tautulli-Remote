@@ -154,6 +154,7 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
   @override
   void dispose() {
     _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     super.dispose();
   }
 

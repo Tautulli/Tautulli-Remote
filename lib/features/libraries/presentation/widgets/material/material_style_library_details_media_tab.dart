@@ -49,6 +49,12 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
