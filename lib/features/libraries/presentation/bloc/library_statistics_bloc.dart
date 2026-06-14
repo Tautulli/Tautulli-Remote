@@ -96,7 +96,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
     BlocStatus? userStatsStatus;
     List<LibraryWatchTimeStatModel>? watchTimeStatsList;
     BlocStatus? watchTimeStatsStatus;
-    Failure? failure;
+    Failure? emittedFailure;
     String? message;
     String? suggestion;
 
@@ -109,7 +109,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
         _userStatsCache.remove(cacheKey);
         userStatsStatus = BlocStatus.failure;
         userStatsList = [];
-        failure = failure;
+        emittedFailure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
@@ -136,7 +136,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
         _watchTimeStatsCache.remove(cacheKey);
         watchTimeStatsStatus = BlocStatus.failure;
         watchTimeStatsList = [];
-        failure = failure;
+        emittedFailure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
@@ -160,7 +160,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
         userStatsList: userStatsList,
         watchTimeStatsStatus: watchTimeStatsStatus,
         watchTimeStatsList: watchTimeStatsList,
-        failure: failure,
+        failure: emittedFailure,
         message: message,
         suggestion: suggestion,
       ),
