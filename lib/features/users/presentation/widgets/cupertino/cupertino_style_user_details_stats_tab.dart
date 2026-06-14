@@ -50,6 +50,12 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
   }
 
   @override
+  void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
       controller: _scrollController,

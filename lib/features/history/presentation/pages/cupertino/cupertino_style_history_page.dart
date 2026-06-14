@@ -341,6 +341,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

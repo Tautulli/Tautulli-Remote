@@ -43,6 +43,7 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     _scrollController.dispose();
     super.dispose();
   }

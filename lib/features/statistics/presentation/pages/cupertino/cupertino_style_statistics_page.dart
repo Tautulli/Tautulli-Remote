@@ -122,6 +122,12 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
   }
 
   @override
+  void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {

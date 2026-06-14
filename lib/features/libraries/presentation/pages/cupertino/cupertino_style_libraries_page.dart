@@ -257,6 +257,7 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

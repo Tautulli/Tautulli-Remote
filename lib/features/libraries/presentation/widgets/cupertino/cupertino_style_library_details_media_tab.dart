@@ -50,6 +50,7 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     _scrollController.dispose();
     super.dispose();
   }

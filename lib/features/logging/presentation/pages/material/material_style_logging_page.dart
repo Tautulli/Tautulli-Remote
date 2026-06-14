@@ -53,6 +53,12 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
   }
 
   @override
+  void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

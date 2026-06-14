@@ -100,6 +100,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
   @override
   void dispose() {
     _activityBloc.add(ActivityAutoRefreshStop());
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     cupertinoTabController.removeListener(_onActivityOpened);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();

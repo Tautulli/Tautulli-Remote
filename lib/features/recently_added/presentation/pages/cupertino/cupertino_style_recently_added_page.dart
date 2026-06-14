@@ -255,6 +255,7 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

@@ -71,6 +71,12 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
   }
 
   @override
+  void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     onRefresh() async {
       context.read<LoggingBloc>().add(LoggingLoad());

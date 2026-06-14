@@ -277,6 +277,7 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
 
   @override
   void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
     if (_routeAnimationListener != null) {
       _routeAnimation?.removeStatusListener(_routeAnimationListener!);
     }

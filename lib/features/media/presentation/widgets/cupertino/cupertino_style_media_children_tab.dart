@@ -49,6 +49,12 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
   }
 
   @override
+  void dispose() {
+    if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
