@@ -125,8 +125,9 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
 
   @override
   void dispose() {
-    super.dispose();
+    _activityBloc.add(ActivityAutoRefreshStop());
     WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   // Take action if the app is paused or resumed
