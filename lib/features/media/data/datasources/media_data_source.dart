@@ -65,7 +65,7 @@ class MediaDataSourceImpl implements MediaDataSource {
     }).toList();
 
     // Do not include the "All episodes" season Tautulli returns
-    if (childrenList[0].mediaType == MediaType.unknown) {
+    if (childrenList.isNotEmpty && childrenList[0].mediaType == MediaType.unknown) {
       childrenList.removeAt(0);
     }
 
