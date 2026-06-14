@@ -88,15 +88,11 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
             productChangeInfo: StoreProductChangeInfo(activeSku),
           ),
         )).customerInfo;
-        setState(() {
-          _customerInfo!.activeSubscriptions.remove(activeSku);
-        });
       } else {
         _customerInfo = (await Purchases.purchase(PurchaseParams.package(package))).customerInfo;
       }
-      setState(() {
-        _customerInfo!.activeSubscriptions.add(package.identifier);
-      });
+      if (!mounted) return;
+      setState(() {});
 
       Fluttertoast.showToast(
         backgroundColor: CupertinoColors.systemPink,

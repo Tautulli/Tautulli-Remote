@@ -93,15 +93,11 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
             productChangeInfo: StoreProductChangeInfo(activeSku),
           ),
         )).customerInfo;
-        setState(() {
-          _customerInfo!.activeSubscriptions.remove(activeSku);
-        });
       } else {
         _customerInfo = (await Purchases.purchase(PurchaseParams.package(package))).customerInfo;
       }
-      setState(() {
-        _customerInfo!.activeSubscriptions.add(package.identifier);
-      });
+      if (!mounted) return;
+      setState(() {});
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
