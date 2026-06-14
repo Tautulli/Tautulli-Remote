@@ -242,7 +242,8 @@ class DBProvider {
 
   Future<void> deleteServer(int id) async {
     final db = await database;
-    var batch = db!.batch();
+    if (db == null) throw DatabaseInitException();
+    var batch = db.batch();
 
     int count = Sqflite.firstIntValue(
       await db.rawQuery('SELECT COUNT(*) FROM servers'),
