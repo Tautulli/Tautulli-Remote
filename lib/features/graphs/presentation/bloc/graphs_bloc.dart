@@ -118,7 +118,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
         );
       }
 
-      graphsCache = defaultGraphs;
+      graphsCache = Map.of(defaultGraphs);
       userIdCache = event.userId;
       tautulliIdCache = event.server.tautulliId;
       yAxisCache = event.yAxis;
@@ -131,14 +131,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             userId: event.userId == -1 ? null : event.userId,
           )
           .then(
-            (failureOrGetConcurrentStreamsByStreamType) => add(
-              GraphsEmit(
-                graphType: GraphType.concurrentStreams,
-                failureOrGraph: failureOrGetConcurrentStreamsByStreamType,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetConcurrentStreamsByStreamType) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.concurrentStreams,
+                    failureOrGraph: failureOrGetConcurrentStreamsByStreamType,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -150,14 +154,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByDate) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByDate,
-                failureOrGraph: failureOrGetPlaysByDate,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByDate) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByDate,
+                    failureOrGraph: failureOrGetPlaysByDate,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -169,14 +177,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByDayOfWeek) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByDayOfWeek,
-                failureOrGraph: failureOrGetPlaysByDayOfWeek,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByDayOfWeek) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByDayOfWeek,
+                    failureOrGraph: failureOrGetPlaysByDayOfWeek,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -188,14 +200,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByHourOfDay) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByHourOfDay,
-                failureOrGraph: failureOrGetPlaysByHourOfDay,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByHourOfDay) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByHourOfDay,
+                    failureOrGraph: failureOrGetPlaysByHourOfDay,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -207,14 +223,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysBySourceResolution) => add(
-              GraphsEmit(
-                graphType: GraphType.playsBySourceResolution,
-                failureOrGraph: failureOrGetPlaysBySourceResolution,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysBySourceResolution) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsBySourceResolution,
+                    failureOrGraph: failureOrGetPlaysBySourceResolution,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -226,14 +246,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByStreamResolution) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByStreamResolution,
-                failureOrGraph: failureOrGetPlaysByStreamResolution,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByStreamResolution) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByStreamResolution,
+                    failureOrGraph: failureOrGetPlaysByStreamResolution,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -245,14 +269,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByStreamType) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByStreamType,
-                failureOrGraph: failureOrGetPlaysByStreamType,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByStreamType) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByStreamType,
+                    failureOrGraph: failureOrGetPlaysByStreamType,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -264,14 +292,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysPerMonth) => add(
-              GraphsEmit(
-                graphType: GraphType.playsPerMonth,
-                failureOrGraph: failureOrGetPlaysPerMonth,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysPerMonth) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsPerMonth,
+                    failureOrGraph: failureOrGetPlaysPerMonth,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -283,14 +315,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByTop10Platforms) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByTop10Platforms,
-                failureOrGraph: failureOrGetPlaysByTop10Platforms,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByTop10Platforms) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByTop10Platforms,
+                    failureOrGraph: failureOrGetPlaysByTop10Platforms,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -302,14 +338,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetPlaysByTop10Users) => add(
-              GraphsEmit(
-                graphType: GraphType.playsByTop10Users,
-                failureOrGraph: failureOrGetPlaysByTop10Users,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetPlaysByTop10Users) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.playsByTop10Users,
+                    failureOrGraph: failureOrGetPlaysByTop10Users,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -321,14 +361,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetStreamTypeByTop10Platforms) => add(
-              GraphsEmit(
-                graphType: GraphType.streamTypeByTop10Platforms,
-                failureOrGraph: failureOrGetStreamTypeByTop10Platforms,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetStreamTypeByTop10Platforms) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.streamTypeByTop10Platforms,
+                    failureOrGraph: failureOrGetStreamTypeByTop10Platforms,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
 
       graphs
@@ -340,14 +384,18 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             grouping: event.grouping,
           )
           .then(
-            (failureOrGetStreamTypeByTop10Users) => add(
-              GraphsEmit(
-                graphType: GraphType.streamTypeByTop10Users,
-                failureOrGraph: failureOrGetStreamTypeByTop10Users,
-                server: event.server,
-                settingsBloc: event.settingsBloc,
-              ),
-            ),
+            (failureOrGetStreamTypeByTop10Users) {
+              if (!isClosed) {
+                add(
+                  GraphsEmit(
+                    graphType: GraphType.streamTypeByTop10Users,
+                    failureOrGraph: failureOrGetStreamTypeByTop10Users,
+                    server: event.server,
+                    settingsBloc: event.settingsBloc,
+                  ),
+                );
+              }
+            },
           );
     }
   }
