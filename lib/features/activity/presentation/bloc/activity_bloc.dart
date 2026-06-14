@@ -181,14 +181,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   }
 
   void _removeOldServers(List<ServerModel> serverList) {
-    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
-      final bool serverExistsInServerList =
-          serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) != -1 ? true : false;
-
-      if (!serverExistsInServerList) {
-        serverActivityListCache.remove(serverActivityModel);
-      }
-    }
+    serverActivityListCache.removeWhere(
+      (serverActivityModel) =>
+          serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) == -1,
+    );
   }
 
   void _updateServerSortIndex(List<ServerModel> serverList) {
