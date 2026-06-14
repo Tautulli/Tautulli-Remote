@@ -213,9 +213,16 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
           final loggingBloc = context.read<LoggingBloc>();
 
           if (value == 'export') {
+            final box = context.findRenderObject() as RenderBox?;
+            Rect? sharePositionOrigin;
+            if (box != null) {
+              sharePositionOrigin = box.size.width > 442.0
+                  ? Rect.fromLTRB(0, box.size.height - 1, box.size.width, box.size.height)
+                  : box.localToGlobal(Offset.zero) & box.size;
+            }
             context.read<LoggingExportBloc>().add(
               LoggingExportStart(
-                context: context,
+                sharePositionOrigin: sharePositionOrigin,
                 loggingBloc: loggingBloc,
               ),
             );

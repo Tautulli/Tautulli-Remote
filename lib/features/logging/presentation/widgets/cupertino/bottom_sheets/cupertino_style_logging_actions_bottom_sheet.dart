@@ -31,12 +31,20 @@ class CupertinoStyleLoggingActionsBottomSheet extends StatelessWidget {
             ),
             titleText: LocaleKeys.logs_export_menu_item.tr(),
             onTap: () {
+              final exportBloc = context.read<LoggingExportBloc>();
+              final loggingBloc = context.read<LoggingBloc>();
+              final box = context.findRenderObject() as RenderBox?;
+              Rect? sharePositionOrigin;
+              if (box != null) {
+                sharePositionOrigin = box.size.width > 442.0
+                    ? Rect.fromLTRB(0, box.size.height - 1, box.size.width, box.size.height)
+                    : box.localToGlobal(Offset.zero) & box.size;
+              }
               Navigator.of(context).pop();
-
-              context.read<LoggingExportBloc>().add(
+              exportBloc.add(
                 LoggingExportStart(
-                  context: context,
-                  loggingBloc: context.read<LoggingBloc>(),
+                  sharePositionOrigin: sharePositionOrigin,
+                  loggingBloc: loggingBloc,
                 ),
               );
             },
