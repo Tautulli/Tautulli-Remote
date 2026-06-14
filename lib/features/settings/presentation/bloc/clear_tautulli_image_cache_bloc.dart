@@ -57,6 +57,19 @@ class ClearTautulliImageCacheBloc
           ),
         );
 
+        if (!result.value1) {
+          logging.error(
+            'Settings :: Failed to clear ${event.server.plexName} image cache',
+          );
+
+          return emit(
+            state.copyWith(
+              status: BlocStatus.failure,
+              server: event.server,
+            ),
+          );
+        }
+
         logging.info(
           'Settings :: Cleared ${event.server.plexName} image cache',
         );
