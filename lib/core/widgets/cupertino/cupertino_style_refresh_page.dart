@@ -29,6 +29,7 @@ class _CupertinoStyleRefreshPageState extends State<CupertinoStyleRefreshPage> {
   /// This is used to determine whether to show the refresh indicator.
   var _isAtTop = true;
   late ScrollController _controller;
+  ScrollController? _ownedController;
 
   @override
   void initState() {
@@ -37,8 +38,15 @@ class _CupertinoStyleRefreshPageState extends State<CupertinoStyleRefreshPage> {
     if (widget.scrollController != null) {
       _controller = widget.scrollController!;
     } else {
-      _controller = ScrollController();
+      _ownedController = ScrollController();
+      _controller = _ownedController!;
     }
+  }
+
+  @override
+  void dispose() {
+    _ownedController?.dispose();
+    super.dispose();
   }
 
   @override
