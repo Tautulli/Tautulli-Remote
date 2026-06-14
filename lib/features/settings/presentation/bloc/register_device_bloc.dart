@@ -149,13 +149,14 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
                   timeFormat: existingServer.timeFormat,
                 ),
               );
+
+              emit(
+                RegisterDeviceSuccess(
+                  serverName: registerResults.pmsName!,
+                  isUpdate: true,
+                ),
+              );
             }
-            emit(
-              RegisterDeviceSuccess(
-                serverName: registerResults.pmsName!,
-                isUpdate: true,
-              ),
-            );
             settings.setRegistrationUpdateNeeded(false);
           } else {
             throw BadApiResponseException();
