@@ -18,6 +18,7 @@ class TranslationHelper {
       const Locale('fr'),
       const Locale('hu'),
       const Locale('it'),
+      const Locale('lv'),
       const Locale('my'),
       const Locale('nb'),
       const Locale('nl'),
@@ -57,6 +58,8 @@ class TranslationHelper {
       return 'Magyar';
     } else if (locale.languageCode == 'it') {
       return 'Italiano';
+    } else if (locale.languageCode == 'lv') {
+      return 'Latviešu';
     } else if (locale.languageCode == 'my') {
       return 'မြန်မာစာ';
     } else if (locale.languageCode == 'nb') {
@@ -113,6 +116,8 @@ class TranslationHelper {
       return 'Hungarian';
     } else if (locale.languageCode == 'it') {
       return 'Italian';
+    } else if (locale.languageCode == 'lv') {
+      return 'Latvian';
     } else if (locale.languageCode == 'my') {
       return 'Myanmar';
     } else if (locale.languageCode == 'nb') {

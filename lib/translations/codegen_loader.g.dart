@@ -4575,6 +4575,7 @@ static const Map<String,dynamic> _cs = {
   "wizard_welcome_text_3": "Ujisti se, že je Tautulli spuštěné a dostupné na tomto zařízení než budeš pokračovat příručkou.",
   "y_axis_title": "Osa Y"
 };
+static const Map<String,dynamic> _lv = {};
 static const Map<String,dynamic> _da = {
   "accepted_title": "Accepteret",
   "activity_title": "Aktivitet",
@@ -5484,5 +5485,5 @@ static const Map<String,dynamic> _nb = {
   "global_stats_title": "Global statistikk",
   "y_axis_title": "Y Akse"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "sl": _sl, "hu": _hu, "nl": _nl, "de": _de, "ru": _ru, "pl": _pl, "uk": _uk, "sk": _sk, "en": _en, "my": _my, "pt_PT": _pt_PT, "it": _it, "sq": _sq, "fr": _fr, "el": _el, "bg": _bg, "ca": _ca, "pt_BR": _pt_BR, "cs": _cs, "da": _da, "sv": _sv, "es": _es, "nb": _nb};
+static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "sl": _sl, "hu": _hu, "nl": _nl, "de": _de, "ru": _ru, "pl": _pl, "uk": _uk, "sk": _sk, "en": _en, "my": _my, "pt_PT": _pt_PT, "it": _it, "sq": _sq, "fr": _fr, "el": _el, "bg": _bg, "ca": _ca, "pt_BR": _pt_BR, "cs": _cs, "lv": _lv, "da": _da, "sv": _sv, "es": _es, "nb": _nb};
 }
