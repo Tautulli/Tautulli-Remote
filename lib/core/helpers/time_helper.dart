@@ -69,7 +69,7 @@ class TimeHelper {
   }) {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInMilliseconds);
 
-    final String parsedTimeFormat = timeFormat != null ? '$_parseTimeFormat(timeFormat):ss' : 'HH:mm:ss';
+    final String parsedTimeFormat = timeFormat != null ? '${_parseTimeFormat(timeFormat)}:ss' : 'HH:mm:ss';
 
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
   }
