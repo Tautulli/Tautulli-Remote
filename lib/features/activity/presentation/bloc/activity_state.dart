@@ -24,5 +24,5 @@ class ActivityState extends Equatable {
   }
 
   @override
-  List<Object> get props => [serverActivityList, freshFetch];
+  List<Object> get props => [serverActivityList, freshFetch, lastAutoRefresh];
 }

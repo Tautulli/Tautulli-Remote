@@ -130,9 +130,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           settingsBloc: event.settingsBloc,
         );
       }
-    }
 
-    add(ActivityAutoRefreshStart());
+      add(ActivityAutoRefreshStart());
+    }
   }
 
   void _addNewServers(List<ServerModel> serverList) {
