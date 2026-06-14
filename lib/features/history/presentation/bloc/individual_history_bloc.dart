@@ -64,6 +64,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
         ),
       );
       individualHistoryCache[cacheKey] = [];
+      hasReachedMaxCache[cacheKey] = false;
     }
 
     if (state.status == BlocStatus.initial) {
