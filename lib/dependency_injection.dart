@@ -732,7 +732,6 @@ Future<void> init() async {
     () => SettingsDataSourceImpl(
       deviceInfo: sl(),
       localStorage: sl(),
-      oneSignal: sl(),
       packageInfo: sl(),
       deleteImageCacheApi: sl(),
       getServerInfoApi: sl(),
