@@ -37,11 +37,11 @@ class _MaterialStyleSettingsViewState extends State<MaterialStyleSettingsView> {
   @override
   void initState() {
     super.initState();
+    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
     return MaterialStyleScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.settings_title).tr(),
