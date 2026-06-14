@@ -76,7 +76,7 @@ class _MaterialStyleActivityBottomSheetDetailsState extends State<MaterialStyleA
                   item: Builder(
                     builder: (context) {
                       String formattedBitrate = '';
-                      late String finalText;
+                      String finalText = '';
 
                       if (widget.activity.mediaType != MediaType.photo && widget.activity.qualityProfile != 'Unknown') {
                         if (widget.activity.streamBitrate != null) {
