@@ -20,7 +20,6 @@ import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../../../core/utilities/cast.dart';
-import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/connection_address_model.dart';
 import '../models/custom_header_model.dart';
@@ -249,6 +248,7 @@ const wizardComplete = 'wizardComplete';
 class SettingsDataSourceImpl implements SettingsDataSource {
   final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
+  final OneSignalDataSource oneSignal;
   final PackageInformation packageInfo;
   final DeleteImageCache deleteImageCacheApi;
   final GetServerInfo getServerInfoApi;
@@ -258,6 +258,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   SettingsDataSourceImpl({
     required this.deviceInfo,
     required this.localStorage,
+    required this.oneSignal,
     required this.packageInfo,
     required this.deleteImageCacheApi,
     required this.getServerInfoApi,
@@ -310,7 +311,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }) async {
     final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
     final String deviceName = await deviceInfo.model ?? 'unknown';
-    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
+    final String oneSignalId = await oneSignal.userId;
     final String platform = deviceInfo.platform;
     final String version = await packageInfo.version;
 
@@ -433,7 +434,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   // AppStyle
   @override
   AppStyle getAppStyle() {
-    final String defaultAppStyle = di.sl<DeviceInfo>().platform == 'ios' ? 'cupertino' : 'material';
+    final String defaultAppStyle = deviceInfo.platform == 'ios' ? 'cupertino' : 'material';
 
     String? appStyleString = localStorage.getString(appStyle) ?? defaultAppStyle;
 
@@ -768,7 +769,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   // Theme Use System Color
   @override
   bool getThemeUseSystemColor() {
-    if (di.sl<DeviceInfo>().platform == 'ios') return false;
+    if (deviceInfo.platform == 'ios') return false;
 
     if (!defaultTargetPlatform.supportsAccentColor) return false;
 
