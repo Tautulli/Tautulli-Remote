@@ -97,7 +97,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
     BlocStatus? watchTimeStatsStatus;
     List<UserPlayerStatModel>? playerStatsList;
     BlocStatus? playerStatsStatus;
-    Failure? failure;
+    Failure? statFailure;
     String? message;
     String? suggestion;
 
@@ -110,7 +110,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
         _watchTimeStatsCache.remove(cacheKey);
         watchTimeStatsStatus = BlocStatus.failure;
         watchTimeStatsList = [];
-        failure = failure;
+        statFailure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
@@ -137,7 +137,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
         _playerStatsCache.remove(cacheKey);
         playerStatsStatus = BlocStatus.failure;
         playerStatsList = [];
-        failure = failure;
+        statFailure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
@@ -161,7 +161,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
         watchTimeStatsList: watchTimeStatsList,
         playerStatsStatus: playerStatsStatus,
         playerStatsList: playerStatsList,
-        failure: failure,
+        failure: statFailure,
         message: message,
         suggestion: suggestion,
       ),
