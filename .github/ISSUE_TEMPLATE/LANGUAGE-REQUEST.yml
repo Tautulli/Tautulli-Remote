@@ -7,7 +7,7 @@ body:
     id: contact
     attributes:
       label: How is the name of the language written in that language?
-      description: In order to properly display the language in Tautulli Remote please provide the native spelling.
+      description: In order to properly display the language in Tautulli Remote please provide the native spelling. (ex. for French you would provide Français)
     validations:
       required: true
   - type: checkboxes
