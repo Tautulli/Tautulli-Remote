@@ -83,13 +83,14 @@ class ServerSettingsIosView extends StatelessWidget {
         );
 
         // Sort headers and make sure Authorization is first
-        server.customHeaders.sort((a, b) => a.key.compareTo(b.key));
-        final index = server.customHeaders.indexWhere(
+        final sortedHeaders = [...server.customHeaders];
+        sortedHeaders.sort((a, b) => a.key.compareTo(b.key));
+        final index = sortedHeaders.indexWhere(
           (element) => element.key == 'Authorization',
         );
         if (index != -1) {
-          final authHeader = server.customHeaders.removeAt(index);
-          server.customHeaders.insert(0, authHeader);
+          final authHeader = sortedHeaders.removeAt(index);
+          sortedHeaders.insert(0, authHeader);
         }
 
         return CupertinoStylePageScaffold(
@@ -138,7 +139,7 @@ class ServerSettingsIosView extends StatelessWidget {
                 ),
                 CupertinoStyleListSection(
                   headerText: LocaleKeys.custom_http_headers_title.tr(),
-                  children: server.customHeaders
+                  children: sortedHeaders
                       .map(
                         (header) => CupertinoStyleCustomHeaderListTile(
                           forRegistration: false,

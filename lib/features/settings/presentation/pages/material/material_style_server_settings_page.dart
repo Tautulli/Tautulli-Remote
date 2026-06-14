@@ -59,13 +59,14 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
         );
 
         // Sort headers and make sure Authorization is first
-        server.customHeaders.sort((a, b) => a.key.compareTo(b.key));
-        final index = server.customHeaders.indexWhere(
+        final sortedHeaders = [...server.customHeaders];
+        sortedHeaders.sort((a, b) => a.key.compareTo(b.key));
+        final index = sortedHeaders.indexWhere(
           (element) => element.key == 'Authorization',
         );
         if (index != -1) {
-          final authHeader = server.customHeaders.removeAt(index);
-          server.customHeaders.insert(0, authHeader);
+          final authHeader = sortedHeaders.removeAt(index);
+          sortedHeaders.insert(0, authHeader);
         }
 
         return Scaffold(
@@ -128,7 +129,7 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                   const Gap(8),
                   MaterialStyleListTileGroup(
                     heading: LocaleKeys.custom_http_headers_title.tr(),
-                    listTiles: server.customHeaders
+                    listTiles: sortedHeaders
                         .map(
                           (header) => MaterialStyleCustomHeaderListTile(
                             forRegistration: false,
@@ -139,7 +140,7 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                         )
                         .toList(),
                   ),
-                  if (server.customHeaders.isNotEmpty) const Gap(8),
+                  if (sortedHeaders.isNotEmpty) const Gap(8),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
