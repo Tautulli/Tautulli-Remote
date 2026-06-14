@@ -321,11 +321,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     if (refreshRate > 0) {
       _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
+        final activeServerId = activeServerIdCache;
+        if (activeServerId == null) return;
         add(
           ActivityFetched(
             serverList: serverListCache,
             multiserver: multiserverCache,
-            activeServerId: activeServerIdCache!,
+            activeServerId: activeServerId,
             autoRefresh: true,
             settingsBloc: settingsBlocCache,
           ),
