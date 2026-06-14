@@ -258,7 +258,7 @@ class HistoryModel extends Equatable {
 
   static List<int>? groupIdsFromJson(String? groupIds) {
     if (groupIds == null) return null;
-    return groupIds.split(',').map(int.parse).toList();
+    return groupIds.split(',').map((s) => int.tryParse(s.trim())).whereType<int>().toList();
   }
 
   static WatchedStatus watchedStatusFromDouble(num value) {
