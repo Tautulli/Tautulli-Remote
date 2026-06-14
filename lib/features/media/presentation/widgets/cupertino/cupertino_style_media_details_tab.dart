@@ -43,6 +43,7 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
   @override
   void dispose() {
     if (!_refreshCompleter.isCompleted) _refreshCompleter.complete();
+    _scrollController.dispose();
     super.dispose();
   }
 

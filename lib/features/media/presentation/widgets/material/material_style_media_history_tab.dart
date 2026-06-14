@@ -47,12 +47,24 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
   }
 
   @override
-  Widget build(BuildContext context) {
-    // Only attach scrollController if it's currently null
-    if (_scrollController == null) {
-      _scrollController = PrimaryScrollController.of(context);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newController = PrimaryScrollController.of(context);
+    if (newController != _scrollController) {
+      _scrollController?.removeListener(_onScroll);
+      _scrollController = newController;
       _scrollController!.addListener(_onScroll);
     }
+  }
+
+  @override
+  void dispose() {
+    _scrollController?.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
       builder: (context, state) {
@@ -131,11 +143,6 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController!.removeListener(_onScroll);
-    super.dispose();
-  }
 
   void _onScroll() {
     if (_isBottom) {

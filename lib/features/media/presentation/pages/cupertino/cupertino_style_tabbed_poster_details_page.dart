@@ -43,6 +43,12 @@ class _CupertinoStyleTabbedPosterDetailsPageState extends State<CupertinoStyleTa
   int _selectedIndex = 0;
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double topAreaHeight = MediaQuery.paddingOf(context).top + kMinInteractiveDimensionCupertino + 10;
 
