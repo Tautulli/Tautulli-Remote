@@ -39,13 +39,24 @@ class CupertinoStyleWizardPage extends StatelessWidget {
   }
 }
 
-class CupertinoStyleWizardView extends StatelessWidget {
+class CupertinoStyleWizardView extends StatefulWidget {
   const CupertinoStyleWizardView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final scrollController = ScrollController();
+  State<CupertinoStyleWizardView> createState() => _CupertinoStyleWizardViewState();
+}
 
+class _CupertinoStyleWizardViewState extends State<CupertinoStyleWizardView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<WizardBloc, WizardState>(
       builder: (context, wizardState) {
         context.locale; // Ensures bloc updates when locale is changed
@@ -66,9 +77,9 @@ class CupertinoStyleWizardView extends StatelessWidget {
             oneSignalAllowed: wizardState.oneSignalAllowed,
           ),
           child: CupertinoScrollbar(
-            controller: scrollController,
+            controller: _scrollController,
             child: SingleChildScrollView(
-              controller: scrollController,
+              controller: _scrollController,
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
