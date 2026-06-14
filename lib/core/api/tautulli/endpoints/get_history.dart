@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:intl/intl.dart';
 
 import '../connection_handler.dart';
 
@@ -63,9 +64,10 @@ class GetHistoryImpl implements GetHistory {
     if (ratingKey != null) params['rating_key'] = ratingKey;
     if (parentRatingKey != null) params['parent_rating_key'] = parentRatingKey;
     if (grandparentRatingKey != null) params['grandparent_rating_key'] = grandparentRatingKey;
-    if (startDate != null) params['start_date'] = startDate;
-    if (before != null) params['before'] = before;
-    if (after != null) params['after'] = after;
+    final dateFormat = DateFormat('y-MM-dd');
+    if (startDate != null) params['start_date'] = dateFormat.format(startDate);
+    if (before != null) params['before'] = dateFormat.format(before);
+    if (after != null) params['after'] = dateFormat.format(after);
     if (sectionId != null) params['section_id'] = sectionId;
     if (mediaType != null) params['media_type'] = mediaType;
     if (transcodeDecision != null) params['transcode_decision'] = transcodeDecision;
