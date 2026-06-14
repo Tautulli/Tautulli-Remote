@@ -73,6 +73,15 @@ class _CupertinoStyleCustomHttpHeaderBottomSheetState extends State<CupertinoSty
   }
 
   @override
+  void dispose() {
+    _keyController.dispose();
+    _keyFocus.dispose();
+    _valueController.dispose();
+    _valueFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
