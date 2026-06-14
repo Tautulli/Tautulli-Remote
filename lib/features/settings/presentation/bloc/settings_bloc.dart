@@ -864,6 +864,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (oldServer) => oldServer.tautulliId == event.tautulliId,
     );
 
+    if (index == -1) return;
+
     // Only update primary active if new value is different
     if (currentState.serverList[index].primaryActive != event.primaryActive) {
       await settings.updatePrimaryActive(
