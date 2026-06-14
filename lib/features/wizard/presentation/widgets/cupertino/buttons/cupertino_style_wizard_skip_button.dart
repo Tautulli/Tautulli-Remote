@@ -23,7 +23,7 @@ class CupertinoStyleWizardSkipButton extends StatelessWidget {
         LocaleKeys.skip_title,
       ).tr(),
       onPressed: () async {
-        final result = await showCupertinoDialog(
+        final bool? result = await showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
@@ -32,7 +32,8 @@ class CupertinoStyleWizardSkipButton extends StatelessWidget {
           ),
         );
 
-        if (result) {
+        if (result == true) {
+          if (!context.mounted) return;
           if (wizardSkipType == WizardSkipType.servers) {
             context.read<WizardBloc>().add(WizardSkipServers());
           } else {

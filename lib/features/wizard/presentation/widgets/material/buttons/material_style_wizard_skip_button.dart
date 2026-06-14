@@ -22,7 +22,7 @@ class MaterialStyleWizardSkipButton extends StatelessWidget {
       heroTag: 'skip',
       child: const FaIcon(FontAwesomeIcons.forward),
       onPressed: () async {
-        final result = await showDialog(
+        final bool? result = await showDialog(
           context: context,
           builder: (context) => MaterialStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
@@ -31,7 +31,8 @@ class MaterialStyleWizardSkipButton extends StatelessWidget {
           ),
         );
 
-        if (result) {
+        if (result == true) {
+          if (!context.mounted) return;
           if (wizardSkipType == WizardSkipType.servers) {
             context.read<WizardBloc>().add(WizardSkipServers());
           } else {
