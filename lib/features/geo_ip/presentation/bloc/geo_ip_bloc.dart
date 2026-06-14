@@ -33,7 +33,7 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
     if (geoIpMapCache.keys.contains(event.ipAddress)) return;
 
     emit(
-      state.copyWith(status: BlocStatus.initial),
+      state.copyWith(status: BlocStatus.inProgress),
     );
 
     final failureOrGeoIp = await geoIp.lookup(
