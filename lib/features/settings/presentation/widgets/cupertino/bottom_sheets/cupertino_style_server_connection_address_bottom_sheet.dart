@@ -11,7 +11,7 @@ import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class CupertinoStyleServerConnectionAddressBottomSheet extends StatelessWidget {
+class CupertinoStyleServerConnectionAddressBottomSheet extends StatefulWidget {
   final bool primary;
   final ServerModel server;
   final String title;
@@ -24,29 +24,47 @@ class CupertinoStyleServerConnectionAddressBottomSheet extends StatelessWidget {
   });
 
   @override
+  State<CupertinoStyleServerConnectionAddressBottomSheet> createState() =>
+      _CupertinoStyleServerConnectionAddressBottomSheetState();
+}
+
+class _CupertinoStyleServerConnectionAddressBottomSheetState
+    extends State<CupertinoStyleServerConnectionAddressBottomSheet> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    if (widget.primary) {
+      _controller.text = widget.server.primaryConnectionAddress;
+    }
+    if (!widget.primary && widget.server.secondaryConnectionAddress != null) {
+      _controller.text = widget.server.secondaryConnectionAddress!;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final controller = TextEditingController();
-
-    if (primary) {
-      controller.text = server.primaryConnectionAddress;
-    }
-    if (!primary && server.secondaryConnectionAddress != null) {
-      controller.text = server.secondaryConnectionAddress!;
-    }
-
     return Form(
-      key: formKey,
+      key: _formKey,
       child: CupertinoStyleModalPopupScaffold(
-        middleText: title,
+        middleText: widget.title,
         leading: const CupertinoStyleBottomSheetCancelButton(),
         trailing: CupertinoStyleBottomSheetSaveButton(
           onPressed: () {
-            if (formKey.currentState != null && formKey.currentState!.validate()) {
-              if (isEmpty(controller.text) && server.primaryActive != true) {
+            if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+              if (isEmpty(_controller.text) && widget.server.primaryActive != true) {
                 context.read<SettingsBloc>().add(
                   SettingsUpdatePrimaryActive(
-                    tautulliId: server.tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     primaryActive: true,
                   ),
                 );
@@ -54,9 +72,9 @@ class CupertinoStyleServerConnectionAddressBottomSheet extends StatelessWidget {
 
               context.read<SettingsBloc>().add(
                 SettingsUpdateConnectionInfo(
-                  primary: primary,
-                  connectionAddress: controller.text,
-                  server: server,
+                  primary: widget.primary,
+                  connectionAddress: _controller.text,
+                  server: widget.server,
                 ),
               );
               Navigator.of(context).pop();
@@ -69,7 +87,7 @@ class CupertinoStyleServerConnectionAddressBottomSheet extends StatelessWidget {
             backgroundColor: CupertinoColors.transparent,
             children: [
               CupertinoTextFormFieldRow(
-                controller: controller,
+                controller: _controller,
                 autofocus: true,
                 validator: (value) {
                   bool validUrl = isURL(
@@ -78,15 +96,15 @@ class CupertinoStyleServerConnectionAddressBottomSheet extends StatelessWidget {
                     requireProtocol: true,
                     allowUnderscore: true,
                   );
-                  if ((primary && validUrl == false) ||
-                      (!primary && isNotBlank(controller.text) && validUrl == false)) {
-                    return primary
+                  if ((widget.primary && validUrl == false) ||
+                      (!widget.primary && isNotBlank(_controller.text) && validUrl == false)) {
+                    return widget.primary
                         ? LocaleKeys.server_connection_address_dialog_primary_validation.tr()
                         : LocaleKeys.server_connection_address_dialog_secondary_validation.tr();
                   }
                   return null;
                 },
-                placeholder: primary
+                placeholder: widget.primary
                     ? LocaleKeys.primary_connection_address_hint.tr()
                     : LocaleKeys.secondary_connection_address_hint.tr(),
               ),
