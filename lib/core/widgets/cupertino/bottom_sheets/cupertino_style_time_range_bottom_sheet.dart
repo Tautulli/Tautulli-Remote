@@ -144,6 +144,7 @@ class _CupertinoStyleTimeRangeBottomSheetState extends State<CupertinoStyleTimeR
 
   @override
   void dispose() {
+    _textController.dispose();
     _focusNode.dispose();
     super.dispose();
   }

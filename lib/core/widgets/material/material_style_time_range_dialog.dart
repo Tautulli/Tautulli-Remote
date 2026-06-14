@@ -5,23 +5,34 @@ import 'package:quiver/strings.dart';
 
 import '../../../translations/locale_keys.g.dart';
 
-class MaterialStyleTimeRangeDialog extends StatelessWidget {
+class MaterialStyleTimeRangeDialog extends StatefulWidget {
   const MaterialStyleTimeRangeDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final textController = TextEditingController();
+  State<MaterialStyleTimeRangeDialog> createState() => _MaterialStyleTimeRangeDialogState();
+}
 
+class _MaterialStyleTimeRangeDialogState extends State<MaterialStyleTimeRangeDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LocaleKeys.custom_time_range_title).tr(),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Form(
-            key: formKey,
+            key: _formKey,
             child: TextFormField(
-              controller: textController,
+              controller: _textController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
@@ -90,8 +101,8 @@ class MaterialStyleTimeRangeDialog extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
-            if (formKey.currentState != null && formKey.currentState!.validate()) {
-              Navigator.of(context).pop(int.parse(textController.value.text));
+            if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+              Navigator.of(context).pop(int.parse(_textController.value.text));
             }
           },
           child: const Text(LocaleKeys.save_title).tr(),
