@@ -343,6 +343,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     _timer?.cancel();
   }
 
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
   Future<List<ActivityModel>> _activityModelsWithPosterUris({
     required List<ActivityModel> activityList,
     required String tautulliId,
