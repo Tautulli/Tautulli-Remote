@@ -97,21 +97,21 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
       listeners: [
         BlocListener<ActivityBloc, ActivityState>(
           listener: (context, state) {
-            setState(() {
-              // Update activity to most recent data and if the item no longer exists close the bottom sheet
-              try {
-                final activityList = state.serverActivityList
-                    .firstWhere((server) => server.tautulliId == widget.server.tautulliId)
-                    .activityList;
-                final item = activityList.firstWhere(
-                  (item) => item.sessionId == activity.sessionId && item.sessionKey == activity.sessionKey,
-                );
+            // Update activity to most recent data and if the item no longer exists close the bottom sheet
+            try {
+              final activityList = state.serverActivityList
+                  .firstWhere((server) => server.tautulliId == widget.server.tautulliId)
+                  .activityList;
+              final item = activityList.firstWhere(
+                (item) => item.sessionId == activity.sessionId && item.sessionKey == activity.sessionKey,
+              );
 
+              setState(() {
                 activity = item;
-              } catch (_) {
-                Navigator.of(context).pop();
-              }
-            });
+              });
+            } catch (_) {
+              Navigator.of(context).pop();
+            }
           },
         ),
         BlocListener<TerminateStreamBloc, TerminateStreamState>(
