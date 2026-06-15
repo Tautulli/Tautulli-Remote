@@ -24,6 +24,7 @@ class QrCodeScannerImpl implements QrCodeScanner {
     if (result == '-1' || result == null) return null;
 
     final List scanResults = result.split('|');
+    if (scanResults.length < 2) return null;
     final connectionAddress = scanResults[0].trim();
     final deviceToken = scanResults[1].trim();
 
