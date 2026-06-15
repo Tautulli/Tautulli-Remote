@@ -132,48 +132,53 @@ class _MaterialStyleHistoryBottomSheetDetailsState extends State<MaterialStyleHi
                           ),
                         ),
                       const Gap(8),
-                      _ItemRow(
-                        title: LocaleKeys.date_title.tr(),
-                        item: Text(
-                          TimeHelper.cleanDateTime(
-                            widget.history.date!,
-                            dateFormat: settingsState.appSettings.activeServer.dateFormat,
-                            dateOnly: true,
+                      if (widget.history.date != null)
+                        _ItemRow(
+                          title: LocaleKeys.date_title.tr(),
+                          item: Text(
+                            TimeHelper.cleanDateTime(
+                              widget.history.date!,
+                              dateFormat: settingsState.appSettings.activeServer.dateFormat,
+                              dateOnly: true,
+                            ),
                           ),
                         ),
-                      ),
-                      _ItemRow(
-                        title: LocaleKeys.started_title.tr(),
-                        item: Text(
-                          TimeHelper.cleanDateTime(
-                            widget.history.started!,
-                            timeFormat: settingsState.appSettings.activeServer.timeFormat,
-                            timeOnly: true,
+                      if (widget.history.started != null)
+                        _ItemRow(
+                          title: LocaleKeys.started_title.tr(),
+                          item: Text(
+                            TimeHelper.cleanDateTime(
+                              widget.history.started!,
+                              timeFormat: settingsState.appSettings.activeServer.timeFormat,
+                              timeOnly: true,
+                            ),
                           ),
                         ),
-                      ),
-                      _ItemRow(
-                        title: LocaleKeys.stopped_title.tr(),
-                        item: Text(
-                          TimeHelper.cleanDateTime(
-                            widget.history.stopped!,
-                            timeFormat: settingsState.appSettings.activeServer.timeFormat,
-                            timeOnly: true,
+                      if (widget.history.stopped != null)
+                        _ItemRow(
+                          title: LocaleKeys.stopped_title.tr(),
+                          item: Text(
+                            TimeHelper.cleanDateTime(
+                              widget.history.stopped!,
+                              timeFormat: settingsState.appSettings.activeServer.timeFormat,
+                              timeOnly: true,
+                            ),
                           ),
                         ),
-                      ),
-                      _ItemRow(
-                        title: LocaleKeys.paused_title.tr(),
-                        item: Text(
-                          TimeHelper.simple(widget.history.pausedCounter!),
+                      if (widget.history.pausedCounter != null)
+                        _ItemRow(
+                          title: LocaleKeys.paused_title.tr(),
+                          item: Text(
+                            TimeHelper.simple(widget.history.pausedCounter!),
+                          ),
                         ),
-                      ),
-                      _ItemRow(
-                        title: LocaleKeys.duration_title.tr(),
-                        item: Text(
-                          TimeHelper.simple(widget.history.duration!),
+                      if (widget.history.duration != null)
+                        _ItemRow(
+                          title: LocaleKeys.duration_title.tr(),
+                          item: Text(
+                            TimeHelper.simple(widget.history.duration!),
+                          ),
                         ),
-                      ),
                       _ItemRow(
                         title: LocaleKeys.progress_title.tr(),
                         item: Text(
