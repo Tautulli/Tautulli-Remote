@@ -400,5 +400,18 @@
     "custom_title": "Власний",
     "decision_title": "Відтворення",
     "visuals_title": "Візуально",
-    "total_title": "Всього"
+    "total_title": "Всього",
+    "back_title": "Назад",
+    "count_title": "Кількість",
+    "dismiss_button": "ВІДХИЛИТИ",
+    "dismiss_title": "Відхилити",
+    "error_title": "Помилка",
+    "failed_users_fetch_message": "Не вдалося отримати список користувачів",
+    "finish_title": "Фініш",
+    "next_title": "Далі",
+    "select_server_title": "Виберіть сервер",
+    "sort_libraries_title": "Сортувати бібліотеки",
+    "statistic_type_title": "Тип статистики",
+    "styles_title": "Стилі",
+    "wizard_closing_styles": "Змініть стиль програми між Material та Cupertino у розділі «Налаштування» > «Зовнішній вигляд»."
 }
