@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/activity_model.dart';
 
 class TimeLeft extends StatelessWidget {
@@ -19,7 +21,9 @@ class TimeLeft extends StatelessWidget {
 
     if (activity.duration != null) {
       return Text(
-        '${TimeHelper.timeLeft(activity.duration, activity.progressPercent)} left',
+        LocaleKeys.time_left_format.tr(
+          args: [TimeHelper.timeLeft(activity.duration, activity.progressPercent)],
+        ),
       );
     }
 

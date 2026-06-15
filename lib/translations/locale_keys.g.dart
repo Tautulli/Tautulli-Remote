@@ -386,6 +386,7 @@ abstract class  LocaleKeys {
   static const throttled_title = 'throttled_title';
   static const time_title = 'time_title';
   static const time_range_title = 'time_range_title';
+  static const time_left_format = 'time_left_format';
   static const timestamp_title = 'timestamp_title';
   static const tips_title = 'tips_title';
   static const total_title = 'total_title';

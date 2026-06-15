@@ -3191,6 +3191,7 @@ static const Map<String,dynamic> _en = {
   "throttled_title": "Throttled",
   "time_title": "Time",
   "time_range_title": "Time Range",
+  "time_left_format": "{} left",
   "timestamp_title": "Timestamp",
   "tips_title": "Tips",
   "total_title": "Total",
