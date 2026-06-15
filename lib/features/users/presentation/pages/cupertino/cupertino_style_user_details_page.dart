@@ -221,6 +221,7 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
 
   Future<void> _resolveBackgroundColor() async {
     if (widget.backgroundColor != null) {
+      if (!mounted) return;
       setState(() {
         _backgroundColor = widget.backgroundColor;
       });
@@ -231,6 +232,7 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
     if (hasNetworkImage && !widget.fetchUser) {
       final color = await _getColor(widget.user.userThumb);
 
+      if (!mounted) return;
       setState(() {
         _backgroundColor = color;
       });
