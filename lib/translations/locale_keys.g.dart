@@ -74,6 +74,7 @@ abstract class  LocaleKeys {
   static const date_title = 'date_title';
   static const days = 'days';
   static const days_title = 'days_title';
+  static const debug_title = 'debug_title';
   static const default_title = 'default_title';
   static const delete_title = 'delete_title';
   static const details_title = 'details_title';
@@ -184,12 +185,14 @@ abstract class  LocaleKeys {
   static const hours_title = 'hours_title';
   static const hrs = 'hrs';
   static const ip_address_title = 'ip_address_title';
+  static const info_title = 'info_title';
   static const integer_larger_than_1_message = 'integer_larger_than_1_message';
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
   static const later_title = 'later_title';
   static const recently_watched_title = 'recently_watched_title';
   static const learn_more_title = 'learn_more_title';
+  static const level_title = 'level_title';
   static const libraries_empty_message = 'libraries_empty_message';
   static const libraries_title = 'libraries_title';
   static const library_media_full_refresh_title = 'library_media_full_refresh_title';
@@ -212,6 +215,7 @@ abstract class  LocaleKeys {
   static const max_concurrent_title = 'max_concurrent_title';
   static const media_title = 'media_title';
   static const media_type_title = 'media_type_title';
+  static const message_title = 'message_title';
   static const min = 'min';
   static const mins = 'mins';
   static const month = 'month';
@@ -382,6 +386,7 @@ abstract class  LocaleKeys {
   static const throttled_title = 'throttled_title';
   static const time_title = 'time_title';
   static const time_range_title = 'time_range_title';
+  static const timestamp_title = 'timestamp_title';
   static const tips_title = 'tips_title';
   static const total_title = 'total_title';
   static const total_play_count_for_last_12_months_title = 'total_play_count_for_last_12_months_title';
@@ -411,6 +416,7 @@ abstract class  LocaleKeys {
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
   static const view_on_plex_title = 'view_on_plex_title';
   static const waiting_for_wizard_message = 'waiting_for_wizard_message';
+  static const warning_title = 'warning_title';
   static const wiki_title = 'wiki_title';
   static const wizard_accessibility_text_1 = 'wizard_accessibility_text_1';
   static const wizard_accessibility_text_2 = 'wizard_accessibility_text_2';

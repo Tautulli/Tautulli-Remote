@@ -44,28 +44,28 @@ class CupertinoStyleLoggingFilterBottomSheet extends StatelessWidget {
             onTap: () {
               logLevelChanged(LogLevel.DEBUG);
             },
-            titleText: 'Debug',
+            titleText: LocaleKeys.debug_title.tr(),
             trailing: initialValue == LogLevel.DEBUG ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.INFO);
             },
-            titleText: 'Info',
+            titleText: LocaleKeys.info_title.tr(),
             trailing: initialValue == LogLevel.INFO ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.WARNING);
             },
-            titleText: 'Warning',
+            titleText: LocaleKeys.warning_title.tr(),
             trailing: initialValue == LogLevel.WARNING ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
             onTap: () {
               logLevelChanged(LogLevel.ERROR);
             },
-            titleText: 'Error',
+            titleText: LocaleKeys.error_title.tr(),
             trailing: initialValue == LogLevel.ERROR ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
         ],

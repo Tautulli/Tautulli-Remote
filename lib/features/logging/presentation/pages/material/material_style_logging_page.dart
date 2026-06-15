@@ -174,7 +174,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
                   PopupMenuItem(
                     value: LogLevel.DEBUG,
                     child: Text(
-                      'Debug',
+                      LocaleKeys.debug_title.tr(),
                       style: TextStyle(
                         color: state.level == LogLevel.DEBUG
                             ? Theme.of(context).colorScheme.primary
@@ -185,7 +185,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
                   PopupMenuItem(
                     value: LogLevel.INFO,
                     child: Text(
-                      'Info',
+                      LocaleKeys.info_title.tr(),
                       style: TextStyle(
                         color: state.level == LogLevel.INFO
                             ? Theme.of(context).colorScheme.primary
@@ -196,7 +196,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
                   PopupMenuItem(
                     value: LogLevel.WARNING,
                     child: Text(
-                      'Warning',
+                      LocaleKeys.warning_title.tr(),
                       style: TextStyle(
                         color: state.level == LogLevel.WARNING
                             ? Theme.of(context).colorScheme.primary
@@ -207,7 +207,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
                   PopupMenuItem(
                     value: LogLevel.ERROR,
                     child: Text(
-                      'Error',
+                      LocaleKeys.error_title.tr(),
                       style: TextStyle(
                         color: state.level == LogLevel.ERROR
                             ? Theme.of(context).colorScheme.primary

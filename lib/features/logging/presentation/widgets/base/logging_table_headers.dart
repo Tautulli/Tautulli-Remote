@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../../../../translations/locale_keys.g.dart';
 
 class LoggingTableHeaders extends StatelessWidget {
   const LoggingTableHeaders({super.key});
@@ -20,9 +23,9 @@ class LoggingTableHeaders extends StatelessWidget {
               bottom: 14,
               left: 12,
             ),
-            child: const Text(
-              'Timestamp',
-              style: TextStyle(
+            child: Text(
+              LocaleKeys.timestamp_title.tr(),
+              style: const TextStyle(
                 fontSize: textSize,
               ),
             ),
@@ -33,24 +36,24 @@ class LoggingTableHeaders extends StatelessWidget {
               vertical: 8,
               horizontal: 6,
             ),
-            child: const Text(
-              'Level',
-              style: TextStyle(
+            child: Text(
+              LocaleKeys.level_title.tr(),
+              style: const TextStyle(
                 fontSize: textSize,
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 8,
                 bottom: 8,
                 left: 6,
                 right: 12,
               ),
               child: Text(
-                'Message',
-                style: TextStyle(
+                LocaleKeys.message_title.tr(),
+                style: const TextStyle(
                   fontSize: textSize,
                 ),
               ),
