@@ -38,7 +38,7 @@ class LastWatchedStatisticDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              statData.friendlyName ?? 'name missing',
+              statData.friendlyName ?? LocaleKeys.name_missing.tr(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ).sensitive();

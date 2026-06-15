@@ -230,6 +230,7 @@ abstract class  LocaleKeys {
   static const multiserver_activity_page_subtitle = 'multiserver_activity_page_subtitle';
   static const multiserver_activity_page_title = 'multiserver_activity_page_title';
   static const music_title = 'music_title';
+  static const name_missing = 'name_missing';
   static const name_title = 'name_title';
   static const navigate_title = 'navigate_title';
   static const never = 'never';

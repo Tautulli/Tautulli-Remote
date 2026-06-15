@@ -29,7 +29,7 @@ class TopUsersStatisticDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              statData.friendlyName ?? 'name missing',
+              statData.friendlyName ?? LocaleKeys.name_missing.tr(),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(

@@ -32,7 +32,7 @@ class UserDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              user.friendlyName ?? 'name missing',
+              user.friendlyName ?? LocaleKeys.name_missing.tr(),
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

@@ -159,7 +159,7 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
                 );
               },
             ),
-            title: widget.user.friendlyName ?? 'name missing',
+            title: widget.user.friendlyName ?? LocaleKeys.name_missing.tr(),
             subtitle: BlocBuilder<UserIndividualBloc, UserIndividualState>(
               builder: (context, state) {
                 return RichText(
