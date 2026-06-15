@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../features/settings/data/models/custom_header_model.dart';
@@ -176,17 +177,22 @@ class ServerModel extends Equatable {
   static List<CustomHeaderModel> _customHeadersFromJson(
     String jsonEncodedHeaders,
   ) {
-    final List decodedHeaders = jsonDecode(jsonEncodedHeaders);
+    try {
+      final List decodedHeaders = jsonDecode(jsonEncodedHeaders);
 
-    List<CustomHeaderModel> customHeaderList = [];
+      List<CustomHeaderModel> customHeaderList = [];
 
-    for (Map<String, dynamic> header in decodedHeaders) {
-      customHeaderList.add(
-        CustomHeaderModel(key: header['key'], value: header['value']),
-      );
+      for (Map<String, dynamic> header in decodedHeaders) {
+        customHeaderList.add(
+          CustomHeaderModel(key: header['key'], value: header['value']),
+        );
+      }
+
+      return customHeaderList;
+    } catch (e) {
+      debugPrint('ServerModel :: Failed to parse custom headers [$e]');
+      return [];
     }
-
-    return customHeaderList;
   }
 
   static String _customHeadersToJson(
