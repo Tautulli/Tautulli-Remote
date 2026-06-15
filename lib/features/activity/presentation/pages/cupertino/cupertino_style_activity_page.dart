@@ -295,7 +295,8 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> serverActivityWidgets = [];
 
-    if (serverActivityModelList.isEmpty) {
+    final serverActivityMatch = serverActivityModelList.where((server) => server.tautulliId == _activeServerId);
+    if (serverActivityMatch.isEmpty) {
       if (!wizardComplete) {
         return CupertinoStyleStatusPage(
           message: LocaleKeys.waiting_for_wizard_message.tr(),
@@ -311,96 +312,102 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
       );
     }
 
-    if (serverActivityModelList.isNotEmpty) {
-      final ServerActivityModel firstServer = serverActivityModelList.firstWhere(
-        (server) => server.tautulliId == _activeServerId,
-      );
+    final ServerActivityModel firstServer = serverActivityMatch.first;
 
-      if (firstServer.status == BlocStatus.failure) {
+    if (firstServer.status == BlocStatus.failure) {
+      return _statusWidget(
+        child: CupertinoStyleStatusPage(
+          message: firstServer.failureMessage ?? '',
+          suggestion: firstServer.failureSuggestion ?? '',
+        ),
+      );
+    } else if (freshFetch) {
+      return BlocBuilder<ActivityBloc, ActivityState>(
+        builder: (context, state) {
+          if (state.serverActivityList[0].status == BlocStatus.inProgress) {
+            return const Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
+
+          return const SizedBox();
+        },
+      );
+    } else if (firstServer.activityList.isEmpty) {
+      return _statusWidget(
+        child: CupertinoStyleStatusPage(message: LocaleKeys.activity_empty_message.tr()),
+      );
+    } else {
+      // _serverList is cleared by the SettingsBloc listener before ActivityBloc processes the
+      // deletion, so the active server may momentarily be absent from _serverList while still
+      // present in the stale activity list. Also avoids redundant lookups inside the for loop.
+      final serverMatch = _serverList.where((server) => server.tautulliId == firstServer.tautulliId);
+      if (serverMatch.isEmpty) {
         return _statusWidget(
           child: CupertinoStyleStatusPage(
-            message: firstServer.failureMessage ?? '',
-            suggestion: firstServer.failureSuggestion ?? '',
+            message: LocaleKeys.error_message_no_servers.tr(),
+            suggestion: LocaleKeys.error_suggestion_register_server.tr(),
           ),
         );
-      } else if (freshFetch) {
-        return BlocBuilder<ActivityBloc, ActivityState>(
-          builder: (context, state) {
-            if (state.serverActivityList[0].status == BlocStatus.inProgress) {
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
-            }
+      }
+      final server = serverMatch.first;
 
-            return const SizedBox();
-          },
-        );
-      } else if (firstServer.activityList.isEmpty) {
-        return _statusWidget(
-          child: CupertinoStyleStatusPage(message: LocaleKeys.activity_empty_message.tr()),
-        );
-      } else {
-        for (ActivityModel activityModel in firstServer.activityList) {
-          serverActivityWidgets.add(
-            CupertinoStyleActivityCard(
-              activity: activityModel,
-              server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
-            ),
-          );
-        }
-
-        final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
-        late int crossAxisCount;
-
-        if (screenWidth > 1000) {
-          crossAxisCount = 3;
-        } else if (screenWidth > 580) {
-          crossAxisCount = 2;
-        } else {
-          crossAxisCount = 1;
-        }
-
-        return CupertinoStyleRefreshPage(
-          onRefresh: () {
-            _activityBloc.add(
-              ActivityFetched(
-                serverList: _serverList,
-                multiserver: _multiserver,
-                activeServerId: _activeServerId,
-                settingsBloc: _settingsBloc,
-              ),
-            );
-
-            return _refreshCompleter.future;
-          },
-          slivers: [
-            if (streamCount > 0)
-              SliverPadding(
-                padding: const EdgeInsets.all(8),
-                sliver: SliverToBoxAdapter(
-                  child: CupertinoStyleServerActivityInfoCard(serverActivity: firstServer),
-                ),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              sliver: SliverGrid.count(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio:
-                    (2 *
-                        MediaQuery.of(context).size.width /
-                        (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
-                    crossAxisCount,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                children: serverActivityWidgets,
-              ),
-            ),
-          ],
+      for (ActivityModel activityModel in firstServer.activityList) {
+        serverActivityWidgets.add(
+          CupertinoStyleActivityCard(
+            activity: activityModel,
+            server: server,
+          ),
         );
       }
-    }
 
-    return const SizedBox();
+      final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
+      late int crossAxisCount;
+
+      if (screenWidth > 1000) {
+        crossAxisCount = 3;
+      } else if (screenWidth > 580) {
+        crossAxisCount = 2;
+      } else {
+        crossAxisCount = 1;
+      }
+
+      return CupertinoStyleRefreshPage(
+        onRefresh: () {
+          _activityBloc.add(
+            ActivityFetched(
+              serverList: _serverList,
+              multiserver: _multiserver,
+              activeServerId: _activeServerId,
+              settingsBloc: _settingsBloc,
+            ),
+          );
+
+          return _refreshCompleter.future;
+        },
+        slivers: [
+          if (streamCount > 0)
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: SliverToBoxAdapter(
+                child: CupertinoStyleServerActivityInfoCard(serverActivity: firstServer),
+              ),
+            ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+            sliver: SliverGrid.count(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio:
+                  (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
+                  crossAxisCount,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              children: serverActivityWidgets,
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   Widget _buildMultiserverActivity({

@@ -195,9 +195,12 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
                 return Future.value();
               },
               child: MaterialStylePageBody(
+                // any() guard prevents firstWhere from throwing if _activeServerId is cleared
+                // before ActivityBloc processes the deletion (SettingsBloc fires first).
                 loading:
                     !_multiserver &&
                         state.serverActivityList.isNotEmpty &&
+                        state.serverActivityList.any((s) => s.tautulliId == _activeServerId) &&
                         state.serverActivityList.firstWhere((s) => s.tautulliId == _activeServerId).status ==
                             BlocStatus.inProgress
                     ? true
@@ -231,7 +234,8 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> serverActivityWidgets = [];
 
-    if (serverActivityModelList.isEmpty) {
+    final serverActivityMatch = serverActivityModelList.where((server) => server.tautulliId == _activeServerId);
+    if (serverActivityMatch.isEmpty) {
       return MaterialStyleStatusPage(
         scrollable: true,
         message: LocaleKeys.error_message_no_servers.tr(),
@@ -239,74 +243,79 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
       );
     }
 
-    if (serverActivityModelList.isNotEmpty) {
-      final ServerActivityModel firstServer = serverActivityModelList.firstWhere(
-        (server) => server.tautulliId == _activeServerId,
+    final ServerActivityModel firstServer = serverActivityMatch.first;
+
+    if (firstServer.status == BlocStatus.failure) {
+      return MaterialStyleStatusPage(
+        scrollable: true,
+        message: firstServer.failureMessage ?? '',
+        suggestion: firstServer.failureSuggestion ?? '',
       );
-
-      if (firstServer.status == BlocStatus.failure) {
+    } else if (freshFetch) {
+      return const SizedBox();
+    } else if (firstServer.activityList.isEmpty) {
+      return MaterialStyleStatusPage(
+        scrollable: true,
+        message: LocaleKeys.activity_empty_message.tr(),
+      );
+    } else {
+      // _serverList is cleared by the SettingsBloc listener before ActivityBloc processes the
+      // deletion, so the active server may momentarily be absent from _serverList while still
+      // present in the stale activity list. Also avoids redundant lookups inside the for loop.
+      final serverMatch = _serverList.where((server) => server.tautulliId == firstServer.tautulliId);
+      if (serverMatch.isEmpty) {
         return MaterialStyleStatusPage(
           scrollable: true,
-          message: firstServer.failureMessage ?? '',
-          suggestion: firstServer.failureSuggestion ?? '',
-        );
-      } else if (freshFetch) {
-        return const SizedBox();
-      } else if (firstServer.activityList.isEmpty) {
-        return MaterialStyleStatusPage(
-          scrollable: true,
-          message: LocaleKeys.activity_empty_message.tr(),
-        );
-      } else {
-        for (ActivityModel activityModel in firstServer.activityList) {
-          serverActivityWidgets.add(
-            MaterialStyleActivityCard(
-              activity: activityModel,
-              server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
-            ),
-          );
-        }
-
-        final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
-        late int crossAxisCount;
-
-        if (screenWidth > 1000) {
-          crossAxisCount = 3;
-        } else if (screenWidth > 580) {
-          crossAxisCount = 2;
-        } else {
-          crossAxisCount = 1;
-        }
-
-        return CustomScrollView(
-          slivers: [
-            if (streamCount > 0)
-              SliverPadding(
-                padding: const EdgeInsets.all(8),
-                sliver: SliverToBoxAdapter(
-                  child: MaterialStyleServerActivityInfoCard(serverActivity: firstServer),
-                ),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              sliver: SliverGrid.count(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio:
-                    (2 *
-                        MediaQuery.of(context).size.width /
-                        (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
-                    crossAxisCount,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                children: serverActivityWidgets,
-              ),
-            ),
-          ],
+          message: LocaleKeys.error_message_no_servers.tr(),
+          suggestion: LocaleKeys.error_suggestion_register_server.tr(),
         );
       }
-    }
+      final server = serverMatch.first;
 
-    return const SizedBox();
+      for (ActivityModel activityModel in firstServer.activityList) {
+        serverActivityWidgets.add(
+          MaterialStyleActivityCard(
+            activity: activityModel,
+            server: server,
+          ),
+        );
+      }
+
+      final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
+      late int crossAxisCount;
+
+      if (screenWidth > 1000) {
+        crossAxisCount = 3;
+      } else if (screenWidth > 580) {
+        crossAxisCount = 2;
+      } else {
+        crossAxisCount = 1;
+      }
+
+      return CustomScrollView(
+        slivers: [
+          if (streamCount > 0)
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: SliverToBoxAdapter(
+                child: MaterialStyleServerActivityInfoCard(serverActivity: firstServer),
+              ),
+            ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+            sliver: SliverGrid.count(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio:
+                  (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaler.scale(1))) /
+                  crossAxisCount,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              children: serverActivityWidgets,
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   Widget _buildMultiserverActivity({
