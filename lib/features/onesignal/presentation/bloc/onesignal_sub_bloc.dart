@@ -9,13 +9,6 @@ import '../../data/datasources/onesignal_data_source.dart';
 part 'onesignal_sub_event.dart';
 part 'onesignal_sub_state.dart';
 
-String registerErrorTitle = LocaleKeys.onesignal_error_registration_title.tr();
-String registerErrorMessage =
-    LocaleKeys.onesignal_error_registration_message.tr();
-String unexpectedErrorTitle = LocaleKeys.onesignal_error_unexpected_title.tr();
-String unexpectedErrorMessage =
-    LocaleKeys.onesignal_error_unexpected_message.tr();
-
 class OneSignalSubBloc extends Bloc<OneSignalSubEvent, OneSignalSubState> {
   final OneSignalDataSource oneSignal;
 
@@ -41,15 +34,15 @@ class OneSignalSubBloc extends Bloc<OneSignalSubEvent, OneSignalSubState> {
     } else if (!isSubscribed) {
       emit(
         OneSignalSubFailure(
-          title: registerErrorTitle,
-          message: registerErrorMessage,
+          title: LocaleKeys.onesignal_error_registration_title.tr(),
+          message: LocaleKeys.onesignal_error_registration_message.tr(),
         ),
       );
     } else {
       emit(
         OneSignalSubFailure(
-          title: unexpectedErrorTitle,
-          message: unexpectedErrorMessage,
+          title: LocaleKeys.onesignal_error_unexpected_title.tr(),
+          message: LocaleKeys.onesignal_error_unexpected_message.tr(),
         ),
       );
     }

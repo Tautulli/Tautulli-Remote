@@ -12,39 +12,7 @@ import '../error/exception.dart';
 import '../error/failure.dart';
 import '../requirements/tautulli_version.dart';
 
-//* Error Messages
-String badApiResponseMessage = LocaleKeys.error_message_bad_api_response.tr();
-String certificateExpiredMessage = LocaleKeys.error_message_certificate_expired.tr();
-String certificateVerificationMessage = LocaleKeys.error_message_certificate_verification.tr();
-String connectionMessage = LocaleKeys.error_message_connection.tr();
-String dataBaseInitMessage = LocaleKeys.error_message_database_init.tr();
-String genericMessage = LocaleKeys.error_message_generic.tr();
-String invalidApiKeyMessage = LocaleKeys.error_message_invalid_api_key.tr();
-//  String jsonMessage = 'Failed to parse response.';
-String missingServerMessage = LocaleKeys.error_message_no_servers.tr();
-String serverMessage = LocaleKeys.error_message_server.tr();
-String serverVersionMessage = LocaleKeys.error_message_server_version.tr();
-// const String settingsMessage = 'Required settings are missing.';
-// const String socketMessage = 'Failed to connect to Connection Address.';
 const String timeoutMessage = 'Connection to server timed out.';
-// const String tlsMessage = 'Failed to establish TLS/SSL connection.';
-String terminateStreamMessage = LocaleKeys.error_message_terminate_stream_failed.tr();
-
-//* Error Suggestions
-String authorizationRequiredSuggestion = LocaleKeys.error_suggestion_authorization_required.tr();
-String badApiResponseSuggestion = LocaleKeys.error_suggestion_bad_api_response.tr();
-String certificateExpiredSuggestion = LocaleKeys.error_suggestion_certificate_expired.tr();
-String certificateVerificationSuggestion = LocaleKeys.error_suggestion_certificate_verification.tr();
-String checkConnectionAddressSuggestion = LocaleKeys.error_suggestion_check_connection_address.tr();
-String checkServerSettingsSuggestion = LocaleKeys.error_suggestion_check_server_settings.tr();
-String genericSuggestion = LocaleKeys.error_suggestion_generic.tr();
-String missingServerSuggestion = LocaleKeys.error_suggestion_register_server.tr();
-String invalidApiKeySuggestion = LocaleKeys.error_suggestion_invalid_api_key.tr();
-String plexConnectionSuggestion = LocaleKeys.error_suggestion_plex_connection.tr();
-String serverVersionSuggestion = LocaleKeys.error_suggestion_server_version.tr(
-  args: [MinimumVersion.tautulliServer.toString()],
-);
-String terminateStreamSuggestion = LocaleKeys.error_suggestion_terminate_stream_failed.tr();
 
 class FailureHelper {
   /// Map `Exception` to corresponding `Failure`.
@@ -119,86 +87,88 @@ class FailureHelper {
   static String mapFailureToMessage(Failure failure) {
     switch (failure) {
       case AuthorizationRequiredFailure _:
-        return serverMessage;
+        return LocaleKeys.error_message_server.tr();
       case BadApiResponseFailure _:
-        return badApiResponseMessage;
+        return LocaleKeys.error_message_bad_api_response.tr();
       case CertificateExpiredFailure _:
-        return certificateExpiredMessage;
+        return LocaleKeys.error_message_certificate_expired.tr();
       case CertificateVerificationFailure _:
-        return certificateVerificationMessage;
+        return LocaleKeys.error_message_certificate_verification.tr();
       // case ConnectionDetailsFailure _:
       //   return settingsMessage;
       case ConnectionFailure _:
-        return connectionMessage;
+        return LocaleKeys.error_message_connection.tr();
       case DatabaseInitFailure _:
-        return dataBaseInitMessage;
+        return LocaleKeys.error_message_database_init.tr();
       case InvalidApiKeyFailure _:
-        return invalidApiKeyMessage;
+        return LocaleKeys.error_message_invalid_api_key.tr();
       // case JsonDecodeFailure _:
       //   return jsonMessage;
       case MissingServerFailure _:
-        return missingServerMessage;
+        return LocaleKeys.error_message_no_servers.tr();
       case DioFailure _:
       case ServerFailure _:
-        return serverMessage;
+        return LocaleKeys.error_message_server.tr();
       case ServerVersionFailure _:
-        return serverVersionMessage;
+        return LocaleKeys.error_message_server_version.tr();
       // case SettingsFailure _:
       //   return settingsMessage;
       // case SocketFailure _:
       //   return socketMessage;
       case TerminateStreamFailure _:
-        return terminateStreamMessage;
+        return LocaleKeys.error_message_terminate_stream_failed.tr();
       case TimeoutFailure _:
         return timeoutMessage;
       // case TlsFailure _:
       //   return tlsMessage;
       case GenericFailure _:
       default:
-        return genericMessage;
+        return LocaleKeys.error_message_generic.tr();
     }
   }
 
   static String mapFailureToSuggestion(Failure failure) {
     switch (failure) {
       case AuthorizationRequiredFailure _:
-        return authorizationRequiredSuggestion;
+        return LocaleKeys.error_suggestion_authorization_required.tr();
       case BadApiResponseFailure _:
-        return badApiResponseSuggestion;
+        return LocaleKeys.error_suggestion_bad_api_response.tr();
       case CertificateExpiredFailure _:
-        return certificateExpiredSuggestion;
+        return LocaleKeys.error_suggestion_certificate_expired.tr();
       case CertificateVerificationFailure _:
-        return certificateVerificationSuggestion;
+        return LocaleKeys.error_suggestion_certificate_verification.tr();
       // case ConnectionDetailsFailure _:
       //   return checkServerSettingsSuggestion;
       case ConnectionFailure _:
         return '';
       case DatabaseInitFailure _:
-        return genericSuggestion;
+        return LocaleKeys.error_suggestion_generic.tr();
       case InvalidApiKeyFailure _:
-        return invalidApiKeySuggestion;
+        return LocaleKeys.error_suggestion_invalid_api_key.tr();
       // case JsonDecodeFailure _:
       //   return checkConnectionAddressSuggestion;
       case MissingServerFailure _:
-        return missingServerSuggestion;
+        return LocaleKeys.error_suggestion_register_server.tr();
       case DioFailure _:
       case ServerFailure _:
-        return checkServerSettingsSuggestion;
+        return LocaleKeys.error_suggestion_check_server_settings.tr();
       case ServerVersionFailure _:
-        return serverVersionSuggestion;
+        return LocaleKeys.error_suggestion_server_version.tr(
+          args: [MinimumVersion.tautulliServer.toString()],
+        );
       // case SettingsFailure _:
       //   return checkServerSettingsSuggestion;
       // case SocketFailure _:
       //   return checkConnectionAddressSuggestion;
       case TerminateStreamFailure _:
-        return terminateStreamSuggestion;
+        return LocaleKeys.error_suggestion_terminate_stream_failed.tr();
       case TimeoutFailure _:
-        return plexConnectionSuggestion;
+        return LocaleKeys.error_suggestion_plex_connection.tr();
       // case TlsFailure _:
       //   return checkConnectionAddressSuggestion;
       case GenericFailure _:
       default:
-        return genericSuggestion;
+        return LocaleKeys.error_suggestion_generic.tr();
     }
   }
 }
