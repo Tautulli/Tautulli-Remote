@@ -5,6 +5,7 @@ import 'package:f_logs/model/flog/log.dart';
 import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
@@ -84,7 +85,18 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
       return _refreshCompleter.future;
     }
 
-    return CupertinoStylePageScaffold(
+    return BlocListener<LoggingExportBloc, LoggingExportState>(
+      listener: (context, state) {
+        if (state is LoggingExportFailure) {
+          Fluttertoast.showToast(
+            backgroundColor: CupertinoColors.destructiveRed,
+            textColor: CupertinoColors.black,
+            toastLength: Toast.LENGTH_LONG,
+            msg: LocaleKeys.logs_export_failed_message.tr(),
+          );
+        }
+      },
+      child: CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,
       middle: const Text(LocaleKeys.app_logs_title).tr(),
@@ -149,6 +161,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
           return const SizedBox(height: 0, width: 0);
         },
       ),
+    ),
     );
   }
 

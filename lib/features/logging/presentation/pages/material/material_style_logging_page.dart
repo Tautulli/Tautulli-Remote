@@ -60,12 +60,29 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: const Text(LocaleKeys.app_logs_title).tr(),
-        actions: _appbarActions(),
-      ),
+    return BlocListener<LoggingExportBloc, LoggingExportState>(
+      listener: (context, state) {
+        if (state is LoggingExportFailure) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              content: Text(
+                LocaleKeys.logs_export_failed_message,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onError,
+                ),
+              ).tr(),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          forceMaterialTransparency: true,
+          title: const Text(LocaleKeys.app_logs_title).tr(),
+          actions: _appbarActions(),
+        ),
       body: MaterialStylePageBody(
         child: MaterialStyleRefreshIndicator(
           onRefresh: () {
@@ -114,6 +131,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
           ),
         ),
       ),
+    ),
     );
   }
 

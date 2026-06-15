@@ -203,6 +203,7 @@ abstract class  LocaleKeys {
   static const logs_clear_dialog_title = 'logs_clear_dialog_title';
   static const logs_empty_filter_message = 'logs_empty_filter_message';
   static const logs_empty_message = 'logs_empty_message';
+  static const logs_export_failed_message = 'logs_export_failed_message';
   static const logs_export_menu_item = 'logs_export_menu_item';
   static const logs_failed_to_load_message = 'logs_failed_to_load_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';

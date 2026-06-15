@@ -199,6 +199,7 @@
     "logs_clear_dialog_title": "Are you sure you want to clear the Tautulli Remote logs?",
     "logs_empty_filter_message": "No logs for the selected filter.",
     "logs_empty_message": "No logs found.",
+    "logs_export_failed_message": "Failed to export logs.",
     "logs_export_menu_item": "Export logs",
     "logs_failed_to_load_message": "Failed to load logs.",
     "mask_senstivie_info_subtitle": "Hides IP addresses and other sensitive info",

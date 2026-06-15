@@ -63,7 +63,8 @@ class LoggingExportBloc extends Bloc<LoggingExportEvent, LoggingExportState> {
       emit(
         LoggingExportSuccess(),
       );
-    } catch (_) {
+    } catch (e) {
+      logging.error('Logging :: Export failed [$e]');
       emit(
         LoggingExportFailure(),
       );
