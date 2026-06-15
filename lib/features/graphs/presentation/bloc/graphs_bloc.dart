@@ -410,7 +410,13 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
           'Graphs :: Failed to fetch ${event.graphType.graphEndpoint()} data [$failure]',
         );
 
-        graphsCache[event.graphType] = graphsCache[event.graphType]!.copyWith(
+        final current = graphsCache[event.graphType];
+        if (current == null) {
+          logging.error('Graphs :: Unexpected null cache entry for ${event.graphType}');
+          return;
+        }
+
+        graphsCache[event.graphType] = current.copyWith(
           status: BlocStatus.failure,
           failure: failure,
           failureMessage: FailureHelper.mapFailureToMessage(failure),
@@ -433,7 +439,13 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
           ),
         );
 
-        graphsCache[event.graphType] = graphsCache[event.graphType]!.copyWith(
+        final current = graphsCache[event.graphType];
+        if (current == null) {
+          logging.error('Graphs :: Unexpected null cache entry for ${event.graphType}');
+          return;
+        }
+
+        graphsCache[event.graphType] = current.copyWith(
           status: BlocStatus.success,
           graphDataModel: playsByStreamType.value1,
         );
