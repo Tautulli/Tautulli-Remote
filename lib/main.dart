@@ -52,9 +52,16 @@ void main() async {
   await SystemTheme.accentColor.load();
 
   if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } catch (e) {
+      // Crashlytics is not yet configured at this point, so log via debugPrint
+      // as a fallback before rethrowing.
+      debugPrint('Firebase initialization failed: $e');
+      rethrow;
+    }
   }
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
