@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -14,6 +15,7 @@ import '../../pages/material/material_style_media_page.dart';
 import 'material_style_media_list_poster.dart';
 import 'material_style_media_list_thumbnail.dart';
 import 'material_style_media_list_track.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleMediaChildrenTab extends StatefulWidget {
   final ServerModel server;
@@ -71,7 +73,7 @@ class _MaterialStyleMediaChildrenTabState extends State<MaterialStyleMediaChildr
                 if (state.status == BlocStatus.failure) {
                   return MaterialStyleStatusPage(
                     scrollable: true,
-                    message: state.message ?? 'Unknown failure.',
+                    message: state.message ?? LocaleKeys.error_message_generic.tr(),
                     suggestion: state.suggestion,
                   );
                 }

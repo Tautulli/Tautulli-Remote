@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -10,6 +11,7 @@ import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/metadata_bloc.dart';
 import '../base/media_details_tab_details.dart';
 import 'cupertino_style_media_details_tab_summary.dart';
@@ -88,7 +90,7 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
                 if (state.status == BlocStatus.failure) {
                   return SliverFillRemaining(
                     child: CupertinoStyleStatusPage(
-                      message: state.message ?? 'Unknown failure.',
+                      message: state.message ?? LocaleKeys.error_message_generic.tr(),
                       suggestion: state.suggestion,
                     ),
                   );

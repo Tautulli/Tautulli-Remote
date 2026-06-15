@@ -128,9 +128,9 @@ class UserDetails extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const TextSpan(
-                            text: ' days ',
-                            style: TextStyle(
+                          TextSpan(
+                            text: ' ${LocaleKeys.days.tr()} ',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
                             ),
@@ -147,9 +147,9 @@ class UserDetails extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const TextSpan(
-                            text: ' hrs ',
-                            style: TextStyle(
+                          TextSpan(
+                            text: ' ${LocaleKeys.hrs.tr()} ',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
                             ),
@@ -166,9 +166,9 @@ class UserDetails extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const TextSpan(
-                            text: ' mins',
-                            style: TextStyle(
+                          TextSpan(
+                            text: ' ${LocaleKeys.mins.tr()}',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
                             ),
@@ -188,9 +188,9 @@ class UserDetails extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const TextSpan(
-                            text: ' secs',
-                            style: TextStyle(
+                          TextSpan(
+                            text: ' ${LocaleKeys.secs.tr()}',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
                             ),

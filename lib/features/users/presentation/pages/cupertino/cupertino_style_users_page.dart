@@ -154,7 +154,7 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
               if (state.status == BlocStatus.success) {
                 return _statusWidget(
                   child: CupertinoStyleStatusPage(
-                    message: LocaleKeys.recently_added_empty_message.tr(),
+                    message: LocaleKeys.users_empty_message.tr(),
                   ),
                 );
               }

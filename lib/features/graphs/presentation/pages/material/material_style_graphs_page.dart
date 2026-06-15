@@ -510,7 +510,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                       PopupMenuItem(
                         value: -1,
                         child: Text(
-                          'Custom',
+                          LocaleKeys.custom_title.tr(),
                           style: TextStyle(
                             color: ![7, 14, 30].contains(_timeRange)
                                 ? Theme.of(context).colorScheme.primary

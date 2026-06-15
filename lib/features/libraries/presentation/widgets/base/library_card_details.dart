@@ -24,7 +24,7 @@ class LibraryCardDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          library.sectionName ?? 'Unknown',
+          library.sectionName ?? LocaleKeys.unknown_title.tr(),
           style: const TextStyle(
             fontSize: 17,
           ),

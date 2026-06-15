@@ -295,7 +295,7 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                     if (widget.activity.audioChannelLayout != null)
                                       TextSpan(
                                         text:
-                                            '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
+                                            '${audioLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
                                       ),
                                     WidgetSpan(
                                       child: Padding(
@@ -323,13 +323,13 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                         } else if (widget.activity.streamAudioDecision == StreamDecision.copy) {
                           if (widget.activity.streamAudioChannelLayout != null) {
                             return Text(
-                              '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                              '${audioLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.audioLanguage} - ${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                             );
                           }
                         } else {
                           if (widget.activity.streamAudioChannelLayout != null) {
                             return Text(
-                              '${audioLanguageEmpty ? "Unknown" : widget.activity.audioLanguage} - ${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                              '${audioLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.audioLanguage} - ${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                             );
                           }
                         }
@@ -356,7 +356,7 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                     children: [
                                       TextSpan(
                                         text:
-                                            '${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
+                                            '${subtitleLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
                                       ),
                                       WidgetSpan(
                                         child: Padding(
@@ -381,15 +381,15 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                             );
                           } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.copy) {
                             return Text(
-                              '${LocaleKeys.direct_stream_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
+                              '${LocaleKeys.direct_stream_title.tr()} (${subtitleLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                             );
                           } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.burn) {
                             return Text(
-                              '${LocaleKeys.burn_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
+                              '${LocaleKeys.burn_title.tr()} (${subtitleLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                             );
                           } else {
                             return Text(
-                              '${LocaleKeys.direct_play_title.tr()} (${subtitleLanguageEmpty ? "Unknown" : widget.activity.subtitleLanguage} - ${widget.activity.streamSubtitleCodec?.toUpperCase()})',
+                              '${LocaleKeys.direct_play_title.tr()} (${subtitleLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.subtitleLanguage} - ${widget.activity.streamSubtitleCodec?.toUpperCase()})',
                             );
                           }
                         } else {

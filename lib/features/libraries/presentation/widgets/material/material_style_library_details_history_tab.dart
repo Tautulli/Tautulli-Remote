@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +13,7 @@ import '../../../../history/presentation/bloc/library_history_bloc.dart';
 import '../../../../history/presentation/widgets/material/material_style_history_card.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/library_table_model.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleLibraryDetailsHistoryTab extends StatefulWidget {
   final ServerModel server;
@@ -75,7 +77,7 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
                 if (state.status == BlocStatus.failure) {
                   return MaterialStyleStatusPage(
                     scrollable: true,
-                    message: state.message ?? 'Unknown failure.',
+                    message: state.message ?? LocaleKeys.error_message_generic.tr(),
                     suggestion: state.suggestion,
                   );
                 }

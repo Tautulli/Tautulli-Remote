@@ -98,7 +98,7 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
                   if (state.watchTimeStatsStatus == BlocStatus.failure && state.userStatsStatus == BlocStatus.failure) {
                     return SliverFillRemaining(
                       child: CupertinoStyleStatusPage(
-                        message: state.message ?? 'Unknown failure.',
+                        message: state.message ?? LocaleKeys.error_message_generic.tr(),
                         suggestion: state.suggestion,
                       ),
                     );

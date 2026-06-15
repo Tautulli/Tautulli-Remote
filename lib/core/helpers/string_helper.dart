@@ -38,7 +38,7 @@ class StringHelper {
       case ('graphs'):
         return LocaleKeys.graphs_title.tr();
       default:
-        return 'Unknown';
+        return LocaleKeys.unknown_title.tr();
     }
   }
 
@@ -63,7 +63,7 @@ class StringHelper {
       case (GraphSeriesType.total):
         return LocaleKeys.total_title.tr();
       default:
-        return 'Unknown';
+        return LocaleKeys.unknown_title.tr();
     }
   }
 
@@ -92,7 +92,7 @@ class StringHelper {
       case (StatIdType.topUsers):
         return LocaleKeys.most_active_users_title.tr();
       default:
-        return 'Unknown';
+        return LocaleKeys.unknown_title.tr();
     }
   }
 

@@ -274,7 +274,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             PopupMenuItem(
               value: 'all',
               child: Text(
-                'All',
+                LocaleKeys.all_title.tr(),
                 style: TextStyle(
                   color: _mediaType == null ? Theme.of(context).colorScheme.primary : null,
                 ),
@@ -283,7 +283,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             PopupMenuItem(
               value: 'movie',
               child: Text(
-                'Movies',
+                LocaleKeys.movies_title.tr(),
                 style: TextStyle(
                   color: _mediaType == MediaType.movie ? Theme.of(context).colorScheme.primary : null,
                 ),
@@ -292,7 +292,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             PopupMenuItem(
               value: 'show',
               child: Text(
-                'TV Shows',
+                LocaleKeys.tv_shows_title.tr(),
                 style: TextStyle(
                   color: _mediaType == MediaType.show ? Theme.of(context).colorScheme.primary : null,
                 ),
@@ -301,7 +301,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             PopupMenuItem(
               value: 'artist',
               child: Text(
-                'Music',
+                LocaleKeys.music_title.tr(),
                 style: TextStyle(
                   color: _mediaType == MediaType.artist ? Theme.of(context).colorScheme.primary : null,
                 ),
@@ -310,7 +310,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             PopupMenuItem(
               value: 'other_video',
               child: Text(
-                'Videos',
+                LocaleKeys.videos_title.tr(),
                 style: TextStyle(
                   color: _mediaType == MediaType.otherVideo ? Theme.of(context).colorScheme.primary : null,
                 ),

@@ -218,7 +218,7 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
     return [
       PopupMenuButton(
         icon: _currentSortIcon(),
-        tooltip: 'Sort libraries',
+        tooltip: LocaleKeys.sort_libraries_title.tr(),
         onSelected: (value) {
           if (value != null) {
             value as String;
@@ -400,13 +400,13 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
       case ('section_name'):
         return LocaleKeys.name_title.tr();
       case ('count'):
-        return 'Count';
+        return LocaleKeys.count_title.tr();
       case ('duration'):
-        return 'Time';
+        return LocaleKeys.time_title.tr();
       case ('plays'):
-        return 'Plays';
+        return LocaleKeys.plays_title.tr();
       default:
-        return 'Unknown';
+        return LocaleKeys.unknown_title.tr();
     }
   }
 }

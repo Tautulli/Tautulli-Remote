@@ -93,7 +93,7 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
                       child: CupertinoStyleStatusPage(
-                        message: state.message ?? 'Unknown failure.',
+                        message: state.message ?? LocaleKeys.error_message_generic.tr(),
                         suggestion: state.suggestion,
                       ),
                     );

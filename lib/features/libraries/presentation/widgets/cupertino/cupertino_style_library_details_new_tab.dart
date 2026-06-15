@@ -91,7 +91,7 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
                   if (state.status == BlocStatus.failure) {
                     return SliverFillRemaining(
                       child: CupertinoStyleStatusPage(
-                        message: state.message ?? 'Unknown failure.',
+                        message: state.message ?? LocaleKeys.error_message_generic.tr(),
                         suggestion: state.suggestion,
                       ),
                     );
@@ -100,7 +100,7 @@ class _CupertinoStyleLibraryDetailsNewTabState extends State<CupertinoStyleLibra
                   if (state.recentlyAdded.isEmpty) {
                     return SliverFillRemaining(
                       child: CupertinoStyleStatusPage(
-                        message: LocaleKeys.history_empty_message.tr(),
+                        message: LocaleKeys.recently_added_empty_message.tr(),
                       ),
                     );
                   }

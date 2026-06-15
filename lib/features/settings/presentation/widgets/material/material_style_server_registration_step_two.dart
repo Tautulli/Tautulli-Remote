@@ -85,7 +85,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
             ),
           ),
           Text(
-            'or',
+            LocaleKeys.or.tr(),
             style: Theme.of(context).textTheme.titleSmall,
           ),
           const Gap(4),

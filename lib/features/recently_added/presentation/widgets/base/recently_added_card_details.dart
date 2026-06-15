@@ -89,7 +89,7 @@ class _TitleRow extends StatelessWidget {
     }
 
     return Text(
-      text ?? 'Unknown',
+      text ?? LocaleKeys.unknown_title.tr(),
       overflow: TextOverflow.ellipsis,
       maxLines:
           [
@@ -136,7 +136,7 @@ class _SubtitleRow extends StatelessWidget {
     }
 
     return Text(
-      text ?? 'Unknown',
+      text ?? LocaleKeys.unknown_title.tr(),
       overflow: TextOverflow.ellipsis,
     );
   }
@@ -173,7 +173,7 @@ class _ItemDetailsRow extends StatelessWidget {
     }
 
     return Text(
-      text ?? 'Unknown',
+      text ?? LocaleKeys.unknown_title.tr(),
       overflow: TextOverflow.ellipsis,
     );
   }
