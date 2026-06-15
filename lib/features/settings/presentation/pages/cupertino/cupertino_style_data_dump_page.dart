@@ -25,7 +25,7 @@ import '../../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_data_dump_warning_card.dart';
 
-class CupertinoStyleDataDumpPage extends StatelessWidget {
+class CupertinoStyleDataDumpPage extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
 
@@ -36,20 +36,27 @@ class CupertinoStyleDataDumpPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
-    context.read<SettingsBloc>().add(
-      const SettingsLoad(updateServerInfo: false),
-    );
+  State<CupertinoStyleDataDumpPage> createState() => _CupertinoStyleDataDumpPageState();
+}
 
+class _CupertinoStyleDataDumpPageState extends State<CupertinoStyleDataDumpPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<SettingsBloc>().add(const SettingsLoad(updateServerInfo: false));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
         ..add(
           OneSignalStatusLoad(),
         ),
       child: CupertinoStyleDataDumpView(
-        showBackButton: showBackButton,
-        previousPageTitle: previousPageTitle,
+        showBackButton: widget.showBackButton,
+        previousPageTitle: widget.previousPageTitle,
       ),
     );
   }

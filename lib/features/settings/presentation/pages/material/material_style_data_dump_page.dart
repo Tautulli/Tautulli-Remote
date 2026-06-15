@@ -23,16 +23,23 @@ import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 
-class MaterialStyleDataDumpPage extends StatelessWidget {
+class MaterialStyleDataDumpPage extends StatefulWidget {
   const MaterialStyleDataDumpPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
-    context.read<SettingsBloc>().add(
-      const SettingsLoad(updateServerInfo: false),
-    );
+  State<MaterialStyleDataDumpPage> createState() => _MaterialStyleDataDumpPageState();
+}
 
+class _MaterialStyleDataDumpPageState extends State<MaterialStyleDataDumpPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<SettingsBloc>().add(const SettingsLoad(updateServerInfo: false));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
         ..add(
