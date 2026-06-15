@@ -186,6 +186,7 @@
     "later_title": "Later",
     "recently_watched_title": "Recently Watched",
     "learn_more_title": "Learn More",
+    "libraries_empty_message": "No libraries found.",
     "libraries_title": "Libraries",
     "library_media_full_refresh_title": "Library Media Full Refresh",
     "library_media_full_refresh_snackbar_message": "Performing a full refresh of library media",

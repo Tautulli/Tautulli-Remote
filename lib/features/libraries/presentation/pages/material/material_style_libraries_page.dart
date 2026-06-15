@@ -130,9 +130,9 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
                         );
                       }
                       if (state.status == BlocStatus.success) {
-                        return const MaterialStyleStatusPage(
+                        return MaterialStyleStatusPage(
                           scrollable: true,
-                          message: 'No libraries',
+                          message: LocaleKeys.libraries_empty_message.tr(),
                         );
                       }
                     }

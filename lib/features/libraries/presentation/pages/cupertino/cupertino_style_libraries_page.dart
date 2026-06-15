@@ -154,7 +154,7 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
               if (state.status == BlocStatus.success) {
                 return _statusWidget(
                   child: CupertinoStyleStatusPage(
-                    message: LocaleKeys.recently_added_empty_message.tr(),
+                    message: LocaleKeys.libraries_empty_message.tr(),
                   ),
                 );
               }

@@ -190,6 +190,7 @@ abstract class  LocaleKeys {
   static const later_title = 'later_title';
   static const recently_watched_title = 'recently_watched_title';
   static const learn_more_title = 'learn_more_title';
+  static const libraries_empty_message = 'libraries_empty_message';
   static const libraries_title = 'libraries_title';
   static const library_media_full_refresh_title = 'library_media_full_refresh_title';
   static const library_media_full_refresh_snackbar_message = 'library_media_full_refresh_snackbar_message';
