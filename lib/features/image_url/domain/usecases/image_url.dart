@@ -23,7 +23,7 @@ class ImageUrl {
     bool? refresh,
     bool? returnHash,
   }) async {
-    assert(img != null || ratingKey != null);
+    if (img == null && ratingKey == null) return Left(GenericFailure());
 
     return await repository(
       tautulliId: tautulliId,
