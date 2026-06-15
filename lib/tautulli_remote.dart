@@ -149,6 +149,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
     OneSignal.User.pushSubscription.addObserver((state) async {
       // Will be called whenever the subscription changes
+      if (!mounted) return;
 
       OSPushSubscriptionState current = state.current;
       OSPushSubscriptionState previous = state.previous;
@@ -202,26 +203,25 @@ class TautulliRemoteState extends State<TautulliRemote> {
     //! Wait for SettingsBloc to be SettingsSuccess
     await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
 
-    await AppVersionUpdate.checkForUpdates(
+    final data = await AppVersionUpdate.checkForUpdates(
       appleId: '1570909086',
       playStoreId: 'com.tautulli.tautulli_remote',
-    ).then(
-      (data) async {
-        if (data.canUpdate != null) {
-          if (data.canUpdate == true) {
-            di.sl<Logging>().info(
-              'App Update :: Update available. Local Version: ${await PackageInformationImpl().version} | Store Version: ${data.storeVersion}',
-            );
-          }
-
-          context.read<SettingsBloc>().add(
-            SettingsUpdateAppUpdateAvailable(
-              appUpdateAvailable: data.canUpdate!,
-            ),
-          );
-        }
-      },
     );
+
+    if (data.canUpdate != null) {
+      if (data.canUpdate == true) {
+        di.sl<Logging>().info(
+          'App Update :: Update available. Local Version: ${await PackageInformationImpl().version} | Store Version: ${data.storeVersion}',
+        );
+      }
+
+      if (!mounted) return;
+      context.read<SettingsBloc>().add(
+        SettingsUpdateAppUpdateAvailable(
+          appUpdateAvailable: data.canUpdate!,
+        ),
+      );
+    }
   }
 
   Future<void> checkIfRegistrationUpdateNeeded() async {
