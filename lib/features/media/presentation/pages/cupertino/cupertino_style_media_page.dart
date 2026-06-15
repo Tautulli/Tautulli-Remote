@@ -5,6 +5,7 @@ import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
+import '../../../../logging/domain/usecases/logging.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/media_model.dart';
 import '../../bloc/children_metadata_bloc.dart';
@@ -91,12 +92,19 @@ class _CupertinoStyleMediaViewState extends State<CupertinoStyleMediaView> {
   void initState() {
     super.initState();
 
+    final ratingKey = widget.media.ratingKey;
+    final mediaType = widget.media.mediaType;
+    if (ratingKey == null || mediaType == null) {
+      di.sl<Logging>().error('Media :: Cannot load media page — ratingKey or mediaType is null for media ${widget.media.title}');
+      return;
+    }
+
     final settingsBloc = context.read<SettingsBloc>();
 
     context.read<MetadataBloc>().add(
       MetadataFetched(
         server: widget.server,
-        ratingKey: widget.media.ratingKey!,
+        ratingKey: ratingKey,
         settingsBloc: settingsBloc,
       ),
     );
@@ -104,8 +112,8 @@ class _CupertinoStyleMediaViewState extends State<CupertinoStyleMediaView> {
     context.read<IndividualHistoryBloc>().add(
       IndividualHistoryFetched(
         server: widget.server,
-        ratingKey: widget.media.ratingKey!,
-        mediaType: widget.media.mediaType!,
+        ratingKey: ratingKey,
+        mediaType: mediaType,
         settingsBloc: settingsBloc,
       ),
     );
@@ -116,11 +124,11 @@ class _CupertinoStyleMediaViewState extends State<CupertinoStyleMediaView> {
       MediaType.album,
       MediaType.season,
       MediaType.photoAlbum,
-    ].contains(widget.media.mediaType!)) {
+    ].contains(mediaType)) {
       context.read<ChildrenMetadataBloc>().add(
         ChildrenMetadataFetched(
           server: widget.server,
-          ratingKey: widget.media.ratingKey!,
+          ratingKey: ratingKey,
           settingsBloc: settingsBloc,
         ),
       );
