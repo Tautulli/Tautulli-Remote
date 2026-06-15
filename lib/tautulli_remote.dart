@@ -239,22 +239,21 @@ class TautulliRemoteState extends State<TautulliRemote> {
         for (ServerModel server in servers) {
           final failureOrRegisterDevice = await updateServerRegistration(server);
 
-          failureOrRegisterDevice.fold(
-            (failure) {
-              di.sl<Logging>().error(
-                'Settings :: Failed to update registration for ${server.plexName} with new app version',
-              );
-            },
-            (results) async {
-              await di.sl<Settings>().updateServer(server);
+          // Either.fold does not await async callbacks — use if/else so the
+          // await on updateServer is properly sequenced before setRegistrationUpdateNeeded.
+          if (failureOrRegisterDevice.isLeft()) {
+            di.sl<Logging>().error(
+              'Settings :: Failed to update registration for ${server.plexName} with new app version',
+            );
+          } else {
+            await di.sl<Settings>().updateServer(server);
 
-              di.sl<Logging>().info(
-                'Settings :: Updated registration for ${server.plexName} with new app version',
-              );
+            di.sl<Logging>().info(
+              'Settings :: Updated registration for ${server.plexName} with new app version',
+            );
 
-              di.sl<Settings>().setRegistrationUpdateNeeded(false);
-            },
-          );
+            di.sl<Settings>().setRegistrationUpdateNeeded(false);
+          }
         }
       }
     }
@@ -272,24 +271,23 @@ class TautulliRemoteState extends State<TautulliRemote> {
     for (ServerModel server in servers) {
       final failureOrRegisterDevice = await updateServerRegistration(server);
 
-      failureOrRegisterDevice.fold(
-        (failure) {
-          di.sl<Logging>().error(
-            'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
-          );
-        },
-        (results) async {
-          await di.sl<Settings>().updateServer(
-            server.copyWith(oneSignalRegistered: true),
-          );
+      // Either.fold does not await async callbacks — use if/else so the
+      // await on updateServer is properly sequenced before setRegistrationUpdateNeeded.
+      if (failureOrRegisterDevice.isLeft()) {
+        di.sl<Logging>().error(
+          'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+        );
+      } else {
+        await di.sl<Settings>().updateServer(
+          server.copyWith(oneSignalRegistered: true),
+        );
 
-          di.sl<Logging>().info(
-            'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
-          );
+        di.sl<Logging>().info(
+          'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+        );
 
-          di.sl<Settings>().setRegistrationUpdateNeeded(false);
-        },
-      );
+        di.sl<Settings>().setRegistrationUpdateNeeded(false);
+      }
     }
   }
 
