@@ -70,9 +70,11 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   @override
   Future<bool> get isReachable async {
     if (await networkInfo.isConnected) {
-      final response = await client.head(Uri.parse('https://onesignal.com'));
-      if (response.statusCode == 200) {
-        return true;
+      try {
+        final response = await client.head(Uri.parse('https://onesignal.com'));
+        return response.statusCode < 400;
+      } catch (_) {
+        return false;
       }
     }
     return false;
