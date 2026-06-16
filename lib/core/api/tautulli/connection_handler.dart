@@ -46,20 +46,14 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     bool trustCert = false,
     int? timeoutOverride,
   }) async {
-    if ((tautulliId == null) ||
-        (connectionProtocol != null ||
-            connectionDomain != null ||
-            connectionPath != null ||
-            deviceToken != null)) {
-      assert(
-        tautulliId != null ||
-            (connectionProtocol != null &&
-                connectionDomain != null &&
-                connectionPath != null &&
-                deviceToken != null),
-        'Requires either the Tautulli ID or the connection protocol, domain, path, and device token.',
-      );
-    }
+    assert(
+      tautulliId != null ||
+          (connectionProtocol != null &&
+              connectionDomain != null &&
+              connectionPath != null &&
+              deviceToken != null),
+      'Requires either the Tautulli ID or the connection protocol, domain, path, and device token.',
+    );
 
     String? secondaryConnectionAddress;
     String? secondaryConnectionProtocol;
