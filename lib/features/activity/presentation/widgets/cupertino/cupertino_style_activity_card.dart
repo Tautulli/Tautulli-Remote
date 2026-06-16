@@ -57,6 +57,13 @@ class CupertinoStyleActivityCard extends StatelessWidget {
         ),
         child: CupertinoStyleCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
+            buildWhen: (previous, current) {
+              if (previous is SettingsSuccess && current is SettingsSuccess) {
+                return previous.appSettings.disableImageBackgrounds != current.appSettings.disableImageBackgrounds ||
+                    previous.appSettings.activeServer.customHeaders != current.appSettings.activeServer.customHeaders;
+              }
+              return true;
+            },
             builder: (context, state) {
               state as SettingsSuccess;
 

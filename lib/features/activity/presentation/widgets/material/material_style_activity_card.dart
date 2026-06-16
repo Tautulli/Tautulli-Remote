@@ -56,6 +56,13 @@ class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
       child: MaterialStyleCard(
         child: BlocBuilder<SettingsBloc, SettingsState>(
+          buildWhen: (previous, current) {
+            if (previous is SettingsSuccess && current is SettingsSuccess) {
+              return previous.appSettings.disableImageBackgrounds != current.appSettings.disableImageBackgrounds ||
+                  previous.appSettings.activeServer.customHeaders != current.appSettings.activeServer.customHeaders;
+            }
+            return true;
+          },
           builder: (context, state) {
             state as SettingsSuccess;
 
