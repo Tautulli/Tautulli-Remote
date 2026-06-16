@@ -18,9 +18,9 @@ class CupertinoStyleOperationsGroup extends StatelessWidget {
       headerText: LocaleKeys.operations_title.tr(),
       children: [
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.eraser,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 21.3,
           ),
           trailing: const CupertinoListTileChevron(),

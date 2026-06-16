@@ -49,7 +49,7 @@ class _CupertinoStyleTabbedIconDetailsPageState extends State<CupertinoStyleTabb
         backgroundColor: CupertinoColors.transparent,
         leading: CupertinoNavigationBarBackButton(
           previousPageTitle: widget.previousPageTitle,
-          color: ThemeHelper.cupertinoNavigationBarItemColor(),
+          color: ThemeHelper.cupertinoNavigationBarItemColor,
           onPressed: () => Navigator.pop(context),
         ),
       ),

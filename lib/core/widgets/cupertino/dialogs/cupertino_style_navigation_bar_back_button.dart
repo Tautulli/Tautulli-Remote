@@ -21,7 +21,7 @@ class CupertinoStyleNavigationBarBackButton extends StatelessWidget {
         await onBeforePop?.call();
         if (context.mounted) Navigator.of(context).pop();
       },
-      color: ThemeHelper.cupertinoNavigationBarItemColor(),
+      color: ThemeHelper.cupertinoNavigationBarItemColor,
     );
   }
 }

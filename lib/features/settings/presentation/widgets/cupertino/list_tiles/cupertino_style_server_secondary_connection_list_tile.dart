@@ -27,9 +27,9 @@ class CupertinoStyleServerSecondaryConnectionListTile extends StatelessWidget {
       sensitive: true,
       titleText: LocaleKeys.secondary_connection_title.tr(),
       subtitleText: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress!,
-      leading: Icon(
+      leading: const Icon(
         CupertinoIcons.square_line_vertical_square_fill,
-        color: ThemeHelper.cupertinoListTileIconColor(),
+        color: ThemeHelper.cupertinoListTileIconColor,
       ),
       additionalInfo: server.primaryActive != true ? const CupertinoStyleActiveConnectionIndicator() : null,
       trailing: const CupertinoListTileChevron(),

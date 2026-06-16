@@ -17,7 +17,7 @@ class CupertinoStyleGraphHeading extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: CupertinoStyleHeading(
         text: text,
-        color: ThemeHelper.cupertinoStandardTextColor(),
+        color: ThemeHelper.cupertinoStandardTextColor,
       ),
     );
   }

@@ -28,9 +28,9 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             final serverTimeout = state.appSettings.serverTimeout;
 
             return CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.stopwatch_fill,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
               ),
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.server_timeout_title.tr(),
@@ -50,9 +50,9 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
             final refreshRate = state.appSettings.refreshRate;
 
             return CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.clock_fill,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
               ),
               trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.activity_refresh_rate_title.tr(),
@@ -67,9 +67,9 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
           },
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.wrench_fill,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.advanced_title.tr(),
@@ -82,9 +82,9 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.paintbrush_fill,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.appearance_title.tr(),
@@ -97,9 +97,9 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.universalAccess,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),

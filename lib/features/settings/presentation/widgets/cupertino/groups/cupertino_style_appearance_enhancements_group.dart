@@ -28,9 +28,9 @@ class CupertinoStyleAppearanceEnhancementsGroup extends StatelessWidget {
             state as SettingsSuccess;
 
             return CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.circle_lefthalf_fill,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
                 size: 25,
               ),
               trailing: CupertinoSwitch(

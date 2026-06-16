@@ -21,9 +21,9 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
       headerText: LocaleKeys.about_title.tr(),
       children: [
         CupertinoStyleNotchedCupertinoListTile(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.info_circle_fill,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           titleText: 'Tautulli Remote',
           subtitleWidget: Row(
@@ -50,9 +50,9 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.fileInvoice,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoStyleListTileExternal(),
@@ -67,9 +67,9 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
         ),
         if (di.sl<DeviceInfo>().platform == 'ios')
           CupertinoStyleNotchedCupertinoListTile(
-            leading: FaIcon(
+            leading: const FaIcon(
               FontAwesomeIcons.fileInvoice,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
               size: 23,
             ),
             trailing: const CupertinoStyleListTileExternal(),
@@ -82,9 +82,9 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
             },
           ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.fileInvoice,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoStyleListTileExternal(),

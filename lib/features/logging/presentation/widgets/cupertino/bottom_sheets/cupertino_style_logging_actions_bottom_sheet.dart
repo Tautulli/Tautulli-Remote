@@ -25,9 +25,9 @@ class CupertinoStyleLoggingActionsBottomSheet extends StatelessWidget {
       child: CupertinoStyleListSection(
         children: [
           CupertinoStyleNotchedCupertinoListTile(
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.arrow_down_doc_fill,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.logs_export_menu_item.tr(),
             onTap: () {
@@ -50,9 +50,9 @@ class CupertinoStyleLoggingActionsBottomSheet extends StatelessWidget {
             },
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.clear_circled_solid,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.logs_clear_menu_item.tr(),
             onTap: () {

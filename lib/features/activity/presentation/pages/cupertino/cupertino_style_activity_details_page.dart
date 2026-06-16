@@ -141,7 +141,7 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
           backgroundColor: CupertinoColors.transparent,
           leading: CupertinoNavigationBarBackButton(
             previousPageTitle: widget.previousPageTitle,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
             onPressed: () => Navigator.pop(context),
           ),
           trailing: _navBarActions(),
@@ -191,7 +191,7 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                             ProgressBar(
                               activity: activity,
                               backgroundColor: CupertinoColors.black.withValues(alpha: 0.26),
-                              transcodeColor: ThemeHelper.cupertinoCardIconColor(),
+                              transcodeColor: ThemeHelper.cupertinoCardIconColor,
                               progressColor: CupertinoTheme.of(context).primaryColor,
                             ),
                             Padding(
@@ -268,9 +268,9 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
       children: [
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.person_fill,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () {
             final user = UserModel(
@@ -291,9 +291,9 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
         ),
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.info_circle_fill,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () {
             final media = MediaModel(

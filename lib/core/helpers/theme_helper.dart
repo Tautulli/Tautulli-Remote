@@ -231,45 +231,16 @@ class ThemeHelper {
     );
   }
 
-  static Color cupertinoListTileIconColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoActionSheetActionColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoAlertCardButtonTextColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoAlertCardIconColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoCardIconColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoBottomSheetTextColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoBottomSheetHeadingColor() {
-    return CupertinoColors.systemGrey2;
-  }
-
-  static Color cupertinoNavigationBarItemColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoStandardTextColor() {
-    return CupertinoColors.white;
-  }
-
-  static Color cupertinoChartLineColor() {
-    return CupertinoColors.systemGrey;
-  }
+  static const Color cupertinoListTileIconColor = CupertinoColors.white;
+  static const Color cupertinoActionSheetActionColor = CupertinoColors.white;
+  static const Color cupertinoAlertCardButtonTextColor = CupertinoColors.white;
+  static const Color cupertinoAlertCardIconColor = CupertinoColors.white;
+  static const Color cupertinoCardIconColor = CupertinoColors.white;
+  static const Color cupertinoBottomSheetTextColor = CupertinoColors.white;
+  static const Color cupertinoBottomSheetHeadingColor = CupertinoColors.systemGrey2;
+  static const Color cupertinoNavigationBarItemColor = CupertinoColors.white;
+  static const Color cupertinoStandardTextColor = CupertinoColors.white;
+  static const Color cupertinoChartLineColor = CupertinoColors.systemGrey;
 
   //* Utilities
   static Color darkenedColor(Color color) {

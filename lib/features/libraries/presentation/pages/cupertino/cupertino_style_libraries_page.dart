@@ -216,7 +216,7 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
                             library: library,
                             details: LibraryCardDetails(
                               library: library,
-                              textColor: ThemeHelper.cupertinoStandardTextColor(),
+                              textColor: ThemeHelper.cupertinoStandardTextColor,
                             ),
                           );
                         } else {
@@ -290,9 +290,9 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
       children: [
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.arrow_up_arrow_down,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () async {
             Map<String, String>? librarySort = await showCupertinoModalPopup(

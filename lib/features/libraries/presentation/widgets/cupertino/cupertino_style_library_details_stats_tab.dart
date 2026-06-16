@@ -157,27 +157,27 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
           statList.add(
             CupertinoStyleIconCard(
               icon: watchTimeStat.queryDays == 1
-                  ? Icon(
+                  ? const Icon(
                       CupertinoIcons.clock_fill,
                       size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                     )
                   : watchTimeStat.queryDays == 7
-                  ? Icon(
+                  ? const Icon(
                       CupertinoIcons.calendar_today,
                       size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                     )
                   : watchTimeStat.queryDays == 30
-                  ? Icon(
+                  ? const Icon(
                       CupertinoIcons.calendar,
                       size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                     )
-                  : Icon(
+                  : const Icon(
                       CupertinoIcons.hourglass,
                       size: 55,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                     ),
               details: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

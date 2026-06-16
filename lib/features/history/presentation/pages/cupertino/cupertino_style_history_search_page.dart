@@ -399,9 +399,9 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.slider_horizontal_3,
-              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+              color: ThemeHelper.cupertinoNavigationBarItemColor,
             ),
           ),
           onPressed: () async {

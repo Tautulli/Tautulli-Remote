@@ -21,9 +21,9 @@ class CupertinoStyleServerDeviceTokenListTile extends StatelessWidget {
       sensitive: true,
       titleText: LocaleKeys.device_token_title.tr(),
       subtitleText: deviceToken,
-      leading: Icon(
+      leading: const Icon(
         CupertinoIcons.grid_circle_fill,
-        color: ThemeHelper.cupertinoListTileIconColor(),
+        color: ThemeHelper.cupertinoListTileIconColor,
       ),
       onTap: () {
         Fluttertoast.showToast(

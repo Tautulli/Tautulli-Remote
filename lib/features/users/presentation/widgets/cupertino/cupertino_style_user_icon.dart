@@ -45,12 +45,12 @@ class CupertinoStyleUserIcon extends StatelessWidget {
                     errorWidget: (context, url, error) => Stack(
                       children: [
                         Image.asset('assets/images/default_profile.png'),
-                        Center(
+                        const Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 4, left: 1),
+                            padding: EdgeInsets.only(top: 4, left: 1),
                             child: Icon(
                               CupertinoIcons.exclamationmark,
-                              color: ThemeHelper.cupertinoCardIconColor(),
+                              color: ThemeHelper.cupertinoCardIconColor,
                               size: 24,
                             ),
                           ),
@@ -75,7 +75,7 @@ class CupertinoStyleUserIcon extends StatelessWidget {
                     right: size == UserIconSize.normal ? 5 : 7,
                     child: Icon(
                       CupertinoIcons.circle_fill,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                       size: size == UserIconSize.normal ? 16 : 21,
                     ),
                   ),

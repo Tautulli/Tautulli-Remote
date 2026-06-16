@@ -22,9 +22,9 @@ class CupertinoStyleDeleteServerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: const EdgeInsets.all(8),
-      child: Icon(
+      child: const Icon(
         CupertinoIcons.trash_fill,
-        color: ThemeHelper.cupertinoNavigationBarItemColor(),
+        color: ThemeHelper.cupertinoNavigationBarItemColor,
       ),
       onPressed: () async {
         final result = await showCupertinoDialog(

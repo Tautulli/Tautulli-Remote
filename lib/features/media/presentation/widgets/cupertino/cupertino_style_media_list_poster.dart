@@ -53,14 +53,14 @@ class CupertinoStyleMediaListPoster extends StatelessWidget {
                               height: 25,
                               color: CupertinoColors.black.withValues(alpha: 0.60),
                             ),
-                            Positioned.fill(
+                            const Positioned.fill(
                               child: Center(
                                 child: Opacity(
                                   opacity: 0.8,
                                   child: Icon(
                                     CupertinoIcons.folder_fill,
                                     size: 16,
-                                    color: ThemeHelper.cupertinoCardIconColor(),
+                                    color: ThemeHelper.cupertinoCardIconColor,
                                   ),
                                 ),
                               ),
@@ -82,14 +82,14 @@ class CupertinoStyleMediaListPoster extends StatelessWidget {
                               height: 25,
                               color: CupertinoColors.black.withValues(alpha: 0.60),
                             ),
-                            Positioned.fill(
+                            const Positioned.fill(
                               child: Center(
                                 child: Opacity(
                                   opacity: 0.8,
                                   child: Icon(
                                     CupertinoIcons.videocam_fill,
                                     size: 16,
-                                    color: ThemeHelper.cupertinoCardIconColor(),
+                                    color: ThemeHelper.cupertinoCardIconColor,
                                   ),
                                 ),
                               ),

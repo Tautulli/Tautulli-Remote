@@ -34,9 +34,9 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
             builder: (context, state) {
               return CupertinoStyleNotchedCupertinoListTile(
                 inactive: state.status != BlocStatus.success,
-                leading: Icon(
+                leading: const Icon(
                   CupertinoIcons.person_fill,
-                  color: ThemeHelper.cupertinoListTileIconColor(),
+                  color: ThemeHelper.cupertinoListTileIconColor,
                 ),
                 titleText: LocaleKeys.select_user_title.tr(),
                 trailing: Builder(
@@ -88,7 +88,7 @@ class CupertinoStyleGraphsActionsBottomSheet extends StatelessWidget {
           CupertinoStyleNotchedCupertinoListTile(
             leading: Icon(
               yAxis == PlayMetricType.plays ? CupertinoIcons.number : CupertinoIcons.clock_fill,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.y_axis_title.tr(),
             onTap: () {

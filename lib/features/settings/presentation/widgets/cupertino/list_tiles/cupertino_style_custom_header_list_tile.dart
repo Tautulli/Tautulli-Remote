@@ -34,9 +34,9 @@ class CupertinoStyleCustomHeaderListTile extends StatelessWidget {
         return CupertinoStyleNotchedCupertinoListTile(
           titleText: title,
           subtitleText: subtitle.sensitive(context, enabled: sensitive),
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.tag_fill,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           additionalInfo: GestureDetector(
             onTap: () async {
@@ -64,9 +64,9 @@ class CupertinoStyleCustomHeaderListTile extends StatelessWidget {
                 }
               }
             },
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.clear_circled_solid,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
           ),
           trailing: const CupertinoListTileChevron(),

@@ -28,9 +28,9 @@ class CupertinoStyleStatisticTypeBottomSheet extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop(PlayMetricType.plays);
             },
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.number,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.play_count_title.tr(),
             trailing: initialValue == PlayMetricType.plays ? const Icon(CupertinoIcons.checkmark_alt) : null,
@@ -39,9 +39,9 @@ class CupertinoStyleStatisticTypeBottomSheet extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop(PlayMetricType.time);
             },
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.clock_fill,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.play_time_title.tr(),
             trailing: initialValue == PlayMetricType.time ? const Icon(CupertinoIcons.checkmark_alt) : null,

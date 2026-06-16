@@ -192,7 +192,7 @@ class _PosterState extends StatelessWidget {
                   ? CupertinoIcons.exclamationmark_circle_fill
                   : CupertinoIcons.question_circle_fill,
               size: 48,
-              color: ThemeHelper.cupertinoCardIconColor(),
+              color: ThemeHelper.cupertinoCardIconColor,
             ),
           ),
         ],

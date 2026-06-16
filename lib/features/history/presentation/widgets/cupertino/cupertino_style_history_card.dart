@@ -33,7 +33,7 @@ class CupertinoStyleHistoryCard extends StatelessWidget {
       uri: history.posterUri,
       details: HistoryCardDetails(
         history: history,
-        iconColor: ThemeHelper.cupertinoCardIconColor(),
+        iconColor: ThemeHelper.cupertinoCardIconColor,
         titleRow: HistoryDetailsTitleRow(
           history: history,
           fontSize: 16,

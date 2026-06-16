@@ -82,12 +82,12 @@ class CupertinoStyleAnnouncementCard extends StatelessWidget {
                     ),
                   ),
                   if (announcement.actionUrl != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8),
                       child: Icon(
                         CupertinoIcons.square_arrow_up,
                         size: 18,
-                        color: ThemeHelper.cupertinoCardIconColor(),
+                        color: ThemeHelper.cupertinoCardIconColor,
                       ),
                     ),
                 ],

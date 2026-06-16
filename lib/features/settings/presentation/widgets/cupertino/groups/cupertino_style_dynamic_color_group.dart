@@ -45,7 +45,7 @@ class CupertinoStyleDynamicColorGroup extends StatelessWidget {
                   CupertinoIcons.wand_stars,
                   color: (themeNotDynamic || !supportsAccentColor)
                       ? CupertinoColors.inactiveGray
-                      : ThemeHelper.cupertinoListTileIconColor(),
+                      : ThemeHelper.cupertinoListTileIconColor,
                   size: 30,
                 ),
                 trailing: CupertinoSwitch(
@@ -76,7 +76,7 @@ class CupertinoStyleDynamicColorGroup extends StatelessWidget {
                 CupertinoIcons.eyedropper_halffull,
                 color: (themeNotDynamic || useSystemColor)
                     ? CupertinoColors.inactiveGray
-                    : ThemeHelper.cupertinoListTileIconColor(),
+                    : ThemeHelper.cupertinoListTileIconColor,
                 size: 25,
               ),
               additionalInfo: Column(

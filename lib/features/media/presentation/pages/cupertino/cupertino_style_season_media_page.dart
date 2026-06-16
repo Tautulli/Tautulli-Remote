@@ -113,9 +113,9 @@ class CupertinoStyleSeasonMediaView extends StatelessWidget {
         if (!disableAncestryNavigation)
           CupertinoButton(
             padding: const EdgeInsets.all(8),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.arrow_turn_left_up,
-              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+              color: ThemeHelper.cupertinoNavigationBarItemColor,
             ),
             onPressed: () => showCupertinoModalPopup(
               context: context,

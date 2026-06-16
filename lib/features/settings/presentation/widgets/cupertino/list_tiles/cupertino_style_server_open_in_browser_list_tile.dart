@@ -21,9 +21,9 @@ class CupertinoStyleServerOpenInBrowserListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoStyleNotchedCupertinoListTile(
       titleText: LocaleKeys.open_server_in_browser_title.tr(args: [server.plexName]),
-      leading: Icon(
+      leading: const Icon(
         CupertinoIcons.macwindow,
-        color: ThemeHelper.cupertinoListTileIconColor(),
+        color: ThemeHelper.cupertinoListTileIconColor,
       ),
       trailing: const CupertinoStyleListTileExternal(),
       onTap: () async {

@@ -26,19 +26,19 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
         if (privacyState is OneSignalPrivacyFailure) {
           return CupertinoStyleAlertCard(
             tint: CupertinoColors.systemOrange.highContrastColor,
-            leading: FaIcon(
+            leading: const FaIcon(
               FontAwesomeIcons.triangleExclamation,
               size: 30,
-              color: ThemeHelper.cupertinoAlertCardIconColor(),
+              color: ThemeHelper.cupertinoAlertCardIconColor,
             ),
             title: LocaleKeys.onesignal_data_privacy_not_accepted_title.tr(),
             content: LocaleKeys.onesignal_data_privacy_not_accepted_content.tr(),
             actions: [
               CupertinoButton(
-                child: Text(
+                child: const Text(
                   LocaleKeys.dismiss_title,
                   style: TextStyle(
-                    color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
+                    color: ThemeHelper.cupertinoAlertCardButtonTextColor,
                   ),
                 ).tr(),
                 onPressed: () => settingsBloc.add(
@@ -46,10 +46,10 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
                 ),
               ),
               CupertinoButton(
-                child: Text(
+                child: const Text(
                   LocaleKeys.view_privacy_page_title,
                   style: TextStyle(
-                    color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
+                    color: ThemeHelper.cupertinoAlertCardButtonTextColor,
                   ),
                 ).tr(),
                 onPressed: () => Navigator.of(context).push(
@@ -70,19 +70,19 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
             // If OneSignal is not reachable
             if (healthState is OneSignalHealthFailure) {
               return CupertinoStyleAlertCard(
-                leading: FaIcon(
+                leading: const FaIcon(
                   FontAwesomeIcons.triangleExclamation,
                   size: 30,
-                  color: ThemeHelper.cupertinoAlertCardIconColor(),
+                  color: ThemeHelper.cupertinoAlertCardIconColor,
                 ),
                 title: LocaleKeys.onesignal_unreachable_title.tr(),
                 content: LocaleKeys.onesignal_unreachable_content.tr(),
                 actions: [
                   CupertinoButton(
-                    child: Text(
+                    child: const Text(
                       LocaleKeys.check_again_title,
                       style: TextStyle(
-                        color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
+                        color: ThemeHelper.cupertinoAlertCardButtonTextColor,
                       ),
                     ).tr(),
                     onPressed: () => context.read<OneSignalHealthBloc>().add(
@@ -100,19 +100,19 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
                 if (subState is OneSignalSubFailure) {
                   return CupertinoStyleAlertCard(
                     tint: CupertinoColors.systemOrange.highContrastColor,
-                    leading: FaIcon(
+                    leading: const FaIcon(
                       FontAwesomeIcons.triangleExclamation,
                       size: 30,
-                      color: ThemeHelper.cupertinoAlertCardIconColor(),
+                      color: ThemeHelper.cupertinoAlertCardIconColor,
                     ),
                     title: subState.title,
                     content: subState.message,
                     actions: [
                       CupertinoButton(
-                        child: Text(
+                        child: const Text(
                           LocaleKeys.learn_more_title,
                           style: TextStyle(
-                            color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
+                            color: ThemeHelper.cupertinoAlertCardButtonTextColor,
                           ),
                         ).tr(),
                         onPressed: () async {

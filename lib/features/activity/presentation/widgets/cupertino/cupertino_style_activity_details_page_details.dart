@@ -169,20 +169,20 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                               text: TextSpan(
                                 children: [
                                   TextSpan(text: '${widget.activity.container?.toUpperCase()}'),
-                                  WidgetSpan(
+                                  const WidgetSpan(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                                      padding: EdgeInsets.symmetric(horizontal: 5),
                                       child: Icon(
                                         CupertinoIcons.arrow_right,
                                         size: 17,
-                                        color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                        color: ThemeHelper.cupertinoBottomSheetTextColor,
                                       ),
                                     ),
                                   ),
                                   TextSpan(text: '${widget.activity.streamContainer?.toUpperCase()}'),
                                 ],
-                                style: TextStyle(
-                                  color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                style: const TextStyle(
+                                  color: ThemeHelper.cupertinoBottomSheetTextColor,
                                 ),
                               ),
                             ),
@@ -236,13 +236,13 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                         text:
                                             '${widget.activity.videoCodec?.toUpperCase()}$hwD ${widget.activity.videoFullResolution}$videoDynamicRange',
                                       ),
-                                      WidgetSpan(
+                                      const WidgetSpan(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                                          padding: EdgeInsets.symmetric(horizontal: 5),
                                           child: Icon(
                                             CupertinoIcons.arrow_right,
                                             size: 17,
-                                            color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                            color: ThemeHelper.cupertinoBottomSheetTextColor,
                                           ),
                                         ),
                                       ),
@@ -251,8 +251,8 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                             '${widget.activity.streamVideoCodec?.toUpperCase()}$hwE ${widget.activity.streamVideoFullResolution}$streamVideoDynamicRange',
                                       ),
                                     ],
-                                    style: TextStyle(
-                                      color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                    style: const TextStyle(
+                                      color: ThemeHelper.cupertinoBottomSheetTextColor,
                                     ),
                                   ),
                                 ),
@@ -297,13 +297,13 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                         text:
                                             '${audioLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
                                       ),
-                                    WidgetSpan(
+                                    const WidgetSpan(
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                        padding: EdgeInsets.symmetric(horizontal: 5),
                                         child: Icon(
                                           CupertinoIcons.arrow_right,
                                           size: 17,
-                                          color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                          color: ThemeHelper.cupertinoBottomSheetTextColor,
                                         ),
                                       ),
                                     ),
@@ -313,8 +313,8 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                             '${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])}',
                                       ),
                                   ],
-                                  style: TextStyle(
-                                    color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                  style: const TextStyle(
+                                    color: ThemeHelper.cupertinoBottomSheetTextColor,
                                   ),
                                 ),
                               ),
@@ -358,13 +358,13 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                         text:
                                             '${subtitleLanguageEmpty ? LocaleKeys.unknown_title.tr() : widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
                                       ),
-                                      WidgetSpan(
+                                      const WidgetSpan(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                                          padding: EdgeInsets.symmetric(horizontal: 5),
                                           child: Icon(
                                             CupertinoIcons.arrow_right,
                                             size: 17,
-                                            color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                            color: ThemeHelper.cupertinoBottomSheetTextColor,
                                           ),
                                         ),
                                       ),
@@ -372,8 +372,8 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                                         text: widget.activity.streamSubtitleCodec?.toUpperCase(),
                                       ),
                                     ],
-                                    style: TextStyle(
-                                      color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                                    style: const TextStyle(
+                                      color: ThemeHelper.cupertinoBottomSheetTextColor,
                                     ),
                                   ),
                                 ),
@@ -408,7 +408,7 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
                         child: Icon(
                           widget.activity.secure == true ? CupertinoIcons.lock_fill : CupertinoIcons.lock_open_fill,
                           size: 17,
-                          color: ThemeHelper.cupertinoBottomSheetTextColor(),
+                          color: ThemeHelper.cupertinoBottomSheetTextColor,
                         ),
                       ),
                       Expanded(
@@ -501,10 +501,10 @@ class _ItemRow extends StatelessWidget {
             width: 90,
             child: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 14,
-                color: ThemeHelper.cupertinoBottomSheetHeadingColor(),
+                color: ThemeHelper.cupertinoBottomSheetHeadingColor,
               ),
               textAlign: TextAlign.end,
             ),

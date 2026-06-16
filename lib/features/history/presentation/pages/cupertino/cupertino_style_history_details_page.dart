@@ -72,7 +72,7 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
         backgroundColor: CupertinoColors.transparent,
         leading: CupertinoNavigationBarBackButton(
           previousPageTitle: previousPageTitle,
-          color: ThemeHelper.cupertinoNavigationBarItemColor(),
+          color: ThemeHelper.cupertinoNavigationBarItemColor,
           onPressed: () => Navigator.pop(context),
         ),
         trailing: _navBarActions(context),
@@ -186,7 +186,7 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
               : null,
           child: Icon(
             CupertinoIcons.person_fill,
-            color: viewUserEnabled ? ThemeHelper.cupertinoNavigationBarItemColor() : null,
+            color: viewUserEnabled ? ThemeHelper.cupertinoNavigationBarItemColor : null,
           ),
         ),
         CupertinoButton(
@@ -220,7 +220,7 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
               : null,
           child: Icon(
             CupertinoIcons.info_circle_fill,
-            color: viewMediaEnabled ? ThemeHelper.cupertinoNavigationBarItemColor() : null,
+            color: viewMediaEnabled ? ThemeHelper.cupertinoNavigationBarItemColor : null,
           ),
         ),
       ],

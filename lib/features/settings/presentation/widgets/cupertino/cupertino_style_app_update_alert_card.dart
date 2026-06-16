@@ -15,18 +15,18 @@ class CupertinoStyleAppUpdateAlertCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoStyleAlertCard(
       tint: CupertinoTheme.of(context).primaryColor,
-      leading: Icon(
+      leading: const Icon(
         CupertinoIcons.cloud_download_fill,
-        color: ThemeHelper.cupertinoCardIconColor(),
+        color: ThemeHelper.cupertinoCardIconColor,
         size: 30,
       ),
       content: LocaleKeys.app_update_available_message.tr(),
       actions: [
         CupertinoButton(
-          child: Text(
+          child: const Text(
             LocaleKeys.update_title,
             style: TextStyle(
-              color: ThemeHelper.cupertinoAlertCardButtonTextColor(),
+              color: ThemeHelper.cupertinoAlertCardButtonTextColor,
             ),
           ).tr(),
           onPressed: () async {

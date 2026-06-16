@@ -411,9 +411,9 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
       children: [
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.search,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () {
             final focusNode = FocusNode();
@@ -445,9 +445,9 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.slider_horizontal_3,
-              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+              color: ThemeHelper.cupertinoNavigationBarItemColor,
             ),
           ),
           onPressed: () async {

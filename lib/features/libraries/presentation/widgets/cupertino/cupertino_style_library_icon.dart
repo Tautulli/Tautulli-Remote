@@ -39,12 +39,12 @@ class CupertinoStyleLibraryIcon extends StatelessWidget {
             right: 0,
             child: Stack(
               children: [
-                Positioned(
+                const Positioned(
                   bottom: 3,
                   right: 5,
                   child: Icon(
                     CupertinoIcons.circle_fill,
-                    color: ThemeHelper.cupertinoCardIconColor(),
+                    color: ThemeHelper.cupertinoCardIconColor,
                     size: 16,
                   ),
                 ),

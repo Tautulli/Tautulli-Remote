@@ -288,9 +288,9 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
           children: [
             CupertinoButton(
               padding: const EdgeInsets.all(8),
-              child: Icon(
+              child: const Icon(
                 CupertinoIcons.calendar,
-                color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                color: ThemeHelper.cupertinoNavigationBarItemColor,
               ),
               onPressed: () async {
                 final result = await showCupertinoModalPopup(
@@ -364,9 +364,9 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.slider_horizontal_3,
-              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+              color: ThemeHelper.cupertinoNavigationBarItemColor,
             ),
           ),
           onPressed: () async {

@@ -29,7 +29,7 @@ class CupertinoStyleStatisticsHeading extends StatelessWidget {
             Expanded(
               child: CupertinoStyleHeading(
                 text: StringHelper.mapStatIdTypeToString(stat.statIdType),
-                color: ThemeHelper.cupertinoStandardTextColor(),
+                color: ThemeHelper.cupertinoStandardTextColor,
               ),
             ),
             if (onTap != null)
@@ -38,10 +38,10 @@ class CupertinoStyleStatisticsHeading extends StatelessWidget {
                 children: [
                   const Text(LocaleKeys.more_title).tr(),
                   const Gap(4),
-                  Icon(
+                  const Icon(
                     CupertinoIcons.right_chevron,
                     size: 16,
-                    color: ThemeHelper.cupertinoCardIconColor(),
+                    color: ThemeHelper.cupertinoCardIconColor,
                   ),
                 ],
               ),

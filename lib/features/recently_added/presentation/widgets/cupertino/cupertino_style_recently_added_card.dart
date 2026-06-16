@@ -67,7 +67,7 @@ class CupertinoStyleRecentlyAddedCard extends StatelessWidget {
       uri: posterUri,
       details: RecentlyAddedCardDetails(
         recentlyAdded: recentlyAdded,
-        iconColor: ThemeHelper.cupertinoCardIconColor(),
+        iconColor: ThemeHelper.cupertinoCardIconColor,
       ),
     );
   }

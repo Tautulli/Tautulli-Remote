@@ -29,9 +29,9 @@ class CupertinoStyleAccessibilityFontGroup extends StatelessWidget {
             final useAtkinsonHyperlegible = state.appSettings.useAtkinsonHyperlegible;
 
             return CupertinoStyleNotchedCupertinoListTile(
-              leading: FaIcon(
+              leading: const FaIcon(
                 FontAwesomeIcons.font,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
                 size: 23,
               ),
               trailing: CupertinoSwitch(

@@ -341,8 +341,8 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                 ),
                 icon: WebsafeSvg.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
-                  colorFilter: ColorFilter.mode(
-                    ThemeHelper.cupertinoCardIconColor(),
+                  colorFilter: const ColorFilter.mode(
+                    ThemeHelper.cupertinoCardIconColor,
                     BlendMode.srcIn,
                   ),
                 ),

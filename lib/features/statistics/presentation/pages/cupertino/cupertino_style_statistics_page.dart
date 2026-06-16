@@ -417,8 +417,8 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                 ),
                 icon: WebsafeSvg.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
-                  colorFilter: ColorFilter.mode(
-                    ThemeHelper.cupertinoCardIconColor(),
+                  colorFilter: const ColorFilter.mode(
+                    ThemeHelper.cupertinoCardIconColor,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -470,7 +470,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
           padding: const EdgeInsets.all(8),
           child: Icon(
             _statsType == PlayMetricType.plays ? CupertinoIcons.number : CupertinoIcons.clock_fill,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () async {
             final result = await showCupertinoModalPopup(
@@ -507,9 +507,9 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
           children: [
             CupertinoButton(
               padding: const EdgeInsets.all(8),
-              child: Icon(
+              child: const Icon(
                 CupertinoIcons.calendar,
-                color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                color: ThemeHelper.cupertinoNavigationBarItemColor,
               ),
               onPressed: () async {
                 final result = await showCupertinoModalPopup(

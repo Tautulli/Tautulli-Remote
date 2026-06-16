@@ -141,9 +141,9 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                           margin: EdgeInsets.zero,
                           children: [
                             CupertinoStyleNotchedCupertinoListTile(
-                              leading: FaIcon(
+                              leading: const FaIcon(
                                 FontAwesomeIcons.iceCream,
-                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -158,9 +158,9 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                             ),
                             CupertinoStyleNotchedCupertinoListTile(
-                              leading: FaIcon(
+                              leading: const FaIcon(
                                 FontAwesomeIcons.pizzaSlice,
-                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -175,9 +175,9 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                             ),
                             CupertinoStyleNotchedCupertinoListTile(
-                              leading: FaIcon(
+                              leading: const FaIcon(
                                 FontAwesomeIcons.burger,
-                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -192,9 +192,9 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                               ),
                             ),
                             CupertinoStyleNotchedCupertinoListTile(
-                              leading: FaIcon(
+                              leading: const FaIcon(
                                 FontAwesomeIcons.utensils,
-                                color: ThemeHelper.cupertinoListTileIconColor(),
+                                color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -219,7 +219,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
                                     ? CupertinoColors.activeGreen
-                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                    : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -235,7 +235,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
                                     ? CupertinoColors.activeGreen
-                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                    : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -251,7 +251,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
                                     ? CupertinoColors.activeGreen
-                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                    : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),
@@ -267,7 +267,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 FontAwesomeIcons.circleDollarToSlot,
                                 color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
                                     ? CupertinoColors.activeGreen
-                                    : ThemeHelper.cupertinoListTileIconColor(),
+                                    : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
                               trailing: const CupertinoListTileChevron(),

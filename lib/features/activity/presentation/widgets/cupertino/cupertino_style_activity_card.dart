@@ -97,7 +97,7 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                                 Expanded(
                                   child: ActivityDetails(
                                     activity: activity,
-                                    iconColor: ThemeHelper.cupertinoCardIconColor(),
+                                    iconColor: ThemeHelper.cupertinoCardIconColor,
                                   ),
                                 ),
                               ],
@@ -109,7 +109,7 @@ class CupertinoStyleActivityCard extends StatelessWidget {
                           child: ProgressBar(
                             activity: activity,
                             backgroundColor: CupertinoColors.black.withValues(alpha: 0.26),
-                            transcodeColor: ThemeHelper.cupertinoCardIconColor(),
+                            transcodeColor: ThemeHelper.cupertinoCardIconColor,
                             progressColor: CupertinoTheme.of(context).primaryColor,
                           ),
                         ),

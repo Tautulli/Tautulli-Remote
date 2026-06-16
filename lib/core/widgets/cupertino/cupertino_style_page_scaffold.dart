@@ -90,17 +90,17 @@ class _CupertinoStylePageScaffoldState extends State<CupertinoStylePageScaffold>
                                   state.appSettings.activeServer.plexName.sensitive(context, length: 8),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
-                                    color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                                    color: ThemeHelper.cupertinoNavigationBarItemColor,
                                   ),
                                 ),
                               ),
                               const Gap(4),
-                              Icon(
+                              const Icon(
                                 CupertinoIcons.chevron_down,
                                 size: 18,
-                                color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                                color: ThemeHelper.cupertinoNavigationBarItemColor,
                               ),
                             ],
                           ),

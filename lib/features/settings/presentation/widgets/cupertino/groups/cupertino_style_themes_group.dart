@@ -31,8 +31,8 @@ class CupertinoStyleThemesGroup extends StatelessWidget {
             CupertinoStyleNotchedCupertinoListTile(
               leading: WebsafeSvg.asset(
                 'assets/logos/logo_flat.svg',
-                colorFilter: ColorFilter.mode(
-                  ThemeHelper.cupertinoListTileIconColor(),
+                colorFilter: const ColorFilter.mode(
+                  ThemeHelper.cupertinoListTileIconColor,
                   BlendMode.srcIn,
                 ),
                 height: 30,
@@ -47,9 +47,9 @@ class CupertinoStyleThemesGroup extends StatelessWidget {
               },
             ),
             CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.color_filter,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
                 size: 32,
               ),
               trailing: state.appSettings.theme == ThemeType.dynamic ? const Icon(CupertinoIcons.checkmark_alt) : null,

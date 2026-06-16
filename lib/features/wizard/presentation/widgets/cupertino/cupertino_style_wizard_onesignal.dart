@@ -45,8 +45,8 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
             CupertinoStyleNotchedCupertinoListTile(
               leading: WebsafeSvg.asset(
                 'assets/logos/onesignal.svg',
-                colorFilter: ColorFilter.mode(
-                  ThemeHelper.cupertinoListTileIconColor(),
+                colorFilter: const ColorFilter.mode(
+                  ThemeHelper.cupertinoListTileIconColor,
                   BlendMode.srcIn,
                 ),
               ),

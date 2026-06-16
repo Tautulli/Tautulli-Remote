@@ -22,9 +22,9 @@ class CupertinoStyleServerActivityInfoCard extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            Icon(
+            const Icon(
               CupertinoIcons.info_circle_fill,
-              color: ThemeHelper.cupertinoCardIconColor(),
+              color: ThemeHelper.cupertinoCardIconColor,
             ),
             const Gap(8),
             Expanded(

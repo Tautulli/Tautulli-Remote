@@ -183,9 +183,9 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
                     ),
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.line_horizontal_3_decrease,
-                  color: ThemeHelper.cupertinoNavigationBarItemColor(),
+                  color: ThemeHelper.cupertinoNavigationBarItemColor,
                 ),
               );
             }
@@ -208,9 +208,9 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
               ),
             ),
           ),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.slider_horizontal_3,
-            color: ThemeHelper.cupertinoNavigationBarItemColor(),
+            color: ThemeHelper.cupertinoNavigationBarItemColor,
           ),
         ),
       ],

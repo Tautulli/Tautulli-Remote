@@ -33,9 +33,9 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
             builder: (context, state) {
               return CupertinoStyleNotchedCupertinoListTile(
                 inactive: state.status != BlocStatus.success,
-                leading: Icon(
+                leading: const Icon(
                   CupertinoIcons.person_fill,
-                  color: ThemeHelper.cupertinoListTileIconColor(),
+                  color: ThemeHelper.cupertinoListTileIconColor,
                 ),
                 titleText: LocaleKeys.select_user_title.tr(),
                 trailing: Builder(
@@ -85,9 +85,9 @@ class CupertinoStyleHistoryActionsBottomSheet extends StatelessWidget {
             },
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            leading: Icon(
+            leading: const Icon(
               CupertinoIcons.line_horizontal_3_decrease,
-              color: ThemeHelper.cupertinoListTileIconColor(),
+              color: ThemeHelper.cupertinoListTileIconColor,
             ),
             titleText: LocaleKeys.filter_history_title.tr(),
             trailing: Visibility(

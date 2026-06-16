@@ -60,8 +60,8 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
-                    colorFilter: ColorFilter.mode(
-                      ThemeHelper.cupertinoListTileIconColor(),
+                    colorFilter: const ColorFilter.mode(
+                      ThemeHelper.cupertinoListTileIconColor,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -75,9 +75,9 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
                   },
                 ),
                 CupertinoStyleNotchedCupertinoListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.github,
-                    color: ThemeHelper.cupertinoListTileIconColor(),
+                    color: ThemeHelper.cupertinoListTileIconColor,
                     size: 23,
                   ),
                   trailing: const CupertinoStyleListTileExternal(),

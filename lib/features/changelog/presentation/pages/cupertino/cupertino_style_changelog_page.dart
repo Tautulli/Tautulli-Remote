@@ -70,9 +70,9 @@ class _CupertinoStyleChangelogViewState extends State<CupertinoStyleChangelogVie
               color: CupertinoColors.systemRed,
             ),
             const Gap(4),
-            Text(
+            const Text(
               LocaleKeys.donate_title,
-              style: TextStyle(color: ThemeHelper.cupertinoNavigationBarItemColor()),
+              style: TextStyle(color: ThemeHelper.cupertinoNavigationBarItemColor),
             ).tr(),
           ],
         ),

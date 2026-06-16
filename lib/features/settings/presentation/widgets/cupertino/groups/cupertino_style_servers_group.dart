@@ -50,8 +50,8 @@ class CupertinoStyleServersGroup extends StatelessWidget {
                             key: ValueKey(server.tautulliId),
                             leading: WebsafeSvg.asset(
                               'assets/logos/logo_flat.svg',
-                              colorFilter: ColorFilter.mode(
-                                ThemeHelper.cupertinoListTileIconColor(),
+                              colorFilter: const ColorFilter.mode(
+                                ThemeHelper.cupertinoListTileIconColor,
                                 BlendMode.srcIn,
                               ),
                             ),

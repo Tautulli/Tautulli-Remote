@@ -19,9 +19,9 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
       headerText: LocaleKeys.help_and_support_title.tr(),
       children: [
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.github,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoStyleListTileExternal(),
@@ -34,9 +34,9 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.discord,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 19.2,
           ),
           trailing: const CupertinoStyleListTileExternal(),
@@ -49,9 +49,9 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.redditAlien,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoStyleListTileExternal(),
@@ -64,9 +64,9 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.github,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoStyleListTileExternal(),
@@ -79,9 +79,9 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.list_bullet,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.tautulli_remote_logs_title.tr(),

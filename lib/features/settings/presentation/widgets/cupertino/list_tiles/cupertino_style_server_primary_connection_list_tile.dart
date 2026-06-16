@@ -24,9 +24,9 @@ class CupertinoStyleServerPrimaryConnectionListTile extends StatelessWidget {
       sensitive: true,
       titleText: LocaleKeys.primary_connection_title.tr(),
       subtitleText: server.primaryConnectionAddress,
-      leading: Icon(
+      leading: const Icon(
         CupertinoIcons.square_fill_line_vertical_square,
-        color: ThemeHelper.cupertinoListTileIconColor(),
+        color: ThemeHelper.cupertinoListTileIconColor,
       ),
       additionalInfo: server.primaryActive == true ? const CupertinoStyleActiveConnectionIndicator() : null,
       trailing: const CupertinoListTileChevron(),

@@ -23,9 +23,9 @@ class CupertinoStyleStylesGroup extends StatelessWidget {
           headerText: LocaleKeys.styles_title.tr(),
           children: [
             CupertinoStyleNotchedCupertinoListTile(
-              leading: FaIcon(
+              leading: const FaIcon(
                 FontAwesomeIcons.android,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
                 size: 21.3,
               ),
               titleText: 'Material',
@@ -39,9 +39,9 @@ class CupertinoStyleStylesGroup extends StatelessWidget {
               },
             ),
             CupertinoStyleNotchedCupertinoListTile(
-              leading: FaIcon(
+              leading: const FaIcon(
                 FontAwesomeIcons.apple,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
                 size: 26,
               ),
               titleText: 'Cupertino',

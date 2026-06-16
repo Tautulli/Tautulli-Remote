@@ -43,9 +43,9 @@ class CupertinoStyleWizardServers extends StatelessWidget {
           margin: EdgeInsets.zero,
           children: [
             CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.globe,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
               ),
               titleText: LocaleKeys.change_language_title.tr(),
               trailing: const CupertinoListTileChevron(),

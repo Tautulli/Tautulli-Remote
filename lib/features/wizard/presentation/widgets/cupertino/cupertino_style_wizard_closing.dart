@@ -24,17 +24,17 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
         ).tr(),
         const Gap(8),
         CupertinoStyleNoticeCard(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.dot_radiowaves_left_right,
-            color: ThemeHelper.cupertinoCardIconColor(),
+            color: ThemeHelper.cupertinoCardIconColor,
           ),
           title: LocaleKeys.wizard_closing_announcements.tr(),
         ),
         const Gap(8),
         CupertinoStyleNoticeCard(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.bubble_left_fill,
-            color: ThemeHelper.cupertinoCardIconColor(),
+            color: ThemeHelper.cupertinoCardIconColor,
           ),
           title: LocaleKeys.wizard_closing_support.tr(),
         ),
@@ -48,9 +48,9 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
                 children: [
                   const Gap(8),
                   CupertinoStyleNoticeCard(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.bell_fill,
-                      color: ThemeHelper.cupertinoCardIconColor(),
+                      color: ThemeHelper.cupertinoCardIconColor,
                     ),
                     title: LocaleKeys.wizard_closing_notifications.tr(),
                   ),
@@ -62,17 +62,17 @@ class CupertinoStyleWizardClosing extends StatelessWidget {
         ),
         const Gap(8),
         CupertinoStyleNoticeCard(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.paintbrush_fill,
-            color: ThemeHelper.cupertinoCardIconColor(),
+            color: ThemeHelper.cupertinoCardIconColor,
           ),
           title: LocaleKeys.wizard_closing_styles.tr(),
         ),
         const Gap(8),
         CupertinoStyleNoticeCard(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.globe,
-            color: ThemeHelper.cupertinoCardIconColor(),
+            color: ThemeHelper.cupertinoCardIconColor,
           ),
           title: LocaleKeys.wizard_closing_translate.tr(),
         ),

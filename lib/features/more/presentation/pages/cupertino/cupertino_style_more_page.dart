@@ -93,9 +93,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
               CupertinoStyleListSection(
                 children: [
                   CupertinoStyleNotchedCupertinoListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.person_2_fill,
-                      color: ThemeHelper.cupertinoListTileIconColor(),
+                      color: ThemeHelper.cupertinoListTileIconColor,
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.users_title.tr(),
@@ -109,9 +109,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                     ),
                   ),
                   CupertinoStyleNotchedCupertinoListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.list_number,
-                      color: ThemeHelper.cupertinoListTileIconColor(),
+                      color: ThemeHelper.cupertinoListTileIconColor,
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.statistics_title.tr(),
@@ -125,9 +125,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                     ),
                   ),
                   CupertinoStyleNotchedCupertinoListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.chart_bar_alt_fill,
-                      color: ThemeHelper.cupertinoListTileIconColor(),
+                      color: ThemeHelper.cupertinoListTileIconColor,
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.graphs_title.tr(),
@@ -145,9 +145,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
               CupertinoStyleListSection(
                 children: [
                   CupertinoStyleNotchedCupertinoListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.bell_fill,
-                      color: ThemeHelper.cupertinoListTileIconColor(),
+                      color: ThemeHelper.cupertinoListTileIconColor,
                     ),
                     trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
                       builder: (context, state) {
@@ -194,9 +194,9 @@ class _CupertinoStyleMoreViewState extends State<CupertinoStyleMoreView> {
                     ),
                   ),
                   CupertinoStyleNotchedCupertinoListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       CupertinoIcons.gear_alt_fill,
-                      color: ThemeHelper.cupertinoListTileIconColor(),
+                      color: ThemeHelper.cupertinoListTileIconColor,
                     ),
                     trailing: const CupertinoListTileChevron(),
                     titleText: LocaleKeys.settings_title.tr(),

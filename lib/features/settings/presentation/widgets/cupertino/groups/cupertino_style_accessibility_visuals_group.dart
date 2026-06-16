@@ -27,9 +27,9 @@ class CupertinoStyleAccessibilityVisualsGroup extends StatelessWidget {
             state as SettingsSuccess;
 
             return CupertinoStyleNotchedCupertinoListTile(
-              leading: Icon(
+              leading: const Icon(
                 CupertinoIcons.photo_fill,
-                color: ThemeHelper.cupertinoListTileIconColor(),
+                color: ThemeHelper.cupertinoListTileIconColor,
               ),
               trailing: CupertinoSwitch(
                 value: state.appSettings.disableImageBackgrounds,

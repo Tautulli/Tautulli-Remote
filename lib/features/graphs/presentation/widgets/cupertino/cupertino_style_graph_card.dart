@@ -92,8 +92,8 @@ class CupertinoStyleGraphCard extends StatelessWidget {
                                 return LineChartGraph(
                                   yAxis: yAxis,
                                   graphData: graph.graphDataModel!,
-                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor(),
-                                  verticalLineColor: ThemeHelper.cupertinoChartLineColor(),
+                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor,
+                                  verticalLineColor: ThemeHelper.cupertinoChartLineColor,
                                 );
                               case (GraphChartType.bar):
                                 return BarChartGraph(
@@ -101,7 +101,7 @@ class CupertinoStyleGraphCard extends StatelessWidget {
                                   graphType: graphType,
                                   graphData: graph.graphDataModel!,
                                   isVertical: isVertical,
-                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor(),
+                                  horizontalLineColor: ThemeHelper.cupertinoChartLineColor,
                                   verticalLineColor: CupertinoColors.white,
                                 );
                             }

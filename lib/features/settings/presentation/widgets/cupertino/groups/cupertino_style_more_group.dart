@@ -23,8 +23,8 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
         CupertinoStyleNotchedCupertinoListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
-            colorFilter: ColorFilter.mode(
-              ThemeHelper.cupertinoListTileIconColor(),
+            colorFilter: const ColorFilter.mode(
+              ThemeHelper.cupertinoListTileIconColor,
               BlendMode.srcIn,
             ),
           ),
@@ -39,9 +39,9 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: Icon(
+          leading: const Icon(
             CupertinoIcons.square_list_fill,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.changelog_title.tr(),
@@ -54,9 +54,9 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.globe,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),
@@ -70,9 +70,9 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
           ),
         ),
         CupertinoStyleNotchedCupertinoListTile(
-          leading: FaIcon(
+          leading: const FaIcon(
             FontAwesomeIcons.faucet,
-            color: ThemeHelper.cupertinoListTileIconColor(),
+            color: ThemeHelper.cupertinoListTileIconColor,
             size: 23,
           ),
           trailing: const CupertinoListTileChevron(),

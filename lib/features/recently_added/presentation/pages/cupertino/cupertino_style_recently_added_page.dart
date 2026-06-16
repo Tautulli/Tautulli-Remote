@@ -311,9 +311,9 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
                 color: CupertinoTheme.of(context).scaffoldBackgroundColor,
               ),
             ),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.line_horizontal_3_decrease,
-              color: ThemeHelper.cupertinoNavigationBarItemColor(),
+              color: ThemeHelper.cupertinoNavigationBarItemColor,
             ),
           ),
           onPressed: () async {
