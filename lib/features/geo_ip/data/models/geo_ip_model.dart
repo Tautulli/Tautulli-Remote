@@ -47,6 +47,7 @@ class GeoIpModel extends Equatable {
   List<Object?> get props => [
         code,
         country,
+        region,
         city,
         postalCode,
         timezone,

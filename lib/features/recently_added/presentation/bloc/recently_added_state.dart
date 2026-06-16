@@ -40,5 +40,5 @@ class RecentlyAddedState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, recentlyAdded, hasReachedMax];
+  List<Object?> get props => [status, mediaType, recentlyAdded, failure, message, suggestion, hasReachedMax];
 }

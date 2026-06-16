@@ -173,7 +173,7 @@ class AppSettingsModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
     activeServer,
     appStyle,
     appUpdateAvailable,
@@ -191,6 +191,7 @@ class AppSettingsModel extends Equatable {
     oneSignalBannerDismissed,
     oneSignalConsented,
     recentlyAddedFilter,
+    patch,
     refreshRate,
     secret,
     serverTimeout,

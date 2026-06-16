@@ -4,7 +4,7 @@ abstract class HistoryEvent extends Equatable {
   const HistoryEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class HistoryFetched extends HistoryEvent {
@@ -67,8 +67,19 @@ class HistoryFetched extends HistoryEvent {
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         server,
+        grouping,
+        includeActivity,
+        user,
+        userId,
+        ratingKey,
+        parentRatingKey,
+        grandparentRatingKey,
+        startDate,
+        before,
+        after,
+        sectionId,
         movieMediaType,
         episodeMediaType,
         trackMediaType,
@@ -76,7 +87,13 @@ class HistoryFetched extends HistoryEvent {
         directPlayDecision,
         directStreamDecision,
         transcodeDecision,
+        guid,
+        orderColumn,
+        orderDir,
+        start,
+        length,
+        search,
         freshFetch,
-        settingsBloc
+        settingsBloc,
       ];
 }

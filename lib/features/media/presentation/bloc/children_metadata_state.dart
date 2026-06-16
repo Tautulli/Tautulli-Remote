@@ -32,5 +32,5 @@ class ChildrenMetadataState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status];
+  List<Object?> get props => [status, children, failure, message, suggestion];
 }

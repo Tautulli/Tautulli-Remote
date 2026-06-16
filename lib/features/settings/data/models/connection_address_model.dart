@@ -52,5 +52,5 @@ class ConnectionAddressModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [primary, address, protocol, domain, path];
 }

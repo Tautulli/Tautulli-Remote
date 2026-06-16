@@ -21,7 +21,7 @@ class LoggingSuccess extends LoggingState {
   });
 
   @override
-  List<Object> get props => [loadedAt];
+  List<Object> get props => [logs, level, loadedAt];
 }
 
 class LoggingFailure extends LoggingState {}
