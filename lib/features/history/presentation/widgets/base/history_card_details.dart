@@ -28,6 +28,13 @@ class HistoryCardDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          return previous.appSettings.activeServer.dateFormat != current.appSettings.activeServer.dateFormat ||
+              previous.appSettings.activeServer.timeFormat != current.appSettings.activeServer.timeFormat;
+        }
+        return true;
+      },
       builder: (context, state) {
         state as SettingsSuccess;
 
