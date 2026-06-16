@@ -1,25 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_app_group_directory/flutter_app_group_directory.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../../dependency_injection.dart' as di;
 import '../../../../features/logging/domain/usecases/logging.dart';
 import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../../features/settings/data/models/custom_header_model.dart';
-import '../../../device_info/device_info.dart';
 import '../../../error/exception.dart';
 import '../../../utilities/cast.dart';
 import '../models/server_model.dart';
 
 class DBProvider {
-  // Create a singleton
-  DBProvider._();
+  final Logging logging;
 
-  static final DBProvider db = DBProvider._();
+  DBProvider({required this.logging});
+
   Database? _database;
 
   Future<Database?> get database async {
@@ -33,7 +32,7 @@ class DBProvider {
   }
 
   Future initDB() async {
-    Directory? documentsDir = (di.sl<DeviceInfo>().platform == 'ios')
+    Directory? documentsDir = (defaultTargetPlatform == TargetPlatform.iOS)
         ? await FlutterAppGroupDirectory.getAppGroupDirectory(
             'group.com.tautulli.tautulliRemote.onesignal',
           )
@@ -56,7 +55,7 @@ class DBProvider {
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
-        di.sl<Logging>().info('DB :: Upgrading DB');
+        logging.info('DB :: Upgrading DB');
 
         var batch = db.batch();
         if (oldVersion == 1) {
@@ -161,7 +160,7 @@ class DBProvider {
 
   // Adds an sort index value on databases prior to V6.
   Future<void> _addInitialIndexValue(Database db, Batch batch) async {
-    di.sl<Logging>().info('DB :: Adding server index values');
+    logging.info('DB :: Adding server index values');
 
     var servers = await db.query('servers');
     for (var i = 0; i <= servers.length - 1; i++) {
@@ -176,7 +175,7 @@ class DBProvider {
 
   // Update headers to the new format used by Tautulli Remote v3.
   Future<void> _refactorCustomHeaders(Database db, Batch batch) async {
-    di.sl<Logging>().info('DB :: Refactoring custom headers');
+    logging.info('DB :: Refactoring custom headers');
 
     var servers = await db.query('servers');
     for (var i = 0; i <= servers.length - 1; i++) {
@@ -191,7 +190,7 @@ class DBProvider {
               value.first['custom_headers'] as String,
             );
           } catch (e) {
-            di.sl<Logging>().error('DB :: Error parsing headers [$e]');
+            logging.error('DB :: Error parsing headers [$e]');
             return {};
           }
         },
@@ -215,7 +214,7 @@ class DBProvider {
   }
 
   Future<void> _setOneSignalRegisteredToFalse(Database db, Batch batch) async {
-    di.sl<Logging>().info('DB :: Setting OneSignal registered to false');
+    logging.info('DB :: Setting OneSignal registered to false');
 
     var servers = await db.query('servers');
     for (var i = 0; i <= servers.length - 1; i++) {

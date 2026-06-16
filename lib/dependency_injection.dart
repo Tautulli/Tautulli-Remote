@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api/tautulli/tautulli_api.dart' as tautulli_api;
+import 'core/database/data/datasources/database.dart';
 import 'core/device_info/device_info.dart';
 import 'core/local_storage/local_storage.dart';
 import 'core/manage_cache/manage_cache.dart';
@@ -747,8 +748,13 @@ Future<void> init() async {
   );
 
   // Data sources
+  sl.registerLazySingleton(
+    () => DBProvider(logging: sl()),
+  );
+
   sl.registerLazySingleton<SettingsDataSource>(
     () => SettingsDataSourceImpl(
+      dbProvider: sl(),
       deviceInfo: sl(),
       localStorage: sl(),
       packageInfo: sl(),

@@ -247,6 +247,7 @@ const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
+  final DBProvider dbProvider;
   final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
   final PackageInformation packageInfo;
@@ -256,6 +257,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   final RegisterDevice registerDeviceApi;
 
   SettingsDataSourceImpl({
+    required this.dbProvider,
     required this.deviceInfo,
     required this.localStorage,
     required this.packageInfo,
@@ -344,27 +346,27 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   //* Database Interactions
   @override
   Future<int> addServer(ServerModel server) async {
-    return await DBProvider.db.addServer(server);
+    return await dbProvider.addServer(server);
   }
 
   @override
   Future<void> deleteServer(int id) async {
-    return await DBProvider.db.deleteServer(id);
+    return await dbProvider.deleteServer(id);
   }
 
   @override
   Future<List<ServerModel>> getAllServers() async {
-    return await DBProvider.db.getAllServers();
+    return await dbProvider.getAllServers();
   }
 
   @override
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
-    return await DBProvider.db.getServerByTautulliId(tautulliId);
+    return await dbProvider.getServerByTautulliId(tautulliId);
   }
 
   @override
   Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
-    return await DBProvider.db.getAllServersWithoutOnesignalRegistered();
+    return await dbProvider.getAllServersWithoutOnesignalRegistered();
   }
 
   @override
@@ -372,7 +374,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required int id,
     required ConnectionAddressModel connectionAddress,
   }) async {
-    return await DBProvider.db.updateConnectionInfo(
+    return await dbProvider.updateConnectionInfo(
       id: id,
       connectionAddress: connectionAddress,
     );
@@ -383,7 +385,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required String tautulliId,
     required List<CustomHeaderModel> headers,
   }) async {
-    return await DBProvider.db.updateCustomHeaders(
+    return await dbProvider.updateCustomHeaders(
       tautulliId: tautulliId,
       headers: headers,
     );
@@ -394,7 +396,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required String tautulliId,
     required bool primaryActive,
   }) async {
-    return await DBProvider.db.updatePrimaryActive(
+    return await dbProvider.updatePrimaryActive(
       tautulliId: tautulliId,
       primaryActive: primaryActive,
     );
@@ -402,7 +404,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<int> updateServer(ServerModel server) async {
-    return await DBProvider.db.updateServer(server);
+    return await dbProvider.updateServer(server);
   }
 
   @override
@@ -411,7 +413,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required int oldIndex,
     required int newIndex,
   }) async {
-    return DBProvider.db.updateServerSort(
+    return dbProvider.updateServerSort(
       serverId: serverId,
       oldIndex: oldIndex,
       newIndex: newIndex,
