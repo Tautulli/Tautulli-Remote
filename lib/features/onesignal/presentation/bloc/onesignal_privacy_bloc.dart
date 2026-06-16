@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/datasources/onesignal_data_source.dart';
+import '../../domain/usecases/onesignal.dart';
 
 part 'onesignal_privacy_event.dart';
 part 'onesignal_privacy_state.dart';
 
 class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyState> {
   final Logging logging;
-  final OneSignalDataSource oneSignal;
+  final OneSignal oneSignal;
   final Settings settings;
   final SettingsBloc settingsBloc;
 

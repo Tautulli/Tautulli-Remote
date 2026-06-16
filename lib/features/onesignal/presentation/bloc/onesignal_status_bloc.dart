@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../data/datasources/onesignal_data_source.dart';
+import '../../domain/usecases/onesignal.dart';
 
 part 'onesignal_status_event.dart';
 part 'onesignal_status_state.dart';
 
 class OneSignalStatusBloc extends Bloc<OneSignalStatusEvent, OneSignalStatusState> {
-  final OneSignalDataSource oneSignal;
+  final OneSignal oneSignal;
 
   OneSignalStatusBloc({
     required this.oneSignal,

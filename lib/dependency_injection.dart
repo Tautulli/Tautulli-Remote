@@ -69,6 +69,9 @@ import 'features/media/domain/usecases/media.dart';
 import 'features/media/presentation/bloc/children_metadata_bloc.dart';
 import 'features/media/presentation/bloc/metadata_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'features/onesignal/data/repositories/onesignal_repository_impl.dart';
+import 'features/onesignal/domain/repositories/onesignal_repository.dart';
+import 'features/onesignal/domain/usecases/onesignal.dart' as onesignal_usecase;
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_status_bloc.dart';
@@ -640,6 +643,16 @@ Future<void> init() async {
     () => OneSignalSubBloc(
       oneSignal: sl(),
     ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => onesignal_usecase.OneSignal(repository: sl()),
+  );
+
+  // Repository
+  sl.registerLazySingleton<OneSignalRepository>(
+    () => OneSignalRepositoryImpl(dataSource: sl()),
   );
 
   // Data sources

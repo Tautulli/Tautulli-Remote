@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../../data/datasources/onesignal_data_source.dart';
+import '../../domain/usecases/onesignal.dart';
 
 part 'onesignal_health_event.dart';
 part 'onesignal_health_state.dart';
@@ -10,7 +10,7 @@ part 'onesignal_health_state.dart';
 class OneSignalHealthBloc
     extends Bloc<OneSignalHealthEvent, OneSignalHealthState> {
   final Logging logging;
-  final OneSignalDataSource oneSignal;
+  final OneSignal oneSignal;
 
   OneSignalHealthBloc({
     required this.logging,

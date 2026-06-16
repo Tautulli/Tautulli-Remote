@@ -4,13 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../translations/locale_keys.g.dart';
-import '../../data/datasources/onesignal_data_source.dart';
+import '../../domain/usecases/onesignal.dart';
 
 part 'onesignal_sub_event.dart';
 part 'onesignal_sub_state.dart';
 
 class OneSignalSubBloc extends Bloc<OneSignalSubEvent, OneSignalSubState> {
-  final OneSignalDataSource oneSignal;
+  final OneSignal oneSignal;
 
   OneSignalSubBloc({
     required this.oneSignal,
