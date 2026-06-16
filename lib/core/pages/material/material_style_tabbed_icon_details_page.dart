@@ -203,43 +203,41 @@ class _SliverTabbedIconDetailsStatePage extends State<MaterialStyleTabbedIconDet
   }
 
   void _onScroll() {
-    double progress = (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
-    double progressDelayed = (_scrollController.offset - 50) / (_expandedHeight - 50 - kToolbarHeight - 50);
+    final double progress = _scrollController.offset / (_expandedHeight - 46 - kToolbarHeight);
+    final double progressDelayed = (_scrollController.offset - 50) / (_expandedHeight - 50 - kToolbarHeight - 50);
+
+    double newRadius = radius;
+    double newDetailsOpacity = detailsOpacity;
+    double newTitleOpacity = titleOpacity;
 
     // Using easeInSine calculation from https://easings.net/#easeInSine
     if (progress <= 1) {
-      setState(() {
-        radius = (1 - (1 - cos((progress * pi) / 2))) * 16;
-      });
+      newRadius = (1 - (1 - cos((progress * pi) / 2))) * 16;
     }
 
     // Using easeInSine calculation from https://easings.net/#easeInSine
-    if (progress <= 0 && detailsOpacity != 1) {
-      setState(() {
-        detailsOpacity = 1;
-      });
-    } else if (progress > 0 && progress <= 1) {
-      setState(() {
-        detailsOpacity = cos((progress * pi) / 2);
-      });
-    } else if (progress > 1 && detailsOpacity != 0) {
-      setState(() {
-        detailsOpacity = 0;
-      });
+    if (progress <= 0) {
+      newDetailsOpacity = 1;
+    } else if (progress <= 1) {
+      newDetailsOpacity = cos((progress * pi) / 2);
+    } else {
+      newDetailsOpacity = 0;
     }
 
     // Using easeInExpo calculation from https://easings.net/#easeInExpo
-    if (progressDelayed <= 0 && titleOpacity != 0) {
+    if (progressDelayed <= 0) {
+      newTitleOpacity = 0;
+    } else if (progressDelayed <= 1) {
+      newTitleOpacity = pow(2, 10 * progressDelayed - 10).toDouble();
+    } else {
+      newTitleOpacity = 1;
+    }
+
+    if (newRadius != radius || newDetailsOpacity != detailsOpacity || newTitleOpacity != titleOpacity) {
       setState(() {
-        titleOpacity = 0;
-      });
-    } else if (progressDelayed > 0 && progressDelayed <= 1) {
-      setState(() {
-        titleOpacity = pow(2, 10 * progressDelayed - 10).toDouble();
-      });
-    } else if (progressDelayed > 1 && titleOpacity != 1) {
-      setState(() {
-        titleOpacity = 1;
+        radius = newRadius;
+        detailsOpacity = newDetailsOpacity;
+        titleOpacity = newTitleOpacity;
       });
     }
   }
