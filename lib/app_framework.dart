@@ -114,14 +114,32 @@ class AppFramework extends StatelessWidget {
         return false;
       },
       builder: (context, state) {
-        final bool useAtkinsonHyperLegible = di.sl<Settings>().getUseAtkinsonHyperlegible();
-        final ThemeType theme = di.sl<Settings>().getTheme();
-        final bool themeUseSystemColor = di.sl<Settings>().getThemeUseSystemColor();
-        final Color themeCustomColor = di.sl<Settings>().getThemeCustomColor();
-        final Color systemColor = SystemTheme.accentColor.accent;
-        final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
+        final bool useAtkinsonHyperLegible;
+        final ThemeType theme;
+        final bool themeUseSystemColor;
+        final Color themeCustomColor;
+        final ThemeEnhancementType themeEnhancement;
+        final AppStyle appStyle;
 
-        if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
+        if (state is SettingsSuccess) {
+          useAtkinsonHyperLegible = state.appSettings.useAtkinsonHyperlegible;
+          theme = state.appSettings.theme;
+          themeUseSystemColor = state.appSettings.themeUseSystemColor;
+          themeCustomColor = state.appSettings.themeCustomColor;
+          themeEnhancement = state.appSettings.themeEnhancement;
+          appStyle = state.appSettings.appStyle;
+        } else {
+          useAtkinsonHyperLegible = di.sl<Settings>().getUseAtkinsonHyperlegible();
+          theme = di.sl<Settings>().getTheme();
+          themeUseSystemColor = di.sl<Settings>().getThemeUseSystemColor();
+          themeCustomColor = di.sl<Settings>().getThemeCustomColor();
+          themeEnhancement = di.sl<Settings>().getThemeEnhancement();
+          appStyle = di.sl<Settings>().getAppStyle();
+        }
+
+        final Color systemColor = SystemTheme.accentColor.accent;
+
+        if (appStyle == AppStyle.cupertino) {
           currentAppStyle = AppStyle.cupertino;
           return _CupertinoFramework(
             // initialRoute: initialRoute,
