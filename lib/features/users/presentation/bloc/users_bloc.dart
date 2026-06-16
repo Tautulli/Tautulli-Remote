@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
-import '../../../../translations/locale_keys.g.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
@@ -77,14 +75,6 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
           users.value1.sort(
             ((a, b) => a.friendlyName!.compareTo(b.friendlyName!)),
-          );
-
-          users.value1.insert(
-            0,
-            UserModel(
-              userId: -1,
-              friendlyName: LocaleKeys.all_users_title.tr(),
-            ),
           );
 
           usersCache[event.server.tautulliId] = users.value1;

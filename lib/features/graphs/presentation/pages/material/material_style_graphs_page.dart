@@ -281,27 +281,38 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                     ),
                   ),
                   itemBuilder: (context) {
-                    return state.users
-                        .map(
-                          (user) => PopupMenuItem(
-                            value: user.userId,
-                            child: BlocBuilder<SettingsBloc, SettingsState>(
-                              builder: (context, state) {
-                                state as SettingsSuccess;
-
-                                return Text(
-                                  user.friendlyName ?? '',
-                                  style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                ).sensitive();
-                              },
-                            ),
+                    return [
+                      PopupMenuItem(
+                        value: -1,
+                        child: Text(
+                          LocaleKeys.all_users_title.tr(),
+                          style: TextStyle(
+                            color: _userId == -1
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.onSurface,
                           ),
-                        )
-                        .toList();
+                        ),
+                      ),
+                      ...state.users.map(
+                        (user) => PopupMenuItem(
+                          value: user.userId,
+                          child: BlocBuilder<SettingsBloc, SettingsState>(
+                            builder: (context, state) {
+                              state as SettingsSuccess;
+
+                              return Text(
+                                user.friendlyName ?? '',
+                                style: TextStyle(
+                                  color: _userId == user.userId!
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ).sensitive();
+                            },
+                          ),
+                        ),
+                      ),
+                    ];
                   },
                 ),
               ),

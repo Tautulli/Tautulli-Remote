@@ -32,16 +32,20 @@ class CupertinoStyleUserFilterBottomSheet extends StatelessWidget {
               leading: const CupertinoStyleBottomSheetCancelButton(),
               child: CupertinoStyleListSection(
                 hasLeading: false,
-                children: usersState.users
-                    .map(
-                      (user) => CupertinoStyleNotchedCupertinoListTile(
-                        onTap: () => Navigator.of(context).pop(user.userId),
-                        titleText: user.friendlyName.sensitive(context, enabled: user.userId != -1) ?? '',
-
-                        trailing: initialValue == user.userId ? const Icon(CupertinoIcons.checkmark_alt) : null,
-                      ),
-                    )
-                    .toList(),
+                children: [
+                  CupertinoStyleNotchedCupertinoListTile(
+                    onTap: () => Navigator.of(context).pop(-1),
+                    titleText: LocaleKeys.all_users_title.tr(),
+                    trailing: initialValue == -1 ? const Icon(CupertinoIcons.checkmark_alt) : null,
+                  ),
+                  ...usersState.users.map(
+                    (user) => CupertinoStyleNotchedCupertinoListTile(
+                      onTap: () => Navigator.of(context).pop(user.userId),
+                      titleText: user.friendlyName.sensitive(context) ?? '',
+                      trailing: initialValue == user.userId ? const Icon(CupertinoIcons.checkmark_alt) : null,
+                    ),
+                  ),
+                ],
               ),
             );
           },
