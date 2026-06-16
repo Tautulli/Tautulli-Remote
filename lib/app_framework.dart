@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:system_theme/system_theme.dart';
 
 import 'core/global_keys/global_keys.dart';
-import 'core/helpers/home_page_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/types/app_style.dart';
 import 'core/types/theme_enhancement_type.dart';
@@ -206,8 +205,27 @@ class _MaterialFramework extends StatelessWidget {
       },
       routes: materialRoutes,
       initialRoute: initialRoute,
-      home: HomePageHelper.get(),
+      home: initialRoute != null ? null : _materialHome(),
     );
+  }
+
+  static Widget _materialHome() {
+    switch (di.sl<Settings>().getHomePage()) {
+      case 'history':
+        return const MaterialStyleHistoryPage();
+      case 'recent':
+        return const MaterialStyleRecentlyAddedPage();
+      case 'libraries':
+        return const MaterialStyleLibrariesPage();
+      case 'users':
+        return const MaterialStyleUsersPage();
+      case 'statistics':
+        return const MaterialStyleStatisticsPage();
+      case 'graphs':
+        return const MaterialStyleGraphsPage();
+      default:
+        return const MaterialStyleActivityPage();
+    }
   }
 }
 
