@@ -34,14 +34,12 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late UserHistoryBloc _userHistoryBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
     _userHistoryBloc = context.read<UserHistoryBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -55,7 +53,6 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
             UserHistoryFetched(
               server: widget.server,
               userId: widget.user.userId!,
-              settingsBloc: _settingsBloc,
               freshFetch: true,
             ),
           );
@@ -117,7 +114,6 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
                                 UserHistoryFetched(
                                   server: widget.server,
                                   userId: widget.user.userId!,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -165,7 +161,6 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
         UserHistoryFetched(
           server: widget.server,
           userId: widget.user.userId!,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

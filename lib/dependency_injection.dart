@@ -264,18 +264,20 @@ Future<void> init() async {
 
   //! Features - Activity
   // Bloc
-  sl.registerFactory(
-    () => ActivityBloc(
+  sl.registerFactoryParam<ActivityBloc, SettingsBloc, void>(
+    (settingsBloc, _) => ActivityBloc(
       activity: sl(),
       imageUrl: sl(),
       logging: sl(),
       settings: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => TerminateStreamBloc(
+  sl.registerFactoryParam<TerminateStreamBloc, SettingsBloc, void>(
+    (settingsBloc, _) => TerminateStreamBloc(
       activity: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -335,10 +337,11 @@ Future<void> init() async {
 
   //! Features - GeoIp
   // Bloc
-  sl.registerFactory(
-    () => GeoIpBloc(
+  sl.registerFactoryParam<GeoIpBloc, SettingsBloc, void>(
+    (settingsBloc, _) => GeoIpBloc(
       geoIp: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -366,10 +369,11 @@ Future<void> init() async {
 
   //! Features - Graphs
   // Bloc
-  sl.registerFactory(
-    () => GraphsBloc(
+  sl.registerFactoryParam<GraphsBloc, SettingsBloc, void>(
+    (settingsBloc, _) => GraphsBloc(
       graphs: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -408,31 +412,35 @@ Future<void> init() async {
 
   //! Features - History
   // Bloc
-  sl.registerFactory(
-    () => HistoryBloc(
+  sl.registerFactoryParam<HistoryBloc, SettingsBloc, void>(
+    (settingsBloc, _) => HistoryBloc(
       history: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => IndividualHistoryBloc(
+  sl.registerFactoryParam<IndividualHistoryBloc, SettingsBloc, void>(
+    (settingsBloc, _) => IndividualHistoryBloc(
       history: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => LibraryHistoryBloc(
-      history: sl(),
-      imageUrl: sl(),
-      logging: sl(),
-    ),
-  );
-  sl.registerFactory(
-    () => UserHistoryBloc(
+  sl.registerFactoryParam<LibraryHistoryBloc, SettingsBloc, void>(
+    (settingsBloc, _) => LibraryHistoryBloc(
       history: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
+    ),
+  );
+  sl.registerFactoryParam<UserHistoryBloc, SettingsBloc, void>(
+    (settingsBloc, _) => UserHistoryBloc(
+      history: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -483,24 +491,27 @@ Future<void> init() async {
 
   //! Features - Libraries
   // Bloc
-  sl.registerFactory(
-    () => LibrariesBloc(
+  sl.registerFactoryParam<LibrariesBloc, SettingsBloc, void>(
+    (settingsBloc, _) => LibrariesBloc(
       libraries: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => LibraryMediaBloc(
+  sl.registerFactoryParam<LibraryMediaBloc, SettingsBloc, void>(
+    (settingsBloc, _) => LibraryMediaBloc(
       libraries: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => LibraryStatisticsBloc(
+  sl.registerFactoryParam<LibraryStatisticsBloc, SettingsBloc, void>(
+    (settingsBloc, _) => LibraryStatisticsBloc(
       libraries: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -563,18 +574,20 @@ Future<void> init() async {
 
   //! Features - Media
   // Bloc
-  sl.registerFactory(
-    () => ChildrenMetadataBloc(
+  sl.registerFactoryParam<ChildrenMetadataBloc, SettingsBloc, void>(
+    (settingsBloc, _) => ChildrenMetadataBloc(
       media: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => MetadataBloc(
+  sl.registerFactoryParam<MetadataBloc, SettingsBloc, void>(
+    (settingsBloc, _) => MetadataBloc(
       media: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -609,11 +622,12 @@ Future<void> init() async {
       oneSignal: sl(),
     ),
   );
-  sl.registerFactory(
-    () => OneSignalPrivacyBloc(
+  sl.registerFactoryParam<OneSignalPrivacyBloc, SettingsBloc, void>(
+    (settingsBloc, _) => OneSignalPrivacyBloc(
       logging: sl(),
       oneSignal: sl(),
       settings: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
   sl.registerFactory(
@@ -638,18 +652,20 @@ Future<void> init() async {
 
   //! Features - Recently Added
   // Bloc
-  sl.registerFactory(
-    () => LibraryRecentlyAddedBloc(
+  sl.registerFactoryParam<LibraryRecentlyAddedBloc, SettingsBloc, void>(
+    (settingsBloc, _) => LibraryRecentlyAddedBloc(
       recentlyAdded: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => RecentlyAddedBloc(
+  sl.registerFactoryParam<RecentlyAddedBloc, SettingsBloc, void>(
+    (settingsBloc, _) => RecentlyAddedBloc(
       recentlyAdded: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -677,26 +693,29 @@ Future<void> init() async {
 
   //! Features - Search
   // Bloc
-  sl.registerFactory(
-    () => SearchHistoryBloc(
+  sl.registerFactoryParam<SearchHistoryBloc, SettingsBloc, void>(
+    (settingsBloc, _) => SearchHistoryBloc(
       history: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
   //! Features - Settings
   // Bloc
-  sl.registerFactory(
-    () => ClearTautulliImageCacheBloc(
+  sl.registerFactoryParam<ClearTautulliImageCacheBloc, SettingsBloc, void>(
+    (settingsBloc, _) => ClearTautulliImageCacheBloc(
       logging: sl(),
       settings: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => RegisterDeviceBloc(
+  sl.registerFactoryParam<RegisterDeviceBloc, SettingsBloc, void>(
+    (settingsBloc, _) => RegisterDeviceBloc(
       logging: sl(),
       settings: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
   sl.registerFactory(
@@ -742,11 +761,12 @@ Future<void> init() async {
 
   //! Features - Statistics
   // Bloc
-  sl.registerFactory(
-    () => StatisticsBloc(
+  sl.registerFactoryParam<StatisticsBloc, SettingsBloc, void>(
+    (settingsBloc, _) => StatisticsBloc(
       statistics: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 
@@ -782,28 +802,32 @@ Future<void> init() async {
 
   //! Features - Users
   // Bloc
-  sl.registerFactory(
-    () => UserIndividualBloc(
+  sl.registerFactoryParam<UserIndividualBloc, SettingsBloc, void>(
+    (settingsBloc, _) => UserIndividualBloc(
       users: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => UsersBloc(
+  sl.registerFactoryParam<UsersBloc, SettingsBloc, void>(
+    (settingsBloc, _) => UsersBloc(
       users: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => UsersTableBloc(
+  sl.registerFactoryParam<UsersTableBloc, SettingsBloc, void>(
+    (settingsBloc, _) => UsersTableBloc(
       users: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
-  sl.registerFactory(
-    () => UserStatisticsBloc(
+  sl.registerFactoryParam<UserStatisticsBloc, SettingsBloc, void>(
+    (settingsBloc, _) => UserStatisticsBloc(
       users: sl(),
       logging: sl(),
+      settingsBloc: settingsBloc,
     ),
   );
 

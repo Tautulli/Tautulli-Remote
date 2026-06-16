@@ -39,7 +39,7 @@ class CupertinoStyleHistorySearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<SearchHistoryBloc>(),
+      create: (context) => di.sl<SearchHistoryBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleHistorySearchView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -233,7 +233,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                                       directPlayDecision: _directPlayDecision,
                                       directStreamDecision: _directStreamDecision,
                                       transcodeDecision: _transcodeDecision,
-                                      settingsBloc: _settingsBloc,
                                     ),
                                   );
                                 },
@@ -301,7 +300,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
           directPlayDecision: _directPlayDecision,
           directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -364,7 +362,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                 transcodeDecision: _transcodeDecision,
                 search: value,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
           }
@@ -448,7 +445,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                         directStreamDecision: _directStreamDecision,
                         transcodeDecision: _transcodeDecision,
                         freshFetch: true,
-                        settingsBloc: _settingsBloc,
                       ),
                     );
                   }
@@ -491,7 +487,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                       directStreamDecision: _directStreamDecision,
                       transcodeDecision: _transcodeDecision,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
                 }
@@ -537,7 +532,6 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                     directStreamDecision: _directStreamDecision,
                     transcodeDecision: _transcodeDecision,
                     freshFetch: true,
-                    settingsBloc: _settingsBloc,
                   ),
                 );
               }

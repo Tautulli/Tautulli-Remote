@@ -33,7 +33,6 @@ class CupertinoStyleLibraryDetailsHistoryTab extends StatefulWidget {
 class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleLibraryDetailsHistoryTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
-  late SettingsBloc _settingsBloc;
   late LibraryHistoryBloc _libraryHistoryBloc;
 
   @override
@@ -41,7 +40,6 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
     super.initState();
 
     _scrollController.addListener(_onScroll);
-    _settingsBloc = context.read<SettingsBloc>();
     _libraryHistoryBloc = context.read<LibraryHistoryBloc>();
   }
 
@@ -56,7 +54,6 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
             LibraryHistoryFetched(
               server: widget.server,
               sectionId: widget.libraryTableModel.sectionId!,
-              settingsBloc: _settingsBloc,
               freshFetch: true,
             ),
           );
@@ -118,7 +115,6 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
                                 LibraryHistoryFetched(
                                   server: widget.server,
                                   sectionId: widget.libraryTableModel.sectionId!,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -165,7 +161,6 @@ class _CupertinoStyleLibraryDetailsHistoryTabState extends State<CupertinoStyleL
         LibraryHistoryFetched(
           server: widget.server,
           sectionId: widget.libraryTableModel.sectionId!,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

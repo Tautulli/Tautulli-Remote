@@ -20,11 +20,13 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
   final Media media;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   ChildrenMetadataBloc({
     required this.media,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const ChildrenMetadataState()) {
     on<ChildrenMetadataFetched>(_onChildrenMetadataFetched);
   }
@@ -72,7 +74,7 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
         );
       },
       (children) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: children.value2,
@@ -83,7 +85,6 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
         List<MediaModel> childrenWithUris = await _mediaModelsWithImageUris(
           tautulliId: event.server.tautulliId,
           children: children.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         childrenCache[cacheKey] = childrenWithUris;
@@ -101,7 +102,6 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
   Future<List<MediaModel>> _mediaModelsWithImageUris({
     required String tautulliId,
     required List<MediaModel> children,
-    required SettingsBloc settingsBloc,
   }) async {
     List<MediaModel> childrenWithImages = [];
 

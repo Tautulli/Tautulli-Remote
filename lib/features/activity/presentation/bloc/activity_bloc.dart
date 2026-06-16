@@ -21,30 +21,31 @@ import '../../domain/usecases/activity.dart';
 part 'activity_event.dart';
 part 'activity_state.dart';
 
-List<ServerActivityModel> serverActivityListCache = [];
-late List<ServerModel> serverListCache;
-late bool multiserverCache;
-String? activeServerIdCache;
-late SettingsBloc settingsBlocCache;
-bool freshFetch = true;
-
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final Activity activity;
   final ImageUrl imageUrl;
   final Logging logging;
   final Settings settings;
+  final SettingsBloc settingsBloc;
 
   Timer? _timer;
+
+  final List<ServerActivityModel> _serverActivityListCache = [];
+  late List<ServerModel> _serverListCache;
+  late bool _multiserverCache;
+  String? _activeServerIdCache;
+  bool _freshFetch = true;
 
   ActivityBloc({
     required this.activity,
     required this.imageUrl,
     required this.logging,
     required this.settings,
+    required this.settingsBloc,
   }) : super(
          ActivityState(
-           serverActivityList: serverActivityListCache,
-           freshFetch: freshFetch,
+           serverActivityList: const [],
+           freshFetch: true,
            lastAutoRefresh: DateTime.now(),
          ),
        ) {
@@ -58,12 +59,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityFetched event,
     Emitter<ActivityState> emit,
   ) async {
-    if (event.freshFetch) freshFetch = true;
+    if (event.freshFetch) _freshFetch = true;
 
     if (event.serverList.isNotEmpty) {
-      serverListCache = event.serverList;
-      multiserverCache = event.multiserver;
-      settingsBlocCache = event.settingsBloc;
+      _serverListCache = event.serverList;
+      _multiserverCache = event.multiserver;
 
       _addNewServers(event.serverList);
 
@@ -73,61 +73,59 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
       _updateServerSortIndex(event.serverList);
 
-      serverActivityListCache.sort(
+      _serverActivityListCache.sort(
         (a, b) => a.sortIndex.compareTo(b.sortIndex),
       );
 
       emit(
         state.copyWith(
-          serverActivityList: [...serverActivityListCache],
-          freshFetch: freshFetch,
+          serverActivityList: [..._serverActivityListCache],
+          freshFetch: _freshFetch,
           lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
         ),
       );
 
       if (event.multiserver) {
-        for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+        for (ServerActivityModel serverActivityModel in _serverActivityListCache) {
           // Exclude servers already in the process of loading activity
           if (serverActivityModel.status != BlocStatus.inProgress) {
             // Set status to inProgress
-            final index = serverActivityListCache.indexWhere((e) => e.tautulliId == serverActivityModel.tautulliId);
-            serverActivityListCache[index] = serverActivityModel.copyWith(status: BlocStatus.inProgress);
+            final index = _serverActivityListCache.indexWhere((e) => e.tautulliId == serverActivityModel.tautulliId);
+            _serverActivityListCache[index] = serverActivityModel.copyWith(status: BlocStatus.inProgress);
 
             emit(
               state.copyWith(
-                serverActivityList: [...serverActivityListCache],
-                freshFetch: freshFetch,
+                serverActivityList: [..._serverActivityListCache],
+                freshFetch: _freshFetch,
                 lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
               ),
             );
 
             _loadServer(
               serverActivityModel: serverActivityModel,
-              settingsBloc: event.settingsBloc,
             );
           }
         }
       } else {
-        final activeServerIndex = serverActivityListCache.indexWhere(
-          (server) => server.tautulliId == activeServerIdCache,
+        final activeServerIndex = _serverActivityListCache.indexWhere(
+          (server) => server.tautulliId == _activeServerIdCache,
         );
 
         // Update status to inProgress
-        serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(
+        _serverActivityListCache[activeServerIndex] = _serverActivityListCache[activeServerIndex].copyWith(
           status: BlocStatus.inProgress,
         );
 
         emit(
           state.copyWith(
-            serverActivityList: [...serverActivityListCache],
-            freshFetch: freshFetch,
+            serverActivityList: [..._serverActivityListCache],
+            freshFetch: _freshFetch,
             lastAutoRefresh: event.autoRefresh ? DateTime.now() : state.lastAutoRefresh,
           ),
         );
 
         _loadServer(
-          serverActivityModel: serverActivityListCache[activeServerIndex],
-          settingsBloc: event.settingsBloc,
+          serverActivityModel: _serverActivityListCache[activeServerIndex],
         );
       }
 
@@ -138,10 +136,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   void _addNewServers(List<ServerModel> serverList) {
     for (ServerModel server in serverList) {
       final bool serverExistsInCache =
-          serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
+          _serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
 
       if (!serverExistsInCache) {
-        serverActivityListCache.add(
+        _serverActivityListCache.add(
           ServerActivityModel(
             sortIndex: server.sortIndex,
             serverName: server.plexName,
@@ -165,42 +163,41 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       (server) => server.tautulliId == activeServerId,
     );
     // Set active server if null
-    activeServerIdCache ??= activeServer.tautulliId;
+    _activeServerIdCache ??= activeServer.tautulliId;
 
-    final activeServerIndex = serverActivityListCache.indexWhere(
+    final activeServerIndex = _serverActivityListCache.indexWhere(
       (server) => server.tautulliId == activeServer.tautulliId,
     );
     // Clear activityList if active server was changed
-    if (activeServerIdCache != activeServer.tautulliId) {
-      serverActivityListCache[activeServerIndex] = serverActivityListCache[activeServerIndex].copyWith(
+    if (_activeServerIdCache != activeServer.tautulliId) {
+      _serverActivityListCache[activeServerIndex] = _serverActivityListCache[activeServerIndex].copyWith(
         activityList: [],
       );
     }
 
-    activeServerIdCache = activeServer.tautulliId;
+    _activeServerIdCache = activeServer.tautulliId;
   }
 
   void _removeOldServers(List<ServerModel> serverList) {
-    serverActivityListCache.removeWhere(
+    _serverActivityListCache.removeWhere(
       (serverActivityModel) =>
           serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) == -1,
     );
   }
 
   void _updateServerSortIndex(List<ServerModel> serverList) {
-    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
-      final int serverIndex = serverActivityListCache.indexOf(serverActivityModel);
+    for (ServerActivityModel serverActivityModel in _serverActivityListCache) {
+      final int serverIndex = _serverActivityListCache.indexOf(serverActivityModel);
       final int sortIndex = serverList
           .firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId)
           .sortIndex;
 
-      serverActivityListCache[serverIndex] = serverActivityListCache[serverIndex].copyWith(sortIndex: sortIndex);
+      _serverActivityListCache[serverIndex] = _serverActivityListCache[serverIndex].copyWith(sortIndex: sortIndex);
     }
   }
 
   void _loadServer({
     required ServerActivityModel serverActivityModel,
-    required SettingsBloc settingsBloc,
   }) {
     activity
         .getActivity(
@@ -217,15 +214,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                   tautulliId: serverActivityModel.tautulliId,
                   serverName: serverActivityModel.serverName,
                   failureOrActivity: failureOrActivity,
-                  settingsBloc: settingsBloc,
                 ),
               );
             } catch (_) {
-              final int index = serverActivityListCache.indexWhere(
+              final int index = _serverActivityListCache.indexWhere(
                 (server) => server.tautulliId == serverActivityModel.tautulliId,
               );
 
-              serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+              _serverActivityListCache[index] = _serverActivityListCache[index].copyWith(
                 status: BlocStatus.success,
                 activityList: [],
               );
@@ -233,20 +229,20 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           },
         );
 
-    freshFetch = false;
+    _freshFetch = false;
   }
 
   Future<void> _onActivityLoadServer(
     ActivityLoadServer event,
     Emitter<ActivityState> emit,
   ) async {
-    final int index = serverActivityListCache.indexWhere((server) => server.tautulliId == event.tautulliId);
+    final int index = _serverActivityListCache.indexWhere((server) => server.tautulliId == event.tautulliId);
 
     await event.failureOrActivity.fold(
       (failure) async {
         logging.error('Activity :: Failed to fetch activity for ${event.serverName} [$failure]');
 
-        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+        _serverActivityListCache[index] = _serverActivityListCache[index].copyWith(
           status: BlocStatus.failure,
           activityList: [],
           failure: failure,
@@ -255,7 +251,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
       },
       (activity) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.tautulliId,
             primaryActive: activity.value2,
@@ -266,7 +262,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         List<ActivityModel> activityListWithUris = await _activityModelsWithPosterUris(
           activityList: activity.value1,
           tautulliId: event.tautulliId,
-          settingsBloc: event.settingsBloc,
         );
 
         int copyCount = 0;
@@ -291,7 +286,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           }
         }
 
-        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+        _serverActivityListCache[index] = _serverActivityListCache[index].copyWith(
           status: BlocStatus.success,
           activityList: activityListWithUris,
           copyCount: copyCount,
@@ -305,8 +300,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     emit(
       state.copyWith(
-        serverActivityList: [...serverActivityListCache],
-        freshFetch: freshFetch,
+        serverActivityList: [..._serverActivityListCache],
+        freshFetch: _freshFetch,
       ),
     );
   }
@@ -321,15 +316,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     if (refreshRate > 0) {
       _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
-        final activeServerId = activeServerIdCache;
+        final activeServerId = _activeServerIdCache;
         if (activeServerId == null) return;
         add(
           ActivityFetched(
-            serverList: serverListCache,
-            multiserver: multiserverCache,
+            serverList: _serverListCache,
+            multiserver: _multiserverCache,
             activeServerId: activeServerId,
             autoRefresh: true,
-            settingsBloc: settingsBlocCache,
           ),
         );
       });
@@ -352,7 +346,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   Future<List<ActivityModel>> _activityModelsWithPosterUris({
     required List<ActivityModel> activityList,
     required String tautulliId,
-    required SettingsBloc settingsBloc,
   }) async {
     List<ActivityModel> activityWithImages = [];
 

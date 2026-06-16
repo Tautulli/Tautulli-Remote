@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/register_device_bloc.dart';
-import '../../../bloc/settings_bloc.dart';
 
 class MaterialStyleCertificateFailureDialog extends StatelessWidget {
   const MaterialStyleCertificateFailureDialog({super.key});
@@ -32,7 +31,7 @@ class MaterialStyleCertificateFailureDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             context.read<RegisterDeviceBloc>().add(
-                  RegisterDeviceUnverifiedCert(context.read<SettingsBloc>()),
+                  RegisterDeviceUnverifiedCert(),
                 );
           },
           child: const Text(LocaleKeys.trust_title).tr(),

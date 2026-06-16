@@ -26,7 +26,6 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
             if (wizardState.oneSignalAllowed) {
               context.read<OneSignalPrivacyBloc>().add(
                 OneSignalPrivacyGrant(
-                  settingsBloc: settingsBloc,
                 ),
               );
             }

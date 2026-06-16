@@ -23,10 +23,12 @@ List<CustomHeaderModel> customHeadersCache = [];
 class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final Logging logging;
   final Settings settings;
+  final SettingsBloc settingsBloc;
 
   RegisterDeviceBloc({
     required this.logging,
     required this.settings,
+    required this.settingsBloc,
   }) : super(RegisterDeviceInitial()) {
     on<RegisterDeviceStarted>(
       (event, emit) => _onRegisterDeviceStarted(event, emit),
@@ -52,7 +54,6 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
     await _callRegisterDevice(
       emit: emit,
       trustCert: false,
-      settingsBloc: event.settingsBloc,
     );
   }
 
@@ -67,14 +68,12 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
     await _callRegisterDevice(
       emit: emit,
       trustCert: true,
-      settingsBloc: event.settingsBloc,
     );
   }
 
   Future<void> _callRegisterDevice({
     required Emitter<RegisterDeviceState> emit,
     required bool trustCert,
-    required SettingsBloc settingsBloc,
   }) async {
     final primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: true,

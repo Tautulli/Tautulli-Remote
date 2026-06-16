@@ -16,10 +16,12 @@ Map<String, GeoIpModel> geoIpMapCache = {};
 class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
   final GeoIp geoIp;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   GeoIpBloc({
     required this.geoIp,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           GeoIpState(geoIpMap: geoIpMapCache),
         ) {
@@ -50,7 +52,7 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
         );
       },
       (geoIp) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: geoIp.value2,

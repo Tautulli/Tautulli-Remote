@@ -29,7 +29,6 @@ class MaterialStyleWizardFinishButton extends StatelessWidget {
             if (state.oneSignalAllowed) {
               context.read<OneSignalPrivacyBloc>().add(
                     OneSignalPrivacyGrant(
-                      settingsBloc: settingsBloc,
                     ),
                   );
             }

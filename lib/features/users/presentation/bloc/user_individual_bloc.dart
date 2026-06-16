@@ -16,10 +16,12 @@ Map<String, UserModel> userCache = {};
 class UserIndividualBloc extends Bloc<UserIndividualEvent, UserIndividualState> {
   final Users users;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   UserIndividualBloc({
     required this.users,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           const UserIndividualState(
             user: UserModel(),
@@ -65,7 +67,7 @@ class UserIndividualBloc extends Bloc<UserIndividualEvent, UserIndividualState> 
         );
       },
       (user) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: user.value2,

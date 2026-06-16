@@ -38,7 +38,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late IndividualHistoryBloc _individualHistoryBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
@@ -46,7 +45,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
 
     _scrollController.addListener(_onScroll);
     _individualHistoryBloc = context.read<IndividualHistoryBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -62,7 +60,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
               ratingKey: widget.ratingKey,
               mediaType: widget.mediaType,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
 
@@ -124,7 +121,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
                                   server: widget.server,
                                   ratingKey: widget.ratingKey,
                                   mediaType: widget.mediaType,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -172,7 +168,6 @@ class _CupertinoStyleMediaHistoryTabState extends State<CupertinoStyleMediaHisto
           server: widget.server,
           ratingKey: widget.ratingKey,
           mediaType: widget.mediaType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

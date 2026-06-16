@@ -68,7 +68,6 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
                 sectionId: widget.libraryTableModel.sectionId!,
                 refresh: true,
                 fullRefresh: _libraryMediaFullRefresh,
-                settingsBloc: _settingsBloc,
               ),
             );
 

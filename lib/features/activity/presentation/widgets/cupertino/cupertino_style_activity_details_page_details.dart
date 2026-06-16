@@ -40,14 +40,11 @@ class _ActivityBottomSheetDetailsState extends State<CupertinoStyleActivityDetai
   void initState() {
     super.initState();
 
-    final settingsBloc = context.read<SettingsBloc>();
-
     if (widget.activity.ipAddress != null) {
       context.read<GeoIpBloc>().add(
         GeoIpFetched(
           server: widget.server,
           ipAddress: widget.activity.ipAddress!,
-          settingsBloc: settingsBloc,
         ),
       );
     }

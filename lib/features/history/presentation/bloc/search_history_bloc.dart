@@ -33,11 +33,13 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
   final History history;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   SearchHistoryBloc({
     required this.history,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const SearchHistoryState()) {
     on<SearchHistoryFetched>(
       _onSearchHistoryFetch,
@@ -170,7 +172,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         );
       },
       (history) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
@@ -181,7 +183,6 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
           tautulliId: event.server.tautulliId,
           historyList: history.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         return emit(
@@ -198,7 +199,6 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
   Future<List<HistoryModel>> _historyModelsWithPosterUris({
     required String tautulliId,
     required List<HistoryModel> historyList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<HistoryModel> historyWithImages = [];
 

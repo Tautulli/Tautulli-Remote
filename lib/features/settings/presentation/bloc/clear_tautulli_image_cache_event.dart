@@ -9,13 +9,11 @@ abstract class ClearTautulliImageCacheEvent extends Equatable {
 
 class ClearTautulliImageCacheStart extends ClearTautulliImageCacheEvent {
   final ServerModel server;
-  final SettingsBloc settingsBloc;
 
   const ClearTautulliImageCacheStart({
     required this.server,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, settingsBloc];
+  List<Object> get props => [server];
 }

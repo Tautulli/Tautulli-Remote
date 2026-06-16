@@ -36,16 +36,16 @@ class CupertinoStyleLibraryDetailsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<LibraryHistoryBloc>(),
+          create: (context) => di.sl<LibraryHistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryRecentlyAddedBloc>(),
+          create: (context) => di.sl<LibraryRecentlyAddedBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryStatisticsBloc>(),
+          create: (context) => di.sl<LibraryStatisticsBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryMediaBloc>(),
+          create: (context) => di.sl<LibraryMediaBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: CupertinoStyleLibraryDetailsView(
@@ -81,7 +81,6 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
       LibraryHistoryFetched(
         server: server,
         sectionId: widget.libraryTableModel.sectionId!,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -89,7 +88,6 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
       LibraryRecentlyAddedFetched(
         tautulliId: server.tautulliId,
         sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -97,7 +95,6 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
       LibraryStatisticsFetched(
         server: server,
         sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -107,7 +104,6 @@ class _CupertinoStyleLibraryDetailsViewState extends State<CupertinoStyleLibrary
         sectionId: widget.libraryTableModel.sectionId ?? 0,
         refresh: false,
         fullRefresh: false,
-        settingsBloc: settingsBloc,
       ),
     );
   }

@@ -13,11 +13,13 @@ class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyS
   final Logging logging;
   final OneSignalDataSource oneSignal;
   final Settings settings;
+  final SettingsBloc settingsBloc;
 
   OneSignalPrivacyBloc({
     required this.logging,
     required this.oneSignal,
     required this.settings,
+    required this.settingsBloc,
   }) : super(OneSignalPrivacyInitial()) {
     on<OneSignalPrivacyCheck>(
       (event, emit) => _onOneSignalPrivacyCheck(event, emit),
@@ -61,7 +63,7 @@ class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyS
       return;
     }
 
-    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
+    settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
 
     logging.info('OneSignal :: Data Privacy accepted');
 
@@ -83,7 +85,7 @@ class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyS
       return;
     }
 
-    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
+    settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
 
     logging.info('OneSignal :: OneSignal consent mismatch detected, correcting');
 
@@ -104,7 +106,7 @@ class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyS
       return;
     }
 
-    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(false));
+    settingsBloc.add(const SettingsUpdateOneSignalConsented(false));
 
     logging.info('OneSignal :: Data Privacy revoked');
 

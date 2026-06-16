@@ -36,11 +36,13 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   final RecentlyAdded recentlyAdded;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   RecentlyAddedBloc({
     required this.recentlyAdded,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
          RecentlyAddedState(
            recentlyAdded: tautulliIdCache != null ? recentlyAddedCache[tautulliIdCache]! : [],
@@ -161,7 +163,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         );
       },
       (recentlyAdded) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: recentlyAdded.value2,
@@ -171,7 +173,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         // Add posters to recently added models
         List<RecentlyAddedModel> recentlyAddedListWithUris = await _recentlyAddedModelsWithPosterUris(
           recentlyAddedList: recentlyAdded.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         recentlyAddedCache[event.server.tautulliId] =
@@ -191,7 +192,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
   Future<List<RecentlyAddedModel>> _recentlyAddedModelsWithPosterUris({
     required List<RecentlyAddedModel> recentlyAddedList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<RecentlyAddedModel> recentlyAddedWithImages = [];
 

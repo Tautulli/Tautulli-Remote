@@ -29,7 +29,6 @@ class LibraryHistoryFetched extends LibraryHistoryEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const LibraryHistoryFetched({
     required this.server,
@@ -53,9 +52,8 @@ class LibraryHistoryFetched extends LibraryHistoryEvent {
     this.length,
     this.search,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch];
 }

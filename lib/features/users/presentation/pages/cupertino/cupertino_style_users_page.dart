@@ -37,7 +37,7 @@ class CupertinoStyleUsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<UsersTableBloc>(),
+      create: (context) => di.sl<UsersTableBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleUsersView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -95,7 +95,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
         server: _server,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -122,7 +121,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
               server: _server,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -177,7 +175,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -202,7 +199,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
                                   server: _server,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -244,7 +240,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
             server: _server,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -270,7 +265,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
           server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -322,7 +316,6 @@ class _CupertinoStyleUsersViewState extends State<CupertinoStyleUsersView> {
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }

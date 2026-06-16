@@ -30,7 +30,7 @@ class MaterialStyleActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<ActivityBloc>(),
+      create: (context) => di.sl<ActivityBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleActivityView(),
     );
   }
@@ -45,7 +45,6 @@ class MaterialStyleActivityView extends StatefulWidget {
 
 class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
-  late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
   late bool _multiserver;
   late String _activeServerId;
@@ -104,8 +103,8 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
     });
 
     _activityBloc = context.read<ActivityBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
+    final settingsBloc = context.read<SettingsBloc>();
+    final settingsState = settingsBloc.state as SettingsSuccess;
 
     _serverList = settingsState.serverList;
     _multiserver = settingsState.appSettings.multiserverActivity;
@@ -116,7 +115,6 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
         serverList: _serverList,
         multiserver: _multiserver,
         activeServerId: _activeServerId,
-        settingsBloc: _settingsBloc,
       ),
     );
 
@@ -143,7 +141,6 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
           serverList: _serverList,
           multiserver: _multiserver,
           activeServerId: _activeServerId,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -173,7 +170,6 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
             multiserver: _multiserver,
             activeServerId: _activeServerId,
             freshFetch: true,
-            settingsBloc: _settingsBloc,
           ),
         );
       },
@@ -188,7 +184,6 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
                     serverList: _serverList,
                     multiserver: _multiserver,
                     activeServerId: _activeServerId,
-                    settingsBloc: _settingsBloc,
                   ),
                 );
 

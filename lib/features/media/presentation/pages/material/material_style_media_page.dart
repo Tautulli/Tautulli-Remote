@@ -42,13 +42,13 @@ class MaterialStyleMediaPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<MetadataBloc>(),
+          create: (context) => di.sl<MetadataBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<ChildrenMetadataBloc>(),
+          create: (context) => di.sl<ChildrenMetadataBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<IndividualHistoryBloc>(),
+          create: (context) => di.sl<IndividualHistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: MaterialStyleMediaView(
@@ -94,13 +94,11 @@ class _MaterialStyleMediaViewState extends State<MaterialStyleMediaView> {
       return;
     }
 
-    final settingsBloc = context.read<SettingsBloc>();
 
     context.read<MetadataBloc>().add(
       MetadataFetched(
         server: widget.server,
         ratingKey: ratingKey,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -109,7 +107,6 @@ class _MaterialStyleMediaViewState extends State<MaterialStyleMediaView> {
         server: widget.server,
         ratingKey: ratingKey,
         mediaType: mediaType,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -124,7 +121,6 @@ class _MaterialStyleMediaViewState extends State<MaterialStyleMediaView> {
         ChildrenMetadataFetched(
           server: widget.server,
           ratingKey: ratingKey,
-          settingsBloc: settingsBloc,
         ),
       );
     }

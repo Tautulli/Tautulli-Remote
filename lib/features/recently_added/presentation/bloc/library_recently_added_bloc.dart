@@ -32,11 +32,13 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
   final RecentlyAdded recentlyAdded;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   LibraryRecentlyAddedBloc({
     required this.recentlyAdded,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const LibraryRecentlyAddedState()) {
     on<LibraryRecentlyAddedFetched>(
       _onLibraryRecentlyAddedFetched,
@@ -124,7 +126,7 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
         );
       },
       (recentlyAdded) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.tautulliId,
             primaryActive: recentlyAdded.value2,
@@ -135,7 +137,6 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
         List<RecentlyAddedModel> recentlyAddedListWithUris = await _recentlyAddedModelsWithPosterUris(
           tautulliId: event.tautulliId,
           recentlyAddedList: recentlyAdded.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         recentlyAddedCache[cacheKey] = recentlyAddedCache[cacheKey]! + recentlyAddedListWithUris;
@@ -153,7 +154,6 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
   Future<List<RecentlyAddedModel>> _recentlyAddedModelsWithPosterUris({
     required String tautulliId,
     required List<RecentlyAddedModel> recentlyAddedList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<RecentlyAddedModel> recentlyAddedWithImages = [];
 

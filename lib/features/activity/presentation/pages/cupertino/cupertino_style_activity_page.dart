@@ -37,7 +37,7 @@ class CupertinoStyleActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<ActivityBloc>(),
+      create: (context) => di.sl<ActivityBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleActivityView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -62,7 +62,6 @@ class CupertinoStyleActivityView extends StatefulWidget {
 
 class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
-  late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
   late bool _multiserver;
   late String _activeServerId;
@@ -75,8 +74,8 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
     cupertinoTabController.addListener(_onActivityOpened);
 
     _activityBloc = context.read<ActivityBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
+    final settingsBloc = context.read<SettingsBloc>();
+    final settingsState = settingsBloc.state as SettingsSuccess;
 
     _serverList = settingsState.serverList;
     _multiserver = settingsState.appSettings.multiserverActivity;
@@ -90,7 +89,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
         serverList: _serverList,
         multiserver: _multiserver,
         activeServerId: _activeServerId,
-        settingsBloc: _settingsBloc,
       ),
     );
 
@@ -113,7 +111,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           serverList: _serverList,
           multiserver: _multiserver,
           activeServerId: _activeServerId,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -132,7 +129,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
           serverList: _serverList,
           multiserver: _multiserver,
           activeServerId: _activeServerId,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -187,7 +183,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
                   multiserver: _multiserver,
                   activeServerId: _activeServerId,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }
@@ -212,7 +207,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
                   multiserver: _multiserver,
                   activeServerId: _activeServerId,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }
@@ -277,7 +271,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
             serverList: _serverList,
             multiserver: _multiserver,
             activeServerId: _activeServerId,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -379,7 +372,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
               serverList: _serverList,
               multiserver: _multiserver,
               activeServerId: _activeServerId,
-              settingsBloc: _settingsBloc,
             ),
           );
 
@@ -500,7 +492,6 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
               serverList: _serverList,
               multiserver: _multiserver,
               activeServerId: _activeServerId,
-              settingsBloc: _settingsBloc,
             ),
           );
 

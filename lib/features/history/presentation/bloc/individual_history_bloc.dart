@@ -32,10 +32,12 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHistoryState> {
   final History history;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   IndividualHistoryBloc({
     required this.history,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const IndividualHistoryState()) {
     on<IndividualHistoryFetched>(
       _onIndividualHistoryFetched,
@@ -201,7 +203,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
         );
       },
       (history) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: history.value2,

@@ -41,13 +41,13 @@ class CupertinoStyleUserDetailsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<UserIndividualBloc>(),
+          create: (context) => di.sl<UserIndividualBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<UserStatisticsBloc>(),
+          create: (context) => di.sl<UserStatisticsBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<UserHistoryBloc>(),
+          create: (context) => di.sl<UserHistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: CupertinoStyleUserDetailsView(
@@ -93,7 +93,6 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
     hasNetworkImage = _hasNetworkImage(widget.user);
     getColorFuture = _getColor(widget.user.userThumb);
 
-    final settingsBloc = context.read<SettingsBloc>();
     _userHistoryBloc = context.read<UserHistoryBloc>();
 
     _resolveBackgroundColor();
@@ -103,7 +102,6 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
         UserIndividualFetched(
           server: widget.server,
           userId: widget.user.userId!,
-          settingsBloc: settingsBloc,
         ),
       );
     }
@@ -112,14 +110,12 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
       UserHistoryFetched(
         server: widget.server,
         userId: widget.user.userId!,
-        settingsBloc: settingsBloc,
       ),
     );
     context.read<UserStatisticsBloc>().add(
       UserStatisticsFetched(
         server: widget.server,
         userId: widget.user.userId!,
-        settingsBloc: settingsBloc,
       ),
     );
   }

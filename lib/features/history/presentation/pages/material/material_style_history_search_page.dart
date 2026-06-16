@@ -26,7 +26,7 @@ class MaterialStyleHistorySearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<SearchHistoryBloc>(),
+      create: (context) => di.sl<SearchHistoryBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleHistorySearchView(),
     );
   }
@@ -130,7 +130,6 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
                               directPlayDecision: _directPlayDecision,
                               directStreamDecision: _directStreamDecision,
                               transcodeDecision: _transcodeDecision,
-                              settingsBloc: _settingsBloc,
                             ),
                           );
                         },
@@ -174,7 +173,6 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
           directPlayDecision: _directPlayDecision,
           directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -260,7 +258,6 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
                   transcodeDecision: _transcodeDecision,
                   search: value,
                   freshFetch: true,
-                  settingsBloc: context.read<SettingsBloc>(),
                 ),
               );
             }
@@ -305,7 +302,6 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
                           directStreamDecision: _directStreamDecision,
                           transcodeDecision: _transcodeDecision,
                           freshFetch: true,
-                          settingsBloc: _settingsBloc,
                         ),
                       );
                     }
@@ -645,7 +641,6 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
           directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
           freshFetch: true,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

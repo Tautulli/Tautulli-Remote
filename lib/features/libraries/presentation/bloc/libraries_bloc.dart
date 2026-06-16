@@ -36,11 +36,13 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   final Libraries libraries;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   LibrariesBloc({
     required this.libraries,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
          LibrariesState(
            libraries: tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
@@ -172,7 +174,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         );
       },
       (libraries) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: libraries.value2,
@@ -182,7 +184,6 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         // Add posters to library table models
         List<LibraryTableModel> libraryListWithUris = await _libraryTableModelsWithPosterUris(
           libraryList: libraries.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         librariesCache[event.server.tautulliId] = librariesCache[event.server.tautulliId]! + libraryListWithUris;
@@ -201,7 +202,6 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
   Future<List<LibraryTableModel>> _libraryTableModelsWithPosterUris({
     required List<LibraryTableModel> libraryList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<LibraryTableModel> libraryTablesWithImages = [];
 

@@ -37,7 +37,7 @@ class CupertinoStyleLibrariesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<LibrariesBloc>(),
+      create: (context) => di.sl<LibrariesBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleLibrariesView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -95,7 +95,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
         server: _server,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -122,7 +121,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
               server: _server,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -177,7 +175,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -202,7 +199,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
                                   server: _server,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -245,7 +241,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
             server: _server,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -271,7 +266,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
           server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -323,7 +317,6 @@ class _CupertinoStyleLibrariesViewState extends State<CupertinoStyleLibrariesVie
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }

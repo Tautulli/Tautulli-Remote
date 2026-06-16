@@ -40,14 +40,12 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
   late ChildrenMetadataBloc _childrenMetadataBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
     _childrenMetadataBloc = context.read<ChildrenMetadataBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -91,7 +89,6 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
               server: widget.server,
               ratingKey: widget.ratingKey,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
 

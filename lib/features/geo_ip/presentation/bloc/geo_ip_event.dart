@@ -10,14 +10,12 @@ abstract class GeoIpEvent extends Equatable {
 class GeoIpFetched extends GeoIpEvent {
   final ServerModel server;
   final String ipAddress;
-  final SettingsBloc settingsBloc;
 
   const GeoIpFetched({
     required this.server,
     required this.ipAddress,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, ipAddress, settingsBloc];
+  List<Object> get props => [server, ipAddress];
 }

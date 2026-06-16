@@ -13,7 +13,6 @@ class ActivityFetched extends ActivityEvent {
   final String activeServerId;
   final bool freshFetch;
   final bool autoRefresh;
-  final SettingsBloc settingsBloc;
 
   const ActivityFetched({
     required this.serverList,
@@ -21,28 +20,25 @@ class ActivityFetched extends ActivityEvent {
     required this.activeServerId,
     this.freshFetch = false,
     this.autoRefresh = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [serverList, activeServerId, multiserver, autoRefresh, settingsBloc];
+  List<Object> get props => [serverList, activeServerId, multiserver, autoRefresh];
 }
 
 class ActivityLoadServer extends ActivityEvent {
   final String tautulliId;
   final String serverName;
   final Either<Failure, Tuple2<List<ActivityModel>, bool>> failureOrActivity;
-  final SettingsBloc settingsBloc;
 
   const ActivityLoadServer({
     required this.tautulliId,
     required this.serverName,
     required this.failureOrActivity,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, serverName, failureOrActivity, settingsBloc];
+  List<Object> get props => [tautulliId, serverName, failureOrActivity];
 }
 
 class ActivityAutoRefreshStart extends ActivityEvent {}

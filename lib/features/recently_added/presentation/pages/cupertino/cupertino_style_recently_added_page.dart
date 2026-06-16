@@ -40,7 +40,7 @@ class CupertinoStyleRecentlyAddedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<RecentlyAddedBloc>(),
+      create: (context) => di.sl<RecentlyAddedBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleRecentlyAddedView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -100,7 +100,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
         server: _server,
         mediaType: _mediaType,
         freshFetch: widget.refreshOnLoad,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -126,7 +125,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
             RecentlyAddedFetched(
               server: _server,
               mediaType: _mediaType,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -180,7 +178,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
                       server: _server,
                       mediaType: _mediaType,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -204,7 +201,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
                                 RecentlyAddedFetched(
                                   server: _server,
                                   mediaType: _mediaType,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -243,7 +239,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
           RecentlyAddedFetched(
             server: _server,
             mediaType: _mediaType,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -271,7 +266,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
         server: _server,
         mediaType: _mediaType,
         freshFetch: true,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -282,7 +276,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
         RecentlyAddedFetched(
           server: _server,
           mediaType: _mediaType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -344,7 +337,6 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
                   server: _server,
                   mediaType: _mediaType,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }

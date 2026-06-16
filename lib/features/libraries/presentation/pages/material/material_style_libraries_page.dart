@@ -26,7 +26,7 @@ class MaterialStyleLibrariesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<LibrariesBloc>(),
+      create: (context) => di.sl<LibrariesBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleLibrariesView(),
     );
   }
@@ -67,7 +67,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
         server: _server,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -93,7 +92,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
               server: _server,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -113,7 +111,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -158,7 +155,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
                                   server: _server,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -201,7 +197,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
           server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -236,7 +231,6 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
                 orderColumn: _orderColumn,
                 orderDir: _orderDir,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
           }

@@ -13,10 +13,12 @@ part 'terminate_stream_state.dart';
 class TerminateStreamBloc extends Bloc<TerminateStreamEvent, TerminateStreamState> {
   final Activity activity;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   TerminateStreamBloc({
     required this.activity,
     required this.logging,
+    required this.settingsBloc,
   }) : super(TerminateStreamInitial()) {
     on<TerminateStreamStarted>(_onTerminateStreamStarted);
   }
@@ -62,7 +64,7 @@ class TerminateStreamBloc extends Bloc<TerminateStreamEvent, TerminateStreamStat
         );
       },
       (terminateStream) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: terminateStream.value2,

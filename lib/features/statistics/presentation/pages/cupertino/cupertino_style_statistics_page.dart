@@ -61,7 +61,7 @@ class CupertinoStyleStatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<StatisticsBloc>(),
+      create: (context) => di.sl<StatisticsBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleStatisticsView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
@@ -116,7 +116,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
         server: _server,
         timeRange: _timeRange,
         statsType: _statsType,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -150,7 +149,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -207,7 +205,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                       timeRange: _timeRange,
                       statsType: _statsType,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -236,7 +233,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
             timeRange: _timeRange,
             statsType: _statsType,
             freshFetch: true,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -497,7 +493,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                   timeRange: _timeRange,
                   statsType: _statsType,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }
@@ -536,7 +531,6 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                       timeRange: _timeRange,
                       statsType: _statsType,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
                 }

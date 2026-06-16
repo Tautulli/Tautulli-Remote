@@ -20,11 +20,13 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   final Media media;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   MetadataBloc({
     required this.media,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const MetadataState()) {
     on<MetadataFetched>(_onMetadataFetched);
   }
@@ -72,7 +74,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         );
       },
       (metadata) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: metadata.value2,
@@ -83,7 +85,6 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         MediaModel metadataWithUris = await _mediaModelWithImageUris(
           tautulliId: event.server.tautulliId,
           metadata: metadata.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         metadataCache[cacheKey] = metadataWithUris;
@@ -101,7 +102,6 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   Future<MediaModel> _mediaModelWithImageUris({
     required String tautulliId,
     required MediaModel metadata,
-    required SettingsBloc settingsBloc,
   }) async {
     Uri? imageUri;
     Uri? parentImageUri;

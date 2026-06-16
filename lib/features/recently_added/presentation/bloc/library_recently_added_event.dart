@@ -12,16 +12,14 @@ class LibraryRecentlyAddedFetched extends LibraryRecentlyAddedEvent {
   final int sectionId;
   final int? start;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const LibraryRecentlyAddedFetched({
     required this.tautulliId,
     required this.sectionId,
     this.start,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, sectionId, freshFetch, settingsBloc];
+  List<Object> get props => [tautulliId, sectionId, freshFetch];
 }

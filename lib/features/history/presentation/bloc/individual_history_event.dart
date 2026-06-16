@@ -29,7 +29,6 @@ class IndividualHistoryFetched extends IndividualHistoryEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const IndividualHistoryFetched({
     required this.server,
@@ -53,9 +52,8 @@ class IndividualHistoryFetched extends IndividualHistoryEvent {
     this.length,
     this.search,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, ratingKey, freshFetch, settingsBloc];
+  List<Object> get props => [server, ratingKey, freshFetch];
 }

@@ -12,16 +12,14 @@ class TerminateStreamStarted extends TerminateStreamEvent {
   final String? sessionId;
   final int? sessionKey;
   final String? message;
-  final SettingsBloc settingsBloc;
 
   const TerminateStreamStarted({
     required this.server,
     required this.sessionId,
     required this.sessionKey,
     this.message,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, settingsBloc];
+  List<Object> get props => [server];
 }

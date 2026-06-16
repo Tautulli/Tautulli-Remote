@@ -79,10 +79,12 @@ Map<GraphType, GraphModel> defaultGraphs = {
 class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   final Graphs graphs;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   GraphsBloc({
     required this.graphs,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           GraphsState(
             userId: userIdCache,
@@ -138,7 +140,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.concurrentStreams,
                     failureOrGraph: failureOrGetConcurrentStreamsByStreamType,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -161,7 +162,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByDate,
                     failureOrGraph: failureOrGetPlaysByDate,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -184,7 +184,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByDayOfWeek,
                     failureOrGraph: failureOrGetPlaysByDayOfWeek,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -207,7 +206,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByHourOfDay,
                     failureOrGraph: failureOrGetPlaysByHourOfDay,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -230,7 +228,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsBySourceResolution,
                     failureOrGraph: failureOrGetPlaysBySourceResolution,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -253,7 +250,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByStreamResolution,
                     failureOrGraph: failureOrGetPlaysByStreamResolution,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -276,7 +272,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByStreamType,
                     failureOrGraph: failureOrGetPlaysByStreamType,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -299,7 +294,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsPerMonth,
                     failureOrGraph: failureOrGetPlaysPerMonth,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -322,7 +316,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByTop10Platforms,
                     failureOrGraph: failureOrGetPlaysByTop10Platforms,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -345,7 +338,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.playsByTop10Users,
                     failureOrGraph: failureOrGetPlaysByTop10Users,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -368,7 +360,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.streamTypeByTop10Platforms,
                     failureOrGraph: failureOrGetStreamTypeByTop10Platforms,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -391,7 +382,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
                     graphType: GraphType.streamTypeByTop10Users,
                     failureOrGraph: failureOrGetStreamTypeByTop10Users,
                     server: event.server,
-                    settingsBloc: event.settingsBloc,
                   ),
                 );
               }
@@ -432,7 +422,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
         );
       },
       (playsByStreamType) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: playsByStreamType.value2,

@@ -44,7 +44,7 @@ class CupertinoStyleActivityDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<TerminateStreamBloc>(),
+      create: (context) => di.sl<TerminateStreamBloc>(param1: context.read<SettingsBloc>()),
       child: CupertinoStyleActivityDetailsView(
         server: server,
         activity: activity,
@@ -346,7 +346,6 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                     sessionId: activity.sessionId,
                     sessionKey: activity.sessionKey,
                     message: controller.text,
-                    settingsBloc: context.read<SettingsBloc>(),
                   ),
                 );
               }

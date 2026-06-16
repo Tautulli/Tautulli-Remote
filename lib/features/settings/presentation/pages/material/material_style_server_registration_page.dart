@@ -25,7 +25,7 @@ class MaterialStyleServerRegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<RegisterDeviceBloc>(),
+      create: (context) => di.sl<RegisterDeviceBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleServerRegistrationView(),
     );
   }
@@ -84,7 +84,6 @@ class _MaterialStyleServerRegistrationViewState extends State<MaterialStyleServe
                               )
                               .toList()
                         : [],
-                    settingsBloc: context.read<SettingsBloc>(),
                   ),
                 );
               }

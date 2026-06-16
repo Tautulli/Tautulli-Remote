@@ -21,10 +21,12 @@ Map<String, List<LibraryUserStatModel>> _userStatsCache = {};
 class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisticsState> {
   final Libraries libraries;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   LibraryStatisticsBloc({
     required this.libraries,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const LibraryStatisticsState()) {
     on<LibraryStatisticsFetched>(_onLibraryStatisticsFetched);
   }
@@ -114,7 +116,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
       (userStatList) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: userStatList.value2,
@@ -141,7 +143,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
       (watchTimeStatList) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: watchTimeStatList.value2,

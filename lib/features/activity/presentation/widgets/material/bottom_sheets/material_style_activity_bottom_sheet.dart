@@ -417,7 +417,6 @@ class _MaterialStyleActivityBottomSheetState extends State<MaterialStyleActivity
                                               sessionId: activity.sessionId,
                                               sessionKey: activity.sessionKey,
                                               message: controller.text,
-                                              settingsBloc: context.read<SettingsBloc>(),
                                             ),
                                           );
                                         }

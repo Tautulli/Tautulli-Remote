@@ -34,7 +34,6 @@ class HistoryFetched extends HistoryEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const HistoryFetched({
     required this.server,
@@ -63,7 +62,6 @@ class HistoryFetched extends HistoryEvent {
     this.length,
     this.search,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
@@ -94,6 +92,5 @@ class HistoryFetched extends HistoryEvent {
         length,
         search,
         freshFetch,
-        settingsBloc,
       ];
 }

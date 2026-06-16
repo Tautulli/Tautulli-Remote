@@ -9,13 +9,11 @@ abstract class UsersEvent extends Equatable {
 
 class UsersFetched extends UsersEvent {
   final ServerModel server;
-  final SettingsBloc settingsBloc;
 
   const UsersFetched({
     required this.server,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, settingsBloc];
+  List<Object> get props => [server];
 }

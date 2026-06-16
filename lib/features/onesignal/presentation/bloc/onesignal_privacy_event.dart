@@ -9,35 +9,8 @@ abstract class OneSignalPrivacyEvent extends Equatable {
 
 class OneSignalPrivacyCheck extends OneSignalPrivacyEvent {}
 
-class OneSignalPrivacyGrant extends OneSignalPrivacyEvent {
-  final SettingsBloc settingsBloc;
+class OneSignalPrivacyGrant extends OneSignalPrivacyEvent {}
 
-  const OneSignalPrivacyGrant({
-    required this.settingsBloc,
-  });
+class OneSignalPrivacyReGrant extends OneSignalPrivacyEvent {}
 
-  @override
-  List<Object> get props => [settingsBloc];
-}
-
-class OneSignalPrivacyReGrant extends OneSignalPrivacyEvent {
-  final SettingsBloc settingsBloc;
-
-  const OneSignalPrivacyReGrant({
-    required this.settingsBloc,
-  });
-
-  @override
-  List<Object> get props => [settingsBloc];
-}
-
-class OneSignalPrivacyRevoke extends OneSignalPrivacyEvent {
-  final SettingsBloc settingsBloc;
-
-  const OneSignalPrivacyRevoke({
-    required this.settingsBloc,
-  });
-
-  @override
-  List<Object> get props => [settingsBloc];
-}
+class OneSignalPrivacyRevoke extends OneSignalPrivacyEvent {}

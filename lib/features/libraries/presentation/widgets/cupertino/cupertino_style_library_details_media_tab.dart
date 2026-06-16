@@ -72,7 +72,6 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
               sectionId: widget.libraryTableModel.sectionId!,
               refresh: true,
               fullRefresh: _libraryMediaFullRefresh,
-              settingsBloc: _settingsBloc,
             ),
           );
 

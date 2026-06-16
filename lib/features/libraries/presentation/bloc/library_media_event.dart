@@ -17,7 +17,6 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   final String? search;
   final bool? refresh;
   final bool? fullRefresh;
-  final SettingsBloc settingsBloc;
 
   LibraryMediaFetched({
     required this.server,
@@ -31,9 +30,8 @@ class LibraryMediaFetched extends LibraryMediaEvent {
     this.search,
     this.refresh,
     this.fullRefresh,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, sectionId, settingsBloc];
+  List<Object> get props => [server, sectionId];
 }

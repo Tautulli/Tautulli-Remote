@@ -20,7 +20,6 @@ import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/cupertino/cupertino_style_library_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
@@ -69,7 +68,6 @@ class CupertinoStyleIndividualStatisticView extends StatefulWidget {
 class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIndividualStatisticView> {
   final _scrollController = ScrollController();
   late StatisticsBloc _statisticsBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
@@ -77,7 +75,6 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
 
     _scrollController.addListener(_onScroll);
     _statisticsBloc = context.read<StatisticsBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -112,7 +109,6 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                       _statisticsBloc.add(
                         StatisticsFetchMore(
                           statIdType: widget.statIdType,
-                          settingsBloc: _settingsBloc,
                         ),
                       );
                     },
@@ -141,7 +137,6 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       _statisticsBloc.add(
         StatisticsFetchMore(
           statIdType: widget.statIdType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

@@ -34,7 +34,6 @@ class SearchHistoryFetched extends SearchHistoryEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const SearchHistoryFetched({
     required this.server,
@@ -63,7 +62,6 @@ class SearchHistoryFetched extends SearchHistoryEvent {
     this.length,
     this.search,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
@@ -77,7 +75,6 @@ class SearchHistoryFetched extends SearchHistoryEvent {
         directStreamDecision,
         transcodeDecision,
         freshFetch,
-        settingsBloc,
       ];
 }
 

@@ -17,7 +17,6 @@ import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/material/material_style_library_card.dart';
 import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/material/material_style_media_page.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/material/material_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
@@ -66,7 +65,6 @@ class MaterialStyleIndividualStatisticView extends StatefulWidget {
 class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndividualStatisticView> {
   final _scrollController = ScrollController();
   late StatisticsBloc _statisticsBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
@@ -74,7 +72,6 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
 
     _scrollController.addListener(_onScroll);
     _statisticsBloc = context.read<StatisticsBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -110,7 +107,6 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
                       _statisticsBloc.add(
                         StatisticsFetchMore(
                           statIdType: widget.statIdType,
-                          settingsBloc: _settingsBloc,
                         ),
                       );
                     },
@@ -139,7 +135,6 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       _statisticsBloc.add(
         StatisticsFetchMore(
           statIdType: widget.statIdType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

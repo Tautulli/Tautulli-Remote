@@ -28,7 +28,7 @@ class MaterialStyleUsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<UsersTableBloc>(),
+      create: (context) => di.sl<UsersTableBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleUsersView(),
     );
   }
@@ -69,7 +69,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
         server: _server,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -94,7 +93,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
               server: _server,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -114,7 +112,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -159,7 +156,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
                                   server: _server,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -202,7 +198,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
           server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -237,7 +232,6 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
                 orderColumn: _orderColumn,
                 orderDir: _orderDir,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
           }

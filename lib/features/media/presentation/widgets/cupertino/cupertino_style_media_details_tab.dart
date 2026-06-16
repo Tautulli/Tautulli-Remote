@@ -33,13 +33,11 @@ class CupertinoStyleMediaDetailsTab extends StatefulWidget {
 class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetailsTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -61,7 +59,6 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
               server: widget.server,
               ratingKey: widget.ratingKey,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
 

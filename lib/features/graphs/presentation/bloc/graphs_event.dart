@@ -14,7 +14,6 @@ class GraphsFetched extends GraphsEvent {
   final int? userId;
   final bool? grouping;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const GraphsFetched({
     required this.server,
@@ -23,7 +22,6 @@ class GraphsFetched extends GraphsEvent {
     this.userId,
     this.grouping,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
@@ -32,7 +30,6 @@ class GraphsFetched extends GraphsEvent {
         yAxis,
         timeRange,
         freshFetch,
-        settingsBloc,
       ];
 }
 
@@ -40,13 +37,11 @@ class GraphsEmit extends GraphsEvent {
   final GraphType graphType;
   final Either<Failure, Tuple2<GraphDataModel, bool>> failureOrGraph;
   final ServerModel server;
-  final SettingsBloc settingsBloc;
 
   const GraphsEmit({
     required this.graphType,
     required this.failureOrGraph,
     required this.server,
-    required this.settingsBloc,
   });
 
   @override
@@ -54,6 +49,5 @@ class GraphsEmit extends GraphsEvent {
         graphType,
         failureOrGraph,
         server,
-        settingsBloc,
       ];
 }

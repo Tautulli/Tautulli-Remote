@@ -35,16 +35,16 @@ class MaterialStyleLibraryDetailsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<LibraryHistoryBloc>(),
+          create: (context) => di.sl<LibraryHistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryRecentlyAddedBloc>(),
+          create: (context) => di.sl<LibraryRecentlyAddedBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryStatisticsBloc>(),
+          create: (context) => di.sl<LibraryStatisticsBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryMediaBloc>(),
+          create: (context) => di.sl<LibraryMediaBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: MaterialStyleLibraryDetailsView(
@@ -80,7 +80,6 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
       LibraryHistoryFetched(
         server: server,
         sectionId: widget.libraryTableModel.sectionId!,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -88,7 +87,6 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
       LibraryRecentlyAddedFetched(
         tautulliId: server.tautulliId,
         sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -96,7 +94,6 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
       LibraryStatisticsFetched(
         server: server,
         sectionId: widget.libraryTableModel.sectionId ?? 0,
-        settingsBloc: settingsBloc,
       ),
     );
 
@@ -106,7 +103,6 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
         sectionId: widget.libraryTableModel.sectionId ?? 0,
         refresh: false,
         fullRefresh: false,
-        settingsBloc: settingsBloc,
       ),
     );
   }

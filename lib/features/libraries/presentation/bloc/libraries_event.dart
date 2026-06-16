@@ -14,7 +14,6 @@ class LibrariesFetched extends LibrariesEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   LibrariesFetched({
     required this.server,
@@ -25,9 +24,8 @@ class LibrariesFetched extends LibrariesEvent {
     this.length,
     this.search,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch];
 }

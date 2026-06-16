@@ -21,10 +21,12 @@ Map<String, List<UserWatchTimeStatModel>> _watchTimeStatsCache = {};
 class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> {
   final Users users;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   UserStatisticsBloc({
     required this.users,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const UserStatisticsState()) {
     on<UserStatisticsFetched>(_onUserStatisticsFetched);
   }
@@ -115,7 +117,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
       (watchTimeStatList) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: watchTimeStatList.value2,
@@ -142,7 +144,7 @@ class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> 
         suggestion = FailureHelper.mapFailureToSuggestion(failure);
       },
       (playerStatList) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: playerStatList.value2,

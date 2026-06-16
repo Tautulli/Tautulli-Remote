@@ -39,13 +39,11 @@ class CupertinoStyleLibraryDetailsStatsTab extends StatefulWidget {
 class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLibraryDetailsStatsTab> {
   final ScrollController _scrollController = ScrollController();
   Completer<void> _refreshCompleter = Completer<void>();
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -66,7 +64,6 @@ class _CupertinoStyleLibraryDetailsStatsTabState extends State<CupertinoStyleLib
             LibraryStatisticsFetched(
               server: widget.server,
               sectionId: widget.libraryTableModel.sectionId!,
-              settingsBloc: _settingsBloc,
               freshFetch: true,
             ),
           );

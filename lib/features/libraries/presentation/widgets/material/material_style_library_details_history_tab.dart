@@ -32,13 +32,11 @@ class MaterialStyleLibraryDetailsHistoryTab extends StatefulWidget {
 class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLibraryDetailsHistoryTab> {
   ScrollController? _scrollController;
   late LibraryHistoryBloc _libraryHistoryBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
     _libraryHistoryBloc = context.read<LibraryHistoryBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -61,7 +59,6 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
               LibraryHistoryFetched(
                 server: widget.server,
                 sectionId: widget.libraryTableModel.sectionId!,
-                settingsBloc: _settingsBloc,
                 freshFetch: true,
               ),
             );
@@ -100,7 +97,6 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
                             LibraryHistoryFetched(
                               server: widget.server,
                               sectionId: widget.libraryTableModel.sectionId!,
-                              settingsBloc: _settingsBloc,
                             ),
                           );
                         },
@@ -136,7 +132,6 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
         LibraryHistoryFetched(
           server: widget.server,
           sectionId: widget.libraryTableModel.sectionId!,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

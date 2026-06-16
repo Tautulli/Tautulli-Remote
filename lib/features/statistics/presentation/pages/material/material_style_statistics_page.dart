@@ -49,7 +49,7 @@ class MaterialStyleStatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<StatisticsBloc>(),
+      create: (context) => di.sl<StatisticsBloc>(param1: context.read<SettingsBloc>()),
       child: const MaterialStyleStatisticsView(),
     );
   }
@@ -86,7 +86,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
         server: _server,
         timeRange: _timeRange,
         statsType: _statsType,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -112,7 +111,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -134,7 +132,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                       timeRange: _timeRange,
                       statsType: _statsType,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -198,7 +195,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
-              settingsBloc: _settingsBloc,
             ),
           );
         },
@@ -277,7 +273,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,
-                        settingsBloc: _settingsBloc,
                       ),
                     );
                   }
@@ -302,7 +297,6 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,
-                        settingsBloc: _settingsBloc,
                       ),
                     );
                   }

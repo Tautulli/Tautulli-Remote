@@ -18,10 +18,12 @@ Map<String, List<UserModel>> usersCache = {};
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final Users users;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   UsersBloc({
     required this.users,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const UsersState(users: [])) {
     on<UsersFetched>(_onUsersFetched);
   }
@@ -66,7 +68,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           );
         },
         (users) {
-          event.settingsBloc.add(
+          settingsBloc.add(
             SettingsUpdatePrimaryActive(
               tautulliId: event.server.tautulliId,
               primaryActive: users.value2,

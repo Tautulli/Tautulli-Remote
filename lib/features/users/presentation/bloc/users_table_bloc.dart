@@ -32,10 +32,12 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
   final Users users;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   UsersTableBloc({
     required this.users,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           UsersTableState(
             users: tautulliIdCache != null ? usersCache[tautulliIdCache]! : [],
@@ -152,7 +154,7 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
         );
       },
       (usersTable) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: usersTable.value2,

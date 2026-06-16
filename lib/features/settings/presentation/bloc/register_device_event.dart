@@ -12,14 +12,12 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
   final String secondaryConnectionAddress;
   final String deviceToken;
   final List<CustomHeaderModel> headers;
-  final SettingsBloc settingsBloc;
 
   const RegisterDeviceStarted({
     required this.primaryConnectionAddress,
     required this.secondaryConnectionAddress,
     required this.deviceToken,
     required this.headers,
-    required this.settingsBloc,
   });
 
   @override
@@ -28,15 +26,7 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
         secondaryConnectionAddress,
         deviceToken,
         headers,
-        settingsBloc,
       ];
 }
 
-class RegisterDeviceUnverifiedCert extends RegisterDeviceEvent {
-  final SettingsBloc settingsBloc;
-
-  const RegisterDeviceUnverifiedCert(this.settingsBloc);
-
-  @override
-  List<Object> get props => [settingsBloc];
-}
+class RegisterDeviceUnverifiedCert extends RegisterDeviceEvent {}

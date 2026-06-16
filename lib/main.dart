@@ -116,25 +116,25 @@ void main() async {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
+            create: (context) => di.sl<SettingsBloc>(),
+          ),
+          BlocProvider(
             create: (context) => di.sl<AnnouncementsBloc>(),
           ),
           BlocProvider(
-            create: (context) => di.sl<GeoIpBloc>(),
+            create: (context) => di.sl<GeoIpBloc>(param1: context.read<SettingsBloc>()),
           ),
           BlocProvider(
             create: (context) => di.sl<OneSignalHealthBloc>(),
           ),
           BlocProvider(
-            create: (context) => di.sl<OneSignalPrivacyBloc>(),
+            create: (context) => di.sl<OneSignalPrivacyBloc>(param1: context.read<SettingsBloc>()),
           ),
           BlocProvider(
             create: (context) => di.sl<OneSignalSubBloc>(),
           ),
           BlocProvider(
             create: (context) => di.sl<RegistrationHeadersBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => di.sl<SettingsBloc>(),
           ),
         ],
         child: TautulliRemote(initialRoute: initialRoute),

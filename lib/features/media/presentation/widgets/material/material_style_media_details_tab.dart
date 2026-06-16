@@ -8,7 +8,6 @@ import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/metadata_bloc.dart';
 import '../base/media_details_tab_details.dart';
 import 'material_style_media_details_tab_summary.dart';
@@ -28,13 +27,11 @@ class MaterialStyleMediaDetailsTab extends StatefulWidget {
 }
 
 class _MaterialStyleMediaDetailsTabState extends State<MaterialStyleMediaDetailsTab> {
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -48,7 +45,6 @@ class _MaterialStyleMediaDetailsTabState extends State<MaterialStyleMediaDetails
                 server: widget.server,
                 ratingKey: widget.ratingKey,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
 

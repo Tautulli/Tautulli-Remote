@@ -29,13 +29,11 @@ class MaterialStyleLibraryDetailsNewTab extends StatefulWidget {
 }
 
 class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibraryDetailsNewTab> {
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -48,7 +46,6 @@ class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibrary
               LibraryRecentlyAddedFetched(
                 tautulliId: widget.server.tautulliId,
                 sectionId: widget.libraryTableModel.sectionId!,
-                settingsBloc: _settingsBloc,
                 freshFetch: true,
               ),
             );

@@ -39,13 +39,13 @@ class MaterialStyleUserDetailsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<UserIndividualBloc>(),
+          create: (context) => di.sl<UserIndividualBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<UserStatisticsBloc>(),
+          create: (context) => di.sl<UserStatisticsBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<UserHistoryBloc>(),
+          create: (context) => di.sl<UserHistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: MaterialStyleUserDetailsView(
@@ -87,7 +87,6 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
     hasNetworkImage = _hasNetworkImage(widget.user);
     getColorFuture = _getColor(widget.user.userThumb);
 
-    final settingsBloc = context.read<SettingsBloc>();
     _userHistoryBloc = context.read<UserHistoryBloc>();
 
     if (widget.fetchUser) {
@@ -95,7 +94,6 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
         UserIndividualFetched(
           server: widget.server,
           userId: widget.user.userId!,
-          settingsBloc: settingsBloc,
         ),
       );
     }
@@ -104,14 +102,12 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
       UserHistoryFetched(
         server: widget.server,
         userId: widget.user.userId!,
-        settingsBloc: settingsBloc,
       ),
     );
     context.read<UserStatisticsBloc>().add(
       UserStatisticsFetched(
         server: widget.server,
         userId: widget.user.userId!,
-        settingsBloc: settingsBloc,
       ),
     );
   }

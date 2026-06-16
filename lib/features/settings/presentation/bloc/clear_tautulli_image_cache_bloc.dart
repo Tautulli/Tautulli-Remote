@@ -14,10 +14,12 @@ class ClearTautulliImageCacheBloc
     extends Bloc<ClearTautulliImageCacheEvent, ClearTautulliImageCacheState> {
   final Settings settings;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   ClearTautulliImageCacheBloc({
     required this.settings,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const ClearTautulliImageCacheState()) {
     on<ClearTautulliImageCacheStart>(_onClearTautulliImageCacheStart);
   }
@@ -50,7 +52,7 @@ class ClearTautulliImageCacheBloc
         );
       },
       (result) {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: result.value2,

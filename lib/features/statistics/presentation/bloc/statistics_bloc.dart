@@ -37,11 +37,13 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   final Statistics statistics;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   StatisticsBloc({
     required this.statistics,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           StatisticsState(
             statList: statCache[tautulliIdCache] ?? [],
@@ -128,7 +130,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           );
         },
         (statistics) async {
-          event.settingsBloc.add(
+          settingsBloc.add(
             SettingsUpdatePrimaryActive(
               tautulliId: event.server.tautulliId,
               primaryActive: statistics.value2,
@@ -138,7 +140,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           // Add posters to statistic models
           List<StatisticModel> statListWithUris = await _statisticModelsWithPosterUris(
             statList: statistics.value1,
-            settingsBloc: event.settingsBloc,
           );
 
           statCache[event.server.tautulliId] = statListWithUris;
@@ -194,7 +195,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         );
       },
       (statistics) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: tautulliIdCache!,
             primaryActive: statistics.value2,
@@ -204,7 +205,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         // Add posters to statistic models
         List<StatisticModel> statListWithUris = await _statisticModelsWithPosterUris(
           statList: statistics.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         // Get StatisticModel index in statCache
@@ -234,7 +234,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
 
   Future<List<StatisticModel>> _statisticModelsWithPosterUris({
     required List<StatisticModel> statList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<StatisticModel> statisticModelsWithImages = [];
 

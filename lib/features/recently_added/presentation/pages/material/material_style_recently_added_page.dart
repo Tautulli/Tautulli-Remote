@@ -32,7 +32,7 @@ class MaterialStyleRecentlyAddedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<RecentlyAddedBloc>(),
+      create: (context) => di.sl<RecentlyAddedBloc>(param1: context.read<SettingsBloc>()),
       child: MaterialStyleRecentlyAddedView(refreshOnLoad: refreshOnLoad),
     );
   }
@@ -79,7 +79,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
         server: _server,
         mediaType: _mediaType,
         freshFetch: widget.refreshOnLoad,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -95,7 +94,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             RecentlyAddedFetched(
               server: _server,
               mediaType: _mediaType,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -114,7 +112,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
                       server: _server,
                       mediaType: _mediaType,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -158,7 +155,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
                                 RecentlyAddedFetched(
                                   server: _server,
                                   mediaType: _mediaType,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -197,7 +193,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
         RecentlyAddedFetched(
           server: _server,
           mediaType: _mediaType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -259,7 +254,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
                 server: _server,
                 mediaType: _mediaType,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
           }

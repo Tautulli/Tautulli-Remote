@@ -39,7 +39,6 @@ class _CupertinoStyleHistoryDetailsPageDetailsState extends State<CupertinoStyle
         GeoIpFetched(
           server: widget.server,
           ipAddress: widget.history.ipAddress!,
-          settingsBloc: context.read<SettingsBloc>(),
         ),
       );
     }

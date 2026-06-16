@@ -32,13 +32,11 @@ class MaterialStyleUserDetailsHistoryTab extends StatefulWidget {
 class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDetailsHistoryTab> {
   ScrollController? _scrollController;
   late UserHistoryBloc _userHistoryBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
     _userHistoryBloc = context.read<UserHistoryBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -61,7 +59,6 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
               UserHistoryFetched(
                 server: widget.server,
                 userId: widget.user.userId!,
-                settingsBloc: _settingsBloc,
                 freshFetch: true,
               ),
             );
@@ -107,7 +104,6 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
                             UserHistoryFetched(
                               server: widget.server,
                               userId: widget.user.userId!,
-                              settingsBloc: _settingsBloc,
                             ),
                           );
                         },
@@ -144,7 +140,6 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
         UserHistoryFetched(
           server: widget.server,
           userId: widget.user.userId!,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

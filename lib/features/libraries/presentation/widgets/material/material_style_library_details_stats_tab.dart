@@ -36,13 +36,11 @@ class MaterialStyleLibraryDetailsStatsTab extends StatefulWidget {
 }
 
 class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibraryDetailsStatsTab> {
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -55,7 +53,6 @@ class _MaterialStyleLibraryDetailsStatsTabState extends State<MaterialStyleLibra
               LibraryStatisticsFetched(
                 server: widget.server,
                 sectionId: widget.libraryTableModel.sectionId!,
-                settingsBloc: _settingsBloc,
                 freshFetch: true,
               ),
             );

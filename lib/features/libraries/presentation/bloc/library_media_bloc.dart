@@ -22,11 +22,13 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   final Libraries libraries;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   LibraryMediaBloc({
     required this.libraries,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(const LibraryMediaState()) {
     on<LibraryMediaFetched>(_onLibraryMediaFetched);
   }
@@ -85,7 +87,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         );
       },
       (libraryMedia) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: libraryMedia.value2,
@@ -96,7 +98,6 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         List<LibraryMediaInfoModel> libraryListWithUris = await _libraryMediaInfoModelsWithPosterUris(
           libraryMediaList: libraryMedia.value1,
           tautulliId: event.server.tautulliId,
-          settingsBloc: event.settingsBloc,
         );
 
         libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'] = libraryListWithUris;
@@ -114,7 +115,6 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   Future<List<LibraryMediaInfoModel>> _libraryMediaInfoModelsWithPosterUris({
     required List<LibraryMediaInfoModel> libraryMediaList,
     required String tautulliId,
-    required SettingsBloc settingsBloc,
   }) async {
     List<LibraryMediaInfoModel> libraryMediaWithImages = [];
 

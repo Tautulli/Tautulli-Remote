@@ -131,7 +131,7 @@ class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
                           return BlocProvider.value(
                             value: _activityBloc,
                             child: BlocProvider(
-                              create: (context) => di.sl<TerminateStreamBloc>(),
+                              create: (context) => di.sl<TerminateStreamBloc>(param1: context.read<SettingsBloc>()),
                               child: MaterialStyleActivityBottomSheet(
                                 server: widget.server,
                                 activity: widget.activity,

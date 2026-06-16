@@ -42,11 +42,13 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final History history;
   final ImageUrl imageUrl;
   final Logging logging;
+  final SettingsBloc settingsBloc;
 
   HistoryBloc({
     required this.history,
     required this.imageUrl,
     required this.logging,
+    required this.settingsBloc,
   }) : super(
           HistoryState(
             history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
@@ -213,7 +215,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         );
       },
       (history) async {
-        event.settingsBloc.add(
+        settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
@@ -223,7 +225,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         // Add posters to history models
         List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
           historyList: history.value1,
-          settingsBloc: event.settingsBloc,
         );
 
         historyCache[event.server.tautulliId] = historyCache[event.server.tautulliId]! + historyListWithUris;
@@ -242,7 +243,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
   Future<List<HistoryModel>> _historyModelsWithPosterUris({
     required List<HistoryModel> historyList,
-    required SettingsBloc settingsBloc,
   }) async {
     List<HistoryModel> historyWithImages = [];
 

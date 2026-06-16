@@ -38,7 +38,6 @@ class CupertinoStyleClearTautulliImageCacheDialog extends StatelessWidget {
                 context.read<ClearTautulliImageCacheBloc>().add(
                   ClearTautulliImageCacheStart(
                     server: state.appSettings.activeServer,
-                    settingsBloc: context.read<SettingsBloc>(),
                   ),
                 );
 

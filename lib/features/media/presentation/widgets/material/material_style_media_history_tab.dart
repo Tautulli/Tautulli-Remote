@@ -13,7 +13,6 @@ import '../../../../../core/widgets/material/material_style_refresh_indicator.da
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../../history/presentation/widgets/material/material_style_history_individual_card.dart';
-import '../../../../settings/presentation/bloc/settings_bloc.dart';
 
 class MaterialStyleMediaHistoryTab extends StatefulWidget {
   final ServerModel server;
@@ -36,14 +35,12 @@ class MaterialStyleMediaHistoryTab extends StatefulWidget {
 class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistoryTab> {
   ScrollController? _scrollController;
   late IndividualHistoryBloc _individualHistoryBloc;
-  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
 
     _individualHistoryBloc = context.read<IndividualHistoryBloc>();
-    _settingsBloc = context.read<SettingsBloc>();
   }
 
   @override
@@ -76,7 +73,6 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
                 ratingKey: widget.ratingKey,
                 mediaType: widget.mediaType,
                 freshFetch: true,
-                settingsBloc: _settingsBloc,
               ),
             );
 
@@ -120,7 +116,6 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
                               server: widget.server,
                               ratingKey: widget.ratingKey,
                               mediaType: widget.mediaType,
-                              settingsBloc: _settingsBloc,
                             ),
                           );
                         },
@@ -151,7 +146,6 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
           server: widget.server,
           ratingKey: widget.ratingKey,
           mediaType: widget.mediaType,
-          settingsBloc: _settingsBloc,
         ),
       );
     }

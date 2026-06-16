@@ -12,29 +12,25 @@ class StatisticsFetched extends StatisticsEvent {
   final int timeRange;
   final PlayMetricType statsType;
   final bool freshFetch;
-  final SettingsBloc settingsBloc;
 
   const StatisticsFetched({
     required this.server,
     required this.timeRange,
     required this.statsType,
     this.freshFetch = false,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [server, timeRange, statsType, freshFetch, settingsBloc];
+  List<Object> get props => [server, timeRange, statsType, freshFetch];
 }
 
 class StatisticsFetchMore extends StatisticsEvent {
   final StatIdType statIdType;
-  final SettingsBloc settingsBloc;
 
   const StatisticsFetchMore({
     required this.statIdType,
-    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [statIdType, settingsBloc];
+  List<Object> get props => [statIdType];
 }

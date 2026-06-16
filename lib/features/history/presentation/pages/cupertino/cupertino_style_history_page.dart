@@ -54,10 +54,10 @@ class CupertinoStyleHistoryPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<HistoryBloc>(),
+          create: (context) => di.sl<HistoryBloc>(param1: context.read<SettingsBloc>()),
         ),
         BlocProvider(
-          create: (context) => di.sl<UsersBloc>(),
+          create: (context) => di.sl<UsersBloc>(param1: context.read<SettingsBloc>()),
         ),
       ],
       child: CupertinoStyleHistoryView(
@@ -141,14 +141,12 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
         directStreamDecision: _directStreamDecision,
         transcodeDecision: _transcodeDecision,
         freshFetch: widget.refreshOnLoad,
-        settingsBloc: _settingsBloc,
       ),
     );
 
     _usersBloc.add(
       UsersFetched(
         server: _server,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -182,13 +180,11 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
               directPlayDecision: _directPlayDecision,
               directStreamDecision: _directStreamDecision,
               transcodeDecision: _transcodeDecision,
-              settingsBloc: _settingsBloc,
             ),
           );
           _usersBloc.add(
             UsersFetched(
               server: _server,
-              settingsBloc: _settingsBloc,
             ),
           );
         }
@@ -249,7 +245,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                       directStreamDecision: _directStreamDecision,
                       transcodeDecision: _transcodeDecision,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
 
@@ -280,7 +275,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                                   directPlayDecision: _directPlayDecision,
                                   directStreamDecision: _directStreamDecision,
                                   transcodeDecision: _transcodeDecision,
-                                  settingsBloc: _settingsBloc,
                                 ),
                               );
                             },
@@ -329,7 +323,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
             directStreamDecision: _directStreamDecision,
             transcodeDecision: _transcodeDecision,
             freshFetch: true,
-            settingsBloc: _settingsBloc,
           ),
         );
 
@@ -364,7 +357,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
         directStreamDecision: _directStreamDecision,
         transcodeDecision: _transcodeDecision,
         freshFetch: true,
-        settingsBloc: _settingsBloc,
       ),
     );
   }
@@ -382,7 +374,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
           directPlayDecision: _directPlayDecision,
           directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
-          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -491,7 +482,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                       directStreamDecision: _directStreamDecision,
                       transcodeDecision: _transcodeDecision,
                       freshFetch: true,
-                      settingsBloc: _settingsBloc,
                     ),
                   );
                 });
@@ -532,7 +522,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                     directStreamDecision: _directStreamDecision,
                     transcodeDecision: _transcodeDecision,
                     freshFetch: true,
-                    settingsBloc: _settingsBloc,
                   ),
                 );
               }
@@ -576,7 +565,6 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                   directStreamDecision: _directStreamDecision,
                   transcodeDecision: _transcodeDecision,
                   freshFetch: true,
-                  settingsBloc: _settingsBloc,
                 ),
               );
             }

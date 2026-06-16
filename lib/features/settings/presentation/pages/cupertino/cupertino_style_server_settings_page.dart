@@ -37,7 +37,7 @@ class CupertinoStyleServerSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<ClearTautulliImageCacheBloc>(),
+      create: (context) => di.sl<ClearTautulliImageCacheBloc>(param1: context.read<SettingsBloc>()),
       child: ServerSettingsIosView(
         showBackButton: showBackButton,
         serverId: serverId,
