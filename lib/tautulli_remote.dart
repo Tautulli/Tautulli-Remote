@@ -211,7 +211,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     if (data.canUpdate != null) {
       if (data.canUpdate == true) {
         di.sl<Logging>().info(
-          'App Update :: Update available. Local Version: ${await PackageInformationImpl().version} | Store Version: ${data.storeVersion}',
+          'App Update :: Update available. Local Version: ${await di.sl<PackageInformation>().version} | Store Version: ${data.storeVersion}',
         );
       }
 

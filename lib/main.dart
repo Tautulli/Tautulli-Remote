@@ -77,7 +77,7 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides(customCertHashList);
 
   Future<String?> calculateInitialRoute() async {
-    final runningVersion = await PackageInformationImpl().version;
+    final runningVersion = await di.sl<PackageInformation>().version;
     final lastAppVersion = di.sl<Settings>().getLastAppVersion();
     final bool wizardComplete = di.sl<Settings>().getWizardComplete();
 

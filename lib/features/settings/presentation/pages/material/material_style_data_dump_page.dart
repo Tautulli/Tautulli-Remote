@@ -330,7 +330,7 @@ class _AppDetails extends StatelessWidget {
             const _DataDumpRowHeading('Version'),
             const Gap(16),
             FutureBuilder(
-              future: PackageInformationImpl().version,
+              future: di.sl<PackageInformation>().version,
               builder: (context, snapshot) {
                 return Text(snapshot.data.toString());
               },
@@ -342,7 +342,7 @@ class _AppDetails extends StatelessWidget {
             const _DataDumpRowHeading('Build Number'),
             const Gap(16),
             FutureBuilder(
-              future: PackageInformationImpl().buildNumber,
+              future: di.sl<PackageInformation>().buildNumber,
               builder: (context, snapshot) {
                 return Text(snapshot.data.toString());
               },

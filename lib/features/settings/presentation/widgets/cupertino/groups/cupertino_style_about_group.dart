@@ -29,7 +29,7 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
           subtitleWidget: Row(
             children: [
               FutureBuilder(
-                future: PackageInformationImpl().version,
+                future: di.sl<PackageInformation>().version,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return Text(snapshot.data.toString());
@@ -38,7 +38,7 @@ class CupertinoStyleAboutGroup extends StatelessWidget {
                 },
               ),
               FutureBuilder(
-                future: PackageInformationImpl().buildNumber,
+                future: di.sl<PackageInformation>().buildNumber,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return Text(' (${snapshot.data.toString()})');

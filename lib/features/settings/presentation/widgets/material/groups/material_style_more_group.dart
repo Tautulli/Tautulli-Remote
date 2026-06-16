@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/package_information/package_information.dart';
+import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../core/overrides/material/about_dialog_override.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
@@ -82,7 +83,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
               ),
               applicationName: 'Tautulli Remote',
               applicationVersion:
-                  '${await PackageInformationImpl().version} (${await PackageInformationImpl().buildNumber})',
+                  '${await di.sl<PackageInformation>().version} (${await di.sl<PackageInformation>().buildNumber})',
               applicationLegalese: LocaleKeys.about_legalese.tr(),
             );
           },
