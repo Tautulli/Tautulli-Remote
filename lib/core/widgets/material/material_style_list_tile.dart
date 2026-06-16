@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../base/sensitive_text.dart';
 
 class MaterialStyleListTile extends StatelessWidget {
@@ -28,50 +26,46 @@ class MaterialStyleListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, state) {
-        return Material(
-          color: ElevationOverlay.applySurfaceTint(
-            Theme.of(context).colorScheme.surface,
-            Theme.of(context).colorScheme.surfaceTint,
-            1,
-          ),
-          child: ListTile(
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 40,
-                  child: Center(
-                    child: leading,
-                  ),
-                ),
-              ],
-            ),
-            title: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: inactive ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
+    return Material(
+      color: ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        1,
+      ),
+      child: ListTile(
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 40,
+              child: Center(
+                child: leading,
               ),
             ),
-            subtitle: subtitle != null
-                ? Text(
-                    subtitle!,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: inactive
-                          ? Theme.of(context).disabledColor
-                          : Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ).sensitive(enabled: sensitive)
-                : null,
-            trailing: trailing,
-            onTap: onTap,
-            onLongPress: onLongPress,
+          ],
+        ),
+        title: Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: inactive ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
           ),
-        );
-      },
+        ),
+        subtitle: subtitle != null
+            ? Text(
+                subtitle!,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: inactive
+                      ? Theme.of(context).disabledColor
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ).sensitive(enabled: sensitive)
+            : null,
+        trailing: trailing,
+        onTap: onTap,
+        onLongPress: onLongPress,
+      ),
     );
   }
 }
