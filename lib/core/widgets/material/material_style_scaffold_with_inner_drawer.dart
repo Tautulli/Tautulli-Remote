@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../dependency_injection.dart' as di;
@@ -17,7 +16,6 @@ import '../../../features/settings/domain/usecases/settings.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../translations/locale_keys.g.dart';
 import '../../database/data/models/server_model.dart';
-import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
 import '../base/double_back_to_exit.dart';
 import '../base/tautulli_logo_title.dart';
@@ -39,14 +37,7 @@ class MaterialStyleScaffoldWithInnerDrawer extends StatefulWidget {
 }
 
 class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaffoldWithInnerDrawer> {
-  final QuickActions quickActions = const QuickActions();
   final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
-
-  @override
-  void initState() {
-    super.initState();
-    initalizeQuickActions(quickActions);
-  }
 
   @override
   Widget build(BuildContext context) {

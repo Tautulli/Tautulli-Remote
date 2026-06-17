@@ -4,15 +4,17 @@ import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import 'app_framework.dart';
 import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
 import 'core/global_keys/global_keys.dart';
-import 'core/types/app_style.dart';
 import 'core/helpers/notification_helper.dart';
+import 'core/helpers/quick_actions_helper.dart';
 import 'core/package_information/package_information.dart';
+import 'core/types/app_style.dart';
 import 'core/rate_app/rate_app.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
@@ -45,6 +47,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     context.read<SettingsBloc>().add(const SettingsLoad());
 
+    initializeQuickActions(const QuickActions());
     initalizeOneSignal();
     initalizeFLogConfiguration();
     checkforAppUpdate();

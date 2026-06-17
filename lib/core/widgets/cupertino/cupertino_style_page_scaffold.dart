@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../helpers/quick_actions_helper.dart';
 import '../../helpers/theme_helper.dart';
 import '../../overrides/cupertino/nav_bar_override.dart' as nav;
 import '../base/sensitive_text.dart';
@@ -40,14 +38,6 @@ class CupertinoStylePageScaffold extends StatefulWidget {
 }
 
 class _CupertinoStylePageScaffoldState extends State<CupertinoStylePageScaffold> {
-  final QuickActions quickActions = const QuickActions();
-
-  @override
-  void initState() {
-    super.initState();
-    initalizeQuickActionsCupertino(quickActions);
-  }
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

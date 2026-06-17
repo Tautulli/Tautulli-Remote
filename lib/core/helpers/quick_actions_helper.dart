@@ -3,10 +3,30 @@ import 'package:quick_actions/quick_actions.dart';
 
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
+import '../../features/settings/domain/usecases/settings.dart';
 import '../../translations/locale_keys.g.dart';
 import '../global_keys/global_keys.dart';
+import '../types/app_style.dart';
 
-void setupQuickActions(QuickActions quickActions) {
+void initializeQuickActions(QuickActions quickActions) {
+  _setupQuickActions(quickActions);
+  quickActions.initialize((String shortcutType) {
+    try {
+      if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
+        final int? tabIndex = _getTabIndexCupertino(shortcutType);
+        if (tabIndex != null) {
+          cupertinoTabController.index = tabIndex;
+        }
+      } else {
+        navigatorKey.currentState?.pushReplacementNamed(shortcutType);
+      }
+    } catch (e) {
+      di.sl<Logging>().error('QuickActions :: Failed to launch route $shortcutType [$e]');
+    }
+  });
+}
+
+void _setupQuickActions(QuickActions quickActions) {
   quickActions.setShortcutItems(<ShortcutItem>[
     ShortcutItem(
       type: '/activity',
@@ -29,42 +49,6 @@ void setupQuickActions(QuickActions quickActions) {
       icon: 'settings_quick_action_icon',
     ),
   ]);
-}
-
-//* Material
-void initalizeQuickActions(QuickActions quickActions) {
-  setupQuickActions(quickActions);
-  handleQuickActions(quickActions);
-}
-
-void handleQuickActions(QuickActions quickActions) {
-  quickActions.initialize((String shortcutType) {
-    try {
-      navigatorKey.currentState?.pushReplacementNamed(shortcutType);
-    } catch (e) {
-      di.sl<Logging>().error('QuickActions :: Failed to launch route $shortcutType [$e]');
-    }
-  });
-}
-
-//* Cupertino
-void initalizeQuickActionsCupertino(QuickActions quickActions) {
-  setupQuickActions(quickActions);
-  handleQuickActionsCupertino(quickActions);
-}
-
-void handleQuickActionsCupertino(QuickActions quickActions) {
-  quickActions.initialize((String shortcutType) {
-    try {
-      final int? tabIndex = _getTabIndexCupertino(shortcutType);
-
-      if (tabIndex != null) {
-        cupertinoTabController.index = tabIndex;
-      }
-    } catch (e) {
-      di.sl<Logging>().error('QuickActions :: Failed to launch route $shortcutType [$e]');
-    }
-  });
 }
 
 int? _getTabIndexCupertino(String shortcutType) {
