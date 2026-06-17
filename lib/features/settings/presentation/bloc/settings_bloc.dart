@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
+
+import '../../../../core/helpers/custom_header_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
@@ -501,7 +501,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
-    String loggingMessage = 'Settings :: Header changed but logging missed it';
 
     final int index = currentState.serverList.indexWhere(
       (server) => server.tautulliId == event.tautulliId,
@@ -509,87 +508,23 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     List<ServerModel> updatedList = [...currentState.serverList];
 
-    List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
-
-    if (event.basicAuth) {
-      final currentIndex = customHeaders.indexWhere(
-        (header) => header.key == 'Authorization',
-      );
-
-      final String base64Value = base64Encode(
-        utf8.encode('${event.title}:${event.subtitle}'),
-      );
-
-      if (currentIndex == -1) {
-        customHeaders.add(
-          CustomHeaderModel(
-            key: 'Authorization',
-            value: 'Basic $base64Value',
-          ),
-        );
-
-        loggingMessage = "Settings :: Added 'Authorization' header";
-      } else {
-        customHeaders[currentIndex] = CustomHeaderModel(
-          key: 'Authorization',
-          value: 'Basic $base64Value',
-        );
-
-        loggingMessage = "Settings :: Updated 'Authorization' header";
-      }
-    } else {
-      if (event.previousTitle != null) {
-        final oldIndex = customHeaders.indexWhere(
-          (header) => header.key == event.previousTitle,
-        );
-
-        customHeaders[oldIndex] = CustomHeaderModel(
-          key: event.title,
-          value: event.subtitle,
-        );
-
-        if (event.previousTitle != event.title) {
-          loggingMessage = "Settings :: Replaced '${event.previousTitle}' header with '${event.title}'";
-        } else {
-          loggingMessage = "Settings :: Updated '${event.title}' header'";
-        }
-      } else {
-        // No previous title means a new header is being added. We need to
-        // check and make sure we don't end up with headers that have duplicate
-        // keys/titles
-        final currentIndex = customHeaders.indexWhere(
-          (header) => header.key == event.title,
-        );
-
-        if (currentIndex == -1) {
-          customHeaders.add(
-            CustomHeaderModel(
-              key: event.title,
-              value: event.subtitle,
-            ),
-          );
-
-          loggingMessage = "Settings :: Added '${event.title}' header";
-        } else {
-          customHeaders[currentIndex] = CustomHeaderModel(
-            key: event.title,
-            value: event.subtitle,
-          );
-
-          loggingMessage = "Settings :: Updated '${event.title}' header";
-        }
-      }
-    }
+    final result = applyCustomHeaderUpdate(
+      headers: updatedList[index].customHeaders,
+      basicAuth: event.basicAuth,
+      title: event.title,
+      subtitle: event.subtitle,
+      previousTitle: event.previousTitle,
+    );
 
     await settings.updateCustomHeaders(
       tautulliId: event.tautulliId,
-      headers: customHeaders,
+      headers: result.headers,
     );
 
-    logging.info(loggingMessage);
+    logging.info('Settings :: ${result.logMessage}');
 
     updatedList[index] = currentState.serverList[index].copyWith(
-      customHeaders: customHeaders,
+      customHeaders: result.headers,
     );
 
     emit(

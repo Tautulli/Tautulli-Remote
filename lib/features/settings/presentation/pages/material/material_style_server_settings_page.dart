@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../../core/helpers/custom_header_helper.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/material/material_style_list_tile.dart';
 import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
@@ -58,16 +59,7 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
           (server) => server.id == serverId,
         );
 
-        // Sort headers and make sure Authorization is first
-        final sortedHeaders = [...server.customHeaders];
-        sortedHeaders.sort((a, b) => a.key.compareTo(b.key));
-        final index = sortedHeaders.indexWhere(
-          (element) => element.key == 'Authorization',
-        );
-        if (index != -1) {
-          final authHeader = sortedHeaders.removeAt(index);
-          sortedHeaders.insert(0, authHeader);
-        }
+        final sortedHeaders = sortCustomHeaders(server.customHeaders);
 
         return Scaffold(
           appBar: AppBar(

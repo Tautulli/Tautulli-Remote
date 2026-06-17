@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/helpers/custom_header_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/custom_header_model.dart';
 
@@ -60,92 +59,17 @@ class RegistrationHeadersBloc extends Bloc<RegistrationHeadersEvent, Registratio
     RegistrationHeadersUpdate event,
     Emitter<RegistrationHeadersState> emit,
   ) {
-    String loggingMessage = 'Registration :: Header changed but logging missed it';
-    List<CustomHeaderModel> newList = [...headerListCache];
-
-    if (event.basicAuth) {
-      final currentIndex = newList.indexWhere(
-        (header) => header.key == 'Authorization',
-      );
-
-      final String base64Value = base64Encode(
-        utf8.encode('${event.title}:${event.subtitle}'),
-      );
-
-      if (currentIndex == -1) {
-        newList.add(
-          CustomHeaderModel(
-            key: 'Authorization',
-            value: 'Basic $base64Value',
-          ),
-        );
-
-        loggingMessage = "Registration :: Added 'Authorization' header";
-      } else {
-        newList[currentIndex] = CustomHeaderModel(
-          key: 'Authorization',
-          value: 'Basic $base64Value',
-        );
-
-        loggingMessage = "Registration :: Updated 'Authorization' header";
-      }
-    } else {
-      if (event.previousTitle != null) {
-        final oldIndex = newList.indexWhere(
-          (header) => header.key == event.previousTitle,
-        );
-
-        newList[oldIndex] = CustomHeaderModel(
-          key: event.title,
-          value: event.subtitle,
-        );
-
-        if (event.previousTitle != event.title) {
-          loggingMessage = "Registration :: Replaced '${event.previousTitle}' header with '${event.title}'";
-        } else {
-          loggingMessage = "Registration :: Updated '${event.title}' header'";
-        }
-      } else {
-        // No previous title means a new header is being added. We need to
-        // check and make sure we don't end up with headers that have duplicate
-        // keys/titles
-        final currentIndex = newList.indexWhere(
-          (header) => header.key == event.title,
-        );
-
-        if (currentIndex == -1) {
-          newList.add(
-            CustomHeaderModel(
-              key: event.title,
-              value: event.subtitle,
-            ),
-          );
-
-          loggingMessage = "Registration :: Added '${event.title}' header";
-        } else {
-          newList[currentIndex] = CustomHeaderModel(
-            key: event.title,
-            value: event.subtitle,
-          );
-
-          loggingMessage = "Registration :: Updated '${event.title}' header";
-        }
-      }
-    }
-
-    logging.info(loggingMessage);
-
-    // Sort headers and make sure Authorization is first
-    newList.sort((a, b) => a.key.compareTo(b.key));
-    final index = newList.indexWhere(
-      (element) => element.key == 'Authorization',
+    final result = applyCustomHeaderUpdate(
+      headers: headerListCache,
+      basicAuth: event.basicAuth,
+      title: event.title,
+      subtitle: event.subtitle,
+      previousTitle: event.previousTitle,
     );
-    if (index != -1) {
-      final authHeader = newList.removeAt(index);
-      newList.insert(0, authHeader);
-    }
 
-    headerListCache = [...newList];
+    logging.info('Registration :: ${result.logMessage}');
+
+    headerListCache = sortCustomHeaders(result.headers);
 
     emit(
       RegistrationHeadersLoaded(headerListCache),
