@@ -102,31 +102,11 @@ abstract class GraphsDataSource {
 
 class GraphsDataSourceImpl implements GraphsDataSource {
   final GetConcurrentStreamsByStreamType getConcurrentStreamsByStreamTypeApi;
-  final GetPlaysByDate getPlaysByDateApi;
-  final GetPlaysByDayOfWeek getPlaysByDayOfWeekApi;
-  final GetPlaysByHourOfDay getPlaysByHourOfDayApi;
-  final GetPlaysBySourceResolution getPlaysBySourceResolutionApi;
-  final GetPlaysByStreamResolution getPlaysByStreamResolutionApi;
-  final GetPlaysByStreamType getPlaysByStreamTypeApi;
-  final GetPlaysByTop10Platforms getPlaysByTop10PlatformsApi;
-  final GetPlaysByTop10Users getPlaysByTop10UsersApi;
-  final GetPlaysPerMonth getPlaysPerMonthApi;
-  final GetStreamTypeByTop10Platforms getStreamTypeByTop10PlatformsApi;
-  final GetStreamTypeByTop10Users getStreamTypeByTop10UsersApi;
+  final GetPlaysByGraphType getPlaysByGraphTypeApi;
 
   GraphsDataSourceImpl({
     required this.getConcurrentStreamsByStreamTypeApi,
-    required this.getPlaysByDateApi,
-    required this.getPlaysByDayOfWeekApi,
-    required this.getPlaysByHourOfDayApi,
-    required this.getPlaysBySourceResolutionApi,
-    required this.getPlaysByStreamResolutionApi,
-    required this.getPlaysByStreamTypeApi,
-    required this.getPlaysByTop10PlatformsApi,
-    required this.getPlaysByTop10UsersApi,
-    required this.getPlaysPerMonthApi,
-    required this.getStreamTypeByTop10PlatformsApi,
-    required this.getStreamTypeByTop10UsersApi,
+    required this.getPlaysByGraphTypeApi,
   });
 
   @override
@@ -154,8 +134,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByDateApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_date',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -175,8 +156,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByDayOfWeekApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_dayofweek',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -196,8 +178,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByHourOfDayApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_hourofday',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -217,8 +200,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysBySourceResolutionApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_source_resolution',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -238,8 +222,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByStreamResolutionApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_stream_resolution',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -259,29 +244,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByStreamTypeApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
-      yAxis: yAxis,
-      timeRange: timeRange,
-      userId: userId,
-      grouping: grouping,
-    );
-
-    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
-
-    return Tuple2(graphDataModel, result.value2);
-  }
-
-  @override
-  Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
-    required String tautulliId,
-    required PlayMetricType yAxis,
-    required int timeRange,
-    int? userId,
-    bool? grouping,
-  }) async {
-    final result = await getPlaysPerMonthApi(
-      tautulliId: tautulliId,
+      cmd: 'get_plays_by_stream_type',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -301,8 +266,31 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByTop10PlatformsApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_top_10_platforms',
+      yAxis: yAxis,
+      timeRange: timeRange,
+      userId: userId,
+      grouping: grouping,
+    );
+
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
+
+    return Tuple2(graphDataModel, result.value2);
+  }
+
+  @override
+  Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
+  }) async {
+    final result = await getPlaysByGraphTypeApi(
+      tautulliId: tautulliId,
+      cmd: 'get_plays_per_month',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -322,8 +310,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getPlaysByTop10UsersApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_plays_by_top_10_users',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -343,8 +332,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getStreamTypeByTop10PlatformsApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_stream_type_by_top_10_platforms',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,
@@ -364,8 +354,9 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     int? userId,
     bool? grouping,
   }) async {
-    final result = await getStreamTypeByTop10UsersApi(
+    final result = await getPlaysByGraphTypeApi(
       tautulliId: tautulliId,
+      cmd: 'get_stream_type_by_top_10_users',
       yAxis: yAxis,
       timeRange: timeRange,
       userId: userId,

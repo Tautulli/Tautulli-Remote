@@ -3,9 +3,10 @@ import 'package:dartz/dartz.dart';
 import '../../../types/tautulli_types.dart';
 import '../connection_handler.dart';
 
-abstract class GetPlaysByDate {
+abstract class GetPlaysByGraphType {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
+    required String cmd,
     required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
@@ -13,14 +14,15 @@ abstract class GetPlaysByDate {
   });
 }
 
-class GetPlaysByDateImpl implements GetPlaysByDate {
+class GetPlaysByGraphTypeImpl implements GetPlaysByGraphType {
   final ConnectionHandler connectionHandler;
 
-  GetPlaysByDateImpl(this.connectionHandler);
+  GetPlaysByGraphTypeImpl(this.connectionHandler);
 
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
+    required String cmd,
     required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
@@ -33,12 +35,10 @@ class GetPlaysByDateImpl implements GetPlaysByDate {
     if (userId != null) params['user_id'] = userId;
     if (grouping != null) params['grouping'] = grouping;
 
-    final response = connectionHandler(
+    return connectionHandler(
       tautulliId: tautulliId,
-      cmd: 'get_plays_by_date',
+      cmd: cmd,
       params: params,
     );
-
-    return response;
   }
 }
