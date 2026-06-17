@@ -8,18 +8,19 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
-import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_icon_card.dart';
+import '../base/stat_plays_rich_text.dart';
+import '../base/stat_time_rich_text.dart';
+import '../base/watch_time_stat_title_text.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../core/widgets/material/material_style_status_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_model.dart';
-import '../../../data/models/user_watch_time_stat_model.dart';
 import '../../bloc/user_statistics_bloc.dart';
 
 class MaterialStyleUserDetailsStatsTab extends StatefulWidget {
@@ -154,18 +155,14 @@ List<Widget> _buildUserStatList({
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  _determineWatchTimeStatTitle(watchTimeStat),
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 16),
-                ),
-                _playsRichText(
-                  context: context,
+                WatchTimeStatTitleText(watchTimeStat: watchTimeStat),
+                StatPlaysRichText(
                   totalPlays: watchTimeStat.totalPlays ?? 0,
+                  textColor: Theme.of(context).colorScheme.onSurface,
                 ),
-                _timeRichText(
-                  context: context,
+                StatTimeRichText(
                   totalTime: watchTimeStat.totalTime ?? 0,
+                  labelColor: Theme.of(context).colorScheme.onSurface,
                 ),
               ],
             ),
@@ -247,13 +244,13 @@ List<Widget> _buildUserStatList({
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
                   ).sensitive(),
-                  _playsRichText(
-                    context: context,
+                  StatPlaysRichText(
                     totalPlays: playerStat.totalPlays ?? 0,
+                    textColor: Theme.of(context).colorScheme.onSurface,
                   ),
-                  _timeRichText(
-                    context: context,
+                  StatTimeRichText(
                     totalTime: playerStat.totalTime ?? 0,
+                    labelColor: Theme.of(context).colorScheme.onSurface,
                   ),
                 ],
               ),
@@ -271,93 +268,4 @@ List<Widget> _buildUserStatList({
   }
 
   return statList;
-}
-
-String _determineWatchTimeStatTitle(UserWatchTimeStatModel watchTimeStat) {
-  if (watchTimeStat.queryDays == 0) {
-    return LocaleKeys.all_time_title.tr();
-  } else if (watchTimeStat.queryDays == 1) {
-    return '24 ${LocaleKeys.hours_title.tr()}';
-  } else {
-    return '${watchTimeStat.queryDays} ${LocaleKeys.days_title.tr()}';
-  }
-}
-
-RichText _playsRichText({
-  required BuildContext context,
-  required int totalPlays,
-}) {
-  return RichText(
-    text: TextSpan(
-      children: [
-        TextSpan(
-          text: LocaleKeys.plays_title.tr(),
-          style: const TextStyle(
-            fontSize: 15,
-          ),
-        ),
-        const TextSpan(text: ' '),
-        TextSpan(
-          text: totalPlays.toString(),
-          style: const TextStyle(
-            fontWeight: FontWeight.w300,
-          ),
-        ),
-      ],
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
-    ),
-  );
-}
-
-RichText _timeRichText({
-  required BuildContext context,
-  required int totalTime,
-}) {
-  final durationMap = TimeHelper.durationMap(
-    Duration(seconds: totalTime),
-  );
-
-  return RichText(
-    text: TextSpan(
-      children: [
-        TextSpan(
-          text: LocaleKeys.time_title.tr(),
-          style: TextStyle(
-            fontSize: 15,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-        const TextSpan(text: ' '),
-        if (durationMap['day']! > 0)
-          _timeTextSpan(
-            '${durationMap['day'].toString()} ${LocaleKeys.days.tr()} ',
-          ),
-        if (durationMap['hour']! > 0)
-          _timeTextSpan(
-            '${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} ',
-          ),
-        if (durationMap['min']! > 0)
-          _timeTextSpan(
-            '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}',
-          ),
-        if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
-          _timeTextSpan(
-            '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}',
-          ),
-        if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! < 1)
-          _timeTextSpan('0 ${LocaleKeys.min.tr()}'),
-      ],
-    ),
-  );
-}
-
-TextSpan _timeTextSpan(String text) {
-  return TextSpan(
-    text: text,
-    style: const TextStyle(
-      fontWeight: FontWeight.w300,
-    ),
-  );
 }
