@@ -23,13 +23,11 @@ import '../../widgets/cupertino/cupertino_style_user_card.dart';
 class CupertinoStyleUsersPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleUsersPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
-    this.refreshOnLoad = false,
   });
 
   static const routeName = '/users';
@@ -41,7 +39,6 @@ class CupertinoStyleUsersPage extends StatelessWidget {
       child: CupertinoStyleUsersView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
-        refreshOnLoad: refreshOnLoad,
       ),
     );
   }
@@ -50,13 +47,11 @@ class CupertinoStyleUsersPage extends StatelessWidget {
 class CupertinoStyleUsersView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleUsersView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
-    required this.refreshOnLoad,
   });
 
   @override

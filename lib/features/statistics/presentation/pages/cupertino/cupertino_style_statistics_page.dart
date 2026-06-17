@@ -47,13 +47,11 @@ import 'cupertino_style_individual_statistic_page.dart';
 class CupertinoStyleStatisticsPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleStatisticsPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
-    this.refreshOnLoad = false,
   });
 
   static const routeName = '/statistics';
@@ -65,7 +63,6 @@ class CupertinoStyleStatisticsPage extends StatelessWidget {
       child: CupertinoStyleStatisticsView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
-        refreshOnLoad: refreshOnLoad,
       ),
     );
   }
@@ -74,13 +71,11 @@ class CupertinoStyleStatisticsPage extends StatelessWidget {
 class CupertinoStyleStatisticsView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleStatisticsView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
-    required this.refreshOnLoad,
   });
 
   @override

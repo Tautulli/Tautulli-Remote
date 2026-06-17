@@ -27,13 +27,11 @@ import '../../widgets/cupertino/bottom_sheets/cupertino_style_y_axis_type_bottom
 class CupertinoStyleGraphsPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleGraphsPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
-    this.refreshOnLoad = false,
   });
 
   static const routeName = '/graphs';
@@ -52,7 +50,6 @@ class CupertinoStyleGraphsPage extends StatelessWidget {
       child: CupertinoStyleGraphsView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
-        refreshOnLoad: refreshOnLoad,
       ),
     );
   }
@@ -61,13 +58,11 @@ class CupertinoStyleGraphsPage extends StatelessWidget {
 class CupertinoStyleGraphsView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleGraphsView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
-    required this.refreshOnLoad,
   });
 
   @override

@@ -23,13 +23,11 @@ import '../../widgets/base/library_card_details.dart';
 class CupertinoStyleLibrariesPage extends StatelessWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleLibrariesPage({
     super.key,
     this.showBackButton = true,
     this.previousPageTitle,
-    this.refreshOnLoad = false,
   });
 
   static const routeName = '/libraries';
@@ -41,7 +39,6 @@ class CupertinoStyleLibrariesPage extends StatelessWidget {
       child: CupertinoStyleLibrariesView(
         showBackButton: showBackButton,
         previousPageTitle: previousPageTitle,
-        refreshOnLoad: refreshOnLoad,
       ),
     );
   }
@@ -50,13 +47,11 @@ class CupertinoStyleLibrariesPage extends StatelessWidget {
 class CupertinoStyleLibrariesView extends StatefulWidget {
   final bool showBackButton;
   final String? previousPageTitle;
-  final bool refreshOnLoad;
 
   const CupertinoStyleLibrariesView({
     super.key,
     required this.showBackButton,
     this.previousPageTitle,
-    required this.refreshOnLoad,
   });
 
   @override
