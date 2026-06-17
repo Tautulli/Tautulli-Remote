@@ -10,6 +10,7 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
 import '../../domain/usecases/media.dart';
+import '../../../../core/helpers/media_bloc_helpers.dart';
 
 part 'children_metadata_event.dart';
 part 'children_metadata_state.dart';
@@ -82,10 +83,18 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
         );
 
         // Add posters to children media models
-        List<MediaModel> childrenWithUris = await _mediaModelsWithImageUris(
-          tautulliId: event.server.tautulliId,
-          children: children.value1,
-        );
+        List<MediaModel> childrenWithUris = [];
+        for (MediaModel child in children.value1) {
+          childrenWithUris.add(
+            await mediaModelWithImageUris(
+              tautulliId: event.server.tautulliId,
+              media: child,
+              imageUrl: imageUrl,
+              settingsBloc: settingsBloc,
+              logging: logging,
+            ),
+          );
+        }
 
         childrenCache[cacheKey] = childrenWithUris;
 
@@ -97,100 +106,5 @@ class ChildrenMetadataBloc extends Bloc<ChildrenMetadataEvent, ChildrenMetadataS
         );
       },
     );
-  }
-
-  Future<List<MediaModel>> _mediaModelsWithImageUris({
-    required String tautulliId,
-    required List<MediaModel> children,
-  }) async {
-    List<MediaModel> childrenWithImages = [];
-
-    for (MediaModel child in children) {
-      Uri? imageUri;
-      Uri? parentImageUri;
-      Uri? grandparentImageUri;
-
-      final failureOrImageUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliId,
-        img: child.thumb,
-        ratingKey: child.ratingKey,
-      );
-
-      final failureOrParentImageUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliId,
-        img: child.parentThumb,
-        ratingKey: child.parentRatingKey,
-      );
-
-      final failureOrGrandparentImageUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliId,
-        img: child.grandparentThumb,
-        ratingKey: child.grandparentRatingKey,
-      );
-
-      await failureOrImageUrl.fold(
-        (failure) async {
-          logging.error(
-            'Metadata :: Failed to fetch image url for ${child.title} [$failure]',
-          );
-        },
-        (imageUriTuple) async {
-          settingsBloc.add(
-            SettingsUpdatePrimaryActive(
-              tautulliId: tautulliId,
-              primaryActive: imageUriTuple.value2,
-            ),
-          );
-
-          imageUri = imageUriTuple.value1;
-        },
-      );
-
-      await failureOrParentImageUrl.fold(
-        (failure) async {
-          logging.error(
-            'Metadata :: Failed to fetch parent image url for ${child.title} [$failure]',
-          );
-        },
-        (imageUriTuple) async {
-          settingsBloc.add(
-            SettingsUpdatePrimaryActive(
-              tautulliId: tautulliId,
-              primaryActive: imageUriTuple.value2,
-            ),
-          );
-
-          parentImageUri = imageUriTuple.value1;
-        },
-      );
-
-      await failureOrGrandparentImageUrl.fold(
-        (failure) async {
-          logging.error(
-            'Metadata :: Failed to fetch grandparent image url for ${child.title} [$failure]',
-          );
-        },
-        (imageUriTuple) async {
-          settingsBloc.add(
-            SettingsUpdatePrimaryActive(
-              tautulliId: tautulliId,
-              primaryActive: imageUriTuple.value2,
-            ),
-          );
-
-          grandparentImageUri = imageUriTuple.value1;
-        },
-      );
-
-      childrenWithImages.add(
-        child.copyWith(
-          imageUri: imageUri,
-          parentImageUri: parentImageUri,
-          grandparentImageUri: grandparentImageUri,
-        ),
-      );
-    }
-
-    return childrenWithImages;
   }
 }
