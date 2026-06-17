@@ -474,10 +474,10 @@ class _ServerSelector extends StatefulWidget {
   const _ServerSelector();
 
   @override
-  State<_ServerSelector> createState() => __ServerSelectorState();
+  State<_ServerSelector> createState() => _ServerSelectorState();
 }
 
-class __ServerSelectorState extends State<_ServerSelector> with SingleTickerProviderStateMixin {
+class _ServerSelectorState extends State<_ServerSelector> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
   bool isOpen = false;

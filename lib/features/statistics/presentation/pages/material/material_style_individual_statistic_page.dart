@@ -20,7 +20,7 @@ import '../../../../users/presentation/widgets/material/material_style_user_card
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
 import '../../../../../core/helpers/statistic_helper.dart';
-import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/last_watched_statistic_details.dart';
 import '../../widgets/base/most_concurrent_statistic_details.dart';
 import '../../widgets/base/popular_statistic_details.dart';
 import '../../widgets/base/top_libraries_statistic_details.dart';

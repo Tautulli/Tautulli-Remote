@@ -48,9 +48,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
     context.read<SettingsBloc>().add(const SettingsLoad());
 
     initializeQuickActions(const QuickActions());
-    initalizeOneSignal();
-    initalizeFLogConfiguration();
-    checkforAppUpdate();
+    initializeOneSignal();
+    initializeFLogConfiguration();
+    checkForAppUpdate();
     rateApp.init();
     checkIfRegistrationUpdateNeeded();
 
@@ -63,7 +63,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     context.read<AnnouncementsBloc>().add(AnnouncementsFetch());
   }
 
-  Future<void> initalizeOneSignal() async {
+  Future<void> initializeOneSignal() async {
     if (!mounted) return;
 
     // Enabling console logs for users to troubleshoot OneSignal issues
@@ -196,13 +196,13 @@ class TautulliRemoteState extends State<TautulliRemote> {
   //   return Future.value();
   // }
 
-  void initalizeFLogConfiguration() {
+  void initializeFLogConfiguration() {
     FLog.applyConfigurations(
       LogsConfig()..activeLogLevel = LogLevel.ALL,
     );
   }
 
-  Future<void> checkforAppUpdate() async {
+  Future<void> checkForAppUpdate() async {
     //! Wait for SettingsBloc to be SettingsSuccess
     await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
 

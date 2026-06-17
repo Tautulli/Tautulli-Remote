@@ -145,7 +145,7 @@ class ActivityModel extends Equatable {
   final int? transcodeProgress;
   @JsonKey(name: 'transcode_speed', fromJson: Cast.castToDouble)
   final double? transcodeSpeed;
-  @JsonKey(name: 'transcode_trottled', fromJson: Cast.castToBool)
+  @JsonKey(name: 'transcode_throttled', fromJson: Cast.castToBool)
   final bool? transcodeThrottled;
   @JsonKey(name: 'user_id', fromJson: Cast.castToInt)
   final int? userId;

@@ -34,7 +34,7 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
   mediaIndex: Cast.castToInt(json['media_index']),
   mediaInfo: MediaModel.mediaInfoModelFromJson(json['media_info'] as List?),
   mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
-  originalTitle: Cast.castToString(json['original_tital']),
+  originalTitle: Cast.castToString(json['original_title']),
   originallyAvailableAt: MediaModel.dateTimeFromString(
     json['originally_available_at'] as String?,
   ),
@@ -85,7 +85,7 @@ Map<String, dynamic> _$MediaModelToJson(
   'media_index': instance.mediaIndex,
   'media_info': instance.mediaInfo,
   'media_type': _$MediaTypeEnumMap[instance.mediaType],
-  'original_tital': instance.originalTitle,
+  'original_title': instance.originalTitle,
   'originally_available_at': instance.originallyAvailableAt?.toIso8601String(),
   'parentImageUri': instance.parentImageUri?.toString(),
   'parent_media_index': instance.parentMediaIndex,

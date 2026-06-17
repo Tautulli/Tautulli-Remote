@@ -26,18 +26,18 @@ class MaterialStyleShowMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialStyleSeasonMediaView(
+    return MaterialStyleShowMediaView(
       server: server,
       media: media,
     );
   }
 }
 
-class MaterialStyleSeasonMediaView extends StatelessWidget {
+class MaterialStyleShowMediaView extends StatelessWidget {
   final ServerModel server;
   final MediaModel media;
 
-  const MaterialStyleSeasonMediaView({
+  const MaterialStyleShowMediaView({
     super.key,
     required this.server,
     required this.media,

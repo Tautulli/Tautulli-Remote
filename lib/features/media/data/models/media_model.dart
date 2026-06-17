@@ -49,7 +49,7 @@ class MediaModel extends Equatable {
   final MediaInfoModel? mediaInfo;
   @JsonKey(name: 'media_type', fromJson: Cast.castStringToMediaType)
   final MediaType? mediaType;
-  @JsonKey(name: 'original_tital', fromJson: Cast.castToString)
+  @JsonKey(name: 'original_title', fromJson: Cast.castToString)
   final String? originalTitle;
   @JsonKey(name: 'originally_available_at', fromJson: dateTimeFromString)
   final DateTime? originallyAvailableAt;

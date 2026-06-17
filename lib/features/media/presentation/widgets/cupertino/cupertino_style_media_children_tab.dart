@@ -15,7 +15,7 @@ import '../../bloc/children_metadata_bloc.dart';
 import '../../pages/cupertino/cupertino_style_media_page.dart';
 import 'cupertino_style_media_list_poster.dart';
 import 'cupertino_style_media_list_thumbnail.dart';
-import 'customer_style_media_list_track.dart';
+import 'cupertino_style_media_list_track.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class CupertinoStyleMediaChildrenTab extends StatefulWidget {
@@ -132,7 +132,7 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
                       itemBuilder: (context, index) {
                         final track = state.children?[index];
 
-                        return CustomerStyleMediaListTrack(
+                        return CupertinoStyleMediaListTrack(
                           track: track!,
                           onTap: () async {
                             await Navigator.of(context).push(

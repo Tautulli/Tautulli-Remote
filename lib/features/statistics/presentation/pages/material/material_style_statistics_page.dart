@@ -33,7 +33,7 @@ import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
 import '../../widgets/base/top_statistic_details.dart';
 import '../../widgets/base/top_users_statistic_details.dart';
-import '../../widgets/base/last_watched_statistic_detials.dart';
+import '../../widgets/base/last_watched_statistic_details.dart';
 import '../../widgets/base/most_concurrent_statistic_details.dart';
 import '../../widgets/base/popular_statistic_details.dart';
 import '../../widgets/material/material_style_statistics_heading.dart';
