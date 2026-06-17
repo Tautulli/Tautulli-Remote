@@ -124,7 +124,10 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
             background: widget.backgroundColor != null
                 ? DecoratedBox(
                     decoration: BoxDecoration(
-                      color: widget.backgroundColor,
+                      color: Color.alphaBlend(
+                        Colors.black.withValues(alpha: 0.6),
+                        widget.backgroundColor!,
+                      ),
                     ),
                   )
                 : BlocBuilder<UserIndividualBloc, UserIndividualState>(
@@ -140,7 +143,12 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
 
                           return DecoratedBox(
                             decoration: BoxDecoration(
-                              color: color,
+                              color: color != null
+                                  ? Color.alphaBlend(
+                                      Colors.black.withValues(alpha: 0.6),
+                                      color,
+                                    )
+                                  : null,
                             ),
                           );
                         },
