@@ -42,8 +42,10 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_scrollController == null) {
-      _scrollController = PrimaryScrollController.of(context);
+    final newController = PrimaryScrollController.of(context);
+    if (newController != _scrollController) {
+      _scrollController?.removeListener(_onScroll);
+      _scrollController = newController;
       _scrollController!.addListener(_onScroll);
     }
   }
