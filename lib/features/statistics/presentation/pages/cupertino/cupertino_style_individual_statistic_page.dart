@@ -9,7 +9,6 @@ import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
-import '../../../../../core/types/media_type.dart';
 import '../../../../../core/types/stat_id_type.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_bottom_loader.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_icon_card.dart';
@@ -18,12 +17,12 @@ import '../../../../../core/widgets/cupertino/cupertino_style_poster_card.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../libraries/data/models/library_table_model.dart';
 import '../../../../libraries/presentation/widgets/cupertino/cupertino_style_library_card.dart';
-import '../../../../media/data/models/media_model.dart';
 import '../../../../media/presentation/pages/cupertino/cupertino_style_media_page.dart';
 import '../../../../users/data/models/user_table_model.dart';
 import '../../../../users/presentation/widgets/cupertino/cupertino_style_user_card.dart';
 import '../../../data/models/statistic_model.dart';
 import '../../bloc/statistics_bloc.dart';
+import '../../../../../core/helpers/statistic_helper.dart';
 import '../../widgets/base/last_watched_statistic_detials.dart';
 import '../../widgets/base/most_concurrent_statistic_details.dart';
 import '../../widgets/base/popular_statistic_details.dart';
@@ -156,38 +155,9 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
       case (StatIdType.topMusic):
         return stat.stats.map(
           (statData) {
-            late MediaType? mediaType;
-            switch (statData.mediaType) {
-              case MediaType.album:
-                mediaType = MediaType.artist;
-                break;
-              case MediaType.episode:
-                mediaType = MediaType.show;
-                break;
-              case MediaType.season:
-                mediaType = MediaType.show;
-                break;
-              case MediaType.track:
-                mediaType = MediaType.artist;
-                break;
-              default:
-                mediaType = statData.mediaType;
-                break;
-            }
-
-            final media = MediaModel(
-              grandparentRatingKey: statData.grandparentRatingKey,
-              grandparentTitle: statData.grandparentTitle,
-              imageUri: statData.posterUri,
-              // live: statData.live,
-              mediaIndex: statData.mediaIndex,
-              mediaType: mediaType,
-              parentMediaIndex: statData.parentMediaIndex,
-              // parentRatingKey: statData.parentRatingKey,
-              // parentTitle: statData.parentTitle,
-              ratingKey: statData.ratingKey,
-              title: statData.title,
-              year: statData.year,
+            final media = buildMediaModelFromStatistic(
+              statData,
+              mediaTypeOverride: normalizeStatisticMediaType(statData.mediaType),
             );
 
             return CupertinoStylePosterCard(
@@ -219,46 +189,13 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) {
-                        late MediaType? mediaType;
-                        switch (statData.mediaType) {
-                          case MediaType.album:
-                            mediaType = MediaType.artist;
-                            break;
-                          case MediaType.episode:
-                            mediaType = MediaType.show;
-                            break;
-                          case MediaType.season:
-                            mediaType = MediaType.show;
-                            break;
-                          case MediaType.track:
-                            mediaType = MediaType.artist;
-                            break;
-                          default:
-                            mediaType = statData.mediaType;
-                            break;
-                        }
-
-                        final media = MediaModel(
-                          grandparentRatingKey: statData.grandparentRatingKey,
-                          grandparentTitle: statData.grandparentTitle,
-                          imageUri: statData.posterUri,
-                          // live: statData.live,
-                          mediaIndex: statData.mediaIndex,
-                          mediaType: mediaType,
-                          parentMediaIndex: statData.parentMediaIndex,
-                          // parentRatingKey: statData.parentRatingKey,
-                          // parentTitle: statData.parentTitle,
-                          ratingKey: statData.ratingKey,
-                          title: statData.title,
-                          year: statData.year,
-                        );
-
-                        return CupertinoStyleMediaPage(
-                          server: widget.server,
-                          media: media,
-                        );
-                      },
+                      builder: (context) => CupertinoStyleMediaPage(
+                        server: widget.server,
+                        media: buildMediaModelFromStatistic(
+                          statData,
+                          mediaTypeOverride: normalizeStatisticMediaType(statData.mediaType),
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -275,27 +212,10 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                 onTap: () async {
                   await Navigator.of(context).push(
                     CupertinoPageRoute(
-                      builder: (context) {
-                        final media = MediaModel(
-                          grandparentRatingKey: statData.grandparentRatingKey,
-                          grandparentTitle: statData.grandparentTitle,
-                          imageUri: statData.posterUri,
-                          // live: statData.live,
-                          mediaIndex: statData.mediaIndex,
-                          mediaType: statData.mediaType,
-                          parentMediaIndex: statData.parentMediaIndex,
-                          // parentRatingKey: statData.parentRatingKey,
-                          // parentTitle: statData.parentTitle,
-                          ratingKey: statData.ratingKey,
-                          title: statData.title,
-                          year: statData.year,
-                        );
-
-                        return CupertinoStyleMediaPage(
-                          server: widget.server,
-                          media: media,
-                        );
-                      },
+                      builder: (context) => CupertinoStyleMediaPage(
+                        server: widget.server,
+                        media: buildMediaModelFromStatistic(statData),
+                      ),
                     ),
                   );
                 },
