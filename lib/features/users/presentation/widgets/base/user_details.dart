@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/widgets/base/sensitive_text.dart';
+import '../../../../../core/widgets/base/statistic_duration_rich_text.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/user_table_model.dart';
@@ -69,10 +70,6 @@ class UserDetails extends StatelessWidget {
   }
 
   Widget _playsAndDuration(BuildContext context) {
-    Map<String, int> durationMap = TimeHelper.durationMap(
-      Duration(seconds: user.duration ?? 0),
-    );
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -108,100 +105,9 @@ class UserDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    if (durationMap['day']! > 1 ||
-                        durationMap['hour']! > 1 ||
-                        durationMap['min']! > 1 ||
-                        durationMap['sec']! > 1)
-                      TextSpan(
-                        text: '${LocaleKeys.time_title.tr()} ',
-                      ),
-                    if (durationMap['day']! > 0)
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: durationMap['day'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' ${LocaleKeys.days.tr()} ',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    if (durationMap['hour']! > 0)
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: durationMap['hour'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' ${LocaleKeys.hrs.tr()} ',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    if (durationMap['min']! > 0)
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: durationMap['min'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' ${LocaleKeys.mins.tr()}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    if (durationMap['day']! < 1 &&
-                        durationMap['hour']! < 1 &&
-                        durationMap['min']! < 1 &&
-                        durationMap['sec']! > 0)
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: durationMap['sec'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' ${LocaleKeys.secs.tr()}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                  style: TextStyle(
-                    color: textColor,
-                  ),
-                ),
+              StatisticDurationRichText(
+                duration: Duration(seconds: user.duration ?? 0),
+                textColor: textColor,
               ),
             ],
           ),
