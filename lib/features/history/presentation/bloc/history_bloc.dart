@@ -13,6 +13,7 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/history_model.dart';
 import '../../domain/usecases/history.dart';
+import '../../../../core/helpers/history_bloc_helpers.dart';
 
 part 'history_event.dart';
 part 'history_state.dart';
@@ -50,12 +51,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     required this.logging,
     required this.settingsBloc,
   }) : super(
-          HistoryState(
-            history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
-            userId: userIdCache,
-            hasReachedMax: hasReachedMaxCache,
-          ),
-        ) {
+         HistoryState(
+           history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
+           userId: userIdCache,
+           hasReachedMax: hasReachedMaxCache,
+         ),
+       ) {
     on<HistoryFetched>(
       _onHistoryFetched,
       transformer: throttleDroppable(throttleDuration),
@@ -223,8 +224,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         );
 
         // Add posters to history models
-        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
+        List<HistoryModel> historyListWithUris = await historyModelsWithPosterUris(
+          tautulliId: event.server.tautulliId,
           historyList: history.value1,
+          imageUrl: imageUrl,
+          settingsBloc: settingsBloc,
+          logging: logging,
         );
 
         historyCache[event.server.tautulliId] = historyCache[event.server.tautulliId]! + historyListWithUris;
@@ -239,45 +244,5 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         );
       },
     );
-  }
-
-  Future<List<HistoryModel>> _historyModelsWithPosterUris({
-    required List<HistoryModel> historyList,
-  }) async {
-    List<HistoryModel> historyWithImages = [];
-
-    for (HistoryModel history in historyList) {
-      final failureOrImageUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliIdCache!,
-        img: history.thumb,
-        ratingKey: history.ratingKey,
-      );
-
-      await failureOrImageUrl.fold(
-        (failure) async {
-          logging.error(
-            'History :: Failed to fetch image url for ${history.id} [$failure]',
-          );
-
-          historyWithImages.add(history);
-        },
-        (imageUri) async {
-          settingsBloc.add(
-            SettingsUpdatePrimaryActive(
-              tautulliId: tautulliIdCache!,
-              primaryActive: imageUri.value2,
-            ),
-          );
-
-          historyWithImages.add(
-            history.copyWith(
-              posterUri: imageUri.value1,
-            ),
-          );
-        },
-      );
-    }
-
-    return historyWithImages;
   }
 }

@@ -183,6 +183,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
         // Add posters to library table models
         List<LibraryTableModel> libraryListWithUris = await _libraryTableModelsWithPosterUris(
+          tautulliId: event.server.tautulliId,
           libraryList: libraries.value1,
         );
 
@@ -201,6 +202,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   }
 
   Future<List<LibraryTableModel>> _libraryTableModelsWithPosterUris({
+    required String tautulliId,
     required List<LibraryTableModel> libraryList,
   }) async {
     List<LibraryTableModel> libraryTablesWithImages = [];
@@ -211,7 +213,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
       if (library.libraryThumb != null && library.libraryThumb!.startsWith('http')) {
         final failureOrIconUrl = await imageUrl.getImageUrl(
-          tautulliId: tautulliIdCache!,
+          tautulliId: tautulliId,
           img: library.libraryThumb,
         );
 
@@ -224,7 +226,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           (uri) async {
             settingsBloc.add(
               SettingsUpdatePrimaryActive(
-                tautulliId: tautulliIdCache!,
+                tautulliId: tautulliId,
                 primaryActive: uri.value2,
               ),
             );
@@ -235,7 +237,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       }
 
       final failureOrBackgroundUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliIdCache!,
+        tautulliId: tautulliId,
         img: library.thumb ?? library.libraryThumb,
       );
 
@@ -248,7 +250,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         (uri) async {
           settingsBloc.add(
             SettingsUpdatePrimaryActive(
-              tautulliId: tautulliIdCache!,
+              tautulliId: tautulliId,
               primaryActive: uri.value2,
             ),
           );

@@ -14,6 +14,7 @@ import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/history_model.dart';
+import '../../../../core/helpers/history_bloc_helpers.dart';
 
 part 'search_history_event.dart';
 part 'search_history_state.dart';
@@ -180,9 +181,12 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         );
 
         // Add posters to history models
-        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
+        List<HistoryModel> historyListWithUris = await historyModelsWithPosterUris(
           tautulliId: event.server.tautulliId,
           historyList: history.value1,
+          imageUrl: imageUrl,
+          settingsBloc: settingsBloc,
+          logging: logging,
         );
 
         return emit(
@@ -194,47 +198,6 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         );
       },
     );
-  }
-
-  Future<List<HistoryModel>> _historyModelsWithPosterUris({
-    required String tautulliId,
-    required List<HistoryModel> historyList,
-  }) async {
-    List<HistoryModel> historyWithImages = [];
-
-    for (HistoryModel history in historyList) {
-      final failureOrImageUrl = await imageUrl.getImageUrl(
-        tautulliId: tautulliId,
-        img: history.thumb,
-        ratingKey: history.ratingKey,
-      );
-
-      await failureOrImageUrl.fold(
-        (failure) async {
-          logging.error(
-            'History :: Failed to fetch image url for ${history.id} [$failure]',
-          );
-
-          historyWithImages.add(history);
-        },
-        (imageUri) async {
-          settingsBloc.add(
-            SettingsUpdatePrimaryActive(
-              tautulliId: tautulliId,
-              primaryActive: imageUri.value2,
-            ),
-          );
-
-          historyWithImages.add(
-            history.copyWith(
-              posterUri: imageUri.value1,
-            ),
-          );
-        },
-      );
-    }
-
-    return historyWithImages;
   }
 
   void _onSearchHistoryClear(
