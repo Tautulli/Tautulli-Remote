@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/model/flog/log.dart';
-import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../../../core/helpers/logging_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_refresh_page.dart';
@@ -136,7 +136,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
                 ),
               );
             } else {
-              List<Log> filteredLogs = _filterLogs(
+              List<Log> filteredLogs = filterLogs(
                 level: state.level,
                 logs: state.logs,
               );
@@ -217,46 +217,4 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
     );
   }
 
-  List<Log> _filterLogs({
-    required LogLevel level,
-    required List<Log> logs,
-  }) {
-    List<Log> filteredLogs = [];
-
-    for (Log log in logs) {
-      // Always display error, severe, or fatal
-      if ([
-        LogLevel.ERROR,
-        LogLevel.SEVERE,
-        LogLevel.FATAL,
-      ].contains(log.logLevel)) {
-        filteredLogs.add(log);
-      }
-      // If level is warning then also display warning log level
-      else if (level == LogLevel.WARNING && log.logLevel == LogLevel.WARNING) {
-        filteredLogs.add(log);
-      }
-      // If level is info then also display info and warning
-      else if (level == LogLevel.INFO &&
-          [
-            LogLevel.INFO,
-            LogLevel.WARNING,
-          ].contains(log.logLevel)) {
-        filteredLogs.add(log);
-      }
-      // If level is debug then also display debug, info, and warning
-      else if (level == LogLevel.DEBUG &&
-          [
-            LogLevel.DEBUG,
-            LogLevel.INFO,
-            LogLevel.WARNING,
-          ].contains(log.logLevel)) {
-        filteredLogs.add(log);
-      } else if (level == LogLevel.ALL) {
-        filteredLogs.add(log);
-      }
-    }
-
-    return filteredLogs;
-  }
 }
