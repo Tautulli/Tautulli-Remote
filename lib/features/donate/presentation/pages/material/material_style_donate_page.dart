@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../base/donate_helpers.dart';
 
 import '../../../../../core/device_info/device_info.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
@@ -65,37 +67,20 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
   }
 
   Future<void> _initialize() async {
-    await Purchases.setLogLevel(LogLevel.error);
-    // Update to app-specific api keys
-    await Purchases.configure(PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
-
-    CustomerInfo customerInfo;
-    Offerings offerings;
-
-    customerInfo = await Purchases.getCustomerInfo();
-    offerings = await Purchases.getOfferings();
+    final result = await loadDonateData();
 
     if (!mounted) return;
 
     setState(() {
-      _customerInfo = customerInfo;
-      _offerings = offerings;
+      _customerInfo = result.customerInfo;
+      _offerings = result.offerings;
     });
   }
 
   void _buyProduct(Package package) async {
     try {
-      if (_customerInfo!.activeSubscriptions.isNotEmpty) {
-        String activeSku = _customerInfo!.activeSubscriptions[0];
-        _customerInfo = (await Purchases.purchase(
-          PurchaseParams.package(
-            package,
-            productChangeInfo: StoreProductChangeInfo(activeSku),
-          ),
-        )).customerInfo;
-      } else {
-        _customerInfo = (await Purchases.purchase(PurchaseParams.package(package))).customerInfo;
-      }
+      _customerInfo = await purchaseDonatePackage(_customerInfo!, package);
+
       if (!mounted) return;
       setState(() {});
 

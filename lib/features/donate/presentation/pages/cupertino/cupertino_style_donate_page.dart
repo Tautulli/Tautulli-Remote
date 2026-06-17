@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../base/donate_helpers.dart';
+
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_status_page.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
@@ -60,37 +62,20 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
   }
 
   Future<void> _initialize() async {
-    await Purchases.setLogLevel(LogLevel.error);
-    // Update to app-specific api keys
-    await Purchases.configure(PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
-
-    CustomerInfo customerInfo;
-    Offerings offerings;
-
-    customerInfo = await Purchases.getCustomerInfo();
-    offerings = await Purchases.getOfferings();
+    final result = await loadDonateData();
 
     if (!mounted) return;
 
     setState(() {
-      _customerInfo = customerInfo;
-      _offerings = offerings;
+      _customerInfo = result.customerInfo;
+      _offerings = result.offerings;
     });
   }
 
   void _buyProduct(Package package) async {
     try {
-      if (_customerInfo!.activeSubscriptions.isNotEmpty) {
-        String activeSku = _customerInfo!.activeSubscriptions[0];
-        _customerInfo = (await Purchases.purchase(
-          PurchaseParams.package(
-            package,
-            productChangeInfo: StoreProductChangeInfo(activeSku),
-          ),
-        )).customerInfo;
-      } else {
-        _customerInfo = (await Purchases.purchase(PurchaseParams.package(package))).customerInfo;
-      }
+      _customerInfo = await purchaseDonatePackage(_customerInfo!, package);
+
       if (!mounted) return;
       setState(() {});
 
