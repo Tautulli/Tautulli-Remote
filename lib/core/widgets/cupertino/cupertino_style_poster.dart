@@ -25,31 +25,24 @@ class CupertinoStylePoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HeroMode(
-      enabled: true,
-      child: Builder(
-        builder: (context) {
-          if ([
-            MediaType.album,
-            MediaType.artist,
-            MediaType.track,
-            MediaType.playlist,
-            MediaType.photo,
-            MediaType.photoAlbum,
-          ].contains(mediaType)) {
-            return _PosterSquare(
-              uri: uri,
-              activityState: activityState,
-              opaqueBackground: opaqueBackground,
-            );
-          }
+    if ([
+      MediaType.album,
+      MediaType.artist,
+      MediaType.track,
+      MediaType.playlist,
+      MediaType.photo,
+      MediaType.photoAlbum,
+    ].contains(mediaType)) {
+      return _PosterSquare(
+        uri: uri,
+        activityState: activityState,
+        opaqueBackground: opaqueBackground,
+      );
+    }
 
-          return _PosterRegular(
-            uri: uri,
-            activityState: activityState,
-          );
-        },
-      ),
+    return _PosterRegular(
+      uri: uri,
+      activityState: activityState,
     );
   }
 }
