@@ -26,34 +26,9 @@ class GraphHelper {
     }).reduce(max).toDouble();
 
     // Calculate Horizontal Line Step
-    late double horizontalLineStep;
-    if (yAxis == PlayMetricType.time) {
-      List<double> bins = [1800, 3600, 10800, 21600];
-
-      late double durationBin;
-
-      // If max y is more than 21600s (6h) then calculate a new bin in
-      // increments of 21600s
-      if (maxYValue > bins[bins.length - 1]) {
-        durationBin = (maxYValue / 21600).ceilToDouble() * 21600;
-      } else {
-        for (double b in bins) {
-          if (maxYValue <= b) {
-            durationBin = b;
-            break;
-          }
-        }
-      }
-
-      horizontalLineStep = durationBin / 6;
-    } else {
-      horizontalLineStep = (maxYValue / 5).ceilToDouble();
-    }
+    final double horizontalLineStep = _computeHorizontalLineStep(yAxis, maxYValue);
 
     // Left Reserved Size
-    int longestYValue = 0;
-    late double leftReservedSize;
-
     int largestValue = 0;
     for (int i = 0; i < graphData.categories.length; i++) {
       num barHeight = 0;
@@ -63,39 +38,8 @@ class GraphHelper {
       if (barHeight > largestValue) largestValue = barHeight.toInt();
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
-
-    if (yAxis == PlayMetricType.plays) {
-      longestYValue = (horizontalLineStep * numberOfLines).toInt().toString().length;
-    } else {
-      for (int i = 1; i < numberOfLines + 1; i++) {
-        final int durationCharacterLength = GraphHelper.graphDuration(
-          (horizontalLineStep * i).toInt(),
-          useDays: false,
-        ).length;
-
-        if (durationCharacterLength > longestYValue) {
-          longestYValue = durationCharacterLength;
-        }
-      }
-    }
-
-    if (longestYValue < 3) {
-      leftReservedSize = 19 * textScaleFactor;
-    } else if (longestYValue == 3) {
-      leftReservedSize = 26 * textScaleFactor;
-    } else if (longestYValue == 4) {
-      leftReservedSize = 33 * textScaleFactor;
-    } else if (longestYValue == 5) {
-      leftReservedSize = 41 * textScaleFactor;
-    } else if (longestYValue == 6) {
-      leftReservedSize = 48 * textScaleFactor;
-    } else if (longestYValue == 7) {
-      leftReservedSize = 55 * textScaleFactor;
-    } else if (longestYValue == 8) {
-      leftReservedSize = 62 * textScaleFactor;
-    } else {
-      leftReservedSize = 66 * textScaleFactor;
-    }
+    final int longestYValue = _computeLongestYValue(yAxis, horizontalLineStep, numberOfLines);
+    final double leftReservedSize = _computeLeftReservedSize(longestYValue, textScaleFactor);
 
     // Calculate Vertical Line Step
     double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
@@ -273,34 +217,9 @@ class GraphHelper {
     double maxYValue = allYValues.reduce(max).toDouble();
 
     // Calculate Horizontal Line Step
-    late double horizontalLineStep;
-    if (yAxis == PlayMetricType.time) {
-      List<double> bins = [1800, 3600, 10800, 21600];
-
-      late double durationBin;
-
-      // If max y is more than 21600s (6h) then calculate a new bin in
-      // increments of 21600s
-      if (maxYValue > bins[bins.length - 1]) {
-        durationBin = (maxYValue / 21600).ceilToDouble() * 21600;
-      } else {
-        for (double b in bins) {
-          if (maxYValue <= b) {
-            durationBin = b;
-            break;
-          }
-        }
-      }
-
-      horizontalLineStep = durationBin / 6;
-    } else {
-      horizontalLineStep = (maxYValue / 5).ceilToDouble();
-    }
+    final double horizontalLineStep = _computeHorizontalLineStep(yAxis, maxYValue);
 
     // Left Reserved Size
-    int longestYValue = 0;
-    late double leftReservedSize;
-
     int largestValue = 0;
     for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
       final int largestDataPoint = seriesDataModel.seriesData.cast<int>().reduce(max);
@@ -309,39 +228,8 @@ class GraphHelper {
       }
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
-
-    if (yAxis == PlayMetricType.plays) {
-      longestYValue = (horizontalLineStep * numberOfLines).toInt().toString().length;
-    } else {
-      for (int i = 1; i < numberOfLines + 1; i++) {
-        final int durationCharacterLength = GraphHelper.graphDuration(
-          (horizontalLineStep * i).toInt(),
-          useDays: false,
-        ).length;
-
-        if (durationCharacterLength > longestYValue) {
-          longestYValue = durationCharacterLength;
-        }
-      }
-    }
-
-    if (longestYValue < 3) {
-      leftReservedSize = 19 * textScaleFactor;
-    } else if (longestYValue == 3) {
-      leftReservedSize = 26 * textScaleFactor;
-    } else if (longestYValue == 4) {
-      leftReservedSize = 33 * textScaleFactor;
-    } else if (longestYValue == 5) {
-      leftReservedSize = 41 * textScaleFactor;
-    } else if (longestYValue == 6) {
-      leftReservedSize = 48 * textScaleFactor;
-    } else if (longestYValue == 7) {
-      leftReservedSize = 55 * textScaleFactor;
-    } else if (longestYValue == 8) {
-      leftReservedSize = 62 * textScaleFactor;
-    } else {
-      leftReservedSize = 66 * textScaleFactor;
-    }
+    final int longestYValue = _computeLongestYValue(yAxis, horizontalLineStep, numberOfLines);
+    final double leftReservedSize = _computeLeftReservedSize(longestYValue, textScaleFactor);
 
     // Calculate Vertical Line Step
     double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
@@ -435,5 +323,71 @@ class GraphHelper {
     }
 
     return '${time.inMinutes.remainder(60)}m';
+  }
+
+  static double _computeHorizontalLineStep(PlayMetricType yAxis, double maxYValue) {
+    if (yAxis == PlayMetricType.time) {
+      List<double> bins = [1800, 3600, 10800, 21600];
+
+      late double durationBin;
+
+      // If max y is more than 21600s (6h) then calculate a new bin in
+      // increments of 21600s
+      if (maxYValue > bins[bins.length - 1]) {
+        durationBin = (maxYValue / 21600).ceilToDouble() * 21600;
+      } else {
+        for (double b in bins) {
+          if (maxYValue <= b) {
+            durationBin = b;
+            break;
+          }
+        }
+      }
+
+      return durationBin / 6;
+    } else {
+      return (maxYValue / 5).ceilToDouble();
+    }
+  }
+
+  static int _computeLongestYValue(PlayMetricType yAxis, double horizontalLineStep, double numberOfLines) {
+    int longestYValue = 0;
+
+    if (yAxis == PlayMetricType.plays) {
+      longestYValue = (horizontalLineStep * numberOfLines).toInt().toString().length;
+    } else {
+      for (int i = 1; i < numberOfLines + 1; i++) {
+        final int durationCharacterLength = GraphHelper.graphDuration(
+          (horizontalLineStep * i).toInt(),
+          useDays: false,
+        ).length;
+
+        if (durationCharacterLength > longestYValue) {
+          longestYValue = durationCharacterLength;
+        }
+      }
+    }
+
+    return longestYValue;
+  }
+
+  static double _computeLeftReservedSize(int longestYValue, double textScaleFactor) {
+    if (longestYValue < 3) {
+      return 19 * textScaleFactor;
+    } else if (longestYValue == 3) {
+      return 26 * textScaleFactor;
+    } else if (longestYValue == 4) {
+      return 33 * textScaleFactor;
+    } else if (longestYValue == 5) {
+      return 41 * textScaleFactor;
+    } else if (longestYValue == 6) {
+      return 48 * textScaleFactor;
+    } else if (longestYValue == 7) {
+      return 55 * textScaleFactor;
+    } else if (longestYValue == 8) {
+      return 62 * textScaleFactor;
+    } else {
+      return 66 * textScaleFactor;
+    }
   }
 }
