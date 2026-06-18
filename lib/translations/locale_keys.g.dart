@@ -416,6 +416,7 @@ abstract class  LocaleKeys {
   static const visuals_title = 'visuals_title';
   static const password_title = 'password_title';
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
+  static const qr_code_unsupported_dialog_title = 'qr_code_unsupported_dialog_title';
   static const view_on_plex_title = 'view_on_plex_title';
   static const waiting_for_wizard_message = 'waiting_for_wizard_message';
   static const warning_title = 'warning_title';

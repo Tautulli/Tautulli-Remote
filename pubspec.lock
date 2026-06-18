@@ -613,14 +613,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.8"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      sha256: "3854fe5e3bff0b113c658f260b90c95dea17c92db0f2addeac2e343dd9969785"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.35"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -887,6 +879,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  mobile_scanner:
+    dependency: "direct main"
+    description:
+      name: mobile_scanner
+      sha256: c92c26bf2231695b6d3477c8dcf435f51e28f87b1745966b1fe4c47a286171ce
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.0"
   nested:
     dependency: transitive
     description:
@@ -1327,14 +1327,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.6"
-  simple_barcode_scanner:
-    dependency: "direct main"
-    description:
-      name: simple_barcode_scanner
-      sha256: "5fccfd0fa39332fb4b205fe41a80e8a6529f466454863335f2a92d46fc9aa2ca"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.0"
   simple_moment:
     dependency: "direct main"
     description:
@@ -1677,14 +1669,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1+10"
-  webview_windows:
-    dependency: transitive
-    description:
-      name: webview_windows
-      sha256: "47fcad5875a45db29dbb5c9e6709bf5c88dcc429049872701343f91ed7255730"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   win32:
     dependency: transitive
     description:

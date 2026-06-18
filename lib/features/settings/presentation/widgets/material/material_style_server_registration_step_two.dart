@@ -62,7 +62,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
               child: const Text(LocaleKeys.scan_qr_code_title).tr(),
               onPressed: () async {
                 try {
-                  final qrCodeScan = await di.sl<QrCodeScanner>().scan(context);
+                  final qrCodeScan = await di.sl<QrCodeScanner>().scan();
                   if (qrCodeScan != null) {
                     widget.primaryController.text = qrCodeScan.value1;
                     widget.tokenController.text = qrCodeScan.value2;

@@ -412,6 +412,7 @@
     "visuals_title": "Visuals",
     "password_title": "Password",
     "qr_code_scan_error_snackbar_message": "Error scanning QR code",
+    "qr_code_unsupported_dialog_title": "Unsupported QR Code",
     "view_on_plex_title": "View On Plex",
     "waiting_for_wizard_message": "Waiting for the setup wizard to complete",
     "warning_title": "Warning",

@@ -52,6 +52,7 @@ dependencies:
   http: ^1.6.0
   im_stepper: ^1.0.1+1
   json_annotation: ^4.12.0
+  mobile_scanner: ^7.2.0
   onesignal_flutter: ^5.5.8
   package_info_plus: ^10.1.0
   palette_generator_master: ^1.1.0
@@ -66,7 +67,6 @@ dependencies:
   share_plus: ^13.1.0
   shared_preferences: ^2.5.5
   shorebird_code_push: ^2.0.6
-  simple_barcode_scanner: ^0.6.0
   simple_moment:
     git:
       url: https://github.com/TheMeanCanEHdian/simple_moment.git
