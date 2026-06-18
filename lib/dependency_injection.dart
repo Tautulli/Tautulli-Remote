@@ -518,13 +518,10 @@ Future<void> init() async {
     ),
   );
 
-  // Use case
-  sl.registerLazySingleton(
-    () => Logging(
-      repository: sl(),
-    ),
+  // Data sources
+  sl.registerLazySingleton<LoggingDataSource>(
+    () => LoggingDataSourceImpl(),
   );
-  Cast.setLogger(sl<Logging>());
 
   // Repository
   sl.registerLazySingleton<LoggingRepository>(
@@ -533,10 +530,13 @@ Future<void> init() async {
     ),
   );
 
-  // Data sources
-  sl.registerLazySingleton<LoggingDataSource>(
-    () => LoggingDataSourceImpl(),
+  // Use case
+  sl.registerLazySingleton(
+    () => Logging(
+      repository: sl(),
+    ),
   );
+  Cast.setLogger(sl<Logging>());
 
   //! Features - Media
   // Bloc
