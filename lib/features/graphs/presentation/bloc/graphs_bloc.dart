@@ -120,7 +120,9 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
         );
       }
 
-      graphsCache = Map.of(defaultGraphs);
+      if (serverChange) {
+        graphsCache = Map.of(defaultGraphs);
+      }
       userIdCache = event.userId;
       tautulliIdCache = event.server.tautulliId;
       yAxisCache = event.yAxis;
