@@ -100,7 +100,6 @@ class OneSignalPrivacyBloc extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyS
   ) async {
     try {
       await oneSignal.optIn(false);
-      await oneSignal.grantConsent(false);
     } catch (e) {
       logging.error('OneSignal :: Failed to revoke consent [$e]');
       emit(OneSignalPrivacySuccess());
