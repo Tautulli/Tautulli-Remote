@@ -102,6 +102,8 @@ class FailureHelper {
         return LocaleKeys.error_message_database_init.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_message_invalid_api_key.tr();
+      case InvalidParamsFailure _:
+        return LocaleKeys.error_message_invalid_params.tr();
       // case JsonDecodeFailure _:
       //   return jsonMessage;
       case MissingServerFailure _:
@@ -145,6 +147,8 @@ class FailureHelper {
         return LocaleKeys.error_suggestion_generic.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_suggestion_invalid_api_key.tr();
+      case InvalidParamsFailure _:
+        return '';
       // case JsonDecodeFailure _:
       //   return checkConnectionAddressSuggestion;
       case MissingServerFailure _:

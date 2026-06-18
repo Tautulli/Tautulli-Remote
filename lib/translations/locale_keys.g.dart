@@ -130,6 +130,7 @@ abstract class  LocaleKeys {
   static const error_message_database_init = 'error_message_database_init';
   static const error_message_generic = 'error_message_generic';
   static const error_message_invalid_api_key = 'error_message_invalid_api_key';
+  static const error_message_invalid_params = 'error_message_invalid_params';
   static const error_message_no_servers = 'error_message_no_servers';
   static const error_message_server = 'error_message_server';
   static const error_message_server_version = 'error_message_server_version';

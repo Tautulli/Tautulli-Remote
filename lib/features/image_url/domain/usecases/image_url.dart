@@ -23,7 +23,7 @@ class ImageUrl {
     bool? refresh,
     bool? returnHash,
   }) async {
-    if (img == null && ratingKey == null) return Left(GenericFailure());
+    if (img == null && ratingKey == null) return Left(InvalidParamsFailure());
 
     return await repository(
       tautulliId: tautulliId,

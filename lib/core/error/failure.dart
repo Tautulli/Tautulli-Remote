@@ -33,6 +33,9 @@ class DioFailure extends Failure {}
 /// A catch-all Failure.
 class GenericFailure extends Failure {}
 
+/// Required API parameters were missing or null.
+class InvalidParamsFailure extends Failure {}
+
 /// Tautulli has responded with the error 'Invalid apikey'.
 class InvalidApiKeyFailure extends Failure {}
 

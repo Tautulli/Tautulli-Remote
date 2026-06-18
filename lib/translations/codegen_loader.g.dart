@@ -2935,6 +2935,7 @@ static const Map<String,dynamic> _en = {
   "error_message_database_init": "Failed to initialize database",
   "error_message_generic": "Unknown error",
   "error_message_invalid_api_key": "Invalid Device Token",
+  "error_message_invalid_params": "Missing required API parameters",
   "error_message_no_servers": "No servers are configured",
   "error_message_server": "Failed to connect to server",
   "error_message_server_version": "Server version does not meet requirements",
