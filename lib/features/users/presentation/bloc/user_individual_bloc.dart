@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -63,6 +65,9 @@ class UserIndividualBloc extends Bloc<UserIndividualEvent, UserIndividualState> 
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
           ),
         );
       },

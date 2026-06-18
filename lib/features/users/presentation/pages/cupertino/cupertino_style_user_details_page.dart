@@ -186,6 +186,8 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
                           ? TimeHelper.moment(state.user.lastSeen)
                           : widget.fetchUser && state.status == BlocStatus.initial
                           ? ''
+                          : widget.fetchUser && state.status == BlocStatus.failure
+                          ? ''
                           : LocaleKeys.never.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
