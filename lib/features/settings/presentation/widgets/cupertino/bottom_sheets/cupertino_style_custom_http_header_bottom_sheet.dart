@@ -132,6 +132,7 @@ class _CupertinoStyleCustomHttpHeaderBottomSheetState extends State<CupertinoSty
                         setState(() {
                           _selectedSegment = value;
                         });
+                        _keyFocus.requestFocus();
                       }
                     },
                     disabledChildren: _authHeaderExists ? {CustomHttpHeaderType.basic} : {},
