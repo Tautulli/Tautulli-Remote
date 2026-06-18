@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
 
-import '../../helpers/theme_helper.dart';
 
 class CupertinoStyleCard extends StatelessWidget {
   final Widget child;
@@ -38,9 +37,7 @@ class CupertinoStyleCard extends StatelessWidget {
               if (showLoading)
                 Positioned.fill(
                   child: Container(
-                    color: ThemeHelper.darkenedColor(
-                      CupertinoTheme.of(context).scaffoldBackgroundColor,
-                    ).withValues(alpha: 0.40),
+                    color: CupertinoColors.black.withValues(alpha: 0.30),
                     child: const Center(
                       child: CupertinoActivityIndicator(),
                     ),
