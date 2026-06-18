@@ -254,7 +254,7 @@ class _DeviceDetails extends StatelessWidget {
                   return Text(
                     snapshot.data.toString(),
                     textAlign: TextAlign.end,
-                  );
+                  ).sensitive();
                 },
               ),
             ),
@@ -475,7 +475,7 @@ class _OneSignalStatus extends StatelessWidget {
                         child: Text(
                           state.userId,
                           textAlign: TextAlign.end,
-                        ),
+                        ).sensitive(),
                       ),
                     ],
                   ),
@@ -613,7 +613,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.plexIdentifier,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
@@ -625,7 +625,7 @@ class _ServerGroup extends StatelessWidget {
                       child: Text(
                         server.tautulliId,
                         textAlign: TextAlign.end,
-                      ),
+                      ).sensitive(),
                     ),
                   ],
                 ),
