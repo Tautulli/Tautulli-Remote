@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api/tautulli/tautulli_api.dart' as tautulli_api;
+import 'core/utilities/cast.dart';
 import 'core/database/data/datasources/database.dart';
 import 'core/device_info/device_info.dart';
 import 'core/local_storage/local_storage.dart';
@@ -523,6 +524,7 @@ Future<void> init() async {
       repository: sl(),
     ),
   );
+  Cast.setLogger(sl<Logging>());
 
   // Repository
   sl.registerLazySingleton<LoggingRepository>(

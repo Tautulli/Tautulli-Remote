@@ -1,4 +1,3 @@
-import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
 import '../types/app_style.dart';
 import '../types/section_type.dart';
@@ -7,6 +6,13 @@ import '../types/theme_enhancement_type.dart';
 import '../types/theme_type.dart';
 
 class Cast {
+  // Injected once at app startup via Cast.setLogger(sl<Logging>()) in
+  // dependency_injection.dart. Kept nullable so Cast can be used in unit tests
+  // without a DI container — unrecognized enum values silently return their
+  // unknown fallback instead of throwing StateError from an unregistered type.
+  static Logging? _logger;
+  static void setLogger(Logging logger) => _logger = logger;
+
   //* Dart Types
 
   /// Casts value to a boolean.
@@ -146,7 +152,7 @@ class Cast {
       case ('total'):
         return GraphSeriesType.total;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to GraphSeriesType',
         );
         return GraphSeriesType.unknown;
@@ -167,7 +173,7 @@ class Cast {
       case (null):
         return Location.unknown;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to Location',
         );
         return Location.unknown;
@@ -208,7 +214,7 @@ class Cast {
       case ('track'):
         return MediaType.track;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to MediaType',
         );
         return MediaType.unknown;
@@ -231,7 +237,7 @@ class Cast {
       case ('playing'):
         return PlaybackState.playing;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to PlaybackState',
         );
         return PlaybackState.unknown;
@@ -250,7 +256,7 @@ class Cast {
       case ('duration'):
         return PlayMetricType.time;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to PlayMetricType',
         );
         return PlayMetricType.unknown;
@@ -273,7 +279,7 @@ class Cast {
       case ('show'):
         return SectionType.show;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to SectionType',
         );
         return SectionType.unknown;
@@ -310,7 +316,7 @@ class Cast {
       case ('top_users'):
         return StatIdType.topUsers;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to StatIdType',
         );
         return StatIdType.unknown;
@@ -333,7 +339,7 @@ class Cast {
       case (''):
         return StreamDecision.none;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to StreamDecision',
         );
         return StreamDecision.unknown;
@@ -357,7 +363,7 @@ class Cast {
       case ('ignore'):
         return SubtitleDecision.none;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to SubtitleDecision',
         );
         return SubtitleDecision.unknown;
@@ -378,7 +384,7 @@ class Cast {
       case ('SDR'):
         return VideoDynamicRange.sdr;
       default:
-        di.sl<Logging>().warning(
+        _logger?.warning(
           'Utilities :: Failed to cast $value to VideoDynamicRange',
         );
         return VideoDynamicRange.unknown;
