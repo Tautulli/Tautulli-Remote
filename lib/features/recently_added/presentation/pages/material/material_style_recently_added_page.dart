@@ -20,17 +20,15 @@ import '../../bloc/recently_added_bloc.dart';
 import '../../widgets/material/material_style_recently_added_card.dart';
 
 class MaterialStyleRecentlyAddedPage extends StatelessWidget {
-  final bool refreshOnLoad;
-
-  const MaterialStyleRecentlyAddedPage({
-    super.key,
-    this.refreshOnLoad = false,
-  });
+  const MaterialStyleRecentlyAddedPage({super.key});
 
   static const routeName = '/recent';
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final refreshOnLoad = args?['refreshOnLoad'] as bool? ?? false;
+
     return BlocProvider(
       create: (context) => di.sl<RecentlyAddedBloc>(param1: context.read<SettingsBloc>()),
       child: MaterialStyleRecentlyAddedView(refreshOnLoad: refreshOnLoad),

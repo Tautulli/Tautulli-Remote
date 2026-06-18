@@ -125,21 +125,15 @@ class TautulliRemoteState extends State<TautulliRemote> {
         } else {
           switch (action) {
             case ('watched'):
-              navigatorKey.currentState?.pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MaterialStyleHistoryPage(
-                    refreshOnLoad: true,
-                  ),
-                ),
+              navigatorKey.currentState?.pushReplacementNamed(
+                MaterialStyleHistoryPage.routeName,
+                arguments: {'refreshOnLoad': true},
               );
               return;
             case ('created'):
-              navigatorKey.currentState?.pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MaterialStyleRecentlyAddedPage(
-                    refreshOnLoad: true,
-                  ),
-                ),
+              navigatorKey.currentState?.pushReplacementNamed(
+                MaterialStyleRecentlyAddedPage.routeName,
+                arguments: {'refreshOnLoad': true},
               );
               return;
             default:

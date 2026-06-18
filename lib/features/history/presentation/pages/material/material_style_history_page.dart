@@ -21,17 +21,15 @@ import '../../widgets/material/material_style_history_card.dart';
 import 'material_style_history_search_page.dart';
 
 class MaterialStyleHistoryPage extends StatelessWidget {
-  final bool refreshOnLoad;
-
-  const MaterialStyleHistoryPage({
-    super.key,
-    this.refreshOnLoad = false,
-  });
+  const MaterialStyleHistoryPage({super.key});
 
   static const routeName = '/history';
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final refreshOnLoad = args?['refreshOnLoad'] as bool? ?? false;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
