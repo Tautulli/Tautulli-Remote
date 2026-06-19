@@ -483,11 +483,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         primaryConnectionPath: connectionAddress.path,
       );
     } else {
+      bool? newPrimaryActive;
+      if (isEmpty(connectionAddress.address) && currentState.serverList[index].primaryActive != true) {
+        newPrimaryActive = true;
+        await settings.updatePrimaryActive(
+          tautulliId: event.server.tautulliId,
+          primaryActive: true,
+        );
+      }
+
       updatedList[index] = currentState.serverList[index].copyWith(
         secondaryConnectionAddress: connectionAddress.address,
         secondaryConnectionProtocol: connectionAddress.protocol?.toShortString(),
         secondaryConnectionDomain: connectionAddress.domain,
         secondaryConnectionPath: connectionAddress.path,
+        primaryActive: newPrimaryActive,
       );
     }
 

@@ -61,15 +61,6 @@ class _CupertinoStyleServerConnectionAddressBottomSheetState
         trailing: CupertinoStyleBottomSheetSaveButton(
           onPressed: () {
             if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-              if (isEmpty(_controller.text) && widget.server.primaryActive != true) {
-                context.read<SettingsBloc>().add(
-                  SettingsUpdatePrimaryActive(
-                    tautulliId: widget.server.tautulliId,
-                    primaryActive: true,
-                  ),
-                );
-              }
-
               context.read<SettingsBloc>().add(
                 SettingsUpdateConnectionInfo(
                   primary: widget.primary,
