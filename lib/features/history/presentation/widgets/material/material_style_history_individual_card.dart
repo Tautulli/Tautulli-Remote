@@ -8,12 +8,11 @@ import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
-import '../../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/widgets/material/material_style_user_icon.dart';
 import '../../../data/models/history_model.dart';
-import 'bottom_sheets/material_style_history_bottom_sheet.dart';
+import '../../pages/material/material_style_history_details_page.dart';
 
 class MaterialStyleHistoryIndividualCard extends StatelessWidget {
   final ServerModel server;
@@ -106,25 +105,15 @@ class MaterialStyleHistoryIndividualCard extends StatelessWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => showModalBottomSheet(
-                  context: context,
-                  constraints: const BoxConstraints(
-                    maxWidth: 500,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MaterialStyleHistoryDetailsPage(
+                      server: server,
+                      history: history,
+                      viewUserEnabled: true,
+                      viewMediaEnabled: false,
+                    ),
                   ),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return BlocProvider.value(
-                      value: context.read<GeoIpBloc>(),
-                      child: MaterialStyleHistoryBottomSheet(
-                        server: server,
-                        history: history,
-                        viewUserEnabled: true,
-                        viewMediaEnabled: false,
-                      ),
-                    );
-                  },
                 ),
               ),
             ),

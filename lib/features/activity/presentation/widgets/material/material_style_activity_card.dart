@@ -7,15 +7,13 @@ import '../../../../../core/types/media_type.dart';
 import '../../../../../core/widgets/base/image_gradient_background.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../core/widgets/material/material_style_poster.dart';
-import '../../../../../dependency_injection.dart' as di;
 import '../../../../settings/data/models/custom_header_model.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
-import '../../bloc/terminate_stream_bloc.dart';
+import '../../pages/material/material_style_activity_details_page.dart';
 import '../base/activity_details.dart';
 import '../base/progress_bar.dart';
-import 'bottom_sheets/material_style_activity_bottom_sheet.dart';
 
 class MaterialStyleActivityCard extends StatefulWidget {
   final ServerModel server;
@@ -119,26 +117,16 @@ class _MaterialStyleActivityCardState extends State<MaterialStyleActivityCard> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () => showModalBottomSheet(
-                        context: context,
-                        constraints: const BoxConstraints(
-                          maxWidth: 500,
-                        ),
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return BlocProvider.value(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
                             value: _activityBloc,
-                            child: BlocProvider(
-                              create: (context) => di.sl<TerminateStreamBloc>(param1: context.read<SettingsBloc>()),
-                              child: MaterialStyleActivityBottomSheet(
-                                server: widget.server,
-                                activity: widget.activity,
-                              ),
+                            child: MaterialStyleActivityDetailsPage(
+                              server: widget.server,
+                              activity: widget.activity,
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -14,7 +14,7 @@ import '../../../../users/data/models/user_model.dart';
 import '../../../../users/presentation/pages/cupertino/cupertino_style_user_details_page.dart';
 import '../../../data/models/history_model.dart';
 import '../../widgets/base/history_details_info.dart';
-import '../../widgets/cupertino/cupertino_style_history_details_page_details.dart';
+import '../../widgets/base/history_details_page_details.dart';
 
 class CupertinoStyleHistoryDetailsPage extends StatelessWidget {
   final ServerModel server;
@@ -129,9 +129,21 @@ class CupertinoStyleHistoryDetailsView extends StatelessWidget {
                           ),
                           //* Details
                           Expanded(
-                            child: CupertinoStyleHistoryDetailsPageDetails(
-                              history: history,
-                              server: server,
+                            child: SingleChildScrollView(
+                              child: HistoryDetailsPageDetails(
+                                server: server,
+                                history: history,
+                                loadingIndicator: const Padding(
+                                  padding: EdgeInsets.only(top: 2, bottom: 2),
+                                  child: SizedBox(
+                                    width: 130,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CupertinoActivityIndicator(radius: 8),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],

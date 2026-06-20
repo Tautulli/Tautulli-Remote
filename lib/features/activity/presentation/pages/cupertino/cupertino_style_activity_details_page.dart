@@ -23,11 +23,10 @@ import '../../../data/models/activity_model.dart';
 import '../../bloc/activity_bloc.dart';
 import '../../bloc/terminate_stream_bloc.dart';
 import '../../widgets/base/progress_bar.dart';
+import '../../widgets/base/activity_details_page_details.dart';
+import '../../widgets/base/activity_details_progress.dart';
 import '../../widgets/cupertino/bottom_sheets/cupertino_style_terminate_stream_bottom_sheet.dart';
-import '../../widgets/cupertino/cupertino_style_activity_details_page_details.dart';
 import '../../widgets/cupertino/cupertino_style_activity_details_page_info.dart';
-import '../../widgets/cupertino/cupertino_style_progress_percent.dart';
-import '../../widgets/cupertino/cupertino_style_time_total.dart';
 
 class CupertinoStyleActivityDetailsPage extends StatelessWidget {
   final ServerModel server;
@@ -194,44 +193,36 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                               transcodeColor: ThemeHelper.cupertinoCardIconColor,
                               progressColor: CupertinoTheme.of(context).primaryColor,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 4, 10, 0),
-                              child: Row(
-                                children: [
-                                  if (activity.live != true &&
-                                      activity.duration != null &&
-                                      activity.viewOffset != null &&
-                                      activity.duration != null)
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          if (activity.progressPercent != null)
-                                            CupertinoStyleProgressPercent(progressPercent: activity.progressPercent!),
-                                          CupertinoStyleTimeTotal(
-                                            viewOffset: activity.viewOffset!,
-                                            duration: activity.duration!,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  if (activity.live == true)
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text('${activity.channelCallSign}'),
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
+                            ActivityDetailsProgress(activity: activity),
                             const Gap(8),
                             Expanded(
-                              child: CupertinoStyleActivityDetailsPageDetails(
-                                server: widget.server,
-                                activity: activity,
+                              child: SingleChildScrollView(
+                                child: ActivityDetailsPageDetails(
+                                  server: widget.server,
+                                  activity: activity,
+                                  arrowIcon: const Icon(
+                                    CupertinoIcons.arrow_right,
+                                    size: 17,
+                                    color: ThemeHelper.cupertinoBottomSheetTextColor,
+                                  ),
+                                  iconColor: ThemeHelper.cupertinoBottomSheetTextColor,
+                                  titleColor: ThemeHelper.cupertinoBottomSheetHeadingColor,
+                                  lockIcon: Icon(
+                                    activity.secure == true ? CupertinoIcons.lock_fill : CupertinoIcons.lock_open_fill,
+                                    size: 17,
+                                    color: ThemeHelper.cupertinoBottomSheetTextColor,
+                                  ),
+                                  loadingIndicator: const Padding(
+                                    padding: EdgeInsets.only(top: 2, bottom: 2),
+                                    child: SizedBox(
+                                      width: 130,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: CupertinoActivityIndicator(radius: 8),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
