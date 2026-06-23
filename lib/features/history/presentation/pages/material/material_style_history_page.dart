@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:gap/gap.dart';
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
 import '../../../../../core/types/bloc_status.dart';
-import '../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../core/widgets/material/material_style_bottom_loader.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
@@ -17,6 +17,9 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/history_bloc.dart';
+import '../../../../../core/widgets/material/bottom_sheets/material_style_user_filter_bottom_sheet.dart';
+import '../../widgets/material/bottom_sheets/material_style_history_actions_bottom_sheet.dart';
+import '../../widgets/material/bottom_sheets/material_style_history_filter_bottom_sheet.dart';
 import '../../widgets/material/material_style_history_card.dart';
 import 'material_style_history_search_page.dart';
 
@@ -87,13 +90,13 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
     _userId = _historyBloc.state.userId ?? -1;
 
     _filterMap = settingsState.appSettings.historyFilter;
-    _movieMediaType = _filterMap['movie'] ?? false;
-    _episodeMediaType = _filterMap['episode'] ?? false;
-    _trackMediaType = _filterMap['track'] ?? false;
-    _liveMediaType = _filterMap['live'] ?? false;
-    _directPlayDecision = _filterMap['directPlay'] ?? false;
-    _directStreamDecision = _filterMap['directStream'] ?? false;
-    _transcodeDecision = _filterMap['transcode'] ?? false;
+    _movieMediaType = _filterMap['movie'] ?? true;
+    _episodeMediaType = _filterMap['episode'] ?? true;
+    _trackMediaType = _filterMap['track'] ?? true;
+    _liveMediaType = _filterMap['live'] ?? true;
+    _directPlayDecision = _filterMap['directPlay'] ?? true;
+    _directStreamDecision = _filterMap['directStream'] ?? true;
+    _transcodeDecision = _filterMap['transcode'] ?? true;
 
     _historyBloc.add(
       HistoryFetched(
@@ -303,380 +306,160 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
           );
         },
       ),
-      BlocBuilder<UsersBloc, UsersState>(
-        builder: (context, state) {
-          return SizedBox(
-            width: 48,
-            child: Stack(
-              children: [
-                Center(
-                  child: PopupMenuButton(
-                    enabled: state.status == BlocStatus.success,
-                    icon: FaIcon(
-                      state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                      color: (_userId != -1 && _userId != null)
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSurface,
-                      size: 20,
-                    ),
-                    tooltip: LocaleKeys.select_user_title.tr(),
-                    onSelected: (value) {
-                      setState(() {
-                        _userId = value;
-                      });
-
-                      _historyBloc.add(
-                        HistoryFetched(
-                          server: _server,
-                          userId: _userId,
-                          movieMediaType: _movieMediaType,
-                          episodeMediaType: _episodeMediaType,
-                          trackMediaType: _trackMediaType,
-                          liveMediaType: _liveMediaType,
-                          directPlayDecision: _directPlayDecision,
-                          directStreamDecision: _directStreamDecision,
-                          transcodeDecision: _transcodeDecision,
-                          freshFetch: true,
-                        ),
-                      );
-                    },
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
-                    ),
-                    itemBuilder: (context) {
-                      return [
-                        PopupMenuItem(
-                          value: -1,
-                          child: Text(
-                            LocaleKeys.all_users_title.tr(),
-                            style: TextStyle(
-                              color: _userId == -1
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                        ),
-                        ...state.users.map(
-                          (user) => PopupMenuItem(
-                            value: user.userId,
-                            child: BlocBuilder<SettingsBloc, SettingsState>(
-                              builder: (context, state) {
-                                state as SettingsSuccess;
-
-                                return Text(
-                                  user.friendlyName ?? '',
-                                  style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                ).sensitive();
-                              },
-                            ),
-                          ),
-                        ),
-                      ];
-                    },
-                  ),
-                ),
-                if (state.status == BlocStatus.initial)
-                  Positioned(
-                    bottom: 12,
-                    right: 10,
-                    child: SizedBox(
-                      height: 12,
-                      width: 12,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-              ],
+      IconButton(
+        tooltip: LocaleKeys.history_actions_title.tr(),
+        icon: badges.Badge(
+          showBadge: (_userId != null && _userId != -1) || _filterOptionSelected(),
+          badgeAnimation: const badges.BadgeAnimation.fade(toAnimate: false),
+          position: badges.BadgePosition.bottomEnd(bottom: -5, end: -5),
+          badgeStyle: badges.BadgeStyle(
+            badgeColor: Theme.of(context).colorScheme.primary,
+            borderSide: BorderSide(
+              width: 2,
+              color: Theme.of(context).colorScheme.surface,
             ),
-          );
-        },
-      ),
-      // Wrapped in BlocBuilder to update the filter icon state when the server
-      // is changed.
-      BlocBuilder<UsersBloc, UsersState>(
-        builder: (context, state) {
-          return PopupMenuButton(
-            icon: FaIcon(
-              FontAwesomeIcons.filter,
-              color: _filterOptionSelected()
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurface,
-              size: 20,
-            ),
-            tooltip: LocaleKeys.filter_history_title.tr(),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(12),
+          ),
+          child: FaIcon(
+            FontAwesomeIcons.sliders,
+            size: 20,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        onPressed: () async {
+          final result = await showModalBottomSheet<String>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => BlocProvider.value(
+              value: context.read<UsersBloc>(),
+              child: MaterialStyleHistoryActionsBottomSheet(
+                userId: _userId,
+                filterApplied: _filterOptionSelected(),
               ),
             ),
-            itemBuilder: _filterOptions,
           );
+
+          if (!mounted) return;
+
+          if (result == 'user') {
+            final newUserId = await showModalBottomSheet<int>(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => BlocProvider.value(
+                value: context.read<UsersBloc>(),
+                child: MaterialStyleUserFilterBottomSheet(
+                  initialValue: _userId ?? -1,
+                ),
+              ),
+            );
+
+            if (newUserId != null && newUserId != _userId) {
+              setState(() {
+                _userId = newUserId;
+              });
+
+              _historyBloc.add(
+                HistoryFetched(
+                  server: _server,
+                  userId: _userId,
+                  movieMediaType: _movieMediaType,
+                  episodeMediaType: _episodeMediaType,
+                  trackMediaType: _trackMediaType,
+                  liveMediaType: _liveMediaType,
+                  directPlayDecision: _directPlayDecision,
+                  directStreamDecision: _directStreamDecision,
+                  transcodeDecision: _transcodeDecision,
+                  freshFetch: true,
+                ),
+              );
+            }
+          } else if (result == 'filter') {
+            final updatedMap = await showModalBottomSheet<Map<String, bool>>(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => MaterialStyleHistoryFilterBottomSheet(
+                filterMap: _filterMap,
+              ),
+            );
+
+            if (updatedMap != null) {
+              setState(() {
+                _filterMap = updatedMap;
+                _movieMediaType = updatedMap['movie'] ?? true;
+                _episodeMediaType = updatedMap['episode'] ?? true;
+                _trackMediaType = updatedMap['track'] ?? true;
+                _liveMediaType = updatedMap['live'] ?? true;
+                _directPlayDecision = updatedMap['directPlay'] ?? true;
+                _directStreamDecision = updatedMap['directStream'] ?? true;
+                _transcodeDecision = updatedMap['transcode'] ?? true;
+              });
+
+              _settingsBloc.add(SettingsUpdateHistoryFilter(updatedMap));
+
+              _historyBloc.add(
+                HistoryFetched(
+                  server: _server,
+                  userId: _userId,
+                  movieMediaType: _movieMediaType,
+                  episodeMediaType: _episodeMediaType,
+                  trackMediaType: _trackMediaType,
+                  liveMediaType: _liveMediaType,
+                  directPlayDecision: _directPlayDecision,
+                  directStreamDecision: _directStreamDecision,
+                  transcodeDecision: _transcodeDecision,
+                  freshFetch: true,
+                ),
+              );
+            }
+          } else if (result == 'clear') {
+            setState(() {
+              _userId = -1;
+              _movieMediaType = true;
+              _episodeMediaType = true;
+              _trackMediaType = true;
+              _liveMediaType = true;
+              _directPlayDecision = true;
+              _directStreamDecision = true;
+              _transcodeDecision = true;
+              _filterMap = {
+                'movie': true,
+                'episode': true,
+                'track': true,
+                'live': true,
+                'directPlay': true,
+                'directStream': true,
+                'transcode': true,
+              };
+            });
+
+            _settingsBloc.add(SettingsUpdateHistoryFilter(_filterMap));
+
+            _historyBloc.add(
+              HistoryFetched(
+                server: _server,
+                userId: _userId,
+                movieMediaType: _movieMediaType,
+                episodeMediaType: _episodeMediaType,
+                trackMediaType: _trackMediaType,
+                liveMediaType: _liveMediaType,
+                directPlayDecision: _directPlayDecision,
+                directStreamDecision: _directStreamDecision,
+                transcodeDecision: _transcodeDecision,
+                freshFetch: true,
+              ),
+            );
+          }
         },
       ),
     ];
   }
 
   bool _filterOptionSelected() {
-    return _movieMediaType ||
-        _episodeMediaType ||
-        _trackMediaType ||
-        _liveMediaType ||
-        _directPlayDecision ||
-        _directStreamDecision ||
-        _transcodeDecision;
-  }
-
-  List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {
-    ValueNotifier<bool> movieMediaTypeNotifier = ValueNotifier(_movieMediaType);
-    ValueNotifier<bool> episodeMediaTypeNotifier = ValueNotifier(_episodeMediaType);
-    ValueNotifier<bool> trackMediaTypeNotifier = ValueNotifier(_trackMediaType);
-    ValueNotifier<bool> liveMediaTypeNotifier = ValueNotifier(_liveMediaType);
-    ValueNotifier<bool> directPlayDecisionNotifier = ValueNotifier(_directPlayDecision);
-    ValueNotifier<bool> directStreamDecisionNotifier = ValueNotifier(_directStreamDecision);
-    ValueNotifier<bool> transcodeDecisionNotifier = ValueNotifier(_transcodeDecision);
-
-    return [
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: movieMediaTypeNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(LocaleKeys.movies_title.tr()),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _movieMediaType,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _movieMediaType = value;
-                    _filterMap['movie'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: movieMediaTypeNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: episodeMediaTypeNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(LocaleKeys.tv_shows_title.tr()),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _episodeMediaType,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _episodeMediaType = value;
-                    _filterMap['episode'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: episodeMediaTypeNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: trackMediaTypeNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(LocaleKeys.music_title.tr()),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _trackMediaType,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _trackMediaType = value;
-                    _filterMap['track'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: trackMediaTypeNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: liveMediaTypeNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(LocaleKeys.live_tv_title.tr()),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _liveMediaType,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _liveMediaType = value;
-                    _filterMap['live'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: liveMediaTypeNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      const PopupMenuDivider(),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: directPlayDecisionNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(
-              LocaleKeys.direct_play_title.tr(),
-            ),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _directPlayDecision,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _directPlayDecision = value;
-                    _filterMap['directPlay'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: directPlayDecisionNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: directStreamDecisionNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(
-              LocaleKeys.direct_stream_title.tr(),
-            ),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _directStreamDecision,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _directStreamDecision = value;
-                    _filterMap['directStream'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: directStreamDecisionNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-      PopupMenuItem(
-        padding: const EdgeInsets.all(0),
-        child: AnimatedBuilder(
-          animation: transcodeDecisionNotifier,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Text(
-              LocaleKeys.transcode_title.tr(),
-            ),
-          ),
-          builder: (context, child) {
-            return CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _transcodeDecision,
-              title: child,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _transcodeDecision = value;
-                    _filterMap['transcode'] = value;
-                  });
-                  _filterChanged(
-                    valueNotifier: transcodeDecisionNotifier,
-                    value: value,
-                  );
-                }
-              },
-            );
-          },
-        ),
-      ),
-    ];
-  }
-
-  void _filterChanged({
-    required ValueNotifier<bool> valueNotifier,
-    required bool value,
-  }) {
-    _settingsBloc.add(SettingsUpdateHistoryFilter(_filterMap));
-
-    valueNotifier.value = value;
-    _historyBloc.add(
-      HistoryFetched(
-        server: _server,
-        userId: _userId,
-        movieMediaType: _movieMediaType,
-        episodeMediaType: _episodeMediaType,
-        trackMediaType: _trackMediaType,
-        liveMediaType: _liveMediaType,
-        directPlayDecision: _directPlayDecision,
-        directStreamDecision: _directStreamDecision,
-        transcodeDecision: _transcodeDecision,
-        freshFetch: true,
-      ),
-    );
+    return !_movieMediaType ||
+        !_episodeMediaType ||
+        !_trackMediaType ||
+        !_liveMediaType ||
+        !_directPlayDecision ||
+        !_directStreamDecision ||
+        !_transcodeDecision;
   }
 }

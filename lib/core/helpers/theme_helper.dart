@@ -41,6 +41,10 @@ class ThemeHelper {
     required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
+    final surfaceColor = enhancement == ThemeEnhancementType.ultraContrastDark
+        ? PlexColorPalette.black
+        : TautulliColorPalette.midnight;
+
     return ThemeData(
       useMaterial3: true,
       colorScheme: SeedColorScheme.fromSeeds(
@@ -76,15 +80,16 @@ class ThemeHelper {
         onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark
             ? Colors.black
             : TautulliColorPalette.notWhite,
-        surface: enhancement == ThemeEnhancementType.ultraContrastDark
-            ? PlexColorPalette.black
-            : TautulliColorPalette.midnight,
+        surface: surfaceColor,
         onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         surfaceContainerHighest: const Color(0xff404040),
         onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark
             ? Colors.white
             : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: surfaceColor,
       ),
       appBarTheme: const AppBarTheme(
         scrolledUnderElevation: 0,
@@ -146,12 +151,17 @@ class ThemeHelper {
         ? FlexTones.ultraContrast(Brightness.dark)
         : FlexTones.chroma(Brightness.dark);
 
+    final colorScheme = SeedColorScheme.fromSeeds(
+      brightness: Brightness.dark,
+      tones: flexTones,
+      primaryKey: color,
+    );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: SeedColorScheme.fromSeeds(
-        brightness: Brightness.dark,
-        tones: flexTones,
-        primaryKey: color,
+      colorScheme: colorScheme,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colorScheme.surface,
       ),
       appBarTheme: const AppBarTheme(
         scrolledUnderElevation: 0,
