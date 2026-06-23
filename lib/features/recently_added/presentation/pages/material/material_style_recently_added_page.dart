@@ -17,6 +17,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/recently_added_bloc.dart';
+import '../../widgets/material/bottom_sheets/material_style_recently_added_filter_bottom_sheet.dart';
 import '../../widgets/material/material_style_recently_added_card.dart';
 
 class MaterialStyleRecentlyAddedPage extends StatelessWidget {
@@ -205,47 +206,32 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
+      IconButton(
         tooltip: LocaleKeys.filter_recently_added_title.tr(),
-        // Use BlocBuilder to update the state of the icon when server is
-        // changed without closing the inner drawer.
-        icon: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            return FaIcon(
-              FontAwesomeIcons.filter,
-              color: _mediaType != null
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurface,
-              size: 20,
-            );
-          },
+        icon: FaIcon(
+          FontAwesomeIcons.filter,
+          size: 20,
+          color: _mediaType != null
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurface,
         ),
-        onSelected: (String? value) {
-          bool changed = false;
+        onPressed: () async {
+          final result = await showModalBottomSheet<({MediaType? mediaType})>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => MaterialStyleRecentlyAddedFilterBottomSheet(
+              mediaType: _mediaType,
+            ),
+          );
 
-          setState(() {
-            final selectedMediaType = Cast.castStringToMediaType(value);
+          if (result != null && result.mediaType != _mediaType) {
+            setState(() {
+              _mediaType = result.mediaType;
+            });
 
-            if (selectedMediaType != _mediaType) {
-              if (selectedMediaType == MediaType.unknown) {
-                _mediaType = null;
-              } else {
-                _mediaType = selectedMediaType;
-              }
-              changed = true;
-            }
-          });
-
-          if (changed) {
-            if (_mediaType == null) {
-              _settingsBloc.add(
-                const SettingsUpdateRecentlyAddedFilter('all'),
-              );
-            } else {
-              _settingsBloc.add(
-                SettingsUpdateRecentlyAddedFilter(Cast.castToString(_mediaType) ?? 'all'),
-              );
-            }
+            _settingsBloc.add(
+              SettingsUpdateRecentlyAddedFilter(Cast.castToString(_mediaType) ?? 'all'),
+            );
 
             _recentlyAddedBloc.add(
               RecentlyAddedFetched(
@@ -255,60 +241,6 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
               ),
             );
           }
-        },
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              value: 'all',
-              child: Text(
-                LocaleKeys.all_title.tr(),
-                style: TextStyle(
-                  color: _mediaType == null ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              value: 'movie',
-              child: Text(
-                LocaleKeys.movies_title.tr(),
-                style: TextStyle(
-                  color: _mediaType == MediaType.movie ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              value: 'show',
-              child: Text(
-                LocaleKeys.tv_shows_title.tr(),
-                style: TextStyle(
-                  color: _mediaType == MediaType.show ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              value: 'artist',
-              child: Text(
-                LocaleKeys.music_title.tr(),
-                style: TextStyle(
-                  color: _mediaType == MediaType.artist ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              value: 'other_video',
-              child: Text(
-                LocaleKeys.videos_title.tr(),
-                style: TextStyle(
-                  color: _mediaType == MediaType.otherVideo ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ),
-          ];
         },
       ),
     ];
