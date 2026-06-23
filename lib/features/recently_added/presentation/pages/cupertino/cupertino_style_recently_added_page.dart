@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:badges/badges.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -294,44 +293,29 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
       children: [
         CupertinoButton(
           padding: const EdgeInsets.all(8),
-          child: Badge(
-            showBadge: _mediaType != null,
-            badgeAnimation: const BadgeAnimation.fade(toAnimate: false),
-            position: BadgePosition.bottomEnd(bottom: -3, end: -3),
-            badgeStyle: BadgeStyle(
-              badgeColor: CupertinoTheme.of(context).primaryColor,
-              borderSide: BorderSide(
-                width: 2,
-                color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-              ),
-            ),
-            child: const Icon(
-              CupertinoIcons.line_horizontal_3_decrease,
-              color: ThemeHelper.cupertinoNavigationBarItemColor,
-            ),
+          child: Icon(
+            CupertinoIcons.line_horizontal_3_decrease,
+            color: _mediaType != null
+                ? CupertinoTheme.of(context).primaryColor
+                : ThemeHelper.cupertinoNavigationBarItemColor,
           ),
           onPressed: () async {
-            MediaType? mediaType = await showCupertinoModalPopup(
+            final result = await showCupertinoModalPopup<({MediaType? mediaType})>(
               context: context,
               builder: (_) => CupertinoStyleRecentlyAddedFilterBottomSheet(
                 mediaType: _mediaType,
               ),
             );
 
-            if (mediaType != _mediaType) {
-              _mediaType = mediaType;
+            if (result != null && result.mediaType != _mediaType) {
+              setState(() {
+                _mediaType = result.mediaType;
+                _filterRefresh = true;
+              });
 
-              if (mediaType == null) {
-                _settingsBloc.add(
-                  const SettingsUpdateRecentlyAddedFilter('all'),
-                );
-              } else {
-                _settingsBloc.add(
-                  SettingsUpdateRecentlyAddedFilter(Cast.castToString(_mediaType) ?? 'all'),
-                );
-              }
-
-              _filterRefresh = true;
+              _settingsBloc.add(
+                SettingsUpdateRecentlyAddedFilter(Cast.castToString(_mediaType) ?? 'all'),
+              );
 
               _recentlyAddedBloc.add(
                 RecentlyAddedFetched(

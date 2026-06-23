@@ -25,27 +25,27 @@ class CupertinoStyleRecentlyAddedFilterBottomSheet extends StatelessWidget {
         hasLeading: false,
         children: [
           CupertinoStyleNotchedCupertinoListTile(
-            onTap: () => Navigator.of(context).pop(null),
+            onTap: () => Navigator.of(context).pop((mediaType: null)),
             titleText: LocaleKeys.all_title.tr(),
             trailing: mediaType == null ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            onTap: () => Navigator.of(context).pop(MediaType.movie),
+            onTap: () => Navigator.of(context).pop((mediaType: MediaType.movie)),
             titleText: LocaleKeys.movies_title.tr(),
             trailing: mediaType == MediaType.movie ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            onTap: () => Navigator.of(context).pop(MediaType.show),
+            onTap: () => Navigator.of(context).pop((mediaType: MediaType.show)),
             titleText: LocaleKeys.tv_shows_title.tr(),
             trailing: mediaType == MediaType.show ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            onTap: () => Navigator.of(context).pop(MediaType.artist),
+            onTap: () => Navigator.of(context).pop((mediaType: MediaType.artist)),
             titleText: LocaleKeys.music_title.tr(),
             trailing: mediaType == MediaType.artist ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
           CupertinoStyleNotchedCupertinoListTile(
-            onTap: () => Navigator.of(context).pop(MediaType.otherVideo),
+            onTap: () => Navigator.of(context).pop((mediaType: MediaType.otherVideo)),
             titleText: LocaleKeys.videos_title.tr(),
             trailing: mediaType == MediaType.otherVideo ? const Icon(CupertinoIcons.checkmark_alt) : null,
           ),
