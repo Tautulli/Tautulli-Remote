@@ -344,6 +344,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
           padding: const EdgeInsets.all(8),
           child: Badge(
             showBadge: _userId != -1,
+            badgeAnimation: const BadgeAnimation.fade(toAnimate: false),
             position: BadgePosition.bottomEnd(bottom: -3, end: -3),
             badgeStyle: BadgeStyle(
               badgeColor: CupertinoTheme.of(context).primaryColor,
