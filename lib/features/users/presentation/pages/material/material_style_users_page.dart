@@ -17,6 +17,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/users_table_bloc.dart';
+import '../../widgets/material/bottom_sheets/material_style_users_sort_bottom_sheet.dart';
 import '../../widgets/material/material_style_user_card.dart';
 import '../../widgets/base/user_details.dart';
 
@@ -212,20 +213,31 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        icon: _currentSortIcon(),
+      IconButton(
         tooltip: LocaleKeys.sort_users_title.tr(),
-        onSelected: (value) {
-          if (value != null) {
-            value as String;
-            List<String> values = value.split('|');
+        icon: FaIcon(
+          FontAwesomeIcons.upDown,
+          size: 20,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        onPressed: () async {
+          final result = await showModalBottomSheet<Map<String, String>>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => MaterialStyleUsersSortBottomSheet(
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+            ),
+          );
 
+          if (result != null &&
+              (result['orderColumn'] != _orderColumn || result['orderDir'] != _orderDir)) {
             setState(() {
-              _orderColumn = values[0];
-              _orderDir = values[1];
+              _orderColumn = result['orderColumn']!;
+              _orderDir = result['orderDir']!;
             });
 
-            _settingsBloc.add(SettingsUpdateUsersSort(value));
+            _settingsBloc.add(SettingsUpdateUsersSort('$_orderColumn|$_orderDir'));
             _usersTableBloc.add(
               UsersTableFetched(
                 server: _server,
@@ -236,123 +248,7 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
             );
           }
         },
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return <PopupMenuEntry<dynamic>>[
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _currentSortIcon(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      _currentSortName(),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem(
-              value: _orderColumn == 'friendly_name' && _orderDir == 'asc' ? 'friendly_name|desc' : 'friendly_name|asc',
-              child: Row(
-                children: [
-                  _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.arrowDownZA,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.arrowDownAZ,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.name_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: _orderColumn == 'last_seen' && _orderDir == 'desc' ? 'last_seen|asc' : 'last_seen|desc',
-              child: Row(
-                children: [
-                  _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.arrowDown91,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.arrowDown19,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.last_streamed_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-          ];
-        },
       ),
     ];
-  }
-
-  FaIcon _currentSortIcon({Color? color}) {
-    color ??= Theme.of(context).colorScheme.onSurface;
-
-    if (_orderColumn == 'friendly_name') {
-      if (_orderDir == 'asc') {
-        return FaIcon(
-          FontAwesomeIcons.arrowDownAZ,
-          size: 20,
-          color: color,
-        );
-      } else {
-        return FaIcon(
-          FontAwesomeIcons.arrowDownZA,
-          size: 20,
-          color: color,
-        );
-      }
-    }
-    if (_orderColumn == 'last_seen') {
-      if (_orderDir == 'asc') {
-        return FaIcon(
-          FontAwesomeIcons.arrowDown91,
-          size: 20,
-          color: color,
-        );
-      } else {
-        return FaIcon(
-          FontAwesomeIcons.arrowDown19,
-          size: 20,
-          color: color,
-        );
-      }
-    }
-
-    return const FaIcon(FontAwesomeIcons.circleQuestion);
-  }
-
-  String _currentSortName() {
-    switch (_orderColumn) {
-      case ('friendly_name'):
-        return LocaleKeys.name_title.tr();
-      case ('last_seen'):
-        return LocaleKeys.last_streamed_title.tr();
-      default:
-        return 'Unknown';
-    }
   }
 }
