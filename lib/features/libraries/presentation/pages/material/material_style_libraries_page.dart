@@ -15,6 +15,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../bloc/libraries_bloc.dart';
+import '../../widgets/material/bottom_sheets/material_style_libraries_sort_bottom_sheet.dart';
 import '../../widgets/material/material_style_library_card.dart';
 import '../../widgets/base/library_card_details.dart';
 
@@ -211,20 +212,30 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        icon: _currentSortIcon(),
+      IconButton(
         tooltip: LocaleKeys.sort_libraries_title.tr(),
-        onSelected: (value) {
-          if (value != null) {
-            value as String;
-            List<String> values = value.split('|');
+        icon: FaIcon(
+          FontAwesomeIcons.upDown,
+          size: 20,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        onPressed: () async {
+          final result = await showModalBottomSheet<Map<String, String>>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => MaterialStyleLibrariesSortBottomSheet(
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+            ),
+          );
 
+          if (result != null && (result['orderColumn'] != _orderColumn || result['orderDir'] != _orderDir)) {
             setState(() {
-              _orderColumn = values[0];
-              _orderDir = values[1];
+              _orderColumn = result['orderColumn']!;
+              _orderDir = result['orderDir']!;
             });
 
-            _settingsBloc.add(SettingsUpdateLibrariesSort(value));
+            _settingsBloc.add(SettingsUpdateLibrariesSort('$_orderColumn|$_orderDir'));
             _librariesBloc.add(
               LibrariesFetched(
                 server: _server,
@@ -235,172 +246,7 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
             );
           }
         },
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return <PopupMenuEntry<dynamic>>[
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _currentSortIcon(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      _currentSortName(),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem(
-              value: _orderColumn == 'section_name' && _orderDir == 'asc' ? 'section_name|desc' : 'section_name|asc',
-              child: Row(
-                children: [
-                  _orderColumn == 'section_name' && _orderDir == 'asc'
-                      ? FaIcon(
-                          FontAwesomeIcons.arrowDownZA,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      : FaIcon(
-                          FontAwesomeIcons.arrowDownAZ,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.name_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: _orderColumn == 'count' && _orderDir == 'desc' ? 'count|asc' : 'count|desc',
-              child: Row(
-                children: [
-                  _orderColumn == 'count' && _orderDir == 'desc'
-                      ? FaIcon(
-                          FontAwesomeIcons.arrowDown19,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      : FaIcon(
-                          FontAwesomeIcons.arrowDown91,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.count_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: _orderColumn == 'duration' && _orderDir == 'desc' ? 'duration|asc' : 'duration|desc',
-              child: Row(
-                children: [
-                  _orderColumn == 'duration' && _orderDir == 'desc'
-                      ? FaIcon(
-                          FontAwesomeIcons.arrowDown19,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      : FaIcon(
-                          FontAwesomeIcons.arrowDown91,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.time_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: _orderColumn == 'plays' && _orderDir == 'desc' ? 'plays|asc' : 'plays|desc',
-              child: Row(
-                children: [
-                  _orderColumn == 'plays' && _orderDir == 'desc'
-                      ? FaIcon(
-                          FontAwesomeIcons.arrowDown19,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      : FaIcon(
-                          FontAwesomeIcons.arrowDown91,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.plays_title).tr(),
-                  ),
-                ],
-              ),
-            ),
-          ];
-        },
       ),
     ];
-  }
-
-  FaIcon _currentSortIcon({Color? color}) {
-    color ??= Theme.of(context).colorScheme.onSurface;
-
-    if (_orderColumn == 'section_name') {
-      if (_orderDir == 'asc') {
-        return FaIcon(
-          FontAwesomeIcons.arrowDownAZ,
-          size: 20,
-          color: color,
-        );
-      } else {
-        return FaIcon(
-          FontAwesomeIcons.arrowDownZA,
-          size: 20,
-          color: color,
-        );
-      }
-    } else {
-      if (_orderDir == 'asc') {
-        return FaIcon(
-          FontAwesomeIcons.arrowDown19,
-          size: 20,
-          color: color,
-        );
-      } else {
-        return FaIcon(
-          FontAwesomeIcons.arrowDown91,
-          size: 20,
-          color: color,
-        );
-      }
-    }
-  }
-
-  String _currentSortName() {
-    switch (_orderColumn) {
-      case ('section_name'):
-        return LocaleKeys.name_title.tr();
-      case ('count'):
-        return LocaleKeys.count_title.tr();
-      case ('duration'):
-        return LocaleKeys.time_title.tr();
-      case ('plays'):
-        return LocaleKeys.plays_title.tr();
-      default:
-        return LocaleKeys.unknown_title.tr();
-    }
   }
 }
