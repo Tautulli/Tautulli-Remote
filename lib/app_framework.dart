@@ -93,6 +93,7 @@ class AppFramework extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
+          final bool appStyleChange = previous.appSettings.appStyle != current.appSettings.appStyle;
           final bool fontChange =
               previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible;
           final bool currentThemeIsDynamic = current.appSettings.theme == ThemeType.dynamic;
@@ -104,7 +105,8 @@ class AppFramework extends StatelessWidget {
           final bool themeEnhancementChange =
               previous.appSettings.themeEnhancement != current.appSettings.themeEnhancement;
 
-          if (fontChange ||
+          if (appStyleChange ||
+              fontChange ||
               themeChange ||
               themeEnhancementChange ||
               (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {

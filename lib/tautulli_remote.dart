@@ -322,23 +322,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (previous, current) {
-        if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (current.appSettings.appStyle != previous.appSettings.appStyle) {
-            return true;
-          }
-        }
-
-        return false;
-      },
-      builder: (context, state) {
-        final initialRoute = _initialRouteConsumed ? null : widget.initialRoute;
-        _initialRouteConsumed = true;
-        return AppFramework(
-          initialRoute: initialRoute,
-        );
-      },
-    );
+    final initialRoute = _initialRouteConsumed ? null : widget.initialRoute;
+    _initialRouteConsumed = true;
+    return AppFramework(initialRoute: initialRoute);
   }
 }
