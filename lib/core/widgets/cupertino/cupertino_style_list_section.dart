@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
+
+import '../../helpers/color_palette_helper.dart';
 
 class CupertinoStyleListSection extends StatelessWidget {
   final String? headerText;
@@ -21,13 +22,7 @@ class CupertinoStyleListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoListSection.insetGrouped(
       margin: margin,
-      decoration:
-          decoration?.copyWith(
-            color: TautulliColorPalette.smoke.withAlpha(22),
-          ) ??
-          BoxDecoration(
-            color: TautulliColorPalette.smoke.withAlpha(22),
-          ),
+      decoration: decoration ?? BoxDecoration(color: TautulliColorPalette.smoke.withAlpha(22)),
       hasLeading: hasLeading,
       header: headerText != null
           ? Text(

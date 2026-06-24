@@ -23,12 +23,38 @@ class CupertinoStyleServersGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoStyleListSection(
+      // Transparent decoration: the section has a single child (BlocBuilder), so
+      // CupertinoListSection renders no separators and no separator inset areas.
+      // Tiles provide their own backgrounds, allowing the placeholder opacity to
+      // show the darker scaffold color behind the drop target position.
+      decoration: const BoxDecoration(),
       margin: isWizard ? EdgeInsets.zero : null,
       headerText: isWizard ? null : LocaleKeys.servers_title.tr(),
       children: [
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             return ReorderableColumn(
+              // Reorderables' default feedback wraps in Material(elevation:6) + Card,
+              // which is correct for Material style but wrong here — it applies Material
+              // theming and rectangular corners instead of squircle.
+              buildDraggableFeedback: (context, constraints, child) {
+                return DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x40000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ClipRSuperellipse(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: ConstrainedBox(constraints: constraints, child: child),
+                  ),
+                );
+              },
               onReorder: (oldIndex, newIndex) {
                 if (state is SettingsSuccess) {
                   final int movedServerId = state.serverList[oldIndex].id!;

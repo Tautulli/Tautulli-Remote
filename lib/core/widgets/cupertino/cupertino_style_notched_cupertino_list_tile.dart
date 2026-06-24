@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:quiver/strings.dart';
 
+import '../../helpers/color_palette_helper.dart';
 import '../base/sensitive_text.dart';
 
 class CupertinoStyleNotchedCupertinoListTile extends StatelessWidget {
@@ -38,6 +39,10 @@ class CupertinoStyleNotchedCupertinoListTile extends StatelessWidget {
       child: CupertinoListTile.notched(
         // Padding ensures proper layout inside ReorderableColumn, no change to the look with these values
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+        backgroundColor: Color.alphaBlend(
+          TautulliColorPalette.smoke.withAlpha(22),
+          CupertinoTheme.of(context).scaffoldBackgroundColor,
+        ),
         title: Text(
           titleText,
           style: TextStyle(
