@@ -24,13 +24,13 @@ class MaterialStyleStatisticTypeBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _SelectTile(
-              icon: const FaIcon(FontAwesomeIcons.hashtag, size: 18),
+              icon: FaIcon(FontAwesomeIcons.hashtag, size: 18, color: Theme.of(context).colorScheme.onSurface),
               title: LocaleKeys.play_count_title.tr(),
               selected: initialValue == PlayMetricType.plays,
               onTap: () => Navigator.of(context).pop(PlayMetricType.plays),
             ),
             _SelectTile(
-              icon: const FaIcon(FontAwesomeIcons.solidClock, size: 18),
+              icon: FaIcon(FontAwesomeIcons.solidClock, size: 18, color: Theme.of(context).colorScheme.onSurface),
               title: LocaleKeys.play_time_title.tr(),
               selected: initialValue == PlayMetricType.time,
               onTap: () => Navigator.of(context).pop(PlayMetricType.time),

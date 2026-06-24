@@ -30,12 +30,17 @@ class MaterialStyleGraphsActionsBottomSheet extends StatelessWidget {
           children: [
             BlocBuilder<UsersBloc, UsersState>(
               builder: (context, state) {
+                final enabled = state.status == BlocStatus.success;
                 return _ActionTile(
                   icon: FaIcon(
                     state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
                     size: 18,
+                    color: enabled
+                        ? Theme.of(context).colorScheme.onSurface
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   title: LocaleKeys.select_user_title.tr(),
+                  enabled: enabled,
                   trailing: Builder(
                     builder: (context) {
                       if (userId != null && userId != -1) {
@@ -72,6 +77,7 @@ class MaterialStyleGraphsActionsBottomSheet extends StatelessWidget {
               icon: FaIcon(
                 yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
                 size: 18,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               title: LocaleKeys.y_axis_title.tr(),
               onTap: () => Navigator.of(context).pop('yAxis'),
@@ -87,12 +93,14 @@ class _ActionTile extends StatelessWidget {
   final Widget icon;
   final String title;
   final Widget? trailing;
+  final bool enabled;
   final VoidCallback? onTap;
 
   const _ActionTile({
     required this.icon,
     required this.title,
     this.trailing,
+    this.enabled = true,
     this.onTap,
   });
 
@@ -105,6 +113,7 @@ class _ActionTile extends StatelessWidget {
         1,
       ),
       child: ListTile(
+        enabled: enabled,
         leading: icon,
         title: Text(title),
         trailing: trailing,

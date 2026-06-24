@@ -25,7 +25,10 @@ class MaterialStyleLoggingActionsBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             MaterialStyleListTile(
-              leading: const FaIcon(FontAwesomeIcons.fileExport),
+              leading: FaIcon(
+                FontAwesomeIcons.fileExport,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.logs_export_menu_item.tr(),
               onTap: () {
                 final exportBloc = context.read<LoggingExportBloc>();
@@ -46,7 +49,10 @@ class MaterialStyleLoggingActionsBottomSheet extends StatelessWidget {
               },
             ),
             MaterialStyleListTile(
-              leading: const FaIcon(FontAwesomeIcons.trashCan),
+              leading: FaIcon(
+                FontAwesomeIcons.trashCan,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.logs_clear_menu_item.tr(),
               onTap: () {
                 Navigator.of(context).pop();

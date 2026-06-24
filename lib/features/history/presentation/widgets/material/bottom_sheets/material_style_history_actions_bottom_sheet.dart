@@ -32,12 +32,17 @@ class MaterialStyleHistoryActionsBottomSheet extends StatelessWidget {
               children: [
                 BlocBuilder<UsersBloc, UsersState>(
                   builder: (context, state) {
+                    final enabled = state.status == BlocStatus.success;
                     return _ActionTile(
                       icon: FaIcon(
                         state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
                         size: 18,
+                        color: enabled
+                            ? Theme.of(context).colorScheme.onSurface
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       title: LocaleKeys.select_user_title.tr(),
+                      enabled: enabled,
                       trailing: Builder(
                         builder: (context) {
                           if (userId != null && userId != -1) {
@@ -71,9 +76,10 @@ class MaterialStyleHistoryActionsBottomSheet extends StatelessWidget {
                   },
                 ),
                 _ActionTile(
-                  icon: const FaIcon(
+                  icon: FaIcon(
                     FontAwesomeIcons.filter,
                     size: 18,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                   title: LocaleKeys.filter_history_title.tr(),
                   trailing: filterApplied
@@ -113,6 +119,7 @@ class _ActionTile extends StatelessWidget {
   final String title;
   final Color? titleColor;
   final Widget? trailing;
+  final bool enabled;
   final VoidCallback? onTap;
 
   const _ActionTile({
@@ -120,6 +127,7 @@ class _ActionTile extends StatelessWidget {
     required this.title,
     this.titleColor,
     this.trailing,
+    this.enabled = true,
     this.onTap,
   });
 
@@ -132,6 +140,7 @@ class _ActionTile extends StatelessWidget {
         1,
       ),
       child: ListTile(
+        enabled: enabled,
         leading: icon,
         title: Text(
           title,
