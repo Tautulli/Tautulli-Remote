@@ -106,6 +106,10 @@ class _MaterialStyleScaffoldWithInnerDrawerState extends State<MaterialStyleScaf
                         ),
                         badgeStyle: badges.BadgeStyle(
                           badgeColor: Theme.of(context).colorScheme.primary,
+                          borderSide: BorderSide(
+                            width: 2,
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
                         ),
                         position: badges.BadgePosition.topEnd(top: 1, end: -2),
                         showBadge:
