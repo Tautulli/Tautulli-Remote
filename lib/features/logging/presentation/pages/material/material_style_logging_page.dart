@@ -15,7 +15,8 @@ import '../../../../../core/widgets/material/material_style_refresh_indicator.da
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/logging_bloc.dart';
 import '../../bloc/logging_export_bloc.dart';
-import '../../widgets/material/dialogs/material_style_clear_logging_dialog.dart';
+import '../../widgets/material/bottom_sheets/material_style_logging_actions_bottom_sheet.dart';
+import '../../widgets/material/bottom_sheets/material_style_logging_filter_bottom_sheet.dart';
 import '../../widgets/material/material_style_logging_table.dart';
 
 class MaterialStyleLoggingPage extends StatelessWidget {
@@ -84,55 +85,55 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
           title: const Text(LocaleKeys.app_logs_title).tr(),
           actions: _appbarActions(),
         ),
-      body: MaterialStylePageBody(
-        child: MaterialStyleRefreshIndicator(
-          onRefresh: () {
-            context.read<LoggingBloc>().add(LoggingLoad());
+        body: MaterialStylePageBody(
+          child: MaterialStyleRefreshIndicator(
+            onRefresh: () {
+              context.read<LoggingBloc>().add(LoggingLoad());
 
-            return _refreshCompleter.future;
-          },
-          child: BlocConsumer<LoggingBloc, LoggingState>(
-            listener: (context, state) {
-              if (state is LoggingSuccess) {
-                _refreshCompleter.complete();
-                _refreshCompleter = Completer();
-              }
+              return _refreshCompleter.future;
             },
-            builder: (context, state) {
-              if (state is LoggingFailure) {
-                return MaterialStyleStatusPage(
-                  scrollable: true,
-                  message: LocaleKeys.logs_failed_to_load_message.tr(),
-                );
-              }
-              if (state is LoggingSuccess) {
-                if (state.logs.isEmpty) {
+            child: BlocConsumer<LoggingBloc, LoggingState>(
+              listener: (context, state) {
+                if (state is LoggingSuccess) {
+                  _refreshCompleter.complete();
+                  _refreshCompleter = Completer();
+                }
+              },
+              builder: (context, state) {
+                if (state is LoggingFailure) {
                   return MaterialStyleStatusPage(
                     scrollable: true,
-                    message: LocaleKeys.logs_empty_message.tr(),
+                    message: LocaleKeys.logs_failed_to_load_message.tr(),
                   );
-                } else {
-                  List<Log> filteredLogs = filterLogs(
-                    level: state.level,
-                    logs: state.logs,
-                  );
-
-                  if (filteredLogs.isEmpty) {
+                }
+                if (state is LoggingSuccess) {
+                  if (state.logs.isEmpty) {
                     return MaterialStyleStatusPage(
                       scrollable: true,
-                      message: LocaleKeys.logs_empty_filter_message.tr(),
+                      message: LocaleKeys.logs_empty_message.tr(),
                     );
-                  }
+                  } else {
+                    List<Log> filteredLogs = filterLogs(
+                      level: state.level,
+                      logs: state.logs,
+                    );
 
-                  return MaterialStyleLoggingTable(filteredLogs);
+                    if (filteredLogs.isEmpty) {
+                      return MaterialStyleStatusPage(
+                        scrollable: true,
+                        message: LocaleKeys.logs_empty_filter_message.tr(),
+                      );
+                    }
+
+                    return MaterialStyleLoggingTable(filteredLogs);
+                  }
                 }
-              }
-              return const SizedBox(height: 0, width: 0);
-            },
+                return const SizedBox(height: 0, width: 0);
+              },
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 
@@ -141,141 +142,54 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
       BlocBuilder<LoggingBloc, LoggingState>(
         builder: (context, state) {
           if (state is LoggingSuccess) {
-            return PopupMenuButton(
+            return IconButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
-                size: 22,
+                size: 20,
                 color: state.level != LogLevel.ALL
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.onSurface,
               ),
-              onSelected: (LogLevel value) {
-                context.read<LoggingBloc>().add(
-                  LoggingSetLevel(value),
-                );
-              },
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
+              onPressed: () => showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => BlocProvider.value(
+                  value: context.read<LoggingBloc>(),
+                  child: MaterialStyleLoggingFilterBottomSheet(
+                    initialValue: state.level,
+                  ),
                 ),
               ),
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    value: LogLevel.ALL,
-                    child: Text(
-                      LocaleKeys.all_title.tr(),
-                      style: TextStyle(
-                        color: state.level == LogLevel.ALL
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: LogLevel.DEBUG,
-                    child: Text(
-                      LocaleKeys.debug_title.tr(),
-                      style: TextStyle(
-                        color: state.level == LogLevel.DEBUG
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: LogLevel.INFO,
-                    child: Text(
-                      LocaleKeys.info_title.tr(),
-                      style: TextStyle(
-                        color: state.level == LogLevel.INFO
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: LogLevel.WARNING,
-                    child: Text(
-                      LocaleKeys.warning_title.tr(),
-                      style: TextStyle(
-                        color: state.level == LogLevel.WARNING
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: LogLevel.ERROR,
-                    child: Text(
-                      LocaleKeys.error_title.tr(),
-                      style: TextStyle(
-                        color: state.level == LogLevel.ERROR
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                ];
-              },
             );
           }
           return IconButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,
               color: Theme.of(context).colorScheme.onSurface,
+              size: 20,
             ),
             onPressed: null,
           );
         },
       ),
-      PopupMenuButton(
-        icon: Icon(
-          Icons.more_vert,
+      IconButton(
+        icon: FaIcon(
+          FontAwesomeIcons.sliders,
           color: Theme.of(context).colorScheme.onSurface,
+          size: 20,
         ),
-        onSelected: (value) async {
-          final loggingBloc = context.read<LoggingBloc>();
-
-          if (value == 'export') {
-            final box = context.findRenderObject() as RenderBox?;
-            Rect? sharePositionOrigin;
-            if (box != null) {
-              sharePositionOrigin = box.size.width > 442.0
-                  ? Rect.fromLTRB(0, box.size.height - 1, box.size.width, box.size.height)
-                  : box.localToGlobal(Offset.zero) & box.size;
-            }
-            context.read<LoggingExportBloc>().add(
-              LoggingExportStart(
-                sharePositionOrigin: sharePositionOrigin,
-                loggingBloc: loggingBloc,
-              ),
-            );
-          }
-          if (value == 'clear') {
-            showDialog(
-              context: context,
-              builder: (context) => MaterialStyleClearLoggingDialog(loggingBloc),
-            );
-          }
-        },
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
+        onPressed: () => showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<LoggingBloc>()),
+              BlocProvider.value(value: context.read<LoggingExportBloc>()),
+            ],
+            child: const MaterialStyleLoggingActionsBottomSheet(),
           ),
         ),
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            value: 'export',
-            child: const Text(LocaleKeys.logs_export_menu_item).tr(),
-          ),
-          PopupMenuItem(
-            value: 'clear',
-            child: const Text(LocaleKeys.logs_clear_menu_item).tr(),
-          ),
-        ],
       ),
     ];
   }
-
 }
