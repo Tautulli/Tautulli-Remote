@@ -131,7 +131,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_cone_title.tr(),
                               subtitleText: _offerings!
                                   .getOffering('default')!
@@ -148,7 +148,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_slice_title.tr(),
                               subtitleText: _offerings!
                                   .getOffering('default')!
@@ -165,7 +165,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_burger_title.tr(),
                               subtitleText: _offerings!
                                   .getOffering('default')!
@@ -182,7 +182,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                 color: ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_meal_title.tr(),
                               subtitleText: _offerings!
                                   .getOffering('default')!
@@ -207,7 +207,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                     : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_tip_jar_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
@@ -223,7 +223,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                     : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_big_tip_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
@@ -239,7 +239,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                     : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_supporter_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
@@ -255,7 +255,7 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
                                     : ThemeHelper.cupertinoListTileIconColor,
                                 size: 23,
                               ),
-                              trailing: const CupertinoListTileChevron(),
+
                               titleText: LocaleKeys.donate_patron_title.tr(),
                               subtitleText:
                                   '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',

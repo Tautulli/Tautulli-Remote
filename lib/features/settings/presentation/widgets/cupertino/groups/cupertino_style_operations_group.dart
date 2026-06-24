@@ -23,7 +23,6 @@ class CupertinoStyleOperationsGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor,
             size: 21.3,
           ),
-          trailing: const CupertinoListTileChevron(),
           titleText: LocaleKeys.clear_app_image_cache_title.tr(),
           subtitleText: LocaleKeys.clear_app_image_cache_subtitle.tr(),
           onTap: () async {

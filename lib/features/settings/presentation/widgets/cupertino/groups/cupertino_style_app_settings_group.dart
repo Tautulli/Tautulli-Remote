@@ -32,7 +32,6 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
                 CupertinoIcons.stopwatch_fill,
                 color: ThemeHelper.cupertinoListTileIconColor,
               ),
-              trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.server_timeout_title.tr(),
               subtitleText: _serverTimeoutDisplay(serverTimeout),
               onTap: () => showCupertinoModalPopup(
@@ -54,7 +53,6 @@ class CupertinoStyleAppSettingsGroup extends StatelessWidget {
                 CupertinoIcons.clock_fill,
                 color: ThemeHelper.cupertinoListTileIconColor,
               ),
-              trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.activity_refresh_rate_title.tr(),
               subtitleText: _activityRefreshRateDisplay(refreshRate),
               onTap: () => showCupertinoModalPopup(

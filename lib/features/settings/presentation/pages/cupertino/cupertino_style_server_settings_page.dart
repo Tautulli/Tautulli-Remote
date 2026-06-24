@@ -168,7 +168,6 @@ class ServerSettingsIosView extends StatelessWidget {
                         color: ThemeHelper.cupertinoListTileIconColor,
                         size: 21.3,
                       ),
-                      trailing: const CupertinoListTileChevron(),
                       onTap: () async => showCupertinoDialog(
                         context: context,
                         builder: (_) {

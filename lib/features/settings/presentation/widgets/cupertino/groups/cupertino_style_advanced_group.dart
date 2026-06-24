@@ -107,7 +107,6 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
                   CupertinoIcons.house_fill,
                   color: ThemeHelper.cupertinoListTileIconColor,
                 ),
-                trailing: const CupertinoListTileChevron(),
                 titleText: LocaleKeys.home_page_title.tr(),
                 subtitleText: StringHelper.mapHomePageSettingToTitle(homePageSetting),
                 onTap: () => showCupertinoModalPopup(
@@ -123,7 +122,6 @@ class CupertinoStyleAdvancedGroup extends StatelessWidget {
                 color: ThemeHelper.cupertinoListTileIconColor,
                 size: 19.2,
               ),
-              trailing: const CupertinoListTileChevron(),
               titleText: LocaleKeys.language_title.tr(),
               subtitleText: TranslationHelper.localeToString(context.locale),
               onTap: () => showCupertinoModalPopup(
