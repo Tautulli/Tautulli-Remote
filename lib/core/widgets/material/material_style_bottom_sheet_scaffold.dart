@@ -27,14 +27,35 @@ class MaterialStyleBottomSheetScaffold extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          height: 44,
-          child: NavigationToolbar(
-            leading: leading,
-            middle: Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            trailing: trailing,
+          constraints: const BoxConstraints(minHeight: 44),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 80,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: leading,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 80,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: trailing,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 8),

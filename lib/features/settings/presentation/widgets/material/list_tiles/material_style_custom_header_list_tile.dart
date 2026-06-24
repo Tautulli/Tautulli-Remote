@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +7,7 @@ import '../../../../../../core/widgets/base/sensitive_text.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/registration_headers_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../dialogs/material_style_custom_header_config_dialog.dart';
+import '../bottom_sheets/material_style_edit_custom_http_header_bottom_sheet.dart';
 import '../dialogs/material_style_delete_dialog.dart';
 
 class MaterialStyleCustomHeaderListTile extends StatelessWidget {
@@ -101,54 +99,16 @@ class MaterialStyleCustomHeaderListTile extends StatelessWidget {
               },
             ),
             onTap: () async {
-              final bool isBasicAuth = title == 'Authorization' && subtitle.startsWith('Basic ');
-
-              if (isBasicAuth) {
-                try {
-                  final List<String> creds = utf8.decode(base64Decode(subtitle.substring(6))).split(':');
-
-                  await showDialog(
-                    context: context,
-                    builder: (_) {
-                      return MaterialStyleCustomHeaderConfigDialog(
-                        tautulliId: tautulliId,
-                        headerType: CustomHeaderType.basicAuth,
-                        forRegistration: forRegistration,
-                        existingKey: creds[0],
-                        existingValue: creds[1],
-                      );
-                    },
-                  );
-                } catch (_) {
-                  await showDialog(
-                    context: context,
-                    builder: (_) {
-                      return MaterialStyleCustomHeaderConfigDialog(
-                        tautulliId: tautulliId,
-                        headerType: CustomHeaderType.basicAuth,
-                        forRegistration: forRegistration,
-                        existingKey: title,
-                        existingValue: subtitle,
-                        // currentHeaders: server.customHeaders,
-                      );
-                    },
-                  );
-                }
-              } else {
-                await showDialog(
-                  context: context,
-                  builder: (_) {
-                    return MaterialStyleCustomHeaderConfigDialog(
-                      tautulliId: tautulliId,
-                      headerType: CustomHeaderType.custom,
-                      forRegistration: forRegistration,
-                      existingKey: title,
-                      existingValue: subtitle,
-                      // currentHeaders: server.customHeaders,
-                    );
-                  },
-                );
-              }
+              await showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => MaterialStyleEditCustomHttpHeaderBottomSheet(
+                  tautulliId: tautulliId,
+                  forRegistration: forRegistration,
+                  existingKey: title,
+                  existingValue: subtitle,
+                ),
+              );
             },
           ),
         );

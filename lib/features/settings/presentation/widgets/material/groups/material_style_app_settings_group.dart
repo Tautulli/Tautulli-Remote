@@ -10,8 +10,8 @@ import '../../../bloc/settings_bloc.dart';
 import '../../../pages/material/material_style_accessibility_page.dart';
 import '../../../pages/material/material_style_advanced_page.dart';
 import '../../../pages/material/material_style_appearance_page.dart';
-import '../dialogs/material_style_activity_refresh_rate_dialog.dart';
-import '../dialogs/material_style_server_timeout_dialog.dart';
+import '../bottom_sheets/material_style_activity_refresh_rate_bottom_sheet.dart';
+import '../bottom_sheets/material_style_server_timeout_bottom_sheet.dart';
 
 class MaterialStyleAppSettingsGroup extends StatelessWidget {
   const MaterialStyleAppSettingsGroup({super.key});
@@ -34,9 +34,10 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
               ),
               title: LocaleKeys.server_timeout_title.tr(),
               subtitle: _serverTimeoutDisplay(serverTimeout),
-              onTap: () async => await showDialog(
+              onTap: () async => await showModalBottomSheet<void>(
                 context: context,
-                builder: (context) => MaterialStyleServerTimeoutDialog(
+                isScrollControlled: true,
+                builder: (_) => MaterialStyleServerTimeoutBottomSheet(
                   initialValue: serverTimeout,
                 ),
               ),
@@ -55,10 +56,11 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
               ),
               title: LocaleKeys.activity_refresh_rate_title.tr(),
               subtitle: _activityRefreshRateDisplay(refreshRate),
-              onTap: () async => await showDialog(
+              onTap: () async => await showModalBottomSheet<void>(
                 context: context,
-                builder: (context) => MaterialStyleActivityRefreshRateDialog(
-                  initalValue: refreshRate,
+                isScrollControlled: true,
+                builder: (_) => MaterialStyleActivityRefreshRateBottomSheet(
+                  initialValue: refreshRate,
                 ),
               ),
             );

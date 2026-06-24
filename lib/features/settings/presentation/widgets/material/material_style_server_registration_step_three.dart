@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/custom_header_model.dart';
 import '../../bloc/registration_headers_bloc.dart';
-import 'dialogs/material_style_custom_header_type_dialog.dart';
+import 'bottom_sheets/material_style_custom_http_header_bottom_sheet.dart';
 import 'list_tiles/material_style_custom_header_list_tile.dart';
 import 'material_style_registration_instruction.dart';
 
@@ -34,23 +34,22 @@ class MaterialStyleServerRegistrationStepThree extends StatelessWidget {
                     foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                   child: const Text(LocaleKeys.add_custom_http_header_title).tr(),
-                  onPressed: () async => await showDialog(
+                  onPressed: () async => await showModalBottomSheet<void>(
                     context: context,
-                    builder: (_) {
-                      return MaterialStyleCustomHeaderTypeDialog(
-                        forRegistration: true,
-                        currentHeaders: state is RegistrationHeadersLoaded
-                            ? state.headers
-                                .map(
-                                  (header) => CustomHeaderModel(
-                                    key: header.key,
-                                    value: header.value,
-                                  ),
-                                )
-                                .toList()
-                            : [],
-                      );
-                    },
+                    isScrollControlled: true,
+                    builder: (_) => MaterialStyleCustomHttpHeaderBottomSheet(
+                      forRegistration: true,
+                      currentHeaders: state is RegistrationHeadersLoaded
+                          ? state.headers
+                              .map(
+                                (header) => CustomHeaderModel(
+                                  key: header.key,
+                                  value: header.value,
+                                ),
+                              )
+                              .toList()
+                          : [],
+                    ),
                   ),
                 ),
               ),

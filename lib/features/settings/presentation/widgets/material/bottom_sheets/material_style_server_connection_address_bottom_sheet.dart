@@ -5,27 +5,28 @@ import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/widgets/material/material_style_bottom_sheet_scaffold.dart';
 import '../../../../../../core/widgets/material/material_style_text_form_field.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
 
-class MaterialStyleServerConnectionAddressDialog extends StatefulWidget {
+class MaterialStyleServerConnectionAddressBottomSheet extends StatefulWidget {
   final bool primary;
   final ServerModel server;
 
-  const MaterialStyleServerConnectionAddressDialog({
+  const MaterialStyleServerConnectionAddressBottomSheet({
     super.key,
     required this.primary,
     required this.server,
   });
 
   @override
-  State<MaterialStyleServerConnectionAddressDialog> createState() =>
-      _MaterialStyleServerConnectionAddressDialogState();
+  State<MaterialStyleServerConnectionAddressBottomSheet> createState() =>
+      _MaterialStyleServerConnectionAddressBottomSheetState();
 }
 
-class _MaterialStyleServerConnectionAddressDialogState
-    extends State<MaterialStyleServerConnectionAddressDialog> {
+class _MaterialStyleServerConnectionAddressBottomSheetState
+    extends State<MaterialStyleServerConnectionAddressBottomSheet> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _controller;
 
@@ -47,14 +48,35 @@ class _MaterialStyleServerConnectionAddressDialogState
     super.dispose();
   }
 
+  void _save() {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      context.read<SettingsBloc>().add(
+        SettingsUpdateConnectionInfo(
+          primary: widget.primary,
+          connectionAddress: _controller.text,
+          server: widget.server,
+        ),
+      );
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        widget.primary ? LocaleKeys.primary_connection_title : LocaleKeys.secondary_connection_title,
-      ).tr(),
-      content: Form(
-        key: _formKey,
+    return Form(
+      key: _formKey,
+      child: MaterialStyleBottomSheetScaffold(
+        title: widget.primary
+            ? LocaleKeys.primary_connection_title.tr()
+            : LocaleKeys.secondary_connection_title.tr(),
+        leading: TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
+        ),
+        trailing: TextButton(
+          onPressed: _save,
+          child: const Text(LocaleKeys.save_title).tr(),
+        ),
         child: MaterialStyleTextFormField(
           controller: _controller,
           hintText: widget.primary
@@ -62,7 +84,7 @@ class _MaterialStyleServerConnectionAddressDialogState
               : LocaleKeys.secondary_connection_address_hint.tr(),
           errorMaxLines: 2,
           validator: (value) {
-            bool validUrl = isURL(
+            final bool validUrl = isURL(
               value,
               protocols: ['http', 'https'],
               requireProtocol: true,
@@ -78,35 +100,6 @@ class _MaterialStyleServerConnectionAddressDialogState
           },
         ),
       ),
-      actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.onSurface,
-          ),
-          child: const Text(LocaleKeys.close_title).tr(),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.onSurface,
-          ),
-          child: const Text(LocaleKeys.save_title).tr(),
-          onPressed: () {
-            if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-              context.read<SettingsBloc>().add(
-                SettingsUpdateConnectionInfo(
-                  primary: widget.primary,
-                  connectionAddress: _controller.text,
-                  server: widget.server,
-                ),
-              );
-              Navigator.of(context).pop();
-            }
-          },
-        ),
-      ],
     );
   }
 }

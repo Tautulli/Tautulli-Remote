@@ -9,7 +9,7 @@ import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../../settings/presentation/widgets/material/dialogs/material_style_language_dialog.dart';
+import '../../../../settings/presentation/widgets/material/bottom_sheets/material_style_language_bottom_sheet.dart';
 import '../../../../settings/presentation/widgets/material/groups/material_style_servers_group.dart';
 import '../../../../settings/presentation/widgets/material/buttons/material_style_register_server_button.dart';
 import '../../../../translation/presentation/bloc/translation_bloc.dart';
@@ -82,11 +82,12 @@ class MaterialStyleWizardServers extends StatelessWidget {
                     ],
                   ),
                   onPressed: () async {
-                    await showDialog(
+                    await showModalBottomSheet<void>(
                       context: context,
-                      builder: (context) => BlocProvider(
-                        create: (context) => di.sl<TranslationBloc>(),
-                        child: MaterialStyleLanguageDialog(
+                      isScrollControlled: true,
+                      builder: (sheetContext) => BlocProvider(
+                        create: (_) => di.sl<TranslationBloc>(),
+                        child: MaterialStyleLanguageBottomSheet(
                           initialValue: context.locale,
                         ),
                       ),

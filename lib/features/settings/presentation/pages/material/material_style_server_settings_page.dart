@@ -15,7 +15,7 @@ import '../../bloc/clear_tautulli_image_cache_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/material/buttons/material_style_delete_server_button.dart';
 import '../../widgets/material/dialogs/material_style_clear_tautulli_image_cache_dialog.dart';
-import '../../widgets/material/dialogs/material_style_custom_header_type_dialog.dart';
+import '../../widgets/material/bottom_sheets/material_style_custom_http_header_bottom_sheet.dart';
 import '../../widgets/material/list_tiles/material_style_custom_header_list_tile.dart';
 import '../../widgets/material/list_tiles/material_style_server_device_token_list_tile.dart';
 import '../../widgets/material/list_tiles/material_style_server_open_in_browser_list_tile.dart';
@@ -141,9 +141,10 @@ class MaterialStyleServerSettingsView extends StatelessWidget {
                     child: const Text(
                       LocaleKeys.add_custom_http_header_title,
                     ).tr(),
-                    onPressed: () async => await showDialog(
+                    onPressed: () async => await showModalBottomSheet<void>(
                       context: context,
-                      builder: (context) => MaterialStyleCustomHeaderTypeDialog(
+                      isScrollControlled: true,
+                      builder: (_) => MaterialStyleCustomHttpHeaderBottomSheet(
                         forRegistration: false,
                         tautulliId: server.tautulliId,
                         currentHeaders: server.customHeaders,

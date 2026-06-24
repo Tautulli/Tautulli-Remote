@@ -12,8 +12,8 @@ import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../translation/presentation/bloc/translation_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../dialogs/material_style_home_page_dialog.dart';
-import '../dialogs/material_style_language_dialog.dart';
+import '../bottom_sheets/material_style_home_page_bottom_sheet.dart';
+import '../bottom_sheets/material_style_language_bottom_sheet.dart';
 import '../list_tiles/material_style_checkbox_settings_list_tile.dart';
 
 class MaterialStyleAdvancedGroup extends StatelessWidget {
@@ -133,9 +133,10 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
               title: LocaleKeys.home_page_title.tr(),
               subtitle: StringHelper.mapHomePageSettingToTitle(homePageSetting),
               onTap: () async {
-                await showDialog(
+                await showModalBottomSheet<void>(
                   context: context,
-                  builder: (context) => MaterialStyleHomePageDialog(
+                  isScrollControlled: true,
+                  builder: (_) => MaterialStyleHomePageBottomSheet(
                     initialValue: homePageSetting,
                   ),
                 );
@@ -151,11 +152,12 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
           title: LocaleKeys.language_title.tr(),
           subtitle: TranslationHelper.localeToString(context.locale),
           onTap: () async {
-            await showDialog(
+            await showModalBottomSheet<void>(
               context: context,
-              builder: (context) => BlocProvider(
-                create: (context) => di.sl<TranslationBloc>(),
-                child: MaterialStyleLanguageDialog(
+              isScrollControlled: true,
+              builder: (sheetContext) => BlocProvider(
+                create: (_) => di.sl<TranslationBloc>(),
+                child: MaterialStyleLanguageBottomSheet(
                   initialValue: context.locale,
                 ),
               ),

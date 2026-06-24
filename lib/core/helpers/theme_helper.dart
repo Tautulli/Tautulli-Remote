@@ -122,6 +122,21 @@ class ThemeHelper {
       popupMenuTheme: const PopupMenuThemeData(
         color: TautulliColorPalette.gunmetal,
       ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          // secondaryContainer in this theme is PlexColorPalette.blue (unrelated to gold),
+          // so override with a dark tonal amber that matches M3's container intent.
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) => states.contains(WidgetState.selected) ? const Color(0xff4a3800) : null,
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) => states.contains(WidgetState.selected) ? TautulliColorPalette.notWhite : null,
+          ),
+          iconColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) => states.contains(WidgetState.selected) ? TautulliColorPalette.notWhite : null,
+          ),
+        ),
+      ),
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
