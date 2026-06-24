@@ -81,12 +81,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
 };
 
 class AppFramework extends StatelessWidget {
-  final String? initialRoute;
-
-  const AppFramework({
-    super.key,
-    required this.initialRoute,
-  });
+  const AppFramework({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +138,8 @@ class AppFramework extends StatelessWidget {
 
         if (appStyle == AppStyle.cupertino) {
           currentAppStyle = AppStyle.cupertino;
+          appInitialRoute.value = null;
           return _CupertinoFramework(
-            // initialRoute: initialRoute,
             useAtkinsonHyperLegible: useAtkinsonHyperLegible,
             theme: theme,
             themeUseSystemColor: themeUseSystemColor,
@@ -154,12 +149,10 @@ class AppFramework extends StatelessWidget {
           );
         }
 
-        // Material handles the initial route itself via MaterialApp.initialRoute.
-        // Clear the Cupertino notifier so a later switch to Cupertino doesn't
-        // re-trigger the same route in CupertinoStyleTabScaffold.initState.
-        if (initialRoute != null) {
-          cupertinoInitialRoute.value = null;
-        }
+        // Read and clear the pending route. Once either platform consumes it,
+        // subsequent style switches get null and won't re-navigate.
+        final String? initialRoute = appInitialRoute.value;
+        appInitialRoute.value = null;
 
         currentAppStyle = AppStyle.material;
         return _MaterialFramework(

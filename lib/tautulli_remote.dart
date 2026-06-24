@@ -28,19 +28,13 @@ import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 
 class TautulliRemote extends StatefulWidget {
-  final String? initialRoute;
-
-  const TautulliRemote({
-    super.key,
-    this.initialRoute,
-  });
+  const TautulliRemote({super.key});
 
   @override
   TautulliRemoteState createState() => TautulliRemoteState();
 }
 
 class TautulliRemoteState extends State<TautulliRemote> {
-  bool _initialRouteConsumed = false;
 
   @override
   void initState() {
@@ -322,8 +316,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   @override
   Widget build(BuildContext context) {
-    final initialRoute = _initialRouteConsumed ? null : widget.initialRoute;
-    _initialRouteConsumed = true;
-    return AppFramework(initialRoute: initialRoute);
+    return const AppFramework();
   }
 }

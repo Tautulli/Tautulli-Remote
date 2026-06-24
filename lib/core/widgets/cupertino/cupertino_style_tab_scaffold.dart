@@ -35,8 +35,8 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
     cupertinoTabController.index = 0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final route = cupertinoInitialRoute.value;
-      cupertinoInitialRoute.value = null;
+      final route = appInitialRoute.value;
+      appInitialRoute.value = null;
 
       if (route == '/wizard') {
         await showCupertinoSheet(

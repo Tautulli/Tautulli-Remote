@@ -103,8 +103,7 @@ void main() async {
     return Future.value(routeToReturn);
   }
 
-  final initialRoute = await calculateInitialRoute();
-  cupertinoInitialRoute.value = initialRoute;
+  appInitialRoute.value = await calculateInitialRoute();
 
   runApp(
     EasyLocalization(
@@ -137,7 +136,7 @@ void main() async {
             create: (context) => di.sl<RegistrationHeadersBloc>(),
           ),
         ],
-        child: TautulliRemote(initialRoute: initialRoute),
+        child: const TautulliRemote(),
       ),
     ),
   );
