@@ -186,6 +186,7 @@ class _MaterialStyleActivityDetailsViewState extends State<MaterialStyleActivity
         mediaType: _activity.mediaType,
         activityState: _activity.state,
         appBarActions: _buildAppBarActions(context),
+        bodyTopPadding: 0,
         body: Column(
           children: [
             ProgressBar(

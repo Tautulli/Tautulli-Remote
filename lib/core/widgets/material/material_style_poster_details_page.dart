@@ -21,6 +21,7 @@ class MaterialStylePosterDetailsPage extends StatefulWidget {
   final PlaybackState? activityState;
   final List<Widget> appBarActions;
   final Widget body;
+  final double bodyTopPadding;
 
   const MaterialStylePosterDetailsPage({
     super.key,
@@ -32,6 +33,7 @@ class MaterialStylePosterDetailsPage extends StatefulWidget {
     this.activityState,
     required this.appBarActions,
     required this.body,
+    this.bodyTopPadding = 8,
   });
 
   @override
@@ -202,7 +204,7 @@ class _MaterialStylePosterDetailsPageState extends State<MaterialStylePosterDeta
                         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.only(top: widget.bodyTopPadding),
                         sliver: SliverToBoxAdapter(
                           child: widget.body,
                         ),
