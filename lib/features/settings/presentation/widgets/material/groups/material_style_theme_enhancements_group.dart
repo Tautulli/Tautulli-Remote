@@ -7,7 +7,7 @@ import '../../../../../../core/types/theme_enhancement_type.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../list_tiles/material_style_checkbox_settings_list_tile.dart';
+import '../list_tiles/material_style_toggle_settings_list_tile.dart';
 
 class MaterialStyleThemeEnhancementsGroup extends StatelessWidget {
   const MaterialStyleThemeEnhancementsGroup({super.key});
@@ -21,7 +21,7 @@ class MaterialStyleThemeEnhancementsGroup extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
-            return MaterialStyleCheckboxSettingsListTile(
+            return MaterialStyleToggleSettingsListTile(
               value: state.appSettings.themeEnhancement == ThemeEnhancementType.ultraContrastDark,
               leading: FaIcon(
                 FontAwesomeIcons.circleHalfStroke,

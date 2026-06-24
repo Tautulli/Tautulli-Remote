@@ -10,7 +10,7 @@ import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../core/widgets/material/dialogs/material_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../onesignal/presentation/pages/material/material_style_onesignal_data_privacy_page.dart';
-import '../../../../settings/presentation/widgets/material/list_tiles/material_style_checkbox_settings_list_tile.dart';
+import '../../../../settings/presentation/widgets/material/list_tiles/material_style_toggle_settings_list_tile.dart';
 import '../../bloc/wizard_bloc.dart';
 import 'buttons/material_style_wizard_next_button.dart';
 import 'buttons/material_style_wizard_previous_button.dart';
@@ -90,7 +90,7 @@ class MaterialStyleWizardOneSignal extends StatelessWidget {
                     const Gap(8),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: MaterialStyleCheckboxSettingsListTile(
+                      child: MaterialStyleToggleSettingsListTile(
                         titleIsTwoLines: true,
                         leading: WebsafeSvg.asset(
                           'assets/logos/onesignal.svg',

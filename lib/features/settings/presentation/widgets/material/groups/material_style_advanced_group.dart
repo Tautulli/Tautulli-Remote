@@ -14,7 +14,7 @@ import '../../../../../translation/presentation/bloc/translation_bloc.dart';
 import '../../../bloc/settings_bloc.dart';
 import '../bottom_sheets/material_style_home_page_bottom_sheet.dart';
 import '../bottom_sheets/material_style_language_bottom_sheet.dart';
-import '../list_tiles/material_style_checkbox_settings_list_tile.dart';
+import '../list_tiles/material_style_toggle_settings_list_tile.dart';
 
 class MaterialStyleAdvancedGroup extends StatelessWidget {
   const MaterialStyleAdvancedGroup({super.key});
@@ -30,7 +30,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
               state as SettingsSuccess;
               final doubleBackToExit = state.appSettings.doubleBackToExit;
 
-              return MaterialStyleCheckboxSettingsListTile(
+              return MaterialStyleToggleSettingsListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.anglesLeft,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -53,7 +53,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
             state as SettingsSuccess;
             final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
 
-            return MaterialStyleCheckboxSettingsListTile(
+            return MaterialStyleToggleSettingsListTile(
               subtitleIsTwoLines: true,
               leading: FaIcon(
                 FontAwesomeIcons.solidEyeSlash,
@@ -77,7 +77,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
             state as SettingsSuccess;
             final multiserverActivity = state.appSettings.multiserverActivity;
 
-            return MaterialStyleCheckboxSettingsListTile(
+            return MaterialStyleToggleSettingsListTile(
               subtitleIsTwoLines: true,
               leading: FaIcon(
                 FontAwesomeIcons.barsStaggered,
@@ -101,7 +101,7 @@ class MaterialStyleAdvancedGroup extends StatelessWidget {
             state as SettingsSuccess;
             final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
 
-            return MaterialStyleCheckboxSettingsListTile(
+            return MaterialStyleToggleSettingsListTile(
               subtitleIsTwoLines: true,
               leading: FaIcon(
                 FontAwesomeIcons.arrowRotateRight,

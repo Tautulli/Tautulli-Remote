@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MaterialStyleCheckboxSettingsListTile extends StatelessWidget {
+class MaterialStyleToggleSettingsListTile extends StatelessWidget {
   final bool titleIsTwoLines;
   final bool subtitleIsTwoLines;
   final Widget leading;
@@ -9,7 +9,7 @@ class MaterialStyleCheckboxSettingsListTile extends StatelessWidget {
   final bool value;
   final Function(bool?)? onChanged;
 
-  const MaterialStyleCheckboxSettingsListTile({
+  const MaterialStyleToggleSettingsListTile({
     super.key,
     this.titleIsTwoLines = false,
     this.subtitleIsTwoLines = false,
@@ -28,7 +28,7 @@ class MaterialStyleCheckboxSettingsListTile extends StatelessWidget {
         Theme.of(context).colorScheme.surfaceTint,
         1,
       ),
-      child: CheckboxListTile(
+      child: SwitchListTile(
         secondary: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -52,7 +52,7 @@ class MaterialStyleCheckboxSettingsListTile extends StatelessWidget {
               )
             : null,
         value: value,
-        onChanged: onChanged,
+        onChanged: onChanged != null ? (bool v) => onChanged!(v) : null,
       ),
     );
   }

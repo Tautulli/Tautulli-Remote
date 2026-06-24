@@ -13,7 +13,7 @@ import '../../../../../../core/widgets/material/material_style_list_tile_group.d
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
-import '../list_tiles/material_style_checkbox_settings_list_tile.dart';
+import '../list_tiles/material_style_toggle_settings_list_tile.dart';
 
 class MaterialStyleDynamicColorGroup extends StatelessWidget {
   const MaterialStyleDynamicColorGroup({super.key});
@@ -33,7 +33,7 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
               final bool themeNotDynamic = state.appSettings.theme != ThemeType.dynamic;
               final bool supportsAccentColor = defaultTargetPlatform.supportsAccentColor;
 
-              return MaterialStyleCheckboxSettingsListTile(
+              return MaterialStyleToggleSettingsListTile(
                 leading: FaIcon(
                   FontAwesomeIcons.wandMagicSparkles,
                   color: (themeNotDynamic || !supportsAccentColor)
