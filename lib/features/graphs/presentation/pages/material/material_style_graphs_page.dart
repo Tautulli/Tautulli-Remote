@@ -1,23 +1,24 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/pages/material/material_style_status_page.dart';
-import '../../../../../core/types/bloc_status.dart';
 import '../../../../../core/types/tautulli_types.dart';
-import '../../../../../core/widgets/base/sensitive_text.dart';
+import '../../../../../core/widgets/material/bottom_sheets/material_style_time_range_bottom_sheet.dart';
+import '../../../../../core/widgets/material/bottom_sheets/material_style_user_filter_bottom_sheet.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../core/widgets/material/material_style_refresh_indicator.dart';
 import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
-import '../../../../../core/widgets/material/material_style_time_range_dialog.dart';
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../users/presentation/bloc/users_bloc.dart';
 import '../../bloc/graphs_bloc.dart';
+import '../../widgets/material/bottom_sheets/material_style_graphs_actions_bottom_sheet.dart';
+import '../../widgets/material/bottom_sheets/material_style_y_axis_type_bottom_sheet.dart';
 import '../../widgets/material/material_style_graph_tips_dialog.dart';
 import '../../widgets/material/material_style_media_type_graphs_tab.dart';
 import '../../widgets/material/material_style_play_totals_graphs_tab.dart';
@@ -238,317 +239,154 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocBuilder<UsersBloc, UsersState>(
-        builder: (context, state) {
-          return Stack(
-            children: [
-              Center(
-                child: PopupMenuButton(
-                  enabled: state.status == BlocStatus.success,
-                  icon: FaIcon(
-                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSurface,
-                    size: 20,
-                  ),
-                  tooltip: LocaleKeys.select_user_title.tr(),
-                  onSelected: (value) {
-                    setState(() {
-                      _userId = value;
-                    });
-
-                    _graphsBloc.add(
-                      GraphsFetched(
-                        server: _server,
-                        yAxis: _yAxis,
-                        timeRange: _timeRange,
-                        userId: _userId,
-                        freshFetch: true,
-                      ),
-                    );
-                  },
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        value: -1,
-                        child: Text(
-                          LocaleKeys.all_users_title.tr(),
-                          style: TextStyle(
-                            color: _userId == -1
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                      ...state.users.map(
-                        (user) => PopupMenuItem(
-                          value: user.userId,
-                          child: BlocBuilder<SettingsBloc, SettingsState>(
-                            builder: (context, state) {
-                              state as SettingsSuccess;
-
-                              return Text(
-                                user.friendlyName ?? '',
-                                style: TextStyle(
-                                  color: _userId == user.userId!
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.onSurface,
-                                ),
-                              ).sensitive();
-                            },
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                ),
-              ),
-              if (state.status == BlocStatus.initial)
-                Positioned(
-                  bottom: 12,
-                  right: 10,
-                  child: SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                ),
-            ],
+      IconButton(
+        tooltip: LocaleKeys.time_range_title.tr(),
+        icon: badges.Badge(
+          badgeAnimation: const badges.BadgeAnimation.fade(toAnimate: false),
+          position: badges.BadgePosition.bottomEnd(bottom: -8, end: -8),
+          badgeStyle: badges.BadgeStyle(
+            badgeColor: Theme.of(context).colorScheme.primary,
+            borderSide: BorderSide(
+              width: 2,
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          ),
+          badgeContent: Text(
+            _timeRange < 100 ? _timeRange.toString() : '99+',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 8,
+              color: Colors.black,
+            ),
+          ),
+          child: FaIcon(
+            FontAwesomeIcons.solidCalendarDays,
+            size: 20,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        onPressed: () async {
+          final result = await showModalBottomSheet<int>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => MaterialStyleTimeRangeBottomSheet(
+              initialValue: _timeRange,
+              hint: LocaleKeys.custom_time_range_dialog_content.tr(),
+            ),
           );
+
+          if (result != null && result != _timeRange) {
+            setState(() {
+              _timeRange = result;
+            });
+
+            _settingsBloc.add(SettingsUpdateGraphTimeRange(_timeRange));
+
+            _graphsBloc.add(
+              GraphsFetched(
+                server: _server,
+                userId: _userId,
+                yAxis: _yAxis,
+                timeRange: _timeRange,
+                freshFetch: true,
+              ),
+            );
+          }
         },
       ),
-      // Use BlocBuilder instead of setting _yAxis state to maintain current
-      // selected tab.
-      BlocBuilder<GraphsBloc, GraphsState>(
-        builder: (context, state) {
-          return PopupMenuButton(
-            tooltip: LocaleKeys.y_axis_title.tr(),
-            icon: FaIcon(
-              _yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
-              color: Theme.of(context).colorScheme.onSurface,
-              size: 20,
+      IconButton(
+        tooltip: LocaleKeys.graphs_action_title.tr(),
+        icon: badges.Badge(
+          showBadge: _userId != -1,
+          badgeAnimation: const badges.BadgeAnimation.fade(toAnimate: false),
+          position: badges.BadgePosition.bottomEnd(bottom: -5, end: -5),
+          badgeStyle: badges.BadgeStyle(
+            badgeColor: Theme.of(context).colorScheme.primary,
+            borderSide: BorderSide(
+              width: 2,
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
-            onSelected: (PlayMetricType value) {
-              _yAxis = value;
+          ),
+          child: FaIcon(
+            FontAwesomeIcons.sliders,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: 20,
+          ),
+        ),
+        onPressed: () async {
+          final String? result = await showModalBottomSheet<String>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => BlocProvider.value(
+              value: _usersBloc,
+              child: MaterialStyleGraphsActionsBottomSheet(
+                userId: _userId,
+                yAxis: _yAxis,
+              ),
+            ),
+          );
 
-              _settingsBloc.add(
-                SettingsUpdateGraphYAxis(_yAxis),
-              );
+          if (!mounted) return;
+
+          if (result == 'user') {
+            final int? newUserId = await showModalBottomSheet<int>(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => BlocProvider.value(
+                value: _usersBloc,
+                child: MaterialStyleUserFilterBottomSheet(
+                  initialValue: _userId!,
+                ),
+              ),
+            );
+
+            if (newUserId != null && newUserId != _userId) {
+              setState(() {
+                _userId = newUserId;
+              });
 
               _graphsBloc.add(
                 GraphsFetched(
                   server: _server,
-                  userId: _userId,
                   yAxis: _yAxis,
                   timeRange: _timeRange,
+                  userId: _userId,
                   freshFetch: true,
                 ),
               );
-            },
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(12),
+            }
+          }
+
+          if (!mounted) return;
+
+          if (result == 'yAxis') {
+            final PlayMetricType? yAxis = await showModalBottomSheet<PlayMetricType>(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => MaterialStyleYAxisTypeBottomSheet(
+                initialValue: _yAxis,
               ),
-            ),
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  value: PlayMetricType.plays,
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.hashtag,
-                        size: 20,
-                        color: _yAxis == PlayMetricType.plays
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                      const Gap(8),
-                      Text(
-                        LocaleKeys.play_count_title,
-                        style: TextStyle(
-                          color: _yAxis == PlayMetricType.plays
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ).tr(),
-                    ],
-                  ),
+            );
+
+            if (yAxis != null && yAxis != _yAxis) {
+              setState(() {
+                _yAxis = yAxis;
+              });
+
+              _settingsBloc.add(SettingsUpdateGraphYAxis(_yAxis));
+
+              _graphsBloc.add(
+                GraphsFetched(
+                  server: _server,
+                  yAxis: _yAxis,
+                  timeRange: _timeRange,
+                  userId: _userId,
+                  freshFetch: true,
                 ),
-                PopupMenuItem(
-                  value: PlayMetricType.time,
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.solidClock,
-                        size: 20,
-                        color: _yAxis == PlayMetricType.time
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                      const Gap(8),
-                      Text(
-                        LocaleKeys.play_time_title,
-                        style: TextStyle(
-                          color: _yAxis == PlayMetricType.time
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ).tr(),
-                    ],
-                  ),
-                ),
-              ];
-            },
-          );
-        },
-      ),
-      BlocBuilder<GraphsBloc, GraphsState>(
-        builder: (context, state) {
-          return Stack(
-            children: [
-              Center(
-                child: PopupMenuButton(
-                  tooltip: LocaleKeys.time_range_title.tr(),
-                  icon: FaIcon(
-                    FontAwesomeIcons.solidCalendarDays,
-                    size: 20,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  onSelected: (int value) async {
-                    if (value > 0) {
-                      if (value != _timeRange) {
-                        _timeRange = value;
-
-                        _settingsBloc.add(
-                          SettingsUpdateGraphTimeRange(_timeRange),
-                        );
-
-                        _graphsBloc.add(
-                          GraphsFetched(
-                            server: _server,
-                            userId: _userId,
-                            yAxis: _yAxis,
-                            timeRange: _timeRange,
-                            freshFetch: true,
-                          ),
-                        );
-                      }
-                    } else {
-                      final int timeRange = await showDialog(
-                        context: context,
-                        builder: (context) => const MaterialStyleTimeRangeDialog(),
-                      );
-
-                      if (timeRange != _timeRange) {
-                        _timeRange = timeRange;
-
-                        _settingsBloc.add(
-                          SettingsUpdateGraphTimeRange(_timeRange),
-                        );
-
-                        _graphsBloc.add(
-                          GraphsFetched(
-                            server: _server,
-                            userId: _userId,
-                            yAxis: _yAxis,
-                            timeRange: _timeRange,
-                            freshFetch: true,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        value: 7,
-                        child: Text(
-                          '7 ${LocaleKeys.days_title.tr()}',
-                          style: TextStyle(
-                            color: _timeRange == 7
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 14,
-                        child: Text(
-                          '14 ${LocaleKeys.days_title.tr()}',
-                          style: TextStyle(
-                            color: _timeRange == 14
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 30,
-                        child: Text(
-                          '30 ${LocaleKeys.days_title.tr()}',
-                          style: TextStyle(
-                            color: _timeRange == 30
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: -1,
-                        child: Text(
-                          LocaleKeys.custom_title.tr(),
-                          style: TextStyle(
-                            color: ![7, 14, 30].contains(_timeRange)
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: IgnorePointer(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 18,
-                      width: 18,
-                      color: Theme.of(context).colorScheme.primary,
-                      child: Center(
-                        child: Text(
-                          _timeRange < 100 ? _timeRange.toString() : '99+',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: _timeRange < 100 ? 10 : 8,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
+              );
+            }
+          }
         },
       ),
     ];
