@@ -138,7 +138,6 @@ class AppFramework extends StatelessWidget {
 
         if (appStyle == AppStyle.cupertino) {
           currentAppStyle = AppStyle.cupertino;
-          appInitialRoute.value = null;
           return _CupertinoFramework(
             useAtkinsonHyperLegible: useAtkinsonHyperLegible,
             theme: theme,
