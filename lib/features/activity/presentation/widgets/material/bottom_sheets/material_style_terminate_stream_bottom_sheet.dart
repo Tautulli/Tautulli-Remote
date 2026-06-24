@@ -56,7 +56,6 @@ class MaterialStyleTerminateStreamBottomSheet extends StatelessWidget {
             const SizedBox(height: 12),
             TextField(
               controller: controller,
-              maxLines: 2,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
