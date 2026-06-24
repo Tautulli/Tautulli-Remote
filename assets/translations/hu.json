@@ -418,5 +418,12 @@
     "wizard_error_suggestion": "Hiba történt. Kérjük, jelentse ezt a hibát, majd kattintson a gombra, lépjen ki, és végezze el a beállítást kézzel.",
     "wizard_error_title": "Telepítő hiba",
     "edit_basic_authentication_header_title": "Alapvető hitelesítési fejléc szerkesztése",
-    "edit_custom_header_title": "Egyéni fejléc szerkesztése"
+    "edit_custom_header_title": "Egyéni fejléc szerkesztése",
+    "debug_title": "Debug",
+    "level_title": "Szint",
+    "libraries_empty_message": "Nem találhatók könyvtárak.",
+    "name_missing": "Hiányzó név",
+    "select_server_title": "Szerver kiválasztása",
+    "statistic_type_title": "Statisztika típus",
+    "warning_title": "Figyelem"
 }
