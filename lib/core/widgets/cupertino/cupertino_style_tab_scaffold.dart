@@ -34,18 +34,21 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
     super.initState();
     cupertinoTabController.index = 0;
 
+    // CupertinoStyleTabScaffold is only inserted into the tree after SettingsSuccess
+    // (gated by CupertinoApp.builder's BlocBuilder), so settings are guaranteed loaded
+    // here — no need to wait for a BlocListener transition.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final route = appInitialRoute.value;
       appInitialRoute.value = null;
 
-      if (route == '/wizard') {
+      if (route == CupertinoStyleWizardPage.routeName) {
         await showCupertinoSheet(
           context: context,
           useNestedNavigation: true,
           enableDrag: false,
           scrollableBuilder: (context, scrollController) => const CupertinoStyleWizardPage(),
         );
-      } else if (route == '/changelog') {
+      } else if (route == CupertinoStyleChangelogPage.routeName) {
         await navigatorKey.currentState?.push(
           CupertinoPageRoute(
             fullscreenDialog: true,
@@ -53,6 +56,8 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
           ),
         );
       }
+
+      if (!mounted) return;
 
       if (rateApp.shouldOpenDialog) {
         showCupertinoDialog(
