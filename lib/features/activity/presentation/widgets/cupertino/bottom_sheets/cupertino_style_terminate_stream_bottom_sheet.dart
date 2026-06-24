@@ -41,18 +41,18 @@ class CupertinoStyleTerminateStreamBottomSheet extends StatelessWidget {
             const Gap(12),
             _TerminateStreamMediaInfo(activity: activity),
             const Gap(12),
-            CupertinoFormSection.insetGrouped(
-              backgroundColor: CupertinoColors.transparent,
-              children: [
-                CupertinoTextFormFieldRow(
-                  controller: controller,
-                  expands: true,
-                  minLines: null,
-                  maxLines: null,
-                  placeholder: LocaleKeys.terminate_stream_dialog_default_message.tr(),
+            CupertinoTextField(
+              controller: controller,
+              maxLines: null,
+              textAlignVertical: TextAlignVertical.top,
+              placeholder: LocaleKeys.terminate_stream_dialog_default_message.tr(),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: CupertinoColors.separator.resolveFrom(context)),
                 ),
-              ],
+              ),
             ),
+            SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
           ],
         ),
       ),
