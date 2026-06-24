@@ -5,6 +5,7 @@ import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_external.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 
 class MaterialStyleServerOpenInBrowserListTile extends StatelessWidget {
@@ -41,6 +42,7 @@ class MaterialStyleServerOpenInBrowserListTile extends StatelessWidget {
         title: const Text(
           LocaleKeys.open_server_in_browser_title,
         ).tr(args: [server.plexName]),
+        trailing: const MaterialStyleListTileExternal(),
         onTap: () async {
           if (server.primaryActive != false) {
             await launchUrlString(

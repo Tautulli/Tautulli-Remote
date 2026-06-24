@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_chevron.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_external.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../logging/presentation/pages/material/material_style_logging_page.dart';
@@ -22,6 +24,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.wiki_title.tr(),
+          trailing: const MaterialStyleListTileExternal(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -36,6 +39,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.discord_title.tr(),
+          trailing: const MaterialStyleListTileExternal(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -50,6 +54,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.reddit_title.tr(),
+          trailing: const MaterialStyleListTileExternal(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -63,6 +68,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.bugs_and_feature_requests_title.tr(),
+          trailing: const MaterialStyleListTileExternal(),
           onTap: () async {
             await launchUrlString(
               mode: LaunchMode.externalApplication,
@@ -76,6 +82,7 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.tautulli_remote_logs_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(

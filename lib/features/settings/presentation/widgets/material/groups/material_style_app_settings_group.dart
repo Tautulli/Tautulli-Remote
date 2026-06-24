@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_chevron.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -72,6 +73,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.advanced_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const MaterialStyleAdvancedPage(),
@@ -84,6 +86,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.appearance_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const MaterialStyleAppearancePage(),
@@ -96,6 +99,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.accessibility_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const MaterialStyleAccessibilityPage(),

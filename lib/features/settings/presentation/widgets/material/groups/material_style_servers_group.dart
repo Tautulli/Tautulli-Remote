@@ -6,6 +6,7 @@ import 'package:reorderables/reorderables.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_chevron.dart';
 import '../../../../../../core/widgets/material/material_style_heading.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../bloc/settings_bloc.dart';
@@ -85,7 +86,7 @@ class MaterialStyleServersGroup extends StatelessWidget {
                                       serverId: server.id!,
                                       server: server,
                                     )
-                                  : null,
+                                  : const MaterialStyleListTileChevron(),
                             ),
                           )
                           .toList()

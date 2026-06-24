@@ -6,6 +6,7 @@ import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/widgets/material/material_style_card.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_external.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/announcement_model.dart';
 
@@ -85,12 +86,9 @@ class MaterialStyleAnnouncementCard extends StatelessWidget {
                     ),
                   ),
                   if (announcement.actionUrl != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: FaIcon(
-                        FontAwesomeIcons.squareUpRight,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: MaterialStyleListTileExternal(),
                     ),
                 ],
               ),

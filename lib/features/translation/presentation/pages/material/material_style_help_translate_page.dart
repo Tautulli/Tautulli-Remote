@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../core/widgets/material/material_style_list_tile_external.dart';
 import '../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../core/widgets/material/material_style_page_body.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -49,6 +50,7 @@ class MaterialStyleHelpTranslateView extends StatelessWidget {
                     width: 30,
                   ),
                   title: LocaleKeys.translate_tautulli_remote_title.tr(),
+                  trailing: const MaterialStyleListTileExternal(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,
@@ -62,6 +64,7 @@ class MaterialStyleHelpTranslateView extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                   title: LocaleKeys.request_a_new_language_title.tr(),
+                  trailing: const MaterialStyleListTileExternal(),
                   onTap: () async {
                     await launchUrlString(
                       mode: LaunchMode.externalApplication,

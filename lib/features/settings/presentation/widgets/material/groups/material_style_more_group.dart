@@ -7,6 +7,7 @@ import '../../../../../../core/package_information/package_information.dart';
 import '../../../../../../dependency_injection.dart' as di;
 import '../../../../../../core/overrides/material/about_dialog_override.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
+import '../../../../../../core/widgets/material/material_style_list_tile_chevron.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../pages/material/material_style_data_dump_page.dart';
@@ -29,6 +30,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             height: 30,
           ),
           title: LocaleKeys.onesignal_data_privacy_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () {
             Navigator.of(context).pushNamed('/onesignal_privacy');
           },
@@ -39,6 +41,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.changelog_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () {
             Navigator.of(context).pushNamed('/changelog');
           },
@@ -49,6 +52,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.help_translate_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () {
             Navigator.of(context).pushNamed('/help_translate');
           },
@@ -59,6 +63,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.data_dump_title.tr(),
+          trailing: const MaterialStyleListTileChevron(),
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
