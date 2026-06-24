@@ -52,6 +52,20 @@ class CupertinoStyleTerminateStreamBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
+            const Gap(4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  LocaleKeys.terminate_message_title.tr(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
           ],
         ),
