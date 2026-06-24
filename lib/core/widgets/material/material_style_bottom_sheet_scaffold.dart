@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'material_style_gesture_pill.dart';
 
 class MaterialStyleBottomSheetScaffold extends StatelessWidget {
-  final String title;
+  final String? title;
   final Widget? leading;
   final Widget? trailing;
   final Widget child;
 
   const MaterialStyleBottomSheetScaffold({
     super.key,
-    required this.title,
+    this.title,
     this.leading,
     this.trailing,
     required this.child,
@@ -25,40 +25,48 @@ class MaterialStyleBottomSheetScaffold extends StatelessWidget {
           padding: EdgeInsets.only(top: 12),
           child: MaterialStyleGesturePill(),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          constraints: const BoxConstraints(minHeight: 44),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 80,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: leading,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium,
+        if (title != null || leading != null || trailing != null)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            constraints: const BoxConstraints(minHeight: 44),
+            child: title != null
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 80,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: leading,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            title!,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 80,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: trailing,
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ?leading,
+                      ?trailing,
+                    ],
                   ),
-                ),
-              ),
-              SizedBox(
-                width: 80,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: trailing,
-                ),
-              ),
-            ],
           ),
-        ),
-        const SizedBox(height: 8),
         ConstrainedBox(
           constraints: BoxConstraints(
             maxHeight: MediaQuery.sizeOf(context).height * 0.6,

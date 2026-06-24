@@ -23,7 +23,7 @@ import '../../bloc/terminate_stream_bloc.dart';
 import '../../widgets/base/activity_details_page_details.dart';
 import '../../widgets/base/activity_details_progress.dart';
 import '../../widgets/base/progress_bar.dart';
-import '../../widgets/material/dialogs/material_style_terminate_stream_dialog.dart';
+import '../../widgets/material/bottom_sheets/material_style_terminate_stream_bottom_sheet.dart';
 
 class MaterialStyleActivityDetailsPage extends StatelessWidget {
   final ServerModel server;
@@ -290,12 +290,15 @@ class _MaterialStyleActivityDetailsViewState extends State<MaterialStyleActivity
               ),
               onPressed: () async {
                 final TextEditingController controller = TextEditingController();
-                final bool confirm = await showTerminateSessionDialog(
-                  activity: _activity,
-                  controller: controller,
+                final bool? confirm = await showModalBottomSheet<bool>(
                   context: context,
+                  isScrollControlled: true,
+                  builder: (_) => MaterialStyleTerminateStreamBottomSheet(
+                    activity: _activity,
+                    controller: controller,
+                  ),
                 );
-                if (confirm && context.mounted) {
+                if (confirm == true && context.mounted) {
                   context.read<TerminateStreamBloc>().add(
                     TerminateStreamStarted(
                       server: widget.server,

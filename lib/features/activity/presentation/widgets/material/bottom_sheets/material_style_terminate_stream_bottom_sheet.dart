@@ -6,26 +6,55 @@ import '../../../../../../core/helpers/string_helper.dart';
 import '../../../../../../core/helpers/time_helper.dart';
 import '../../../../../../core/types/media_type.dart';
 import '../../../../../../core/widgets/base/sensitive_text.dart';
+import '../../../../../../core/widgets/material/material_style_bottom_sheet_scaffold.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../../data/models/activity_model.dart';
 
-Future<bool> showTerminateSessionDialog({
-  required BuildContext context,
-  required TextEditingController controller,
-  required ActivityModel activity,
-}) async {
-  return await showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text(LocaleKeys.terminate_stream_dialog_title).tr(),
-        content: Column(
+class MaterialStyleTerminateStreamBottomSheet extends StatelessWidget {
+  final ActivityModel activity;
+  final TextEditingController controller;
+
+  const MaterialStyleTerminateStreamBottomSheet({
+    super.key,
+    required this.activity,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: MaterialStyleBottomSheetScaffold(
+        leading: TextButton(
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text(LocaleKeys.cancel_title).tr(),
+        ),
+        trailing: TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.error,
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          ),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text(LocaleKeys.terminate_title).tr(),
+        ),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Text(
+              LocaleKeys.terminate_stream_dialog_title,
+              style: TextStyle(fontSize: 22),
+              textAlign: TextAlign.center,
+            ).tr(),
+            const SizedBox(height: 12),
             _TerminateStreamMediaInfo(activity: activity),
-            TextFormField(
+            const SizedBox(height: 12),
+            TextField(
               controller: controller,
               maxLines: 2,
               decoration: InputDecoration(
@@ -39,46 +68,15 @@ Future<bool> showTerminateSessionDialog({
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                errorBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
-                focusedErrorBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
                 helperText: LocaleKeys.terminate_message_title.tr(),
                 hintText: LocaleKeys.terminate_stream_dialog_default_message.tr(),
               ),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.onSurface,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text(LocaleKeys.cancel_title).tr(),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.errorContainer,
-              foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text(LocaleKeys.terminate_title).tr(),
-          ),
-        ],
-      );
-    },
-  );
+      ),
+    );
+  }
 }
 
 class _TerminateStreamMediaInfo extends StatelessWidget {
