@@ -59,6 +59,7 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
 
       if (!mounted) return;
 
+      await rateApp.init();
       if (rateApp.shouldOpenDialog) {
         showCupertinoDialog(
           context: context,

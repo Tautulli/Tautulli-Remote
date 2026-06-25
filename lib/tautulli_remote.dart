@@ -15,7 +15,6 @@ import 'core/helpers/notification_helper.dart';
 import 'core/helpers/quick_actions_helper.dart';
 import 'core/package_information/package_information.dart';
 import 'core/types/app_style.dart';
-import 'core/rate_app/rate_app.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
@@ -47,7 +46,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
     initializeOneSignal();
     initializeFLogConfiguration();
     checkForAppUpdate();
-    rateApp.init();
     checkIfRegistrationUpdateNeeded();
 
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
