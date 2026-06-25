@@ -41,7 +41,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     context.read<SettingsBloc>().add(const SettingsLoad());
 
-    initializeQuickActions(const QuickActions());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initializeQuickActions(const QuickActions());
+    });
     initializeOneSignal();
     initializeFLogConfiguration();
     checkForAppUpdate();
