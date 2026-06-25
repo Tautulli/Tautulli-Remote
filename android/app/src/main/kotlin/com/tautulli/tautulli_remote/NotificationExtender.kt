@@ -1,6 +1,6 @@
 package com.tautulli.tautulli_remote
 
-import android.content.Context 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,12 +18,17 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.onesignal.notifications.INotificationReceivedEvent
 import com.onesignal.notifications.INotificationServiceExtension
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
 import java.net.URLConnection
 import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 import android.database.sqlite.SQLiteDatabase
 import android.app.*
@@ -39,11 +44,40 @@ class NotificationServiceExtension : INotificationServiceExtension {
 
         event.preventDefault()
 
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        val timestamp = sdf.format(Date())
+
         val data: JSONObject? = additionalData
         if (data == null) {
             Log.e("Tautulli Notification Info", "Additional data is null")
+            notification.setExtender { builder ->
+                builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                builder.setColor(context.resources.getColor(R.color.amber))
+                builder
+            }
+            event.notification.display()
+            appendDiagnosticLog(context, mapOf(
+                "timestamp" to timestamp,
+                "platform" to "android",
+                "encrypted" to false,
+                "encryption_version" to null,
+                "decryption_success" to null,
+                "decryption_error" to "Additional data is null",
+                "image_requested" to false,
+                "image_success" to null,
+                "image_error" to null,
+            ))
             return
         }
+
+        var encrypted = false
+        var encryptionVersion: Int? = null
+        var decryptionSuccess: Boolean? = null
+        var decryptionError: String? = null
+        var imageRequested = false
+        var logFromCallback = false
+        var displayCalled = false
 
         try {
             val version = data.optInt("version", 1)
@@ -51,10 +85,18 @@ class NotificationServiceExtension : INotificationServiceExtension {
             val serverInfoMap = getServerInfo(context, serverId)
             val deviceToken = serverInfoMap["deviceToken"]!!
 
+            encrypted = data.getBoolean("encrypted")
 
-            //* If encrypted decrypt the payload data
-            val jsonMessage: JSONObject = if (data.getBoolean("encrypted")) {
-                JSONObject(getUnencryptedMessage(data, version, deviceToken))
+            val jsonMessage: JSONObject = if (encrypted) {
+                encryptionVersion = version
+                val decryptedStr = getUnencryptedMessage(data, version, deviceToken)
+                if (decryptedStr.isEmpty()) {
+                    decryptionSuccess = false
+                    decryptionError = "Decryption failed"
+                    throw JSONException("Decryption returned empty result")
+                }
+                decryptionSuccess = true
+                JSONObject(decryptedStr)
             } else {
                 JSONObject(data.getString("plain_text"))
             }
@@ -78,11 +120,12 @@ class NotificationServiceExtension : INotificationServiceExtension {
                     builder
                 }
 
-                // Send notification
                 event.notification.display()
-            }
-            // Fetch/add image and send notification if notification type is 1 or 2 
-            else {
+                displayCalled = true
+            } else {
+                imageRequested = true
+                logFromCallback = true
+
                 var connectionAddress: String?
                 if (serverInfoMap["primaryActive"] == "1") {
                     connectionAddress = serverInfoMap["primaryConnectionAddress"]
@@ -96,8 +139,11 @@ class NotificationServiceExtension : INotificationServiceExtension {
                     "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
                 }
 
-                // Add a delayed notification that will try to send after 22.5s
-                // This notification will only complete successfully if the GlideApp times out
+                val capturedEncrypted = encrypted
+                val capturedEncryptionVersion = encryptionVersion
+                val capturedDecryptionSuccess = decryptionSuccess
+                val capturedDecryptionError = decryptionError
+
                 Handler(Looper.getMainLooper()).postDelayed({
                     notification.setExtender { builder ->
                         builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
@@ -109,12 +155,24 @@ class NotificationServiceExtension : INotificationServiceExtension {
                         builder
                     }
                     event.notification.display()
+
+                    appendDiagnosticLog(context, mapOf(
+                        "timestamp" to timestamp,
+                        "platform" to "android",
+                        "encrypted" to capturedEncrypted,
+                        "encryption_version" to capturedEncryptionVersion,
+                        "decryption_success" to capturedDecryptionSuccess,
+                        "decryption_error" to capturedDecryptionError,
+                        "image_requested" to true,
+                        "image_success" to false,
+                        "image_error" to "Sent without image after timeout",
+                    ))
                 }, 22500)
 
                 GlideApp.with(context)
                     .asBitmap()
                     .load(urlString)
-                    .timeout(22000) // OneSignal timesout and sends the original notification after 25s
+                    .timeout(22000)
                     .into(object : CustomTarget<Bitmap>() {
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             notification.setExtender { builder ->
@@ -127,7 +185,7 @@ class NotificationServiceExtension : INotificationServiceExtension {
                                 builder.setLargeIcon(resource)
                                 builder
                             }
-                                
+
                             if (notificationType == 2) {
                                 notification.setExtender { builder ->
                                     builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
@@ -143,20 +201,108 @@ class NotificationServiceExtension : INotificationServiceExtension {
                                     builder
                                 }
                             }
-                            
-                            //* Send notification with image
+
                             event.notification.display()
+
+                            appendDiagnosticLog(context, mapOf(
+                                "timestamp" to timestamp,
+                                "platform" to "android",
+                                "encrypted" to capturedEncrypted,
+                                "encryption_version" to capturedEncryptionVersion,
+                                "decryption_success" to capturedDecryptionSuccess,
+                                "decryption_error" to capturedDecryptionError,
+                                "image_requested" to true,
+                                "image_success" to true,
+                                "image_error" to null,
+                            ))
+                        }
+
+                        override fun onLoadFailed(errorDrawable: Drawable?) {
+                            notification.setExtender { builder ->
+                                builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                                builder.setContentTitle(subject)
+                                builder.setContentText(body)
+                                builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                                builder.setColor(context.resources.getColor(R.color.amber))
+                                builder.setPriority(priority)
+                                builder
+                            }
+                            event.notification.display()
+                            appendDiagnosticLog(context, mapOf(
+                                "timestamp" to timestamp,
+                                "platform" to "android",
+                                "encrypted" to capturedEncrypted,
+                                "encryption_version" to capturedEncryptionVersion,
+                                "decryption_success" to capturedDecryptionSuccess,
+                                "decryption_error" to capturedDecryptionError,
+                                "image_requested" to true,
+                                "image_success" to false,
+                                "image_error" to "Image load failed",
+                            ))
                         }
 
                         override fun onLoadCleared(placeholder: Drawable?) {}
                     })
             }
-        } catch (e: JSONException) {
+        } catch (e: Exception) {
             e.printStackTrace()
+            if (encrypted && decryptionSuccess == null) {
+                decryptionSuccess = false
+                decryptionError = e.message ?: "Decryption or parsing failed"
+            }
+        } finally {
+            if (!logFromCallback) {
+                if (!displayCalled) {
+                    notification.setExtender { builder ->
+                        builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                        builder.setColor(context.resources.getColor(R.color.amber))
+                        builder
+                    }
+                    event.notification.display()
+                }
+                appendDiagnosticLog(context, mapOf(
+                    "timestamp" to timestamp,
+                    "platform" to "android",
+                    "encrypted" to encrypted,
+                    "encryption_version" to encryptionVersion,
+                    "decryption_success" to decryptionSuccess,
+                    "decryption_error" to decryptionError,
+                    "image_requested" to imageRequested,
+                    "image_success" to null,
+                    "image_error" to null,
+                ))
+            }
         }
     }
 
-     private fun createNotificationChannel(context: Context) {
+    private fun appendDiagnosticLog(context: Context, entry: Map<String, Any?>) {
+        try {
+            val file = File(context.dataDir, "app_flutter/notification_diagnostic_log.json")
+
+            val existing = if (file.exists()) {
+                try { JSONArray(file.readText()) } catch (e: Exception) { JSONArray() }
+            } else {
+                JSONArray()
+            }
+
+            val newEntry = JSONObject()
+            for ((key, value) in entry) {
+                newEntry.put(key, value ?: JSONObject.NULL)
+            }
+
+            val combined = JSONArray()
+            combined.put(newEntry)
+            for (i in 0 until minOf(existing.length(), 49)) {
+                combined.put(existing.get(i))
+            }
+
+            file.writeText(combined.toString())
+        } catch (e: Exception) {
+            Log.e("Tautulli Notification Info", "Failed to write diagnostic log: ${e.message}")
+        }
+    }
+
+    private fun createNotificationChannel(context: Context) {
         //* Create the NotificationChannel, but only on API 26+ because
         //* the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -218,7 +364,7 @@ class NotificationServiceExtension : INotificationServiceExtension {
         val serverInfoMap = mapOf("primaryConnectionAddress" to primaryConnectionAddress, "secondaryConnectionAddress" to secondaryConnectionAddress, "primaryActive" to primaryActive, "deviceToken" to deviceToken)
 
         Log.d("Tautulli Notification Info", "Server info found: $serverInfoMap")
-        
+
         return serverInfoMap
     }
 

@@ -8,7 +8,7 @@ import '../../../../../../core/widgets/material/material_style_list_tile_chevron
 import '../../../../../../core/widgets/material/material_style_list_tile_external.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_group.dart';
 import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../../logging/presentation/pages/material/material_style_logging_page.dart';
+import '../../../../../logging/presentation/pages/material/material_style_logs_page.dart';
 
 class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
   const MaterialStyleHelpAndSupportGroup({super.key});
@@ -81,12 +81,12 @@ class MaterialStyleHelpAndSupportGroup extends StatelessWidget {
             FontAwesomeIcons.list,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-          title: LocaleKeys.tautulli_remote_logs_title.tr(),
+          title: LocaleKeys.logs_title.tr(),
           trailing: const MaterialStyleListTileChevron(),
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const MaterialStyleLoggingPage(),
+                builder: (context) => const MaterialStyleLogsPage(),
               ),
             );
           },

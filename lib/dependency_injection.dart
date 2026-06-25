@@ -58,11 +58,16 @@ import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/libraries/presentation/bloc/library_media_bloc.dart';
 import 'features/libraries/presentation/bloc/library_statistics_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
+import 'features/logging/data/datasources/notification_logs_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
+import 'features/logging/data/repositories/notification_logs_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
+import 'features/logging/domain/repositories/notification_logs_repository.dart';
 import 'features/logging/domain/usecases/logging.dart';
+import 'features/logging/domain/usecases/notification_logs.dart';
 import 'features/logging/presentation/bloc/logging_bloc.dart';
 import 'features/logging/presentation/bloc/logging_export_bloc.dart';
+import 'features/logging/presentation/bloc/notification_logs_bloc.dart';
 import 'features/media/data/datasources/media_data_source.dart';
 import 'features/media/data/repositories/media_repository_impl.dart';
 import 'features/media/domain/repositories/media_repository.dart';
@@ -517,10 +522,18 @@ Future<void> init() async {
       logging: sl(),
     ),
   );
+  sl.registerFactory(
+    () => NotificationLogsBloc(
+      notificationLogs: sl(),
+    ),
+  );
 
   // Data sources
   sl.registerLazySingleton<LoggingDataSource>(
     () => LoggingDataSourceImpl(),
+  );
+  sl.registerLazySingleton<NotificationLogsDataSource>(
+    () => NotificationLogsDataSourceImpl(),
   );
 
   // Repository
@@ -529,10 +542,20 @@ Future<void> init() async {
       dataSource: sl(),
     ),
   );
+  sl.registerLazySingleton<NotificationLogsRepository>(
+    () => NotificationLogsRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
 
   // Use case
   sl.registerLazySingleton(
     () => Logging(
+      repository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => NotificationLogs(
       repository: sl(),
     ),
   );

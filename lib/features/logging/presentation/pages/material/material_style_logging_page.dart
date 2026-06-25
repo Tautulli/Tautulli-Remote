@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/model/flog/log.dart';
 import 'package:f_logs/model/flog/log_level.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -83,6 +84,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
         appBar: AppBar(
           forceMaterialTransparency: true,
           title: const Text(LocaleKeys.app_logs_title).tr(),
+          centerTitle: defaultTargetPlatform == TargetPlatform.iOS,
           actions: _appbarActions(),
         ),
         body: MaterialStylePageBody(

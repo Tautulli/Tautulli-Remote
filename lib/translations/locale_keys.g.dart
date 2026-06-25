@@ -78,6 +78,7 @@ abstract class  LocaleKeys {
   static const default_title = 'default_title';
   static const delete_title = 'delete_title';
   static const details_title = 'details_title';
+  static const device_logs_title = 'device_logs_title';
   static const device_token_edit_snackbar_message = 'device_token_edit_snackbar_message';
   static const decision_title = 'decision_title';
   static const device_token_title = 'device_token_title';
@@ -122,6 +123,7 @@ abstract class  LocaleKeys {
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
   static const episode_title = 'episode_title';
+  static const encrypted_title = 'encrypted_title';
   static const episodes_title = 'episodes_title';
   static const error_message_bad_api_response = 'error_message_bad_api_response';
   static const error_message_certificate_expired = 'error_message_certificate_expired';
@@ -211,6 +213,7 @@ abstract class  LocaleKeys {
   static const logs_export_failed_message = 'logs_export_failed_message';
   static const logs_export_menu_item = 'logs_export_menu_item';
   static const logs_failed_to_load_message = 'logs_failed_to_load_message';
+  static const logs_title = 'logs_title';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
   static const max_concurrent_title = 'max_concurrent_title';
@@ -247,6 +250,8 @@ abstract class  LocaleKeys {
   static const none_title = 'none_title';
   static const not_accepted_title = 'not_accepted_title';
   static const not_configured_message = 'not_configured_message';
+  static const notification_logs_clear_dialog_title = 'notification_logs_clear_dialog_title';
+  static const notification_logs_title = 'notification_logs_title';
   static const notification_permission_dialog_title = 'notification_permission_dialog_title';
   static const notification_permission_dialog_content = 'notification_permission_dialog_content';
   static const onesignal_consent_switch_title = 'onesignal_consent_switch_title';

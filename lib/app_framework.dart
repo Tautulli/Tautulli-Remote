@@ -220,8 +220,7 @@ class _MaterialFrameworkState extends State<_MaterialFramework> {
       // Passing '/changelog' as MaterialApp's initialRoute with home:null makes
       // it the nav stack root with no way to dismiss it. BlocListener fires once
       // when SettingsSuccess is reached, at which point navigatorKey is valid.
-      listenWhen: (previous, current) =>
-          pushChangelog && previous is! SettingsSuccess && current is SettingsSuccess,
+      listenWhen: (previous, current) => pushChangelog && previous is! SettingsSuccess && current is SettingsSuccess,
       listener: (context, state) {
         // The MaterialApp.builder gates the Navigator behind SettingsSuccess;
         // wait one frame for that BlocBuilder to rebuild and mount the Navigator.
@@ -235,38 +234,38 @@ class _MaterialFrameworkState extends State<_MaterialFramework> {
         });
       },
       child: MaterialApp(
-      navigatorKey: navigatorKey,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: 'Tautulli Remote',
-      theme: ThemeHelper.materialThemeSelector(
-        theme: widget.theme,
-        color: (widget.themeUseSystemColor && defaultTargetPlatform.supportsAccentColor)
-            ? widget.systemColor
-            : widget.themeCustomColor,
-        enhancement: widget.themeEnhancement,
-        fontName: widget.useAtkinsonHyperLegible ? 'Atkinson Hyperlegible Next' : null,
-      ),
-      builder: (context, child) {
-        return BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            if (state is SettingsSuccess) {
-              return child!;
-            }
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: 'Tautulli Remote',
+        theme: ThemeHelper.materialThemeSelector(
+          theme: widget.theme,
+          color: (widget.themeUseSystemColor && defaultTargetPlatform.supportsAccentColor)
+              ? widget.systemColor
+              : widget.themeCustomColor,
+          enhancement: widget.themeEnhancement,
+          fontName: widget.useAtkinsonHyperLegible ? 'Atkinson Hyperlegible Next' : null,
+        ),
+        builder: (context, child) {
+          return BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsSuccess) {
+                return child!;
+              }
 
-            return const Scaffold(
-              body: MaterialStyleSettingsNotLoaded(),
-            );
-          },
-        );
-      },
-      routes: materialRoutes,
-      initialRoute: pushChangelog ? null : widget.initialRoute,
-      home: (widget.initialRoute == null || pushChangelog) ? _MaterialFramework.home() : null,
-    ),
-  );
+              return const Scaffold(
+                body: MaterialStyleSettingsNotLoaded(),
+              );
+            },
+          );
+        },
+        routes: materialRoutes,
+        initialRoute: pushChangelog ? null : widget.initialRoute,
+        home: (widget.initialRoute == null || pushChangelog) ? _MaterialFramework.home() : null,
+      ),
+    );
   }
 }
 

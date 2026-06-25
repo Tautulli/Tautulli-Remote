@@ -8,7 +8,7 @@ import '../../../../../../core/widgets/cupertino/cupertino_style_list_tile_exter
 import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../../logging/presentation/pages/cupertino/cupertino_style_logging_page.dart';
+import '../../../../../logging/presentation/pages/cupertino/cupertino_style_logs_page.dart';
 
 class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
   const CupertinoStyleHelpAndSupportGroup({super.key});
@@ -84,10 +84,10 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
             color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
-          titleText: LocaleKeys.tautulli_remote_logs_title.tr(),
+          titleText: LocaleKeys.logs_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => CupertinoStyleLoggingPage(
+              builder: (context) => CupertinoStyleLogsPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

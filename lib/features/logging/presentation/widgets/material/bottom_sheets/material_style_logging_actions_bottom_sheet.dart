@@ -50,7 +50,7 @@ class MaterialStyleLoggingActionsBottomSheet extends StatelessWidget {
             ),
             MaterialStyleListTile(
               leading: FaIcon(
-                FontAwesomeIcons.trashCan,
+                FontAwesomeIcons.solidCircleXmark,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
               title: LocaleKeys.logs_clear_menu_item.tr(),

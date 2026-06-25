@@ -11,7 +11,7 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var receivedRequest: UNNotificationRequest!
     var bestAttemptContent: UNMutableNotificationContent?
-    
+
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.receivedRequest = request
         self.contentHandler = contentHandler
@@ -23,7 +23,61 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
 
+    private struct DiagnosticEntry: Codable {
+        var timestamp: String
+        var platform: String = "ios"
+        var encrypted: Bool?
+        var encryptionVersion: Int?
+        var decryptionSuccess: Bool?
+        var decryptionError: String?
+        var imageRequested: Bool = false
+        var imageSuccess: Bool?
+        var imageError: String?
+
+        enum CodingKeys: String, CodingKey {
+            case timestamp
+            case platform
+            case encrypted
+            case encryptionVersion = "encryption_version"
+            case decryptionSuccess = "decryption_success"
+            case decryptionError = "decryption_error"
+            case imageRequested = "image_requested"
+            case imageSuccess = "image_success"
+            case imageError = "image_error"
+        }
+    }
+
+    private func appendDiagnosticLog(entry: DiagnosticEntry) {
+        guard let containerURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: "group.com.tautulli.tautulliRemote.onesignal"
+        ) else { return }
+
+        let fileURL = containerURL.appendingPathComponent("notification_diagnostic_log.json")
+
+        var entries: [[String: Any]] = []
+        if let data = try? Data(contentsOf: fileURL),
+           let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
+            entries = decoded
+        }
+
+        if let entryData = try? JSONEncoder().encode(entry),
+           let entryDict = try? JSONSerialization.jsonObject(with: entryData) as? [String: Any] {
+            entries.insert(entryDict, at: 0)
+        }
+
+        if entries.count > 50 {
+            entries = Array(entries.prefix(50))
+        }
+
+        if let data = try? JSONSerialization.data(withJSONObject: entries) {
+            try? data.write(to: fileURL)
+        }
+    }
+
     private func processPayload(from userInfo: [AnyHashable: Any], into content: UNMutableNotificationContent) {
+        var diagEntry = DiagnosticEntry(timestamp: ISO8601DateFormatter().string(from: Date()))
+        defer { appendDiagnosticLog(entry: diagEntry) }
+
         guard let custom = userInfo["custom"] as? [String: AnyObject],
               let data = custom["a"] as? [String: AnyObject],
               let encrypted = data["encrypted"] as? Bool,
@@ -32,7 +86,13 @@ class NotificationService: UNNotificationServiceExtension {
             return
         }
 
+        diagEntry.encrypted = encrypted
+
         let version = data["version"] as? Int ?? 1
+        if encrypted {
+            diagEntry.encryptionVersion = version
+        }
+
         let serverInfoDict = getServerInfo(serverId: serverId)
 
         guard let deviceToken = serverInfoDict["deviceToken"], !deviceToken.isEmpty else {
@@ -45,14 +105,19 @@ class NotificationService: UNNotificationServiceExtension {
             guard let salt = data["salt"] as? String,
                   let nonce = data["nonce"] as? String,
                   let cipherText = data["cipher_text"] as? String else {
+                diagEntry.decryptionSuccess = false
+                diagEntry.decryptionError = "Missing encryption fields"
                 print("Tautulli Notification Info: Missing encryption fields")
                 return
             }
             let decrypted = getUnencryptedMessage(version: version, deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
-            guard !decrypted.keys.contains("ERROR") else {
+            if decrypted.keys.contains("ERROR") {
+                diagEntry.decryptionSuccess = false
+                diagEntry.decryptionError = (decrypted["ERROR"] as? Error)?.localizedDescription ?? "Decryption failed"
                 print("Tautulli Notification Info: Decryption failed, using fallback content")
                 return
             }
+            diagEntry.decryptionSuccess = true
             jsonMessage = decrypted
         } else {
             guard let plainText = data["plain_text"] as? [String: Any] else {
@@ -93,20 +158,26 @@ class NotificationService: UNNotificationServiceExtension {
 
         guard let connectionAddress = connectionAddress,
               let posterThumb = jsonMessage["poster_thumb"] as? String,
+              !posterThumb.isEmpty,
               let fileUrl = URL(string: "\(connectionAddress)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(posterThumb)&width=1080") else {
             return
         }
+
+        diagEntry.imageRequested = true
 
         print("fileUrl: \(fileUrl)")
 
         guard let imageData = NSData(contentsOf: fileUrl),
               let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.jpg", data: imageData, options: nil) else {
+            diagEntry.imageSuccess = false
+            diagEntry.imageError = "Failed to download or attach image"
             return
         }
 
+        diagEntry.imageSuccess = true
         content.attachments = [attachment]
     }
-    
+
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
@@ -115,7 +186,7 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
-    
+
     private func getServerInfo(serverId: String) -> [String: String] {
         print("Tautulli Notification Info: Fetching server info for \(serverId)")
 
@@ -129,18 +200,18 @@ class NotificationService: UNNotificationServiceExtension {
             return [String: String]()
         }
         let query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"\(serverId)\""
-        
+
         var primaryConnectionAddress = ""
         var secondaryConnectionAddress = ""
         var primaryActive = ""
         var deviceToken = ""
-        
+
         var statement: OpaquePointer?
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error preparing select: \(errmsg)")
         }
-        
+
         while sqlite3_step(statement) == SQLITE_ROW {
             if let cString0 = sqlite3_column_text(statement, 0) {
                 primaryConnectionAddress = String(cString: cString0)
@@ -155,20 +226,20 @@ class NotificationService: UNNotificationServiceExtension {
                 deviceToken = String(cString: cString3)
             }
         }
-        
+
         if sqlite3_finalize(statement) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error finalizing prepared statement: \(errmsg)")
         }
-        
+
         statement = nil
-        
+
         if sqlite3_close(db) != SQLITE_OK {
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error closing database")
         }
-        
+
         db = nil
-        
+
         let serverInfoDict: [String: String] = [
             "primaryConnectionAddress": primaryConnectionAddress,
             "secondaryConnectionAddress": secondaryConnectionAddress,
@@ -177,7 +248,7 @@ class NotificationService: UNNotificationServiceExtension {
         ]
 
         print("Tautulli Notification Info: Server info found: \(serverInfoDict)")
-        
+
         return serverInfoDict
     }
 
@@ -212,7 +283,7 @@ class NotificationService: UNNotificationServiceExtension {
     }
     return derivationStatus == kCCSuccess ? derivedKeyData : nil
 }
-    
+
     private func getUnencryptedMessage(version: Int, deviceToken: String, salt: String, nonce: String, cipherText: String) -> [String: Any] {
         print("Tautulli Notification Info: Encypted notification received...")
 
@@ -230,13 +301,13 @@ class NotificationService: UNNotificationServiceExtension {
                 let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
 
                 print("Tautulli Notification Info: Decrypting v2 notification...")
-                
+
                 return decryptedData
             } catch {
                 os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
 
                 print("Tautulli Notification Info: Issues decrypting notification, required data missing")
-                
+
                 return ["ERROR": error]
             }
         } else {
@@ -249,13 +320,13 @@ class NotificationService: UNNotificationServiceExtension {
                 let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
 
                 print("Tautulli Notification Info: Decrypting v1 notification...")
-                
+
                 return decryptedData
             } catch {
                 os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
 
                 print("Tautulli Notification Info: Issues decrypting notification, required data missing")
-                
+
                 return ["ERROR": error]
             }
         }
@@ -263,12 +334,12 @@ class NotificationService: UNNotificationServiceExtension {
 }
 
 extension UNNotificationAttachment {
-    
+
     static func saveImageToDisk(fileIdentifier: String, data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
         let fileManager = FileManager.default
         let folderName = ProcessInfo.processInfo.globallyUniqueString
         let folderURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(folderName, isDirectory: true)
-        
+
         do {
             try fileManager.createDirectory(at: folderURL!, withIntermediateDirectories: true, attributes: nil)
             let fileURL = folderURL?.appendingPathComponent(fileIdentifier)
@@ -278,7 +349,7 @@ extension UNNotificationAttachment {
         } catch let error {
             print("error \(error)")
         }
-        
+
         return nil
     }
 }
