@@ -157,5 +157,6 @@ flutter:
     - assets/logos/weblate.svg
     - assets/logos/onesignal.svg
     - assets/splash/splash_ios.png
+    - assets/fonts/google_fonts/
     - assets/translations/
     - shorebird.yaml

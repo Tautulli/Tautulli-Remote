@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'firebase_options.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 import 'core/global_keys/global_keys.dart';
 import 'core/helpers/translation_helper.dart';
 import 'core/package_information/package_information.dart';
@@ -49,6 +51,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await di.init();
+  GoogleFonts.config.allowRuntimeFetching = false;
   await SystemTheme.accentColor.load();
 
   if (Firebase.apps.isEmpty) {
