@@ -52,14 +52,14 @@ class ProgressBar extends StatelessWidget {
           backgroundColor: backgroundColor,
           progressColor: transcodeColor,
           barRadius: const Radius.circular(4),
-          percent: ((transcodeProgress) / 100).toDouble(),
+          percent: (transcodeProgress / 100).clamp(0.0, 1.0),
         ),
         LinearPercentIndicator(
           lineHeight: 5,
           backgroundColor: const Color(0x00000000),
           progressColor: progressColor,
           barRadius: const Radius.circular(4),
-          percent: ((activity.live != true ? (progressPercent) : 100) / 100).toDouble(),
+          percent: ((activity.live != true ? progressPercent : 100) / 100).clamp(0.0, 1.0),
         ),
       ],
     );
