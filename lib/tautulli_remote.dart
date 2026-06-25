@@ -194,24 +194,28 @@ class TautulliRemoteState extends State<TautulliRemote> {
     //! Wait for SettingsBloc to be SettingsSuccess
     await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
 
-    final data = await AppVersionUpdate.checkForUpdates(
-      appleId: '1570909086',
-      playStoreId: 'com.tautulli.tautulli_remote',
-    );
+    try {
+      final data = await AppVersionUpdate.checkForUpdates(
+        appleId: '1570909086',
+        playStoreId: 'com.tautulli.tautulli_remote',
+      );
 
-    if (data.canUpdate != null) {
-      if (data.canUpdate == true) {
-        di.sl<Logging>().info(
-          'App Update :: Update available. Local Version: ${await di.sl<PackageInformation>().version} | Store Version: ${data.storeVersion}',
+      if (data.canUpdate != null) {
+        if (data.canUpdate == true) {
+          di.sl<Logging>().info(
+            'App Update :: Update available. Local Version: ${await di.sl<PackageInformation>().version} | Store Version: ${data.storeVersion}',
+          );
+        }
+
+        if (!mounted) return;
+        context.read<SettingsBloc>().add(
+          SettingsUpdateAppUpdateAvailable(
+            appUpdateAvailable: data.canUpdate!,
+          ),
         );
       }
-
-      if (!mounted) return;
-      context.read<SettingsBloc>().add(
-        SettingsUpdateAppUpdateAvailable(
-          appUpdateAvailable: data.canUpdate!,
-        ),
-      );
+    } catch (e) {
+      di.sl<Logging>().warning('App Update :: Failed to check for updates [$e]');
     }
   }
 
