@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_tile_external.dart';
@@ -58,7 +58,7 @@ class CupertinoStyleHelpTranslateView extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
               children: [
                 CupertinoStyleNotchedCupertinoListTile(
-                  leading: WebsafeSvg.asset(
+                  leading: SvgPicture.asset(
                     'assets/logos/weblate.svg',
                     colorFilter: const ColorFilter.mode(
                       ThemeHelper.cupertinoListTileIconColor,

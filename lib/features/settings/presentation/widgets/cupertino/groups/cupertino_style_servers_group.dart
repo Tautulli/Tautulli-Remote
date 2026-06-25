@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reorderables/reorderables.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
@@ -74,7 +74,7 @@ class CupertinoStyleServersGroup extends StatelessWidget {
                           (server) => CupertinoStyleNotchedCupertinoListTile(
                             sensitive: true,
                             key: ValueKey(server.tautulliId),
-                            leading: WebsafeSvg.asset(
+                            leading: SvgPicture.asset(
                               'assets/logos/logo_flat.svg',
                               colorFilter: const ColorFilter.mode(
                                 ThemeHelper.cupertinoListTileIconColor,

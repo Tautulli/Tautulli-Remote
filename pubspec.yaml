@@ -77,7 +77,7 @@ dependencies:
   url_launcher: ^6.3.0
   validators: ^3.0.0
   version: ^3.0.2
-  websafe_svg: ^3.0.1+2
+  flutter_svg: ^2.0.0+1
 
 dev_dependencies:
   build_runner: ^2.15.0

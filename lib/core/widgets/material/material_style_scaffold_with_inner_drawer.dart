@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../dependency_injection.dart' as di;
 import '../../../features/announcements/presentation/bloc/announcements_bloc.dart';
@@ -519,7 +519,7 @@ class _ServerSelectorState extends State<_ServerSelector> with SingleTickerProvi
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  leading: WebsafeSvg.asset(
+                  leading: SvgPicture.asset(
                     'assets/logos/logo_flat.svg',
                     colorFilter: ColorFilter.mode(
                       Theme.of(context).colorScheme.onSurface,

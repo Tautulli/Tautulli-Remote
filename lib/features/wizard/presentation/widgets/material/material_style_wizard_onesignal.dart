@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
@@ -92,7 +92,7 @@ class MaterialStyleWizardOneSignal extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       child: MaterialStyleToggleSettingsListTile(
                         titleIsTwoLines: true,
-                        leading: WebsafeSvg.asset(
+                        leading: SvgPicture.asset(
                           'assets/logos/onesignal.svg',
                           colorFilter: ColorFilter.mode(
                             Theme.of(context).colorScheme.onSurface,

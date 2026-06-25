@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/types/theme_type.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
@@ -24,7 +24,7 @@ class MaterialStyleThemesGroup extends StatelessWidget {
           heading: LocaleKeys.themes_title.tr(),
           listTiles: [
             MaterialStyleListTile(
-              leading: WebsafeSvg.asset(
+              leading: SvgPicture.asset(
                 'assets/logos/logo_flat.svg',
                 colorFilter: ColorFilter.mode(
                   Theme.of(context).colorScheme.onSurface,

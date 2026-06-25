@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
@@ -406,7 +406,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                     ),
                   ),
                 ),
-                icon: WebsafeSvg.asset(
+                icon: SvgPicture.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
                   colorFilter: const ColorFilter.mode(
                     ThemeHelper.cupertinoCardIconColor,
@@ -421,7 +421,7 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
           if (stat.statIdType == StatIdType.mostConcurrent) {
             widgetList.add(
               CupertinoStyleIconCard(
-                icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
+                icon: SvgPicture.asset('assets/icons/concurrent.svg'),
                 details: MostConcurrentStatisticDetails(statData: statData),
               ),
             );

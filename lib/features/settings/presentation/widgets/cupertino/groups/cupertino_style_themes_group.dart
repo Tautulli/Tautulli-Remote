@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/types/theme_type.dart';
@@ -29,7 +29,7 @@ class CupertinoStyleThemesGroup extends StatelessWidget {
           headerText: isWizard ? null : LocaleKeys.themes_title.tr(),
           children: [
             CupertinoStyleNotchedCupertinoListTile(
-              leading: WebsafeSvg.asset(
+              leading: SvgPicture.asset(
                 'assets/logos/logo_flat.svg',
                 colorFilter: const ColorFilter.mode(
                   ThemeHelper.cupertinoListTileIconColor,

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
@@ -25,7 +25,7 @@ class CupertinoStyleLibraryIcon extends StatelessWidget {
                 imageUrl: library.iconUri.toString(),
               );
             } else {
-              return WebsafeSvg.asset(
+              return SvgPicture.asset(
                 AssetHelper.mapSectionTypeToPath(library.sectionType),
 
                 height: 50,

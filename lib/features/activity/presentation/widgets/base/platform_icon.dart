@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
@@ -45,7 +45,7 @@ class PlatformIcon extends StatelessWidget {
       color: TautulliColorPalette.mapPlatformToColor(platformName),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: WebsafeSvg.asset(
+        child: SvgPicture.asset(
           AssetHelper.mapPlatformToPath(platformName),
           colorFilter: ColorFilter.mode(
             iconColor,

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/helpers/asset_helper.dart';
 import '../../../data/models/library_table_model.dart';
@@ -25,7 +25,7 @@ class MaterialStyleLibraryIcon extends StatelessWidget {
                 imageUrl: library.iconUri.toString(),
               );
             } else {
-              return WebsafeSvg.asset(
+              return SvgPicture.asset(
                 AssetHelper.mapSectionTypeToPath(library.sectionType),
                 colorFilter: ColorFilter.mode(
                   Theme.of(context).colorScheme.onSurface,

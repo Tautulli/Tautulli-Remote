@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:reorderables/reorderables.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/widgets/material/material_style_list_tile.dart';
 import '../../../../../../core/widgets/material/material_style_list_tile_chevron.dart';
@@ -59,7 +59,7 @@ class MaterialStyleServersGroup extends StatelessWidget {
                             (server) => MaterialStyleListTile(
                               key: ValueKey(server.tautulliId),
                               sensitive: true,
-                              leading: WebsafeSvg.asset(
+                              leading: SvgPicture.asset(
                                 'assets/logos/logo_flat.svg',
                                 colorFilter: ColorFilter.mode(
                                   Theme.of(context).colorScheme.onSurface,

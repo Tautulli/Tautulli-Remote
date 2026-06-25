@@ -107,16 +107,6 @@ PODS:
   - GoogleDataTransport (10.1.0):
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
-  - GoogleMLKit/BarcodeScanning (7.0.0):
-    - GoogleMLKit/MLKitCore
-    - MLKitBarcodeScanning (~> 6.0.0)
-  - GoogleMLKit/MLKitCore (7.0.0):
-    - MLKitCommon (~> 12.0.0)
-  - GoogleToolboxForMac/Defines (4.2.1)
-  - GoogleToolboxForMac/Logger (4.2.1):
-    - GoogleToolboxForMac/Defines (= 4.2.1)
-  - "GoogleToolboxForMac/NSData+zlib (4.2.1)":
-    - GoogleToolboxForMac/Defines (= 4.2.1)
   - GoogleUtilities/AppDelegateSwizzler (8.1.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -144,27 +134,9 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.1):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GTMSessionFetcher/Core (3.5.0)
-  - MLImage (1.0.0-beta6)
-  - MLKitBarcodeScanning (6.0.0):
-    - MLKitCommon (~> 12.0)
-    - MLKitVision (~> 8.0)
-  - MLKitCommon (12.0.0):
-    - GoogleDataTransport (~> 10.0)
-    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
-    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
-    - GoogleUtilities/Logger (~> 8.0)
-    - GoogleUtilities/UserDefaults (~> 8.0)
-    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
-  - MLKitVision (8.0.0):
-    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
-    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
-    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
-    - MLImage (= 1.0.0-beta6)
-    - MLKitCommon (~> 12.0)
-  - mobile_scanner (6.0.2):
+  - mobile_scanner (7.0.0):
     - Flutter
-    - GoogleMLKit/BarcodeScanning (~> 7.0.0)
+    - FlutterMacOS
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
@@ -264,7 +236,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_app_group_directory (from `.symlinks/plugins/flutter_app_group_directory/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`)
+  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - OneSignalXCFramework (< 6.0, >= 5.0.0)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -293,14 +265,7 @@ SPEC REPOS:
     - GoogleAdsOnDeviceConversion
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleMLKit
-    - GoogleToolboxForMac
     - GoogleUtilities
-    - GTMSessionFetcher
-    - MLImage
-    - MLKitBarcodeScanning
-    - MLKitCommon
-    - MLKitVision
     - nanopb
     - OneSignalXCFramework
     - PromisesObjC
@@ -328,7 +293,7 @@ EXTERNAL SOURCES:
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   mobile_scanner:
-    :path: ".symlinks/plugins/mobile_scanner/ios"
+    :path: ".symlinks/plugins/mobile_scanner/darwin"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
@@ -375,15 +340,8 @@ SPEC CHECKSUMS:
   GoogleAdsOnDeviceConversion: 80ce443fa1b4b5750913d53a04ecda644ff57744
   GoogleAppMeasurement: 1987ffa55055dfb22c52e363c31aa50c1e11d349
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
-  GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
-  GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
   GoogleUtilities: 4f2618a4a1e762a1ee134a1e2323bba9843e06da
-  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  MLImage: 0ad1c5f50edd027672d8b26b0fee78a8b4a0fc56
-  MLKitBarcodeScanning: 0a3064da0a7f49ac24ceb3cb46a5bc67496facd2
-  MLKitCommon: 07c2c33ae5640e5380beaaa6e4b9c249a205542d
-  MLKitVision: 45e79d68845a2de77e2dd4d7f07947f0ed157b0e
-  mobile_scanner: fd0054c52ede661e80bf5a4dea477a2467356bee
+  mobile_scanner: 77265f3dc8d580810e91849d4a0811a90467ed5e
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   onesignal_flutter: 0fb0244703be06abda5161aac626bfd7b394c338
   OneSignalXCFramework: 2f46ff87ccefd9afe8e3b5f9fe357072191205ff

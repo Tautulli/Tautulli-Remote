@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
@@ -43,7 +43,7 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
           margin: EdgeInsets.zero,
           children: [
             CupertinoStyleNotchedCupertinoListTile(
-              leading: WebsafeSvg.asset(
+              leading: SvgPicture.asset(
                 'assets/logos/onesignal.svg',
                 colorFilter: const ColorFilter.mode(
                   ThemeHelper.cupertinoListTileIconColor,

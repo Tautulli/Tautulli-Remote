@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide showAboutDialog;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/package_information/package_information.dart';
 import '../../../../../../dependency_injection.dart' as di;
@@ -21,7 +21,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
       heading: LocaleKeys.more_title.tr(),
       listTiles: [
         MaterialStyleListTile(
-          leading: WebsafeSvg.asset(
+          leading: SvgPicture.asset(
             'assets/logos/onesignal.svg',
             colorFilter: ColorFilter.mode(
               Theme.of(context).colorScheme.onSurface,

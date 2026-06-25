@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
@@ -254,7 +254,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                     ),
                   ),
                 ),
-                icon: WebsafeSvg.asset(
+                icon: SvgPicture.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
                   colorFilter: const ColorFilter.mode(
                     ThemeHelper.cupertinoCardIconColor,
@@ -269,7 +269,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
         return stat.stats
             .map(
               (statData) => CupertinoStyleIconCard(
-                icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
+                icon: SvgPicture.asset('assets/icons/concurrent.svg'),
                 details: MostConcurrentStatisticDetails(statData: statData),
               ),
             )

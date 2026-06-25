@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
@@ -256,7 +256,7 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
                     ),
                   ),
                 ),
-                icon: WebsafeSvg.asset(
+                icon: SvgPicture.asset(
                   AssetHelper.mapPlatformToPath(playerStat.platformName!),
                 ),
                 details: Column(

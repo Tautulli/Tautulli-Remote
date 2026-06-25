@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/asset_helper.dart';
@@ -447,7 +447,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
                     ),
                   ),
                 ),
-                icon: WebsafeSvg.asset(
+                icon: SvgPicture.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
                   colorFilter: ColorFilter.mode(
                     Theme.of(context).colorScheme.onSurface,
@@ -465,7 +465,7 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
           if (stat.statIdType == StatIdType.mostConcurrent) {
             widgetList.add(
               MaterialStyleIconCard(
-                icon: WebsafeSvg.asset('assets/icons/concurrent.svg'),
+                icon: SvgPicture.asset('assets/icons/concurrent.svg'),
                 details: MostConcurrentStatisticDetails(
                   statData: statData,
                   textColor: Theme.of(context).colorScheme.onSurface,
