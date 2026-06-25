@@ -67,7 +67,7 @@ class MaterialStyleStatisticsView extends StatefulWidget {
 class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsView> {
   late ServerModel _server;
   late PlayMetricType _statsType;
-  late int _timeRange;
+  int _timeRange = 30;
   late StatisticsBloc _statisticsBloc;
   late SettingsBloc _settingsBloc;
 

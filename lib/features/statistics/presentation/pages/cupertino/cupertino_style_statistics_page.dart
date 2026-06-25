@@ -85,7 +85,7 @@ class CupertinoStyleStatisticsView extends StatefulWidget {
 class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsView> {
   late ServerModel _server;
   late PlayMetricType _statsType;
-  late int _timeRange;
+  int _timeRange = 30;
   late StatisticsBloc _statisticsBloc;
   late SettingsBloc _settingsBloc;
   final _scrollController = ScrollController();

@@ -56,7 +56,7 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
   late ServerModel _server;
   late int? _userId;
   late PlayMetricType _yAxis;
-  late int _timeRange;
+  int _timeRange = 30;
   late GraphsBloc _graphsBloc;
   late UsersBloc _usersBloc;
   late SettingsBloc _settingsBloc;
