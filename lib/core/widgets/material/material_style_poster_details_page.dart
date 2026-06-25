@@ -93,15 +93,6 @@ class _MaterialStylePosterDetailsPageState extends State<MaterialStylePosterDeta
                                     )
                                   : const SizedBox.shrink(),
                             ),
-                            // Covers the thin line between the top of the content and the background colour
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                height: 5,
-                                width: MediaQuery.of(context).size.width,
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                            ),
                             // Fades the info section as the page is scrolled
                             Positioned.fill(
                               child: ColoredBox(
