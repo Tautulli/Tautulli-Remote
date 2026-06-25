@@ -70,6 +70,14 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                   const Gap(8),
                   MaterialStyleNoticeCard(
                     leading: FaIcon(
+                      FontAwesomeIcons.brush,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    title: LocaleKeys.wizard_closing_styles.tr(),
+                  ),
+                  const Gap(8),
+                  MaterialStyleNoticeCard(
+                    leading: FaIcon(
                       FontAwesomeIcons.language,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
