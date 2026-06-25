@@ -53,7 +53,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await rateApp.init();
+      if (!await initRateApp()) return;
       if (rateApp.shouldOpenDialog) {
         rateApp.showRateDialog(
           context,
