@@ -86,7 +86,10 @@ class NotificationHelper {
         return jsonDecode(clearTextFlutter);
       }
     } else {
-      return jsonDecode(data['plain_text']);
+      final plainText = data['plain_text'];
+      if (plainText is Map) return Map<String, dynamic>.from(plainText.cast<String, dynamic>());
+      if (plainText is String) return jsonDecode(plainText) as Map<String, dynamic>?;
+      return null;
     }
 
     return null;
