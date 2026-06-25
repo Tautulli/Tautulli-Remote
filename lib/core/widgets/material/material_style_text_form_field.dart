@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MaterialStyleTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final bool autofocus;
   final String? labelText;
   final String? hintText;
   final Widget? suffixIcon;
@@ -14,6 +15,7 @@ class MaterialStyleTextFormField extends StatelessWidget {
     super.key,
     this.controller,
     this.focusNode,
+    this.autofocus = false,
     this.labelText,
     this.hintText,
     this.suffixIcon,
@@ -27,6 +29,7 @@ class MaterialStyleTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
+      autofocus: autofocus,
       autocorrect: false,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(

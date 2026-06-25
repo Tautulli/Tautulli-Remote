@@ -23,9 +23,7 @@ class MaterialStyleTerminateStreamBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      child: MaterialStyleBottomSheetScaffold(
+    return MaterialStyleBottomSheetScaffold(
         leading: TextButton(
           style: TextButton.styleFrom(
             minimumSize: Size.zero,
@@ -73,8 +71,7 @@ class MaterialStyleTerminateStreamBottomSheet extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 

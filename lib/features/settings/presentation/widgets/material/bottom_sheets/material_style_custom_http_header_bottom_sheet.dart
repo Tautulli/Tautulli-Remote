@@ -128,6 +128,7 @@ class _MaterialStyleCustomHttpHeaderBottomSheetState extends State<MaterialStyle
             MaterialStyleTextFormField(
               controller: _keyController,
               focusNode: _keyFocus,
+              autofocus: true,
               labelText: _selectedSegment == CustomHttpHeaderType.basic
                   ? LocaleKeys.username_title.tr()
                   : LocaleKeys.header_key_title.tr(),

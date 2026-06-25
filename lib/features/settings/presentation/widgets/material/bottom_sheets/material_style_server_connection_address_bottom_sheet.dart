@@ -79,6 +79,7 @@ class _MaterialStyleServerConnectionAddressBottomSheetState
         ),
         child: MaterialStyleTextFormField(
           controller: _controller,
+          autofocus: true,
           hintText: widget.primary
               ? LocaleKeys.primary_connection_address_hint.tr()
               : LocaleKeys.secondary_connection_address_hint.tr(),

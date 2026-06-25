@@ -122,6 +122,7 @@ class _MaterialStyleEditCustomHttpHeaderBottomSheetState extends State<MaterialS
             MaterialStyleTextFormField(
               controller: _keyController,
               focusNode: _keyFocus,
+              autofocus: true,
               labelText: _isBasicAuth ? LocaleKeys.username_title.tr() : LocaleKeys.header_key_title.tr(),
               validator: (value) {
                 if (isBlank(value)) {

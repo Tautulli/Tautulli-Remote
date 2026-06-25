@@ -18,68 +18,73 @@ class MaterialStyleBottomSheetScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 12),
-          child: MaterialStyleGesturePill(),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.8,
         ),
-        if (title != null || leading != null || trailing != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            constraints: const BoxConstraints(minHeight: 44),
-            child: title != null
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 80,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: leading,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            title!,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 80,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: trailing,
-                        ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ?leading,
-                      ?trailing,
-                    ],
-                  ),
-          ),
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(context).height * 0.6,
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: child,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: MaterialStyleGesturePill(),
             ),
-          ),
+            if (title != null || leading != null || trailing != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                constraints: const BoxConstraints(minHeight: 44),
+                child: title != null
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 80,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: leading,
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                title!,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 80,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: trailing,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ?leading,
+                          ?trailing,
+                        ],
+                      ),
+              ),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: child,
+                ),
+              ),
+            ),
+            SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
+          ],
         ),
-        SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
-      ],
+      ),
     );
   }
 }
