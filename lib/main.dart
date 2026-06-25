@@ -69,9 +69,12 @@ void main() async {
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics.
+  // Network I/O errors that escape error handling (e.g. from third-party SDKs) are recorded as
+  // non-fatal so they remain visible without inflating the crash rate.
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    final bool fatal = error is! HandshakeException && error is! SocketException;
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: fatal);
     return true;
   };
 
