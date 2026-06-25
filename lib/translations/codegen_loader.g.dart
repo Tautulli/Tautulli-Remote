@@ -4950,7 +4950,7 @@ static const Map<String,dynamic> _sv = {
   "register_a_tautulli_server_title": "Registrera en Tautulli-server",
   "request_a_new_language_title": "Begär ett nytt språk",
   "scan_qr_code_title": "Skanna QR-kod",
-  "seasons_title": "Årstider",
+  "seasons_title": "Säsonger",
   "sec": "sek",
   "secondary_connection_address_hint": "Ange din sekundära anslutningsadress",
   "secondary_connection_address_title": "Sekundär anslutningsadress",
