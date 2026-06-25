@@ -67,6 +67,7 @@ class _MaterialStylePosterDetailsPageState extends State<MaterialStylePosterDeta
                 sliver: SliverAppBar(
                   pinned: true,
                   expandedHeight: _expandedHeight,
+                  scrolledUnderElevation: 0,
                   title: Opacity(
                     opacity: _titleOpacity,
                     child: Text(widget.itemSubtitle ?? widget.itemTitle),
@@ -80,18 +81,25 @@ class _MaterialStylePosterDetailsPageState extends State<MaterialStylePosterDeta
 
                         return Stack(
                           children: [
-                            // Background image
-                            Positioned.fill(
-                              child: !settingsState.appSettings.disableImageBackgrounds
-                                  ? ImageGradientBackground(
-                                      imageUri: widget.posterUri,
-                                      httpHeaders: {
-                                        for (CustomHeaderModel headerModel
-                                            in settingsState.appSettings.activeServer.customHeaders)
-                                          headerModel.key: headerModel.value,
-                                      },
-                                    )
-                                  : const SizedBox.shrink(),
+                            // Background image — ClipRect and bottom:1 prevents the ImageFiltered blur (sigma 25) from
+                            // bleeding past the widget bounds into the header/body seam
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 1,
+                              child: ClipRect(
+                                child: !settingsState.appSettings.disableImageBackgrounds
+                                    ? ImageGradientBackground(
+                                        imageUri: widget.posterUri,
+                                        httpHeaders: {
+                                          for (CustomHeaderModel headerModel
+                                              in settingsState.appSettings.activeServer.customHeaders)
+                                            headerModel.key: headerModel.value,
+                                        },
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
                             ),
                             // Fades the info section as the page is scrolled
                             Positioned.fill(
