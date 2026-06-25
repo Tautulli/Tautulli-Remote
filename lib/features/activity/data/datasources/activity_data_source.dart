@@ -39,9 +39,10 @@ class ActivityDataSourceImpl implements ActivityDataSource {
       sessionId: sessionId,
     );
 
-    final List<ActivityModel> activityList = result.value1['response']['data']['sessions']
-        .map<ActivityModel>((activityItem) => ActivityModel.fromJson(activityItem))
-        .toList();
+    final List<ActivityModel> activityList = (result.value1['response']['data']['sessions'] as List?)
+            ?.map<ActivityModel>((activityItem) => ActivityModel.fromJson(activityItem))
+            .toList() ??
+        [];
 
     return Tuple2(activityList, result.value2);
   }
