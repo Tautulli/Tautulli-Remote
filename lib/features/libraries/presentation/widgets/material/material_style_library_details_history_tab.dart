@@ -141,6 +141,7 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
 
   bool get _isBottom {
     if (!_scrollController!.hasClients) return false;
+    if (_scrollController!.positions.length != 1) return false;
     final maxScroll = _scrollController!.position.maxScrollExtent;
     final currentScroll = _scrollController!.offset;
     return currentScroll >= (maxScroll * 0.95);
