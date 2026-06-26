@@ -3,7 +3,7 @@ description: An application for accessing your Tautulli server remotely.
 
 publish_to: 'none'
 
-version: 3.5.0+180
+version: 3.5.1+183
 
 environment:
   sdk: '>=3.8.0 <4.0.0'

@@ -1,6 +1,62 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.5.1",
+      "date": "July 1, 2026",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Added notification logs. These logs show when a notification was received, if it was encrypted, and if it had any errors when processing.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Switch from bottom sheets to dedicated pages for material style activity and history details.",
+        },
+        {
+          "type": "improvement",
+          "detail": "User bottom sheets for settings on material style pages.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Various other smaller adjustments to update the look of the material style.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Update the QR code scanner for both material and cupertino styles.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Mask additional items on the data dump page when mask sensitive info is enabled.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Improving the styling when reordering servers in cupertino style.",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Hungarian, Latvian, Swedish, and Ukrainian.",
+          "additional": "Thanks @ugyes, @Coool, @zissou1, and @Michael5564445",
+        },
+        {
+          "type": "fix",
+          "detail": "Background on material style user details page was not darkened.",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix appearance of cupertino style graph cards while loading.",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix keyboard behavior in cupertino style custom header bottom sheet.",
+        },
+        {
+          "type": "fix",
+          "detail": "Quick actions were not resolving their titles correctly.",
+        },
+      ],
+    },
+    {
       "version": "v3.5.0",
       "date": "June 19, 2026",
       "changes": [
