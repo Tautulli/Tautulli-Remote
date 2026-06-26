@@ -6,20 +6,19 @@ Tautulli Remote is available for Android and iOS and can be downloaded from the 
 <a href='https://play.google.com/store/apps/details?id=com.tautulli.tautulli_remote&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="150"/></a>
 <a href="https://apps.apple.com/us/app/tautulli-remote/id1570909086?platform=iphone"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;" alt="Download on the App Store" style="border-radius: 13px; width: 125px; height: 58px;"></a>
 
-## AI Disclosure (June 1, 2026)
+## AI Disclosure (June 26, 2026)
 As AI tools become more useful, I believe it is important to provide a space to transparently disclose how I am using these tools. 
 
 I took over development of Tautulli Remote back in 2020 by starting to learn Dart and Flutter. Before v3.5.0 I used an AI tool to solve a single Gradle migration issue for the Android version. With the release of v3.5.0 I have leveraged these tools more, but my approach is rather manual. I ask specific questions, review the response, and evaluate what information is usable and what is slop. I intend to keep the below sections updated as any use of these tools changes. If you have any questions that are not answered below, please open an issue and I will make sure they get included.
 
 ### How I Have Used (and Plan to Use) AI Tools
 - Provide some context alongside an error message to better understand the source of the issue.
-- Ask how I might implement a particular idea.
+- Create a plan for implementing new features.
 - Ask for recommendations on Cupertino theme icons, widgets, etc. that accomplish what I have in the Material theme (and vice versa).
 - Ask to review code to look for issues or inefficiencies and provide recommendations.
 
 ### How I Have Not Used AI Tools
-- No AI code has been added automatically.
-- No AI code has been copy-pasted without review.
+- No AI code has been used without thorough review.
 - No AI media generation of any kind.
 
 ## Features
