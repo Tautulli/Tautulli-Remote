@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/api/tautulli/tautulli_api.dart' as tautulli_api;
+import 'core/api/tautulli_connection_adapter.dart';
 import 'core/utilities/cast.dart';
 import 'core/database/data/datasources/database.dart';
 import 'core/device_info/device_info.dart';
@@ -116,83 +116,8 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   //! Core - API
-  sl.registerLazySingleton<tautulli_api.CallTautulli>(
-    () => tautulli_api.CallTautulliImpl(),
-  );
-  sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
-    () => tautulli_api.ConnectionHandlerImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.DeleteImageCache>(
-    () => tautulli_api.DeleteImageCacheImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetActivity>(
-    () => tautulli_api.GetActivityImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetChildrenMetadata>(
-    () => tautulli_api.GetChildrenMetadataImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetConcurrentStreamsByStreamType>(
-    () => tautulli_api.GetConcurrentStreamsByStreamTypeImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetGeoIpLookup>(
-    () => tautulli_api.GetGeoIpLookupImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetHistory>(
-    () => tautulli_api.GetHistoryImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetHomeStats>(
-    () => tautulli_api.GetHomeStatsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetLibrariesTable>(
-    () => tautulli_api.GetLibrariesTableImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetLibraryMediaInfo>(
-    () => tautulli_api.GetLibraryMediaInfoImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetLibraryUserStats>(
-    () => tautulli_api.GetLibraryUserStatsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetLibraryWatchTimeStats>(
-    () => tautulli_api.GetLibraryWatchTimeStatsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetMetadata>(
-    () => tautulli_api.GetMetadataImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetPlaysByGraphType>(
-    () => tautulli_api.GetPlaysByGraphTypeImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
-    () => tautulli_api.GetRecentlyAddedImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetServerInfo>(
-    () => tautulli_api.GetServerInfoImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetSettings>(
-    () => tautulli_api.GetSettingsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetUserPlayerStats>(
-    () => tautulli_api.GetUserPlayerStatsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetUserWatchTimeStats>(
-    () => tautulli_api.GetUserWatchTimeStatsImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetUser>(
-    () => tautulli_api.GetUserImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetUserNames>(
-    () => tautulli_api.GetUserNamesImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.GetUsersTable>(
-    () => tautulli_api.GetUsersTableImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.PmsImageProxy>(
-    () => tautulli_api.PmsImageProxyImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.RegisterDevice>(
-    () => tautulli_api.RegisterDeviceImpl(sl()),
-  );
-  sl.registerLazySingleton<tautulli_api.TerminateSession>(
-    () => tautulli_api.TerminateSessionImpl(sl()),
+  sl.registerLazySingleton<TautulliConnectionAdapter>(
+    () => TautulliConnectionAdapter(settings: sl(), logging: sl()),
   );
 
   //! Core - Device Info
@@ -278,10 +203,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<ActivityDataSource>(
-    () => ActivityDataSourceImpl(
-      getActivityApi: sl(),
-      terminateStreamApi: sl(),
-    ),
+    () => ActivityDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Announcements
@@ -342,9 +264,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<GeoIpDataSource>(
-    () => GeoIpDataSourceImpl(
-      getGeoIpLookup: sl(),
-    ),
+    () => GeoIpDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Graphs
@@ -374,10 +294,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<GraphsDataSource>(
-    () => GraphsDataSourceImpl(
-      getConcurrentStreamsByStreamTypeApi: sl(),
-      getPlaysByGraphTypeApi: sl(),
-    ),
+    () => GraphsDataSourceImpl(adapter: sl()),
   );
 
   //! Features - History
@@ -431,9 +348,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<HistoryDataSource>(
-    () => HistoryDataSourceImpl(
-      getHistoryApi: sl(),
-    ),
+    () => HistoryDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Image URL
@@ -454,9 +369,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<ImageUrlDataSource>(
-    () => ImageUrlDataSourceImpl(
-      pmsImageProxy: sl(),
-    ),
+    () => ImageUrlDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Libraries
@@ -502,12 +415,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<LibrariesDataSource>(
-    () => LibrariesDataSourceImpl(
-      getLibrariesTableApi: sl(),
-      getLibraryMediaInfoApi: sl(),
-      getLibraryUserStatsApi: sl(),
-      getLibraryWatchTimeStatsApi: sl(),
-    ),
+    () => LibrariesDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Logging
@@ -597,10 +505,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<MediaDataSource>(
-    () => MediaDataSourceImpl(
-      getMetadataApi: sl(),
-      getChildrenMetadataApi: sl(),
-    ),
+    () => MediaDataSourceImpl(adapter: sl()),
   );
 
   //! Features - OneSignal
@@ -685,9 +590,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<RecentlyAddedDataSource>(
-    () => RecentlyAddedDataSourceImpl(
-      getRecentlyAddedApi: sl(),
-    ),
+    () => RecentlyAddedDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Search
@@ -756,10 +659,7 @@ Future<void> init() async {
       deviceInfo: sl(),
       localStorage: sl(),
       packageInfo: sl(),
-      deleteImageCacheApi: sl(),
-      getServerInfoApi: sl(),
-      getSettingsApi: sl(),
-      registerDeviceApi: sl(),
+      adapterProvider: () => sl(),
     ),
   );
 
@@ -791,9 +691,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<StatisticsDataSource>(
-    () => StatisticsDataSourceImpl(
-      getHomeStatsApi: sl(),
-    ),
+    () => StatisticsDataSourceImpl(adapter: sl()),
   );
 
   //! Features - Translation
@@ -852,12 +750,6 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<UsersDataSource>(
-    () => UsersDataSourceImpl(
-      getUserApi: sl(),
-      getUserPlayerStats: sl(),
-      getUserWatchTimeStats: sl(),
-      getUserNamesApi: sl(),
-      getUsersTableApi: sl(),
-    ),
+    () => UsersDataSourceImpl(adapter: sl()),
   );
 }

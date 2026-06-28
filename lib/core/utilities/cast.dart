@@ -23,7 +23,7 @@ class Cast {
       case num _:
         return (value as num?) == 0 ? false : true;
       case String _:
-        return (value as String?) == "" || value == "0" ? false : true;
+        return (value as String?) == "" || value == "0" || value.toLowerCase() == 'false' ? false : true;
       case bool _:
         return (value as bool?);
       default:
@@ -107,8 +107,9 @@ class Cast {
       case SectionType _:
       case StatIdType _:
       case StreamDecision _:
-      case ImageFallback _:
         return value.apiValue();
+      case ImageFallback _:
+        return value.value;
       default:
         return null;
     }

@@ -59,7 +59,7 @@ feature_name/
 
 **Functional programming:** Usecases return `Either<Failure, T>` from the `dartz` package. Failures are defined in `lib/core/error/` and mapped to user-facing messages in `lib/core/helpers/failure_helper.dart`.
 
-**`imageUrl.getImageUrl()` is synchronous URI construction, not an HTTP call.** The `pms_image_proxy` path in `call_tautulli.dart` short-circuits before any network I/O and returns a locally-constructed `Uri` from the server's connection parameters. Sequential `await` calls on it per item are fine — there is no network round-trip.
+**`adapter.buildImageUrl()` is synchronous URI construction, not an HTTP call.** It returns a locally-constructed `pms_image_proxy` `Uri` from the server's connection parameters with no network I/O. Sequential `await` calls on it per item are fine — there is no network round-trip.
 
 ## Dual UI (Material & Cupertino)
 
@@ -111,7 +111,7 @@ When adding server-level fields, update the SQLite schema and `ServerModel`. Whe
 
 ## Multi-Server & Connection Failover
 
-Each server has a primary and optional secondary connection address. `lib/core/api/tautulli/connection_handler.dart` transparently fails over to the secondary address when the primary fails and updates `primaryActive` on the server record. All API calls go through `ConnectionHandler` → `CallTautulli`. Individual Tautulli API endpoints live in `lib/core/api/tautulli/endpoints/`, one file per API command.
+Each server has a primary and optional secondary connection address. `lib/core/api/tautulli_connection_adapter.dart` transparently fails over to the secondary address when the primary fails and updates `primaryActive` on the server record. All API calls go through `TautulliConnectionAdapter` via `adapter.call(tautulliId, action: (client) => client.<service>.<method>(...))`, which resolves the correct server, handles failover, and returns `ApiResult<T>`. Datasources unpack this into `Tuple2<T, bool>` for the repository layer.
 
 ## Shared Core Widgets
 

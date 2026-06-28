@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:quiver/strings.dart';
+import 'package:tautulli/tautulli.dart' as pkg;
 
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
@@ -19,28 +18,31 @@ class FailureHelper {
   ///
   /// Unknown exceptions will map to `GenericFailure`.
   static Failure castToFailure(dynamic exception) {
-    // Parse DioException responses to map to more specific errors
-    if (exception is DioException) {
-      final responseString = exception.response.toString();
-
-      if (responseString.toLowerCase().contains('authorization required')) {
-        exception = AuthorizationRequiredException();
-      } else if (responseString.contains('"message":"Invalid apikey"')) {
-        exception = InvalidApiKeyException();
-      } else if (responseString.contains('"message":"Failed to terminate session')) {
-        exception = TerminateStreamException();
-      } else {
-        if (isNotBlank(responseString) && responseString != 'null') {
-          di.sl<Logging>().error(
-            'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
-          );
-          FirebaseCrashlytics.instance.recordError(exception, StackTrace.current, fatal: false);
-        }
-        exception = ServerException();
-      }
-    }
-
     switch (exception) {
+      // --- Package exceptions (new TautulliConnectionAdapter-based datasources) ---
+      case pkg.TautulliAuthException _:
+        return AuthorizationRequiredFailure();
+      case pkg.TautulliBadResponseException _:
+        return BadApiResponseFailure();
+      case pkg.TautulliCertExpiredException _:
+        return CertificateExpiredFailure();
+      case pkg.TautulliCertVerificationException _:
+        return CertificateVerificationFailure();
+      case pkg.TautulliConnectionException _:
+        return ConnectionFailure();
+      case pkg.TautulliInvalidApiKeyException _:
+        return InvalidApiKeyFailure();
+      case pkg.TautulliServerException _:
+        return ServerFailure();
+      case pkg.TautulliTerminateStreamException _:
+        return TerminateStreamFailure();
+      case pkg.TautulliTimeoutException _:
+        return TimeoutFailure();
+      case pkg.TautulliVersionException _:
+        return ServerVersionFailure();
+      case pkg.TautulliProtocolException _:
+        return ConnectionFailure();
+      // --- Legacy app exceptions (datasources not yet migrated to the adapter) ---
       case AuthorizationRequiredException _:
         return AuthorizationRequiredFailure();
       case BadApiResponseException _:
@@ -53,8 +55,6 @@ class FailureHelper {
       //   return ConnectionDetailsFailure();
       case DatabaseInitException _:
         return DatabaseInitFailure();
-      case DioException _:
-        return DioFailure();
       case InvalidApiKeyException _:
         return InvalidApiKeyFailure();
       // case HandshakeException _:
@@ -108,7 +108,6 @@ class FailureHelper {
       //   return jsonMessage;
       case MissingServerFailure _:
         return LocaleKeys.error_message_no_servers.tr();
-      case DioFailure _:
       case ServerFailure _:
         return LocaleKeys.error_message_server.tr();
       case ServerVersionFailure _:
@@ -153,7 +152,6 @@ class FailureHelper {
       //   return checkConnectionAddressSuggestion;
       case MissingServerFailure _:
         return LocaleKeys.error_suggestion_register_server.tr();
-      case DioFailure _:
       case ServerFailure _:
         return LocaleKeys.error_suggestion_check_server_settings.tr();
       case ServerVersionFailure _:

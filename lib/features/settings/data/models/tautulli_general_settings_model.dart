@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../utilities/cast.dart';
+import '../../../../core/utilities/cast.dart';
 
 part 'tautulli_general_settings_model.g.dart';
 

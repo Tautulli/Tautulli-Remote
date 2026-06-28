@@ -5,12 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:system_theme/system_theme.dart';
 
-import '../../../../core/api/tautulli/models/plex_info_model.dart';
-import '../../../../core/api/tautulli/models/register_device_model.dart';
-import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../models/plex_info_model.dart';
+import '../models/register_device_model.dart';
+import '../models/tautulli_general_settings_model.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/requirements/tautulli_version.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
@@ -251,54 +252,53 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
   final PackageInformation packageInfo;
-  final DeleteImageCache deleteImageCacheApi;
-  final GetServerInfo getServerInfoApi;
-  final GetSettings getSettingsApi;
-  final RegisterDevice registerDeviceApi;
+  final TautulliConnectionAdapter Function() _adapterProvider;
+
+  TautulliConnectionAdapter get _adapter => _adapterProvider();
 
   SettingsDataSourceImpl({
     required this.dbProvider,
     required this.deviceInfo,
     required this.localStorage,
     required this.packageInfo,
-    required this.deleteImageCacheApi,
-    required this.getServerInfoApi,
-    required this.getSettingsApi,
-    required this.registerDeviceApi,
-  });
+    required TautulliConnectionAdapter Function() adapterProvider,
+  }) : _adapterProvider = adapterProvider;
 
   //* API Calls
   @override
   Future<Tuple2<bool, bool>> deleteImageCache(String tautulliId) async {
-    final result = await deleteImageCacheApi(tautulliId: tautulliId);
+    final result = await _adapter.call(
+      tautulliId: tautulliId,
+      action: (client) => client.execute('delete_image_cache'),
+    );
 
-    final success = result.value1['response']['result'] == 'success';
-
-    return Tuple2(success, result.value2);
+    return Tuple2(true, result.primaryActive);
   }
 
   @override
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId) async {
-    final result = await getServerInfoApi(tautulliId: tautulliId);
-
-    final plexInfoModel = PlexInfoModel.fromJson(
-      result.value1['response']['data'],
+    final result = await _adapter.call(
+      tautulliId: tautulliId,
+      action: (client) => client.execute('get_server_info'),
     );
 
-    return Tuple2(plexInfoModel, result.value2);
+    return Tuple2(PlexInfoModel.fromJson(result.data['data']), result.primaryActive);
   }
 
   @override
   Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
     String tautulliId,
   ) async {
-    final result = await getSettingsApi(tautulliId: tautulliId);
-
-    final generalSettings = TautulliGeneralSettingsModel.fromJson(
-      result.value1['response']['data']['General'],
+    final result = await _adapter.call(
+      tautulliId: tautulliId,
+      action: (client) => client.execute('get_settings'),
     );
 
-    return Tuple2(generalSettings, result.value2);
+    final generalSettings = TautulliGeneralSettingsModel.fromJson(
+      result.data['data']['General'],
+    );
+
+    return Tuple2(generalSettings, result.primaryActive);
   }
 
   @override
@@ -316,31 +316,34 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     final String platform = deviceInfo.platform;
     final String version = await packageInfo.version;
 
-    final result = await registerDeviceApi(
-      connectionProtocol: connectionProtocol,
-      connectionDomain: connectionDomain,
-      connectionPath: connectionPath,
-      deviceToken: deviceToken,
-      deviceId: deviceId,
-      deviceName: deviceName,
-      onesignalId: oneSignalId,
-      platform: platform,
-      version: version,
+    final result = await _adapter.callDirect(
+      protocol: connectionProtocol,
+      domain: connectionDomain,
+      path: connectionPath,
+      apiKey: deviceToken,
       customHeaders: customHeaders,
       trustCert: trustCert,
+      action: (client) => client.execute(
+        'register_device',
+        params: {
+          'device_name': deviceName,
+          'device_id': deviceId,
+          'onesignal_id': oneSignalId,
+          'min_version': 'v${MinimumVersion.tautulliServer}',
+          'platform': platform,
+          'version': version,
+        },
+      ),
     );
 
-    final Map<String, dynamic> responseData = result.value1['response']['data'];
+    final Map<String, dynamic> responseData = result.data['data'];
 
     // If response data is missing tautulli_version throw ServerVersionException.
     if (!responseData.containsKey('tautulli_version')) {
       throw ServerVersionException();
     }
 
-    return Tuple2(
-      RegisterDeviceModel.fromJson(responseData),
-      result.value2,
-    );
+    return Tuple2(RegisterDeviceModel.fromJson(responseData), result.primaryActive);
   }
 
   //* Database Interactions

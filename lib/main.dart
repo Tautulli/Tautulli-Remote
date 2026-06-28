@@ -29,20 +29,16 @@ import 'translations/codegen_loader.g.dart';
 /// Create an [HttpOverride] for [createHttpClient] to check cert failures
 /// against the saved cert hash list.
 class MyHttpOverrides extends HttpOverrides {
-  final List<int> customCertHashList;
+  final Settings settings;
 
-  MyHttpOverrides(this.customCertHashList);
+  MyHttpOverrides(this.settings);
 
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback = (X509Certificate cert, String host, int port) {
-        int certHashCode = cert.pem.hashCode;
-
-        if (customCertHashList.contains(certHashCode)) {
-          return true;
-        }
-        return false;
+        final certHashCode = cert.pem.hashCode;
+        return settings.getCustomCertHashList().contains(certHashCode);
       };
   }
 }
@@ -79,8 +75,7 @@ void main() async {
   };
 
   // Override global HttpClient to check for trusted cert hashes on certificate failure.
-  final List<int> customCertHashList = di.sl<Settings>().getCustomCertHashList();
-  HttpOverrides.global = MyHttpOverrides(customCertHashList);
+  HttpOverrides.global = MyHttpOverrides(di.sl<Settings>());
 
   Future<String?> calculateInitialRoute() async {
     final runningVersion = await di.sl<PackageInformation>().version;

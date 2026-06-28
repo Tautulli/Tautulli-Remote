@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-import '../../../../core/api/tautulli/models/plex_info_model.dart';
-import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
+import '../../data/models/plex_info_model.dart';
+import '../../data/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
 import '../../../../core/types/app_style.dart';

@@ -1,6 +1,8 @@
+// ignore_for_file: use_null_aware_elements
+
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/endpoints/get_recently_added.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/types/media_type.dart';
 import '../models/recently_added_model.dart';
 
@@ -15,11 +17,9 @@ abstract class RecentlyAddedDataSource {
 }
 
 class RecentlyAddedDataSourceImpl implements RecentlyAddedDataSource {
-  final GetRecentlyAdded getRecentlyAddedApi;
+  final TautulliConnectionAdapter adapter;
 
-  RecentlyAddedDataSourceImpl({
-    required this.getRecentlyAddedApi,
-  });
+  RecentlyAddedDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<List<RecentlyAddedModel>, bool>> getRecentlyAdded({
@@ -29,20 +29,20 @@ class RecentlyAddedDataSourceImpl implements RecentlyAddedDataSource {
     MediaType? mediaType,
     int? sectionId,
   }) async {
-    final result = await getRecentlyAddedApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      count: count,
-      start: start,
-      mediaType: mediaType,
-      sectionId: sectionId,
+      action: (client) => client.execute('get_recently_added', params: {
+        'count': count,
+        if (start != null) 'start': start,
+        if (mediaType != null) 'media_type': mediaType.value,
+        if (sectionId != null) 'section_id': sectionId,
+      }),
     );
 
-    final List<RecentlyAddedModel> recentList = result.value1['response']
-            ['data']['recently_added']
-        .map<RecentlyAddedModel>(
-            (recentItem) => RecentlyAddedModel.fromJson(recentItem))
+    final List<RecentlyAddedModel> recentList = result.data['data']['recently_added']
+        .map<RecentlyAddedModel>((item) => RecentlyAddedModel.fromJson(item))
         .toList();
 
-    return Tuple2(recentList, result.value2);
+    return Tuple2(recentList, result.primaryActive);
   }
 }

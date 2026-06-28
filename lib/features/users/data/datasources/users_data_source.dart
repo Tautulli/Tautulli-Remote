@@ -1,6 +1,8 @@
+// ignore_for_file: use_null_aware_elements
+
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../models/user_model.dart';
 import '../models/user_player_stat_model.dart';
 import '../models/user_table_model.dart';
@@ -42,19 +44,9 @@ abstract class UsersDataSource {
 }
 
 class UsersDataSourceImpl implements UsersDataSource {
-  final GetUser getUserApi;
-  final GetUserPlayerStats getUserPlayerStats;
-  final GetUserWatchTimeStats getUserWatchTimeStats;
-  final GetUserNames getUserNamesApi;
-  final GetUsersTable getUsersTableApi;
+  final TautulliConnectionAdapter adapter;
 
-  UsersDataSourceImpl({
-    required this.getUserApi,
-    required this.getUserPlayerStats,
-    required this.getUserWatchTimeStats,
-    required this.getUserNamesApi,
-    required this.getUsersTableApi,
-  });
+  UsersDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<List<UserPlayerStatModel>, bool>> getPlayerStats({
@@ -62,17 +54,19 @@ class UsersDataSourceImpl implements UsersDataSource {
     required int userId,
     bool? grouping,
   }) async {
-    final result = await getUserPlayerStats(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      userId: userId,
-      grouping: grouping,
+      action: (client) => client.execute('get_user_player_stats', params: {
+        'user_id': userId,
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+      }),
     );
 
-    final List<UserPlayerStatModel> playerStatList = result.value1['response']['data']
-        .map<UserPlayerStatModel>((playerStat) => UserPlayerStatModel.fromJson(playerStat))
+    final List<UserPlayerStatModel> playerStatList = result.data['data']
+        .map<UserPlayerStatModel>((item) => UserPlayerStatModel.fromJson(item))
         .toList();
 
-    return Tuple2(playerStatList, result.value2);
+    return Tuple2(playerStatList, result.primaryActive);
   }
 
   @override
@@ -82,18 +76,20 @@ class UsersDataSourceImpl implements UsersDataSource {
     bool? grouping,
     String? queryDays,
   }) async {
-    final result = await getUserWatchTimeStats(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      userId: userId,
-      grouping: grouping,
-      queryDays: queryDays,
+      action: (client) => client.execute('get_user_watch_time_stats', params: {
+        'user_id': userId,
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+        if (queryDays != null) 'query_days': queryDays,
+      }),
     );
 
-    final List<UserWatchTimeStatModel> watchTimeStatList = result.value1['response']['data']
-        .map<UserWatchTimeStatModel>((watchTimeStat) => UserWatchTimeStatModel.fromJson(watchTimeStat))
+    final List<UserWatchTimeStatModel> watchTimeStatList = result.data['data']
+        .map<UserWatchTimeStatModel>((item) => UserWatchTimeStatModel.fromJson(item))
         .toList();
 
-    return Tuple2(watchTimeStatList, result.value2);
+    return Tuple2(watchTimeStatList, result.primaryActive);
   }
 
   @override
@@ -102,32 +98,30 @@ class UsersDataSourceImpl implements UsersDataSource {
     required int userId,
     bool? includeLastSeen,
   }) async {
-    final result = await getUserApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      userId: userId,
-      includeLastSeen: includeLastSeen,
+      action: (client) => client.execute('get_user', params: {
+        'user_id': userId,
+        if (includeLastSeen != null) 'include_last_seen': includeLastSeen ? 1 : 0,
+      }),
     );
 
-    return Tuple2(
-      UserModel.fromJson(
-        result.value1['response']['data'],
-      ),
-      result.value2,
-    );
+    return Tuple2(UserModel.fromJson(result.data['data']), result.primaryActive);
   }
 
   @override
   Future<Tuple2<List<UserModel>, bool>> getUserNames({
     required String tautulliId,
   }) async {
-    final result = await getUserNamesApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
+      action: (client) => client.execute('get_user_names'),
     );
 
     final List<UserModel> userList =
-        result.value1['response']['data'].map<UserModel>((user) => UserModel.fromJson(user)).toList();
+        result.data['data'].map<UserModel>((item) => UserModel.fromJson(item)).toList();
 
-    return Tuple2(userList, result.value2);
+    return Tuple2(userList, result.primaryActive);
   }
 
   @override
@@ -140,20 +134,22 @@ class UsersDataSourceImpl implements UsersDataSource {
     int? length,
     String? search,
   }) async {
-    final result = await getUsersTableApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      grouping: grouping,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: start,
-      length: length,
-      search: search,
+      action: (client) => client.execute('get_users_table', params: {
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+        if (orderColumn != null) 'order_column': orderColumn,
+        if (orderDir != null) 'order_dir': orderDir,
+        if (start != null) 'start': start,
+        if (length != null) 'length': length,
+        if (search != null) 'search': search,
+      }),
     );
 
-    final List<UserTableModel> userTableList = result.value1['response']['data']['data']
-        .map<UserTableModel>((userTable) => UserTableModel.fromJson(userTable))
+    final List<UserTableModel> userTableList = result.data['data']['data']
+        .map<UserTableModel>((item) => UserTableModel.fromJson(item))
         .toList();
 
-    return Tuple2(userTableList, result.value2);
+    return Tuple2(userTableList, result.primaryActive);
   }
 }

@@ -7,7 +7,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 import 'app_framework.dart';
-import 'core/api/tautulli/models/register_device_model.dart';
+import 'features/settings/data/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
 import 'core/global_keys/global_keys.dart';

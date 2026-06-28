@@ -1,6 +1,8 @@
+// ignore_for_file: use_null_aware_elements
+
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../core/types/stat_id_type.dart';
 import '../../../../core/utilities/cast.dart';
@@ -20,11 +22,9 @@ abstract class StatisticsDataSource {
 }
 
 class StatisticsDataSourceImpl implements StatisticsDataSource {
-  final GetHomeStats getHomeStatsApi;
+  final TautulliConnectionAdapter adapter;
 
-  StatisticsDataSourceImpl({
-    required this.getHomeStatsApi,
-  });
+  StatisticsDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<List<StatisticModel>, bool>> getStatistics({
@@ -36,27 +36,27 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
     int? statsCount,
     StatIdType? statId,
   }) async {
-    final result = await getHomeStatsApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      grouping: grouping,
-      timeRange: timeRange,
-      statsType: statsType,
-      statsStart: statsStart,
-      statsCount: statsCount,
-      statId: statId,
+      action: (client) => client.execute('get_home_stats', params: {
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+        if (timeRange != null) 'time_range': timeRange,
+        if (statsType != null) 'stats_type': statsType.value,
+        if (statsStart != null) 'stats_start': statsStart,
+        if (statsCount != null) 'stats_count': statsCount,
+        if (statId != null) 'stat_id': statId.value,
+      }),
     );
 
     List<StatisticModel> statisticModelList = [];
-
-    dynamic responseData = result.value1['response']['data'];
+    final dynamic responseData = result.data['data'];
 
     if (responseData is Iterable) {
       for (Map<String, dynamic> statGroup in responseData) {
-        List<StatisticDataModel> statList = [];
+        final List<StatisticDataModel> statList = [];
         for (Map<String, dynamic> data in statGroup['rows']) {
           statList.add(StatisticDataModel.fromJson(data));
         }
-
         statisticModelList.add(
           StatisticModel(
             statIdType: Cast.castStringToStatIdType(statGroup['stat_id'])!,
@@ -65,11 +65,10 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
         );
       }
     } else {
-      List<StatisticDataModel> statList = [];
+      final List<StatisticDataModel> statList = [];
       for (Map<String, dynamic> data in responseData['rows']) {
         statList.add(StatisticDataModel.fromJson(data));
       }
-
       statisticModelList.add(
         StatisticModel(
           statIdType: Cast.castStringToStatIdType(responseData['stat_id'])!,
@@ -78,9 +77,6 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
       );
     }
 
-    return Tuple2(
-      statisticModelList,
-      result.value2,
-    );
+    return Tuple2(statisticModelList, result.primaryActive);
   }
 }

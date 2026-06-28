@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/api/tautulli/models/plex_info_model.dart';
-import '../../../../core/api/tautulli/models/register_device_model.dart';
-import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
+import '../../data/models/plex_info_model.dart';
+import '../../data/models/register_device_model.dart';
+import '../../data/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/app_style.dart';

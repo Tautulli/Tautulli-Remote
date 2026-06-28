@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/endpoints/pms_image_proxy.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/types/image_fallback.dart';
 
 abstract class ImageUrlDataSource {
@@ -21,11 +21,9 @@ abstract class ImageUrlDataSource {
 }
 
 class ImageUrlDataSourceImpl implements ImageUrlDataSource {
-  final PmsImageProxy pmsImageProxy;
+  final TautulliConnectionAdapter adapter;
 
-  ImageUrlDataSourceImpl({
-    required this.pmsImageProxy,
-  });
+  ImageUrlDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<Uri, bool>> call({
@@ -42,8 +40,8 @@ class ImageUrlDataSourceImpl implements ImageUrlDataSource {
     bool? refresh,
     bool? returnHash,
   }) async {
-    final result = await pmsImageProxy(
-      tautulliId: tautulliId,
+    final result = await adapter.buildImageUrl(
+      tautulliId,
       img: img,
       ratingKey: ratingKey,
       width: width ?? 300,
@@ -57,6 +55,6 @@ class ImageUrlDataSourceImpl implements ImageUrlDataSource {
       returnHash: returnHash,
     );
 
-    return Tuple2(result.value1, result.value2);
+    return Tuple2(result.data, result.primaryActive);
   }
 }

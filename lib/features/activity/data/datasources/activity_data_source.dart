@@ -1,6 +1,8 @@
+// ignore_for_file: use_null_aware_elements
+
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../models/activity_model.dart';
 
 abstract class ActivityDataSource {
@@ -19,13 +21,9 @@ abstract class ActivityDataSource {
 }
 
 class ActivityDataSourceImpl implements ActivityDataSource {
-  final GetActivity getActivityApi;
-  final TerminateSession terminateStreamApi;
+  final TautulliConnectionAdapter adapter;
 
-  ActivityDataSourceImpl({
-    required this.getActivityApi,
-    required this.terminateStreamApi,
-  });
+  ActivityDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<List<ActivityModel>, bool>> getActivity({
@@ -33,18 +31,21 @@ class ActivityDataSourceImpl implements ActivityDataSource {
     int? sessionKey,
     String? sessionId,
   }) async {
-    final result = await getActivityApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      sessionKey: sessionKey,
-      sessionId: sessionId,
+      action: (client) => client.execute('get_activity', params: {
+        if (sessionKey != null) 'session_key': sessionKey,
+        if (sessionId != null) 'session_id': sessionId,
+      }),
     );
 
-    final List<ActivityModel> activityList = (result.value1['response']['data']['sessions'] as List?)
-            ?.map<ActivityModel>((activityItem) => ActivityModel.fromJson(activityItem))
-            .toList() ??
-        [];
+    final List<ActivityModel> activityList =
+        (result.data['data']['sessions'] as List?)
+                ?.map<ActivityModel>((item) => ActivityModel.fromJson(item))
+                .toList() ??
+            [];
 
-    return Tuple2(activityList, result.value2);
+    return Tuple2(activityList, result.primaryActive);
   }
 
   @override
@@ -54,13 +55,15 @@ class ActivityDataSourceImpl implements ActivityDataSource {
     required int? sessionKey,
     String? message,
   }) async {
-    final result = await terminateStreamApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      sessionId: sessionId,
-      sessionKey: sessionKey,
-      message: message,
+      action: (client) => client.execute('terminate_session', params: {
+        if (sessionId != null) 'session_id': sessionId,
+        if (sessionKey != null) 'session_key': sessionKey,
+        if (message != null) 'message': message,
+      }),
     );
 
-    return Tuple2(null, result.value2);
+    return Tuple2(null, result.primaryActive);
   }
 }

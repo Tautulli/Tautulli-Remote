@@ -1,6 +1,8 @@
+// ignore_for_file: use_null_aware_elements
+
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/types/section_type.dart';
 import '../models/library_media_info_model.dart';
 import '../models/library_table_model.dart';
@@ -46,17 +48,9 @@ abstract class LibrariesDataSource {
 }
 
 class LibrariesDataSourceImpl implements LibrariesDataSource {
-  final GetLibrariesTable getLibrariesTableApi;
-  final GetLibraryMediaInfo getLibraryMediaInfoApi;
-  final GetLibraryUserStats getLibraryUserStatsApi;
-  final GetLibraryWatchTimeStats getLibraryWatchTimeStatsApi;
+  final TautulliConnectionAdapter adapter;
 
-  LibrariesDataSourceImpl({
-    required this.getLibrariesTableApi,
-    required this.getLibraryMediaInfoApi,
-    required this.getLibraryUserStatsApi,
-    required this.getLibraryWatchTimeStatsApi,
-  });
+  LibrariesDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<List<LibraryTableModel>, bool>> getLibrariesTable({
@@ -68,19 +62,21 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     int? length,
     String? search,
   }) async {
-    final result = await getLibrariesTableApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      grouping: grouping,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: start,
-      length: length,
-      search: search,
+      action: (client) => client.execute('get_libraries_table', params: {
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+        if (orderColumn != null) 'order_column': orderColumn,
+        if (orderDir != null) 'order_dir': orderDir,
+        if (start != null) 'start': start,
+        if (length != null) 'length': length,
+        if (search != null) 'search': search,
+      }),
     );
 
     final List<LibraryTableModel> librariesList =
-        result.value1['response']['data']['data'].map<LibraryTableModel>((librariesItem) {
-      LibraryTableModel library = LibraryTableModel.fromJson(librariesItem);
+        result.data['data']['data'].map<LibraryTableModel>((item) {
+      LibraryTableModel library = LibraryTableModel.fromJson(item);
 
       if (library.live == true) {
         library = library.copyWith(sectionType: SectionType.live);
@@ -93,7 +89,7 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
       return library;
     }).toList();
 
-    return Tuple2(librariesList, result.value2);
+    return Tuple2(librariesList, result.primaryActive);
   }
 
   @override
@@ -109,26 +105,27 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     String? search,
     bool? refresh,
   }) async {
-    final result = await getLibraryMediaInfoApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      sectionId: sectionId,
-      ratingKey: ratingKey,
-      sectionType: sectionType,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: start,
-      length: length,
-      search: search,
-      refresh: refresh,
+      action: (client) => client.execute('get_library_media_info', params: {
+        'section_id': sectionId,
+        if (ratingKey != null) 'rating_key': ratingKey,
+        if (sectionType != null) 'section_type': sectionType.value,
+        if (orderColumn != null) 'order_column': orderColumn,
+        if (orderDir != null) 'order_dir': orderDir,
+        if (start != null) 'start': start,
+        if (length != null) 'length': length,
+        if (search != null) 'search': search,
+        if (refresh != null) 'refresh': refresh ? 1 : 0,
+      }),
     );
 
-    List<LibraryMediaInfoModel> libraryMediaList = [];
-
-    for (Map<String, dynamic> data in result.value1['response']['data']['data']) {
+    final List<LibraryMediaInfoModel> libraryMediaList = [];
+    for (final data in result.data['data']['data']) {
       libraryMediaList.add(LibraryMediaInfoModel.fromJson(data));
     }
 
-    return Tuple2(libraryMediaList, result.value2);
+    return Tuple2(libraryMediaList, result.primaryActive);
   }
 
   @override
@@ -137,17 +134,19 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     required int sectionId,
     bool? grouping,
   }) async {
-    final result = await getLibraryUserStatsApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      sectionId: sectionId,
-      grouping: grouping,
+      action: (client) => client.execute('get_library_user_stats', params: {
+        'section_id': sectionId,
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+      }),
     );
 
-    final List<LibraryUserStatModel> userStatList = result.value1['response']['data']
-        .map<LibraryUserStatModel>((userStat) => LibraryUserStatModel.fromJson(userStat))
+    final List<LibraryUserStatModel> userStatList = result.data['data']
+        .map<LibraryUserStatModel>((item) => LibraryUserStatModel.fromJson(item))
         .toList();
 
-    return Tuple2(userStatList, result.value2);
+    return Tuple2(userStatList, result.primaryActive);
   }
 
   @override
@@ -157,17 +156,19 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     bool? grouping,
     String? queryDays,
   }) async {
-    final result = await getLibraryWatchTimeStatsApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      sectionId: sectionId,
-      grouping: grouping,
-      queryDays: queryDays,
+      action: (client) => client.execute('get_library_watch_time_stats', params: {
+        'section_id': sectionId,
+        if (grouping != null) 'grouping': grouping ? 1 : 0,
+        if (queryDays != null) 'query_days': queryDays,
+      }),
     );
 
-    final List<LibraryWatchTimeStatModel> watchTimeStatList = result.value1['response']['data']
-        .map<LibraryWatchTimeStatModel>((watchTimeStat) => LibraryWatchTimeStatModel.fromJson(watchTimeStat))
+    final List<LibraryWatchTimeStatModel> watchTimeStatList = result.data['data']
+        .map<LibraryWatchTimeStatModel>((item) => LibraryWatchTimeStatModel.fromJson(item))
         .toList();
 
-    return Tuple2(watchTimeStatList, result.value2);
+    return Tuple2(watchTimeStatList, result.primaryActive);
   }
 }

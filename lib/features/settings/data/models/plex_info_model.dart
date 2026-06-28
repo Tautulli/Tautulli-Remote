@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../utilities/cast.dart';
+import '../../../../core/utilities/cast.dart';
 
 part 'plex_info_model.g.dart';
 

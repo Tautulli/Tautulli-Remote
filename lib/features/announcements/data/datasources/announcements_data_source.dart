@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import '../models/announcement_model.dart';
 
@@ -9,21 +11,16 @@ abstract class AnnouncementsDataSource {
 class AnnouncementsDataSourceImpl implements AnnouncementsDataSource {
   @override
   Future<List<AnnouncementModel>> getAnnouncements() async {
-    Dio dio = Dio();
-
-    final response = await dio.get(
-      'https://tautulli.com/news/tautulli-remote-announcements.json',
-      options: Options(
-        headers: {'Content-Type': 'application/json'},
-      ),
+    final response = await http.get(
+      Uri.parse('https://tautulli.com/news/tautulli-remote-announcements.json'),
+      headers: {'Content-Type': 'application/json'},
     );
 
-    List<AnnouncementModel> announcementList = [];
+    final List<dynamic> data = jsonDecode(response.body) as List<dynamic>;
 
-    for (Map<String, dynamic> announcement in response.data) {
-      announcementList.add(AnnouncementModel.fromJson(announcement));
-    }
-
-    return announcementList;
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(AnnouncementModel.fromJson)
+        .toList();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/types/media_type.dart';
 import '../models/media_model.dart';
 
@@ -17,27 +17,23 @@ abstract class MediaDataSource {
 }
 
 class MediaDataSourceImpl implements MediaDataSource {
-  final GetMetadata getMetadataApi;
-  final GetChildrenMetadata getChildrenMetadataApi;
+  final TautulliConnectionAdapter adapter;
 
-  MediaDataSourceImpl({
-    required this.getMetadataApi,
-    required this.getChildrenMetadataApi,
-  });
+  MediaDataSourceImpl({required this.adapter});
 
   @override
   Future<Tuple2<MediaModel, bool>> getMetadata({
     required String tautulliId,
     required int ratingKey,
   }) async {
-    final result = await getMetadataApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      ratingKey: ratingKey,
+      action: (client) => client.execute('get_metadata', params: {
+        'rating_key': ratingKey,
+      }),
     );
 
-    final metadata = MediaModel.fromJson(result.value1['response']['data']);
-
-    return Tuple2(metadata, result.value2);
+    return Tuple2(MediaModel.fromJson(result.data['data']), result.primaryActive);
   }
 
   @override
@@ -45,30 +41,31 @@ class MediaDataSourceImpl implements MediaDataSource {
     required String tautulliId,
     required int ratingKey,
   }) async {
-    final result = await getChildrenMetadataApi(
+    final result = await adapter.call(
       tautulliId: tautulliId,
-      ratingKey: ratingKey,
+      action: (client) => client.execute('get_children_metadata', params: {
+        'rating_key': ratingKey,
+      }),
     );
 
+    final responseData = result.data['data'];
     final List<MediaModel> childrenList =
-        result.value1['response']['data']['children_list'].map<MediaModel>((childItem) {
+        (responseData['children_list'] as List).map<MediaModel>((childItem) {
       final mediaModel = MediaModel.fromJson(childItem);
 
-      // Insert parent title for photos when missing
       if ([MediaType.photo, MediaType.clip].contains(mediaModel.mediaType) &&
           isBlank(mediaModel.parentTitle) &&
-          isNotBlank(result.value1['response']['data']['title'])) {
-        return mediaModel.copyWith(parentTitle: result.value1['response']['data']['title']);
+          isNotBlank(responseData['title'] as String?)) {
+        return mediaModel.copyWith(parentTitle: responseData['title'] as String);
       } else {
         return mediaModel;
       }
     }).toList();
 
-    // Do not include the "All episodes" season Tautulli returns
     if (childrenList.isNotEmpty && childrenList[0].mediaType == MediaType.unknown) {
       childrenList.removeAt(0);
     }
 
-    return Tuple2(childrenList, result.value2);
+    return Tuple2(childrenList, result.primaryActive);
   }
 }

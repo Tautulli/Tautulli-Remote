@@ -161,6 +161,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     // Set active server
     final ServerModel activeServer = serverList.firstWhere(
       (server) => server.tautulliId == activeServerId,
+      orElse: () => serverList.first,
     );
     // Set active server if null
     _activeServerIdCache ??= activeServer.tautulliId;
