@@ -1,10 +1,89 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../translations/locale_keys.g.dart';
 
 class TranslationHelper {
+  static String timeagoLocale(Locale? locale) {
+    if (locale == null) return 'en';
+    switch (locale.languageCode) {
+      case 'bg':
+        return 'sr'; // Bulgarian: no timeago support; Serbian is the closest South Slavic/Cyrillic fallback
+      case 'ca':
+        return 'ca';
+      case 'cs':
+        return 'cs';
+      case 'da':
+        return 'da';
+      case 'de':
+        return 'de';
+      case 'el':
+        return 'gr';
+      case 'es':
+        return 'es';
+      case 'fr':
+        return 'fr';
+      case 'hu':
+        return 'hu';
+      case 'it':
+        return 'it';
+      case 'lv':
+        return 'lv';
+      case 'my':
+        return 'my';
+      case 'nb':
+        return 'nb_NO';
+      case 'nl':
+        return 'nl';
+      case 'pl':
+        return 'pl';
+      case 'pt':
+        return 'pt_BR'; // pt_PT: no timeago support; Brazilian Portuguese is near-identical for relative time strings
+      case 'ru':
+        return 'ru';
+      case 'sk':
+        return 'cs'; // Slovak: no timeago support; Czech is mutually intelligible
+      case 'sl':
+        return 'hr'; // Slovenian: no timeago support; Croatian is the closest South Slavic fallback
+      case 'sq':
+        return 'en'; // Albanian: no timeago support; no reasonable language proxy
+      case 'sv':
+        return 'sv';
+      case 'uk':
+        return 'uk';
+      case 'zh':
+        return 'zh_CN';
+      default:
+        return 'en';
+    }
+  }
+
+  static void registerTimeagoLocales() {
+    timeago.setLocaleMessages('ca', timeago.CaMessages());
+    timeago.setLocaleMessages('cs', timeago.CsMessages()); // also used as fallback for Slovak (sk); mutually intelligible West Slavic languages
+    timeago.setLocaleMessages('da', timeago.DaMessages());
+    timeago.setLocaleMessages('de', timeago.DeMessages());
+    timeago.setLocaleMessages('es', timeago.EsMessages());
+    timeago.setLocaleMessages('fr', timeago.FrMessages());
+    timeago.setLocaleMessages('gr', timeago.GrMessages());
+    timeago.setLocaleMessages('hu', timeago.HuMessages());
+    timeago.setLocaleMessages('it', timeago.ItMessages());
+    timeago.setLocaleMessages('lv', timeago.LvMessages());
+    timeago.setLocaleMessages('my', timeago.MyMessages());
+    timeago.setLocaleMessages('nb_NO', timeago.NbNoMessages());
+    timeago.setLocaleMessages('nl', timeago.NlMessages());
+    timeago.setLocaleMessages('pl', timeago.PlMessages());
+    timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages()); // also used as fallback for pt_PT; regional variants are near-identical for relative time strings
+    timeago.setLocaleMessages('ru', timeago.RuMessages());
+    timeago.setLocaleMessages('sr', timeago.SrMessages()); // fallback for Bulgarian (bg)
+    timeago.setLocaleMessages('sv', timeago.SvMessages());
+    timeago.setLocaleMessages('uk', timeago.UkMessages());
+    timeago.setLocaleMessages('zh_CN', timeago.ZhCnMessages());
+    timeago.setLocaleMessages('hr', timeago.HrMessages()); // fallback for Slovenian (sl); Croatian is the closest South Slavic match
+  }
+
   static List<Locale> supportedLocales() {
     return [
       const Locale('bg'),

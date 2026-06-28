@@ -141,7 +141,7 @@ class _MaterialStyleLibraryDetailsViewState extends State<MaterialStyleLibraryDe
                     const TextSpan(text: ' '),
                     TextSpan(
                       text: widget.libraryTableModel.lastAccessed != null
-                          ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
+                          ? TimeHelper.relativeTime(widget.libraryTableModel.lastAccessed, context.locale)
                           : LocaleKeys.never.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,

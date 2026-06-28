@@ -62,7 +62,7 @@ class PopularStatisticDetails extends StatelessWidget {
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastPlay != null ? TimeHelper.moment(statData.lastPlay) : LocaleKeys.never.tr(),
+                text: statData.lastPlay != null ? TimeHelper.relativeTime(statData.lastPlay, context.locale) : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,

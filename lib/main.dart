@@ -46,6 +46,7 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  TranslationHelper.registerTimeagoLocales();
   await di.init();
   GoogleFonts.config.allowRuntimeFetching = false;
   await SystemTheme.accentColor.load();

@@ -1,6 +1,10 @@
+import 'dart:ui' show Locale;
+
 import 'package:duration/duration.dart';
 import 'package:intl/intl.dart';
-import 'package:simple_moment/simple_moment.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
+import 'translation_helper.dart';
 
 class TimeHelper {
   static String cleanDateTime(
@@ -74,12 +78,10 @@ class TimeHelper {
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
   }
 
-  static String moment(DateTime? dateTime) {
+  static String relativeTime(DateTime? dateTime, [Locale? locale]) {
     if (dateTime == null) return 'Unknown';
 
-    Moment moment = Moment.now();
-
-    return moment.from(dateTime);
+    return timeago.format(dateTime, locale: TranslationHelper.timeagoLocale(locale));
   }
 
   static String simple(Duration duration) {

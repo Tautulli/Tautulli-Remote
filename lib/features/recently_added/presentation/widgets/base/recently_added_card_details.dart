@@ -42,7 +42,7 @@ class RecentlyAddedCardDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${LocaleKeys.added_title.tr()} ${TimeHelper.moment(recentlyAdded.addedAt)}',
+              '${LocaleKeys.added_title.tr()} ${TimeHelper.relativeTime(recentlyAdded.addedAt, context.locale)}',
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 15,

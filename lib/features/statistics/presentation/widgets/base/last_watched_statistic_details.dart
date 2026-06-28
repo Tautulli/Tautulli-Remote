@@ -54,7 +54,7 @@ class LastWatchedStatisticDetails extends StatelessWidget {
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastWatch != null ? TimeHelper.moment(statData.lastWatch) : LocaleKeys.never.tr(),
+                text: statData.lastWatch != null ? TimeHelper.relativeTime(statData.lastWatch, context.locale) : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,

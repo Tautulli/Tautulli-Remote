@@ -181,9 +181,9 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
                     ),
                     TextSpan(
                       text: widget.user.lastSeen != null && !widget.fetchUser
-                          ? TimeHelper.moment(widget.user.lastSeen)
+                          ? TimeHelper.relativeTime(widget.user.lastSeen, context.locale)
                           : widget.fetchUser && state.user.lastSeen != null
-                          ? TimeHelper.moment(state.user.lastSeen)
+                          ? TimeHelper.relativeTime(state.user.lastSeen, context.locale)
                           : widget.fetchUser && state.status == BlocStatus.initial
                           ? ''
                           : widget.fetchUser && state.status == BlocStatus.failure
