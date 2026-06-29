@@ -80,6 +80,7 @@ class _CupertinoStyleLibrariesFilterBottomSheetState extends State<CupertinoStyl
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleModalPopupScaffold(
       middleText: LocaleKeys.sort_libraries_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),

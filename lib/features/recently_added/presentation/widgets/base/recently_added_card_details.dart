@@ -19,6 +19,7 @@ class RecentlyAddedCardDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -68,6 +69,7 @@ class _TitleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     String? text;
 
     switch (recentlyAdded.mediaType) {
@@ -114,6 +116,7 @@ class _SubtitleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     String? text;
 
     switch (recentlyAdded.mediaType) {
@@ -151,6 +154,7 @@ class _ItemDetailsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     String? text;
 
     switch (recentlyAdded.mediaType) {

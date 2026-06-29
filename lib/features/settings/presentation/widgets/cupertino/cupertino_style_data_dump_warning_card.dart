@@ -11,6 +11,7 @@ class CupertinoStyleDataDumpWarningCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleCard(
       tint: CupertinoColors.systemRed.darkColor,
       child: Padding(

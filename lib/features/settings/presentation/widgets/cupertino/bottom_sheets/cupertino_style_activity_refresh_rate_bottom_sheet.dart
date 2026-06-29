@@ -19,6 +19,7 @@ class CupertinoStyleActivityRefreshRateBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     void refreshValueChanged(int value) {
       context.read<SettingsBloc>().add(
         SettingsUpdateRefreshRate(value),

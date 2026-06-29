@@ -17,6 +17,7 @@ class PopularStatisticDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +63,9 @@ class PopularStatisticDetails extends StatelessWidget {
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastPlay != null ? TimeHelper.relativeTime(statData.lastPlay, context.locale) : LocaleKeys.never.tr(),
+                text: statData.lastPlay != null
+                    ? TimeHelper.relativeTime(statData.lastPlay, context.locale)
+                    : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,

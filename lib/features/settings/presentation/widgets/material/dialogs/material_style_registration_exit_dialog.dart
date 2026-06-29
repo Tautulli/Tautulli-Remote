@@ -10,6 +10,7 @@ class MaterialStyleRegistrationExitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return AlertDialog(
       title: const Text(LocaleKeys.server_registration_exit_dialog_title).tr(),
       content: const Text(LocaleKeys.server_registration_exit_dialog_content).tr(),
@@ -30,8 +31,8 @@ class MaterialStyleRegistrationExitDialog extends StatelessWidget {
           ),
           onPressed: () {
             context.read<RegistrationHeadersBloc>().add(
-                  RegistrationHeadersClear(),
-                );
+              RegistrationHeadersClear(),
+            );
             Navigator.of(context).pop(true);
           },
           child: const Text(LocaleKeys.discard_title).tr(),

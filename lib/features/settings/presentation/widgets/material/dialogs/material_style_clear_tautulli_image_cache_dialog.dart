@@ -17,6 +17,7 @@ class MaterialStyleClearTautulliImageCacheDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         state as SettingsSuccess;
@@ -52,10 +53,10 @@ class MaterialStyleClearTautulliImageCacheDialog extends StatelessWidget {
               ),
               onPressed: () {
                 context.read<ClearTautulliImageCacheBloc>().add(
-                      ClearTautulliImageCacheStart(
-                        server: state.appSettings.activeServer,
-                      ),
-                    );
+                  ClearTautulliImageCacheStart(
+                    server: state.appSettings.activeServer,
+                  ),
+                );
                 Navigator.of(context).pop(true);
               },
               child: const Text(LocaleKeys.clear_title).tr(),

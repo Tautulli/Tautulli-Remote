@@ -18,6 +18,7 @@ class MaterialStyleServerOpenInBrowserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Material(
       color: ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,

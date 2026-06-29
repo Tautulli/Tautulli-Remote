@@ -62,6 +62,7 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
 
     return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
       builder: (context, state) {
@@ -137,7 +138,6 @@ class _MaterialStyleMediaHistoryTabState extends State<MaterialStyleMediaHistory
       },
     );
   }
-
 
   void _onScroll() {
     if (_isBottom) {

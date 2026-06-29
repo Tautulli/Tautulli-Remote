@@ -17,6 +17,7 @@ class CupertinoStyleServerDeviceTokenListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleNotchedCupertinoListTile(
       sensitive: true,
       titleText: LocaleKeys.device_token_title.tr(),

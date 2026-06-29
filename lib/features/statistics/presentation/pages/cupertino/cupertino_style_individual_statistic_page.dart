@@ -78,6 +78,7 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStylePageScaffold(
       previousPageTitle: LocaleKeys.statistics_title.tr(),
       middle: Text(StringHelper.mapStatIdTypeToString(widget.statIdType)),

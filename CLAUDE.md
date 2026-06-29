@@ -30,6 +30,13 @@ dart run easy_localization:generate -S assets/translations -s en.json -O lib/tra
 # Shorebird code push (production updates without app store review)
 shorebird release android
 shorebird release ios
+
+# After editing tools/tautulli_lints source — the analysis server only recompiles
+# the plugin AOT when it detects a pubspec change, not source file changes.
+# To force a reload after editing plugin Dart files:
+#   1. Bump version in tools/tautulli_lints/pubspec.yaml
+#   2. Delete the stale AOT: find ~/.dartServer/.plugin_manager -name "plugin.aot" -delete
+#   3. Restart the Dart Analysis Server in VS Code (Cmd+Shift+P → "Dart: Restart Analysis Server")
 ```
 
 There are no automated tests in the repository.
@@ -91,6 +98,7 @@ When fixing a bug in a `material_style_` file, always check the corresponding `c
 - **Const:** Prefer const constructors and declarations everywhere
 - **Branches:** All PRs target `develop`, not `main`
 - **Localization:** All user-facing strings must use `easy_localization` — no hardcoded English strings. Translation files are in `assets/translations/`; the codegen loader is at `lib/translations/codegen_loader.g.dart`
+- **Git commits:** Never stage or commit files unless the user explicitly asks. Do not run `git add` or `git commit` automatically at the end of a task.
 
 **`PrimaryScrollController` ownership:** When a widget uses `PrimaryScrollController.of(context)` rather than creating its own controller, do not call `.dispose()` on it — the ancestor owns it. Assign the reference in `didChangeDependencies()`, not `build()`, and only call `.removeListener()` in dispose.
 
@@ -156,3 +164,5 @@ These are non-obvious issues that have caused real bugs in this codebase. Check 
 **Dart type promotion does not apply to globals or class fields.** Null-checking a file-level variable or instance field does not promote its type inside the `if` block. Copy it to a local variable first: `final id = globalIdCache; if (id == null) return; // id is non-null here`.
 
 **`throw SomeException` throws the `Type`, not an instance.** Always use `throw SomeException()`. Throwing a `Type` object is caught by generic `catch (e)` but not by typed catch clauses, so the error is silently mishandled.
+
+**`context.locale;` in every `build` that calls `.tr()`.** `String.tr()` reads a global singleton and creates no locale dependency — text does not update at runtime when the language changes unless the widget rebuilds. Add `context.locale;` (unassigned) at the top of every `Widget build(BuildContext context)` method that contains any `.tr()` call. This registers the widget as a direct dependent of easy_localization's `InheritedWidget`; on a locale change the framework marks it dirty and its `build` re-runs, re-evaluating all `.tr()` calls in place. Do not rely on a parent rebuild to propagate this: Flutter skips rebuilding const children when the parent produces an identical widget instance (`identical(oldWidget, newWidget)` short-circuit in `Element.updateChild`), so each widget that calls `.tr()` must subscribe independently. The rule is per-`build`, not per-subtree — a widget that only instantiates const children with their own `.tr()` calls does not need `context.locale;` itself.

@@ -10,6 +10,7 @@ class CupertinoStyleCertificateFailureDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(LocaleKeys.certificate_verification_failed_title).tr(),
       content: const Text(LocaleKeys.certificate_verification_failed_content).tr(),

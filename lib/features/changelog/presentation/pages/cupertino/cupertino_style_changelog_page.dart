@@ -55,6 +55,7 @@ class _CupertinoStyleChangelogViewState extends State<CupertinoStyleChangelogVie
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,

@@ -62,6 +62,7 @@ class ServerSettingsIosView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state is SettingsSuccess) {

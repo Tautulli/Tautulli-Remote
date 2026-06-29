@@ -79,6 +79,7 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     onRefresh() async {
       context.read<LoggingBloc>().add(LoggingLoad());
 
@@ -97,71 +98,71 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
         }
       },
       child: CupertinoStylePageScaffold(
-      showBackButton: widget.showBackButton,
-      previousPageTitle: widget.previousPageTitle,
-      middle: const Text(LocaleKeys.app_logs_title).tr(),
-      trailing: BlocProvider.value(
-        value: context.read<LoggingBloc>(),
-        child: BlocProvider.value(
-          value: context.read<LoggingExportBloc>(),
-          child: _navBarActions(),
+        showBackButton: widget.showBackButton,
+        previousPageTitle: widget.previousPageTitle,
+        middle: const Text(LocaleKeys.app_logs_title).tr(),
+        trailing: BlocProvider.value(
+          value: context.read<LoggingBloc>(),
+          child: BlocProvider.value(
+            value: context.read<LoggingExportBloc>(),
+            child: _navBarActions(),
+          ),
         ),
-      ),
-      child: BlocConsumer<LoggingBloc, LoggingState>(
-        listener: (context, state) {
-          if (state is LoggingSuccess) {
-            _refreshCompleter.complete();
-            _refreshCompleter = Completer();
-          }
-        },
-        builder: (context, state) {
-          if (state is LoggingFailure) {
-            return CupertinoStyleRefreshPage(
-              onRefresh: onRefresh,
-              sliver: SliverFillRemaining(
-                child: CupertinoStyleStatusPage(
-                  message: LocaleKeys.logs_failed_to_load_message.tr(),
-                ),
-              ),
-            );
-          }
-          if (state is LoggingSuccess) {
-            if (state.logs.isEmpty) {
+        child: BlocConsumer<LoggingBloc, LoggingState>(
+          listener: (context, state) {
+            if (state is LoggingSuccess) {
+              _refreshCompleter.complete();
+              _refreshCompleter = Completer();
+            }
+          },
+          builder: (context, state) {
+            if (state is LoggingFailure) {
               return CupertinoStyleRefreshPage(
                 onRefresh: onRefresh,
                 sliver: SliverFillRemaining(
                   child: CupertinoStyleStatusPage(
-                    message: LocaleKeys.logs_empty_message.tr(),
+                    message: LocaleKeys.logs_failed_to_load_message.tr(),
                   ),
                 ),
               );
-            } else {
-              List<Log> filteredLogs = filterLogs(
-                level: state.level,
-                logs: state.logs,
-              );
-
-              if (filteredLogs.isEmpty) {
+            }
+            if (state is LoggingSuccess) {
+              if (state.logs.isEmpty) {
                 return CupertinoStyleRefreshPage(
                   onRefresh: onRefresh,
                   sliver: SliverFillRemaining(
                     child: CupertinoStyleStatusPage(
-                      message: LocaleKeys.logs_empty_filter_message.tr(),
+                      message: LocaleKeys.logs_empty_message.tr(),
                     ),
                   ),
                 );
-              }
+              } else {
+                List<Log> filteredLogs = filterLogs(
+                  level: state.level,
+                  logs: state.logs,
+                );
 
-              return CupertinoStyleLoggingTable(
-                refreshCompleter: _refreshCompleter,
-                logs: filteredLogs,
-              );
+                if (filteredLogs.isEmpty) {
+                  return CupertinoStyleRefreshPage(
+                    onRefresh: onRefresh,
+                    sliver: SliverFillRemaining(
+                      child: CupertinoStyleStatusPage(
+                        message: LocaleKeys.logs_empty_filter_message.tr(),
+                      ),
+                    ),
+                  );
+                }
+
+                return CupertinoStyleLoggingTable(
+                  refreshCompleter: _refreshCompleter,
+                  logs: filteredLogs,
+                );
+              }
             }
-          }
-          return const SizedBox(height: 0, width: 0);
-        },
+            return const SizedBox(height: 0, width: 0);
+          },
+        ),
       ),
-    ),
     );
   }
 
@@ -216,5 +217,4 @@ class _CupertinoStyleLoggingViewState extends State<CupertinoStyleLoggingView> {
       ],
     );
   }
-
 }

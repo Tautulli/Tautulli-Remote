@@ -63,12 +63,11 @@ class _MaterialStyleServerConnectionAddressBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Form(
       key: _formKey,
       child: MaterialStyleBottomSheetScaffold(
-        title: widget.primary
-            ? LocaleKeys.primary_connection_title.tr()
-            : LocaleKeys.secondary_connection_title.tr(),
+        title: widget.primary ? LocaleKeys.primary_connection_title.tr() : LocaleKeys.secondary_connection_title.tr(),
         leading: TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(LocaleKeys.cancel_title).tr(),

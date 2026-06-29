@@ -13,6 +13,7 @@ class CupertinoStyleWizardSkipDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(LocaleKeys.wizard_skip_dialog_title).tr(),
       content: Text(message),

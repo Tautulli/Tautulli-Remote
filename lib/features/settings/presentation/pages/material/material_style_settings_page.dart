@@ -42,6 +42,7 @@ class _MaterialStyleSettingsViewState extends State<MaterialStyleSettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
 
     return MaterialStyleScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.settings_title).tr(),

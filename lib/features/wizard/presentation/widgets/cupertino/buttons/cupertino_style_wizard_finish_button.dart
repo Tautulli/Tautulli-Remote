@@ -12,6 +12,7 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<WizardBloc, WizardState>(
       builder: (context, wizardState) {
         wizardState as WizardInitial;
@@ -25,8 +26,7 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
 
             if (wizardState.oneSignalAllowed) {
               context.read<OneSignalPrivacyBloc>().add(
-                OneSignalPrivacyGrant(
-                ),
+                OneSignalPrivacyGrant(),
               );
             }
 

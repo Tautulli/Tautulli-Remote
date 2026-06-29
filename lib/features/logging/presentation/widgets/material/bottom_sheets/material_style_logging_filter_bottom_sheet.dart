@@ -17,6 +17,7 @@ class MaterialStyleLoggingFilterBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     void logLevelChanged(LogLevel value) {
       context.read<LoggingBloc>().add(LoggingSetLevel(value));
       Navigator.of(context).pop();

@@ -10,8 +10,7 @@ class MaterialStyleOnesignalDataPrivacyText extends StatefulWidget {
   const MaterialStyleOnesignalDataPrivacyText({super.key});
 
   @override
-  State<MaterialStyleOnesignalDataPrivacyText> createState() =>
-      _MaterialStyleOnesignalDataPrivacyTextState();
+  State<MaterialStyleOnesignalDataPrivacyText> createState() => _MaterialStyleOnesignalDataPrivacyTextState();
 }
 
 class _MaterialStyleOnesignalDataPrivacyTextState extends State<MaterialStyleOnesignalDataPrivacyText> {
@@ -64,6 +63,7 @@ class _MaterialStyleOnesignalDataPrivacyTextState extends State<MaterialStyleOne
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final textBlock1 = LocaleKeys.onesignal_data_privacy_text_block_1.tr().split('%');
     final textBlock2 = LocaleKeys.onesignal_data_privacy_text_block_2.tr().split('%');
     final textBlock3 = LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');

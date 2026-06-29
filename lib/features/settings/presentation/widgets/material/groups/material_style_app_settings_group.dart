@@ -19,6 +19,7 @@ class MaterialStyleAppSettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleListTileGroup(
       heading: LocaleKeys.settings_and_operations_title.tr(),
       listTiles: [

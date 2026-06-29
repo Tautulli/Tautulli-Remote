@@ -19,6 +19,7 @@ class CupertinoStyleHomePageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     void homePageChanged(String value) {
       context.read<SettingsBloc>().add(
         SettingsUpdateHomePage(value),

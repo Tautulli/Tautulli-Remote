@@ -17,6 +17,7 @@ class MaterialStyleMediaDetailsTabSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: LayoutBuilder(

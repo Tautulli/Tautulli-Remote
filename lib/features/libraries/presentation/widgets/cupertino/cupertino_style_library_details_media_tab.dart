@@ -59,6 +59,7 @@ class _CupertinoStyleLibraryDetailsMediaTabState extends State<CupertinoStyleLib
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return CupertinoScrollbar(

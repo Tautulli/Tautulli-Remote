@@ -57,6 +57,7 @@ class _CupertinoStyleWizardViewState extends State<CupertinoStyleWizardView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<WizardBloc, WizardState>(
       builder: (context, wizardState) {
         context.locale; // Ensures bloc updates when locale is changed

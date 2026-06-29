@@ -16,6 +16,7 @@ class StatTimeRichText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final durationMap = TimeHelper.durationMap(Duration(seconds: totalTime));
 
     return RichText(
@@ -26,12 +27,9 @@ class StatTimeRichText extends StatelessWidget {
             style: TextStyle(fontSize: 15, color: labelColor),
           ),
           const TextSpan(text: ' '),
-          if (durationMap['day']! > 0)
-            _timeTextSpan('${durationMap['day'].toString()} ${LocaleKeys.days.tr()} '),
-          if (durationMap['hour']! > 0)
-            _timeTextSpan('${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} '),
-          if (durationMap['min']! > 0)
-            _timeTextSpan('${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}'),
+          if (durationMap['day']! > 0) _timeTextSpan('${durationMap['day'].toString()} ${LocaleKeys.days.tr()} '),
+          if (durationMap['hour']! > 0) _timeTextSpan('${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} '),
+          if (durationMap['min']! > 0) _timeTextSpan('${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}'),
           if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
             _timeTextSpan('${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}'),
           if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! < 1)

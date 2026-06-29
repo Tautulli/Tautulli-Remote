@@ -55,6 +55,7 @@ class _ServerRegistrationIosViewState extends State<ServerRegistrationIosView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {

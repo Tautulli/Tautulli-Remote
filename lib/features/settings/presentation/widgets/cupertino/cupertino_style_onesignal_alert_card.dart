@@ -18,6 +18,7 @@ class CupertinoStyleOnesignalAlertCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final settingsBloc = context.read<SettingsBloc>();
 
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(

@@ -42,6 +42,7 @@ class _CupertinoStyleTimeRangeBottomSheetState extends State<CupertinoStyleTimeR
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleModalPopupScaffold(
       middleText: LocaleKeys.time_range_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),

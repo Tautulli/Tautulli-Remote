@@ -21,6 +21,7 @@ class MediaDetailsTabDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     if (metadata != null) {
       return SingleChildScrollView(
         child: Padding(

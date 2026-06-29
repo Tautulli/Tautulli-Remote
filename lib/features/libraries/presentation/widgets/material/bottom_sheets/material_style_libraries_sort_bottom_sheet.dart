@@ -68,6 +68,7 @@ class _MaterialStyleLibrariesSortBottomSheetState extends State<MaterialStyleLib
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleBottomSheetScaffold(
       title: LocaleKeys.sort_libraries_title.tr(),
       leading: TextButton(

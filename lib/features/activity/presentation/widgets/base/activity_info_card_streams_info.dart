@@ -14,6 +14,7 @@ class ActivityInfoCardStreamsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final int streamCount = serverActivity.copyCount + serverActivity.directPlayCount + serverActivity.transcodeCount;
     List<String> streamBreakdowns = [];
 

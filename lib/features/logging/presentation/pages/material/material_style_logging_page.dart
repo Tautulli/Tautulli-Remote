@@ -63,6 +63,7 @@ class _MaterialStyleLoggingViewState extends State<MaterialStyleLoggingView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<LoggingExportBloc, LoggingExportState>(
       listener: (context, state) {
         if (state is LoggingExportFailure) {

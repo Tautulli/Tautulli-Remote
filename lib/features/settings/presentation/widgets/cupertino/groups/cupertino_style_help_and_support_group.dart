@@ -15,6 +15,7 @@ class CupertinoStyleHelpAndSupportGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleListSection(
       headerText: LocaleKeys.help_and_support_title.tr(),
       children: [

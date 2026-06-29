@@ -134,6 +134,7 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {

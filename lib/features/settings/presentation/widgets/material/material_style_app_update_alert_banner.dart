@@ -13,6 +13,7 @@ class MaterialStyleAppUpdateAlertBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialBanner(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),

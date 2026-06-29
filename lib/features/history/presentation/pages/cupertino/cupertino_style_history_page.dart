@@ -153,6 +153,7 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return //* If active server is changed trigger a HistoryFetched
     BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {

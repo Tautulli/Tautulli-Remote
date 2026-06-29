@@ -52,6 +52,7 @@ class CupertinoStyleSettingsView extends StatefulWidget {
 class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView> {
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStylePageScaffold(
       showBackButton: widget.showBackButton,
       previousPageTitle: widget.previousPageTitle,

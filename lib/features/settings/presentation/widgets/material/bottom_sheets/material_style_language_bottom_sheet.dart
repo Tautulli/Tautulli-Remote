@@ -17,6 +17,7 @@ class MaterialStyleLanguageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final List<Locale> locales = TranslationHelper.supportedLocales()
       ..sort(
         (a, b) => TranslationHelper.localeToEnglishString(a).compareTo(

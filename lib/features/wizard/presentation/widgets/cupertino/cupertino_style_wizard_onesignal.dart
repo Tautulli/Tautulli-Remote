@@ -18,6 +18,7 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Column(
       children: [
         const Text(

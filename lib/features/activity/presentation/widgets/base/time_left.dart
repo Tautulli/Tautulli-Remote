@@ -15,6 +15,7 @@ class TimeLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     if (activity.live == true && activity.channelCallSign != null) {
       return Text(activity.channelCallSign!);
     }

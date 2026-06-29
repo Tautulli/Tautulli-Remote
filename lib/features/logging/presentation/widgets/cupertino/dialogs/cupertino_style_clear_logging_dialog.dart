@@ -10,6 +10,7 @@ class CupertinoStyleClearLoggingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(LocaleKeys.logs_clear_dialog_title).tr(),
       actions: [

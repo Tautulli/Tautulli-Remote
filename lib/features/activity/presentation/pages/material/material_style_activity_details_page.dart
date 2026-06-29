@@ -131,6 +131,7 @@ class _MaterialStyleActivityDetailsViewState extends State<MaterialStyleActivity
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final textColor = Theme.of(context).colorScheme.onSurface;
 
     return MultiBlocListener(

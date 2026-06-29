@@ -8,6 +8,7 @@ class CupertinoStyleBottomSheetCancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoButton(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: const Text(LocaleKeys.cancel_title).tr(),

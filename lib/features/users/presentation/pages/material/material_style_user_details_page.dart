@@ -114,6 +114,7 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Scaffold(
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {

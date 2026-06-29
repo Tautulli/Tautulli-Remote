@@ -16,6 +16,7 @@ class MaterialStyleYAxisTypeBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleBottomSheetScaffold(
       title: LocaleKeys.y_axis_title.tr(),
       child: ClipRRect(

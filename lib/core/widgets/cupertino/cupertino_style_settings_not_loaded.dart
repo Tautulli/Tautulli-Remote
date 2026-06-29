@@ -12,6 +12,7 @@ class CupertinoStyleSettingsNotLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return ColoredBox(
       color: CupertinoTheme.of(context).scaffoldBackgroundColor,
       child: BlocBuilder<SettingsBloc, SettingsState>(

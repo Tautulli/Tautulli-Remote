@@ -11,6 +11,7 @@ environment:
 dependencies:
   android_id: ^0.5.1
   app_version_update: ^7.0.0
+  auto_size_text: ^3.0.0
   badges: ^3.2.0
   bloc_concurrency: ^0.3.0
   cached_network_image: ^3.4.1
@@ -84,6 +85,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^6.14.0
+  tautulli_lints:
+    path: tools/tautulli_lints
 
 flutter_launcher_icons:
   android: "launcher_icon"

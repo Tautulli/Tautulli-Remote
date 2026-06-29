@@ -12,6 +12,7 @@ class MaterialStyleServerRegistrationStepOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleRegistrationInstruction(
       heading: '${LocaleKeys.step_title.tr()} 1',
       child: BulletList(

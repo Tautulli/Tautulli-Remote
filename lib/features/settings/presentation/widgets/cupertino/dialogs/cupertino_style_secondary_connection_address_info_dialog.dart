@@ -9,6 +9,7 @@ class CupertinoStyleSecondaryConnectionAddressInfoDialog extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(
         LocaleKeys.secondary_connection_address_title,

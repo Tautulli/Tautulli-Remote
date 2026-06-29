@@ -13,6 +13,7 @@ class MaterialStyleOnesignalDataPrivacyListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
     final oneSignalHealthBloc = context.read<OneSignalHealthBloc>();
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(

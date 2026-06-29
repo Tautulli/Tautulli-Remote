@@ -76,6 +76,7 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<SettingsBloc, SettingsState>(
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
@@ -230,8 +231,7 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
             ),
           );
 
-          if (result != null &&
-              (result['orderColumn'] != _orderColumn || result['orderDir'] != _orderDir)) {
+          if (result != null && (result['orderColumn'] != _orderColumn || result['orderDir'] != _orderDir)) {
             setState(() {
               _orderColumn = result['orderColumn']!;
               _orderDir = result['orderDir']!;

@@ -20,6 +20,7 @@ class LastWatchedStatisticDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +55,9 @@ class LastWatchedStatisticDetails extends StatelessWidget {
                 text: ' ',
               ),
               TextSpan(
-                text: statData.lastWatch != null ? TimeHelper.relativeTime(statData.lastWatch, context.locale) : LocaleKeys.never.tr(),
+                text: statData.lastWatch != null
+                    ? TimeHelper.relativeTime(statData.lastWatch, context.locale)
+                    : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,

@@ -20,6 +20,7 @@ class MaterialStyleDynamicColorGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     late Color pickerColor;
 
     return MaterialStyleListTileGroup(

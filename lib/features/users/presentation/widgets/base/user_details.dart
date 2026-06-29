@@ -24,6 +24,7 @@ class UserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +53,9 @@ class UserDetails extends StatelessWidget {
                   text: ' ',
                 ),
                 TextSpan(
-                  text: user.lastSeen != null ? TimeHelper.relativeTime(user.lastSeen, context.locale) : LocaleKeys.never.tr(),
+                  text: user.lastSeen != null
+                      ? TimeHelper.relativeTime(user.lastSeen, context.locale)
+                      : LocaleKeys.never.tr(),
                   style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,

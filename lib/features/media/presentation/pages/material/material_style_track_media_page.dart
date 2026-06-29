@@ -52,6 +52,7 @@ class MaterialStyleTrackMediaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Scaffold(
       body: MaterialStyleTabbedPosterDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(

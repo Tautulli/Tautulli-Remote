@@ -23,55 +23,56 @@ class MaterialStyleTerminateStreamBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleBottomSheetScaffold(
-        leading: TextButton(
-          style: TextButton.styleFrom(
-            minimumSize: Size.zero,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          ),
-          onPressed: () => Navigator.of(context).pop(false),
-          child: const Text(LocaleKeys.cancel_title).tr(),
+      leading: TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         ),
-        trailing: TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
-            minimumSize: Size.zero,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          ),
-          onPressed: () => Navigator.of(context).pop(true),
-          child: const Text(LocaleKeys.terminate_title).tr(),
+        onPressed: () => Navigator.of(context).pop(false),
+        child: const Text(LocaleKeys.cancel_title).tr(),
+      ),
+      trailing: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).colorScheme.error,
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              LocaleKeys.terminate_stream_dialog_title,
-              style: TextStyle(fontSize: 22),
-              textAlign: TextAlign.center,
-            ).tr(),
-            const SizedBox(height: 12),
-            _TerminateStreamMediaInfo(activity: activity),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+        onPressed: () => Navigator.of(context).pop(true),
+        child: const Text(LocaleKeys.terminate_title).tr(),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            LocaleKeys.terminate_stream_dialog_title,
+            style: TextStyle(fontSize: 22),
+            textAlign: TextAlign.center,
+          ).tr(),
+          const SizedBox(height: 12),
+          _TerminateStreamMediaInfo(activity: activity),
+          const SizedBox(height: 12),
+          TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                helperText: LocaleKeys.terminate_message_title.tr(),
-                hintText: LocaleKeys.terminate_stream_dialog_default_message.tr(),
               ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              helperText: LocaleKeys.terminate_message_title.tr(),
+              hintText: LocaleKeys.terminate_stream_dialog_default_message.tr(),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }
 

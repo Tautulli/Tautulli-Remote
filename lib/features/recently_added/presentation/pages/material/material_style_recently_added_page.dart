@@ -84,6 +84,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state is SettingsSuccess) {
@@ -211,9 +212,7 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
         icon: FaIcon(
           FontAwesomeIcons.filter,
           size: 20,
-          color: _mediaType != null
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.onSurface,
+          color: _mediaType != null ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
         ),
         onPressed: () async {
           final result = await showModalBottomSheet<({MediaType? mediaType})>(

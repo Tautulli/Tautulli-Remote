@@ -149,6 +149,7 @@ class _MaterialStyleActivityViewState extends State<MaterialStyleActivityView> w
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         // If active server is changed and multiserver is not set then trigger an ActivityFetched

@@ -10,6 +10,7 @@ class CupertinoStyleHelpTranslateHeadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleCard(
       horizontalPadding: 8,
       child: Padding(

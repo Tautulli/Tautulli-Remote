@@ -8,6 +8,7 @@ class LoggingTableHeaders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     const double textSize = 13;
 
     return DecoratedBox(

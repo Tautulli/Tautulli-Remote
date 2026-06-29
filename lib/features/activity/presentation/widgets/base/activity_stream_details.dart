@@ -62,6 +62,7 @@ class ActivityStreamContainerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     if (activity.streamContainerDecision == StreamDecision.transcode) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,6 +105,7 @@ class ActivityStreamVideoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     String videoDynamicRange = '';
     String streamVideoDynamicRange = '';
     String hwD = '';
@@ -136,8 +138,7 @@ class ActivityStreamVideoItem extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text:
-                        '${activity.videoCodec?.toUpperCase()}$hwD ${activity.videoFullResolution}$videoDynamicRange',
+                    text: '${activity.videoCodec?.toUpperCase()}$hwD ${activity.videoFullResolution}$videoDynamicRange',
                   ),
                   WidgetSpan(
                     child: Padding(
@@ -188,6 +189,7 @@ class ActivityStreamAudioItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final bool audioLanguageEmpty = isEmpty(activity.audioLanguage);
 
     if (activity.streamAudioDecision == StreamDecision.transcode) {
@@ -252,6 +254,7 @@ class ActivityStreamSubtitleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     if (activity.subtitles == true) {
       final bool subtitleLanguageEmpty = isEmpty(activity.subtitleLanguage);
 

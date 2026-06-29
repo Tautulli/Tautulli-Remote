@@ -44,6 +44,7 @@ class _CupertinoStyleHistoryFilterBottomSheetState extends State<CupertinoStyleH
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleModalPopupScaffold(
       middleText: LocaleKeys.filter_history_title.tr(),
       leading: const CupertinoStyleBottomSheetCancelButton(),

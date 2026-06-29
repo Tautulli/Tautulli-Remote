@@ -136,6 +136,7 @@ class _CupertinoStyleActivityViewState extends State<CupertinoStyleActivityView>
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MultiBlocListener(
       listeners: [
         //* Update information set in tab initstate when changed

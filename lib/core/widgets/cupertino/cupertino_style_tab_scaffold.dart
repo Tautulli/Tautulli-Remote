@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ import 'dialogs/cupertino_style_rate_app_dialog.dart';
 
 const double _tabBarHeight = 55;
 const double _iconTopPadding = 5;
+const double _tabLabelFontSize = 10;
+const double _tabLabelMinFontSize = 7;
 
 class CupertinoStyleTabScaffold extends StatefulWidget {
   const CupertinoStyleTabScaffold({super.key});
@@ -29,10 +32,14 @@ class CupertinoStyleTabScaffold extends StatefulWidget {
 }
 
 class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
+  late final AutoSizeGroup _tabLabelGroup;
+
   @override
   void initState() {
     super.initState();
+    _tabLabelGroup = AutoSizeGroup();
     cupertinoTabController.index = 0;
+    cupertinoTabController.addListener(_onTabChanged);
 
     // CupertinoStyleTabScaffold is only inserted into the tree after SettingsSuccess
     // (gated by CupertinoApp.builder's BlocBuilder), so settings are guaranteed loaded
@@ -70,7 +77,39 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
   }
 
   @override
+  void dispose() {
+    cupertinoTabController.removeListener(_onTabChanged);
+    super.dispose();
+  }
+
+  void _onTabChanged() => setState(() {});
+
+  Widget _buildTabLabel(BuildContext context, String text, int tabIndex) {
+    return AutoSizeText(
+      text,
+      group: _tabLabelGroup,
+      style: TextStyle(
+        fontSize: _tabLabelFontSize,
+        color: cupertinoTabController.index == tabIndex
+            ? CupertinoTheme.of(context).primaryColor
+            : CupertinoColors.inactiveGray,
+      ),
+      minFontSize: _tabLabelMinFontSize,
+      maxLines: 1,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Subscribe to locale changes so the tab bar labels below re-run their
+    // `.tr()` calls when the language is switched at runtime. The tab scaffold
+    // is the const `home` of CupertinoApp and reads nothing else that changes on
+    // a locale switch, so without this dependency its build never re-runs and the
+    // labels stay stale. Deliberately not a ValueKey on CupertinoTabScaffold —
+    // that would recreate the inner tab navigators and reset their stacks; we
+    // only need this build to re-run, which the dependency does in place.
+    context.locale;
+
     return CupertinoTabScaffold(
       controller: cupertinoTabController,
       tabBar: CupertinoTabBar(
@@ -78,51 +117,64 @@ class _CupertinoStyleTabScaffoldState extends State<CupertinoStyleTabScaffold> {
         iconSize: 20,
         items: [
           BottomNavigationBarItem(
-            icon: const Padding(
-              padding: EdgeInsets.only(top: _iconTopPadding),
-              child: Icon(
-                CupertinoIcons.tv,
-                size: 24,
-              ),
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: _iconTopPadding),
+                  child: Icon(CupertinoIcons.tv, size: 24),
+                ),
+                _buildTabLabel(context, LocaleKeys.activity_title.tr(), 0),
+              ],
             ),
-            label: LocaleKeys.activity_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Padding(
-              padding: EdgeInsets.only(top: _iconTopPadding),
-              child: Icon(
-                CupertinoIcons.gobackward,
-                size: 24,
-              ),
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: _iconTopPadding),
+                  child: Icon(CupertinoIcons.gobackward, size: 24),
+                ),
+                _buildTabLabel(context, LocaleKeys.history_title.tr(), 1),
+              ],
             ),
-            label: LocaleKeys.history_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Padding(
-              padding: EdgeInsets.only(top: _iconTopPadding),
-              child: Icon(
-                CupertinoIcons.clock,
-                size: 24,
-              ),
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: _iconTopPadding),
+                  child: Icon(CupertinoIcons.clock, size: 24),
+                ),
+                _buildTabLabel(context, LocaleKeys.recently_added_title.tr(), 2),
+              ],
             ),
-            label: LocaleKeys.recently_added_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Padding(
-              padding: EdgeInsets.only(top: _iconTopPadding),
-              child: Icon(
-                CupertinoIcons.film,
-                size: 24,
-              ),
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: _iconTopPadding),
+                  child: Icon(CupertinoIcons.film, size: 24),
+                ),
+                _buildTabLabel(context, LocaleKeys.libraries_title.tr(), 3),
+              ],
             ),
-            label: LocaleKeys.libraries_title.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Padding(
-              padding: EdgeInsets.only(top: _iconTopPadding),
-              child: _MoreTabIcon(),
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: _iconTopPadding),
+                  child: _MoreTabIcon(),
+                ),
+                _buildTabLabel(context, LocaleKeys.more_title.tr(), 4),
+              ],
             ),
-            label: LocaleKeys.more_title.tr(),
           ),
         ],
       ),

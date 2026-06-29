@@ -51,6 +51,7 @@ class CupertinoStyleMovieMediaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, settingsState) {
         settingsState as SettingsSuccess;

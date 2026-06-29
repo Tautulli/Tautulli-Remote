@@ -47,6 +47,7 @@ class _MaterialStyleUserDetailsStatsTabState extends State<MaterialStyleUserDeta
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return BlocBuilder<UserStatisticsBloc, UserStatisticsState>(
       builder: (context, state) {
         return MaterialStyleRefreshIndicator(

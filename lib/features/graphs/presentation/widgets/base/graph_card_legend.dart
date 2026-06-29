@@ -19,6 +19,7 @@ class GraphCardLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     List<GraphSeriesType> seriesTypes = [];
     for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
       seriesTypes.add(seriesDataModel.seriesType);

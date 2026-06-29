@@ -10,6 +10,7 @@ class CupertinoStyleRateAppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(LocaleKeys.rate_app_title).tr(),
       content: const Text(LocaleKeys.rate_app_message).tr(),

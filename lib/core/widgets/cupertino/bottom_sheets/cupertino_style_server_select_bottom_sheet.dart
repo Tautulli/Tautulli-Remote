@@ -23,6 +23,7 @@ class CupertinoStyleServerSelectBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     void serverChanged(ServerModel server) {
       if (server.id != activeServer.id) {
         context.read<SettingsBloc>().add(

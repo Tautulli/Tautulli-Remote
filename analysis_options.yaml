@@ -1,5 +1,15 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - tools/**
+
+plugins:
+  dependency_overrides:
+    analysis_server_plugin: '0.3.15'
+  tautulli_lints:
+    path: tools/tautulli_lints
+
 linter:
   rules:
     unnecessary_const: true

@@ -42,6 +42,7 @@ class _MaterialStyleTimeRangeBottomSheetState extends State<MaterialStyleTimeRan
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleBottomSheetScaffold(
       title: LocaleKeys.time_range_title.tr(),
       leading: TextButton(

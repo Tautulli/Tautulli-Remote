@@ -10,8 +10,7 @@ class CupertinoStyleOnesignalDataPrivacyText extends StatefulWidget {
   const CupertinoStyleOnesignalDataPrivacyText({super.key});
 
   @override
-  State<CupertinoStyleOnesignalDataPrivacyText> createState() =>
-      _CupertinoStyleOnesignalDataPrivacyTextState();
+  State<CupertinoStyleOnesignalDataPrivacyText> createState() => _CupertinoStyleOnesignalDataPrivacyTextState();
 }
 
 class _CupertinoStyleOnesignalDataPrivacyTextState extends State<CupertinoStyleOnesignalDataPrivacyText> {
@@ -64,6 +63,7 @@ class _CupertinoStyleOnesignalDataPrivacyTextState extends State<CupertinoStyleO
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final textBlock1 = LocaleKeys.onesignal_data_privacy_text_block_1.tr().split('%');
     final textBlock2 = LocaleKeys.onesignal_data_privacy_text_block_2.tr().split('%');
     final textBlock3 = LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');

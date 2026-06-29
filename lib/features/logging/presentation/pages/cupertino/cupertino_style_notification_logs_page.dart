@@ -47,12 +47,10 @@ class CupertinoStyleNotificationLogsView extends StatefulWidget {
   });
 
   @override
-  State<CupertinoStyleNotificationLogsView> createState() =>
-      _CupertinoStyleNotificationLogsViewState();
+  State<CupertinoStyleNotificationLogsView> createState() => _CupertinoStyleNotificationLogsViewState();
 }
 
-class _CupertinoStyleNotificationLogsViewState
-    extends State<CupertinoStyleNotificationLogsView> {
+class _CupertinoStyleNotificationLogsViewState extends State<CupertinoStyleNotificationLogsView> {
   late Completer<void> _refreshCompleter;
 
   @override
@@ -69,6 +67,7 @@ class _CupertinoStyleNotificationLogsViewState
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     onRefresh() async {
       context.read<NotificationLogsBloc>().add(NotificationLogsLoad());
       return _refreshCompleter.future;
@@ -86,12 +85,12 @@ class _CupertinoStyleNotificationLogsViewState
               padding: const EdgeInsets.all(8),
               onPressed: state is NotificationLogsSuccess
                   ? () => showCupertinoDialog(
-                        context: context,
-                        builder: (_) => BlocProvider.value(
-                          value: context.read<NotificationLogsBloc>(),
-                          child: const CupertinoStyleClearNotificationLogsDialog(),
-                        ),
-                      )
+                      context: context,
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<NotificationLogsBloc>(),
+                        child: const CupertinoStyleClearNotificationLogsDialog(),
+                      ),
+                    )
                   : null,
               child: const Icon(
                 CupertinoIcons.xmark_circle_fill,

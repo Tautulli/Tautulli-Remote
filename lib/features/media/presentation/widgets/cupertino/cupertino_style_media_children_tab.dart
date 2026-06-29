@@ -57,6 +57,7 @@ class _CupertinoStyleMediaChildrenTabState extends State<CupertinoStyleMediaChil
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final double screenWidth = MediaQuery.of(context).size.width;
 
     late int crossAxistCount;

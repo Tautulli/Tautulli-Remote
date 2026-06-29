@@ -20,6 +20,7 @@ class CupertinoStyleLanguageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     List<Locale> locales = TranslationHelper.supportedLocales();
     locales.sort(
       (a, b) => TranslationHelper.localeToEnglishString(a).compareTo(

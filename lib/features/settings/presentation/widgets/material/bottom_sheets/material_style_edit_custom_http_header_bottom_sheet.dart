@@ -102,6 +102,7 @@ class _MaterialStyleEditCustomHttpHeaderBottomSheetState extends State<MaterialS
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Form(
       key: _formKey,
       child: MaterialStyleBottomSheetScaffold(

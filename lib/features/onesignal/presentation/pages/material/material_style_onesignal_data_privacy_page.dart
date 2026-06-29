@@ -34,6 +34,7 @@ class MaterialStyleOneSignalDataPrivacyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Scaffold(
       appBar: AppBar(
         title: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),

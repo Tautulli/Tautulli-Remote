@@ -17,6 +17,7 @@ class MaterialStyleServerRegistrationStepThree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
       builder: (context, state) {
         return MaterialStyleRegistrationInstruction(
@@ -41,13 +42,13 @@ class MaterialStyleServerRegistrationStepThree extends StatelessWidget {
                       forRegistration: true,
                       currentHeaders: state is RegistrationHeadersLoaded
                           ? state.headers
-                              .map(
-                                (header) => CustomHeaderModel(
-                                  key: header.key,
-                                  value: header.value,
-                                ),
-                              )
-                              .toList()
+                                .map(
+                                  (header) => CustomHeaderModel(
+                                    key: header.key,
+                                    value: header.value,
+                                  ),
+                                )
+                                .toList()
                           : [],
                     ),
                   ),

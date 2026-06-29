@@ -39,6 +39,7 @@ class CupertinoStyleAppearanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStylePageScaffold(
       previousPageTitle: previousPageTitle,
       middle: const Text(LocaleKeys.appearance_title).tr(),

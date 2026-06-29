@@ -17,6 +17,7 @@ class CupertinoStyleLoggingActionsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final LoggingBloc loggingBloc = context.read<LoggingBloc>();
 
     return CupertinoStyleModalPopupScaffold(

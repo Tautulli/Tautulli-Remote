@@ -10,6 +10,7 @@ class MaterialStyleCertificateFailureDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return AlertDialog(
       title: const Text(LocaleKeys.certificate_verification_failed_title).tr(),
       content: const Text(LocaleKeys.certificate_verification_failed_content).tr(),
@@ -31,8 +32,8 @@ class MaterialStyleCertificateFailureDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             context.read<RegisterDeviceBloc>().add(
-                  RegisterDeviceUnverifiedCert(),
-                );
+              RegisterDeviceUnverifiedCert(),
+            );
           },
           child: const Text(LocaleKeys.trust_title).tr(),
         ),

@@ -22,6 +22,7 @@ class MaterialStyleDeleteServerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return IconButton(
       icon: FaIcon(
         FontAwesomeIcons.trash,

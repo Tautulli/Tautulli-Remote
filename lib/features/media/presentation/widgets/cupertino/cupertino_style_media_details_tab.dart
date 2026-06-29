@@ -37,7 +37,6 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -49,6 +48,7 @@ class _CupertinoStyleMediaDetailsTabState extends State<CupertinoStyleMediaDetai
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoScrollbar(
       controller: _scrollController,
       child: CupertinoStyleRefreshPage(

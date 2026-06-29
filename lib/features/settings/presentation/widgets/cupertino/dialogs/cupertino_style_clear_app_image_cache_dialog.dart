@@ -10,6 +10,7 @@ class CupertinoStyleClearAppImageCacheDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: const Text(LocaleKeys.clear_app_image_cache_title).tr(),
       content: const Text(LocaleKeys.clear_app_image_cache_dialog_content).tr(),

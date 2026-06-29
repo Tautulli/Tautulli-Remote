@@ -90,6 +90,7 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final double topAreaHeight = MediaQuery.paddingOf(context).top + kMinInteractiveDimensionCupertino + 10;
 
     return MultiBlocListener(

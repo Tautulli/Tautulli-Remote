@@ -45,6 +45,7 @@ class MaterialStyleServerRegistrationStepTwoState extends State<MaterialStyleSer
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleRegistrationInstruction(
       actionOnTop: true,
       heading: '${LocaleKeys.step_title.tr()} 2',

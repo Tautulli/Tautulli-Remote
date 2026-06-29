@@ -10,6 +10,7 @@ class MaterialStyleWizardQuitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return AlertDialog(
       title: const Text(LocaleKeys.wizard_quit_dialog_title).tr(),
       actions: [

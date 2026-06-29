@@ -34,6 +34,7 @@ class CupertinoStyleGraphCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     // Make sure the seriesDataModel contains data > 0 so the graphs can display.
     bool containsData = false;
     if (graph.graphDataModel != null) {

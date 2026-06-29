@@ -16,6 +16,7 @@ class MaterialStyleServerTimeoutBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     void valueChanged(int value) {
       context.read<SettingsBloc>().add(SettingsUpdateServerTimeout(value));
       Navigator.of(context).pop();

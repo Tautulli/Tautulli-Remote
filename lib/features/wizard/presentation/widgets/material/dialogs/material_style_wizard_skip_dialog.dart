@@ -13,6 +13,7 @@ class MaterialStyleWizardSkipDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return AlertDialog(
       title: const Text(LocaleKeys.wizard_skip_dialog_title).tr(),
       content: Text(

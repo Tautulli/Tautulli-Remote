@@ -19,6 +19,7 @@ class CupertinoStyleServerOpenInBrowserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleNotchedCupertinoListTile(
       titleText: LocaleKeys.open_server_in_browser_title.tr(args: [server.plexName]),
       leading: const Icon(

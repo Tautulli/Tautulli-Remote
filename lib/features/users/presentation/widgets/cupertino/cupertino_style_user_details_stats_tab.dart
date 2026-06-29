@@ -56,6 +56,7 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return CupertinoScrollbar(
       controller: _scrollController,
       child: CupertinoStyleRefreshPage(

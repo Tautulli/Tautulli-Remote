@@ -30,6 +30,7 @@ class MaterialStyleDonatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     if (showDrawer) {
       return MaterialStyleScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.donate_title).tr(),
@@ -125,6 +126,7 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

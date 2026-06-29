@@ -8,6 +8,7 @@ class MaterialStyleGraphTipsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return AlertDialog(
       title: const Text(LocaleKeys.tips_title).tr(),
       content: const Text(LocaleKeys.graphs_tips_dialog_content).tr(),

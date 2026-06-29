@@ -75,6 +75,7 @@ class _MaterialStyleHistorySearchViewState extends State<MaterialStyleHistorySea
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,

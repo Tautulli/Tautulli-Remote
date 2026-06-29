@@ -203,6 +203,7 @@ class _AppDrawerState extends State<_AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final double height = MediaQuery.of(context).size.height;
 
     return MediaQuery.removePadding(

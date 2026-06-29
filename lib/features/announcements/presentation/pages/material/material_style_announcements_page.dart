@@ -51,6 +51,7 @@ class _MaterialStyleAnnouncementsViewState extends State<MaterialStyleAnnounceme
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return MaterialStyleScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.announcements_title).tr(),
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(

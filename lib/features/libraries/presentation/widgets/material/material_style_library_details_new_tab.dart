@@ -29,15 +29,14 @@ class MaterialStyleLibraryDetailsNewTab extends StatefulWidget {
 }
 
 class _MaterialStyleLibraryDetailsNewTabState extends State<MaterialStyleLibraryDetailsNewTab> {
-
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocBuilder<LibraryRecentlyAddedBloc, LibraryRecentlyAddedState>(
       builder: (context, state) {
         return MaterialStyleRefreshIndicator(

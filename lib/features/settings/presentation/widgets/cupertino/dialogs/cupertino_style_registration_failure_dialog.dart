@@ -15,6 +15,7 @@ class CupertinoStyleRegistrationFailureDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoAlertDialog(
       title: Text(FailureHelper.mapFailureToMessage(failure)),
       content: Text(FailureHelper.mapFailureToSuggestion(failure)),

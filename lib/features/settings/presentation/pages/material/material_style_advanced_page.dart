@@ -21,6 +21,7 @@ class MaterialStyleAdvancedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,

@@ -78,6 +78,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     final appStyle = (context.read<SettingsBloc>().state as SettingsSuccess).appSettings.appStyle;
     final isCupertino = appStyle == AppStyle.cupertino;
 

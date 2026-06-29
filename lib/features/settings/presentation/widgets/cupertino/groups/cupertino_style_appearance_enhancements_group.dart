@@ -19,6 +19,7 @@ class CupertinoStyleAppearanceEnhancementsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return CupertinoStyleListSection(
       margin: isWizard ? const EdgeInsets.only(bottom: 10) : null,
       headerText: isWizard ? null : LocaleKeys.enhancements_title.tr(),

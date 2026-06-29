@@ -74,6 +74,7 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return BlocListener<SettingsBloc, SettingsState>(
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
