@@ -281,11 +281,16 @@ class DBProvider {
 
       if (result.isEmpty) return [];
 
-      List<ServerModel> serverList = result
-          .map(
-            (server) => ServerModel.fromJson(server),
-          )
-          .toList();
+      List<ServerModel> serverList = [];
+      for (final server in result) {
+        try {
+          serverList.add(ServerModel.fromJson(server));
+        } catch (e) {
+          // A corrupt/legacy row (e.g. a required column persisted as NULL) must
+          // not block app launch — skip it rather than throwing out of getAllServers.
+          logging.error('Database :: Skipping unparseable server row [$e]');
+        }
+      }
 
       // Sort server list using sort index
       if (serverList.length > 1) {
