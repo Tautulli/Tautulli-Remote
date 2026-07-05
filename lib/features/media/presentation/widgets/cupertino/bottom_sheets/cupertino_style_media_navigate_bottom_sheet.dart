@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../../core/database/data/models/server_model.dart';
 import '../../../../../../core/types/media_type.dart';
@@ -25,10 +26,20 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
     required this.media,
   });
 
+  MediaModel? _requireMetadata(BuildContext context) {
+    final metadata = context.read<MetadataBloc>().state.metadata;
+    if (metadata == null) {
+      Fluttertoast.showToast(
+        toastLength: Toast.LENGTH_LONG,
+        msg: LocaleKeys.media_details_loading_message.tr(),
+      );
+    }
+    return metadata;
+  }
+
   @override
   Widget build(BuildContext context) {
     context.locale; // Re-run translations in place on a language change.
-    final state = context.read<MetadataBloc>().state;
 
     return CupertinoStyleModalPopupScaffold(
       leading: const CupertinoStyleBottomSheetCancelButton(),
@@ -44,16 +55,18 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_show_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            title: state.metadata!.parentTitle,
+                            title: metadata.parentTitle,
                             mediaType: MediaType.show,
-                            ratingKey: state.metadata!.parentRatingKey,
-                            imageUri: state.metadata!.parentImageUri,
+                            ratingKey: metadata.parentRatingKey,
+                            imageUri: metadata.parentImageUri,
                           ),
                         ),
                       ),
@@ -70,16 +83,18 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_show_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            title: state.metadata!.grandparentTitle,
+                            title: metadata.grandparentTitle,
                             mediaType: MediaType.show,
-                            ratingKey: state.metadata!.grandparentRatingKey,
-                            imageUri: state.metadata!.grandparentImageUri,
+                            ratingKey: metadata.grandparentRatingKey,
+                            imageUri: metadata.grandparentImageUri,
                           ),
                         ),
                       ),
@@ -89,17 +104,19 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_season_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            parentTitle: state.metadata!.grandparentTitle,
-                            title: state.metadata!.parentTitle,
+                            parentTitle: metadata.grandparentTitle,
+                            title: metadata.parentTitle,
                             mediaType: MediaType.season,
-                            ratingKey: state.metadata!.parentRatingKey,
-                            imageUri: state.metadata!.parentImageUri,
+                            ratingKey: metadata.parentRatingKey,
+                            imageUri: metadata.parentImageUri,
                           ),
                         ),
                       ),
@@ -116,16 +133,18 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_artist_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            title: state.metadata!.parentTitle,
+                            title: metadata.parentTitle,
                             mediaType: MediaType.artist,
-                            ratingKey: state.metadata!.parentRatingKey,
-                            imageUri: state.metadata!.parentImageUri,
+                            ratingKey: metadata.parentRatingKey,
+                            imageUri: metadata.parentImageUri,
                           ),
                         ),
                       ),
@@ -142,16 +161,18 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_artist_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            title: state.metadata!.grandparentTitle,
+                            title: metadata.grandparentTitle,
                             mediaType: MediaType.artist,
-                            ratingKey: state.metadata!.grandparentRatingKey,
-                            imageUri: state.metadata!.grandparentImageUri,
+                            ratingKey: metadata.grandparentRatingKey,
+                            imageUri: metadata.grandparentImageUri,
                           ),
                         ),
                       ),
@@ -161,18 +182,20 @@ class CupertinoStyleMediaNavigateBottomSheet extends StatelessWidget {
                 CupertinoStyleNotchedCupertinoListTile(
                   titleText: LocaleKeys.go_to_album_title.tr(),
                   onTap: () async {
+                    final metadata = _requireMetadata(context);
+                    if (metadata == null) return;
                     Navigator.of(context).pop();
-                    return await Navigator.of(context).push(
+                    await Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (context) => CupertinoStyleMediaPage(
                           server: server,
                           media: media.copyWith(
-                            parentTitle: state.metadata!.grandparentTitle,
-                            title: state.metadata!.parentTitle,
+                            parentTitle: metadata.grandparentTitle,
+                            title: metadata.parentTitle,
                             mediaType: MediaType.album,
-                            ratingKey: state.metadata!.parentRatingKey,
-                            imageUri: state.metadata!.parentImageUri,
-                            year: state.metadata!.year,
+                            ratingKey: metadata.parentRatingKey,
+                            imageUri: metadata.parentImageUri,
+                            year: metadata.year,
                           ),
                         ),
                       ),

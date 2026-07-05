@@ -3042,6 +3042,7 @@ static const Map<String,dynamic> _en = {
   "mask_senstivie_info_subtitle": "Hides IP addresses and other sensitive info",
   "mask_senstivie_info_title": "Mask Sensitive Info",
   "max_concurrent_title": "Max Concurrent",
+  "media_details_loading_message": "Media details are still loading.",
   "media_title": "Media",
   "media_type_title": "Media Type",
   "message_title": "Message",

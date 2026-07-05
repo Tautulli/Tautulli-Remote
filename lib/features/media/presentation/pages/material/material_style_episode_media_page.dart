@@ -109,6 +109,7 @@ class MaterialStyleEpisodeMediaView extends StatelessWidget {
     return [
       BlocBuilder<MetadataBloc, MetadataState>(
         builder: (context, state) {
+          final metadata = state.metadata;
           return PopupMenuButton(
             icon: Icon(
               Icons.more_vert,
@@ -120,16 +121,17 @@ class MaterialStyleEpisodeMediaView extends StatelessWidget {
               ),
             ),
             onSelected: (value) async {
+              if (metadata == null) return;
               if (value == MediaType.show) {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => MaterialStyleMediaPage(
                       server: server,
                       media: media.copyWith(
-                        title: state.metadata!.grandparentTitle,
+                        title: metadata.grandparentTitle,
                         mediaType: MediaType.show,
-                        ratingKey: state.metadata!.grandparentRatingKey,
-                        imageUri: state.metadata!.grandparentImageUri,
+                        ratingKey: metadata.grandparentRatingKey,
+                        imageUri: metadata.grandparentImageUri,
                       ),
                     ),
                   ),
@@ -142,11 +144,11 @@ class MaterialStyleEpisodeMediaView extends StatelessWidget {
                     builder: (context) => MaterialStyleMediaPage(
                       server: server,
                       media: media.copyWith(
-                        parentTitle: state.metadata!.grandparentTitle,
-                        title: state.metadata!.parentTitle,
+                        parentTitle: metadata.grandparentTitle,
+                        title: metadata.parentTitle,
                         mediaType: MediaType.season,
-                        ratingKey: state.metadata!.parentRatingKey,
-                        imageUri: state.metadata!.parentImageUri,
+                        ratingKey: metadata.parentRatingKey,
+                        imageUri: metadata.parentImageUri,
                       ),
                     ),
                   ),
@@ -156,12 +158,12 @@ class MaterialStyleEpisodeMediaView extends StatelessWidget {
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  enabled: !disableAncestryNavigation,
+                  enabled: !disableAncestryNavigation && metadata != null,
                   value: MediaType.show,
                   child: const Text(LocaleKeys.go_to_show_title).tr(),
                 ),
                 PopupMenuItem(
-                  enabled: !disableAncestryNavigation,
+                  enabled: !disableAncestryNavigation && metadata != null,
                   value: MediaType.season,
                   child: const Text(LocaleKeys.go_to_season_title).tr(),
                 ),

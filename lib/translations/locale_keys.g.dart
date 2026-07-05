@@ -217,6 +217,7 @@ abstract class  LocaleKeys {
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
   static const max_concurrent_title = 'max_concurrent_title';
+  static const media_details_loading_message = 'media_details_loading_message';
   static const media_title = 'media_title';
   static const media_type_title = 'media_type_title';
   static const message_title = 'message_title';
