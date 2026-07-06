@@ -149,14 +149,18 @@ class _MaterialStyleActivityDetailsViewState extends State<MaterialStyleActivity
                 _activity = item;
               });
             } catch (_) {
-              Navigator.of(context).pop();
+              if (mounted && Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
           },
         ),
         BlocListener<TerminateStreamBloc, TerminateStreamState>(
           listener: (context, state) {
             if (state is TerminateStreamSuccess) {
-              Navigator.of(context).pop();
+              if (mounted && Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

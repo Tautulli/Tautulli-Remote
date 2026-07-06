@@ -110,14 +110,18 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                 activity = item;
               });
             } catch (_) {
-              Navigator.of(context).pop();
+              if (mounted && Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
             }
           },
         ),
         BlocListener<TerminateStreamBloc, TerminateStreamState>(
           listener: (context, state) {
             if (state is TerminateStreamSuccess) {
-              Navigator.of(context).pop();
+              if (mounted && Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
               Fluttertoast.showToast(
                 toastLength: Toast.LENGTH_LONG,
                 msg: LocaleKeys.termination_request_sent_message.tr(),
