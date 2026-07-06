@@ -24,12 +24,12 @@ class MaterialStyleOperationsGroup extends StatelessWidget {
           title: LocaleKeys.clear_app_image_cache_title.tr(),
           subtitle: LocaleKeys.clear_app_image_cache_subtitle.tr(),
           onTap: () async {
-            final bool cleared = await showDialog(
+            final bool? cleared = await showDialog<bool>(
               context: context,
               builder: (context) => const MaterialStyleClearAppImageCacheDialog(),
             );
 
-            if (cleared) {
+            if (cleared == true) {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

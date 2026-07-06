@@ -21,12 +21,12 @@ class CupertinoStyleWizardQuitButton extends StatelessWidget {
         ),
       ).tr(),
       onPressed: () async {
-        bool result = await showCupertinoDialog(
+        final bool? result = await showCupertinoDialog<bool>(
           context: context,
           builder: (context) => const CupertinoStyleWizardQuitDialog(),
         );
 
-        if (result) {
+        if (result == true) {
           context.read<SettingsBloc>().add(const SettingsUpdateWizardComplete(true));
           CupertinoSheetRoute.popSheet(context);
         }

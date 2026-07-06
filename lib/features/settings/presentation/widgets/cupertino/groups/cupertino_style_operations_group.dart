@@ -27,12 +27,12 @@ class CupertinoStyleOperationsGroup extends StatelessWidget {
           titleText: LocaleKeys.clear_app_image_cache_title.tr(),
           subtitleText: LocaleKeys.clear_app_image_cache_subtitle.tr(),
           onTap: () async {
-            final bool cleared = await showCupertinoDialog(
+            final bool? cleared = await showCupertinoDialog<bool>(
               context: context,
               builder: (context) => const CupertinoStyleClearAppImageCacheDialog(),
             );
 
-            if (cleared) {
+            if (cleared == true) {
               Fluttertoast.showToast(
                 toastLength: Toast.LENGTH_SHORT,
                 msg: LocaleKeys.clear_app_image_cache_success_snackbar_message.tr(),
