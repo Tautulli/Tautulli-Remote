@@ -45,6 +45,16 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+/// Network I/O failures are environmental, not app defects. When one reaches a
+/// global handler (an uncaught async error, or an image-load failure that
+/// cached_network_image reports via FlutterError) record it non-fatal so it
+/// stays visible without inflating the crash-free rate.
+bool _isNetworkError(Object error) =>
+    error is SocketException ||
+    error is HandshakeException ||
+    error is HttpException ||
+    error is http.ClientException;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -69,17 +79,20 @@ void main() async {
     }
   }
 
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics.
-  // Network I/O errors that escape error handling (e.g. from third-party SDKs) are recorded as
-  // non-fatal so they remain visible without inflating the crash rate.
+  // Route framework errors to Crashlytics. Network I/O failures (e.g. image-load
+  // errors that cached_network_image reports through FlutterError) are environmental,
+  // not app defects, so record them as non-fatal to keep them visible without
+  // inflating the crash rate; everything else stays fatal.
+  FlutterError.onError = (details) {
+    FirebaseCrashlytics.instance.recordFlutterError(
+      details,
+      fatal: !_isNetworkError(details.exception),
+    );
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework
+  // to Crashlytics, with the same network-error classification.
   PlatformDispatcher.instance.onError = (error, stack) {
-    final bool isNetworkError = error is SocketException ||
-        error is HandshakeException ||
-        error is HttpException ||
-        error is http.ClientException;
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: !isNetworkError);
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: !_isNetworkError(error));
     return true;
   };
 
