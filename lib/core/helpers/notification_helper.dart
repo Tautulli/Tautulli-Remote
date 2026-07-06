@@ -55,35 +55,40 @@ class NotificationHelper {
       String? nonce = data['nonce'];
 
       if (salt != null && cipherText != null && nonce != null) {
-        final Uint8List saltDecoded = base64Decode(salt);
-        final Uint8List cipherTextDecoded = base64Decode(cipherText);
-        final Uint8List nonceDecoded = base64Decode(nonce);
+        try {
+          final Uint8List saltDecoded = base64Decode(salt);
+          final Uint8List cipherTextDecoded = base64Decode(cipherText);
+          final Uint8List nonceDecoded = base64Decode(nonce);
 
-        final pbkdf2 = Pbkdf2(
-          macAlgorithm: version == 2 ? Hmac.sha256() : Hmac.sha1(),
-          iterations: version == 2 ? 600000 : 1000,
-          bits: 32 * 8,
-        );
+          final pbkdf2 = Pbkdf2(
+            macAlgorithm: version == 2 ? Hmac.sha256() : Hmac.sha1(),
+            iterations: version == 2 ? 600000 : 1000,
+            bits: 32 * 8,
+          );
 
-        final secretKey = await pbkdf2.deriveKeyFromPassword(
-          password: server.deviceToken,
-          nonce: saltDecoded,
-        );
+          final secretKey = await pbkdf2.deriveKeyFromPassword(
+            password: server.deviceToken,
+            nonce: saltDecoded,
+          );
 
-        final algorithm = FlutterAesGcm.with256bits();
+          final algorithm = FlutterAesGcm.with256bits();
 
-        final bytes = nonceDecoded + cipherTextDecoded;
-        final secretBox = SecretBox.fromConcatenation(
-          bytes,
-          nonceLength: 16,
-          macLength: algorithm.macAlgorithm.macLength,
-        );
+          final bytes = nonceDecoded + cipherTextDecoded;
+          final secretBox = SecretBox.fromConcatenation(
+            bytes,
+            nonceLength: 16,
+            macLength: algorithm.macAlgorithm.macLength,
+          );
 
-        final clearTextFlutter = utf8.decode(
-          await algorithm.decrypt(secretBox, secretKey: secretKey),
-        );
+          final clearTextFlutter = utf8.decode(
+            await algorithm.decrypt(secretBox, secretKey: secretKey),
+          );
 
-        return jsonDecode(clearTextFlutter);
+          return jsonDecode(clearTextFlutter);
+        } catch (e) {
+          di.sl<Logging>().warning('NotificationHelper :: Failed to decrypt notification data [$e]');
+          return null;
+        }
       }
     } else {
       final plainText = data['plain_text'];
