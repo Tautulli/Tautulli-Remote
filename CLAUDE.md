@@ -119,7 +119,9 @@ When adding server-level fields, update the SQLite schema and `ServerModel`. Whe
 
 ## Multi-Server & Connection Failover
 
-Each server has a primary and optional secondary connection address. `lib/core/api/tautulli_connection_adapter.dart` transparently fails over to the secondary address when the primary fails and updates `primaryActive` on the server record. All API calls go through `TautulliConnectionAdapter` via `adapter.call(tautulliId, action: (client) => client.<service>.<method>(...))`, which resolves the correct server, handles failover, and returns `ApiResult<T>`. Datasources unpack this into `Tuple2<T, bool>` for the repository layer.
+Each server has a primary and optional secondary connection address. `lib/core/api/tautulli_connection_adapter.dart` transparently fails over to the secondary address when the primary fails and updates `primaryActive` on the server record. All API calls go through `TautulliConnectionAdapter` via `adapter.call(tautulliId, action: (client) => client.execute('command_name', params: {...}))`, which resolves the correct server, handles failover, and returns `ApiResult<T>`. Datasources unpack this into `Tuple2<T, bool>` for the repository layer.
+
+The app deliberately uses the `tautulli` package's raw executor (`client.execute`) and parses responses into its own Equatable models — the package's typed service methods (`client.<service>.<method>`) and models are unused because they lack value equality, which BLoC state comparison requires. This means most breaking changes in the package's typed API don't affect the app; the relevant surface is `execute`, `ImageService.buildImageUrl`, `TautulliConnection`, and the exception classes. Since tautulli 3.1.0, `TautulliClient.close()` does not close an injected http client, so the adapter tracks its `IOClient` and closes it itself in `finally`.
 
 ## Shared Core Widgets
 

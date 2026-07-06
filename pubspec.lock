@@ -1464,10 +1464,10 @@ packages:
     dependency: "direct main"
     description:
       name: tautulli
-      sha256: a3fa64fa909a8caef255e9031523ebf3e1f450e69db2a1842df0d0373846f78c
+      sha256: e43de42d48f74a48fddf7e9473b58d479cd619ed4af106aca9912ea2437902b8
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   tautulli_lints:
     dependency: "direct dev"
     description:

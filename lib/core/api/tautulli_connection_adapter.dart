@@ -38,14 +38,14 @@ class TautulliConnectionAdapter {
 
     var primaryActive = server.primaryActive ?? true;
 
-    final headers = <String, String>{'Content-Type': 'application/json'};
+    final headers = <String, String>{};
     for (final header in server.customHeaders) {
       headers[header.key] = header.value;
     }
 
     final certHashList = _settings.getCustomCertHashList();
 
-    pkg.TautulliClient buildClient(bool usePrimary) {
+    Future<T> attempt(bool usePrimary) async {
       final protocol = usePrimary
           ? server.primaryConnectionProtocol
           : (server.secondaryConnectionProtocol ?? server.primaryConnectionProtocol);
@@ -53,7 +53,7 @@ class TautulliConnectionAdapter {
           ? server.primaryConnectionDomain
           : (server.secondaryConnectionDomain ?? server.primaryConnectionDomain);
       final path = usePrimary ? server.primaryConnectionPath : server.secondaryConnectionPath;
-      return _buildClient(
+      final (client, ioClient) = _buildClient(
         protocol: protocol,
         domain: domain,
         path: path,
@@ -62,13 +62,16 @@ class TautulliConnectionAdapter {
         trustCert: trustCert,
         certHashList: certHashList,
       );
+      try {
+        return await action(client);
+      } finally {
+        ioClient.close();
+      }
     }
 
     T result;
     try {
-      final client = buildClient(primaryActive);
-      result = await action(client);
-      client.close();
+      result = await attempt(primaryActive);
       if (trustCert) await _settings.setCustomCertHashList(certHashList);
     } catch (e) {
       final hasSecondary = server.secondaryConnectionAddress != null && server.secondaryConnectionAddress!.isNotEmpty;
@@ -82,9 +85,7 @@ class TautulliConnectionAdapter {
           }
           primaryActive = !primaryActive;
 
-          final client = buildClient(primaryActive);
-          result = await action(client);
-          client.close();
+          result = await attempt(primaryActive);
           if (trustCert) await _settings.setCustomCertHashList(certHashList);
         } catch (_) {
           primaryActive = !primaryActive;
@@ -112,7 +113,7 @@ class TautulliConnectionAdapter {
     bool trustCert = false,
     required Future<T> Function(pkg.TautulliClient client) action,
   }) async {
-    final headers = <String, String>{'Content-Type': 'application/json', ...extraHeaders};
+    final headers = <String, String>{...extraHeaders};
     if (customHeaders != null) {
       for (final h in customHeaders) {
         headers[h.key] = h.value;
@@ -120,7 +121,7 @@ class TautulliConnectionAdapter {
     }
 
     final certHashList = _settings.getCustomCertHashList();
-    final client = _buildClient(
+    final (client, ioClient) = _buildClient(
       protocol: protocol,
       domain: domain,
       path: path,
@@ -135,7 +136,7 @@ class TautulliConnectionAdapter {
       if (trustCert) await _settings.setCustomCertHashList(certHashList);
       return ApiResult(data: result, primaryActive: true);
     } finally {
-      client.close();
+      ioClient.close();
     }
   }
 
@@ -191,7 +192,10 @@ class TautulliConnectionAdapter {
 
   // ---------------------------------------------------------------------------
 
-  pkg.TautulliClient _buildClient({
+  /// Returns the [IOClient] alongside the package client: since tautulli 3.1.0,
+  /// [pkg.TautulliClient.close] does not close an injected http client, so the
+  /// caller must close the [IOClient] itself when the call completes.
+  (pkg.TautulliClient, IOClient) _buildClient({
     required String protocol,
     required String domain,
     String? path,
@@ -222,7 +226,8 @@ class TautulliConnectionAdapter {
 
     final timeout = Duration(seconds: _settings.getServerTimeout());
 
-    return pkg.TautulliClient(
+    final ioClient = IOClient(dartClient);
+    final client = pkg.TautulliClient(
       connection: pkg.TautulliConnection(
         protocol: protocol,
         domain: domain,
@@ -232,7 +237,8 @@ class TautulliConnectionAdapter {
         timeout: timeout,
         useDeviceToken: true,
       ),
-      httpClient: IOClient(dartClient),
+      httpClient: ioClient,
     );
+    return (client, ioClient);
   }
 }
