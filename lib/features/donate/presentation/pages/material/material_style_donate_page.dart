@@ -68,14 +68,28 @@ class _MaterialStyleDonateViewState extends State<MaterialStyleDonateView> {
   }
 
   Future<void> _initialize() async {
-    final result = await loadDonateData();
+    try {
+      final result = await loadDonateData();
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      _customerInfo = result.customerInfo;
-      _offerings = result.offerings;
-    });
+      setState(() {
+        _customerInfo = result.customerInfo;
+        _offerings = result.offerings;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text(
+            LocaleKeys.error_snackbar_message,
+            style: TextStyle(color: Theme.of(context).colorScheme.onError),
+          ).tr(),
+        ),
+      );
+    }
   }
 
   void _buyProduct(Package package) async {

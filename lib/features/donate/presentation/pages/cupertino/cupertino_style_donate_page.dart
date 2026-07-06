@@ -62,14 +62,23 @@ class _CupertinoStyleDonateViewState extends State<CupertinoStyleDonateView> {
   }
 
   Future<void> _initialize() async {
-    final result = await loadDonateData();
+    try {
+      final result = await loadDonateData();
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      _customerInfo = result.customerInfo;
-      _offerings = result.offerings;
-    });
+      setState(() {
+        _customerInfo = result.customerInfo;
+        _offerings = result.offerings;
+      });
+    } catch (_) {
+      Fluttertoast.showToast(
+        backgroundColor: CupertinoColors.destructiveRed,
+        textColor: CupertinoColors.black,
+        toastLength: Toast.LENGTH_LONG,
+        msg: LocaleKeys.error_snackbar_message.tr(),
+      );
+    }
   }
 
   void _buyProduct(Package package) async {
