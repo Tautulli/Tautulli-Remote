@@ -44,18 +44,21 @@ class CupertinoStyleActivityCard extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).textScaler.scale(1) > 1 ? 135 * MediaQuery.of(context).textScaler.scale(1) : 135,
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-          CupertinoPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: context.read<ActivityBloc>(),
-              child: CupertinoStyleActivityDetailsPage(
-                activity: activity,
-                server: server,
-                previousPageTitle: LocaleKeys.activity_title.tr(),
+        onTap: () {
+          final activityBloc = context.read<ActivityBloc>();
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: activityBloc,
+                child: CupertinoStyleActivityDetailsPage(
+                  activity: activity,
+                  server: server,
+                  previousPageTitle: LocaleKeys.activity_title.tr(),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
         child: CupertinoStyleCard(
           child: BlocBuilder<SettingsBloc, SettingsState>(
             buildWhen: (previous, current) {
