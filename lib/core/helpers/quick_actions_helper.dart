@@ -26,29 +26,33 @@ void initializeQuickActions(QuickActions quickActions) {
   });
 }
 
-void _setupQuickActions(QuickActions quickActions) {
-  quickActions.setShortcutItems(<ShortcutItem>[
-    ShortcutItem(
-      type: '/activity',
-      localizedTitle: LocaleKeys.activity_title.tr(),
-      icon: 'activity_quick_action_icon',
-    ),
-    ShortcutItem(
-      type: '/history',
-      localizedTitle: LocaleKeys.history_title.tr(),
-      icon: 'history_quick_action_icon',
-    ),
-    ShortcutItem(
-      type: '/recent',
-      localizedTitle: LocaleKeys.recently_added_title.tr(),
-      icon: 'recent_quick_action_icon',
-    ),
-    ShortcutItem(
-      type: '/settings',
-      localizedTitle: LocaleKeys.settings_title.tr(),
-      icon: 'settings_quick_action_icon',
-    ),
-  ]);
+Future<void> _setupQuickActions(QuickActions quickActions) async {
+  try {
+    await quickActions.setShortcutItems(<ShortcutItem>[
+      ShortcutItem(
+        type: '/activity',
+        localizedTitle: LocaleKeys.activity_title.tr(),
+        icon: 'activity_quick_action_icon',
+      ),
+      ShortcutItem(
+        type: '/history',
+        localizedTitle: LocaleKeys.history_title.tr(),
+        icon: 'history_quick_action_icon',
+      ),
+      ShortcutItem(
+        type: '/recent',
+        localizedTitle: LocaleKeys.recently_added_title.tr(),
+        icon: 'recent_quick_action_icon',
+      ),
+      ShortcutItem(
+        type: '/settings',
+        localizedTitle: LocaleKeys.settings_title.tr(),
+        icon: 'settings_quick_action_icon',
+      ),
+    ]);
+  } catch (e) {
+    di.sl<Logging>().error('QuickActions :: Failed to set shortcut items [$e]');
+  }
 }
 
 int? _getTabIndexCupertino(String shortcutType) {
