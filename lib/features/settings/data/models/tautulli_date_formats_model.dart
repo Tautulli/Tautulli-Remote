@@ -2,22 +2,22 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../core/utilities/cast.dart';
 
-part 'tautulli_general_settings_model.g.dart';
+part 'tautulli_date_formats_model.g.dart';
 
 @JsonSerializable()
-class TautulliGeneralSettingsModel {
+class TautulliDateFormatsModel {
   @JsonKey(name: 'date_format', fromJson: Cast.castToString)
   final String? dateFormat;
   @JsonKey(name: 'time_format', fromJson: Cast.castToString)
   final String? timeFormat;
 
-  TautulliGeneralSettingsModel({
+  TautulliDateFormatsModel({
     this.dateFormat,
     this.timeFormat,
   });
 
-  factory TautulliGeneralSettingsModel.fromJson(Map<String, dynamic> json) =>
-      _$TautulliGeneralSettingsModelFromJson(json);
+  factory TautulliDateFormatsModel.fromJson(Map<String, dynamic> json) =>
+      _$TautulliDateFormatsModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TautulliGeneralSettingsModelToJson(this);
+  Map<String, dynamic> toJson() => _$TautulliDateFormatsModelToJson(this);
 }

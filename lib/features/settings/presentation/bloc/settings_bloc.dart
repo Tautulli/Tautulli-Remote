@@ -7,7 +7,7 @@ import 'package:quiver/strings.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 import '../../data/models/plex_info_model.dart';
-import '../../data/models/tautulli_general_settings_model.dart';
+import '../../data/models/tautulli_date_formats_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
 import '../../../../core/types/app_style.dart';
@@ -1028,7 +1028,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     String? timeFormat;
 
     final failureOrPlexInfo = await settings.getPlexInfo(server.tautulliId);
-    final failureOrTautulliSettings = await settings.getTautulliSettings(
+    final failureOrDateFormats = await settings.getDateFormats(
       server.tautulliId,
     );
 
@@ -1054,10 +1054,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       },
     );
 
-    failureOrTautulliSettings.fold(
+    failureOrDateFormats.fold(
       (failure) {
         logging.error(
-          'Settings: Failed to fetch updated Tautulli Settings for ${server.plexName}',
+          'Settings: Failed to fetch updated date formats for ${server.plexName}',
         );
       },
       (response) {
@@ -1068,7 +1068,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           ),
         );
 
-        final TautulliGeneralSettingsModel results = response.value1;
+        final TautulliDateFormatsModel results = response.value1;
 
         dateFormat = results.dateFormat;
         timeFormat = results.timeFormat;

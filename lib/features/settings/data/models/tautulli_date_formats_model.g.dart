@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tautulli_general_settings_model.dart';
+part of 'tautulli_date_formats_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TautulliGeneralSettingsModel _$TautulliGeneralSettingsModelFromJson(
+TautulliDateFormatsModel _$TautulliDateFormatsModelFromJson(
   Map<String, dynamic> json,
-) => TautulliGeneralSettingsModel(
+) => TautulliDateFormatsModel(
   dateFormat: Cast.castToString(json['date_format']),
   timeFormat: Cast.castToString(json['time_format']),
 );
 
-Map<String, dynamic> _$TautulliGeneralSettingsModelToJson(
-  TautulliGeneralSettingsModel instance,
+Map<String, dynamic> _$TautulliDateFormatsModelToJson(
+  TautulliDateFormatsModel instance,
 ) => <String, dynamic>{
   'date_format': instance.dateFormat,
   'time_format': instance.timeFormat,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/plex_info_model.dart';
 import '../models/register_device_model.dart';
-import '../models/tautulli_general_settings_model.dart';
+import '../models/tautulli_date_formats_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
@@ -65,10 +65,10 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await dataSource.getTautulliSettings(tautulliId);
+        final result = await dataSource.getDateFormats(tautulliId);
 
         return Right(result);
       } catch (e) {

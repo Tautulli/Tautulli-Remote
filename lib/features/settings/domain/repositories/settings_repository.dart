@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/plex_info_model.dart';
 import '../../data/models/register_device_model.dart';
-import '../../data/models/tautulli_general_settings_model.dart';
+import '../../data/models/tautulli_date_formats_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/app_style.dart';
@@ -23,7 +23,7 @@ abstract class SettingsRepository {
     String tautulliId,
   );
 
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId);
+  Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId);
 
   Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
     required String connectionProtocol,

@@ -7,7 +7,7 @@ import 'package:system_theme/system_theme.dart';
 
 import '../models/plex_info_model.dart';
 import '../models/register_device_model.dart';
-import '../models/tautulli_general_settings_model.dart';
+import '../models/tautulli_date_formats_model.dart';
 import '../../../../core/api/tautulli_connection_adapter.dart';
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
@@ -32,7 +32,7 @@ abstract class SettingsDataSource {
 
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId);
 
-  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+  Future<Tuple2<TautulliDateFormatsModel, bool>> getDateFormats(
     String tautulliId,
   );
 
@@ -286,19 +286,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }
 
   @override
-  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+  Future<Tuple2<TautulliDateFormatsModel, bool>> getDateFormats(
     String tautulliId,
   ) async {
     final result = await _adapter.call(
       tautulliId: tautulliId,
-      action: (client) => client.execute('get_settings'),
+      action: (client) => client.execute('get_date_formats'),
     );
 
-    final generalSettings = TautulliGeneralSettingsModel.fromJson(
-      result.data['data']['General'],
+    final dateFormats = TautulliDateFormatsModel.fromJson(
+      result.data['data'],
     );
 
-    return Tuple2(generalSettings, result.primaryActive);
+    return Tuple2(dateFormats, result.primaryActive);
   }
 
   @override
