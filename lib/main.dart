@@ -11,6 +11,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'firebase_options.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 import 'core/global_keys/global_keys.dart';
 import 'core/helpers/translation_helper.dart';
@@ -74,8 +75,11 @@ void main() async {
   // Network I/O errors that escape error handling (e.g. from third-party SDKs) are recorded as
   // non-fatal so they remain visible without inflating the crash rate.
   PlatformDispatcher.instance.onError = (error, stack) {
-    final bool fatal = error is! HandshakeException && error is! SocketException;
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: fatal);
+    final bool isNetworkError = error is SocketException ||
+        error is HandshakeException ||
+        error is HttpException ||
+        error is http.ClientException;
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: !isNetworkError);
     return true;
   };
 
