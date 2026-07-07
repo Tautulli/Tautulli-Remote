@@ -1,6 +1,35 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.5.2",
+      "date": "July 8, 2026",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "The Tautulli API communication now uses a new, separately maintained package. If you notice any issues please go to Settings > Help & Support to let us know.",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "All items should now correctly update when a language is changed without requiring an app restart.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Migrated from the simple_moment package to timeago.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Many small improvements to catch potential edge case issues.",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Danish and Hungarian.",
+          "additional": "Thanks @ulrikjo and @ugyes",
+        },
+      ],
+    },
+    {
       "version": "v3.5.1",
       "date": "July 1, 2026",
       "changes": [
