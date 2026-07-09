@@ -445,5 +445,6 @@
     "wizard_welcome_text_2": "Tautulli Remote giver dig mulighed for at se din Plex-serveraktivitet, historik, statistik og meget mere ved at oprette forbindelse til din eksisterende Tautulli-server.",
     "wizard_welcome_text_3": "Sørg for, at Tautulli kører og er tilgængelig fra denne enhed, før du fortsætter med opsætningsguiden.",
     "written_by_title": "Skrevet af",
-    "visuals_title": "Visuelle elementer"
+    "visuals_title": "Visuelle elementer",
+    "media_details_loading_message": "Mediedetaljerne indlæses stadig."
 }
