@@ -960,6 +960,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (server) => server.id == event.serverModel.id,
     );
 
+    // The server may have been removed while the Plex/Tautulli info fetch was
+    // in flight (e.g. deleted by the user); skip rather than indexing at -1.
+    if (index == -1) return;
+
     updatedList[index] = event.serverModel;
 
     await settings.updateServer(event.serverModel);
