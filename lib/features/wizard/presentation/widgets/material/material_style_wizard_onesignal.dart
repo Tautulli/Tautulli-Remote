@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/helpers/permission_helper.dart';
 import '../../../../../core/types/wizard_skip_type.dart';
 import '../../../../../core/widgets/material/material_style_card.dart';
 import '../../../../../core/widgets/material/dialogs/material_style_permission_setting_dialog.dart';
@@ -104,7 +105,9 @@ class MaterialStyleWizardOneSignal extends StatelessWidget {
                         title: LocaleKeys.wizard_onesignal_allow_title.tr(),
                         value: state.oneSignalAllowed,
                         onChanged: (_) async {
-                          if (await Permission.notification.request().isGranted) {
+                          final status = await PermissionHelper.requestNotification();
+                          if (status == null) return;
+                          if (status.isGranted) {
                             context.read<WizardBloc>().add(
                               WizardToggleOneSignal(),
                             );

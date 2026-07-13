@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../../core/helpers/permission_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../core/widgets/cupertino/dialogs/cupertino_style_permission_setting_dialog.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -27,7 +28,9 @@ class CupertinoStyleOnesignalDataPrivacyListTile extends StatelessWidget {
               // If current state is OneSignalPrivacyFailure then go through the
               // steps to grant permission.
               if (state is OneSignalPrivacyFailure) {
-                if (await Permission.notification.request().isGranted) {
+                final status = await PermissionHelper.requestNotification();
+                if (status == null) return;
+                if (status.isGranted) {
                   oneSignalPrivacyBloc.add(
                     OneSignalPrivacyGrant(),
                   );

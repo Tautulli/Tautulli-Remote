@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/helpers/permission_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
@@ -71,7 +72,9 @@ class CupertinoStyleWizardOnesignal extends StatelessWidget {
                   return CupertinoSwitch(
                     value: wizardState.oneSignalAllowed,
                     onChanged: (_) async {
-                      if (await Permission.notification.request().isGranted) {
+                      final status = await PermissionHelper.requestNotification();
+                      if (status == null) return;
+                      if (status.isGranted) {
                         context.read<WizardBloc>().add(
                           WizardToggleOneSignal(),
                         );
