@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:http/http.dart' as http;
 import 'package:tautulli/tautulli.dart' as pkg;
 
 import '../../dependency_injection.dart' as di;
@@ -63,12 +65,22 @@ class FailureHelper {
       //   return JsonDecodeFailure();
       case ServerException _:
         return ServerFailure();
+      case ServerNotFoundException _:
+        // No server matched the tautulliId (row deleted / active id went stale
+        // while a fetch was in flight). Expected + handled — map it so it no
+        // longer falls through to the default Crashlytics recorder.
+        return MissingServerFailure();
       case ServerVersionException _:
         return ServerVersionFailure();
       // case SettingsException _:
       //   return SettingsFailure();
-      // case SocketException _:
-      //   return SocketFailure();
+      // Network I/O failures from datasources still using package:http / dart:io
+      // directly (e.g. Announcements). Expected + handled — map to a connection
+      // failure instead of recording them as Crashlytics noise.
+      case http.ClientException _:
+        return ConnectionFailure();
+      case SocketException _:
+        return ConnectionFailure();
       case TerminateStreamException _:
         return TerminateStreamFailure();
       case TimeoutException _:
