@@ -119,12 +119,12 @@ class _ServerRegistrationIosViewState extends State<ServerRegistrationIosView> {
             middle: const Text(LocaleKeys.server_registration_title).tr(),
             leading: CupertinoStyleBottomSheetCloseButton(
               onPressed: () async {
-                final result = await showCupertinoDialog(
+                final bool? result = await showCupertinoDialog<bool>(
                   context: context,
                   builder: (context) => const CupertinoStyleRegistrationExitDialog(),
                 );
 
-                if (result) {
+                if (result == true) {
                   context.read<RegistrationHeadersBloc>().add(
                     RegistrationHeadersClear(),
                   );

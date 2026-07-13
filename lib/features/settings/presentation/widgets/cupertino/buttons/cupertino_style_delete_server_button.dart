@@ -28,7 +28,7 @@ class CupertinoStyleDeleteServerButton extends StatelessWidget {
         color: ThemeHelper.cupertinoNavigationBarItemColor,
       ),
       onPressed: () async {
-        final result = await showCupertinoDialog(
+        final bool? result = await showCupertinoDialog<bool>(
           context: context,
           builder: (_) => CupertinoStyleDeleteDialog(
             title:
@@ -40,7 +40,7 @@ class CupertinoStyleDeleteServerButton extends StatelessWidget {
           ),
         );
 
-        if (result) {
+        if (result == true) {
           context.read<SettingsBloc>().add(
             SettingsDeleteServer(
               id: serverId,

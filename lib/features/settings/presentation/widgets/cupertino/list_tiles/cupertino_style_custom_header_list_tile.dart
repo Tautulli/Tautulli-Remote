@@ -41,14 +41,14 @@ class CupertinoStyleCustomHeaderListTile extends StatelessWidget {
           ),
           additionalInfo: GestureDetector(
             onTap: () async {
-              final result = await showCupertinoDialog(
+              final bool? result = await showCupertinoDialog<bool>(
                 context: context,
                 builder: (context) => CupertinoStyleDeleteDialog(
                   title: const Text(LocaleKeys.server_delete_dialog_title).tr(args: [title]),
                 ),
               );
 
-              if (result) {
+              if (result == true) {
                 if (forRegistration) {
                   context.read<RegistrationHeadersBloc>().add(
                     RegistrationHeadersDelete(title),

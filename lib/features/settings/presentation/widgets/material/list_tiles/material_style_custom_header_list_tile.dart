@@ -72,7 +72,7 @@ class MaterialStyleCustomHeaderListTile extends StatelessWidget {
                 ),
               ),
               onTap: () async {
-                final result = await showDialog(
+                final bool? result = await showDialog<bool>(
                   context: context,
                   builder: (_) => MaterialStyleDeleteDialog(
                     title: const Text(
@@ -81,7 +81,7 @@ class MaterialStyleCustomHeaderListTile extends StatelessWidget {
                   ),
                 );
 
-                if (result) {
+                if (result == true) {
                   if (forRegistration) {
                     context.read<RegistrationHeadersBloc>().add(
                       RegistrationHeadersDelete(title),

@@ -29,7 +29,7 @@ class MaterialStyleDeleteServerButton extends StatelessWidget {
         color: Theme.of(context).colorScheme.onSurface,
       ),
       onPressed: () async {
-        final result = await showDialog(
+        final bool? result = await showDialog<bool>(
           context: context,
           builder: (_) => MaterialStyleDeleteDialog(
             title: const Text(
@@ -38,7 +38,7 @@ class MaterialStyleDeleteServerButton extends StatelessWidget {
           ),
         );
 
-        if (result) {
+        if (result == true) {
           if (!isWizard) Navigator.of(context).pop();
 
           context.read<SettingsBloc>().add(
