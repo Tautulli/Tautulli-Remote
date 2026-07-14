@@ -82,6 +82,13 @@ class _MaterialStyleLibraryDetailsHistoryTabState extends State<MaterialStyleLib
                   );
                 }
 
+                if (state.status == BlocStatus.success && state.history.isEmpty) {
+                  return MaterialStyleStatusPage(
+                    scrollable: true,
+                    message: LocaleKeys.history_empty_message.tr(),
+                  );
+                }
+
                 return ListView.separated(
                   padding: const EdgeInsets.all(8),
                   itemCount: state.hasReachedMax || state.status == BlocStatus.initial
