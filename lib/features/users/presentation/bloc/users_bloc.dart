@@ -40,8 +40,6 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         ),
       );
     } else {
-      usersCache[event.server.tautulliId] = [];
-
       emit(
         state.copyWith(
           status: BlocStatus.initial,
@@ -60,7 +58,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           return emit(
             state.copyWith(
               status: BlocStatus.failure,
-              users: usersCache[event.server.tautulliId],
+              users: const [],
               failure: failure,
               message: FailureHelper.mapFailureToMessage(failure),
               suggestion: FailureHelper.mapFailureToSuggestion(failure),
