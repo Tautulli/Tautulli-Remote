@@ -108,7 +108,14 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     directStreamDecisionCache = event.directStreamDecision;
     transcodeDecisionCache = event.transcodeDecision;
 
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          history: historyCache[event.server.tautulliId],
+        ),
+      );
+    }
 
     final List<String> mediaTypes = [];
     if (event.movieMediaType) mediaTypes.add('movie');

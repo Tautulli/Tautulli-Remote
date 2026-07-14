@@ -87,7 +87,14 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
 
     tautulliIdCache = event.server.tautulliId;
 
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          users: usersCache[event.server.tautulliId],
+        ),
+      );
+    }
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Users page
