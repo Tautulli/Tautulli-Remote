@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../../../core/helpers/custom_header_helper.dart';
 import '../../../../../../core/widgets/material/material_style_bottom_sheet_scaffold.dart';
 import '../../../../../../core/widgets/material/material_style_text_form_field.dart';
 import '../../../../../../translations/locale_keys.g.dart';
@@ -129,6 +130,9 @@ class _MaterialStyleEditCustomHttpHeaderBottomSheetState extends State<MaterialS
                 if (isBlank(value)) {
                   return LocaleKeys.cannot_be_blank_message.tr();
                 }
+                if (!_isBasicAuth && !isValidHeaderName(value!)) {
+                  return LocaleKeys.custom_http_header_invalid_key_message.tr();
+                }
                 return null;
               },
             ),
@@ -140,6 +144,9 @@ class _MaterialStyleEditCustomHttpHeaderBottomSheetState extends State<MaterialS
               validator: (value) {
                 if (isBlank(value)) {
                   return LocaleKeys.cannot_be_blank_message.tr();
+                }
+                if (!_isBasicAuth && !isValidHeaderValue(value!)) {
+                  return LocaleKeys.custom_http_header_invalid_value_message.tr();
                 }
                 return null;
               },

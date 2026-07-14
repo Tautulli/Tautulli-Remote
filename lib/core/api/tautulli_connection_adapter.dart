@@ -7,6 +7,7 @@ import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/data/models/custom_header_model.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 import '../error/exception.dart';
+import '../helpers/custom_header_helper.dart';
 import '../types/image_fallback.dart';
 import 'api_result.dart';
 
@@ -42,6 +43,10 @@ class TautulliConnectionAdapter {
     for (final header in server.customHeaders) {
       headers[header.key] = header.value;
     }
+    // Fail fast on a malformed custom header (e.g. a name with a stray ':')
+    // before it reaches dart:io, where it would throw a FormatException that
+    // maps to a misleading "No network connectivity" error.
+    validateHeadersOrThrow(headers);
 
     final certHashList = _settings.getCustomCertHashList();
 
@@ -119,6 +124,10 @@ class TautulliConnectionAdapter {
         headers[h.key] = h.value;
       }
     }
+    // Fail fast on a malformed custom header (e.g. a name with a stray ':')
+    // before it reaches dart:io, where it would throw a FormatException that
+    // maps to a misleading "No network connectivity" error.
+    validateHeadersOrThrow(headers);
 
     final certHashList = _settings.getCustomCertHashList();
     final (client, ioClient) = _buildClient(

@@ -36,6 +36,9 @@ class InvalidParamsFailure extends Failure {}
 /// Tautulli has responded with the error 'Invalid apikey'.
 class InvalidApiKeyFailure extends Failure {}
 
+/// A custom header key or value is not valid HTTP.
+class InvalidHeaderFailure extends Failure {}
+
 // /// Error parsing JSON.
 // class JsonDecodeFailure extends Failure {}
 

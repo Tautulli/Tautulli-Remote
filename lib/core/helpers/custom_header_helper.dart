@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../features/settings/data/models/custom_header_model.dart';
+import '../error/exception.dart';
 
 ({List<CustomHeaderModel> headers, String logMessage}) applyCustomHeaderUpdate({
   required List<CustomHeaderModel> headers,
@@ -87,4 +88,31 @@ List<CustomHeaderModel> sortCustomHeaders(List<CustomHeaderModel> headers) {
     sorted.insert(0, authHeader);
   }
   return sorted;
+}
+
+// HTTP header field names are tokens (RFC 7230 §3.2 / RFC 9110 §5.6.2): one or
+// more `tchar`.
+final _headerNameToken = RegExp(r"^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$");
+
+/// Whether [key] is a valid HTTP header field name.
+bool isValidHeaderName(String key) => _headerNameToken.hasMatch(key.trim());
+
+/// Whether [value] is a valid HTTP header field value.
+///
+/// Rejects CR and LF, which dart:io also rejects and which would otherwise
+/// enable header injection.
+bool isValidHeaderValue(String value) => !value.contains('\r') && !value.contains('\n');
+
+/// Throws [InvalidHeaderException] if any entry in [headers] has a name or value
+/// that HTTP (and dart:io) would reject.
+///
+/// Called before a request is built so a malformed custom header surfaces as a
+/// clear configuration error rather than a `FormatException` flattened into a
+/// generic connection failure at send time.
+void validateHeadersOrThrow(Map<String, String> headers) {
+  for (final entry in headers.entries) {
+    if (!isValidHeaderName(entry.key) || !isValidHeaderValue(entry.value)) {
+      throw InvalidHeaderException();
+    }
+  }
 }

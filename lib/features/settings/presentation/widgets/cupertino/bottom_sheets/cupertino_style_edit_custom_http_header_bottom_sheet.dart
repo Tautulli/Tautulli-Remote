@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../../../core/helpers/custom_header_helper.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_save_button.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
@@ -132,6 +133,10 @@ class _CupertinoStyleEditCustomHttpHeaderBottomSheetState extends State<Cupertin
                     return LocaleKeys.cannot_be_blank_message.tr();
                   }
 
+                  if (!_isBasicAuth && !isValidHeaderName(value!)) {
+                    return LocaleKeys.custom_http_header_invalid_key_message.tr();
+                  }
+
                   return null;
                 },
                 placeholder: (_isBasicAuth) ? LocaleKeys.username_title.tr() : LocaleKeys.header_key_title.tr(),
@@ -142,6 +147,10 @@ class _CupertinoStyleEditCustomHttpHeaderBottomSheetState extends State<Cupertin
                 validator: (value) {
                   if (isBlank(value)) {
                     return LocaleKeys.cannot_be_blank_message.tr();
+                  }
+
+                  if (!_isBasicAuth && !isValidHeaderValue(value!)) {
+                    return LocaleKeys.custom_http_header_invalid_value_message.tr();
                   }
 
                   return null;

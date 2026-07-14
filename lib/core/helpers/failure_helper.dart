@@ -59,6 +59,8 @@ class FailureHelper {
         return DatabaseInitFailure();
       case InvalidApiKeyException _:
         return InvalidApiKeyFailure();
+      case InvalidHeaderException _:
+        return InvalidHeaderFailure();
       // case HandshakeException _:
       //   return TlsFailure();
       // case JsonDecodeException _:
@@ -114,6 +116,8 @@ class FailureHelper {
         return LocaleKeys.error_message_database_init.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_message_invalid_api_key.tr();
+      case InvalidHeaderFailure _:
+        return LocaleKeys.error_message_invalid_header.tr();
       case InvalidParamsFailure _:
         return LocaleKeys.error_message_invalid_params.tr();
       // case JsonDecodeFailure _:
@@ -158,6 +162,8 @@ class FailureHelper {
         return LocaleKeys.error_suggestion_generic.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_suggestion_invalid_api_key.tr();
+      case InvalidHeaderFailure _:
+        return LocaleKeys.error_suggestion_invalid_header.tr();
       case InvalidParamsFailure _:
         return '';
       // case JsonDecodeFailure _:

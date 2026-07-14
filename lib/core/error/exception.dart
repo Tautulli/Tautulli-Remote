@@ -20,6 +20,11 @@ class DatabaseInitException implements Exception {}
 /// Throw when the provided connection protocol is not `http` or `https`.
 class IncorrectConnectionProtocolException implements Exception {}
 
+/// Throw when a custom header key or value is not valid HTTP (e.g. a key
+/// containing ':' or whitespace), which dart:io would otherwise reject with a
+/// FormatException when building the request.
+class InvalidHeaderException implements Exception {}
+
 /// Throw when Tautulli responds with 'Invalid apikey'.
 class InvalidApiKeyException implements Exception {}
 

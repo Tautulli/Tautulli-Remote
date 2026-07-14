@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../../../core/helpers/custom_header_helper.dart';
 import '../../../../../../core/types/custom_http_header_type.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_modal_popup_scaffold.dart';
 import '../../../../../../core/widgets/cupertino/buttons/cupertino_style_bottom_sheet_cancel_button.dart';
@@ -157,6 +158,10 @@ class _CupertinoStyleCustomHttpHeaderBottomSheetState extends State<CupertinoSty
                         return LocaleKeys.cannot_be_blank_message.tr();
                       }
 
+                      if (_selectedSegment == CustomHttpHeaderType.custom && !isValidHeaderName(value!)) {
+                        return LocaleKeys.custom_http_header_invalid_key_message.tr();
+                      }
+
                       return null;
                     },
                     placeholder: (_selectedSegment == CustomHttpHeaderType.basic)
@@ -169,6 +174,10 @@ class _CupertinoStyleCustomHttpHeaderBottomSheetState extends State<CupertinoSty
                     validator: (value) {
                       if (isBlank(value)) {
                         return LocaleKeys.cannot_be_blank_message.tr();
+                      }
+
+                      if (_selectedSegment == CustomHttpHeaderType.custom && !isValidHeaderValue(value!)) {
+                        return LocaleKeys.custom_http_header_invalid_value_message.tr();
                       }
 
                       return null;

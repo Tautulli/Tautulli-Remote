@@ -62,6 +62,8 @@ abstract class  LocaleKeys {
   static const custom_time_range_dialog_content = 'custom_time_range_dialog_content';
   static const custom_time_range_title = 'custom_time_range_title';
   static const custom_title = 'custom_title';
+  static const custom_http_header_invalid_key_message = 'custom_http_header_invalid_key_message';
+  static const custom_http_header_invalid_value_message = 'custom_http_header_invalid_value_message';
   static const custom_http_headers_title = 'custom_http_headers_title';
   static const daily_concurrent_stream_count_by_stream_type_title = 'daily_concurrent_stream_count_by_stream_type_title';
   static const daily_play_count_by_media_type_title = 'daily_play_count_by_media_type_title';
@@ -132,6 +134,7 @@ abstract class  LocaleKeys {
   static const error_message_database_init = 'error_message_database_init';
   static const error_message_generic = 'error_message_generic';
   static const error_message_invalid_api_key = 'error_message_invalid_api_key';
+  static const error_message_invalid_header = 'error_message_invalid_header';
   static const error_message_invalid_params = 'error_message_invalid_params';
   static const error_message_no_servers = 'error_message_no_servers';
   static const error_message_server = 'error_message_server';
@@ -146,6 +149,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_check_server_settings = 'error_suggestion_check_server_settings';
   static const error_suggestion_generic = 'error_suggestion_generic';
   static const error_suggestion_invalid_api_key = 'error_suggestion_invalid_api_key';
+  static const error_suggestion_invalid_header = 'error_suggestion_invalid_header';
   static const error_suggestion_plex_connection = 'error_suggestion_plex_connection';
   static const error_suggestion_register_server = 'error_suggestion_register_server';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
