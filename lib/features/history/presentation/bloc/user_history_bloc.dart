@@ -69,6 +69,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
         ),
       );
       userHistoryCache[cacheKey] = [];
+      hasReachedMaxCache[cacheKey] = false;
     }
 
     if (hasReachedMaxCache[cacheKey] == true) {
