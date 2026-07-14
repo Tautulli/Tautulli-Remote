@@ -19,6 +19,7 @@ part 'library_history_event.dart';
 part 'library_history_state.dart';
 
 Map<String, List<HistoryModel>> libraryHistoryCache = {};
+Map<String, bool> hasReachedMaxCache = {};
 
 const throttleDuration = Duration(milliseconds: 100);
 const length = 25;
@@ -56,6 +57,9 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
     if (!libraryHistoryCache.containsKey(cacheKey)) {
       libraryHistoryCache[cacheKey] = [];
     }
+    if (!hasReachedMaxCache.containsKey(cacheKey)) {
+      hasReachedMaxCache[cacheKey] = false;
+    }
 
     if (event.freshFetch) {
       emit(
@@ -65,9 +69,18 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
         ),
       );
       libraryHistoryCache[cacheKey] = [];
+      hasReachedMaxCache[cacheKey] = false;
     }
 
-    if (state.hasReachedMax) return;
+    if (hasReachedMaxCache[cacheKey] == true) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          history: libraryHistoryCache[cacheKey],
+          hasReachedMax: true,
+        ),
+      );
+    }
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
@@ -76,7 +89,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
           state.copyWith(
             status: BlocStatus.success,
             history: libraryHistoryCache[cacheKey],
-            hasReachedMax: libraryHistoryCache[cacheKey]!.length < length,
+            hasReachedMax: hasReachedMaxCache[cacheKey],
           ),
         );
       }
@@ -188,12 +201,13 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
         );
 
         libraryHistoryCache[cacheKey] = libraryHistoryCache[cacheKey]! + historyListWithUris;
+        hasReachedMaxCache[cacheKey] = historyListWithUris.length < length;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
             history: libraryHistoryCache[cacheKey],
-            hasReachedMax: historyListWithUris.length < length,
+            hasReachedMax: hasReachedMaxCache[cacheKey],
           ),
         );
       },
