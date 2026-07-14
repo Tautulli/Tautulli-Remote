@@ -47,6 +47,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   }) : super(
           StatisticsState(
             statList: statCache[tautulliIdCache] ?? [],
+            hasReachedMaxMap: Map<StatIdType, bool>.from(hasReachedMaxCache),
             statsType: statsTypeCache ?? PlayMetricType.plays,
             timeRange: timeRangeCache ?? 30,
           ),
