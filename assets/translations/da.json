@@ -446,5 +446,9 @@
     "wizard_welcome_text_3": "Sørg for, at Tautulli kører og er tilgængelig fra denne enhed, før du fortsætter med opsætningsguiden.",
     "written_by_title": "Skrevet af",
     "visuals_title": "Visuelle elementer",
-    "media_details_loading_message": "Mediedetaljerne indlæses stadig."
+    "media_details_loading_message": "Mediedetaljerne indlæses stadig.",
+    "custom_http_header_invalid_key_message": "Headernøglen må ikke indeholde ':' eller mellemrum.",
+    "custom_http_header_invalid_value_message": "Headerværdien må ikke indeholde linjeskift.",
+    "error_message_invalid_header": "Ugyldig brugerdefineret header",
+    "error_suggestion_invalid_header": "Kontrollér dine brugerdefinerede headere. Et headernavn må ikke indeholde ':' eller mellemrum – angiv kun navnet, f.eks. CF-Access-Client-Id."
 }
