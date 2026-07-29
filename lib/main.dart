@@ -19,9 +19,9 @@ import 'core/package_information/package_information.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/geo_ip/presentation/bloc/geo_ip_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import 'features/push/presentation/bloc/push_health_bloc.dart';
+import 'features/push/presentation/bloc/push_privacy_bloc.dart';
+import 'features/push/presentation/bloc/push_sub_bloc.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/registration_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
@@ -147,13 +147,13 @@ void main() async {
             create: (context) => di.sl<GeoIpBloc>(param1: context.read<SettingsBloc>()),
           ),
           BlocProvider(
-            create: (context) => di.sl<OneSignalHealthBloc>(),
+            create: (context) => di.sl<PushHealthBloc>(),
           ),
           BlocProvider(
-            create: (context) => di.sl<OneSignalPrivacyBloc>(param1: context.read<SettingsBloc>()),
+            create: (context) => di.sl<PushPrivacyBloc>(param1: context.read<SettingsBloc>()),
           ),
           BlocProvider(
-            create: (context) => di.sl<OneSignalSubBloc>(),
+            create: (context) => di.sl<PushSubBloc>(),
           ),
           BlocProvider(
             create: (context) => di.sl<RegistrationHeadersBloc>(),

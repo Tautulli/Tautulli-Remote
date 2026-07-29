@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import '../../../../../push/presentation/bloc/push_privacy_bloc.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../bloc/wizard_bloc.dart';
 
@@ -26,11 +26,10 @@ class MaterialStyleWizardFinishButton extends StatelessWidget {
 
             settingsBloc.add(const SettingsUpdateWizardComplete(true));
 
-            if (state.oneSignalAllowed) {
-              context.read<OneSignalPrivacyBloc>().add(
-                    OneSignalPrivacyGrant(
-                    ),
-                  );
+            if (state.notificationsAllowed) {
+              context.read<PushPrivacyBloc>().add(
+                PushPrivacyGrant(),
+              );
             }
 
             await Navigator.of(context).pushNamedAndRemoveUntil('/activity', (route) => false);

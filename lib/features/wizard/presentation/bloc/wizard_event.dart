@@ -11,8 +11,8 @@ class WizardNext extends WizardEvent {}
 
 class WizardPrevious extends WizardEvent {}
 
-class WizardSkipOneSignal extends WizardEvent {}
+class WizardSkipNotifications extends WizardEvent {}
 
 class WizardSkipServers extends WizardEvent {}
 
-class WizardToggleOneSignal extends WizardEvent {}
+class WizardToggleNotifications extends WizardEvent {}

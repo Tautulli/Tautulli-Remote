@@ -85,7 +85,7 @@ class DBProvider {
           // Database version 8 marks the start of app version 3.
           // Therefore we need to update a few things for a smooth migration.
           await _refactorCustomHeaders(db, batch);
-          await _setOneSignalRegisteredToFalse(db, batch);
+          await _setPushRegisteredToFalse(db, batch);
         }
         await batch.commit();
       },
@@ -213,8 +213,8 @@ class DBProvider {
     }
   }
 
-  Future<void> _setOneSignalRegisteredToFalse(Database db, Batch batch) async {
-    logging.info('DB :: Setting OneSignal registered to false');
+  Future<void> _setPushRegisteredToFalse(Database db, Batch batch) async {
+    logging.info('DB :: Setting push registered to false');
 
     var servers = await db.query('servers');
     for (var i = 0; i <= servers.length - 1; i++) {

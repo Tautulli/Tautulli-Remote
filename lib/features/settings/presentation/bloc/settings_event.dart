@@ -15,7 +15,7 @@ class SettingsAddServer extends SettingsEvent {
   final String plexName;
   final String plexIdentifier;
   final bool plexPass;
-  final bool oneSignalRegistered;
+  final bool pushRegistered;
   final List<CustomHeaderModel>? customHeaders;
 
   const SettingsAddServer({
@@ -26,7 +26,7 @@ class SettingsAddServer extends SettingsEvent {
     required this.plexName,
     required this.plexIdentifier,
     required this.plexPass,
-    required this.oneSignalRegistered,
+    required this.pushRegistered,
     this.customHeaders,
   });
 
@@ -37,7 +37,7 @@ class SettingsAddServer extends SettingsEvent {
     tautulliId,
     plexName,
     plexPass,
-    oneSignalRegistered,
+    pushRegistered,
   ];
 }
 
@@ -244,19 +244,19 @@ class SettingsUpdateMultiserverActivity extends SettingsEvent {
   List<Object> get props => [multiserverActivity];
 }
 
-class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
+class SettingsUpdateNotificationsBannerDismiss extends SettingsEvent {
   final bool dismiss;
 
-  const SettingsUpdateOneSignalBannerDismiss(this.dismiss);
+  const SettingsUpdateNotificationsBannerDismiss(this.dismiss);
 
   @override
   List<Object> get props => [dismiss];
 }
 
-class SettingsUpdateOneSignalConsented extends SettingsEvent {
+class SettingsUpdateNotificationsConsented extends SettingsEvent {
   final bool consented;
 
-  const SettingsUpdateOneSignalConsented(this.consented);
+  const SettingsUpdateNotificationsConsented(this.consented);
 
   @override
   List<Object> get props => [consented];
@@ -314,7 +314,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final bool plexPass;
   final String? dateFormat;
   final String? timeFormat;
-  final bool oneSignalRegistered;
+  final bool pushRegistered;
   final List<CustomHeaderModel>? customHeaders;
 
   const SettingsUpdateServer({
@@ -329,7 +329,7 @@ class SettingsUpdateServer extends SettingsEvent {
     required this.plexPass,
     this.dateFormat,
     this.timeFormat,
-    required this.oneSignalRegistered,
+    required this.pushRegistered,
     this.customHeaders,
   });
 
@@ -343,7 +343,7 @@ class SettingsUpdateServer extends SettingsEvent {
     tautulliId,
     plexName,
     plexPass,
-    oneSignalRegistered,
+    pushRegistered,
   ];
 }
 

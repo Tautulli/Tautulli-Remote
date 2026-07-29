@@ -4,9 +4,11 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/requirements/tautulli_version.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../onesignal/data/datasources/onesignal_data_source.dart';
+import '../../../push/data/datasources/push_data_source.dart';
+import '../../../push/domain/usecases/push.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../../domain/usecases/settings.dart';
@@ -101,7 +103,13 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
       },
       (result) async {
         final registerResults = result.value1;
-        final bool oneSignalRegistered = await di.sl<OneSignalDataSource>().userId != 'onesignal-disabled';
+
+        // A server older than [MinimumVersion.tautulliServerPush] accepts the
+        // registration but has nowhere to store the push token, so it must not
+        // be recorded as push registered.
+        final String pushToken = await di.sl<Push>().token;
+        final bool pushRegistered =
+            pushToken != pushDisabled && MinimumVersion.supportsPush(registerResults.tautulliVersion);
 
         try {
           if (registerResults.serverId != null) {
@@ -119,7 +127,7 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
                   plexName: registerResults.pmsName!,
                   plexIdentifier: registerResults.pmsIdentifier!,
                   plexPass: registerResults.pmsPlexpass!,
-                  oneSignalRegistered: oneSignalRegistered,
+                  pushRegistered: pushRegistered,
                   customHeaders: customHeadersCache,
                 ),
               );
@@ -142,7 +150,7 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
                   plexName: registerResults.pmsName!,
                   plexIdentifier: registerResults.pmsIdentifier!,
                   plexPass: registerResults.pmsPlexpass!,
-                  oneSignalRegistered: oneSignalRegistered,
+                  pushRegistered: pushRegistered,
                   customHeaders: customHeadersCache,
                   dateFormat: existingServer.dateFormat,
                   timeFormat: existingServer.timeFormat,

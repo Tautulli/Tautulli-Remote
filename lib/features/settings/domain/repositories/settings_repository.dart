@@ -137,13 +137,17 @@ abstract class SettingsRepository {
   bool getMultiserverActivity();
   Future<bool> setMultiserverActivity(bool value);
 
-  // OneSignal Banner Dismissed
-  bool getOneSignalBannerDismissed();
-  Future<bool> setOneSignalBannerDismissed(bool value);
+  // Notifications Banner Dismissed
+  bool getNotificationsBannerDismissed();
+  Future<bool> setNotificationsBannerDismissed(bool value);
 
-  // OneSignal Consented
-  bool getOneSignalConsented();
-  Future<bool> setOneSignalConsented(bool value);
+  // Notifications Consented
+  bool getNotificationsConsented();
+  Future<bool> setNotificationsConsented(bool value);
+
+  // Last Registered Push Token
+  String? getLastRegisteredPushToken();
+  Future<bool> setLastRegisteredPushToken(String value);
 
   // Recently Added Filter
   String getRecentlyAddedFilter();

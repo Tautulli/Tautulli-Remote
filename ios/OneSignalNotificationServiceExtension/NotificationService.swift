@@ -1,7 +1,6 @@
 import CryptoSwift
 import CommonCrypto
 import Foundation
-import OneSignalExtension
 import os.log
 import SQLite3
 import UIKit
@@ -18,8 +17,12 @@ class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
         if let bestAttemptContent = bestAttemptContent {
+            // processPayload only enriches the content — a missing payload or a failed
+            // decryption leaves the original notification intact, so it is always delivered.
             processPayload(from: request.content.userInfo, into: bestAttemptContent)
-            OneSignalExtension.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent, withContentHandler: self.contentHandler)
+            contentHandler(bestAttemptContent)
+        } else {
+            contentHandler(request.content)
         }
     }
 
@@ -74,13 +77,37 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
 
+    /// Resolves the Tautulli notification payload out of the APNs `userInfo`.
+    ///
+    /// The relay sends the notification data as a JSON string under the top level `payload`
+    /// key — FCM injects every `message.data` entry as a custom top level APNs key. The
+    /// legacy OneSignal envelope carried the same dictionary at `custom.a`, so that path is
+    /// kept as a fallback for notifications already in flight during the migration.
+    private func resolvePayload(from userInfo: [AnyHashable: Any]) -> [String: Any]? {
+        if let payloadString = userInfo["payload"] as? String,
+           let payloadData = payloadString.data(using: .utf8),
+           let payload = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] {
+            return payload
+        }
+
+        if let custom = userInfo["custom"] as? [String: Any],
+           let legacyPayload = custom["a"] as? [String: Any] {
+            return legacyPayload
+        }
+
+        return nil
+    }
+
     private func processPayload(from userInfo: [AnyHashable: Any], into content: UNMutableNotificationContent) {
         var diagEntry = DiagnosticEntry(timestamp: ISO8601DateFormatter().string(from: Date()))
         defer { appendDiagnosticLog(entry: diagEntry) }
 
-        guard let custom = userInfo["custom"] as? [String: AnyObject],
-              let data = custom["a"] as? [String: AnyObject],
-              let encrypted = data["encrypted"] as? Bool,
+        guard let data = resolvePayload(from: userInfo) else {
+            print("Tautulli Notification Info: Missing or malformed payload")
+            return
+        }
+
+        guard let encrypted = data["encrypted"] as? Bool,
               let serverId = data["server_id"] as? String else {
             print("Tautulli Notification Info: Missing or malformed payload fields")
             return
@@ -182,7 +209,6 @@ class NotificationService: UNNotificationServiceExtension {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
         if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
-            OneSignalExtension.serviceExtensionTimeWillExpireRequest(self.receivedRequest, with: self.bestAttemptContent)
             contentHandler(bestAttemptContent)
         }
     }

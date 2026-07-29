@@ -14,6 +14,9 @@ abstract class NotificationLogsDataSource {
 
 class NotificationLogsDataSourceImpl implements NotificationLogsDataSource {
   static const String _fileName = 'notification_diagnostic_log.json';
+
+  /// Keeps the legacy `onesignal` suffix on purpose — the diagnostic log
+  /// database lives in this app group, and renaming it would orphan it.
   static const String _appGroup = 'group.com.tautulli.tautulliRemote.onesignal';
 
   Future<File> _logFile() async {

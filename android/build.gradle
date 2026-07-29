@@ -1,3 +1,10 @@
+// Pins every Firebase library, including the ones the FlutterFire plugins pull
+// in and the messaging dependency the app module declares for
+// PushMessagingService, so they can never resolve to different versions.
+// FlutterFire reads this property if it is set; keep it in step with the
+// FirebaseSDKVersion in the firebase_core package when upgrading.
+ext.FirebaseSDKVersion = '34.14.0'
+
 allprojects {
     repositories {
         google()

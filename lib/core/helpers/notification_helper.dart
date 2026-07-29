@@ -11,8 +11,47 @@ import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 
 class NotificationHelper {
+  // Kept from the OneSignal era on purpose: the app's SQLite database lives in
+  // this container, so renaming it would orphan every existing user's data.
   static const _appGroupId = 'group.com.tautulli.tautulliRemote.onesignal';
   static const _cacheFilename = 'notification_action.json';
+
+  /// Unwraps the notification envelope from an FCM message's data map.
+  ///
+  /// The relay sends the whole envelope as one JSON string under `payload`,
+  /// because FCM coerces every value in a message's data map to a string and
+  /// that would strip the types the envelope relies on. Falls back to the shape
+  /// OneSignal used so a notification already in flight during the migration
+  /// still routes correctly.
+  static Map<String, dynamic>? unwrapPayload(Map<String, dynamic>? data) {
+    if (data == null) return null;
+
+    final payload = data['payload'];
+    if (payload is String) {
+      try {
+        final decoded = jsonDecode(payload);
+        if (decoded is Map) return Map<String, dynamic>.from(decoded);
+      } catch (e) {
+        di.sl<Logging>().warning('NotificationHelper :: Failed to parse notification payload [$e]');
+        return null;
+      }
+    }
+    if (payload is Map) return Map<String, dynamic>.from(payload);
+
+    final custom = data['custom'];
+    if (custom is String) {
+      try {
+        final decoded = jsonDecode(custom);
+        if (decoded is Map && decoded['a'] is Map) {
+          return Map<String, dynamic>.from(decoded['a'] as Map);
+        }
+      } catch (_) {
+        return null;
+      }
+    }
+
+    return null;
+  }
 
   // Reads the action cached by the iOS NotificationServiceExtension.
   // Returns null on Android, if the file is absent, or if server_id doesn't match.

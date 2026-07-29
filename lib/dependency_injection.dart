@@ -1,6 +1,7 @@
 import 'package:android_id/android_id.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -74,14 +75,14 @@ import 'features/media/domain/repositories/media_repository.dart';
 import 'features/media/domain/usecases/media.dart';
 import 'features/media/presentation/bloc/children_metadata_bloc.dart';
 import 'features/media/presentation/bloc/metadata_bloc.dart';
-import 'features/onesignal/data/datasources/onesignal_data_source.dart';
-import 'features/onesignal/data/repositories/onesignal_repository_impl.dart';
-import 'features/onesignal/domain/repositories/onesignal_repository.dart';
-import 'features/onesignal/domain/usecases/onesignal.dart' as onesignal_usecase;
-import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_status_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import 'features/push/data/datasources/push_data_source.dart';
+import 'features/push/data/repositories/push_repository_impl.dart';
+import 'features/push/domain/repositories/push_repository.dart';
+import 'features/push/domain/usecases/push.dart' as push_usecase;
+import 'features/push/presentation/bloc/push_health_bloc.dart';
+import 'features/push/presentation/bloc/push_privacy_bloc.dart';
+import 'features/push/presentation/bloc/push_status_bloc.dart';
+import 'features/push/presentation/bloc/push_sub_bloc.dart';
 import 'features/recently_added/data/datasources/recently_added_data_source.dart';
 import 'features/recently_added/data/repositories/recently_added_repository_impl.dart';
 import 'features/recently_added/domain/repositories/recently_added_repository.dart';
@@ -163,6 +164,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DefaultCacheManager());
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => FirebaseMessaging.instance);
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
   sl.registerLazySingleton(() => const AndroidId());
@@ -508,47 +510,48 @@ Future<void> init() async {
     () => MediaDataSourceImpl(adapter: sl()),
   );
 
-  //! Features - OneSignal
+  //! Features - Push
   // Bloc
   sl.registerFactory(
-    () => OneSignalHealthBloc(
+    () => PushHealthBloc(
       logging: sl(),
-      oneSignal: sl(),
+      push: sl(),
     ),
   );
-  sl.registerFactoryParam<OneSignalPrivacyBloc, SettingsBloc, void>(
-    (settingsBloc, _) => OneSignalPrivacyBloc(
+  sl.registerFactoryParam<PushPrivacyBloc, SettingsBloc, void>(
+    (settingsBloc, _) => PushPrivacyBloc(
       logging: sl(),
-      oneSignal: sl(),
+      push: sl(),
       settings: sl(),
       settingsBloc: settingsBloc,
     ),
   );
   sl.registerFactory(
-    () => OneSignalStatusBloc(
-      oneSignal: sl(),
+    () => PushStatusBloc(
+      push: sl(),
     ),
   );
   sl.registerFactory(
-    () => OneSignalSubBloc(
-      oneSignal: sl(),
+    () => PushSubBloc(
+      push: sl(),
     ),
   );
 
   // Use case
   sl.registerLazySingleton(
-    () => onesignal_usecase.OneSignal(repository: sl()),
+    () => push_usecase.Push(repository: sl()),
   );
 
   // Repository
-  sl.registerLazySingleton<OneSignalRepository>(
-    () => OneSignalRepositoryImpl(dataSource: sl()),
+  sl.registerLazySingleton<PushRepository>(
+    () => PushRepositoryImpl(dataSource: sl()),
   );
 
   // Data sources
-  sl.registerLazySingleton<OneSignalDataSource>(
-    () => OneSignalDataSourceImpl(
+  sl.registerLazySingleton<PushDataSource>(
+    () => PushDataSourceImpl(
       client: sl(),
+      messaging: sl(),
       networkInfo: sl(),
       settings: sl(),
     ),

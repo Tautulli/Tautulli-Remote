@@ -33,7 +33,7 @@ const ServerModel blankServer = ServerModel(
   primaryConnectionDomain: '',
   deviceToken: '',
   primaryActive: true,
-  oneSignalRegistered: false,
+  pushRegistered: false,
   plexPass: false,
   customHeaders: [],
 );
@@ -105,11 +105,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateMultiserverActivity>(
       (event, emit) => _onSettingsUpdateMultiserverActivity(event, emit),
     );
-    on<SettingsUpdateOneSignalConsented>(
-      (event, emit) => _onSettingsUpdateOneSignalConsented(event, emit),
+    on<SettingsUpdateNotificationsConsented>(
+      (event, emit) => _onSettingsUpdateNotificationsConsented(event, emit),
     );
-    on<SettingsUpdateOneSignalBannerDismiss>(
-      (event, emit) => _onSettingsUpdateOneSignalBannerDismiss(event, emit),
+    on<SettingsUpdateNotificationsBannerDismiss>(
+      (event, emit) => _onSettingsUpdateNotificationsBannerDismiss(event, emit),
     );
     on<SettingsUpdatePrimaryActive>(
       (event, emit) => _onSettingsUpdatePrimaryActive(event, emit),
@@ -198,7 +198,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,
       primaryActive: true,
-      oneSignalRegistered: event.oneSignalRegistered,
+      pushRegistered: event.pushRegistered,
       plexPass: event.plexPass,
       customHeaders: event.customHeaders ?? [],
     );
@@ -377,8 +377,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         libraryMediaFullRefresh: settings.getLibraryMediaFullRefresh(),
         maskSensitiveInfo: settings.getMaskSensitiveInfo(),
         multiserverActivity: settings.getMultiserverActivity(),
-        oneSignalBannerDismissed: settings.getOneSignalBannerDismissed(),
-        oneSignalConsented: settings.getOneSignalConsented(),
+        notificationsBannerDismissed: settings.getNotificationsBannerDismissed(),
+        notificationsConsented: settings.getNotificationsConsented(),
         patch: await ShorebirdUpdater().readCurrentPatch().then((currentPatch) {
           return currentPatch?.number;
         }),
@@ -762,39 +762,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  void _onSettingsUpdateOneSignalConsented(
-    SettingsUpdateOneSignalConsented event,
+  void _onSettingsUpdateNotificationsConsented(
+    SettingsUpdateNotificationsConsented event,
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
 
-    await settings.setOneSignalConsented(event.consented);
+    await settings.setNotificationsConsented(event.consented);
 
-    // Logging handled by OneSignalPrivacyBloc
+    // Logging handled by PushPrivacyBloc
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings.copyWith(oneSignalConsented: event.consented),
+        appSettings: currentState.appSettings.copyWith(notificationsConsented: event.consented),
       ),
     );
   }
 
-  void _onSettingsUpdateOneSignalBannerDismiss(
-    SettingsUpdateOneSignalBannerDismiss event,
+  void _onSettingsUpdateNotificationsBannerDismiss(
+    SettingsUpdateNotificationsBannerDismiss event,
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
 
-    await settings.setOneSignalBannerDismissed(event.dismiss);
+    await settings.setNotificationsBannerDismissed(event.dismiss);
     if (event.dismiss) {
       logging.info(
-        'Settings :: OneSignal Banner Dismissed',
+        'Settings :: Notifications Banner Dismissed',
       );
     }
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings.copyWith(oneSignalBannerDismissed: event.dismiss),
+        appSettings: currentState.appSettings.copyWith(notificationsBannerDismissed: event.dismiss),
       ),
     );
   }
@@ -934,7 +934,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       plexName: event.plexName,
       plexIdentifier: event.plexIdentifier,
       primaryActive: true,
-      oneSignalRegistered: event.oneSignalRegistered,
+      pushRegistered: event.pushRegistered,
       plexPass: event.plexPass,
       dateFormat: event.dateFormat,
       timeFormat: event.timeFormat,

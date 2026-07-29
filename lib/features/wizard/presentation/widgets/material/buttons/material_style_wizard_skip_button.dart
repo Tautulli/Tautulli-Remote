@@ -28,7 +28,7 @@ class MaterialStyleWizardSkipButton extends StatelessWidget {
           builder: (context) => MaterialStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
                 ? LocaleKeys.wizard_skip_dialog_message_servers.tr()
-                : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),
+                : LocaleKeys.wizard_skip_dialog_message_notifications.tr(),
           ),
         );
 
@@ -37,7 +37,7 @@ class MaterialStyleWizardSkipButton extends StatelessWidget {
           if (wizardSkipType == WizardSkipType.servers) {
             context.read<WizardBloc>().add(WizardSkipServers());
           } else {
-            context.read<WizardBloc>().add(WizardSkipOneSignal());
+            context.read<WizardBloc>().add(WizardSkipNotifications());
           }
         }
       },

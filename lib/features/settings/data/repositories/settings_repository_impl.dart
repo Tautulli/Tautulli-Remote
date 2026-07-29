@@ -375,26 +375,37 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setMultiserverActivity(value);
   }
 
-  // OneSignal Banner Dismissed
+  // Notifications Banner Dismissed
   @override
-  bool getOneSignalBannerDismissed() {
-    return dataSource.getOneSignalBannerDismissed();
+  bool getNotificationsBannerDismissed() {
+    return dataSource.getNotificationsBannerDismissed();
   }
 
   @override
-  Future<bool> setOneSignalBannerDismissed(bool value) async {
-    return await dataSource.setOneSignalBannerDismissed(value);
+  Future<bool> setNotificationsBannerDismissed(bool value) async {
+    return await dataSource.setNotificationsBannerDismissed(value);
   }
 
-  // OneSignal Consented
+  // Notifications Consented
   @override
-  bool getOneSignalConsented() {
-    return dataSource.getOneSignalConsented();
+  bool getNotificationsConsented() {
+    return dataSource.getNotificationsConsented();
   }
 
   @override
-  Future<bool> setOneSignalConsented(bool value) async {
-    return await dataSource.setOneSignalConsented(value);
+  Future<bool> setNotificationsConsented(bool value) async {
+    return await dataSource.setNotificationsConsented(value);
+  }
+
+  // Last Registered Push Token
+  @override
+  String? getLastRegisteredPushToken() {
+    return dataSource.getLastRegisteredPushToken();
+  }
+
+  @override
+  Future<bool> setLastRegisteredPushToken(String value) async {
+    return await dataSource.setLastRegisteredPushToken(value);
   }
 
   // Recently Added Filter

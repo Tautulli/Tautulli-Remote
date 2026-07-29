@@ -1,4 +1,4 @@
 enum WizardSkipType {
   servers,
-  onesignal,
+  notifications,
 }

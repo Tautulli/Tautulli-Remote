@@ -20,8 +20,9 @@ import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
+import '../../../../push/data/datasources/push_data_source.dart';
+import '../../../../push/presentation/bloc/push_health_bloc.dart';
+import '../../../../push/presentation/bloc/push_status_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/cupertino_style_data_dump_warning_card.dart';
 
@@ -43,16 +44,16 @@ class _CupertinoStyleDataDumpPageState extends State<CupertinoStyleDataDumpPage>
   @override
   void initState() {
     super.initState();
-    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<PushHealthBloc>().add(PushHealthCheck());
     context.read<SettingsBloc>().add(const SettingsLoad(updateServerInfo: false));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<OneSignalStatusBloc>()
+      create: (context) => di.sl<PushStatusBloc>()
         ..add(
-          OneSignalStatusLoad(),
+          PushStatusLoad(),
         ),
       child: CupertinoStyleDataDumpView(
         showBackButton: widget.showBackButton,
@@ -93,7 +94,7 @@ class CupertinoStyleDataDumpView extends StatelessWidget {
                 );
               },
             ),
-            const _OneSignalStatus(),
+            const _PushStatus(),
             const _AnnouncementsGroup(),
             BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
@@ -406,35 +407,44 @@ class _AppSettings extends StatelessWidget {
   }
 }
 
-class _OneSignalStatus extends StatelessWidget {
-  const _OneSignalStatus();
+/// The push token is a bearer credential — only ever render a short prefix of it.
+String _truncatePushToken(String token) {
+  if (token == pushDisabled) return token;
+  if (token.length <= 12) return '…';
+
+  return '${token.substring(0, 12)}…';
+}
+
+class _PushStatus extends StatelessWidget {
+  const _PushStatus();
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // Re-run translations in place on a language change.
     return _SettingsDumpGroup(
-      headerText: 'OneSignal Status',
+      headerText: 'Push Status',
       children: [
-        BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
+        BlocBuilder<PushHealthBloc, PushHealthState>(
           builder: (context, state) {
             return _DataDumpRow(
               children: [
-                const _DataDumpRowHeading('Can Connect to OneSignal'),
+                const _DataDumpRowHeading('Can Connect to Relay'),
                 const Gap(16),
-                if (state is OneSignalHealthSuccess) const Text('true'),
-                if (state is OneSignalHealthFailure) const Text('false'),
-                if (state is OneSignalHealthInProgress) const Text('checking'),
+                if (state is PushHealthSuccess) const Text('true'),
+                if (state is PushHealthFailure) const Text('false'),
+                if (state is PushHealthInProgress) const Text('checking'),
               ],
             );
           },
         ),
-        BlocBuilder<OneSignalStatusBloc, OneSignalStatusState>(
+        BlocBuilder<PushStatusBloc, PushStatusState>(
           builder: (context, state) {
-            if (state is OneSignalStatusFailure) {
+            if (state is PushStatusFailure) {
               return const Center(
-                child: Text('Error Loading OneSignal Status'),
+                child: Text('Error Loading Push Status'),
               );
             }
-            if (state is OneSignalStatusSuccess) {
+            if (state is PushStatusSuccess) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -470,13 +480,36 @@ class _OneSignalStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const _DataDumpRowHeading('User ID'),
+                      const _DataDumpRowHeading('Push Token'),
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          state.userId,
+                          _truncatePushToken(state.token),
                           textAlign: TextAlign.end,
                         ).sensitive(),
+                      ),
+                    ],
+                  ),
+                  _DataDumpRow(
+                    children: [
+                      const _DataDumpRowHeading('Fair Use Limit'),
+                      const Gap(16),
+                      Expanded(
+                        child: Text(
+                          state.limits.maximum != null
+                              ? state.limits.maximum.toString()
+                              : LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
+                  _DataDumpRow(
+                    children: [
+                      const _DataDumpRowHeading('Fair Use Limit Enforced'),
+                      const Gap(16),
+                      Text(
+                        state.limits.enforced.toString(),
                       ),
                     ],
                   ),
@@ -485,7 +518,7 @@ class _OneSignalStatus extends StatelessWidget {
             }
 
             return const Center(
-              child: Text('Loading OneSignal Status'),
+              child: Text('Loading Push Status'),
             );
           },
         ),
@@ -742,9 +775,9 @@ class _ServerGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const _DataDumpRowHeading('OneSignal Registered'),
+                    const _DataDumpRowHeading('Push Registered'),
                     const Gap(16),
-                    Text(server.oneSignalRegistered.toString()),
+                    Text(server.pushRegistered.toString()),
                   ],
                 ),
                 _DataDumpRow(

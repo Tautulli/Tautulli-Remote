@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/helpers/theme_helper.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_list_section.dart';
 import '../../../../../../core/widgets/cupertino/cupertino_style_notched_cupertino_list_tile.dart';
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../changelog/presentation/pages/cupertino/cupertino_style_changelog_page.dart';
-import '../../../../../onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
+import '../../../../../push/presentation/pages/cupertino/cupertino_style_notifications_privacy_page.dart';
 import '../../../../../translation/presentation/pages/cupertino/cupertino_style_help_translate_page.dart';
 import '../../../pages/cupertino/cupertino_style_data_dump_page.dart';
 
@@ -22,18 +21,15 @@ class CupertinoStyleMoreGroup extends StatelessWidget {
       headerText: LocaleKeys.more_title.tr(),
       children: [
         CupertinoStyleNotchedCupertinoListTile(
-          leading: SvgPicture.asset(
-            'assets/logos/onesignal.svg',
-            colorFilter: const ColorFilter.mode(
-              ThemeHelper.cupertinoListTileIconColor,
-              BlendMode.srcIn,
-            ),
+          leading: const Icon(
+            CupertinoIcons.bell_fill,
+            color: ThemeHelper.cupertinoListTileIconColor,
           ),
           trailing: const CupertinoListTileChevron(),
-          titleText: LocaleKeys.onesignal_data_privacy_title.tr(),
+          titleText: LocaleKeys.notifications_data_privacy_title.tr(),
           onTap: () => Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (context) => CupertinoStyleOnesignalDataPrivacyPage(
+              builder: (context) => CupertinoStyleNotificationsPrivacyPage(
                 previousPageTitle: LocaleKeys.settings_title.tr(),
               ),
             ),

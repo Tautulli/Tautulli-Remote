@@ -8,7 +8,7 @@ import '../../../../../core/widgets/base/tautulli_logo_title.dart';
 import '../../bloc/wizard_bloc.dart';
 import '../../widgets/material/material_style_wizard_accessibility.dart';
 import '../../widgets/material/material_style_wizard_closing.dart';
-import '../../widgets/material/material_style_wizard_onesignal.dart';
+import '../../widgets/material/material_style_wizard_notifications.dart';
 import '../../widgets/material/dialogs/material_style_wizard_quit_dialog.dart';
 import '../../widgets/material/material_style_wizard_servers.dart';
 import '../../widgets/material/material_style_wizard_themes.dart';
@@ -84,7 +84,7 @@ class MaterialStyleWizardView extends StatelessWidget {
                                     return const MaterialStyleWizardServers();
                                   }
                                   if (state.activeStep == 1) {
-                                    return const MaterialStyleWizardOneSignal();
+                                    return const MaterialStyleWizardNotifications();
                                   }
                                   if (state.activeStep == 2) {
                                     return const MaterialStyleWizardThemes();

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide showAboutDialog;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/package_information/package_information.dart';
 import '../../../../../../dependency_injection.dart' as di;
@@ -22,18 +21,14 @@ class MaterialStyleMoreGroup extends StatelessWidget {
       heading: LocaleKeys.more_title.tr(),
       listTiles: [
         MaterialStyleListTile(
-          leading: SvgPicture.asset(
-            'assets/logos/onesignal.svg',
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.onSurface,
-              BlendMode.srcIn,
-            ),
-            height: 30,
+          leading: FaIcon(
+            FontAwesomeIcons.bell,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
-          title: LocaleKeys.onesignal_data_privacy_title.tr(),
+          title: LocaleKeys.notifications_data_privacy_title.tr(),
           trailing: const MaterialStyleListTileChevron(),
           onTap: () {
-            Navigator.of(context).pushNamed('/onesignal_privacy');
+            Navigator.of(context).pushNamed('/notifications_privacy');
           },
         ),
         MaterialStyleListTile(

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../../core/widgets/material/material_style_scaffold_with_inner_drawer.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
+import '../../../../push/presentation/bloc/push_health_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/material/material_style_app_update_alert_banner.dart';
 import '../../widgets/material/groups/material_style_app_settings_group.dart';
@@ -37,7 +37,7 @@ class _MaterialStyleSettingsViewState extends State<MaterialStyleSettingsView> {
   @override
   void initState() {
     super.initState();
-    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<PushHealthBloc>().add(PushHealthCheck());
   }
 
   @override
@@ -63,7 +63,7 @@ class _MaterialStyleSettingsViewState extends State<MaterialStyleSettingsView> {
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               if (state is SettingsSuccess &&
-                  (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
+                  (!state.appSettings.notificationsBannerDismissed || state.appSettings.notificationsConsented)) {
                 return const MaterialStyleSettingsAlertBanner();
               }
 

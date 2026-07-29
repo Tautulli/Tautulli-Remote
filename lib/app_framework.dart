@@ -29,8 +29,8 @@ import 'features/history/presentation/pages/cupertino/cupertino_style_history_pa
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import 'features/libraries/presentation/pages/material/material_style_libraries_page.dart';
-import 'features/onesignal/presentation/pages/cupertino/cupertino_style_onesignal_data_privacy_page.dart';
-import 'features/onesignal/presentation/pages/material/material_style_onesignal_data_privacy_page.dart';
+import 'features/push/presentation/pages/cupertino/cupertino_style_notifications_privacy_page.dart';
+import 'features/push/presentation/pages/material/material_style_notifications_privacy_page.dart';
 import 'features/recently_added/presentation/pages/cupertino/cupertino_style_recently_added_page.dart';
 import 'features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
@@ -55,7 +55,7 @@ Map<String, Widget Function(BuildContext)> materialRoutes = {
   MaterialStyleHistoryPage.routeName: (_) => const MaterialStyleHistoryPage(),
   MaterialStyleHelpTranslatePage.routeName: (_) => const MaterialStyleHelpTranslatePage(),
   MaterialStyleLibrariesPage.routeName: (_) => const MaterialStyleLibrariesPage(),
-  MaterialStyleOneSignalDataPrivacyPage.routeName: (_) => const MaterialStyleOneSignalDataPrivacyPage(),
+  MaterialStyleNotificationsPrivacyPage.routeName: (_) => const MaterialStyleNotificationsPrivacyPage(),
   MaterialStyleRecentlyAddedPage.routeName: (_) => const MaterialStyleRecentlyAddedPage(),
   MaterialStyleSettingsPage.routeName: (_) => const MaterialStyleSettingsPage(),
   MaterialStyleStatisticsPage.routeName: (_) => const MaterialStyleStatisticsPage(),
@@ -72,7 +72,7 @@ Map<String, Widget Function(BuildContext)> cupertinoRoutes = {
   CupertinoStyleHelpTranslatePage.routeName: (_) => const CupertinoStyleHelpTranslatePage(),
   CupertinoStyleHistoryPage.routeName: (_) => const CupertinoStyleHistoryPage(),
   CupertinoStyleLibrariesPage.routeName: (_) => const CupertinoStyleLibrariesPage(),
-  CupertinoStyleOnesignalDataPrivacyPage.routeName: (_) => const CupertinoStyleOnesignalDataPrivacyPage(),
+  CupertinoStyleNotificationsPrivacyPage.routeName: (_) => const CupertinoStyleNotificationsPrivacyPage(),
   CupertinoStyleRecentlyAddedPage.routeName: (_) => const CupertinoStyleRecentlyAddedPage(),
   CupertinoStyleSettingsPage.routeName: (_) => const CupertinoStyleSettingsPage(),
   CupertinoStyleStatisticsPage.routeName: (_) => const CupertinoStyleStatisticsPage(),

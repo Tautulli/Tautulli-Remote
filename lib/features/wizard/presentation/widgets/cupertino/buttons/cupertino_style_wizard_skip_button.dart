@@ -29,7 +29,7 @@ class CupertinoStyleWizardSkipButton extends StatelessWidget {
           builder: (context) => CupertinoStyleWizardSkipDialog(
             message: wizardSkipType == WizardSkipType.servers
                 ? LocaleKeys.wizard_skip_dialog_message_servers.tr()
-                : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),
+                : LocaleKeys.wizard_skip_dialog_message_notifications.tr(),
           ),
         );
 
@@ -38,7 +38,7 @@ class CupertinoStyleWizardSkipButton extends StatelessWidget {
           if (wizardSkipType == WizardSkipType.servers) {
             context.read<WizardBloc>().add(WizardSkipServers());
           } else {
-            context.read<WizardBloc>().add(WizardSkipOneSignal());
+            context.read<WizardBloc>().add(WizardSkipNotifications());
           }
         }
       },

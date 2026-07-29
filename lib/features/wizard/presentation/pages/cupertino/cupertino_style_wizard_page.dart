@@ -18,7 +18,7 @@ import '../../widgets/cupertino/buttons/cupertino_style_wizard_skip_button.dart'
 import '../../widgets/cupertino/cupertino_style_wizard_accessibility.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_appearance.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_closing.dart';
-import '../../widgets/cupertino/cupertino_style_wizard_onesignal.dart';
+import '../../widgets/cupertino/cupertino_style_wizard_notifications.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_servers.dart';
 import '../../widgets/cupertino/cupertino_style_wizard_stepper.dart';
 
@@ -74,8 +74,8 @@ class _CupertinoStyleWizardViewState extends State<CupertinoStyleWizardView> {
             activeStep: wizardState.activeStep,
             stepCount: wizardState.stepCount,
             serversSkipped: wizardState.serversSkipped,
-            oneSignalSkipped: wizardState.oneSignalSkipped,
-            oneSignalAllowed: wizardState.oneSignalAllowed,
+            notificationsSkipped: wizardState.notificationsSkipped,
+            notificationsAllowed: wizardState.notificationsAllowed,
           ),
           child: CupertinoScrollbar(
             controller: _scrollController,
@@ -95,7 +95,7 @@ class _CupertinoStyleWizardViewState extends State<CupertinoStyleWizardView> {
                           case 0:
                             return CupertinoStyleWizardServers();
                           case 1:
-                            return CupertinoStyleWizardOnesignal();
+                            return CupertinoStyleWizardNotifications();
                           case 2:
                             return CupertinoStyleWizardAppearance();
                           case 3:
@@ -152,15 +152,15 @@ class _WizardRightIosAction extends StatelessWidget {
   final int activeStep;
   final int stepCount;
   final bool serversSkipped;
-  final bool oneSignalSkipped;
-  final bool oneSignalAllowed;
+  final bool notificationsSkipped;
+  final bool notificationsAllowed;
 
   const _WizardRightIosAction({
     required this.activeStep,
     required this.stepCount,
     required this.serversSkipped,
-    required this.oneSignalSkipped,
-    required this.oneSignalAllowed,
+    required this.notificationsSkipped,
+    required this.notificationsAllowed,
   });
 
   @override
@@ -171,8 +171,8 @@ class _WizardRightIosAction extends StatelessWidget {
 
         if (activeStep == 0 && (settingsState.serverList.isEmpty && !serversSkipped)) {
           return const CupertinoStyleWizardSkipButton(wizardSkipType: WizardSkipType.servers);
-        } else if (activeStep == 1 && !(oneSignalSkipped || oneSignalAllowed)) {
-          return const CupertinoStyleWizardSkipButton(wizardSkipType: WizardSkipType.onesignal);
+        } else if (activeStep == 1 && !(notificationsSkipped || notificationsAllowed)) {
+          return const CupertinoStyleWizardSkipButton(wizardSkipType: WizardSkipType.notifications);
         } else if (activeStep == stepCount - 1) {
           return const CupertinoStyleWizardFinishButton();
         }

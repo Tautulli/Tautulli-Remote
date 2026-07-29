@@ -9,22 +9,22 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     : super(
         const WizardInitial(
           activeStep: 0,
-          oneSignalAllowed: false,
-          oneSignalSkipped: false,
+          notificationsAllowed: false,
+          notificationsSkipped: false,
           stepCount: 5,
           serversSkipped: false,
         ),
       ) {
     on<WizardNext>((event, emit) => _onWizardNext(event, emit));
     on<WizardPrevious>((event, emit) => _onWizardPrevious(event, emit));
-    on<WizardSkipOneSignal>(
-      (event, emit) => _onWizardSkipOneSignal(event, emit),
+    on<WizardSkipNotifications>(
+      (event, emit) => _onWizardSkipNotifications(event, emit),
     );
     on<WizardSkipServers>(
       (event, emit) => _onWizardSkipServers(event, emit),
     );
-    on<WizardToggleOneSignal>(
-      (event, emit) => _onWizardToggleOneSignal(event, emit),
+    on<WizardToggleNotifications>(
+      (event, emit) => _onWizardToggleNotifications(event, emit),
     );
   }
 
@@ -54,8 +54,8 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     }
   }
 
-  void _onWizardSkipOneSignal(
-    WizardSkipOneSignal event,
+  void _onWizardSkipNotifications(
+    WizardSkipNotifications event,
     Emitter<WizardState> emit,
   ) {
     final currentState = state as WizardInitial;
@@ -63,7 +63,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     emit(
       currentState.copyWith(
         activeStep: currentState.activeStep + 1,
-        oneSignalSkipped: true,
+        notificationsSkipped: true,
       ),
     );
   }
@@ -82,14 +82,14 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
     );
   }
 
-  void _onWizardToggleOneSignal(
-    WizardToggleOneSignal event,
+  void _onWizardToggleNotifications(
+    WizardToggleNotifications event,
     Emitter<WizardState> emit,
   ) {
     final currentState = state as WizardInitial;
 
     emit(
-      currentState.copyWith(oneSignalAllowed: !currentState.oneSignalAllowed),
+      currentState.copyWith(notificationsAllowed: !currentState.notificationsAllowed),
     );
   }
 }

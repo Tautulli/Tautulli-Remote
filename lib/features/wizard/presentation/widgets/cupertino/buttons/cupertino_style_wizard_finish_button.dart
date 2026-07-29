@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../translations/locale_keys.g.dart';
-import '../../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import '../../../../../push/presentation/bloc/push_privacy_bloc.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../bloc/wizard_bloc.dart';
 
@@ -24,9 +24,9 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
 
             settingsBloc.add(const SettingsUpdateWizardComplete(true));
 
-            if (wizardState.oneSignalAllowed) {
-              context.read<OneSignalPrivacyBloc>().add(
-                OneSignalPrivacyGrant(),
+            if (wizardState.notificationsAllowed) {
+              context.read<PushPrivacyBloc>().add(
+                PushPrivacyGrant(),
               );
             }
 

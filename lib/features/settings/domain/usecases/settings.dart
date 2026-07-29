@@ -376,32 +376,45 @@ class Settings {
     return await repository.setMultiserverActivity(value);
   }
 
-  /// Returns if the OneSignal Banner has been dismissed when determining if
-  /// it should be displayed.
+  /// Returns if the notifications banner has been dismissed when determining
+  /// if it should be displayed.
   ///
   /// If no value is stored returns `false`.
-  bool getOneSignalBannerDismissed() {
-    return repository.getOneSignalBannerDismissed();
+  bool getNotificationsBannerDismissed() {
+    return repository.getNotificationsBannerDismissed();
   }
 
-  /// Sets if the OneSignal banner has been manually dismissed.
-  Future<bool> setOneSignalBannerDismissed(bool value) async {
-    return await repository.setOneSignalBannerDismissed(value);
+  /// Sets if the notifications banner has been manually dismissed.
+  Future<bool> setNotificationsBannerDismissed(bool value) async {
+    return await repository.setNotificationsBannerDismissed(value);
   }
 
-  /// Returns if the user has consented to OneSignal.
+  /// Returns if the user has consented to notifications.
   ///
-  /// Used to account for issues where updating OneSignal clears out the
-  /// consent status.
+  /// Used to account for issues where updating the push implementation clears
+  /// out the consent status.
   ///
   /// If no value is stored returns `false`.
-  bool getOneSignalConsented() {
-    return repository.getOneSignalConsented();
+  bool getNotificationsConsented() {
+    return repository.getNotificationsConsented();
   }
 
-  /// Sets if OneSignal data privacy has been consented to.
-  Future<bool> setOneSignalConsented(bool value) async {
-    return await repository.setOneSignalConsented(value);
+  /// Sets if notification data privacy has been consented to.
+  Future<bool> setNotificationsConsented(bool value) async {
+    return await repository.setNotificationsConsented(value);
+  }
+
+  /// Returns the push token used the last time this device registered with a
+  /// Tautulli server.
+  ///
+  /// Returns `null` if the device has never registered a push token.
+  String? getLastRegisteredPushToken() {
+    return repository.getLastRegisteredPushToken();
+  }
+
+  /// Sets the push token used for the most recent registration.
+  Future<bool> setLastRegisteredPushToken(String value) async {
+    return await repository.setLastRegisteredPushToken(value);
   }
 
   /// Returns the Recently Added filter value.

@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- Previously merged in by the OneSignal SDK's manifest. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="com.android.vending.BILLING" />
     <queries>
         <package android:name="com.plexapp.android" />
@@ -26,8 +28,12 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true">
+        <!-- MainActivity, not the bare FlutterActivity: it registers the method
+             channel that routes a notification tap, and every notification's
+             content intent targets it. An undeclared component cannot be
+             started, so naming the wrong one here silently breaks both. -->
         <activity
-            android:name="io.flutter.embedding.android.FlutterActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -58,7 +64,15 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <meta-data android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.tautulli.tautulli_remote.NotificationServiceExtension" />
+        <!-- Receives relay pushes and builds the notification. Declaring our own
+             service takes over from the firebase_messaging plugin's, which is
+             what lets the payload be decrypted natively before display. -->
+        <service
+            android:name=".PushMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

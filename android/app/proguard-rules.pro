@@ -1,6 +1,2 @@
-# Keep Notification Service Extension class
--keep class com.tautulli.tautulli_remote.NotificationServiceExtension { *; }
-
-# Keep all OneSignal classes
--keep class com.onesignal.** { *; }
--dontwarn com.onesignal.**
+# Keep the messaging service that builds notifications from relay pushes
+-keep class com.tautulli.tautulli_remote.PushMessagingService { *; }

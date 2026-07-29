@@ -50,7 +50,7 @@ class ServerModel extends Equatable {
     fromJson: Cast.castToBool,
     toJson: Cast.castToInt,
   )
-  final bool? oneSignalRegistered;
+  final bool? pushRegistered;
   @JsonKey(
     name: 'plex_pass',
     fromJson: Cast.castToBool,
@@ -84,7 +84,7 @@ class ServerModel extends Equatable {
     this.secondaryConnectionPath,
     required this.deviceToken,
     required this.primaryActive,
-    required this.oneSignalRegistered,
+    required this.pushRegistered,
     required this.plexPass,
     this.dateFormat,
     this.timeFormat,
@@ -107,7 +107,7 @@ class ServerModel extends Equatable {
     String? secondaryConnectionPath,
     String? deviceToken,
     bool? primaryActive,
-    bool? oneSignalRegistered,
+    bool? pushRegistered,
     bool? plexPass,
     String? dateFormat,
     String? timeFormat,
@@ -137,7 +137,7 @@ class ServerModel extends Equatable {
           secondaryConnectionPath ?? this.secondaryConnectionPath,
       deviceToken: deviceToken ?? this.deviceToken,
       primaryActive: primaryActive ?? this.primaryActive,
-      oneSignalRegistered: oneSignalRegistered ?? this.oneSignalRegistered,
+      pushRegistered: pushRegistered ?? this.pushRegistered,
       plexPass: plexPass ?? this.plexPass,
       dateFormat: dateFormat ?? this.dateFormat,
       timeFormat: timeFormat ?? this.timeFormat,
@@ -162,7 +162,7 @@ class ServerModel extends Equatable {
         secondaryConnectionPath,
         deviceToken,
         primaryActive,
-        oneSignalRegistered,
+        pushRegistered,
         plexPass,
         dateFormat,
         timeFormat,

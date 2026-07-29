@@ -50,7 +50,7 @@ class MaterialStyleWizardClosing extends StatelessWidget {
                     builder: (context, state) {
                       state as WizardInitial;
 
-                      if (state.oneSignalAllowed) {
+                      if (state.notificationsAllowed) {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:app_version_update/app_version_update.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:f_logs/f_logs.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 import 'app_framework.dart';
@@ -14,14 +17,17 @@ import 'core/global_keys/global_keys.dart';
 import 'core/helpers/notification_helper.dart';
 import 'core/helpers/quick_actions_helper.dart';
 import 'core/package_information/package_information.dart';
+import 'core/requirements/tautulli_version.dart';
 import 'core/types/app_style.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
-import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import 'features/push/data/datasources/push_data_source.dart';
+import 'features/push/domain/usecases/push.dart';
+import 'features/push/presentation/bloc/push_health_bloc.dart';
+import 'features/push/presentation/bloc/push_privacy_bloc.dart';
+import 'features/push/presentation/bloc/push_sub_bloc.dart';
 import 'features/recently_added/presentation/pages/material/material_style_recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
@@ -43,146 +49,169 @@ class TautulliRemoteState extends State<TautulliRemote> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initializeQuickActions(const QuickActions());
     });
-    initializeOneSignal();
+    initializePush();
     initializeFLogConfiguration();
     checkForAppUpdate();
     checkIfRegistrationUpdateNeeded();
 
-    context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
-    // Delay OneSignalSubCheck on app start to avoid calling OSDeviceState
-    // before OneSignal is fully initalized
+    context.read<PushPrivacyBloc>().add(PushPrivacyCheck());
+    // Delay the subscription check on app start to give messaging time to
+    // finish initialising and hand back a token.
     Future.delayed(const Duration(seconds: 2), () {
-      context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
+      if (!mounted) return;
+      context.read<PushSubBloc>().add(PushSubCheck());
     });
     context.read<AnnouncementsBloc>().add(AnnouncementsFetch());
   }
 
-  Future<void> initializeOneSignal() async {
+  Future<void> initializePush() async {
     if (!mounted) return;
 
-    // Enabling console logs for users to troubleshoot OneSignal issues
-    await OneSignal.Debug.setLogLevel(OSLogLevel.error);
+    final messaging = di.sl<FirebaseMessaging>();
 
-    OneSignal.consentRequired(true);
+    // Nothing is requested until the user has accepted the data privacy notice,
+    // which is what the wizard and the privacy page ask for.
+    if (di.sl<Settings>().getNotificationsConsented()) {
+      await messaging.requestPermission();
+      await messaging.setAutoInitEnabled(true);
+    }
 
-    OneSignal.initialize("3b4b666a-d557-4b92-acdf-e2c8c4b95357");
+    // A notification tapped while the app was terminated is waiting here.
+    if (Platform.isIOS) {
+      final initialMessage = await messaging.getInitialMessage();
+      if (initialMessage != null) {
+        await _handleRemoteMessage(initialMessage);
+      }
 
-    await OneSignal.Location.setShared(false);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleRemoteMessage);
 
-    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
-      /// preventDefault to not display the notification
-      // event.preventDefault();
-
-      /// Do async work
-
-      /// notification.display() to display after preventing default
-      event.notification.display();
-    });
-
-    OneSignal.Notifications.addClickListener((event) async {
-      // Will be called whenever a notification is opened/button pressed
-
-      final additionalData = event.notification.additionalData;
-
-      // On iOS the NotificationServiceExtension pre-decrypts and caches the
-      // action, so we can skip the expensive PBKDF2 derivation here.
-      String? action = await NotificationHelper.readCachedAction(
-        additionalData?['server_id'],
+      // Android builds and posts its own notifications, so the foreground
+      // presentation options only apply here.
+      await messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: false,
+        sound: true,
       );
+    } else {
+      _listenForAndroidNotificationTaps();
+    }
 
-      // Fall back to full decryption (always used on Android; iOS fallback
-      // when the extension didn't run or the cache wasn't written).
-      if (action == null) {
-        final data = await NotificationHelper.extractAdditionalData(additionalData);
-        action = data?['action'];
-      }
-
-      if (action != null) {
-        // Add small delay to help make sure navigatorKey is not null
-        await Future.delayed(const Duration(milliseconds: 10));
-
-        final isCupertino = currentAppStyle == AppStyle.cupertino;
-
-        if (isCupertino) {
-          switch (action) {
-            case ('watched'):
-              historyRefreshNotifier.value = true;
-              cupertinoTabController.index = 1;
-              return;
-            case ('created'):
-              recentlyAddedRefreshNotifier.value = true;
-              cupertinoTabController.index = 2;
-              return;
-            default:
-              cupertinoTabController.index = 0;
-          }
-        } else {
-          switch (action) {
-            case ('watched'):
-              navigatorKey.currentState?.pushReplacementNamed(
-                MaterialStyleHistoryPage.routeName,
-                arguments: {'refreshOnLoad': true},
-              );
-              return;
-            case ('created'):
-              navigatorKey.currentState?.pushReplacementNamed(
-                MaterialStyleRecentlyAddedPage.routeName,
-                arguments: {'refreshOnLoad': true},
-              );
-              return;
-            default:
-              navigatorKey.currentState?.pushReplacementNamed('/activity');
-          }
-        }
-      }
-    });
-
-
-    OneSignal.User.pushSubscription.addObserver((state) async {
-      // Will be called whenever the subscription changes
+    // A rotated token can no longer be delivered to, so every server the app is
+    // registered with needs the new one.
+    FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
       if (!mounted) return;
 
-      OSPushSubscriptionState current = state.current;
-      OSPushSubscriptionState previous = state.previous;
+      context.read<PushSubBloc>().add(PushSubCheck());
+      context.read<PushHealthBloc>().add(PushHealthCheck());
 
-      // Only trigger new checks when userId or pushToken move from null to a value
-      if (current.id != previous.id || current.token != previous.token) {
-        context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
-        context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+      await pushRegistrationChange();
+    });
 
-        if (current.id != previous.id) {
-          await oneSignalServerRegistrationChange();
-        }
+    // A refresh that happened while the app was closed is only visible by
+    // comparing what was last registered against the token held now — on
+    // Android our own messaging service records it, and the listener above
+    // never fires for it.
+    await checkIfPushTokenChanged();
+  }
+
+  /// Android posts notifications natively, so a tap arrives over a platform
+  /// channel rather than through the messaging plugin.
+  void _listenForAndroidNotificationTaps() {
+    const channel = MethodChannel('com.tautulli.tautulli_remote/notification_tap');
+
+    channel.setMethodCallHandler((call) async {
+      if (call.method == 'onNotificationTapped') {
+        final arguments = Map<String, dynamic>.from(call.arguments as Map);
+        await _handleNotificationAction(arguments['action'] as String?);
       }
     });
 
-    // Check if registration update is needed after OneSignal is initalized to avoid sending a blank User ID
-    // await veryifyOneSignalConsent();
-    checkIfRegistrationUpdateNeeded();
+    // Collect the tap that launched the app, if there was one. Guarded because
+    // an unanswered channel throws, and an unhandled error here would be
+    // reported as a fatal crash on every single launch.
+    channel.invokeMapMethod<String, dynamic>('getLaunchNotification').then((launch) async {
+      if (launch != null) {
+        await _handleNotificationAction(launch['action'] as String?);
+      }
+    }).catchError((Object e) {
+      di.sl<Logging>().warning('Notifications :: Unable to read the launching notification [$e]');
+    });
   }
 
-  // Future<void> veryifyOneSignalConsent() async {
-  //   //! Wait for SettingsBloc to be SettingsSuccess
-  //   await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
+  Future<void> _handleRemoteMessage(RemoteMessage message) async {
+    final payload = NotificationHelper.unwrapPayload(message.data);
 
-  //   if (di.sl<Settings>().getOneSignalConsented() == true && await OneSignal.shared.userProvidedPrivacyConsent() == false) {
-  //     await Future.delayed(const Duration(seconds: 1)).then((value) async {
-  //       context.read<OneSignalPrivacyBloc>().add(
-  //             OneSignalPrivacyReGrant(
-  //               settingsBloc: context.read<SettingsBloc>(),
-  //             ),
-  //           );
+    // The iOS extension decrypts on arrival and caches the action, which spares
+    // repeating the key derivation here just to decide where to navigate.
+    String? action = await NotificationHelper.readCachedAction(payload?['server_id']);
 
-  //       await Future.delayed(const Duration(seconds: 1)).then(
-  //         (value) async => await oneSignalServerRegistrationChange(),
-  //       );
+    action ??= (await NotificationHelper.extractAdditionalData(payload))?['action'];
 
-  //       di.sl<Settings>().setRegistrationUpdateNeeded(false);
-  //     });
-  //   }
+    await _handleNotificationAction(action);
+  }
 
-  //   return Future.value();
-  // }
+  Future<void> _handleNotificationAction(String? action) async {
+    if (action == null || action.isEmpty) return;
+
+    // Add small delay to help make sure navigatorKey is not null
+    await Future.delayed(const Duration(milliseconds: 10));
+
+    final isCupertino = currentAppStyle == AppStyle.cupertino;
+
+    if (isCupertino) {
+      switch (action) {
+        case ('watched'):
+          historyRefreshNotifier.value = true;
+          cupertinoTabController.index = 1;
+          return;
+        case ('created'):
+          recentlyAddedRefreshNotifier.value = true;
+          cupertinoTabController.index = 2;
+          return;
+        default:
+          cupertinoTabController.index = 0;
+      }
+    } else {
+      switch (action) {
+        case ('watched'):
+          navigatorKey.currentState?.pushReplacementNamed(
+            MaterialStyleHistoryPage.routeName,
+            arguments: {'refreshOnLoad': true},
+          );
+          return;
+        case ('created'):
+          navigatorKey.currentState?.pushReplacementNamed(
+            MaterialStyleRecentlyAddedPage.routeName,
+            arguments: {'refreshOnLoad': true},
+          );
+          return;
+        default:
+          navigatorKey.currentState?.pushReplacementNamed('/activity');
+      }
+    }
+  }
+
+  /// Re-registers every server when the push token differs from the one last
+  /// sent, which covers a refresh that happened while the app was not running.
+  Future<void> checkIfPushTokenChanged() async {
+    //! Wait for SettingsBloc to be SettingsSuccess
+    // Checked before subscribing: this runs after several awaits, so the state
+    // has usually already arrived, and firstWhere on a stream that has already
+    // emitted would wait for a second event that never comes.
+    final settingsBloc = context.read<SettingsBloc>();
+    if (settingsBloc.state is! SettingsSuccess) {
+      await settingsBloc.stream.firstWhere((state) => state is SettingsSuccess);
+    }
+
+    final token = await di.sl<Push>().token;
+    if (token == pushDisabled) return;
+
+    if (di.sl<Settings>().getLastRegisteredPushToken() == token) return;
+
+    di.sl<Logging>().info('Notifications :: Push token changed, updating server registration');
+
+    await pushRegistrationChange();
+  }
 
   void initializeFLogConfiguration() {
     FLog.applyConfigurations(
@@ -254,14 +283,21 @@ class TautulliRemoteState extends State<TautulliRemote> {
     }
   }
 
-  Future<void> oneSignalServerRegistrationChange() async {
+  Future<void> pushRegistrationChange() async {
     final servers = await di.sl<Settings>().getAllServers();
 
     di.sl<Logging>().info(
-      'OneSignal :: OneSignal registration changed, updating server registration in 5 seconds',
+      'Notifications :: Push registration changed, updating server registration in 5 seconds',
     );
 
     await Future.delayed(const Duration(seconds: 5));
+
+    final token = await di.sl<Push>().token;
+    // Tracks whether every server actually took the registration. A server too
+    // old to store a push token still counts: it accepted what it was given,
+    // and treating that as failure would re-register on every launch forever,
+    // for as long as the user stays on that Tautulli version.
+    bool allAccepted = true;
 
     for (ServerModel server in servers) {
       final failureOrRegisterDevice = await updateServerRegistration(server);
@@ -269,20 +305,34 @@ class TautulliRemoteState extends State<TautulliRemote> {
       // Either.fold does not await async callbacks — use if/else so the
       // await on updateServer is properly sequenced before setRegistrationUpdateNeeded.
       if (failureOrRegisterDevice.isLeft()) {
+        allAccepted = false;
+
         di.sl<Logging>().error(
-          'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+          'Notifications :: Failed to update registration for ${server.plexName} with push token',
         );
       } else {
+        // A server too old to store the push token accepts the registration but
+        // has nowhere to put it, so it must not be recorded as registered.
+        final registerDevice = failureOrRegisterDevice.toOption().toNullable();
+        final supportsPush =
+            token != pushDisabled && MinimumVersion.supportsPush(registerDevice?.value1.tautulliVersion);
+
         await di.sl<Settings>().updateServer(
-          server.copyWith(oneSignalRegistered: true),
+          server.copyWith(pushRegistered: supportsPush),
         );
 
         di.sl<Logging>().info(
-          'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+          'Notifications :: Updated registration for ${server.plexName} with push token',
         );
 
         di.sl<Settings>().setRegistrationUpdateNeeded(false);
       }
+    }
+
+    // Only remember the token once every server has taken it, so a partial
+    // failure is retried on the next launch instead of being forgotten.
+    if (allAccepted && token != pushDisabled) {
+      await di.sl<Settings>().setLastRegisteredPushToken(token);
     }
   }
 

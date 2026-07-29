@@ -7,7 +7,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
 import '../../widgets/cupertino/cupertino_style_app_update_alert_card.dart';
-import '../../widgets/cupertino/cupertino_style_onesignal_alert_card.dart';
+import '../../widgets/cupertino/cupertino_style_notifications_alert_card.dart';
 import '../../widgets/cupertino/groups/cupertino_style_about_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_app_settings_group.dart';
 import '../../widgets/cupertino/groups/cupertino_style_help_and_support_group.dart';
@@ -73,8 +73,8 @@ class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView>
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               if (state is SettingsSuccess &&
-                  (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
-                return const CupertinoStyleOnesignalAlertCard();
+                  (!state.appSettings.notificationsBannerDismissed || state.appSettings.notificationsConsented)) {
+                return const CupertinoStyleNotificationsAlertCard();
               }
 
               return const SizedBox.shrink();

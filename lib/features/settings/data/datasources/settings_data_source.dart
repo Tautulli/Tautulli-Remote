@@ -22,7 +22,7 @@ import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../../../core/utilities/cast.dart';
 import '../../../../dependency_injection.dart' as di;
-import '../../../onesignal/data/datasources/onesignal_data_source.dart';
+import '../../../push/data/datasources/push_data_source.dart';
 import '../models/connection_address_model.dart';
 import '../models/custom_header_model.dart';
 
@@ -148,13 +148,17 @@ abstract class SettingsDataSource {
   bool getMultiserverActivity();
   Future<bool> setMultiserverActivity(bool value);
 
-  // OneSignal Banner Dismissed
-  bool getOneSignalBannerDismissed();
-  Future<bool> setOneSignalBannerDismissed(bool value);
+  // Notifications Banner Dismissed
+  bool getNotificationsBannerDismissed();
+  Future<bool> setNotificationsBannerDismissed(bool value);
 
-  // OneSignal Consented
-  bool getOneSignalConsented();
-  Future<bool> setOneSignalConsented(bool value);
+  // Notifications Consented
+  bool getNotificationsConsented();
+  Future<bool> setNotificationsConsented(bool value);
+
+  // Last Registered Push Token
+  String? getLastRegisteredPushToken();
+  Future<bool> setLastRegisteredPushToken(String value);
 
   // Recently Added Filter
   String getRecentlyAddedFilter();
@@ -230,8 +234,11 @@ const libraryMediaFullRefresh = 'libraryMediaFullRefresh';
 const librariesSort = 'librariesSort';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const multiserverActivity = 'multiserverActivity';
-const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
-const oneSignalConsented = 'oneSignalConsented';
+// The stored keys keep their original names so consent already given carries
+// over from the OneSignal era without prompting the user again.
+const notificationsBannerDismissed = 'oneSignalBannerDismissed';
+const notificationsConsented = 'oneSignalConsented';
+const lastRegisteredPushToken = 'lastRegisteredPushToken';
 const recentlyAddedFilter = 'recentlyAddedFilter';
 const refreshRate = 'refreshRate';
 const registrationUpdateNeeded = 'registrationUpdateNeeded';
@@ -312,7 +319,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }) async {
     final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
     final String deviceName = await deviceInfo.model ?? 'unknown';
-    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
+    final String pushToken = await di.sl<PushDataSource>().token;
     final String platform = deviceInfo.platform;
     final String version = await packageInfo.version;
 
@@ -328,7 +335,10 @@ class SettingsDataSourceImpl implements SettingsDataSource {
         params: {
           'device_name': deviceName,
           'device_id': deviceId,
-          'onesignal_id': oneSignalId,
+          'push_token': pushToken,
+          // Sent explicitly so a server predating the push token does not fall
+          // back to treating the device id as a OneSignal id.
+          'onesignal_id': 'onesignal-disabled',
           'min_version': 'v${MinimumVersion.tautulliServer}',
           'platform': platform,
           'version': version,
@@ -629,26 +639,37 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return localStorage.setBool(multiserverActivity, value);
   }
 
-  // OneSignal Banner Dismissed
+  // Notifications Banner Dismissed
   @override
-  bool getOneSignalBannerDismissed() {
-    return localStorage.getBool(oneSignalBannerDismissed) ?? false;
+  bool getNotificationsBannerDismissed() {
+    return localStorage.getBool(notificationsBannerDismissed) ?? false;
   }
 
   @override
-  Future<bool> setOneSignalBannerDismissed(bool value) {
-    return localStorage.setBool(oneSignalBannerDismissed, value);
+  Future<bool> setNotificationsBannerDismissed(bool value) {
+    return localStorage.setBool(notificationsBannerDismissed, value);
   }
 
-  // OneSignal Consented
+  // Notifications Consented
   @override
-  bool getOneSignalConsented() {
-    return localStorage.getBool(oneSignalConsented) ?? false;
+  bool getNotificationsConsented() {
+    return localStorage.getBool(notificationsConsented) ?? false;
   }
 
   @override
-  Future<bool> setOneSignalConsented(bool value) {
-    return localStorage.setBool(oneSignalConsented, value);
+  Future<bool> setNotificationsConsented(bool value) {
+    return localStorage.setBool(notificationsConsented, value);
+  }
+
+  // Last Registered Push Token
+  @override
+  String? getLastRegisteredPushToken() {
+    return localStorage.getString(lastRegisteredPushToken);
+  }
+
+  @override
+  Future<bool> setLastRegisteredPushToken(String value) {
+    return localStorage.setString(lastRegisteredPushToken, value);
   }
 
   // Recently Added Filter

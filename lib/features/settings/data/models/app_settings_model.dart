@@ -22,8 +22,8 @@ class AppSettingsModel extends Equatable {
   final bool libraryMediaFullRefresh;
   final bool maskSensitiveInfo;
   final bool multiserverActivity;
-  final bool oneSignalBannerDismissed;
-  final bool oneSignalConsented;
+  final bool notificationsBannerDismissed;
+  final bool notificationsConsented;
   final String recentlyAddedFilter;
   final int? patch;
   final int refreshRate;
@@ -54,8 +54,8 @@ class AppSettingsModel extends Equatable {
     required this.libraryMediaFullRefresh,
     required this.maskSensitiveInfo,
     required this.multiserverActivity,
-    required this.oneSignalBannerDismissed,
-    required this.oneSignalConsented,
+    required this.notificationsBannerDismissed,
+    required this.notificationsConsented,
     required this.patch,
     required this.recentlyAddedFilter,
     required this.refreshRate,
@@ -87,8 +87,8 @@ class AppSettingsModel extends Equatable {
     bool? libraryMediaFullRefresh,
     bool? maskSensitiveInfo,
     bool? multiserverActivity,
-    bool? oneSignalBannerDismissed,
-    bool? oneSignalConsented,
+    bool? notificationsBannerDismissed,
+    bool? notificationsConsented,
     int? patch,
     String? recentlyAddedFilter,
     int? refreshRate,
@@ -119,8 +119,8 @@ class AppSettingsModel extends Equatable {
       libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       multiserverActivity: multiserverActivity ?? this.multiserverActivity,
-      oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
-      oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
+      notificationsBannerDismissed: notificationsBannerDismissed ?? this.notificationsBannerDismissed,
+      notificationsConsented: notificationsConsented ?? this.notificationsConsented,
       patch: patch ?? this.patch,
       recentlyAddedFilter: recentlyAddedFilter ?? this.recentlyAddedFilter,
       refreshRate: refreshRate ?? this.refreshRate,
@@ -154,8 +154,8 @@ class AppSettingsModel extends Equatable {
       'Library Media Full Refresh': libraryMediaFullRefresh.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'Multiserver Activity': multiserverActivity.toString(),
-      'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
-      'OneSignal Privacy Accepted': oneSignalConsented.toString(),
+      'Notifications Banner Dismissed': notificationsBannerDismissed.toString(),
+      'Notifications Privacy Accepted': notificationsConsented.toString(),
       'Patch': patch.toString(),
       'Recently Added Filter': recentlyAddedFilter,
       'Refresh Rate': refreshRate.toString(),
@@ -188,8 +188,8 @@ class AppSettingsModel extends Equatable {
     libraryMediaFullRefresh,
     maskSensitiveInfo,
     multiserverActivity,
-    oneSignalBannerDismissed,
-    oneSignalConsented,
+    notificationsBannerDismissed,
+    notificationsConsented,
     recentlyAddedFilter,
     patch,
     refreshRate,

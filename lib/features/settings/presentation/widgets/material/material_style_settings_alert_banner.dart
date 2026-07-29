@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import '../../../../onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import '../../../../push/presentation/bloc/push_health_bloc.dart';
+import '../../../../push/presentation/bloc/push_privacy_bloc.dart';
+import '../../../../push/presentation/bloc/push_sub_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 
 class MaterialStyleSettingsAlertBanner extends StatelessWidget {
@@ -19,15 +19,15 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
     context.locale; // Re-run translations in place on a language change.
     final settingsBloc = context.read<SettingsBloc>();
 
-    return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
+    return BlocBuilder<PushPrivacyBloc, PushPrivacyState>(
       builder: (context, privacyState) {
-        // If OneSignal consent is false
-        if (privacyState is OneSignalPrivacyFailure) {
+        // If notification consent is false
+        if (privacyState is PushPrivacyFailure) {
           return _SettingsAlertBannerContent(
             backgroundColor: Colors.deepOrange[900],
-            title: LocaleKeys.onesignal_data_privacy_not_accepted_title.tr(),
+            title: LocaleKeys.notifications_data_privacy_not_accepted_title.tr(),
             message: const Text(
-              LocaleKeys.onesignal_data_privacy_not_accepted_content,
+              LocaleKeys.notifications_data_privacy_not_accepted_content,
               style: TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
@@ -37,7 +37,7 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                 foregroundColor: TautulliColorPalette.notWhite,
               ),
               onPressed: () => settingsBloc.add(
-                const SettingsUpdateOneSignalBannerDismiss(true),
+                const SettingsUpdateNotificationsBannerDismiss(true),
               ),
               child: const Text(LocaleKeys.dismiss_button).tr(),
             ),
@@ -45,21 +45,21 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
               style: TextButton.styleFrom(
                 foregroundColor: TautulliColorPalette.notWhite,
               ),
-              onPressed: () => Navigator.of(context).pushNamed('/onesignal_privacy'),
+              onPressed: () => Navigator.of(context).pushNamed('/notifications_privacy'),
               child: const Text(LocaleKeys.view_privacy_page_title).tr(),
             ),
           );
         }
 
-        // If OneSignal consent is true
-        return BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
+        // If notification consent is true
+        return BlocBuilder<PushHealthBloc, PushHealthState>(
           builder: (context, healthState) {
-            // If OneSignal is not reachable
-            if (healthState is OneSignalHealthFailure) {
+            // If the push relay is not reachable
+            if (healthState is PushHealthFailure) {
               return _SettingsAlertBannerContent(
-                title: LocaleKeys.onesignal_unreachable_title.tr(),
+                title: LocaleKeys.notifications_unreachable_title.tr(),
                 message: const Text(
-                  LocaleKeys.onesignal_unreachable_content,
+                  LocaleKeys.notifications_unreachable_content,
                   style: TextStyle(
                     color: TautulliColorPalette.notWhite,
                   ),
@@ -68,19 +68,20 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                   style: TextButton.styleFrom(
                     foregroundColor: TautulliColorPalette.notWhite,
                   ),
-                  onPressed: () => context.read<OneSignalHealthBloc>().add(
-                    OneSignalHealthCheck(),
+                  onPressed: () => context.read<PushHealthBloc>().add(
+                    PushHealthCheck(),
                   ),
                   child: const Text(LocaleKeys.check_again_title).tr(),
                 ),
               );
             }
 
-            // If OneSignal is reachable
-            return BlocBuilder<OneSignalSubBloc, OneSignalSubState>(
+            // If the push relay is reachable
+            return BlocBuilder<PushSubBloc, PushSubState>(
               builder: (context, subState) {
-                // If OneSignal is not subscribed
-                if (subState is OneSignalSubFailure) {
+                // If this device is not subscribed, either because the notification permission is
+                // missing or because registration has not completed
+                if (subState is PushSubFailure) {
                   return _SettingsAlertBannerContent(
                     backgroundColor: Colors.deepOrange[900],
                     title: subState.title,
@@ -97,7 +98,7 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                       onPressed: () async {
                         await launchUrlString(
                           mode: LaunchMode.externalApplication,
-                          'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
+                          'https://github.com/Tautulli/Tautulli-Remote/wiki/Notifications#registering',
                         );
                       },
                       child: const Text(LocaleKeys.learn_more_title).tr(),
@@ -105,7 +106,7 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                   );
                 }
 
-                // If OneSignal is Subscribed
+                // If this device is subscribed
                 // All checks passed do not display banner
                 return const SizedBox(height: 0, width: 0);
               },
