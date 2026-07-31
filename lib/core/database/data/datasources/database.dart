@@ -303,7 +303,7 @@ class DBProvider {
     }
   }
 
-  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+  Future<List<ServerModel>?> getAllServersWithoutPushRegistered() async {
     final db = await database;
     if (db != null) {
       var result = await db.query(

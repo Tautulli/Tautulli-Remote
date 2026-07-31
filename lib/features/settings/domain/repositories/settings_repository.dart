@@ -43,7 +43,7 @@ abstract class SettingsRepository {
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);
 
-  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered();
+  Future<List<ServerModel>?> getAllServersWithoutPushRegistered();
 
   Future<int> updateConnectionInfo({
     required int id,

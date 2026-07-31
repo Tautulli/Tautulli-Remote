@@ -97,8 +97,8 @@ class Settings {
     return await repository.getServerByTautulliId(tautulliId);
   }
 
-  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
-    return await repository.getAllServersWithoutOnesignalRegistered();
+  Future<List<ServerModel>?> getAllServersWithoutPushRegistered() async {
+    return await repository.getAllServersWithoutPushRegistered();
   }
 
   /// Updates the server with `id` using the information in

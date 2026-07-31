@@ -132,8 +132,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
-    return await dataSource.getAllServersWithoutOnesignalRegistered();
+  Future<List<ServerModel>?> getAllServersWithoutPushRegistered() async {
+    return await dataSource.getAllServersWithoutPushRegistered();
   }
 
   @override
