@@ -168,6 +168,9 @@ app.*.symbols
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
 
+# Firebase CLI install log
+firepit-log.txt
+
 # AI related
 .agents/rules/personal-*
 .agents/skills/personal-*
