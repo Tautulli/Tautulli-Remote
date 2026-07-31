@@ -35,4 +35,7 @@ class PushRepositoryImpl implements PushRepository {
 
   @override
   Future<String> get token => dataSource.token;
+
+  @override
+  Future<String> get tokenForRegistration => dataSource.tokenForRegistration;
 }

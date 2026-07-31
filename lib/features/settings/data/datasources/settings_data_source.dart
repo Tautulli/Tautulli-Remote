@@ -319,7 +319,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }) async {
     final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
     final String deviceName = await deviceInfo.model ?? 'unknown';
-    final String pushToken = await di.sl<PushDataSource>().token;
+    final String pushToken = await di.sl<PushDataSource>().tokenForRegistration;
     final String platform = deviceInfo.platform;
     final String version = await packageInfo.version;
 

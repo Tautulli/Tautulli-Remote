@@ -11,4 +11,6 @@ abstract class PushRepository {
   Future<void> optIn(bool value);
   Future<bool> requestPermission();
   Future<String> get token;
+
+  Future<String> get tokenForRegistration;
 }

@@ -37,4 +37,10 @@ class Push {
   ///
   /// Returns `'push-disabled'` if a token is unavailable.
   Future<String> get token => repository.token;
+
+  /// Returns the push token used to register this device with a Tautulli server.
+  ///
+  /// Throws `PushTokenUnavailableException` when the token cannot be determined,
+  /// so a transient failure is never registered as an opt-out.
+  Future<String> get tokenForRegistration => repository.tokenForRegistration;
 }

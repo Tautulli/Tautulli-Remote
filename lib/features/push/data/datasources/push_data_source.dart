@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/error/exception.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../../settings/domain/usecases/settings.dart';
 
@@ -62,6 +63,12 @@ abstract class PushDataSource {
 
   /// The relay's current fair-use limit.
   Future<PushLimits> get limits;
+
+  /// Provides the push token used to register this device with a Tautulli server.
+  ///
+  /// Throws [PushTokenUnavailableException] when the token cannot be
+  /// determined, rather than returning [pushDisabled].
+  Future<String> get tokenForRegistration;
 
   /// Provides the push token used to address this device.
   ///
@@ -185,5 +192,27 @@ class PushDataSourceImpl implements PushDataSource {
     } catch (_) {
       return pushDisabled;
     }
+  }
+
+  @override
+  Future<String> get tokenForRegistration async {
+    // Notifications being switched off is a real answer, and the server is told
+    // so. Anything else - a timeout, an FCM error, a token that never arrives -
+    // is transient, and recording [pushDisabled] for it would tell the server to
+    // stop notifying a device that is still expecting notifications, with
+    // nothing in the app to show that it happened.
+    if (!await hasConsented) return pushDisabled;
+    if (!await hasNotificationPermission) return pushDisabled;
+
+    try {
+      final token = await messaging.getToken().timeout(_relayTimeout);
+      if (token != null && token.isNotEmpty) {
+        return token;
+      }
+    } catch (_) {
+      // Falls through to the throw below.
+    }
+
+    throw PushTokenUnavailableException();
   }
 }

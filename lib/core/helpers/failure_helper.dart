@@ -74,6 +74,8 @@ class FailureHelper {
         return MissingServerFailure();
       case ServerVersionException _:
         return ServerVersionFailure();
+      case PushTokenUnavailableException _:
+        return PushTokenUnavailableFailure();
       // case SettingsException _:
       //   return SettingsFailure();
       // Network I/O failures from datasources still using package:http / dart:io
@@ -128,6 +130,8 @@ class FailureHelper {
         return LocaleKeys.error_message_server.tr();
       case ServerVersionFailure _:
         return LocaleKeys.error_message_server_version.tr();
+      case PushTokenUnavailableFailure _:
+        return LocaleKeys.error_message_push_token_unavailable.tr();
       // case SettingsFailure _:
       //   return settingsMessage;
       // case SocketFailure _:
@@ -176,6 +180,8 @@ class FailureHelper {
         return LocaleKeys.error_suggestion_server_version.tr(
           args: [MinimumVersion.tautulliServer.toString()],
         );
+      case PushTokenUnavailableFailure _:
+        return LocaleKeys.error_suggestion_push_token_unavailable.tr();
       // case SettingsFailure _:
       //   return checkServerSettingsSuggestion;
       // case SocketFailure _:

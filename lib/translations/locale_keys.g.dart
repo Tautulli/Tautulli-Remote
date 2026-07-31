@@ -137,6 +137,7 @@ abstract class  LocaleKeys {
   static const error_message_invalid_header = 'error_message_invalid_header';
   static const error_message_invalid_params = 'error_message_invalid_params';
   static const error_message_no_servers = 'error_message_no_servers';
+  static const error_message_push_token_unavailable = 'error_message_push_token_unavailable';
   static const error_message_server = 'error_message_server';
   static const error_message_server_version = 'error_message_server_version';
   static const error_message_terminate_stream_failed = 'error_message_terminate_stream_failed';
@@ -151,6 +152,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_invalid_api_key = 'error_suggestion_invalid_api_key';
   static const error_suggestion_invalid_header = 'error_suggestion_invalid_header';
   static const error_suggestion_plex_connection = 'error_suggestion_plex_connection';
+  static const error_suggestion_push_token_unavailable = 'error_suggestion_push_token_unavailable';
   static const error_suggestion_register_server = 'error_suggestion_register_server';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
   static const error_suggestion_terminate_stream_failed = 'error_suggestion_terminate_stream_failed';

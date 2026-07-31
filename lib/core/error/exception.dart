@@ -40,6 +40,13 @@ class ServerNotFoundException implements Exception {}
 /// Throw when trying to add a Tautulli server does not meet the min version.
 class ServerVersionException implements Exception {}
 
+/// Throw when the push token cannot be determined.
+///
+/// Distinct from the device having notifications turned off: that is recorded
+/// deliberately, whereas a lookup that failed must not be, or the server would
+/// be told to stop sending notifications to a device that still wants them.
+class PushTokenUnavailableException implements Exception {}
+
 // /// Throw when required settings are missing.
 // class SettingsException implements Exception {}
 
