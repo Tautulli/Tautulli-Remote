@@ -248,6 +248,19 @@ class TautulliRemoteState extends State<TautulliRemote> {
     }
   }
 
+  /// Whether the server that answered [registerDevice] can be recorded as push
+  /// registered.
+  ///
+  /// A server too old to store the push token accepts the registration but has
+  /// nowhere to put it, so it must not be recorded as registered. Shared by
+  /// every path that re-registers, so they cannot disagree about the answer.
+  bool _pushRegistered(
+    String token,
+    dartz.Tuple2<RegisterDeviceModel, bool>? registerDevice,
+  ) {
+    return token != pushDisabled && MinimumVersion.supportsPush(registerDevice?.value1.tautulliVersion);
+  }
+
   Future<void> checkIfRegistrationUpdateNeeded() async {
     //! Wait for SettingsBloc to be SettingsSuccess
     await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
@@ -260,6 +273,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
           'Settings :: App version changed, updating server registration',
         );
 
+        final token = await di.sl<Push>().token;
+
         for (ServerModel server in servers) {
           final failureOrRegisterDevice = await updateServerRegistration(server);
 
@@ -270,7 +285,17 @@ class TautulliRemoteState extends State<TautulliRemote> {
               'Settings :: Failed to update registration for ${server.plexName} with new app version',
             );
           } else {
-            await di.sl<Settings>().updateServer(server);
+            // The registration just told us what this server supports, so record
+            // it. Writing the unmodified server back here would re-stamp the
+            // stale value and discard the answer that was just fetched.
+            await di.sl<Settings>().updateServer(
+              server.copyWith(
+                pushRegistered: _pushRegistered(
+                  token,
+                  failureOrRegisterDevice.toOption().toNullable(),
+                ),
+              ),
+            );
 
             di.sl<Logging>().info(
               'Settings :: Updated registration for ${server.plexName} with new app version',
@@ -314,14 +339,13 @@ class TautulliRemoteState extends State<TautulliRemote> {
           'Notifications :: Failed to update registration for ${server.plexName} with push token',
         );
       } else {
-        // A server too old to store the push token accepts the registration but
-        // has nowhere to put it, so it must not be recorded as registered.
-        final registerDevice = failureOrRegisterDevice.toOption().toNullable();
-        final supportsPush =
-            token != pushDisabled && MinimumVersion.supportsPush(registerDevice?.value1.tautulliVersion);
-
         await di.sl<Settings>().updateServer(
-          server.copyWith(pushRegistered: supportsPush),
+          server.copyWith(
+            pushRegistered: _pushRegistered(
+              token,
+              failureOrRegisterDevice.toOption().toNullable(),
+            ),
+          ),
         );
 
         di.sl<Logging>().info(
