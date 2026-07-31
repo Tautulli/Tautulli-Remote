@@ -14,6 +14,10 @@ const String pushDisabled = 'push-disabled';
 /// The relay that carries notifications from a Tautulli server to this device.
 const String pushRelayUrl = 'https://relay.tautulliremote.com';
 
+/// Relay lookups are only ever used to render status, so they must fail fast:
+/// without a bound the diagnostics page waits forever on an unreachable relay.
+const Duration _relayTimeout = Duration(seconds: 10);
+
 /// The relay's fair-use limit, as reported by its health endpoint.
 ///
 /// [maximum] is `null` while the relay is still measuring real-world usage to
@@ -116,7 +120,7 @@ class PushDataSourceImpl implements PushDataSource {
   Future<bool> get isReachable async {
     if (await networkInfo.isConnected) {
       try {
-        final response = await client.get(Uri.parse('$pushRelayUrl/v1/health'));
+        final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
         return response.statusCode < 400;
       } catch (_) {
         return false;
@@ -148,7 +152,7 @@ class PushDataSourceImpl implements PushDataSource {
   @override
   Future<PushLimits> get limits async {
     try {
-      final response = await client.get(Uri.parse('$pushRelayUrl/v1/health'));
+      final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
       if (response.statusCode >= 400) return const PushLimits.unknown();
 
       final rateLimits = json.decode(response.body)['rateLimits'];
@@ -171,7 +175,9 @@ class PushDataSourceImpl implements PushDataSource {
     if (!await hasConsented) return pushDisabled;
 
     try {
-      final token = await messaging.getToken();
+      // Minting a token reaches out to FCM, which can stall on a network that
+      // blocks it; bounded so status screens and registration cannot hang.
+      final token = await messaging.getToken().timeout(_relayTimeout);
       if (token != null && token.isNotEmpty) {
         return token;
       }

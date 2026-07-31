@@ -297,7 +297,10 @@ class TautulliRemoteState extends State<TautulliRemote> {
     // old to store a push token still counts: it accepted what it was given,
     // and treating that as failure would re-register on every launch forever,
     // for as long as the user stays on that Tautulli version.
-    bool allAccepted = true;
+    // With no servers there is nowhere to hand the token, so it must not be
+    // recorded as registered: doing so would skip the check on later launches
+    // and leave a server added afterwards without a token.
+    bool allAccepted = servers.isNotEmpty;
 
     for (ServerModel server in servers) {
       final failureOrRegisterDevice = await updateServerRegistration(server);
