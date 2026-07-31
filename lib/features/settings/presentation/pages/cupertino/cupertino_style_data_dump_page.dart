@@ -20,7 +20,6 @@ import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../announcements/presentation/bloc/announcements_bloc.dart';
-import '../../../../push/data/datasources/push_data_source.dart';
 import '../../../../push/presentation/bloc/push_health_bloc.dart';
 import '../../../../push/presentation/bloc/push_status_bloc.dart';
 import '../../bloc/settings_bloc.dart';
@@ -408,12 +407,6 @@ class _AppSettings extends StatelessWidget {
 }
 
 /// The push token is a bearer credential — only ever render a short prefix of it.
-String _truncatePushToken(String token) {
-  if (token == pushDisabled) return token;
-  if (token.length <= 12) return '…';
-
-  return '${token.substring(0, 12)}…';
-}
 
 class _PushStatus extends StatelessWidget {
   const _PushStatus();
@@ -484,7 +477,7 @@ class _PushStatus extends StatelessWidget {
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          _truncatePushToken(state.token),
+                          state.token,
                           textAlign: TextAlign.end,
                         ).sensitive(),
                       ),

@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../data/datasources/push_data_source.dart';
 import '../../domain/usecases/push.dart';
 
 part 'push_privacy_event.dart';
@@ -70,6 +71,15 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
 
     logging.info('Notifications :: Data Privacy accepted');
 
+    final token = await push.token;
+    if (token == pushDisabled) {
+      logging.warning(
+        'Notifications :: Consent granted but no push token was issued, this device cannot receive notifications yet',
+      );
+    } else {
+      logging.info('Notifications :: Connected to the relay with push token ${_maskToken(token)}');
+    }
+
     emit(
       PushPrivacySuccess(),
     );
@@ -114,10 +124,17 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
 
     settingsBloc.add(const SettingsUpdateNotificationsConsented(false));
 
+    logging.info('Notifications :: Disconnected from the relay, the push token for this device was deleted');
+
     logging.info('Notifications :: Data Privacy revoked');
 
     emit(
       PushPrivacyFailure(),
     );
   }
+
+  /// Push tokens are bearer credentials, so only enough is logged to correlate
+  /// a device with relay-side records.
+  String _maskToken(String token) =>
+      token.length <= 12 ? '...' : '...${token.substring(token.length - 8)}';
 }

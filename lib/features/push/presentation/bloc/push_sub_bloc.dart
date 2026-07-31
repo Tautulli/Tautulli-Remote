@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../translations/locale_keys.g.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../data/datasources/push_data_source.dart';
 import '../../domain/usecases/push.dart';
 
@@ -11,9 +12,11 @@ part 'push_sub_event.dart';
 part 'push_sub_state.dart';
 
 class PushSubBloc extends Bloc<PushSubEvent, PushSubState> {
+  final Logging logging;
   final Push push;
 
   PushSubBloc({
+    required this.logging,
     required this.push,
   }) : super(PushSubInitial()) {
     on<PushSubCheck>(
@@ -29,10 +32,17 @@ class PushSubBloc extends Bloc<PushSubEvent, PushSubState> {
     final String token = await push.token;
 
     if (isSubscribed && isNotBlank(token) && token != pushDisabled) {
+      logging.info('Notifications :: This device is registered to receive notifications');
+
       emit(
         PushSubSuccess(),
       );
     } else if (!isSubscribed) {
+      logging.warning(
+        'Notifications :: This device is not registered to receive notifications, '
+        'notification permission or consent may be missing',
+      );
+
       emit(
         PushSubFailure(
           title: LocaleKeys.notifications_error_registration_title.tr(),
@@ -40,6 +50,8 @@ class PushSubBloc extends Bloc<PushSubEvent, PushSubState> {
         ),
       );
     } else {
+      logging.error('Notifications :: Subscribed but no usable push token was returned');
+
       emit(
         PushSubFailure(
           title: LocaleKeys.notifications_error_unexpected_title.tr(),

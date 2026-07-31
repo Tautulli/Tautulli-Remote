@@ -50,7 +50,6 @@ class _MaterialStyleNotificationsPrivacyTextState extends State<MaterialStyleNot
     final textBlock2 = LocaleKeys.notifications_data_privacy_text_block_2.tr().split('%');
     final textBlock3 = LocaleKeys.notifications_data_privacy_text_block_3.tr();
     final textBlock4 = LocaleKeys.notifications_data_privacy_text_block_4.tr();
-    final textBlock5 = LocaleKeys.notifications_data_privacy_text_block_5.tr();
 
     return MaterialStyleCard(
       child: Padding(
@@ -84,7 +83,6 @@ class _MaterialStyleNotificationsPrivacyTextState extends State<MaterialStyleNot
               TextSpan(text: textBlock2[2]),
               TextSpan(text: '\n\n$textBlock3'),
               TextSpan(text: '\n\n$textBlock4'),
-              TextSpan(text: '\n\n$textBlock5'),
             ],
           ),
         ),

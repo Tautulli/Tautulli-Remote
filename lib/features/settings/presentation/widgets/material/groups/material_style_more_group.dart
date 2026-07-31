@@ -22,7 +22,7 @@ class MaterialStyleMoreGroup extends StatelessWidget {
       listTiles: [
         MaterialStyleListTile(
           leading: FaIcon(
-            FontAwesomeIcons.bell,
+            FontAwesomeIcons.solidBell,
             color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.notifications_data_privacy_title.tr(),

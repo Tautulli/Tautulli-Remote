@@ -454,10 +454,8 @@ abstract class  LocaleKeys {
   static const wizard_welcome_text_3 = 'wizard_welcome_text_3';
   static const written_by_title = 'written_by_title';
   static const y_axis_title = 'y_axis_title';
-  static const notifications_data_privacy_text_block_5 = 'notifications_data_privacy_text_block_5';
   static const notifications_fair_use_limit_pending = 'notifications_fair_use_limit_pending';
   static const wizard_notifications_consent_switch_title = 'wizard_notifications_consent_switch_title';
-  static const wizard_notifications_text_3 = 'wizard_notifications_text_3';
   static const wizard_notifications_title = 'wizard_notifications_title';
   static const wizard_notifications_view_privacy_title = 'wizard_notifications_view_privacy_title';
 

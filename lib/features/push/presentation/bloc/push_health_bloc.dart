@@ -29,6 +29,8 @@ class PushHealthBloc extends Bloc<PushHealthEvent, PushHealthState> {
     );
 
     if (await push.isReachable) {
+      logging.info('Notifications :: Relay is reachable');
+
       emit(
         PushHealthSuccess(),
       );

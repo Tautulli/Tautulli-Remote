@@ -533,6 +533,7 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => PushSubBloc(
+      logging: sl(),
       push: sl(),
     ),
   );

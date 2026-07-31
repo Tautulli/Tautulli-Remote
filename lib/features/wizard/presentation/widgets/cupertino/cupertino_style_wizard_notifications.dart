@@ -37,11 +37,6 @@ class CupertinoStyleWizardNotifications extends StatelessWidget {
           LocaleKeys.wizard_notifications_text_2,
           textAlign: TextAlign.center,
         ).tr(),
-        const Gap(8),
-        const Text(
-          LocaleKeys.wizard_notifications_text_3,
-          textAlign: TextAlign.center,
-        ).tr(),
         const Gap(16),
         CupertinoStyleListSection(
           hasLeading: false,
