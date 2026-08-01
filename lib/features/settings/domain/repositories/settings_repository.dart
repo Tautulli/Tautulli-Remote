@@ -23,6 +23,8 @@ abstract class SettingsRepository {
     String tautulliId,
   );
 
+  Future<Either<Failure, Tuple2<String?, bool>>> getTautulliVersion(String tautulliId);
+
   Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId);
 
   Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
@@ -148,6 +150,8 @@ abstract class SettingsRepository {
   // Last Registered Push Token
   String? getLastRegisteredPushToken();
   Future<bool> setLastRegisteredPushToken(String value);
+  String? getLastRegisteredServerVersion(String tautulliId);
+  Future<bool> setLastRegisteredServerVersion(String tautulliId, String value);
 
   // Recently Added Filter
   String getRecentlyAddedFilter();

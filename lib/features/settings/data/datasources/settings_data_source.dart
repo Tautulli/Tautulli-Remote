@@ -32,6 +32,9 @@ abstract class SettingsDataSource {
 
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId);
 
+  /// Returns the Tautulli version reported by the server, without registering.
+  Future<Tuple2<String?, bool>> getTautulliVersion(String tautulliId);
+
   Future<Tuple2<TautulliDateFormatsModel, bool>> getDateFormats(
     String tautulliId,
   );
@@ -159,6 +162,8 @@ abstract class SettingsDataSource {
   // Last Registered Push Token
   String? getLastRegisteredPushToken();
   Future<bool> setLastRegisteredPushToken(String value);
+  String? getLastRegisteredServerVersion(String tautulliId);
+  Future<bool> setLastRegisteredServerVersion(String tautulliId, String value);
 
   // Recently Added Filter
   String getRecentlyAddedFilter();
@@ -239,6 +244,9 @@ const multiserverActivity = 'multiserverActivity';
 const notificationsBannerDismissed = 'oneSignalBannerDismissed';
 const notificationsConsented = 'oneSignalConsented';
 const lastRegisteredPushToken = 'lastRegisteredPushToken';
+// Per-server, so the key carries the Tautulli id. A server that is removed
+// leaves its key behind; that is inert, and re-adding it registers anyway.
+const lastRegisteredServerVersionPrefix = 'lastRegisteredServerVersion_';
 const recentlyAddedFilter = 'recentlyAddedFilter';
 const refreshRate = 'refreshRate';
 const registrationUpdateNeeded = 'registrationUpdateNeeded';
@@ -290,6 +298,21 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     );
 
     return Tuple2(PlexInfoModel.fromJson(result.data['data']), result.primaryActive);
+  }
+
+  @override
+  Future<Tuple2<String?, bool>> getTautulliVersion(
+    String tautulliId,
+  ) async {
+    final result = await _adapter.call(
+      tautulliId: tautulliId,
+      action: (client) => client.execute('get_tautulli_info'),
+    );
+
+    return Tuple2(
+      Cast.castToString(result.data['data']['tautulli_version']),
+      result.primaryActive,
+    );
   }
 
   @override
@@ -670,6 +693,16 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastRegisteredPushToken(String value) {
     return localStorage.setString(lastRegisteredPushToken, value);
+  }
+
+  @override
+  String? getLastRegisteredServerVersion(String tautulliId) {
+    return localStorage.getString('$lastRegisteredServerVersionPrefix$tautulliId');
+  }
+
+  @override
+  Future<bool> setLastRegisteredServerVersion(String tautulliId, String value) {
+    return localStorage.setString('$lastRegisteredServerVersionPrefix$tautulliId', value);
   }
 
   // Recently Added Filter

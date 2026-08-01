@@ -65,6 +65,22 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<Either<Failure, Tuple2<String?, bool>>> getTautulliVersion(String tautulliId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getTautulliVersion(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId) async {
     if (await networkInfo.isConnected) {
       try {
@@ -406,6 +422,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setLastRegisteredPushToken(String value) async {
     return await dataSource.setLastRegisteredPushToken(value);
+  }
+
+  @override
+  String? getLastRegisteredServerVersion(String tautulliId) {
+    return dataSource.getLastRegisteredServerVersion(tautulliId);
+  }
+
+  @override
+  Future<bool> setLastRegisteredServerVersion(String tautulliId, String value) async {
+    return await dataSource.setLastRegisteredServerVersion(tautulliId, value);
   }
 
   // Recently Added Filter

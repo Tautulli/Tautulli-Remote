@@ -39,6 +39,11 @@ class Settings {
 
   /// Returns `TautulliDateFormatsModel` as well as a bool to indicate the
   /// active connection address.
+  /// Returns the Tautulli version reported by [tautulliId], without registering.
+  Future<Either<Failure, Tuple2<String?, bool>>> getTautulliVersion(String tautulliId) async {
+    return await repository.getTautulliVersion(tautulliId);
+  }
+
   Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId) async {
     return await repository.getDateFormats(tautulliId);
   }
@@ -415,6 +420,17 @@ class Settings {
   /// Sets the push token used for the most recent registration.
   Future<bool> setLastRegisteredPushToken(String value) async {
     return await repository.setLastRegisteredPushToken(value);
+  }
+
+  /// Returns the Tautulli version this device last registered against for
+  /// [tautulliId], or `null` if it has never been recorded.
+  String? getLastRegisteredServerVersion(String tautulliId) {
+    return repository.getLastRegisteredServerVersion(tautulliId);
+  }
+
+  /// Records the Tautulli version this device last registered against.
+  Future<bool> setLastRegisteredServerVersion(String tautulliId, String value) async {
+    return await repository.setLastRegisteredServerVersion(tautulliId, value);
   }
 
   /// Returns the Recently Added filter value.

@@ -52,7 +52,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     initializePush();
     initializeFLogConfiguration();
     checkForAppUpdate();
-    checkIfRegistrationUpdateNeeded();
+    checkLaunchRegistration();
 
     context.read<PushPrivacyBloc>().add(PushPrivacyCheck());
     // Delay the subscription check on app start to give messaging time to
@@ -261,9 +261,112 @@ class TautulliRemoteState extends State<TautulliRemote> {
     return token != pushDisabled && MinimumVersion.supportsPush(registerDevice?.value1.tautulliVersion);
   }
 
+  /// Records what a successful registration just established about [server].
+  ///
+  /// The flag and the server version are written together so that a server one
+  /// launch-time check has already registered is not registered again by
+  /// another: each registration costs a relay lookup on the Tautulli side.
+  Future<void> _recordRegistration(
+    ServerModel server,
+    String token,
+    dartz.Tuple2<RegisterDeviceModel, bool>? registerDevice,
+  ) async {
+    await di.sl<Settings>().updateServer(
+      server.copyWith(
+        pushRegistered: _pushRegistered(token, registerDevice),
+      ),
+    );
+
+    final version = registerDevice?.value1.tautulliVersion;
+    if (version != null) {
+      await di.sl<Settings>().setLastRegisteredServerVersion(server.tautulliId, version);
+    }
+  }
+
+  /// Runs the launch-time registration checks in order.
+  ///
+  /// Sequential rather than concurrent: the app-version pass records the server
+  /// version it registered against, and that is what stops the version pass
+  /// registering the same server a second time on the one launch where both
+  /// triggers are true — an app update that has never recorded a version.
+  Future<void> checkLaunchRegistration() async {
+    await checkIfRegistrationUpdateNeeded();
+    await checkIfServerVersionChanged();
+  }
+
+  /// Re-registers a server whose Tautulli version has changed since this device
+  /// last registered with it.
+  ///
+  /// Nothing else notices a server-side change. A Tautulli too old to store the
+  /// push token accepts the registration and drops it, so after the user updates
+  /// that server it holds no token and cannot notify this device — silently, and
+  /// for as long as the user does not re-register by hand. Registering again is
+  /// the only way to hand over the token, so the version is what decides when to
+  /// do it: reading it is a cheap call to the user's own Tautulli, while
+  /// registering costs a relay lookup on the server side.
+  ///
+  /// A version that has never been recorded also re-registers, so a device that
+  /// updated to this build gets one pass to repair a server it already lost.
+  Future<void> checkIfServerVersionChanged() async {
+    //! Wait for SettingsBloc to be SettingsSuccess
+    final settingsBloc = context.read<SettingsBloc>();
+    if (settingsBloc.state is! SettingsSuccess) {
+      await settingsBloc.stream.firstWhere((state) => state is SettingsSuccess);
+    }
+
+    final servers = await di.sl<Settings>().getAllServers();
+    if (servers.isEmpty) return;
+
+    final token = await di.sl<Push>().token;
+
+    for (ServerModel server in servers) {
+      final failureOrVersion = await di.sl<Settings>().getTautulliVersion(server.tautulliId);
+
+      final currentVersion = failureOrVersion.toOption().toNullable()?.value1;
+      // Unreachable or too old to answer. Leave the recorded version alone so
+      // the comparison is retried on the next launch rather than being resolved
+      // against a version that was never read.
+      if (currentVersion == null) continue;
+
+      final lastVersion = di.sl<Settings>().getLastRegisteredServerVersion(server.tautulliId);
+      if (lastVersion == currentVersion) continue;
+
+      di.sl<Logging>().info(
+        'Settings :: ${server.plexName} reports $currentVersion, last registered against ${lastVersion ?? 'nothing'}, updating registration',
+      );
+
+      final failureOrRegisterDevice = await updateServerRegistration(server);
+
+      if (failureOrRegisterDevice.isLeft()) {
+        di.sl<Logging>().error(
+          'Settings :: Failed to update registration for ${server.plexName} after a server version change',
+        );
+        // Deliberately not recorded, so the next launch tries again.
+        continue;
+      }
+
+      await _recordRegistration(
+        server,
+        token,
+        failureOrRegisterDevice.toOption().toNullable(),
+      );
+
+      di.sl<Logging>().info(
+        'Settings :: Updated registration for ${server.plexName} after a server version change',
+      );
+    }
+  }
+
   Future<void> checkIfRegistrationUpdateNeeded() async {
     //! Wait for SettingsBloc to be SettingsSuccess
-    await context.read<SettingsBloc>().stream.firstWhere((state) => state is SettingsSuccess);
+    // Checked before subscribing: firstWhere on a stream that has already
+    // emitted waits for a second event that never comes, which would hang this
+    // method and, because the launch checks run in order, the version check
+    // behind it.
+    final settingsBloc = context.read<SettingsBloc>();
+    if (settingsBloc.state is! SettingsSuccess) {
+      await settingsBloc.stream.firstWhere((state) => state is SettingsSuccess);
+    }
 
     if (di.sl<Settings>().getRegistrationUpdateNeeded()) {
       final servers = await di.sl<Settings>().getAllServers();
@@ -288,13 +391,10 @@ class TautulliRemoteState extends State<TautulliRemote> {
             // The registration just told us what this server supports, so record
             // it. Writing the unmodified server back here would re-stamp the
             // stale value and discard the answer that was just fetched.
-            await di.sl<Settings>().updateServer(
-              server.copyWith(
-                pushRegistered: _pushRegistered(
-                  token,
-                  failureOrRegisterDevice.toOption().toNullable(),
-                ),
-              ),
+            await _recordRegistration(
+              server,
+              token,
+              failureOrRegisterDevice.toOption().toNullable(),
             );
 
             di.sl<Logging>().info(
@@ -339,13 +439,10 @@ class TautulliRemoteState extends State<TautulliRemote> {
           'Notifications :: Failed to update registration for ${server.plexName} with push token',
         );
       } else {
-        await di.sl<Settings>().updateServer(
-          server.copyWith(
-            pushRegistered: _pushRegistered(
-              token,
-              failureOrRegisterDevice.toOption().toNullable(),
-            ),
-          ),
+        await _recordRegistration(
+          server,
+          token,
+          failureOrRegisterDevice.toOption().toNullable(),
         );
 
         di.sl<Logging>().info(
