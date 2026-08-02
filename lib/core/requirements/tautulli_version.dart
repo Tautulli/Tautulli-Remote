@@ -7,7 +7,7 @@ class MinimumVersion {
   /// Minimum Tautulli version that delivers notifications through the push
   /// relay. Older servers still accept a registration, but have nowhere to put
   /// the push token, so they cannot notify this app once OneSignal shuts down.
-  static Version tautulliServerPush = Version(2, 16, 0);
+  static Version tautulliServerPush = Version(2, 18, 0);
 
   /// Whether a server reporting [version] can deliver through the push relay.
   ///
