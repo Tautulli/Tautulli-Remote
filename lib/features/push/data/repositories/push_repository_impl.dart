@@ -34,6 +34,9 @@ class PushRepositoryImpl implements PushRepository {
   Future<bool> requestPermission() => dataSource.requestPermission();
 
   @override
+  Future<PushUsage> get usage => dataSource.usage;
+
+  @override
   Future<String> get token => dataSource.token;
 
   @override

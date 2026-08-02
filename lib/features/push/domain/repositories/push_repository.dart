@@ -10,6 +10,8 @@ abstract class PushRepository {
   Future<PushLimits> get limits;
   Future<void> optIn(bool value);
   Future<bool> requestPermission();
+  Future<PushUsage> get usage;
+
   Future<String> get token;
 
   Future<String> get tokenForRegistration;

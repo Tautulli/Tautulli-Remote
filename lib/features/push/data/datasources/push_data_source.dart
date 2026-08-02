@@ -36,6 +36,24 @@ class PushLimits extends Equatable {
   List<Object?> get props => [enforced, maximum];
 }
 
+/// How much of the fair use allowance this device has consumed.
+///
+/// Separate from [PushLimits]: the cap is a property of the relay and comes from
+/// its health endpoint, while consumption is per device token and has to be
+/// asked for specifically.
+class PushUsage extends Equatable {
+  final int? used;
+  final int? remaining;
+  final DateTime? resetsAt;
+
+  const PushUsage({this.used, this.remaining, this.resetsAt});
+
+  const PushUsage.unknown() : used = null, remaining = null, resetsAt = null;
+
+  @override
+  List<Object?> get props => [used, remaining, resetsAt];
+}
+
 abstract class PushDataSource {
   /// Disables or enables push notifications.
   Future<void> optIn(bool value);
@@ -63,6 +81,9 @@ abstract class PushDataSource {
 
   /// The relay's current fair-use limit.
   Future<PushLimits> get limits;
+
+  /// Provides this device's consumption of the fair use allowance.
+  Future<PushUsage> get usage;
 
   /// Provides the push token used to register this device with a Tautulli server.
   ///
@@ -171,6 +192,36 @@ class PushDataSourceImpl implements PushDataSource {
       );
     } catch (_) {
       return const PushLimits.unknown();
+    }
+  }
+
+  @override
+  Future<PushUsage> get usage async {
+    // Consumption is counted against the push token, so without one there is
+    // nothing to ask about and no token to hand over.
+    final deviceToken = await token;
+    if (deviceToken == pushDisabled) return const PushUsage.unknown();
+
+    try {
+      final response = await client
+          .post(
+            Uri.parse('$pushRelayUrl/v1/quota'),
+            headers: {'Content-Type': 'application/json'},
+            body: json.encode({'token': deviceToken}),
+          )
+          .timeout(_relayTimeout);
+      if (response.statusCode >= 400) return const PushUsage.unknown();
+
+      final rateLimits = json.decode(response.body)['rateLimits'];
+      if (rateLimits is! Map) return const PushUsage.unknown();
+
+      return PushUsage(
+        used: rateLimits['used'] is int ? rateLimits['used'] as int : null,
+        remaining: rateLimits['remaining'] is int ? rateLimits['remaining'] as int : null,
+        resetsAt: DateTime.tryParse('${rateLimits['resetsAt']}'),
+      );
+    } catch (_) {
+      return const PushUsage.unknown();
     }
   }
 

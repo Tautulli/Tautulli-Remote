@@ -33,6 +33,9 @@ class Push {
   /// Requests notification permission from the OS.
   Future<bool> requestPermission() => repository.requestPermission();
 
+  /// Returns this device's consumption of the fair use allowance.
+  Future<PushUsage> get usage => repository.usage;
+
   /// Returns the push token used to address this device.
   ///
   /// Returns `'push-disabled'` if a token is unavailable.

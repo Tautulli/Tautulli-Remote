@@ -532,6 +532,43 @@ class _PushStatus extends StatelessWidget {
                       ),
                     ],
                   ),
+                  _DataDumpRow(
+                    children: [
+                      const _DataDumpRowHeading('Notifications Sent Today'),
+                      const Gap(16),
+                      Expanded(
+                        child: Text(
+                          state.usage.used?.toString() ?? LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
+                  _DataDumpRow(
+                    children: [
+                      const _DataDumpRowHeading('Fair Use Remaining'),
+                      const Gap(16),
+                      Expanded(
+                        child: Text(
+                          state.usage.remaining?.toString() ?? LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
+                  _DataDumpRow(
+                    children: [
+                      const _DataDumpRowHeading('Fair Use Resets'),
+                      const Gap(16),
+                      Expanded(
+                        child: Text(
+                          state.usage.resetsAt?.toLocal().toString() ??
+                              LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               );
             }

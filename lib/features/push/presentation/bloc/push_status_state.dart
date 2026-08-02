@@ -17,6 +17,7 @@ class PushStatusSuccess extends PushStatusState {
   final bool isSubscribed;
   final String token;
   final PushLimits limits;
+  final PushUsage usage;
 
   const PushStatusSuccess({
     required this.hasNotificationPermission,
@@ -24,10 +25,11 @@ class PushStatusSuccess extends PushStatusState {
     required this.isSubscribed,
     required this.token,
     required this.limits,
+    required this.usage,
   });
 
   @override
-  List<Object> get props => [hasNotificationPermission, isOptedIn, isSubscribed, token, limits];
+  List<Object> get props => [hasNotificationPermission, isOptedIn, isSubscribed, token, limits, usage];
 }
 
 class PushStatusFailure extends PushStatusState {}

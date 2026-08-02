@@ -32,6 +32,7 @@ class PushStatusBloc extends Bloc<PushStatusEvent, PushStatusState> {
           isSubscribed: await push.isSubscribed,
           token: await push.token,
           limits: await push.limits,
+          usage: await push.usage,
         ),
       );
     } catch (e) {
