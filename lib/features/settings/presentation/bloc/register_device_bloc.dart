@@ -113,6 +113,18 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
 
         try {
           if (registerResults.serverId != null) {
+            // Recorded here as well as on the launch checks, so a server added
+            // by hand is judged on the version it actually reported instead of
+            // waiting for the next launch to find out — and so the launch check
+            // does not spend a relay lookup re-registering what was just done.
+            final tautulliVersion = registerResults.tautulliVersion;
+            if (tautulliVersion != null) {
+              await settings.setLastRegisteredServerVersion(
+                registerResults.serverId!,
+                tautulliVersion,
+              );
+            }
+
             final existingServer = await settings.getServerByTautulliId(
               registerResults.serverId!,
             );

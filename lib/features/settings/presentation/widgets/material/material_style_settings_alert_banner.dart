@@ -4,11 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../core/helpers/color_palette_helper.dart';
+import '../../../../../core/requirements/tautulli_version.dart';
+import '../../../../../dependency_injection.dart' as di;
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../../push/presentation/bloc/push_health_bloc.dart';
 import '../../../../push/presentation/bloc/push_privacy_bloc.dart';
 import '../../../../push/presentation/bloc/push_sub_bloc.dart';
+import '../../../domain/usecases/settings.dart';
 import '../../bloc/settings_bloc.dart';
 
 class MaterialStyleSettingsAlertBanner extends StatelessWidget {
@@ -98,7 +102,7 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                       onPressed: () async {
                         await launchUrlString(
                           mode: LaunchMode.externalApplication,
-                          'https://github.com/Tautulli/Tautulli-Remote/wiki/Notifications#registering',
+                          'https://github.com/Tautulli/Tautulli-Remote/wiki/Notifications#registering-for-notifications',
                         );
                       },
                       child: const Text(LocaleKeys.learn_more_title).tr(),
@@ -106,9 +110,48 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
                   );
                 }
 
-                // If this device is subscribed
-                // All checks passed do not display banner
-                return const SizedBox(height: 0, width: 0);
+                // If this device is subscribed but a server is too old to
+                // deliver through the relay
+                return BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, settingsState) {
+                    final outdatedServers = _serversWithoutPush(settingsState);
+                    if (outdatedServers.isEmpty) {
+                      // All checks passed do not display banner
+                      return const SizedBox(height: 0, width: 0);
+                    }
+
+                    return _SettingsAlertBannerContent(
+                      // Orange, matching the Cupertino card and the sibling
+                      // "not subscribed" banner: something needs attention, but
+                      // notifications are not broken yet.
+                      backgroundColor: Colors.deepOrange[900],
+                      title: LocaleKeys.notifications_server_outdated_title.tr(),
+                      message: Text(
+                        LocaleKeys.notifications_server_outdated_content.tr(
+                          args: [
+                            outdatedServers.map((server) => server.plexName).join(', '),
+                            MinimumVersion.tautulliServerPush.toString(),
+                          ],
+                        ),
+                        style: const TextStyle(
+                          color: TautulliColorPalette.notWhite,
+                        ),
+                      ),
+                      buttonOne: TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: TautulliColorPalette.notWhite,
+                        ),
+                        onPressed: () async {
+                          await launchUrlString(
+                            mode: LaunchMode.externalApplication,
+                            'https://github.com/Tautulli/Tautulli-Remote/wiki/Notifications#tautulli-server-version',
+                          );
+                        },
+                        child: const Text(LocaleKeys.learn_more_title).tr(),
+                      ),
+                    );
+                  },
+                );
               },
             );
           },
@@ -116,6 +159,29 @@ class MaterialStyleSettingsAlertBanner extends StatelessWidget {
       },
     );
   }
+}
+
+/// Servers whose Tautulli cannot deliver through the relay.
+///
+/// Takes the settings state rather than reading the bloc, so the caller has to
+/// subscribe to it: both settings pages hand this widget over as a `const`
+/// instance, and Flutter short-circuits an identical child, so a banner derived
+/// from a non-subscribing read would freeze at whatever the first build computed
+/// and keep naming a server the user had since deleted.
+///
+/// Recomputed from the version each server reported at its last registration
+/// rather than read from the stored `pushRegistered` flag, so that raising
+/// [MinimumVersion.tautulliServerPush] in an app update takes effect on the next
+/// build instead of waiting for every server to re-register. A server with no
+/// recorded version is left alone, matching [MinimumVersion.supportsPush]'s
+/// decision to fail open rather than warn about something it cannot read.
+List<ServerModel> _serversWithoutPush(SettingsState settingsState) {
+  if (settingsState is! SettingsSuccess) return const [];
+
+  return settingsState.serverList.where((server) {
+    final version = di.sl<Settings>().getLastRegisteredServerVersion(server.tautulliId);
+    return version != null && !MinimumVersion.supportsPush(version);
+  }).toList();
 }
 
 class _SettingsAlertBannerContent extends StatelessWidget {

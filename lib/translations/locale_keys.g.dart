@@ -273,6 +273,8 @@ abstract class  LocaleKeys {
   static const notifications_error_registration_title = 'notifications_error_registration_title';
   static const notifications_error_unexpected_message = 'notifications_error_unexpected_message';
   static const notifications_error_unexpected_title = 'notifications_error_unexpected_title';
+  static const notifications_server_outdated_content = 'notifications_server_outdated_content';
+  static const notifications_server_outdated_title = 'notifications_server_outdated_title';
   static const notifications_unreachable_content = 'notifications_unreachable_content';
   static const notifications_unreachable_title = 'notifications_unreachable_title';
   static const open_server_in_browser_title = 'open_server_in_browser_title';

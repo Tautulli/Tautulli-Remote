@@ -269,6 +269,8 @@
     "notifications_error_registration_title": "Device Has Not Registered For Notifications",
     "notifications_error_unexpected_message": "Please contact Tautulli support for assistance.",
     "notifications_error_unexpected_title": "Unexpected Error With Notification Registration",
+    "notifications_server_outdated_content": "{} cannot deliver notifications through the Tautulli Remote relay. Update Tautulli to v{} or newer to keep receiving them.",
+    "notifications_server_outdated_title": "Server cannot send notifications",
     "notifications_unreachable_content": "In this state notifications will not work and Tautulli Remote will be unable to register this device to receive them.",
     "notifications_unreachable_title": "Unable to reach the push relay",
     "open_server_in_browser_title": "Open {} in browser",
