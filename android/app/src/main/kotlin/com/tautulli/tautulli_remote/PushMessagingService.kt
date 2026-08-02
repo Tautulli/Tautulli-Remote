@@ -65,7 +65,10 @@ class PushMessagingService : FirebaseMessagingService() {
             val version = data.optInt("version", 1)
             val serverId = data.getString("server_id")
             val serverInfo = getServerInfo(applicationContext, serverId)
-            val deviceToken = serverInfo["deviceToken"]
+            // getServerInfo always returns the key, empty when no row matched, so a
+            // null check alone never rejects an unknown server. iOS checks for empty
+            // here too.
+            val deviceToken = serverInfo["deviceToken"]?.takeIf { it.isNotEmpty() }
                 ?: throw JSONException("No registered server matches $serverId")
 
             encrypted = data.getBoolean("encrypted")
