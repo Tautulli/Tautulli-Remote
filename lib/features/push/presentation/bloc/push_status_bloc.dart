@@ -30,7 +30,7 @@ class PushStatusBloc extends Bloc<PushStatusEvent, PushStatusState> {
           hasNotificationPermission: await push.hasNotificationPermission,
           isOptedIn: await push.isOptedIn,
           isSubscribed: await push.isSubscribed,
-          token: await push.token,
+          relayDeviceId: await push.relayDeviceId,
           limits: await push.limits,
           usage: await push.usage,
         ),

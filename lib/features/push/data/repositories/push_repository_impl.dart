@@ -34,6 +34,9 @@ class PushRepositoryImpl implements PushRepository {
   Future<bool> requestPermission() => dataSource.requestPermission();
 
   @override
+  Future<String> get relayDeviceId => dataSource.relayDeviceId;
+
+  @override
   Future<PushUsage> get usage => dataSource.usage;
 
   @override

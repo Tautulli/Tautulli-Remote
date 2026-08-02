@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +13,12 @@ import '../../../settings/domain/usecases/settings.dart';
 /// Sent as the push token when notifications are unavailable, so the Tautulli
 /// server can tell "declined" apart from "not registered yet".
 const String pushDisabled = 'push-disabled';
+
+/// Hex characters of the token digest that identify a device to the relay.
+///
+/// Sixteen so one value serves both correlations: the relay's request logs
+/// print the first eight, its usage dataset records all sixteen.
+const int relayDeviceIdLength = 16;
 
 /// The relay that carries notifications from a Tautulli server to this device.
 const String pushRelayUrl = 'https://relay.tautulliremote.com';
@@ -81,6 +89,9 @@ abstract class PushDataSource {
 
   /// The relay's current fair-use limit.
   Future<PushLimits> get limits;
+
+  /// Provides the identifier the relay knows this device by.
+  Future<String> get relayDeviceId;
 
   /// Provides this device's consumption of the fair use allowance.
   Future<PushUsage> get usage;
@@ -193,6 +204,16 @@ class PushDataSourceImpl implements PushDataSource {
     } catch (_) {
       return const PushLimits.unknown();
     }
+  }
+
+  @override
+  Future<String> get relayDeviceId async {
+    final deviceToken = await token;
+    if (deviceToken == pushDisabled) return pushDisabled;
+
+    // The same digest the relay derives, so a user can quote this instead of
+    // the token, which is a bearer credential and must not leave the device.
+    return sha256.convert(utf8.encode(deviceToken)).toString().substring(0, relayDeviceIdLength);
   }
 
   @override

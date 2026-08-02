@@ -33,6 +33,9 @@ class Push {
   /// Requests notification permission from the OS.
   Future<bool> requestPermission() => repository.requestPermission();
 
+  /// Returns the identifier the relay knows this device by.
+  Future<String> get relayDeviceId => repository.relayDeviceId;
+
   /// Returns this device's consumption of the fair use allowance.
   Future<PushUsage> get usage => repository.usage;
 

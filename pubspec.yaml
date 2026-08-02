@@ -16,6 +16,7 @@ dependencies:
   bloc_concurrency: ^0.3.0
   cached_network_image: ^3.4.1
   connectivity_plus: ^7.1.1
+  crypto: ^3.0.7
   cryptography_flutter_plus: ^3.0.0
   cupertino_icons: ^1.0.9
   dartz: ^0.10.1

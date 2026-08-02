@@ -15,7 +15,7 @@ class PushStatusSuccess extends PushStatusState {
   final bool hasNotificationPermission;
   final bool isOptedIn;
   final bool isSubscribed;
-  final String token;
+  final String relayDeviceId;
   final PushLimits limits;
   final PushUsage usage;
 
@@ -23,13 +23,13 @@ class PushStatusSuccess extends PushStatusState {
     required this.hasNotificationPermission,
     required this.isOptedIn,
     required this.isSubscribed,
-    required this.token,
+    required this.relayDeviceId,
     required this.limits,
     required this.usage,
   });
 
   @override
-  List<Object> get props => [hasNotificationPermission, isOptedIn, isSubscribed, token, limits, usage];
+  List<Object> get props => [hasNotificationPermission, isOptedIn, isSubscribed, relayDeviceId, limits, usage];
 }
 
 class PushStatusFailure extends PushStatusState {}

@@ -473,13 +473,13 @@ class _PushStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const _DataDumpRowHeading('Push Token'),
+                      const _DataDumpRowHeading('Relay Device ID'),
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          state.token,
+                          state.relayDeviceId,
                           textAlign: TextAlign.end,
-                        ).sensitive(),
+                        ),
                       ),
                     ],
                   ),
