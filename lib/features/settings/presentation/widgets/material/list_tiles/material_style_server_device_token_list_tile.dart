@@ -37,7 +37,7 @@ class MaterialStyleServerDeviceTokenListTile extends StatelessWidget {
               onPressed: () async {
                 await launchUrlString(
                   mode: LaunchMode.externalApplication,
-                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device-tokens',
                 );
               },
             ),

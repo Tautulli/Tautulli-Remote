@@ -84,7 +84,7 @@ class _MaterialStyleLibraryDetailsMediaTabState extends State<MaterialStyleLibra
                     onPressed: () async {
                       await launchUrlString(
                         mode: LaunchMode.externalApplication,
-                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#library_refresh',
+                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#refreshing-a-library',
                       );
                     },
                   ),

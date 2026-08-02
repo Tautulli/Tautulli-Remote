@@ -169,7 +169,7 @@ class _MaterialStyleActivityDetailsViewState extends State<MaterialStyleActivity
                     label: LocaleKeys.learn_more_title.tr(),
                     onPressed: () async {
                       await launchUrlString(
-                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination_caveats',
+                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination-caveats',
                         mode: LaunchMode.externalApplication,
                       );
                     },
