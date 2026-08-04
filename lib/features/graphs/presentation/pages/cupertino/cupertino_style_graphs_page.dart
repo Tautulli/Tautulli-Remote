@@ -371,6 +371,8 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
               ),
             );
 
+            if (!mounted) return;
+
             if (result == 'user') {
               int? newUserId = await showCupertinoModalPopup(
                 context: context,

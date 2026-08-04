@@ -417,6 +417,8 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
               ),
             );
 
+            if (!mounted) return;
+
             if (result == 'user') {
               int? newUserId = await showCupertinoModalPopup(
                 context: context,

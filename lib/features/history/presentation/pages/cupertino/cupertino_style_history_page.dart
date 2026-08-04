@@ -455,6 +455,8 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
               ),
             );
 
+            if (!mounted) return;
+
             if (result == 'user') {
               int? newUserId = await showCupertinoModalPopup(
                 context: context,

@@ -335,6 +335,11 @@ class _CupertinoStyleActivityDetailsViewState extends State<CupertinoStyleActivi
                 ),
               );
 
+              // The page pops itself when the session leaves the activity list, so
+              // this State can be unmounted while the sheet is dismissing. `context`
+              // here is State.context, which throws once unmounted.
+              if (!mounted) return;
+
               if (confirm == true) {
                 context.read<TerminateStreamBloc>().add(
                   TerminateStreamStarted(
