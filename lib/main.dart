@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:system_theme/system_theme.dart';
@@ -78,6 +79,12 @@ void main() async {
       rethrow;
     }
   }
+
+  // Only real release builds report. Debug and profile runs from a dev machine
+  // otherwise land in the production dashboard indistinguishable from user crashes,
+  // including debug-only assert failures that cannot occur in a release build.
+  // Set unconditionally on every launch so the persisted native flag self-corrects.
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
 
   // Route framework errors to Crashlytics. Network I/O failures (e.g. image-load
   // errors that cached_network_image reports through FlutterError) are environmental,
