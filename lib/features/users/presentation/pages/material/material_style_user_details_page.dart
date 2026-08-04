@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/palette_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/material/material_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/bloc_status.dart';
@@ -85,7 +84,7 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
   void initState() {
     super.initState();
     hasNetworkImage = _hasNetworkImage(widget.user);
-    getColorFuture = _getColor(widget.user.userThumb);
+    getColorFuture = getDominantColor(widget.user.userThumb);
 
     _userHistoryBloc = context.read<UserHistoryBloc>();
 
@@ -134,7 +133,7 @@ class _MaterialStyleUserDetailsViewState extends State<MaterialStyleUserDetailsV
                 : BlocBuilder<UserIndividualBloc, UserIndividualState>(
                     builder: (context, state) {
                       return FutureBuilder(
-                        future: hasNetworkImage && !widget.fetchUser ? getColorFuture : _getColor(state.user.userThumb),
+                        future: hasNetworkImage && !widget.fetchUser ? getColorFuture : getDominantColor(state.user.userThumb),
                         builder: (context, snapshot) {
                           Color? color;
 
@@ -227,15 +226,4 @@ bool _hasNetworkImage(UserModel user) {
     return user.userThumb!.startsWith('http');
   }
   return false;
-}
-
-Future<Color?> _getColor(String? url) async {
-  if (url == null || !url.startsWith('http')) return null;
-
-  final palette = await PaletteGeneratorMaster.fromImageProvider(
-    CachedNetworkImageProvider(url),
-    maximumColorCount: 1,
-  );
-
-  return palette.dominantColor?.color;
 }

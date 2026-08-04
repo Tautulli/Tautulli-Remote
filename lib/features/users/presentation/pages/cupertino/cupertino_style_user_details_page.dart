@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:palette_generator_master/palette_generator_master.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/helpers/palette_helper.dart';
 import '../../../../../core/helpers/time_helper.dart';
 import '../../../../../core/pages/cupertino/cupertino_style_tabbed_icon_details_page.dart';
 import '../../../../../core/types/bloc_status.dart';
@@ -85,17 +84,14 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
   late Future<Color?> getColorFuture;
   late bool hasNetworkImage;
   late UserHistoryBloc _userHistoryBloc;
-  Color? _backgroundColor;
 
   @override
   void initState() {
     super.initState();
     hasNetworkImage = _hasNetworkImage(widget.user);
-    getColorFuture = _getColor(widget.user.userThumb);
+    getColorFuture = getDominantColor(widget.user.userThumb);
 
     _userHistoryBloc = context.read<UserHistoryBloc>();
-
-    _resolveBackgroundColor();
 
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
@@ -132,17 +128,15 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
           sensitive: settingsState.appSettings.maskSensitiveInfo,
           background: widget.backgroundColor != null
               ? Container(
-                  color: _backgroundColor != null
-                      ? Color.alphaBlend(
-                          CupertinoColors.black.withValues(alpha: 0.6),
-                          _backgroundColor!,
-                        )
-                      : null,
+                  color: Color.alphaBlend(
+                    CupertinoColors.black.withValues(alpha: 0.6),
+                    widget.backgroundColor!,
+                  ),
                 )
               : BlocBuilder<UserIndividualBloc, UserIndividualState>(
                   builder: (context, state) {
                     return FutureBuilder<Color?>(
-                      future: hasNetworkImage && !widget.fetchUser ? getColorFuture : _getColor(state.user.userThumb),
+                      future: hasNetworkImage && !widget.fetchUser ? getColorFuture : getDominantColor(state.user.userThumb),
                       builder: (context, snapshot) {
                         final color = snapshot.connectionState == ConnectionState.done ? snapshot.data : null;
                         return Container(
@@ -217,26 +211,6 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
       },
     );
   }
-
-  Future<void> _resolveBackgroundColor() async {
-    if (widget.backgroundColor != null) {
-      if (!mounted) return;
-      setState(() {
-        _backgroundColor = widget.backgroundColor;
-      });
-
-      return;
-    }
-
-    if (hasNetworkImage && !widget.fetchUser) {
-      final color = await _getColor(widget.user.userThumb);
-
-      if (!mounted) return;
-      setState(() {
-        _backgroundColor = color;
-      });
-    }
-  }
 }
 
 bool _hasNetworkImage(UserModel user) {
@@ -244,15 +218,4 @@ bool _hasNetworkImage(UserModel user) {
     return user.userThumb!.startsWith('http');
   }
   return false;
-}
-
-Future<Color?> _getColor(String? url) async {
-  if (url == null || !url.startsWith('http')) return null;
-
-  final palette = await PaletteGeneratorMaster.fromImageProvider(
-    CachedNetworkImageProvider(url),
-    maximumColorCount: 1,
-  );
-
-  return palette.dominantColor?.color;
 }

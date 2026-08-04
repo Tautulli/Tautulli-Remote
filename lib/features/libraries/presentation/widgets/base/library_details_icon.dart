@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
-import 'package:palette_generator_master/palette_generator_master.dart';
 
+import '../../../../../core/helpers/palette_helper.dart';
 import '../../../data/models/library_table_model.dart';
 
 class LibraryDetailsIcon extends StatefulWidget {
@@ -26,7 +25,7 @@ class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
   @override
   void initState() {
     super.initState();
-    getColorFuture = _getColor(widget.libraryTableModel.backgroundUri.toString());
+    getColorFuture = getDominantColor(widget.libraryTableModel.backgroundUri.toString());
   }
 
   @override
@@ -70,15 +69,4 @@ class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
       ),
     );
   }
-}
-
-Future<Color?> _getColor(String? url) async {
-  if (url == null || !url.startsWith('http')) return null;
-
-  final palette = await PaletteGeneratorMaster.fromImageProvider(
-    CachedNetworkImageProvider(url),
-    maximumColorCount: 1,
-  );
-
-  return palette.dominantColor?.color;
 }
