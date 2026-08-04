@@ -12,6 +12,7 @@ import '../../translations/locale_keys.g.dart';
 import '../error/exception.dart';
 import '../error/failure.dart';
 import '../requirements/tautulli_version.dart';
+import 'redaction_helper.dart';
 
 const String timeoutMessage = 'Connection to server timed out.';
 
@@ -92,10 +93,13 @@ class FailureHelper {
       // case TlsException _:
       //   return TlsFailure();
       default:
+        // Redacted because an unmapped exception often embeds the request URI,
+        // which carries the user's API key into Crashlytics and the exportable log.
+        final safeException = redactApiKey(exception.toString());
         di.sl<Logging>().error(
-          'FailureMapper :: Unable to map [$exception] to a specific failure',
+          'FailureMapper :: Unable to map [$safeException] to a specific failure',
         );
-        FirebaseCrashlytics.instance.recordError(exception, StackTrace.current, fatal: false);
+        FirebaseCrashlytics.instance.recordError(safeException, StackTrace.current, fatal: false);
         return GenericFailure();
     }
   }

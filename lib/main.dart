@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import 'core/global_keys/global_keys.dart';
+import 'core/helpers/redaction_helper.dart';
 import 'core/helpers/translation_helper.dart';
 import 'core/package_information/package_information.dart';
 import 'dependency_injection.dart' as di;
@@ -51,10 +52,21 @@ class MyHttpOverrides extends HttpOverrides {
 /// cached_network_image reports via FlutterError) record it non-fatal so it
 /// stays visible without inflating the crash-free rate.
 bool _isNetworkError(Object error) =>
-    error is SocketException ||
-    error is HandshakeException ||
-    error is HttpException ||
-    error is http.ClientException;
+    error is SocketException || error is HandshakeException || error is HttpException || error is http.ClientException;
+
+/// Strips API keys from both the exception text and the diagnostic information
+/// Flutter attaches, image-load failures carry the request URI in both.
+FlutterErrorDetails _redactDetails(FlutterErrorDetails details) {
+  final collector = details.informationCollector;
+  return details.copyWith(
+    exception: redactApiKey(details.exceptionAsString()),
+    informationCollector: collector == null
+        ? null
+        : () => collector().map(
+            (node) => DiagnosticsNode.message(redactApiKey(node.toString())),
+          ),
+  );
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,14 +104,20 @@ void main() async {
   // inflating the crash rate; everything else stays fatal.
   FlutterError.onError = (details) {
     FirebaseCrashlytics.instance.recordFlutterError(
-      details,
+      _redactDetails(details),
+      // Classified on the ORIGINAL exception: the redacted copy is a String and
+      // would no longer match any of the network types.
       fatal: !_isNetworkError(details.exception),
     );
   };
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework
   // to Crashlytics, with the same network-error classification.
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: !_isNetworkError(error));
+    FirebaseCrashlytics.instance.recordError(
+      redactApiKey(error.toString()),
+      stack,
+      fatal: !_isNetworkError(error),
+    );
     return true;
   };
 
