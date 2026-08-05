@@ -5,7 +5,7 @@ abstract class PushRepository {
   Future<bool> get hasConsented;
   Future<bool> get hasNotificationPermission;
   Future<bool> get isOptedIn;
-  Future<bool> get isReachable;
+  Future<PushHealth> get isReachable;
   Future<bool> get isSubscribed;
   Future<PushLimits> get limits;
   Future<void> optIn(bool value);

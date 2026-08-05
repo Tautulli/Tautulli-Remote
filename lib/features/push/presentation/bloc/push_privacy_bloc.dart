@@ -77,7 +77,7 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
         'Notifications :: Consent granted but no push token was issued, this device cannot receive notifications yet',
       );
     } else {
-      logging.info('Notifications :: Connected to the relay with push token ${_maskToken(token)}');
+      logging.info('Notifications :: Connected to the relay as device ${await push.relayDeviceId}');
     }
 
     emit(
@@ -135,6 +135,4 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
 
   /// Push tokens are bearer credentials, so only enough is logged to correlate
   /// a device with relay-side records.
-  String _maskToken(String token) =>
-      token.length <= 12 ? '...' : '...${token.substring(token.length - 8)}';
 }

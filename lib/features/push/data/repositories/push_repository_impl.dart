@@ -19,7 +19,7 @@ class PushRepositoryImpl implements PushRepository {
   Future<bool> get isOptedIn => dataSource.isOptedIn;
 
   @override
-  Future<bool> get isReachable => dataSource.isReachable;
+  Future<PushHealth> get isReachable => dataSource.isReachable;
 
   @override
   Future<bool> get isSubscribed => dataSource.isSubscribed;

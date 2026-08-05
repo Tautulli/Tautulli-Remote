@@ -62,6 +62,12 @@ class PushUsage extends Equatable {
   List<Object?> get props => [used, remaining, resetsAt];
 }
 
+/// Why a relay health check came out the way it did.
+///
+/// The common failure is the device's own connectivity, which should not be
+/// reported as though the relay were down.
+enum PushHealth { reachable, offline, unreachable }
+
 abstract class PushDataSource {
   /// Disables or enables push notifications.
   Future<void> optIn(bool value);
@@ -79,7 +85,7 @@ abstract class PushDataSource {
   Future<bool> get isOptedIn;
 
   /// Checks if the push relay is reachable.
-  Future<bool> get isReachable;
+  Future<PushHealth> get isReachable;
 
   /// Indicates if this device can currently receive notifications.
   Future<bool> get isSubscribed;
@@ -156,16 +162,15 @@ class PushDataSourceImpl implements PushDataSource {
   }
 
   @override
-  Future<bool> get isReachable async {
-    if (await networkInfo.isConnected) {
-      try {
-        final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
-        return response.statusCode < 400;
-      } catch (_) {
-        return false;
-      }
+  Future<PushHealth> get isReachable async {
+    if (!await networkInfo.isConnected) return PushHealth.offline;
+
+    try {
+      final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
+      return response.statusCode < 400 ? PushHealth.reachable : PushHealth.unreachable;
+    } catch (_) {
+      return PushHealth.unreachable;
     }
-    return false;
   }
 
   @override

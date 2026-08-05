@@ -332,14 +332,14 @@ class TautulliRemoteState extends State<TautulliRemote> {
       if (lastVersion == currentVersion) continue;
 
       di.sl<Logging>().info(
-        'Settings :: ${server.plexName} reports $currentVersion, last registered against ${lastVersion ?? 'nothing'}, updating registration',
+        'Notifications :: ${server.plexName} reports $currentVersion, last registered against ${lastVersion ?? 'nothing'}, updating registration',
       );
 
       final failureOrRegisterDevice = await updateServerRegistration(server);
 
       if (failureOrRegisterDevice.isLeft()) {
         di.sl<Logging>().error(
-          'Settings :: Failed to update registration for ${server.plexName} after a server version change',
+          'Notifications :: Failed to update registration for ${server.plexName} after a server version change',
         );
         // Deliberately not recorded, so the next launch tries again.
         continue;
@@ -352,7 +352,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       );
 
       di.sl<Logging>().info(
-        'Settings :: Updated registration for ${server.plexName} after a server version change',
+        'Notifications :: Updated registration for ${server.plexName} after a server version change',
       );
     }
   }
