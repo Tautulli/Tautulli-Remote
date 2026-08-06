@@ -76,14 +76,15 @@ class PushMessagingService : FirebaseMessagingService() {
         try {
             val version = data.optInt("version", 1)
             val serverId = data.getString("server_id")
+            // Read before the lookup below, which can reject the notification: the
+            // diagnostic entry should say whether the payload was encrypted either way.
+            encrypted = data.getBoolean("encrypted")
             val serverInfo = getServerInfo(applicationContext, serverId)
             // getServerInfo always returns the key, empty when no row matched, so a
             // null check alone never rejects an unknown server. iOS checks for empty
             // here too.
             val deviceToken = serverInfo["deviceToken"]?.takeIf { it.isNotEmpty() }
                 ?: throw UnknownServerException(serverId)
-
-            encrypted = data.getBoolean("encrypted")
 
             val message: JSONObject = if (encrypted) {
                 encryptionVersion = version

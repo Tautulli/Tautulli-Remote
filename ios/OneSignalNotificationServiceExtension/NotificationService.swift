@@ -110,12 +110,14 @@ class NotificationService: UNNotificationServiceExtension {
         defer { appendDiagnosticLog(entry: diagEntry) }
 
         guard let data = resolvePayload(from: userInfo) else {
+            diagEntry.decryptionError = "Notification payload is missing"
             print("Tautulli Notification Info: Missing or malformed payload")
             return
         }
 
         guard let encrypted = data["encrypted"] as? Bool,
               let serverId = data["server_id"] as? String else {
+            diagEntry.decryptionError = "Notification payload is missing required fields"
             print("Tautulli Notification Info: Missing or malformed payload fields")
             return
         }
@@ -130,6 +132,7 @@ class NotificationService: UNNotificationServiceExtension {
         let serverInfoDict = getServerInfo(serverId: serverId)
 
         guard let deviceToken = serverInfoDict["deviceToken"], !deviceToken.isEmpty else {
+            diagEntry.decryptionError = "No registered server matches \(serverId)"
             print("Tautulli Notification Info: Device token not found for server \(serverId)")
             return
         }
@@ -155,6 +158,7 @@ class NotificationService: UNNotificationServiceExtension {
             jsonMessage = decrypted
         } else {
             guard let plainText = data["plain_text"] as? [String: Any] else {
+                diagEntry.decryptionError = "Missing plain_text field"
                 print("Tautulli Notification Info: Missing plain_text field")
                 return
             }
@@ -165,6 +169,7 @@ class NotificationService: UNNotificationServiceExtension {
 
         guard let body = jsonMessage["body"] as? String,
               let subject = jsonMessage["subject"] as? String else {
+            diagEntry.decryptionError = "Missing body or subject in the notification"
             print("Tautulli Notification Info: Missing body or subject in decrypted payload")
             return
         }

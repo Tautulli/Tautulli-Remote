@@ -21,6 +21,13 @@ class NotificationLogsTableRow extends StatelessWidget {
     if (entry.decryptionSuccess == false) {
       return 'Decrypt failed: ${entry.decryptionError ?? 'unknown'}';
     }
+    // Not every failure reaches the decrypt step: an unknown server or a missing
+    // payload records an error with no decryption verdict at all, and reporting
+    // that as OK is worst on the one screen opened to find out why nothing came.
+    final error = entry.decryptionError;
+    if (error != null && error.isNotEmpty) {
+      return 'Failed: $error';
+    }
     if (entry.imageRequested && entry.imageSuccess == false) {
       return 'Image failed: ${entry.imageError ?? 'unknown'}';
     }
