@@ -92,6 +92,8 @@ class DBProvider {
     );
   }
 
+  // `onesignal_registered` is where ServerModel.pushRegistered is stored; renaming
+  // it would orphan every existing row's value, so the migrations below keep it too.
   void _createTableServerV8(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
