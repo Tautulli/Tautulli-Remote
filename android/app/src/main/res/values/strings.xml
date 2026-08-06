@@ -3,4 +3,7 @@
     <string name="app_name">Tautulli</string>
     <string name="channel_name">Server notifications</string>
     <string name="channel_description">Notifications sourced from a Tautulli server</string>
+    <!-- Shown when a notification arrives but cannot be read. Matches the text the
+         relay puts on the iOS alert, so a failure looks the same on both platforms. -->
+    <string name="notification_fallback_title">Tautulli Notification</string>
 </resources>

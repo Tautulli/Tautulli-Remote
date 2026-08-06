@@ -34,8 +34,19 @@ import java.util.concurrent.TimeUnit
  *
  * Declaring this service takes over from the firebase_messaging plugin's own,
  * which is what allows the payload to be decrypted before anything is shown.
+ *
+ * A notification that cannot be read still reaches the user, as a title with no
+ * content: iOS shows the relay's own alert when its extension fails, and dropping
+ * it here silently would lose a real notification with nothing to show why. The
+ * exception is a notification naming a server this device is not registered to,
+ * which is dropped on purpose, since acting on it would let anyone holding the
+ * push token reach the lock screen.
  */
 class PushMessagingService : FirebaseMessagingService() {
+
+    /** A notification addressed to a server this device does not know. */
+    private class UnknownServerException(serverId: String) :
+        Exception("No registered server matches $serverId")
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val timestamp = utcTimestamp()
@@ -54,6 +65,7 @@ class PushMessagingService : FirebaseMessagingService() {
                 imageSuccess = null,
                 imageError = null,
             )
+            notifyUnreadable()
             return
         }
 
@@ -69,7 +81,7 @@ class PushMessagingService : FirebaseMessagingService() {
             // null check alone never rejects an unknown server. iOS checks for empty
             // here too.
             val deviceToken = serverInfo["deviceToken"]?.takeIf { it.isNotEmpty() }
-                ?: throw JSONException("No registered server matches $serverId")
+                ?: throw UnknownServerException(serverId)
 
             encrypted = data.getBoolean("encrypted")
 
@@ -128,6 +140,9 @@ class PushMessagingService : FirebaseMessagingService() {
                 e.message ?: "Decryption or parsing failed",
                 imageRequested = false, imageSuccess = null, imageError = null,
             )
+            if (e !is UnknownServerException) {
+                notifyUnreadable()
+            }
         }
     }
 
@@ -161,6 +176,23 @@ class PushMessagingService : FirebaseMessagingService() {
         } catch (e: JSONException) {
             null
         }
+    }
+
+    /**
+     * Posts a notification carrying no payload text. Anyone holding the push token
+     * can cause this, so nothing from the message is echoed into it.
+     */
+    private fun notifyUnreadable() {
+        notify(
+            nextNotificationId(),
+            applicationContext.getString(R.string.notification_fallback_title),
+            "",
+            NotificationCompat.PRIORITY_DEFAULT,
+            "",
+            "",
+            null,
+            false,
+        )
     }
 
     private fun notify(
