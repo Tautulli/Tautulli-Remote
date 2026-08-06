@@ -131,12 +131,20 @@ class PushDataSourceImpl implements PushDataSource {
   Future<void> optIn(bool value) async {
     if (value) {
       await messaging.setAutoInitEnabled(true);
-      await messaging.getToken();
+      try {
+        // Only to mint the token eagerly; the value is read back by [token] when
+        // it is wanted. Bounded and swallowed because a stalled or failed mint
+        // here is transient, and letting it throw would turn it into an opt-out.
+        await messaging.getToken().timeout(_relayTimeout);
+      } catch (_) {}
     } else {
       // Deleting the token is the only way to stop delivery outright; the app
       // re-registers with the disabled sentinel afterwards.
       await messaging.setAutoInitEnabled(false);
-      await messaging.deleteToken();
+      // Bounded like the mint, but deliberately not swallowed: the caller has to
+      // learn that the token outlived the attempt so it can put consent back,
+      // rather than record a revocation that did not happen.
+      await messaging.deleteToken().timeout(_relayTimeout);
     }
   }
 

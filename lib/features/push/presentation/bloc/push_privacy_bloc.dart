@@ -64,6 +64,8 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
       await push.optIn(true);
     } catch (e) {
       logging.error('Notifications :: Failed to grant consent [$e]');
+      // Consent is all there is to undo: optIn only throws from setAutoInitEnabled,
+      // so reaching here means auto init was never switched on.
       await push.grantConsent(false);
       emit(PushPrivacyFailure());
       return;
@@ -124,10 +126,16 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
       await push.optIn(false);
     } catch (e) {
       logging.error('Notifications :: Failed to revoke consent [$e]');
-      // The token outlived the attempt, so consent goes back to what it was.
-      // Reporting a revocation here would leave the stored flag saying declined
-      // while every registered server still holds a working token.
-      await push.grantConsent(true);
+      // The token outlived the attempt, so put back both things the revoke had
+      // already changed. Leaving either one cleared reports a revocation that
+      // did not happen while every registered server still holds a live token:
+      // consent alone would say declined, auto init alone would say unsubscribed.
+      try {
+        await push.grantConsent(true);
+        await push.optIn(true);
+      } catch (restoreError) {
+        logging.error('Notifications :: Failed to restore consent after a failed revoke [$restoreError]');
+      }
       emit(PushPrivacySuccess());
       return;
     }
