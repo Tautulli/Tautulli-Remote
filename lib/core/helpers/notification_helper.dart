@@ -53,10 +53,14 @@ class NotificationHelper {
     return null;
   }
 
-  // Reads the action cached by the iOS NotificationServiceExtension.
-  // Returns null on Android, if the file is absent, or if server_id doesn't match.
-  static Future<String?> readCachedAction(String? serverId) async {
-    if (!Platform.isIOS || serverId == null) return null;
+  // Reads the action the iOS extension recorded for the tapped notification.
+  // Returns null on Android, when no entry matches, or when the entry names a
+  // different server; the caller then decrypts instead, which is correct but pays
+  // for the key derivation this cache exists to skip.
+  //
+  // [messageId] is what tells one notification's entry from another's.
+  static Future<String?> readCachedAction(String? serverId, String? messageId) async {
+    if (!Platform.isIOS || serverId == null || messageId == null) return null;
 
     try {
       final dir = await FlutterAppGroupDirectory.getAppGroupDirectory(_appGroupId);
@@ -65,11 +69,20 @@ class NotificationHelper {
       final file = File('${dir.path}/$_cacheFilename');
       if (!file.existsSync()) return null;
 
-      final json = jsonDecode(await file.readAsString()) as Map<String, dynamic>;
-      await file.delete();
+      final decoded = jsonDecode(await file.readAsString());
+      if (decoded is! List) return null;
 
-      if (json['server_id'] == serverId) {
-        return json['action'] as String?;
+      final entries = decoded.whereType<Map>().toList();
+      final index = entries.indexWhere((entry) => entry['message_id'] == messageId);
+      if (index < 0) return null;
+
+      final entry = entries.removeAt(index);
+      // Only this notification's entry is dropped. The rest belong to
+      // notifications still sitting in the shade, waiting to be tapped.
+      await file.writeAsString(jsonEncode(entries));
+
+      if (entry['server_id'] == serverId) {
+        return entry['action'] as String?;
       }
     } catch (e) {
       di.sl<Logging>().warning('NotificationHelper :: Failed to read cached notification action [$e]');

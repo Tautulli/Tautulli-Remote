@@ -84,6 +84,38 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
 
+    /// Records where a notification should navigate, sparing a tap the key
+    /// derivation needed to read the action back out of the payload.
+    ///
+    /// Keyed by the FCM message id, which the app reads back as
+    /// `RemoteMessage.messageId`; one shared entry used to be overwritten by
+    /// whichever notification arrived last. Capped because an entry is only
+    /// claimed when its notification is tapped.
+    private func cacheAction(_ action: String, serverId: String, messageId: String) {
+        guard let containerURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: "group.com.tautulli.tautulliRemote.onesignal"
+        ) else { return }
+
+        let fileURL = containerURL.appendingPathComponent("notification_action.json")
+
+        var entries: [[String: String]] = []
+        if let data = try? Data(contentsOf: fileURL),
+           let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: String]] {
+            entries = decoded
+        }
+
+        entries.removeAll { $0["message_id"] == messageId }
+        entries.insert(["message_id": messageId, "server_id": serverId, "action": action], at: 0)
+
+        if entries.count > 20 {
+            entries = Array(entries.prefix(20))
+        }
+
+        if let data = try? JSONSerialization.data(withJSONObject: entries) {
+            try? data.write(to: fileURL)
+        }
+    }
+
     /// Resolves the Tautulli notification payload out of the APNs `userInfo`.
     ///
     /// The relay sends the notification data as a JSON string under the top level `payload`
@@ -178,13 +210,8 @@ class NotificationService: UNNotificationServiceExtension {
         content.title = subject
 
         if let action = jsonMessage["action"] as? String,
-           let containerURL = FileManager.default.containerURL(
-               forSecurityApplicationGroupIdentifier: "group.com.tautulli.tautulliRemote.onesignal"
-           ) {
-            let cache: [String: String] = ["action": action, "server_id": serverId]
-            if let data = try? JSONEncoder().encode(cache) {
-                try? data.write(to: containerURL.appendingPathComponent("notification_action.json"))
-            }
+           let messageId = userInfo["gcm.message_id"] as? String {
+            cacheAction(action, serverId: serverId, messageId: messageId)
         }
 
         guard let notificationType = jsonMessage["notification_type"] as? Int, notificationType != 0 else {

@@ -143,7 +143,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
     // The iOS extension decrypts on arrival and caches the action, which spares
     // repeating the key derivation here just to decide where to navigate.
-    String? action = await NotificationHelper.readCachedAction(payload?['server_id']);
+    String? action = await NotificationHelper.readCachedAction(payload?['server_id'], message.messageId);
 
     action ??= (await NotificationHelper.extractAdditionalData(payload))?['action'];
 
