@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/datasources/push_data_source.dart';
+import '../../domain/entities/push_status.dart';
 import '../../domain/usecases/push.dart';
 
 part 'push_privacy_event.dart';

@@ -2,17 +2,13 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
-import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../../settings/domain/usecases/settings.dart';
-
-/// Sent as the push token when notifications are unavailable, so the Tautulli
-/// server can tell "declined" apart from "not registered yet".
-const String pushDisabled = 'push-disabled';
+import '../../domain/entities/push_status.dart';
 
 /// Hex characters of the token digest that identify a device to the relay.
 ///
@@ -26,47 +22,6 @@ const String pushRelayUrl = 'https://relay.tautulliremote.com';
 /// Relay lookups are only ever used to render status, so they must fail fast:
 /// without a bound the diagnostics page waits forever on an unreachable relay.
 const Duration _relayTimeout = Duration(seconds: 10);
-
-/// The relay's fair-use limit, as reported by its health endpoint.
-///
-/// [maximum] is `null` while the relay is still measuring real-world usage to
-/// decide what the limit should be. That is not the same as "no limit ever": a
-/// limit is expected, so anything shown to the user must say so.
-class PushLimits extends Equatable {
-  final bool enforced;
-  final int? maximum;
-
-  const PushLimits({required this.enforced, this.maximum});
-
-  const PushLimits.unknown() : enforced = false, maximum = null;
-
-  @override
-  List<Object?> get props => [enforced, maximum];
-}
-
-/// How much of the fair use allowance this device has consumed.
-///
-/// Separate from [PushLimits]: the cap is a property of the relay and comes from
-/// its health endpoint, while consumption is per device token and has to be
-/// asked for specifically.
-class PushUsage extends Equatable {
-  final int? used;
-  final int? remaining;
-  final DateTime? resetsAt;
-
-  const PushUsage({this.used, this.remaining, this.resetsAt});
-
-  const PushUsage.unknown() : used = null, remaining = null, resetsAt = null;
-
-  @override
-  List<Object?> get props => [used, remaining, resetsAt];
-}
-
-/// Why a relay health check came out the way it did.
-///
-/// The common failure is the device's own connectivity, which should not be
-/// reported as though the relay were down.
-enum PushHealth { reachable, offline, unreachable }
 
 abstract class PushDataSource {
   /// Disables or enables push notifications.
@@ -139,8 +94,10 @@ class PushDataSourceImpl implements PushDataSource {
         await messaging.getToken().timeout(_relayTimeout);
       } catch (_) {}
     } else {
-      // Deleting the token is the only way to stop delivery outright; the app
-      // re-registers with the disabled sentinel afterwards.
+      // Deleting the token is the only way to stop delivery outright. Nothing
+      // re-registers afterwards: every server keeps the token it was given, and
+      // the relay answers 410 for it on the next send, which is what clears the
+      // device on the Tautulli side.
       await messaging.setAutoInitEnabled(false);
       // Bounded like the mint, but deliberately not swallowed: the caller has to
       // learn that the token outlived the attempt so it can put consent back,

@@ -23,7 +23,7 @@ import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
-import 'features/push/data/datasources/push_data_source.dart';
+import 'features/push/domain/entities/push_status.dart';
 import 'features/push/domain/usecases/push.dart';
 import 'features/push/presentation/bloc/push_health_bloc.dart';
 import 'features/push/presentation/bloc/push_privacy_bloc.dart';

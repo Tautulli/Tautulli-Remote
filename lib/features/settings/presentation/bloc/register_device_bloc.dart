@@ -7,7 +7,7 @@ import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/requirements/tautulli_version.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../push/data/datasources/push_data_source.dart';
+import '../../../push/domain/entities/push_status.dart';
 import '../../../push/domain/usecases/push.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';

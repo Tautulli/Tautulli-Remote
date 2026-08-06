@@ -1,4 +1,4 @@
-import '../../data/datasources/push_data_source.dart';
+import '../entities/push_status.dart';
 
 abstract class PushRepository {
   Future<void> grantConsent(bool value);

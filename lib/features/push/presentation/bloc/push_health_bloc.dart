@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../../data/datasources/push_data_source.dart';
+import '../../domain/entities/push_status.dart';
 import '../../domain/usecases/push.dart';
 
 part 'push_health_event.dart';
