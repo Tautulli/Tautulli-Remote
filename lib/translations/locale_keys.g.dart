@@ -132,6 +132,7 @@ abstract class  LocaleKeys {
   static const error_message_certificate_verification = 'error_message_certificate_verification';
   static const error_message_connection = 'error_message_connection';
   static const error_message_database_init = 'error_message_database_init';
+  static const error_message_device_id_unavailable = 'error_message_device_id_unavailable';
   static const error_message_generic = 'error_message_generic';
   static const error_message_invalid_api_key = 'error_message_invalid_api_key';
   static const error_message_invalid_header = 'error_message_invalid_header';
@@ -148,6 +149,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_certificate_verification = 'error_suggestion_certificate_verification';
   static const error_suggestion_check_connection_address = 'error_suggestion_check_connection_address';
   static const error_suggestion_check_server_settings = 'error_suggestion_check_server_settings';
+  static const error_suggestion_device_id_unavailable = 'error_suggestion_device_id_unavailable';
   static const error_suggestion_generic = 'error_suggestion_generic';
   static const error_suggestion_invalid_api_key = 'error_suggestion_invalid_api_key';
   static const error_suggestion_invalid_header = 'error_suggestion_invalid_header';

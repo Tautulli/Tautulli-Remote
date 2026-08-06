@@ -58,6 +58,8 @@ class FailureHelper {
       //   return ConnectionDetailsFailure();
       case DatabaseInitException _:
         return DatabaseInitFailure();
+      case DeviceIdUnavailableException _:
+        return DeviceIdUnavailableFailure();
       case InvalidApiKeyException _:
         return InvalidApiKeyFailure();
       case InvalidHeaderException _:
@@ -120,6 +122,8 @@ class FailureHelper {
         return LocaleKeys.error_message_connection.tr();
       case DatabaseInitFailure _:
         return LocaleKeys.error_message_database_init.tr();
+      case DeviceIdUnavailableFailure _:
+        return LocaleKeys.error_message_device_id_unavailable.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_message_invalid_api_key.tr();
       case InvalidHeaderFailure _:
@@ -168,6 +172,8 @@ class FailureHelper {
         return '';
       case DatabaseInitFailure _:
         return LocaleKeys.error_suggestion_generic.tr();
+      case DeviceIdUnavailableFailure _:
+        return LocaleKeys.error_suggestion_device_id_unavailable.tr();
       case InvalidApiKeyFailure _:
         return LocaleKeys.error_suggestion_invalid_api_key.tr();
       case InvalidHeaderFailure _:

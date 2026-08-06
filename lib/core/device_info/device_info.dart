@@ -42,10 +42,24 @@ class DeviceInfoImpl implements DeviceInfo {
   Future<String?> get uniqueId async {
     if (Platform.isAndroid) {
       return await androidId.getId();
-    } else {
-      final iosInfo = await deviceInfoPlugin.iosInfo;
-      return iosInfo.identifierForVendor;
     }
+
+    // identifierForVendor has no value between a restart and the first unlock,
+    // and Apple's remedy is to ask again rather than stand in anything else: a
+    // Tautulli server keys its devices on whatever it was told, so a placeholder
+    // would take over the row belonging to another device that sent the same one.
+    // Each retry reads through its own plugin, because DeviceInfoPlugin caches
+    // iosInfo and the injected one is a singleton: asking it again would only
+    // hand back the empty answer it already stored.
+    for (var attempt = 0; attempt < 3; attempt++) {
+      final plugin = attempt == 0 ? deviceInfoPlugin : DeviceInfoPlugin();
+      final identifier = (await plugin.iosInfo).identifierForVendor;
+      if (identifier != null) return identifier;
+
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
+
+    return null;
   }
 
   @override

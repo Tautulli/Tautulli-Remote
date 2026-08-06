@@ -17,6 +17,9 @@ class CertificateVerificationException implements Exception {}
 /// Throw when there is an error initializing the database.
 class DatabaseInitException implements Exception {}
 
+/// Throw when the OS will not name this device.
+class DeviceIdUnavailableException implements Exception {}
+
 /// Throw when the provided connection protocol is not `http` or `https`.
 class IncorrectConnectionProtocolException implements Exception {}
 

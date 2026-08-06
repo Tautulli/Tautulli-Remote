@@ -338,7 +338,13 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     List<CustomHeaderModel>? customHeaders,
     bool trustCert = false,
   }) async {
-    final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
+    // Registering without an identifier is worse than not registering: Tautulli
+    // treats device_id as unique, so a stand-in value claims the row of every
+    // other device that sent the same one, and the device it displaced stops
+    // being notified with nothing to show why.
+    final String? uniqueId = await deviceInfo.uniqueId;
+    if (uniqueId == null) throw DeviceIdUnavailableException();
+    final String deviceId = uniqueId;
     final String deviceName = await deviceInfo.model ?? 'unknown';
     final String pushToken = await di.sl<PushDataSource>().tokenForRegistration;
     final String platform = deviceInfo.platform;

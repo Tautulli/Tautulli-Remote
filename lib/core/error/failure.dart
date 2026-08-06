@@ -28,6 +28,8 @@ class ConnectionFailure extends Failure {}
 class DatabaseInitFailure extends Failure {}
 
 /// A catch-all Failure.
+class DeviceIdUnavailableFailure extends Failure {}
+
 class GenericFailure extends Failure {}
 
 /// Required API parameters were missing or null.
