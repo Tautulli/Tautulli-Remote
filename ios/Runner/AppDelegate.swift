@@ -29,9 +29,13 @@ import os.log
   /// key along with its addresses and custom headers, and a local backup is not
   /// encrypted by default.
   ///
-  /// Re-applied on launch and on every activation: file operations can clear the
-  /// value, and on a fresh install neither the container nor the database exists
-  /// yet when the app first finishes launching.
+  /// Backups only. Whether Quick Start carries an excluded file across to a new
+  /// phone is undocumented and not attempted here: it needs the old phone unlocked
+  /// and in hand, and a device token is revoked per device from Tautulli.
+  ///
+  /// Re-applied on launch, on activation and on backgrounding, because ordinary
+  /// file operations reset the value, and on a fresh install neither the container
+  /// nor the database exists yet when the app first finishes launching.
   ///
   /// Each file is named rather than left to the container's mark. Marking a
   /// directory is the documented way to cover what it holds, but the container is
