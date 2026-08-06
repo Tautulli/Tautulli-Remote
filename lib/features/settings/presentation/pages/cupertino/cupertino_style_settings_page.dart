@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/widgets/cupertino/cupertino_style_page_scaffold.dart';
+import '../../../../push/presentation/bloc/push_health_bloc.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../widgets/cupertino/buttons/cupertino_style_register_server_button.dart';
@@ -50,6 +51,12 @@ class CupertinoStyleSettingsView extends StatefulWidget {
 }
 
 class _CupertinoStyleSettingsViewState extends State<CupertinoStyleSettingsView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PushHealthBloc>().add(PushHealthCheck());
+  }
+
   @override
   Widget build(BuildContext context) {
     context.locale; // Re-run translations in place on a language change.

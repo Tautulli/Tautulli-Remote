@@ -108,9 +108,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
     });
 
     // A refresh that happened while the app was closed is only visible by
-    // comparing what was last registered against the token held now — on
-    // Android our own messaging service records it, and the listener above
-    // never fires for it.
+    // comparing what was last registered against the token the SDK holds now.
+    // Nothing records it when it arrives: on Android this app's messaging
+    // service supersedes the plugin's, so the listener above never fires there.
     await checkIfPushTokenChanged();
   }
 

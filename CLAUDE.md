@@ -39,7 +39,7 @@ shorebird release ios
 #   3. Restart the Dart Analysis Server in VS Code (Cmd+Shift+P → "Dart: Restart Analysis Server")
 ```
 
-There are no automated tests in the repository.
+There is one test, `test/version_gate_test.dart`; the repository has no broader test suite.
 
 ## Architecture
 
@@ -108,7 +108,7 @@ When fixing a bug in a `material_style_` file, always check the corresponding `c
 
 ## Notifications & App Lifecycle
 
-`lib/tautulli_remote.dart` handles app-level initialization: OneSignal push notifications, FLog structured logging, Shorebird code-push update checks, and device re-registration. OneSignal notification actions (e.g., "watched") are routed to specific pages from here.
+`lib/tautulli_remote.dart` handles app-level initialization: Firebase Messaging and push-relay registration, FLog structured logging, Shorebird code-push update checks, and device re-registration. Notification taps arrive from the native message handlers (`PushMessagingService` on Android, the notification service extension on iOS) and their actions (e.g., "watched") are routed to specific pages from here.
 
 ## Persistence (Two-Tier Storage)
 

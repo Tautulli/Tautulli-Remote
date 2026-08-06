@@ -45,6 +45,8 @@ class ServerModel extends Equatable {
     toJson: Cast.castToInt,
   )
   final bool? primaryActive;
+  // Kept from the OneSignal era on purpose: database.dart creates and queries
+  // this column, so renaming it would orphan every existing row's value.
   @JsonKey(
     name: 'onesignal_registered',
     fromJson: Cast.castToBool,

@@ -32,8 +32,9 @@ class PushHealthBloc extends Bloc<PushHealthEvent, PushHealthState> {
     final health = await push.isReachable;
 
     if (health == PushHealth.reachable) {
-      // Every settings page entry runs this check, so a successful probe is a
-      // detail rather than something an operator wants in a normal log.
+      // Runs on settings entry, on data dump entry, on every consent toggle and
+      // on a token refresh, so a successful probe is a detail rather than
+      // something an operator wants in a normal log.
       logging.debug('Notifications :: Relay is reachable');
 
       emit(

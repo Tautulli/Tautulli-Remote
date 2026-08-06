@@ -16,8 +16,8 @@ const String pushDisabled = 'push-disabled';
 
 /// Hex characters of the token digest that identify a device to the relay.
 ///
-/// Sixteen so one value serves both correlations: the relay's request logs
-/// print the first eight, its usage dataset records all sixteen.
+/// Sixteen to match the relay, which uses this same prefix for both its
+/// request logs and its usage dataset, so one value ties the two together.
 const int relayDeviceIdLength = 16;
 
 /// The relay that carries notifications from a Tautulli server to this device.

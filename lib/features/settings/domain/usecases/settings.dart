@@ -37,13 +37,13 @@ class Settings {
     return await repository.getPlexInfo(tautulliId);
   }
 
-  /// Returns `TautulliDateFormatsModel` as well as a bool to indicate the
-  /// active connection address.
   /// Returns the Tautulli version reported by [tautulliId], without registering.
   Future<Either<Failure, Tuple2<String?, bool>>> getTautulliVersion(String tautulliId) async {
     return await repository.getTautulliVersion(tautulliId);
   }
 
+  /// Returns `TautulliDateFormatsModel` as well as a bool to indicate the
+  /// active connection address.
   Future<Either<Failure, Tuple2<TautulliDateFormatsModel, bool>>> getDateFormats(String tautulliId) async {
     return await repository.getDateFormats(tautulliId);
   }

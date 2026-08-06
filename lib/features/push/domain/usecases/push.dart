@@ -18,7 +18,7 @@ class Push {
   /// Returns `true` if push notifications are enabled.
   Future<bool> get isOptedIn => repository.isOptedIn;
 
-  /// Returns `true` if the push relay is reachable.
+  /// Reports whether the push relay is reachable, or why it is not.
   Future<PushHealth> get isReachable => repository.isReachable;
 
   /// Returns `true` if this device can currently receive notifications.

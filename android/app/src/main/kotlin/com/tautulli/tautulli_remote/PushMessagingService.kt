@@ -341,8 +341,7 @@ class PushMessagingService : FirebaseMessagingService() {
     }
 
     private fun createNotificationChannel(context: Context) {
-        //* Create the NotificationChannel, but only on API 26+ because
-        //* the NotificationChannel class is new and not in the support library
+        // Channels only exist on API 26 and above.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.resources.getString(R.string.channel_name)
             val descriptionText = context.resources.getString(R.string.channel_description)
@@ -350,7 +349,6 @@ class PushMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
-            //* Register the channel with the system
             val notificationManager: NotificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
@@ -366,7 +364,7 @@ class PushMessagingService : FirebaseMessagingService() {
             return DecryptAESGCM.decrypt(version, deviceToken, salt, cipherText, nonce)
         }
 
-        Log.d(LOG_TAG, "Issues decrypting notification, required data missing")
+        Log.w(LOG_TAG, "Issues decrypting notification, required data missing")
         return ""
     }
 

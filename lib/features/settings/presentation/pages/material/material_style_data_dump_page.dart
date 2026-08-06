@@ -432,7 +432,8 @@ class _AppSettings extends StatelessWidget {
   }
 }
 
-/// The push token is a bearer credential — only ever render a short prefix of it.
+/// Shows the relay device id, a digest prefix, rather than the push token it
+/// derives from, which is a bearer credential and must not leave the device.
 
 class _PushStatus extends StatelessWidget {
   const _PushStatus();
