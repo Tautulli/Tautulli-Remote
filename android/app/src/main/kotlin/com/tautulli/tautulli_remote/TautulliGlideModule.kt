@@ -7,4 +7,4 @@ import com.bumptech.glide.module.AppGlideModule
  * Generates GlideApp, used to fetch poster art for notifications.
  */
 @GlideModule
-class AppGlideModule : AppGlideModule()
+class TautulliGlideModule : AppGlideModule()

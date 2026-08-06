@@ -6,6 +6,11 @@ import SQLite3
 import UIKit
 import UserNotifications
 
+// The extension target and its folder keep the OneSignal name on purpose:
+// renaming a target rewrites the Xcode project and the provisioning profile it
+// is signed with, for no behavioural gain. The log category does not have that
+// constraint, so it names what this actually is.
+
 /// Tells SQLite to copy a bound value instead of holding the caller's buffer,
 /// which a Swift String does not guarantee to outlive the call.
 private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
@@ -222,7 +227,7 @@ class NotificationService: UNNotificationServiceExtension {
         let path = documentDir?.appendingPathComponent("tautulli_remote.db")
         var db: OpaquePointer?
         guard sqlite3_open(path?.path, &db) == SQLITE_OK else {
-            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "ERROR OPENING DB")
+            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "ERROR OPENING DB")
             sqlite3_close(db)
             db = nil
             return [String: String]()
@@ -237,7 +242,7 @@ class NotificationService: UNNotificationServiceExtension {
         var statement: OpaquePointer?
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
-            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error preparing select: \(errmsg)")
+            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "Error preparing select: \(errmsg)")
             sqlite3_close(db)
             return [String: String]()
         }
@@ -261,13 +266,13 @@ class NotificationService: UNNotificationServiceExtension {
 
         if sqlite3_finalize(statement) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
-            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error finalizing prepared statement: \(errmsg)")
+            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "Error finalizing prepared statement: \(errmsg)")
         }
 
         statement = nil
 
         if sqlite3_close(db) != SQLITE_OK {
-            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error closing database")
+            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "Error closing database")
         }
 
         db = nil
@@ -336,7 +341,7 @@ class NotificationService: UNNotificationServiceExtension {
 
                 return decryptedData
             } catch {
-                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
 
                 print("Tautulli Notification Info: Issues decrypting notification, required data missing")
 
@@ -355,7 +360,7 @@ class NotificationService: UNNotificationServiceExtension {
 
                 return decryptedData
             } catch {
-                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+                os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "NotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
 
                 print("Tautulli Notification Info: Issues decrypting notification, required data missing")
 

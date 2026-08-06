@@ -17,11 +17,11 @@ class PushHealthBloc extends Bloc<PushHealthEvent, PushHealthState> {
     required this.push,
   }) : super(PushHealthInitial()) {
     on<PushHealthCheck>(
-      (event, emit) => _onPushHeathCheck(event, emit),
+      (event, emit) => _onPushHealthCheck(event, emit),
     );
   }
 
-  void _onPushHeathCheck(
+  void _onPushHealthCheck(
     PushHealthCheck event,
     Emitter<PushHealthState> emit,
   ) async {

@@ -165,9 +165,9 @@ class PushDataSourceImpl implements PushDataSource {
 
   @override
   Future<bool> get hasNotificationPermission async {
-    final settings = await messaging.getNotificationSettings();
-    return settings.authorizationStatus == AuthorizationStatus.authorized ||
-        settings.authorizationStatus == AuthorizationStatus.provisional;
+    final notificationSettings = await messaging.getNotificationSettings();
+    return notificationSettings.authorizationStatus == AuthorizationStatus.authorized ||
+        notificationSettings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
   @override
@@ -197,9 +197,9 @@ class PushDataSourceImpl implements PushDataSource {
 
   @override
   Future<bool> requestPermission() async {
-    final settings = await messaging.requestPermission();
-    return settings.authorizationStatus == AuthorizationStatus.authorized ||
-        settings.authorizationStatus == AuthorizationStatus.provisional;
+    final notificationSettings = await messaging.requestPermission();
+    return notificationSettings.authorizationStatus == AuthorizationStatus.authorized ||
+        notificationSettings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
   @override
