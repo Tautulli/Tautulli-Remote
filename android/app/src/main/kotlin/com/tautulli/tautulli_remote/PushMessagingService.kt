@@ -17,6 +17,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.security.SecureRandom
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -406,7 +407,12 @@ class PushMessagingService : FirebaseMessagingService() {
         return sdf.format(Date())
     }
 
-    private fun nextNotificationId(): Int = (System.currentTimeMillis() and 0x7FFFFFFF).toInt()
+    // Also the PendingIntent request code, and PendingIntent identity ignores
+    // extras: two notifications sharing an id collapse onto one, and
+    // FLAG_UPDATE_CURRENT hands the older notification the newer one's action.
+    // A millisecond clock collides whenever two arrive together, which is exactly
+    // when Tautulli fires a batch.
+    private fun nextNotificationId(): Int = random.nextInt() and 0x7FFFFFFF
 
     companion object {
         const val EXTRA_ACTION = "tautulli_notification_action"
@@ -415,5 +421,7 @@ class PushMessagingService : FirebaseMessagingService() {
         private const val CHANNEL_ID = "tautulli_remote"
         private const val LOG_TAG = "TautulliPush"
         private const val POSTER_TIMEOUT_SECONDS = 10L
+
+        private val random = SecureRandom()
     }
 }

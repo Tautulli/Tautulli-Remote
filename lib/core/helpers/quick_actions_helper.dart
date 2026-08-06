@@ -9,8 +9,21 @@ import '../global_keys/global_keys.dart';
 import '../types/app_style.dart';
 
 void initializeQuickActions(QuickActions quickActions) {
-  _setupQuickActions(quickActions);
+  final shortcutItems = _shortcutItems();
+  _setupQuickActions(quickActions, shortcutItems);
+
+  // The launcher hands the shortcut type straight back as a route name, but so
+  // does any app that starts MainActivity with the plugin's extra set, and it is
+  // exported. Checked against what the app actually declares so a shortcut and
+  // its route cannot drift apart either.
+  final declaredTypes = shortcutItems.map((item) => item.type).toSet();
+
   quickActions.initialize((String shortcutType) {
+    if (!declaredTypes.contains(shortcutType)) {
+      di.sl<Logging>().warning('QuickActions :: Ignored an undeclared shortcut $shortcutType');
+      return;
+    }
+
     try {
       if (di.sl<Settings>().getAppStyle() == AppStyle.cupertino) {
         final int? tabIndex = _getTabIndexCupertino(shortcutType);
@@ -26,30 +39,32 @@ void initializeQuickActions(QuickActions quickActions) {
   });
 }
 
-Future<void> _setupQuickActions(QuickActions quickActions) async {
+List<ShortcutItem> _shortcutItems() => <ShortcutItem>[
+  ShortcutItem(
+    type: '/activity',
+    localizedTitle: LocaleKeys.activity_title.tr(),
+    icon: 'activity_quick_action_icon',
+  ),
+  ShortcutItem(
+    type: '/history',
+    localizedTitle: LocaleKeys.history_title.tr(),
+    icon: 'history_quick_action_icon',
+  ),
+  ShortcutItem(
+    type: '/recent',
+    localizedTitle: LocaleKeys.recently_added_title.tr(),
+    icon: 'recent_quick_action_icon',
+  ),
+  ShortcutItem(
+    type: '/settings',
+    localizedTitle: LocaleKeys.settings_title.tr(),
+    icon: 'settings_quick_action_icon',
+  ),
+];
+
+Future<void> _setupQuickActions(QuickActions quickActions, List<ShortcutItem> shortcutItems) async {
   try {
-    await quickActions.setShortcutItems(<ShortcutItem>[
-      ShortcutItem(
-        type: '/activity',
-        localizedTitle: LocaleKeys.activity_title.tr(),
-        icon: 'activity_quick_action_icon',
-      ),
-      ShortcutItem(
-        type: '/history',
-        localizedTitle: LocaleKeys.history_title.tr(),
-        icon: 'history_quick_action_icon',
-      ),
-      ShortcutItem(
-        type: '/recent',
-        localizedTitle: LocaleKeys.recently_added_title.tr(),
-        icon: 'recent_quick_action_icon',
-      ),
-      ShortcutItem(
-        type: '/settings',
-        localizedTitle: LocaleKeys.settings_title.tr(),
-        icon: 'settings_quick_action_icon',
-      ),
-    ]);
+    await quickActions.setShortcutItems(shortcutItems);
   } catch (e) {
     di.sl<Logging>().error('QuickActions :: Failed to set shortcut items [$e]');
   }

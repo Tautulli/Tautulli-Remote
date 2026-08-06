@@ -29,6 +29,7 @@ import 'features/history/presentation/pages/cupertino/cupertino_style_history_pa
 import 'features/history/presentation/pages/material/material_style_history_page.dart';
 import 'features/libraries/presentation/pages/cupertino/cupertino_style_libraries_page.dart';
 import 'features/libraries/presentation/pages/material/material_style_libraries_page.dart';
+import 'features/logging/domain/usecases/logging.dart';
 import 'features/push/presentation/pages/cupertino/cupertino_style_notifications_privacy_page.dart';
 import 'features/push/presentation/pages/material/material_style_notifications_privacy_page.dart';
 import 'features/recently_added/presentation/pages/cupertino/cupertino_style_recently_added_page.dart';
@@ -262,6 +263,13 @@ class _MaterialFrameworkState extends State<_MaterialFramework> {
           );
         },
         routes: materialRoutes,
+        // Without this, a push to a name the routes table does not hold throws
+        // on a null check inside WidgetsApp once asserts are stripped, so what
+        // is a red screen in debug is a crash in release.
+        onUnknownRoute: (settings) {
+          di.sl<Logging>().warning('Navigation :: Ignored an unknown route [${settings.name}]');
+          return MaterialPageRoute(builder: (_) => _MaterialFramework.home());
+        },
         initialRoute: pushChangelog ? null : widget.initialRoute,
         home: (widget.initialRoute == null || pushChangelog) ? _MaterialFramework.home() : null,
       ),
@@ -345,6 +353,12 @@ class _CupertinoFramework extends StatelessWidget {
         );
       },
       routes: cupertinoRoutes,
+      // Same null check as the Material framework guards; the Navigator is
+      // shared, so an unmapped push crashes a release build either way.
+      onUnknownRoute: (settings) {
+        di.sl<Logging>().warning('Navigation :: Ignored an unknown route [${settings.name}]');
+        return CupertinoPageRoute(builder: (_) => const CupertinoStyleTabScaffold());
+      },
       home: const CupertinoStyleTabScaffold(),
     );
   }
