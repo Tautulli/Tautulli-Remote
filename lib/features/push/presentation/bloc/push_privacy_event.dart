@@ -11,6 +11,4 @@ class PushPrivacyCheck extends PushPrivacyEvent {}
 
 class PushPrivacyGrant extends PushPrivacyEvent {}
 
-class PushPrivacyReGrant extends PushPrivacyEvent {}
-
 class PushPrivacyRevoke extends PushPrivacyEvent {}

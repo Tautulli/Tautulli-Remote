@@ -531,7 +531,6 @@ Future<void> init() async {
     (settingsBloc, _) => PushPrivacyBloc(
       logging: sl(),
       push: sl(),
-      settings: sl(),
       settingsBloc: settingsBloc,
     ),
   );

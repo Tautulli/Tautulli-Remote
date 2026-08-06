@@ -148,11 +148,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<List<ServerModel>?> getAllServersWithoutPushRegistered() async {
-    return await dataSource.getAllServersWithoutPushRegistered();
-  }
-
-  @override
   Future<int> updateConnectionInfo({
     required int id,
     required ConnectionAddressModel connectionAddress,

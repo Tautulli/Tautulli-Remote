@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/datasources/push_data_source.dart';
 import '../../domain/usecases/push.dart';
@@ -13,13 +12,11 @@ part 'push_privacy_state.dart';
 class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
   final Logging logging;
   final Push push;
-  final Settings settings;
   final SettingsBloc settingsBloc;
 
   PushPrivacyBloc({
     required this.logging,
     required this.push,
-    required this.settings,
     required this.settingsBloc,
   }) : super(PushPrivacyInitial()) {
     on<PushPrivacyCheck>(
@@ -27,9 +24,6 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
     );
     on<PushPrivacyGrant>(
       (event, emit) => _onPushPrivacyGrant(event, emit),
-    );
-    on<PushPrivacyReGrant>(
-      (event, emit) => _onPushPrivacyReGrant(event, emit),
     );
     on<PushPrivacyRevoke>(
       (event, emit) => _onPushPrivacyRevoke(event, emit),
@@ -89,30 +83,6 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
     );
   }
 
-  void _onPushPrivacyReGrant(
-    PushPrivacyReGrant event,
-    Emitter<PushPrivacyState> emit,
-  ) async {
-    emit(PushPrivacyInProgress());
-
-    try {
-      await push.grantConsent(true);
-      await push.optIn(true);
-    } catch (e) {
-      logging.error('Notifications :: Failed to re-grant consent [$e]');
-      emit(PushPrivacyFailure());
-      return;
-    }
-
-    settingsBloc.add(const SettingsUpdateNotificationsConsented(true));
-
-    logging.info('Notifications :: Consent mismatch detected, correcting');
-
-    emit(
-      PushPrivacySuccess(),
-    );
-  }
-
   void _onPushPrivacyRevoke(
     PushPrivacyRevoke event,
     Emitter<PushPrivacyState> emit,
@@ -150,7 +120,4 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
       PushPrivacyFailure(),
     );
   }
-
-  /// Push tokens are bearer credentials, so only enough is logged to correlate
-  /// a device with relay-side records.
 }

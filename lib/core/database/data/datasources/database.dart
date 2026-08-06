@@ -303,26 +303,6 @@ class DBProvider {
     }
   }
 
-  Future<List<ServerModel>?> getAllServersWithoutPushRegistered() async {
-    final db = await database;
-    if (db != null) {
-      var result = await db.query(
-        'servers',
-        where: 'onesignal_registered != ?',
-        whereArgs: [1],
-      );
-      List<ServerModel> serverList = result
-          .map(
-            (settings) => ServerModel.fromJson(settings),
-          )
-          .toList();
-
-      return serverList;
-    } else {
-      throw DatabaseInitException();
-    }
-  }
-
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     final db = await database;
     if (db != null) {
