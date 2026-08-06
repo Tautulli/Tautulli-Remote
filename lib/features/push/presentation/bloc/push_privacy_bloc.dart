@@ -55,6 +55,8 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
     PushPrivacyGrant event,
     Emitter<PushPrivacyState> emit,
   ) async {
+    emit(PushPrivacyInProgress());
+
     try {
       // Consent is persisted first; the token cannot be minted without it.
       await push.grantConsent(true);
@@ -89,6 +91,8 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
     PushPrivacyReGrant event,
     Emitter<PushPrivacyState> emit,
   ) async {
+    emit(PushPrivacyInProgress());
+
     try {
       await push.grantConsent(true);
       await push.optIn(true);
@@ -111,6 +115,8 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
     PushPrivacyRevoke event,
     Emitter<PushPrivacyState> emit,
   ) async {
+    emit(PushPrivacyInProgress());
+
     try {
       // Clearing consent before dropping the token stops the next launch from
       // quietly minting a replacement and re-registering it.
@@ -118,6 +124,10 @@ class PushPrivacyBloc extends Bloc<PushPrivacyEvent, PushPrivacyState> {
       await push.optIn(false);
     } catch (e) {
       logging.error('Notifications :: Failed to revoke consent [$e]');
+      // The token outlived the attempt, so consent goes back to what it was.
+      // Reporting a revocation here would leave the stored flag saying declined
+      // while every registered server still holds a working token.
+      await push.grantConsent(true);
       emit(PushPrivacySuccess());
       return;
     }

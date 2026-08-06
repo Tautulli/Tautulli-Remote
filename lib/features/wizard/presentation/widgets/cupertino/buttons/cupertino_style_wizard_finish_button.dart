@@ -34,7 +34,7 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
               );
               // Re-read the subscription once consent lands, so the settings
               // banner does not still claim the device is unregistered.
-              await pushPrivacyBloc.stream.firstWhere((s) => s is! PushPrivacyInitial);
+              await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
               pushSubBloc.add(PushSubCheck());
             }
 

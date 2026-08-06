@@ -41,7 +41,7 @@ class CupertinoStyleNotificationsPrivacyListTile extends StatelessWidget {
                   // subscription state is stale until consent has actually been
                   // recorded. Waiting for the grant to land before re-checking
                   // stops the "not registered" banner lingering until a restart.
-                  await pushPrivacyBloc.stream.firstWhere((s) => s is! PushPrivacyInitial);
+                  await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
                   pushSubBloc.add(PushSubCheck());
                 } else {
                   await showCupertinoDialog(
@@ -59,7 +59,7 @@ class CupertinoStyleNotificationsPrivacyListTile extends StatelessWidget {
                   PushPrivacyRevoke(),
                 );
                 pushHealthBloc.add(PushHealthCheck());
-                await pushPrivacyBloc.stream.firstWhere((s) => s is! PushPrivacySuccess);
+                await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
                 pushSubBloc.add(PushSubCheck());
               }
             },
