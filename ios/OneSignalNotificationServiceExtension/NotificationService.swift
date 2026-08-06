@@ -6,6 +6,10 @@ import SQLite3
 import UIKit
 import UserNotifications
 
+/// Tells SQLite to copy a bound value instead of holding the caller's buffer,
+/// which a Swift String does not guarantee to outlive the call.
+private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+
 class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
@@ -223,7 +227,7 @@ class NotificationService: UNNotificationServiceExtension {
             db = nil
             return [String: String]()
         }
-        let query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"\(serverId)\""
+        let query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = ?"
 
         var primaryConnectionAddress = ""
         var secondaryConnectionAddress = ""
@@ -234,7 +238,11 @@ class NotificationService: UNNotificationServiceExtension {
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "Error preparing select: \(errmsg)")
+            sqlite3_close(db)
+            return [String: String]()
         }
+
+        sqlite3_bind_text(statement, 1, serverId, -1, SQLITE_TRANSIENT)
 
         while sqlite3_step(statement) == SQLITE_ROW {
             if let cString0 = sqlite3_column_text(statement, 0) {
