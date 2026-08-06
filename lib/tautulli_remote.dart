@@ -377,6 +377,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         );
 
         final token = await di.sl<Push>().token;
+        bool allAccepted = true;
 
         for (ServerModel server in servers) {
           final failureOrRegisterDevice = await updateServerRegistration(server);
@@ -384,6 +385,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
           // Either.fold does not await async callbacks — use if/else so the
           // await on updateServer is properly sequenced before setRegistrationUpdateNeeded.
           if (failureOrRegisterDevice.isLeft()) {
+            allAccepted = false;
+
             di.sl<Logging>().error(
               'Settings :: Failed to update registration for ${server.plexName} with new app version',
             );
@@ -403,6 +406,14 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
             di.sl<Settings>().setRegistrationUpdateNeeded(false);
           }
+        }
+
+        // This pass handed every server the current token, so record it on the
+        // same terms pushRegistrationChange uses. Without this the token check
+        // later in the same launch, and on every launch after, still sees a
+        // mismatch and registers all of them again.
+        if (allAccepted && token != pushDisabled) {
+          await di.sl<Settings>().setLastRegisteredPushToken(token);
         }
       }
     }
