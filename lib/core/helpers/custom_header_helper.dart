@@ -94,14 +94,18 @@ List<CustomHeaderModel> sortCustomHeaders(List<CustomHeaderModel> headers) {
 // more `tchar`.
 final _headerNameToken = RegExp(r"^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$");
 
-/// Whether [key] is a valid HTTP header field name.
+/// Whether [key] is a valid HTTP header field name, ignoring surrounding
+/// whitespace because the form saves a trimmed key.
 bool isValidHeaderName(String key) => _headerNameToken.hasMatch(key.trim());
 
 /// Whether [value] is a valid HTTP header field value.
 ///
-/// Rejects CR and LF, which dart:io also rejects and which would otherwise
-/// enable header injection.
-bool isValidHeaderValue(String value) => !value.contains('\r') && !value.contains('\n');
+/// The same rule as dart:io's `_isValueChar`: a code unit from 32 to 127, or a
+/// tab. That covers CR and LF, which would otherwise allow header injection, and
+/// also anything non-ASCII — an accented letter or an emoji reaches the socket as
+/// a `FormatException` rather than a request.
+bool isValidHeaderValue(String value) =>
+    value.codeUnits.every((unit) => (unit > 31 && unit < 128) || unit == 9);
 
 /// Throws [InvalidHeaderException] if any entry in [headers] has a name or value
 /// that HTTP (and dart:io) would reject.
@@ -111,7 +115,9 @@ bool isValidHeaderValue(String value) => !value.contains('\r') && !value.contain
 /// generic connection failure at send time.
 void validateHeadersOrThrow(Map<String, String> headers) {
   for (final entry in headers.entries) {
-    if (!isValidHeaderName(entry.key) || !isValidHeaderValue(entry.value)) {
+    // Checked as stored rather than trimmed: a header saved before these rules
+    // existed can carry surrounding whitespace, which dart:io rejects.
+    if (!_headerNameToken.hasMatch(entry.key) || !isValidHeaderValue(entry.value)) {
       throw InvalidHeaderException();
     }
   }
