@@ -110,7 +110,8 @@ abstract class PushDataSource {
 
   /// Provides the push token used to address this device.
   ///
-  /// Returns `'push-disabled'` if a token is unavailable.
+  /// Returns `'push-disabled'` when a token is unavailable, which includes
+  /// consent not given and notification permission not granted.
   Future<String> get token;
 }
 
@@ -267,6 +268,13 @@ class PushDataSourceImpl implements PushDataSource {
     if (!await hasConsented) return pushDisabled;
 
     try {
+      // Without OS permission nothing can be shown, so there is no useful token
+      // even though FCM will still mint one. Gated here as well as in
+      // [tokenForRegistration] so that what is recorded as registered is what a
+      // server was actually sent; inside the try because the permission lookup
+      // can fail and this getter is contracted not to throw.
+      if (!await hasNotificationPermission) return pushDisabled;
+
       // Minting a token reaches out to FCM, which can stall on a network that
       // blocks it; bounded so status screens and registration cannot hang.
       final token = await messaging.getToken().timeout(_relayTimeout);
