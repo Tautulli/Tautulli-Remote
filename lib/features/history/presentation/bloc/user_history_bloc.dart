@@ -201,13 +201,13 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
         );
 
         userHistoryCache[cacheKey] = userHistoryCache[cacheKey]! + historyListWithUris;
-        hasReachedMaxCache[cacheKey] = history.value1.length < length;
+        hasReachedMaxCache[cacheKey] = historyListWithUris.length < length;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
             history: userHistoryCache[cacheKey],
-            hasReachedMax: historyListWithUris.length < length,
+            hasReachedMax: hasReachedMaxCache[cacheKey],
           ),
         );
       },

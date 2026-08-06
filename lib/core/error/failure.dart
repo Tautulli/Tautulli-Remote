@@ -45,14 +45,14 @@ class InvalidHeaderFailure extends Failure {}
 /// No servers are configured.
 class MissingServerFailure extends Failure {}
 
+/// The push token could not be determined.
+class PushTokenUnavailableFailure extends Failure {}
+
 // Server has provided an undesired response.
 class ServerFailure extends Failure {}
 
 /// Server min version is not met.
 class ServerVersionFailure extends Failure {}
-
-/// The push token could not be determined.
-class PushTokenUnavailableFailure extends Failure {}
 
 // /// Required settings are missing.
 // class SettingsFailure extends Failure {}

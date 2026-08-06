@@ -170,12 +170,17 @@ class PushDataSourceImpl implements PushDataSource {
         notificationSettings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
+  /// Both callers want the same endpoint on the same bound; kept in one place so
+  /// the URL and the timeout cannot drift apart.
+  Future<http.Response> _getHealth() =>
+      client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
+
   @override
   Future<PushHealth> get isReachable async {
     if (!await networkInfo.isConnected) return PushHealth.offline;
 
     try {
-      final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
+      final response = await _getHealth();
       return response.statusCode < 400 ? PushHealth.reachable : PushHealth.unreachable;
     } catch (_) {
       return PushHealth.unreachable;
@@ -205,7 +210,7 @@ class PushDataSourceImpl implements PushDataSource {
   @override
   Future<PushLimits> get limits async {
     try {
-      final response = await client.get(Uri.parse('$pushRelayUrl/v1/health')).timeout(_relayTimeout);
+      final response = await _getHealth();
       if (response.statusCode >= 400) return const PushLimits.unknown();
 
       final rateLimits = json.decode(response.body)['rateLimits'];
@@ -297,15 +302,11 @@ class PushDataSourceImpl implements PushDataSource {
     if (!await hasConsented) return pushDisabled;
     if (!await hasNotificationPermission) return pushDisabled;
 
-    try {
-      final token = await messaging.getToken().timeout(_relayTimeout);
-      if (token != null && token.isNotEmpty) {
-        return token;
-      }
-    } catch (_) {
-      // Falls through to the throw below.
-    }
-
-    throw PushTokenUnavailableException();
+    // Past those two gates [token] can only report the sentinel for a mint that
+    // failed, which is the transient case this throws for. Delegating keeps one
+    // mint in the file rather than two that can drift apart.
+    final minted = await token;
+    if (minted == pushDisabled) throw PushTokenUnavailableException();
+    return minted;
   }
 }
