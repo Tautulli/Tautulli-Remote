@@ -192,6 +192,8 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
             ),
           );
 
+          if (!mounted) return;
+
           if (result != null && result != _statsType) {
             setState(() {
               _statsType = result;
@@ -245,6 +247,8 @@ class _MaterialStyleStatisticsViewState extends State<MaterialStyleStatisticsVie
               initialValue: _timeRange,
             ),
           );
+
+          if (!mounted) return;
 
           if (result != null && result != _timeRange) {
             setState(() {

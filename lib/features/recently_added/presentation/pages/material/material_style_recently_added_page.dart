@@ -223,6 +223,8 @@ class _MaterialStyleRecentlyAddedViewState extends State<MaterialStyleRecentlyAd
             ),
           );
 
+          if (!mounted) return;
+
           if (result != null && result.mediaType != _mediaType) {
             setState(() {
               _mediaType = result.mediaType;

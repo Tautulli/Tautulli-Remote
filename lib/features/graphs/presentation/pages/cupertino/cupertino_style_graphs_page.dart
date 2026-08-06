@@ -290,6 +290,8 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                   ),
                 );
 
+                if (!mounted) return;
+
                 if (result != null && result != _timeRange) {
                   setState(() {
                     _timeRange = result;
@@ -384,6 +386,8 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                 ),
               );
 
+              if (!mounted) return;
+
               if (newUserId != null && newUserId != _userId) {
                 setState(() {
                   _userId = newUserId;
@@ -407,6 +411,8 @@ class _CupertinoStyleGraphsViewState extends State<CupertinoStyleGraphsView> {
                   initialValue: _yAxis,
                 ),
               );
+
+              if (!mounted) return;
 
               if (yAxis != null && yAxis != _yAxis) {
                 setState(() {

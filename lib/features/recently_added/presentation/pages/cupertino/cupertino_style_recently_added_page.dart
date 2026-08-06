@@ -308,6 +308,8 @@ class _CupertinoStyleRecentlyAddedViewState extends State<CupertinoStyleRecently
               ),
             );
 
+            if (!mounted) return;
+
             if (result != null && result.mediaType != _mediaType) {
               setState(() {
                 _mediaType = result.mediaType;

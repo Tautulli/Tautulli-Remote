@@ -277,6 +277,8 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
             ),
           );
 
+          if (!mounted) return;
+
           if (result != null && result != _timeRange) {
             setState(() {
               _timeRange = result;
@@ -342,6 +344,8 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
               ),
             );
 
+            if (!mounted) return;
+
             if (newUserId != null && newUserId != _userId) {
               setState(() {
                 _userId = newUserId;
@@ -369,6 +373,8 @@ class _MaterialStyleGraphsViewState extends State<MaterialStyleGraphsView> {
                 initialValue: _yAxis,
               ),
             );
+
+            if (!mounted) return;
 
             if (yAxis != null && yAxis != _yAxis) {
               setState(() {

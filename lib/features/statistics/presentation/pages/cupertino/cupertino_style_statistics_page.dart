@@ -472,6 +472,8 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
               ),
             );
 
+            if (!mounted) return;
+
             if (result != null && result != _statsType) {
               setState(() {
                 _statsType = result;
@@ -509,6 +511,8 @@ class _CupertinoStyleStatisticsViewState extends State<CupertinoStyleStatisticsV
                     initialValue: _timeRange,
                   ),
                 );
+
+                if (!mounted) return;
 
                 if (result != null && result != _timeRange) {
                   setState(() {

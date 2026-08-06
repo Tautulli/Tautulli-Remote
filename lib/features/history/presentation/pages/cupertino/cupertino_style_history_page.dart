@@ -468,6 +468,8 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                 ),
               );
 
+              if (!mounted) return;
+
               if (newUserId != null && newUserId != _userId) {
                 setState(() {
                   _userId = newUserId;
@@ -498,6 +500,8 @@ class _CupertinoStyleHistoryViewState extends State<CupertinoStyleHistoryView> {
                   filterMap: _filterMap,
                 ),
               );
+
+              if (!mounted) return;
 
               if (filterUnchanged == false) {
                 _settingsBloc.add(SettingsUpdateHistoryFilter(_filterMap));

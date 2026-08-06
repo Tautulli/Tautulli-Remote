@@ -353,6 +353,8 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
               ),
             );
 
+            if (!mounted) return;
+
             if (newUserId != null && newUserId != _userId) {
               setState(() {
                 _userId = newUserId;
@@ -381,6 +383,8 @@ class _MaterialStyleHistoryViewState extends State<MaterialStyleHistoryView> {
                 filterMap: _filterMap,
               ),
             );
+
+            if (!mounted) return;
 
             if (updatedMap != null) {
               setState(() {

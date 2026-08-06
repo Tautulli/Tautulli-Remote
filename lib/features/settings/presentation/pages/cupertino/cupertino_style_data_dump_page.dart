@@ -480,7 +480,7 @@ class _PushStatus extends StatelessWidget {
                         child: Text(
                           state.relayDeviceId,
                           textAlign: TextAlign.end,
-                        ),
+                        ).sensitive(),
                       ),
                     ],
                   ),

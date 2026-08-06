@@ -230,6 +230,8 @@ class _MaterialStyleLibrariesViewState extends State<MaterialStyleLibrariesView>
             ),
           );
 
+          if (!mounted) return;
+
           if (result != null && (result['orderColumn'] != _orderColumn || result['orderDir'] != _orderDir)) {
             setState(() {
               _orderColumn = result['orderColumn']!;

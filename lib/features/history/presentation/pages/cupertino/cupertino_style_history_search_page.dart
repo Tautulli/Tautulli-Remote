@@ -430,6 +430,8 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                 ),
               );
 
+              if (!mounted) return;
+
               if (newUserId != null && newUserId != _userId) {
                 setState(() {
                   _userId = newUserId;
@@ -462,6 +464,8 @@ class _CupertinoStyleHistorySearchViewState extends State<CupertinoStyleHistoryS
                   filterMap: _filterMap,
                 ),
               );
+
+              if (!mounted) return;
 
               if (filterUnchanged == false) {
                 setState(() {
