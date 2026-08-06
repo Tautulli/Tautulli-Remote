@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:android_id/android_id.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -5,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api/tautulli_connection_adapter.dart';
@@ -163,7 +166,13 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => DefaultCacheManager());
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => http.Client());
+  // Only the push relay uses this client. MyHttpOverrides accepts any certificate
+  // the user has trusted for their own Tautulli server, for every host it is
+  // asked about, and the relay is not their server: /v1/quota carries the FCM
+  // token. Clearing the callback restores normal verification for these calls.
+  sl.registerLazySingleton<http.Client>(
+    () => IOClient(HttpClient()..badCertificateCallback = null),
+  );
   sl.registerLazySingleton(() => FirebaseMessaging.instance);
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
