@@ -27,7 +27,9 @@
         android:label="Tautulli Remote"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <!-- MainActivity, not the bare FlutterActivity: it registers the method
              channel that routes a notification tap, and every notification's
              content intent targets it. An undeclared component cannot be
