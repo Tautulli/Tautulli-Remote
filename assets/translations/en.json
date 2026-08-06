@@ -262,7 +262,7 @@
     "notifications_data_privacy_not_accepted_title": "Notification Data Privacy Not Accepted",
     "notifications_data_privacy_text_block_1": "Tautulli Remote supports %end-to-end encryption%.",
     "notifications_data_privacy_text_block_2": "Notifications are delivered through the Tautulli Remote relay, operated by the Tautulli team, and then by %Google Firebase Cloud Messaging% (and Apple's push notification service on iOS). The relay does not read the content of a notification, it only forwards it.",
-    "notifications_data_privacy_text_block_3": "The relay keeps no device registry and stores no notification content. It records only per-device message counts: a hashed device identifier and a daily total. Notification content, device tokens, and IP addresses are never recorded.",
+    "notifications_data_privacy_text_block_3": "The relay keeps no device registry and stores no notification content. It records only per-device message counts: a hashed device identifier, whether the device is iOS or Android, and a daily total. Notification content, device tokens, and IP addresses are never recorded.",
     "notifications_data_privacy_text_block_4": "Once you accept, this device will register to receive notifications. Consent can be revoked at any time to stop notifications being delivered to this device.",
     "notifications_data_privacy_title": "Notification Data Privacy",
     "notifications_error_registration_message": "This device is registering to receive notifications. This process may take a moment.",
