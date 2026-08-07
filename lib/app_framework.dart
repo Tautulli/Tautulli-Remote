@@ -212,6 +212,8 @@ class _MaterialFramework extends StatefulWidget {
 }
 
 class _MaterialFrameworkState extends State<_MaterialFramework> {
+  bool _changelogPushed = false;
+
   @override
   Widget build(BuildContext context) {
     final bool pushChangelog = widget.initialRoute == MaterialStyleChangelogPage.routeName;
@@ -219,10 +221,17 @@ class _MaterialFrameworkState extends State<_MaterialFramework> {
     return BlocListener<SettingsBloc, SettingsState>(
       // Push changelog on top of home so the back button is available.
       // Passing '/changelog' as MaterialApp's initialRoute with home:null makes
-      // it the nav stack root with no way to dismiss it. BlocListener fires once
-      // when SettingsSuccess is reached, at which point navigatorKey is valid.
-      listenWhen: (previous, current) => pushChangelog && previous is! SettingsSuccess && current is SettingsSuccess,
+      // it the nav stack root with no way to dismiss it. Waits for
+      // SettingsSuccess, at which point navigatorKey is valid.
+      //
+      // Tracked as pushed because that transition repeats: initialRoute is held
+      // for the life of the widget, so any later SettingsLoad emits
+      // SettingsInProgress and then SettingsSuccess again, and the changelog
+      // would land on top of whichever page asked for the reload.
+      listenWhen: (previous, current) =>
+          pushChangelog && !_changelogPushed && previous is! SettingsSuccess && current is SettingsSuccess,
       listener: (context, state) {
+        _changelogPushed = true;
         // The MaterialApp.builder gates the Navigator behind SettingsSuccess;
         // wait one frame for that BlocBuilder to rebuild and mount the Navigator.
         WidgetsBinding.instance.addPostFrameCallback((_) {
