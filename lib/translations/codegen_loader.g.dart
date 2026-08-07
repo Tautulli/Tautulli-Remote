@@ -4976,7 +4976,7 @@ static const Map<String,dynamic> _da = {
   "notifications_data_privacy_not_accepted_title": "Samtykke til notifikationsdata mangler",
   "notifications_data_privacy_text_block_1": "Tautulli Remote understøtter %end-to-end-kryptering%.",
   "notifications_data_privacy_text_block_2": "Notifikationer leveres via Tautulli Remote-relætjenesten, som drives af Tautulli-teamet, og derefter via %Google Firebase Cloud Messaging% (samt Apples push-notifikationstjeneste på iOS). Relætjenesten læser ikke indholdet af en notifikation – den videresender den kun.",
-  "notifications_data_privacy_text_block_3": "Relætjenesten gemmer hverken et enhedsregister eller indholdet af notifikationer. Den registrerer kun antallet af beskeder pr. enhed: et hash af enheds-id’et og et dagligt samlet antal. Indholdet af notifikationer, enhedstokens og IP-adresser registreres aldrig.",
+  "notifications_data_privacy_text_block_3": "Relætjenesten gemmer hverken et enhedsregister eller indholdet af notifikationer. Den registrerer kun antallet af beskeder pr. enhed: et hash af enheds-id’et, om enheden er iOS eller Android, og et dagligt samlet antal. Indholdet af notifikationer, enhedstokens og IP-adresser registreres aldrig.",
   "notifications_data_privacy_text_block_4": "Når du har givet dit samtykke, registreres denne enhed til at modtage notifikationer. Du kan til enhver tid trække dit samtykke tilbage, så der ikke længere leveres notifikationer til denne enhed.",
   "notifications_data_privacy_title": "Behandling af notifikationsdata",
   "notifications_error_registration_message": "Denne enhed registreres til notifikationer. Det kan tage et øjeblik.",
