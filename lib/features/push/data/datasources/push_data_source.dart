@@ -174,7 +174,6 @@ class PushDataSourceImpl implements PushDataSource {
       if (rateLimits is! Map) return const PushLimits.unknown();
 
       return PushLimits(
-        enforced: rateLimits['enforced'] == true,
         maximum: rateLimits['maximum'] is int ? rateLimits['maximum'] as int : null,
       );
     } catch (_) {
@@ -214,7 +213,6 @@ class PushDataSourceImpl implements PushDataSource {
 
       return PushUsage(
         used: rateLimits['used'] is int ? rateLimits['used'] as int : null,
-        remaining: rateLimits['remaining'] is int ? rateLimits['remaining'] as int : null,
         resetsAt: DateTime.tryParse('${rateLimits['resetsAt']}'),
       );
     } catch (_) {

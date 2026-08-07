@@ -512,6 +512,18 @@ class _PushStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
+                      const _DataDumpRowHeading('Notifications Sent Today'),
+                      const Gap(16),
+                      Expanded(
+                        child: Text(
+                          state.usage.used?.toString() ?? LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                    ],
+                  ),
+                  _DataDumpRow(
+                    children: [
                       const _DataDumpRowHeading('Fair Use Limit'),
                       const Gap(16),
                       Expanded(
@@ -526,45 +538,14 @@ class _PushStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const _DataDumpRowHeading('Fair Use Limit Enforced'),
-                      const Gap(16),
-                      Text(
-                        state.limits.enforced.toString(),
-                      ),
-                    ],
-                  ),
-                  _DataDumpRow(
-                    children: [
-                      const _DataDumpRowHeading('Notifications Sent Today'),
-                      const Gap(16),
-                      Expanded(
-                        child: Text(
-                          state.usage.used?.toString() ?? LocaleKeys.notifications_fair_use_limit_pending.tr(),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                  _DataDumpRow(
-                    children: [
-                      const _DataDumpRowHeading('Fair Use Remaining'),
-                      const Gap(16),
-                      Expanded(
-                        child: Text(
-                          state.usage.remaining?.toString() ?? LocaleKeys.notifications_fair_use_limit_pending.tr(),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                  _DataDumpRow(
-                    children: [
                       const _DataDumpRowHeading('Fair Use Resets'),
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          state.usage.resetsAt?.toLocal().toString() ??
-                              LocaleKeys.notifications_fair_use_limit_pending.tr(),
+                          // Always UTC midnight, so seconds and milliseconds carry nothing.
+                          state.usage.resetsAt != null
+                              ? DateFormat('y-MM-dd HH:mm').format(state.usage.resetsAt!.toLocal())
+                              : LocaleKeys.notifications_fair_use_limit_pending.tr(),
                           textAlign: TextAlign.end,
                         ),
                       ),

@@ -10,15 +10,14 @@ const String pushDisabled = 'push-disabled';
 /// decide what the limit should be. That is not the same as "no limit ever": a
 /// limit is expected, so anything shown to the user must say so.
 class PushLimits extends Equatable {
-  final bool enforced;
   final int? maximum;
 
-  const PushLimits({required this.enforced, this.maximum});
+  const PushLimits({this.maximum});
 
-  const PushLimits.unknown() : enforced = false, maximum = null;
+  const PushLimits.unknown() : maximum = null;
 
   @override
-  List<Object?> get props => [enforced, maximum];
+  List<Object?> get props => [maximum];
 }
 
 /// How much of the fair use allowance this device has consumed.
@@ -28,15 +27,14 @@ class PushLimits extends Equatable {
 /// asked for specifically.
 class PushUsage extends Equatable {
   final int? used;
-  final int? remaining;
   final DateTime? resetsAt;
 
-  const PushUsage({this.used, this.remaining, this.resetsAt});
+  const PushUsage({this.used, this.resetsAt});
 
-  const PushUsage.unknown() : used = null, remaining = null, resetsAt = null;
+  const PushUsage.unknown() : used = null, resetsAt = null;
 
   @override
-  List<Object?> get props => [used, remaining, resetsAt];
+  List<Object?> get props => [used, resetsAt];
 }
 
 /// Why a relay health check came out the way it did.
