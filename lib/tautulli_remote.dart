@@ -40,6 +40,8 @@ class TautulliRemote extends StatefulWidget {
 }
 
 class TautulliRemoteState extends State<TautulliRemote> {
+  Future<void>? _registrationInFlight;
+
   @override
   void initState() {
     super.initState();
@@ -416,7 +418,12 @@ class TautulliRemoteState extends State<TautulliRemote> {
     }
   }
 
-  Future<void> pushRegistrationChange() async {
+  // On iOS a grant mints a token, so onTokenRefresh and the consent listener
+  // both land here; they want the same token, so the second waits on the first.
+  Future<void> pushRegistrationChange() =>
+      _registrationInFlight ??= _pushRegistrationChange().whenComplete(() => _registrationInFlight = null);
+
+  Future<void> _pushRegistrationChange() async {
     final servers = await di.sl<Settings>().getAllServers();
 
     di.sl<Logging>().info(
@@ -500,6 +507,11 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   @override
   Widget build(BuildContext context) {
-    return const AppFramework();
+    return BlocListener<PushPrivacyBloc, PushPrivacyState>(
+      // Only a grant or revoke passes through InProgress; the launch check does not.
+      listenWhen: (previous, current) => previous is PushPrivacyInProgress && current.isSettled,
+      listener: (context, state) => pushRegistrationChange(),
+      child: const AppFramework(),
+    );
   }
 }
