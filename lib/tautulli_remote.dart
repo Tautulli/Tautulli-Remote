@@ -40,7 +40,6 @@ class TautulliRemote extends StatefulWidget {
 }
 
 class TautulliRemoteState extends State<TautulliRemote> {
-
   @override
   void initState() {
     super.initState();
@@ -106,12 +105,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
       await pushRegistrationChange();
     });
-
-    // A refresh that happened while the app was closed is only visible by
-    // comparing what was last registered against the token the SDK holds now.
-    // Nothing records it when it arrives: on Android this app's messaging
-    // service supersedes the plugin's, so the listener above never fires there.
-    await checkIfPushTokenChanged();
   }
 
   /// Android posts notifications natively, so a tap arrives over a platform
@@ -129,13 +122,16 @@ class TautulliRemoteState extends State<TautulliRemote> {
     // Collect the tap that launched the app, if there was one. Guarded because
     // an unanswered channel throws, and an unhandled error here would be
     // reported as a fatal crash on every single launch.
-    channel.invokeMapMethod<String, dynamic>('getLaunchNotification').then((launch) async {
-      if (launch != null) {
-        await _handleNotificationAction(launch['action'] as String?);
-      }
-    }).catchError((Object e) {
-      di.sl<Logging>().warning('Notifications :: Unable to read the launching notification [$e]');
-    });
+    channel
+        .invokeMapMethod<String, dynamic>('getLaunchNotification')
+        .then((launch) async {
+          if (launch != null) {
+            await _handleNotificationAction(launch['action'] as String?);
+          }
+        })
+        .catchError((Object e) {
+          di.sl<Logging>().warning('Notifications :: Unable to read the launching notification [$e]');
+        });
   }
 
   Future<void> _handleRemoteMessage(RemoteMessage message) async {
@@ -292,6 +288,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Future<void> checkLaunchRegistration() async {
     await checkIfRegistrationUpdateNeeded();
     await checkIfServerVersionChanged();
+    await checkIfPushTokenChanged();
   }
 
   /// Re-registers a server whose Tautulli version has changed since this device
@@ -486,10 +483,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
     final bool useSecondary = !usePrimary && secondaryAvailable;
 
-    String connectionProtocol =
-        useSecondary ? server.secondaryConnectionProtocol! : server.primaryConnectionProtocol;
-    String connectionDomain =
-        useSecondary ? server.secondaryConnectionDomain! : server.primaryConnectionDomain;
+    String connectionProtocol = useSecondary ? server.secondaryConnectionProtocol! : server.primaryConnectionProtocol;
+    String connectionDomain = useSecondary ? server.secondaryConnectionDomain! : server.primaryConnectionDomain;
     String? connectionPath = useSecondary ? server.secondaryConnectionPath : server.primaryConnectionPath;
 
     final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
