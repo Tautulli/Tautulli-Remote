@@ -296,6 +296,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
     updatedList.removeAt(index);
 
+    AppSettingsModel appSettings = currentState.appSettings;
+
     // If server list is empty store empty string for activeServerId.
 
     // Else if the active server is being removed set the first server in
@@ -305,25 +307,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         'Settings :: Last server has been deleted, clearing active server',
       );
       await settings.setActiveServerId('');
-      emit(
-        currentState.copyWith(
-          appSettings: currentState.appSettings.copyWith(
-            activeServer: null,
-          ),
-        ),
-      );
+      appSettings = appSettings.copyWith(activeServer: blankServer);
     } else if (currentState.appSettings.activeServer.id == event.id) {
       logging.debug(
         "Settings :: Active server has been deleted, setting '${updatedList[0].plexName}' as active server",
       );
       await settings.setActiveServerId(updatedList[0].tautulliId);
-      emit(
-        currentState.copyWith(
-          appSettings: currentState.appSettings.copyWith(
-            activeServer: updatedList[0],
-          ),
-        ),
-      );
+      appSettings = appSettings.copyWith(activeServer: updatedList[0]);
     }
 
     await settings.deleteServer(event.id);
@@ -331,7 +321,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     logging.info("Settings :: Deleted server '${event.plexName}'");
 
     emit(
-      currentState.copyWith(serverList: updatedList),
+      currentState.copyWith(serverList: updatedList, appSettings: appSettings),
     );
   }
 
