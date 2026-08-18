@@ -10,6 +10,38 @@ allprojects {
         google()
         jcenter()
     }
+
+    // TODO: Remove this force once androidx.core ships a build where
+    // WindowInsetsCompat$TypeImpl34.toPlatformType no longer reaches
+    // WindowInsets.Type.systemOverlays().
+    //
+    // Why: androidx.core 1.18.0 added Impl20.initTypeBoundingRectsMaps (change
+    // I24f18de, "Add support for getBoundingRects"), which eagerly walks every
+    // inset type whenever WindowInsetsCompat.init(View) runs. On API 34 that
+    // reaches TypeImpl34.toPlatformType -> WindowInsets.Type.systemOverlays(),
+    // an API 35 method, and throws NoSuchMethodError on the main thread. Flutter
+    // only ever asks for Type.ime(), so every keyboard dismissal on Android 14
+    // kills the app (Crashlytics 7c7fd9a4). connectivity_plus hard-declares
+    // androidx.core:core:1.18.0, so highest-wins resolution selects it; a plain
+    // `implementation` of an older version loses, which is why this is `force`.
+    // core-ktx is forced in step because ktx artifacts call into their matching
+    // core version -- splitting the pair trades one NoSuchMethodError for another.
+    //
+    // How to check whether it can go: 1.19.0 was verified STILL BROKEN, and the
+    // regression was never mentioned in the release notes, so do not trust them.
+    // Decompile the candidate and confirm both are gone before dropping this:
+    //   javap -p -c androidx/core/view/WindowInsetsCompat\$Impl20.class \
+    //     | grep initTypeBoundingRectsMaps
+    //   javap -p -c androidx/core/view/WindowInsetsCompat\$TypeImpl34.class \
+    //     | grep systemOverlays
+    // Then remove this block and smoke test: open any text field on an API 34
+    // device, dismiss the keyboard. That is the whole repro.
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.core:core:1.17.0'
+            force 'androidx.core:core-ktx:1.17.0'
+        }
+    }
 }
 
 rootProject.buildDir = '../build'
