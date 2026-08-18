@@ -906,6 +906,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (server) => server.id == event.id,
     );
 
+    if (index == -1) {
+      logging.warning('Settings :: No server found with id ${event.id}, skipping update');
+      return;
+    }
+
     updatedList[index] = currentState.serverList[index].copyWith(
       id: event.id,
       sortIndex: event.sortIndex,

@@ -42,10 +42,19 @@ import '../error/exception.dart';
       final oldIndex = updated.indexWhere(
         (header) => header.key == previousTitle,
       );
-      updated[oldIndex] = CustomHeaderModel(
-        key: title,
-        value: subtitle,
-      );
+      if (oldIndex == -1) {
+        updated.add(
+          CustomHeaderModel(
+            key: title,
+            value: subtitle,
+          ),
+        );
+      } else {
+        updated[oldIndex] = CustomHeaderModel(
+          key: title,
+          value: subtitle,
+        );
+      }
       if (previousTitle != title) {
         logMessage = "Replaced '$previousTitle' header with '$title'";
       } else {

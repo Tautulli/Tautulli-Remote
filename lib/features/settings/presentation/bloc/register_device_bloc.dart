@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/exception.dart';
@@ -34,6 +35,7 @@ class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> 
   }) : super(RegisterDeviceInitial()) {
     on<RegisterDeviceStarted>(
       (event, emit) => _onRegisterDeviceStarted(event, emit),
+      transformer: droppable(),
     );
     on<RegisterDeviceUnverifiedCert>(
       (event, emit) => _onRegisterDeviceUnverifiedCert(event, emit),
