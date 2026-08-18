@@ -58,10 +58,13 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
       builder: (context, state) {
         return MaterialStyleRefreshIndicator(
           onRefresh: () {
+            final userId = widget.user.userId;
+            if (userId == null) return Future.value();
+
             _userHistoryBloc.add(
               UserHistoryFetched(
                 server: widget.server,
-                userId: widget.user.userId!,
+                userId: userId,
                 freshFetch: true,
               ),
             );
@@ -103,10 +106,13 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
                         message: state.message,
                         suggestion: state.suggestion,
                         onTap: () {
+                          final userId = widget.user.userId;
+                          if (userId == null) return;
+
                           _userHistoryBloc.add(
                             UserHistoryFetched(
                               server: widget.server,
-                              userId: widget.user.userId!,
+                              userId: userId,
                             ),
                           );
                         },
@@ -138,11 +144,14 @@ class _MaterialStyleUserDetailsHistoryTabState extends State<MaterialStyleUserDe
   }
 
   void _onScroll() {
+    final userId = widget.user.userId;
+    if (userId == null) return;
+
     if (_isBottom) {
       _userHistoryBloc.add(
         UserHistoryFetched(
           server: widget.server,
-          userId: widget.user.userId!,
+          userId: userId,
         ),
       );
     }

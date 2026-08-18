@@ -22,7 +22,7 @@ class MaterialStyleUserIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: disableHero ? UniqueKey() : ValueKey('${user.userId!}:${user.friendlyName}'),
+      tag: disableHero ? UniqueKey() : ValueKey('${user.userId}:${user.friendlyName}'),
       child: SizedBox(
         height: size == UserIconSize.normal ? 60 : 80,
         width: size == UserIconSize.normal ? 60 : 80,

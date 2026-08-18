@@ -62,10 +62,13 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
       child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
+          final userId = widget.user.userId;
+          if (userId == null) return _refreshCompleter.future;
+
           context.read<UserStatisticsBloc>().add(
             UserStatisticsFetched(
               server: widget.server,
-              userId: widget.user.userId!,
+              userId: userId,
               freshFetch: true,
             ),
           );

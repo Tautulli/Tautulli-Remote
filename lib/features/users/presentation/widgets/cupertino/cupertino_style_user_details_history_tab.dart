@@ -50,10 +50,13 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
       child: CupertinoStyleRefreshPage(
         scrollController: _scrollController,
         onRefresh: () {
+          final userId = widget.user.userId;
+          if (userId == null) return _refreshCompleter.future;
+
           _userHistoryBloc.add(
             UserHistoryFetched(
               server: widget.server,
-              userId: widget.user.userId!,
+              userId: userId,
               freshFetch: true,
             ),
           );
@@ -111,10 +114,13 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
                             message: state.message,
                             suggestion: state.suggestion,
                             onTap: () {
+                              final userId = widget.user.userId;
+                              if (userId == null) return;
+
                               _userHistoryBloc.add(
                                 UserHistoryFetched(
                                   server: widget.server,
-                                  userId: widget.user.userId!,
+                                  userId: userId,
                                 ),
                               );
                             },
@@ -157,11 +163,14 @@ class _CupertinoStyleUserDetailsHistoryTabState extends State<CupertinoStyleUser
   }
 
   void _onScroll() {
+    final userId = widget.user.userId;
+    if (userId == null) return;
+
     if (_isBottom) {
       _userHistoryBloc.add(
         UserHistoryFetched(
           server: widget.server,
-          userId: widget.user.userId!,
+          userId: userId,
         ),
       );
     }

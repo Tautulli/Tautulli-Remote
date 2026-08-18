@@ -93,11 +93,14 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
 
     _userHistoryBloc = context.read<UserHistoryBloc>();
 
+    final userId = widget.user.userId;
+    if (userId == null) return;
+
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
         UserIndividualFetched(
           server: widget.server,
-          userId: widget.user.userId!,
+          userId: userId,
         ),
       );
     }
@@ -105,13 +108,13 @@ class _CupertinoStyleUserDetailsViewState extends State<CupertinoStyleUserDetail
     _userHistoryBloc.add(
       UserHistoryFetched(
         server: widget.server,
-        userId: widget.user.userId!,
+        userId: userId,
       ),
     );
     context.read<UserStatisticsBloc>().add(
       UserStatisticsFetched(
         server: widget.server,
-        userId: widget.user.userId!,
+        userId: userId,
       ),
     );
   }

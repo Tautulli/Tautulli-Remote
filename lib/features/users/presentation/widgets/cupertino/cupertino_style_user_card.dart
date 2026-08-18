@@ -58,10 +58,10 @@ class _CupertinoStyleUserCardState extends State<CupertinoStyleUserCard> {
       future: getColorFuture,
       builder: (context, snapshot) {
         // Load in cached color if it's cached to prevent the transition
-        Color? color = backgroundColorCache['${widget.user.userId!}:${widget.user.friendlyName}'];
+        Color? color = backgroundColorCache['${widget.user.userId}:${widget.user.friendlyName}'];
 
         if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-          backgroundColorCache['${widget.user.userId!}:${widget.user.friendlyName}'] = snapshot.data as Color;
+          backgroundColorCache['${widget.user.userId}:${widget.user.friendlyName}'] = snapshot.data as Color;
           color = snapshot.data as Color;
         }
 

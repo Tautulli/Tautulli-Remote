@@ -165,7 +165,7 @@ class _MaterialStyleUsersViewState extends State<MaterialStyleUsersView> {
                         }
 
                         return MaterialStyleUserCard(
-                          key: ValueKey(state.users[index].userId!),
+                          key: ValueKey('${state.users[index].userId}:${state.users[index].friendlyName}'),
                           server: _server,
                           user: state.users[index],
                           details: UserDetails(

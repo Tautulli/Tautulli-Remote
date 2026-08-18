@@ -52,10 +52,13 @@ class _MaterialStyleUserDetailsStatsTabState extends State<MaterialStyleUserDeta
       builder: (context, state) {
         return MaterialStyleRefreshIndicator(
           onRefresh: () {
+            final userId = widget.user.userId;
+            if (userId == null) return Future.value();
+
             context.read<UserStatisticsBloc>().add(
               UserStatisticsFetched(
                 server: widget.server,
-                userId: widget.user.userId!,
+                userId: userId,
                 freshFetch: true,
               ),
             );
