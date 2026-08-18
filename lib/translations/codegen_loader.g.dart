@@ -5028,7 +5028,9 @@ static const Map<String,dynamic> _da = {
   "notifications_fair_use_limit_pending": "Ingen",
   "wizard_notifications_consent_switch_title": "Samtykke til behandling af notifikationsdata",
   "wizard_notifications_title": "Push-notifikationer",
-  "wizard_notifications_view_privacy_title": "Vis oplysninger om behandling af notifikationsdata"
+  "wizard_notifications_view_privacy_title": "Vis oplysninger om behandling af notifikationsdata",
+  "error_message_device_id_unavailable": "Kunne ikke identificere denne enhed",
+  "error_suggestion_device_id_unavailable": "Genstart appen, og prøv igen. Hvis enheden lige er blevet genstartet, skal du låse den op først."
 };
 static const Map<String,dynamic> _sv = {
   "about_legalese": "Licensierad enligt GNU General Public License v3.0",
