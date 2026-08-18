@@ -83,15 +83,15 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
       body: MaterialStylePageBody(
         child: BlocBuilder<StatisticsBloc, StatisticsState>(
           builder: (context, state) {
-            List<Widget> statsListWidgets = _buildStatListWidgets(
-              state.statList.where((e) => e.statIdType == widget.statIdType).first,
-            );
+            final int statIndex = state.statList.indexWhere((e) => e.statIdType == widget.statIdType);
+            final List<Widget> statsListWidgets =
+                statIndex < 0 ? const [] : _buildStatListWidgets(state.statList[statIndex]);
 
             return ListView.separated(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8.0),
-              itemCount: state.hasReachedMaxMap[widget.statIdType] == true
+              itemCount: statIndex >= 0 && state.hasReachedMaxMap[widget.statIdType] == true
                   ? statsListWidgets.length
                   : statsListWidgets.length + 1,
               separatorBuilder: (context, index) => const Gap(8),
@@ -103,10 +103,18 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
                     message: state.message,
                     suggestion: state.suggestion,
                     onTap: () {
+                      // Paging cannot repopulate a cleared cache; retry starts over.
                       _statisticsBloc.add(
-                        StatisticsFetchMore(
-                          statIdType: widget.statIdType,
-                        ),
+                        statIndex < 0
+                            ? StatisticsFetched(
+                                server: widget.server,
+                                timeRange: state.timeRange,
+                                statsType: state.statsType,
+                                freshFetch: true,
+                              )
+                            : StatisticsFetchMore(
+                                statIdType: widget.statIdType,
+                              ),
                       );
                     },
                   );

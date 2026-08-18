@@ -163,6 +163,11 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     if (tautulliIdCache == null || !statCache.containsKey(tautulliIdCache)) return;
     if (hasReachedMaxCache.containsKey(event.statIdType) && hasReachedMaxCache[event.statIdType]!) return;
 
+    // Guard before the emit below, or the bottom loader is left spinning.
+    final int cachedIndex =
+        statCache[tautulliIdCache]!.indexWhere((statisticModel) => statisticModel.statIdType == event.statIdType);
+    if (cachedIndex < 0) return;
+
     emit(
       state.copyWith(
         status: BlocStatus.initial,
@@ -175,10 +180,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       timeRange: timeRangeCache,
       statId: event.statIdType,
       statsCount: count,
-      statsStart: statCache[tautulliIdCache]!
-          .firstWhere((statisticModel) => statisticModel.statIdType == event.statIdType)
-          .stats
-          .length,
+      statsStart: statCache[tautulliIdCache]![cachedIndex].stats.length,
     );
 
     await failureOrStatistics.fold(
@@ -211,6 +213,18 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         // Get StatisticModel index in statCache
         final int index =
             statCache[tautulliIdCache]!.indexWhere((statisticModel) => statisticModel.statIdType == event.statIdType);
+
+        if (index < 0 || statListWithUris.isEmpty) {
+          if (statListWithUris.isEmpty) hasReachedMaxCache[event.statIdType] = true;
+
+          return emit(
+            state.copyWith(
+              status: index < 0 ? BlocStatus.initial : BlocStatus.success,
+              statList: [...statCache[tautulliIdCache]!],
+              hasReachedMaxMap: Map<StatIdType, bool>.from(hasReachedMaxCache),
+            ),
+          );
+        }
 
         // Get existing StatisticModel
         StatisticModel statModel = statCache[tautulliIdCache]![index];
