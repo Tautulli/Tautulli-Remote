@@ -96,8 +96,9 @@ class FailureHelper {
       //   return TlsFailure();
       default:
         // Redacted because an unmapped exception often embeds the request URI,
-        // which carries the user's API key into Crashlytics and the exportable log.
-        final safeException = redactApiKey(exception.toString());
+        // carrying the user's server address and API key into Crashlytics and
+        // the exportable log.
+        final safeException = redactSensitive(exception.toString());
         di.sl<Logging>().error(
           'FailureMapper :: Unable to map [$safeException] to a specific failure',
         );

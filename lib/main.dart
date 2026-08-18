@@ -54,16 +54,17 @@ class MyHttpOverrides extends HttpOverrides {
 bool _isNetworkError(Object error) =>
     error is SocketException || error is HandshakeException || error is HttpException || error is http.ClientException;
 
-/// Strips API keys from both the exception text and the diagnostic information
-/// Flutter attaches, image-load failures carry the request URI in both.
+/// Masks server addresses and API keys in both the exception text and the
+/// diagnostic information Flutter attaches, image-load failures carry the
+/// request URI in both.
 FlutterErrorDetails _redactDetails(FlutterErrorDetails details) {
   final collector = details.informationCollector;
   return details.copyWith(
-    exception: redactApiKey(details.exceptionAsString()),
+    exception: redactSensitive(details.exceptionAsString()),
     informationCollector: collector == null
         ? null
         : () => collector().map(
-            (node) => DiagnosticsNode.message(redactApiKey(node.toString())),
+            (node) => DiagnosticsNode.message(redactSensitive(node.toString())),
           ),
   );
 }
@@ -114,7 +115,7 @@ void main() async {
   // to Crashlytics, with the same network-error classification.
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(
-      redactApiKey(error.toString()),
+      redactSensitive(error.toString()),
       stack,
       fatal: !_isNetworkError(error),
     );

@@ -1,9 +1,12 @@
-/// Tautulli authenticates with an `apikey` query parameter, so any exception
-/// that embeds a request URI (`HttpException`, `ClientException`, image-load
-/// failures) carries the user's server credential in its message. Strip it
-/// before the text reaches Crashlytics or the exportable log. The host and
-/// command survive, so the error stays diagnosable.
+/// Exception messages routinely embed the request URI, which carries two things
+/// that must not leave the device: the user's Tautulli server address (often a
+/// public domain or IP) and the `apikey` query parameter that authenticates to
+/// it. Mask both before the text reaches Crashlytics or the exportable log. The
+/// path and remaining query survive, so the failing endpoint stays identifiable.
+final _hostPattern = RegExp(r'\b[a-zA-Z][a-zA-Z0-9+.-]*://[^/\s]+');
 final _apiKeyPattern = RegExp(r'(apikey=)[^&\s]+', caseSensitive: false);
 
-/// Returns [message] with any `apikey=` value replaced by `<redacted>`.
-String redactApiKey(String message) => message.replaceAllMapped(_apiKeyPattern, (match) => '${match[1]}<redacted>');
+/// Returns [message] with server addresses and API keys masked.
+String redactSensitive(String message) => message
+    .replaceAll(_hostPattern, '<host>')
+    .replaceAllMapped(_apiKeyPattern, (match) => '${match[1]}<redacted>');
