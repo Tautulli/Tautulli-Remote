@@ -68,16 +68,20 @@ class HistoryState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        status,
-        history,
-        movieMediaType,
-        episodeMediaType,
-        trackMediaType,
-        liveMediaType,
-        directPlayDecision,
-        directStreamDecision,
-        transcodeDecision,
-        hasReachedMax,
-      ];
+  List<Object?> get props => [
+    status,
+    history,
+    userId,
+    movieMediaType,
+    episodeMediaType,
+    trackMediaType,
+    liveMediaType,
+    directPlayDecision,
+    directStreamDecision,
+    transcodeDecision,
+    failure,
+    message,
+    suggestion,
+    hasReachedMax,
+  ];
 }

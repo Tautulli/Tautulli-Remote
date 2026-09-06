@@ -40,5 +40,13 @@ class LibraryStatisticsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [watchTimeStatsStatus, userStatsStatus, watchTimeStatsList, userStatsList];
+  List<Object?> get props => [
+    watchTimeStatsStatus,
+    userStatsStatus,
+    watchTimeStatsList,
+    userStatsList,
+    failure,
+    message,
+    suggestion,
+  ];
 }

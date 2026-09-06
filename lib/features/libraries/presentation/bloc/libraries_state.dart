@@ -44,11 +44,14 @@ class LibrariesState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        status,
-        libraries,
-        orderColumn,
-        orderDir,
-        hasReachedMax,
-      ];
+  List<Object?> get props => [
+    status,
+    libraries,
+    orderColumn,
+    orderDir,
+    failure,
+    message,
+    suggestion,
+    hasReachedMax,
+  ];
 }

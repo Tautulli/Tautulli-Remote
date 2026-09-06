@@ -20,5 +20,8 @@ class ClearTautulliImageCacheState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status];
+  List<Object?> get props => [
+    status,
+    server,
+  ];
 }

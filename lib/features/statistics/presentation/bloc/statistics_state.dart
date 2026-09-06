@@ -44,5 +44,14 @@ class StatisticsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, statList, hasReachedMaxMap, statsType, timeRange];
+  List<Object?> get props => [
+    status,
+    statList,
+    hasReachedMaxMap,
+    statsType,
+    timeRange,
+    failure,
+    message,
+    suggestion,
+  ];
 }

@@ -32,5 +32,11 @@ class LibraryMediaState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, libraryItems];
+  List<Object?> get props => [
+    status,
+    libraryItems,
+    failure,
+    message,
+    suggestion,
+  ];
 }

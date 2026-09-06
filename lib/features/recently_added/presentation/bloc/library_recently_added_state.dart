@@ -32,5 +32,11 @@ class LibraryRecentlyAddedState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, recentlyAdded];
+  List<Object?> get props => [
+    status,
+    recentlyAdded,
+    failure,
+    message,
+    suggestion,
+  ];
 }

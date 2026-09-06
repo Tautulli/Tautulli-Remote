@@ -40,10 +40,13 @@ class UserStatisticsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        watchTimeStatsStatus,
-        playerStatsStatus,
-        watchTimeStatsList,
-        playerStatsList,
-      ];
+  List<Object?> get props => [
+    watchTimeStatsStatus,
+    playerStatsStatus,
+    watchTimeStatsList,
+    playerStatsList,
+    failure,
+    message,
+    suggestion,
+  ];
 }

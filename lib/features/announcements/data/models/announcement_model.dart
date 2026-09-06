@@ -41,5 +41,12 @@ class AnnouncementModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [
+    actionUrl,
+    body,
+    date,
+    id,
+    platform,
+    title,
+  ];
 }

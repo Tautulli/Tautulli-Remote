@@ -36,5 +36,12 @@ class UsersTableState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, users, hasReachedMax];
+  List<Object?> get props => [
+    status,
+    users,
+    failure,
+    message,
+    suggestion,
+    hasReachedMax,
+  ];
 }

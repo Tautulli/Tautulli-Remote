@@ -36,5 +36,12 @@ class LibraryHistoryState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, history, hasReachedMax];
+  List<Object?> get props => [
+    status,
+    history,
+    failure,
+    message,
+    suggestion,
+    hasReachedMax,
+  ];
 }
