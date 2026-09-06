@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/device_info/device_info.dart';
+import '../../../../../core/helpers/color_palette_helper.dart';
 import '../../../../../core/helpers/graph_helper.dart';
 import '../../../../../core/helpers/string_helper.dart';
 import '../../../../../core/helpers/theme_helper.dart';
@@ -187,8 +188,6 @@ class BarChartGraph extends StatelessWidget {
                 ),
               );
 
-              final sortedRodStackItems = rod.rodStackItems.reversed.toList();
-
               List<TextSpan> textSpanList = [];
 
               if (settingsState.appSettings.maskSensitiveInfo &&
@@ -222,7 +221,7 @@ class BarChartGraph extends StatelessWidget {
                       text:
                           '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${validItems[i].seriesData[groupIndex]}',
                       style: TextStyle(
-                        color: sortedRodStackItems[i].color,
+                        color: TautulliColorPalette.mapGraphSeriesTypeToColor(validItems[i].seriesType),
                       ),
                     ),
                   );
@@ -233,7 +232,7 @@ class BarChartGraph extends StatelessWidget {
                       text:
                           '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${GraphHelper.graphDuration(validItems[i].seriesData[groupIndex])}',
                       style: TextStyle(
-                        color: sortedRodStackItems[i].color,
+                        color: TautulliColorPalette.mapGraphSeriesTypeToColor(validItems[i].seriesType),
                       ),
                     ),
                   );

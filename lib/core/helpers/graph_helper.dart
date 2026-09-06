@@ -62,111 +62,27 @@ class GraphHelper {
   }) {
     List<BarChartGroupData> barGroups = [];
     for (var i = 0; i < graphData.categories.length; i++) {
-      Map<GraphSeriesType, double?> barValues = {};
-
-      for (GraphSeriesDataModel seriesData in graphData.seriesDataList) {
-        barValues[seriesData.seriesType] = seriesData.seriesData[i].toDouble();
-      }
-
-      double maxBarY = 0;
-
-      for (GraphSeriesType seriesType in barValues.keys) {
-        maxBarY += barValues[seriesType]!;
-      }
-
       double barStart = 0;
       List<BarChartRodStackItem> rodStackItems = [];
 
-      if (barValues.containsKey(GraphSeriesType.live)) {
+      // Reversed so the stack reads the same way round as before. Every series
+      // gets a segment, including types the app does not recognise, so a bar can
+      // never be drawn without a matching stack.
+      for (final GraphSeriesDataModel seriesData in graphData.seriesDataList.reversed) {
+        final double value = i < seriesData.seriesData.length ? seriesData.seriesData[i].toDouble() : 0;
+
         rodStackItems.add(
           BarChartRodStackItem(
             barStart,
-            barValues[GraphSeriesType.live]! + barStart,
-            // Theme.of(context).colorScheme.secondary,
-            PlexColorPalette.blue,
+            barStart + value,
+            TautulliColorPalette.mapGraphSeriesTypeToColor(seriesData.seriesType),
           ),
         );
 
-        barStart = barStart + barValues[GraphSeriesType.live]!;
+        barStart += value;
       }
 
-      if (barValues.containsKey(GraphSeriesType.music)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.music]! + barStart,
-            // Theme.of(context).colorScheme.error,
-            Colors.red,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.music]!;
-      }
-
-      if (barValues.containsKey(GraphSeriesType.transcode)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.transcode]! + barStart,
-            // Theme.of(context).colorScheme.error,
-            Colors.red,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.transcode]!;
-      }
-
-      if (barValues.containsKey(GraphSeriesType.movies)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.movies]! + barStart,
-            // Theme.of(context).colorScheme.onSurface,
-            TautulliColorPalette.notWhite,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.movies]!;
-      }
-
-      if (barValues.containsKey(GraphSeriesType.directStream)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.directStream]! + barStart,
-            // Theme.of(context).colorScheme.onSurface,
-            TautulliColorPalette.notWhite,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.directStream]!;
-      }
-
-      if (barValues.containsKey(GraphSeriesType.tv)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.tv]! + barStart,
-            // Theme.of(context).colorScheme.primary,
-            PlexColorPalette.primaryGold,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.tv]!;
-      }
-
-      if (barValues.containsKey(GraphSeriesType.directPlay)) {
-        rodStackItems.add(
-          BarChartRodStackItem(
-            barStart,
-            barValues[GraphSeriesType.directPlay]! + barStart,
-            // Theme.of(context).colorScheme.primary,
-            PlexColorPalette.primaryGold,
-          ),
-        );
-
-        barStart = barStart + barValues[GraphSeriesType.directPlay]!;
-      }
+      final double maxBarY = barStart;
 
       final double barWidth = screenWidth / graphData.categories.length / 2.5;
 
@@ -282,15 +198,7 @@ class GraphHelper {
           //             : [GraphSeriesType.live, GraphSeriesType.concurrent].contains(seriesType)
           //                 ? Theme.of(context).colorScheme.secondary
           //                 : Theme.of(context).colorScheme.onSurface,
-          color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
-              ? PlexColorPalette.primaryGold
-              : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
-                  ? Colors.red
-                  : [GraphSeriesType.concurrent, GraphSeriesType.total].contains(seriesType)
-                      ? PlexColorPalette.seaGreen
-                      : [GraphSeriesType.live, GraphSeriesType.concurrent].contains(seriesType)
-                          ? PlexColorPalette.blue
-                          : TautulliColorPalette.notWhite,
+          color: TautulliColorPalette.mapGraphSeriesTypeToColor(seriesType),
           dotData: const FlDotData(
             show: false,
           ),

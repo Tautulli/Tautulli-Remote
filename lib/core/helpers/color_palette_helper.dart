@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../types/graph_series_type.dart';
 
 /// Provides access to official Plex colors.
 ///
@@ -31,6 +32,27 @@ class TautulliColorPalette {
   /// Returns a given [Color] for the provided platform.
   ///
   /// Unknown platforms default to Plex's `Gamboge` orange.
+  /// Colour for a graph series, used by every chart and its tooltip.
+  static Color mapGraphSeriesTypeToColor(GraphSeriesType seriesType) {
+    switch (seriesType) {
+      case GraphSeriesType.tv:
+      case GraphSeriesType.directPlay:
+        return PlexColorPalette.primaryGold;
+      case GraphSeriesType.music:
+      case GraphSeriesType.transcode:
+        return Colors.red;
+      case GraphSeriesType.live:
+        return PlexColorPalette.blue;
+      case GraphSeriesType.concurrent:
+      case GraphSeriesType.total:
+        return PlexColorPalette.seaGreen;
+      case GraphSeriesType.movies:
+      case GraphSeriesType.directStream:
+      case GraphSeriesType.unknown:
+        return TautulliColorPalette.notWhite;
+    }
+  }
+
   static Color mapPlatformToColor(String? platform) {
     switch (platform) {
       case 'alexa':
