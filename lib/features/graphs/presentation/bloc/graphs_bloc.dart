@@ -90,7 +90,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             userId: userIdCache,
             yAxis: yAxisCache ?? PlayMetricType.plays,
             timeRange: timeRangeCache ?? 30,
-            graphs: graphsCache,
+            graphs: Map.of(graphsCache),
           ),
         ) {
     on<GraphsFetched>(_onGraphsFetched);
@@ -103,6 +103,12 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   ) async {
     if (event.server.id != null) {
       final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+      // Drop the previous server's graphs before emitting, or the page keeps
+      // painting them until each new response lands.
+      if (serverChange) {
+        graphsCache = Map.of(defaultGraphs);
+      }
 
       if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
         for (GraphType graphType in graphsCache.keys) {
@@ -118,10 +124,6 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             graphs: Map.of(graphsCache),
           ),
         );
-      }
-
-      if (serverChange) {
-        graphsCache = Map.of(defaultGraphs);
       }
       userIdCache = event.userId;
       tautulliIdCache = event.server.tautulliId;

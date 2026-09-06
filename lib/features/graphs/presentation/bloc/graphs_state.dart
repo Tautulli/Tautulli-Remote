@@ -28,5 +28,5 @@ class GraphsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [yAxis, timeRange, graphs];
+  List<Object?> get props => [userId, yAxis, timeRange, graphs];
 }
