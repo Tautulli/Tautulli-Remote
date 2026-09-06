@@ -74,6 +74,8 @@ class MaterialStyleNotificationsPrivacyListTile extends StatelessWidget {
                   );
                   pushHealthBloc.add(PushHealthCheck());
                 } else {
+                  if (!context.mounted) return;
+
                   await showDialog(
                     context: context,
                     builder: (context) => MaterialStylePermissionSettingDialog(

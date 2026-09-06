@@ -36,6 +36,8 @@ class CupertinoStyleNotificationsPrivacyListTile extends StatelessWidget {
                   );
                   pushHealthBloc.add(PushHealthCheck());
                 } else {
+                  if (!context.mounted) return;
+
                   await showCupertinoDialog(
                     context: context,
                     builder: (context) => CupertinoStylePermissionSettingDialog(

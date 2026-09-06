@@ -63,13 +63,16 @@ class CupertinoStyleWizardNotifications extends StatelessWidget {
                   return CupertinoSwitch(
                     value: wizardState.notificationsAllowed,
                     onChanged: (_) async {
+                      final wizardBloc = context.read<WizardBloc>();
                       final status = await PermissionHelper.requestNotification();
                       if (status == null) return;
                       if (status.isGranted) {
-                        context.read<WizardBloc>().add(
+                        wizardBloc.add(
                           WizardToggleNotifications(),
                         );
                       } else {
+                        if (!context.mounted) return;
+
                         await showCupertinoDialog(
                           context: context,
                           builder: (context) => CupertinoStylePermissionSettingDialog(

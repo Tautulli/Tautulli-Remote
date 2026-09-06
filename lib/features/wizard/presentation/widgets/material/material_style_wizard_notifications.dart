@@ -102,13 +102,16 @@ class MaterialStyleWizardNotifications extends StatelessWidget {
                           title: LocaleKeys.wizard_notifications_allow_title.tr(),
                           value: state.notificationsAllowed,
                           onChanged: (_) async {
+                            final wizardBloc = context.read<WizardBloc>();
                             final status = await PermissionHelper.requestNotification();
                             if (status == null) return;
                             if (status.isGranted) {
-                              context.read<WizardBloc>().add(
+                              wizardBloc.add(
                                 WizardToggleNotifications(),
                               );
                             } else {
+                              if (!context.mounted) return;
+
                               await showDialog(
                                 context: context,
                                 builder: (context) => MaterialStylePermissionSettingDialog(
