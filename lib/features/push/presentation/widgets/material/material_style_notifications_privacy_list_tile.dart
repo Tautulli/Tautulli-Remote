@@ -8,7 +8,6 @@ import '../../../../../core/widgets/material/dialogs/material_style_permission_s
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/push_health_bloc.dart';
 import '../../bloc/push_privacy_bloc.dart';
-import '../../bloc/push_sub_bloc.dart';
 
 class MaterialStyleNotificationsPrivacyListTile extends StatelessWidget {
   const MaterialStyleNotificationsPrivacyListTile({super.key});
@@ -18,7 +17,6 @@ class MaterialStyleNotificationsPrivacyListTile extends StatelessWidget {
     context.locale; // Re-run translations in place on a language change.
     final pushPrivacyBloc = context.read<PushPrivacyBloc>();
     final pushHealthBloc = context.read<PushHealthBloc>();
-    final pushSubBloc = context.read<PushSubBloc>();
     return BlocBuilder<PushPrivacyBloc, PushPrivacyState>(
       builder: (context, state) {
         return Material(
@@ -75,12 +73,6 @@ class MaterialStyleNotificationsPrivacyListTile extends StatelessWidget {
                     PushPrivacyGrant(),
                   );
                   pushHealthBloc.add(PushHealthCheck());
-                  // Consent is what allows a token to be minted, so the
-                  // subscription state is stale until consent has actually been
-                  // recorded. Waiting for the grant to land before re-checking
-                  // stops the "not registered" banner lingering until a restart.
-                  await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
-                  pushSubBloc.add(PushSubCheck());
                 } else {
                   await showDialog(
                     context: context,
@@ -97,8 +89,6 @@ class MaterialStyleNotificationsPrivacyListTile extends StatelessWidget {
                   PushPrivacyRevoke(),
                 );
                 pushHealthBloc.add(PushHealthCheck());
-                await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
-                pushSubBloc.add(PushSubCheck());
               }
             },
           ),

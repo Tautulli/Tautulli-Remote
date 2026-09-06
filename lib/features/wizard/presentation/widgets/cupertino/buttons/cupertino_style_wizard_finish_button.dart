@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../translations/locale_keys.g.dart';
 import '../../../../../push/presentation/bloc/push_privacy_bloc.dart';
-import '../../../../../push/presentation/bloc/push_sub_bloc.dart';
 import '../../../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../bloc/wizard_bloc.dart';
 
@@ -20,22 +19,15 @@ class CupertinoStyleWizardFinishButton extends StatelessWidget {
 
         return CupertinoButton(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          onPressed: () async {
+          onPressed: () {
             final settingsBloc = context.read<SettingsBloc>();
 
             settingsBloc.add(const SettingsUpdateWizardComplete(true));
 
             if (wizardState.notificationsAllowed) {
-              final pushPrivacyBloc = context.read<PushPrivacyBloc>();
-              final pushSubBloc = context.read<PushSubBloc>();
-
-              pushPrivacyBloc.add(
+              context.read<PushPrivacyBloc>().add(
                 PushPrivacyGrant(),
               );
-              // Re-read the subscription once consent lands, so the settings
-              // banner does not still claim the device is unregistered.
-              await pushPrivacyBloc.stream.firstWhere((s) => s.isSettled);
-              pushSubBloc.add(PushSubCheck());
             }
 
             CupertinoSheetRoute.popSheet(context);

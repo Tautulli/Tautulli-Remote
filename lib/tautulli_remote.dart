@@ -510,7 +510,13 @@ class TautulliRemoteState extends State<TautulliRemote> {
     return BlocListener<PushPrivacyBloc, PushPrivacyState>(
       // Only a grant or revoke passes through InProgress; the launch check does not.
       listenWhen: (previous, current) => previous is PushPrivacyInProgress && current.isSettled,
-      listener: (context, state) => pushRegistrationChange(),
+      listener: (context, state) {
+        // Consent is what allows a token to be minted, so the subscription state
+        // is stale until consent settles. Re-read it here rather than at each
+        // call site, so nothing has to hold a BuildContext across the grant.
+        context.read<PushSubBloc>().add(PushSubCheck());
+        pushRegistrationChange();
+      },
       child: const AppFramework(),
     );
   }
