@@ -1,6 +1,31 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.6.0",
+      "date": "September 1, 2026",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "This version of Tautulli Remote requires Tautulli v2.18.0 in order for notifications to function correctly.",
+        },
+        {
+          "type": "new",
+          "detail": "Notifications now leverage our own Tautulli Remote Relay instead of OneSignal.",
+          "additional": "Please make sure relay.tautulliremote.com is not blocked.",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Danish and Hungarian.",
+          "additional": "Thanks @Ulrik and @ugyes",
+        },
+        {
+          "type": "fix",
+          "detail": "Various behavior and security edge cases are now accounted for.",
+        },
+      ],
+    },
+    {
       "version": "v3.5.2",
       "date": "July 8, 2026",
       "changes": [
