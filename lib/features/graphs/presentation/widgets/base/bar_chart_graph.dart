@@ -95,7 +95,7 @@ class BarChartGraph extends StatelessWidget {
                     ].contains(graphType)) {
                   text = '${redactedString.substring(0, 5)}...  ';
                 } else if (graphType == GraphType.playsByDayOfWeek) {
-                  text = graphData.categories[value.toInt()].substring(0, 3);
+                  text = graphData.categories[value.toInt()].characters.take(3).toString();
                 } else if (graphType == GraphType.playsPerMonth) {
                   final categoryItems = graphData.categories[value.toInt()].split(' ');
 
@@ -106,10 +106,10 @@ class BarChartGraph extends StatelessWidget {
                   GraphType.streamTypeByTop10Platforms,
                   GraphType.streamTypeByTop10Users,
                 ].contains(graphType)) {
-                  if (graphData.categories[value.toInt()].length <= 6) {
+                  if (graphData.categories[value.toInt()].characters.length <= 6) {
                     text = '${graphData.categories[value.toInt()]}   ';
                   } else {
-                    text = '${graphData.categories[value.toInt()].substring(0, 5)}...  ';
+                    text = '${graphData.categories[value.toInt()].characters.take(5)}...  ';
                   }
                 } else {
                   text = graphData.categories[value.toInt()];
