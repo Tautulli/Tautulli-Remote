@@ -204,5 +204,39 @@ class LibraryTableModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+    backgroundUri,
+    childCount,
+    contentRating,
+    count,
+    doNotify,
+    doNotifyCreated,
+    duration,
+    guid,
+    historyRow,
+    iconUri,
+    isActive,
+    keepHistory,
+    labels,
+    lastAccessed,
+    lastPlayed,
+    libraryArt,
+    libraryThumb,
+    live,
+    mediaIndex,
+    mediaType,
+    originallyAvailableAt,
+    parentCount,
+    parentMediaIndex,
+    parentTitle,
+    plays,
+    ratingKey,
+    rowId,
+    sectionId,
+    sectionName,
+    sectionType,
+    serverId,
+    thumb,
+    year,
+  ];
 }

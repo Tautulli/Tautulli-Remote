@@ -116,5 +116,22 @@ class LibraryMediaInfoModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+    addedAt,
+    grandparentRatingKey,
+    lastPlayed,
+    mediaIndex,
+    mediaType,
+    parentMediaIndex,
+    parentRatingKey,
+    playCount,
+    posterUri,
+    sectionId,
+    sectionType,
+    ratingKey,
+    sortTitle,
+    thumb,
+    title,
+    year,
+  ];
 }

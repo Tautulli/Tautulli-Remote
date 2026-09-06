@@ -41,5 +41,12 @@ class GraphModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [graphType, status];
+  List<Object?> get props => [
+    graphType,
+    status,
+    graphDataModel,
+    failure,
+    failureMessage,
+    failureSuggestion,
+  ];
 }
