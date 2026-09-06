@@ -59,9 +59,12 @@ class MostConcurrentStatisticDetails extends StatelessWidget {
           builder: (context, state) {
             state as SettingsSuccess;
 
+            final started = statData.started;
+            if (started == null) return const SizedBox();
+
             return Text(
               TimeHelper.cleanDateTime(
-                statData.started!,
+                started,
                 dateFormat: state.appSettings.activeServer.dateFormat,
                 timeFormat: state.appSettings.activeServer.timeFormat,
               ),

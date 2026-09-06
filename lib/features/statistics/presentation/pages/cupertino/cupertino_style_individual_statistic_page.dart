@@ -258,13 +258,13 @@ class _CupertinoStyleIndividualStatisticViewState extends State<CupertinoStyleIn
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: TautulliColorPalette.mapPlatformToColor(
-                        statData.platformName!,
+                        statData.platformName,
                       ),
                     ),
                   ),
                 ),
                 icon: SvgPicture.asset(
-                  AssetHelper.mapPlatformToPath(statData.platformName!),
+                  AssetHelper.mapPlatformToPath(statData.platformName),
                   colorFilter: const ColorFilter.mode(
                     ThemeHelper.cupertinoCardIconColor,
                     BlendMode.srcIn,

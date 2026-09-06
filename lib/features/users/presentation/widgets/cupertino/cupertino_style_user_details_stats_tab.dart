@@ -255,20 +255,20 @@ class _CupertinoStyleUserDetailsStatsTabState extends State<CupertinoStyleUserDe
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: TautulliColorPalette.mapPlatformToColor(
-                        playerStat.platformName!,
+                        playerStat.platformName,
                       ),
                     ),
                   ),
                 ),
                 icon: SvgPicture.asset(
-                  AssetHelper.mapPlatformToPath(playerStat.platformName!),
+                  AssetHelper.mapPlatformToPath(playerStat.platformName),
                 ),
                 details: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      playerStat.playerName!,
+                      playerStat.playerName ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 16),
                     ).sensitive(),

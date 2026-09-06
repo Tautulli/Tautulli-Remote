@@ -267,13 +267,13 @@ class _MaterialStyleIndividualStatisticViewState extends State<MaterialStyleIndi
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: TautulliColorPalette.mapPlatformToColor(
-                        statData.platformName!,
+                        statData.platformName,
                       ),
                     ),
                   ),
                 ),
                 icon: SvgPicture.asset(
-                  AssetHelper.mapPlatformToPath(statData.platformName!),
+                  AssetHelper.mapPlatformToPath(statData.platformName),
                   colorFilter: ColorFilter.mode(
                     Theme.of(context).colorScheme.onSurface,
                     BlendMode.srcIn,

@@ -227,13 +227,13 @@ List<Widget> _buildUserStatList({
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: TautulliColorPalette.mapPlatformToColor(
-                      playerStat.platformName!,
+                      playerStat.platformName,
                     ),
                   ),
                 ),
               ),
               icon: SvgPicture.asset(
-                AssetHelper.mapPlatformToPath(playerStat.platformName!),
+                AssetHelper.mapPlatformToPath(playerStat.platformName),
                 colorFilter: ColorFilter.mode(
                   Theme.of(context).colorScheme.onSurface,
                   BlendMode.srcIn,
@@ -244,7 +244,7 @@ List<Widget> _buildUserStatList({
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    playerStat.playerName!,
+                    playerStat.playerName ?? '',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
                   ).sensitive(),

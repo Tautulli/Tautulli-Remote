@@ -74,7 +74,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           );
 
           users.value1.sort(
-            ((a, b) => a.friendlyName!.compareTo(b.friendlyName!)),
+            ((a, b) => (a.friendlyName ?? '').compareTo(b.friendlyName ?? '')),
           );
 
           usersCache[event.server.tautulliId] = users.value1;
