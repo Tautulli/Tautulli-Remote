@@ -84,12 +84,16 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   GraphsBloc({
     required this.graphs,
     required this.logging,
-    required this.settingsBloc,
-  }) : super(
+    required SettingsBloc settingsBloc,
+  })  : settingsBloc = settingsBloc,
+        super(
           GraphsState(
             userId: userIdCache,
-            yAxis: yAxisCache ?? PlayMetricType.plays,
-            timeRange: timeRangeCache ?? 30,
+            // The saved selection, not a hardcoded default: the headings read
+            // yAxis to pick their title, so guessing here shows the wrong one
+            // until the first response lands.
+            yAxis: yAxisCache ?? (settingsBloc.state as SettingsSuccess).appSettings.graphYAxis,
+            timeRange: timeRangeCache ?? (settingsBloc.state as SettingsSuccess).appSettings.graphTimeRange,
             graphs: Map.of(graphsCache),
           ),
         ) {
