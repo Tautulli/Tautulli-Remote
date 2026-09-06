@@ -262,6 +262,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (server) => server.tautulliId == event.tautulliId,
     );
 
+    if (index == -1) {
+      logging.warning('Settings :: No server found with id ${event.tautulliId}, skipping header delete');
+      return;
+    }
+
     List<ServerModel> updatedList = [...currentState.serverList];
 
     List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
@@ -294,6 +299,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final int index = updatedList.indexWhere(
       (server) => server.id == event.id,
     );
+
+    if (index == -1) {
+      // Absent from state, but the row can still exist — delete it rather than
+      // orphan it, or it reappears on the next load.
+      logging.warning('Settings :: No server with id ${event.id} in state, deleting from the database only');
+      await settings.deleteServer(event.id);
+      return;
+    }
+
     updatedList.removeAt(index);
 
     AppSettingsModel appSettings = currentState.appSettings;
@@ -463,6 +477,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (oldServer) => oldServer.id == event.server.id,
     );
 
+    // The connection info is already written to the database above, so a missing
+    // server here means the DB and the state have diverged.
+    if (index == -1) {
+      logging.warning('Settings :: No server found with id ${event.server.id}, connection info not applied to state');
+      return;
+    }
+
     List<ServerModel> updatedList = [...currentState.serverList];
 
     if (event.primary) {
@@ -505,6 +526,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final int index = currentState.serverList.indexWhere(
       (server) => server.tautulliId == event.tautulliId,
     );
+
+    if (index == -1) {
+      logging.warning('Settings :: No server found with id ${event.tautulliId}, skipping header update');
+      return;
+    }
 
     List<ServerModel> updatedList = [...currentState.serverList];
 
