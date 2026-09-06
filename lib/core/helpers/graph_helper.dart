@@ -214,9 +214,10 @@ class GraphHelper {
     bool includeWeekDay = false,
   }) {
     final dateFormat = includeWeekDay ? 'E MMM d' : 'MMM d';
-    final parsedDateTime = DateTime.parse(dateString);
-    final formatedDateString = DateFormat(dateFormat).format(parsedDateTime);
-    return formatedDateString;
+    final parsedDateTime = DateTime.tryParse(dateString);
+    if (parsedDateTime == null) return dateString;
+
+    return DateFormat(dateFormat).format(parsedDateTime);
   }
 
   static String graphDuration(int durationInSeconds, {bool useDays = true}) {
