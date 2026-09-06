@@ -398,6 +398,10 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     GraphsEmit event,
     Emitter<GraphsState> emit,
   ) {
+    // A response can land after the user switched servers. It belongs to the
+    // server that asked for it, not the one now on screen.
+    if (event.server.tautulliId != tautulliIdCache) return;
+
     event.failureOrGraph.fold(
       (failure) {
         logging.error(
