@@ -1,7 +1,7 @@
 Map changelog = {
   "data": [
     {
-      "version": "v3.6.0",
+      "version": "v3.6.1",
       "date": "September 1, 2026",
       "changes": [
         {
